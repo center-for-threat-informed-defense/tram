@@ -61,8 +61,7 @@ python -m spacy download en_core_web_sm
 
 Afterwards, make sure you download the model and training data and place them within the data directory
 ```
-LINK TO GITHUB RELEASE FOR THE MODEL HERE
-```
+https://github.com/center-for-threat-informed-defense/tram/releases/download/v1.0.0/base_model-v1.0.0.pkl```
 
 Then start the server.
 ```
