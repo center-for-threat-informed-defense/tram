@@ -1,0 +1,13 @@
+.DS_Store
+.idea
+__pycache__
+*env
+*.pkl
+/data/*.json
+/data/object_store
+/data/models/*
+/data/reports/*
+/docs/_build/html/*
+/docs/_generated/*
+!.gitkeep
+*.pem

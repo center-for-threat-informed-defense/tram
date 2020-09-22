@@ -1,0 +1,65 @@
+<html>
+<head>
+    <link rel="shortcut icon" type="image/png" href="/static/img/favicon.png"/>
+    <title>Analytics</title>
+    <link rel="stylesheet" href="/static/css/basic.css">
+    <link rel="stylesheet" href="/static/css/analytics.css">
+</head>
+<body>
+    <div class="content">
+        <select class="ttp-menu" id="ttp-options" onchange="show_ttps(this.value)" style="margin-top: 26px">
+            <option id="listHead" value="" selected hidden>Choose Information to Display</option>
+            <option id="all" value="all">TTPs - All Reports (Default)</option>
+            <option id="curr" value="curr">TTPs - Current Reports</option>
+            <option id="past" value="past">TTPs - Past Reports</option>
+        </select>
+        <button id="exportBtn" style="float: right;margin: 15px" 
+        onclick="exportTTP(document.getElementById('ttp-options').selectedOptions[0].value)">Export</button>
+        <button id="homeBtn" style="float: right;margin: 15px"><a style="color: white;text-decoration: none" href="/">Home</a></button>
+    </div>
+
+    {% if content %}
+    <h1 id="table-header" style="margin-top: 75px">All Reports</h1>
+    <table id="ttp_table" class="analytics-table">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Code</td>
+                <td>Confidence</td>
+                <td>Occurrences</td>
+            </tr>
+        </thead>
+
+        {% for row in content %}
+        <tr>
+            <td>{{ row['name'] }}</td>
+            <td>{{ row['code'] }}</td>
+            <td>{{ row['confidence'] }}</td>
+            <td>{{ row['occurrences'] }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    {% else %}
+    <table id="ttp_table" class="analytics-table" style="margin-top: 70px">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Code</td>
+                <td>Confidence</td>
+                <td>Occurrences</td>
+            </tr>
+        </thead>
+        <tr>
+            <td style="width: 100%"><p>There is no information to display</p></td>
+        </tr>
+    </table>
+    {% endif %}
+
+</body>
+
+<script src="/static/jquery/jquery.js"></script>
+<script src="/static/js/analytics.js"></script>
+
+</html>

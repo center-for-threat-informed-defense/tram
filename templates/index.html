@@ -1,0 +1,169 @@
+<html>
+    <head>
+          <link rel="shortcut icon" type="image/png" href="/static/img/favicon.png"/>
+          <title>TRAM | Dashboard</title>
+          <link rel="stylesheet" href="/static/css/modal.css">
+          <link rel="stylesheet" href="/static/css/basic.css">
+          <link rel="stylesheet" href="/static/css/dropMenu.css">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+
+<center class="content">
+    <nav style="width: 100%">
+        <button class="dropdown-top">
+            <img src="/static/img/menu-icon.png" style="height: 30px"></button>
+        <ul id="feed-dropdown" class="dropdown-content" style="transform: translateY(70px);">
+            <li class="side-dropdown"><a href="#">Add RSS Feed</a>
+                <ul class="rss-bar" style="min-width: 400px">
+                    <li style="padding: 0">
+                        <input id="rssInput" type="text" placeholder="Paste RSS Link Here"
+                               style="font-size: 16px;padding: 5px;height: 40px;margin: 1px;width: 325px">
+                        <button onclick="pullRSS()" style="height:30px;border-radius: 10px;display: inline">SUBMIT</button>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="/analytics">Analytics</a>
+            </li>
+            <li>
+                <a href="/docs/index.html" target="_blank">Help</a>
+            </li>
+        </ul>
+    <div style="width:80%;display: inline-block">
+        <div class="tram-row">
+            <div class="tram-column" style="flex:7%;">
+                <form id="uploadReportForm" style="float:right;margin-top:-5px;margin-right:0px">
+                    <label id="uploadFileLabel" for="uploadReport"><img src="/static/img/upload.png"
+                            style="height:50px"></label>
+                    <input type="file" id="uploadReport" style="display: none;height: max-content;">
+                </form>
+            </div>
+            <div class="tram-column" style="flex:90%;margin-top:-20px">
+                <input type="text" id="upload-url" placeholder="Upload a file or enter a URL to parse" />
+            </div>
+            <div class="tram-column" style="flex:5%">
+                <button id="upload-submit" onclick="createReport()" type="submit"
+                    style="float:left;margin-top:0px;margin-left:-30px">SUBMIT</button>
+            </div>
+            <div class="retrain-dropdown">
+                <button style="margin-top: 0px">RETRAIN</button>
+                <div class="retrain-dropdown-content">
+                    <a href="#" onclick="retrainBaseModel()">BASE MODEL</a>
+                    <a href="#" onclick="retrainRegex()">REGEX</a>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="logout">
+            <button id="logoutBtn" class="logoutBtn" onclick="logout()">LOGOUT</button>
+        </div>
+    </nav>
+</center>
+
+<div class="reporting">
+    <center>
+        <div class="tram-row">
+            <div id="TODO" class="reporting-column" ondragover="onDragOver(event)" ondrop="onDrop(event)">
+                <h4> TODO </h4>
+                <ul id="reports-todo"></ul>
+            </div>
+            <div id="REVIEW" class="reporting-column" ondragover="onDragOver(event)" ondrop="onDrop(event)">
+                <h4> REVIEW </h4>
+                <ul id="reports-review"></ul>
+            </div>
+            <div id="COMPLETED" class="reporting-column" ondragover="onDragOver(event)" ondrop="onDrop(event)">
+                <h4> COMPLETED </h4>
+                <ul id="reports-completed"></ul>
+            </div>
+        </div>
+    </center>
+</div>
+
+<li id="report-template" class="single-report" style="display: none">
+    <div id="report-box" class="report-box" draggable="true" ondragstart="onDragStart(event)">
+        <h6 id="report-title">
+        </h6>
+        <button onclick="openReport($(this))">Overview</button>
+        <button id="editBtn" onclick="edit_report($(this))">
+            <a href="#" id="editReportLink" style="color: white;text-decoration: none">Annotate</a>
+        </button>
+        <button onclick="deleteReport($(this))" style="background-color:red">Delete</button>
+    </div>
+</li>
+
+<div id="report-modal" class="modal">
+    <form class="modal-content">
+        <div class="container modal-box">
+            <div class="tram-row" style="background-color: black;border-radius: 25px;border:1px solid grey;">
+                <!-- <span onclick="document.getElementById('report-modal').style.display='none'" class="close"
+                    title="Close Modal">&times;</span> -->
+                <div class="tram-column" style="flex:92%">
+                    <div class="tabs">
+                        <ul class="tab-links">
+                            <li class="active report-tab"><a href="#tab1">Overview</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="tab1" class="tab active">
+                                <table id="reportTable" class="simple-table" border=1 frame=void rules=rows
+                                    style="margin-top:25px"></table>
+                                <hr>
+                                <h2 style="margin-top:50px">ATT&CK data</h2>
+                                <table id="reportMatches" class="simple-table">
+                                    <thead>
+                                        <tr>
+                                            <td>Model</td>
+                                            <td>Tactic</td>
+                                            <td>Technique</td>
+                                            <td>Description</td>
+                                            <td>Sentence</td>
+                                            <td>Confidence</td>
+                                            <td>Status</td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <br><br><br>
+                                <hr>
+                                <h2 style="margin-top:50px">Indicators (IOC)</h2>
+                                <table id="indicatorMatches" class="simple-table">
+                                    <thead>
+                                        <tr>
+                                            <td>Type</td>
+                                            <td>Indicator</td>
+                                            <td>Value</td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <br><br><br>
+                                <div class="dropdown">
+                                    <button id="exportBtn" onclick="event.preventDefault()" style="margin-top: 0px; width:10%;float:left;margin:4px;">Export<i class="fa fa-caret-down"></i></button>
+                                    <ul id="reportExports" class="dropdown-content" style="margin-top: 50px">
+
+                                    </ul>
+                                </div>
+                                
+                                <button onclick="deleteReport()"
+                                    style="width:10%;float:left;margin:4px;background-color:red">delete</button>
+
+
+                            </div>
+                            <div id="tab2" class="tab">
+                                <div>
+                                    <table id="fullReport" class="simple-table"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="/static/jquery/jquery.js"></script>
+<script src="/static/js/basic.js"></script>
+
+
+
+</html>

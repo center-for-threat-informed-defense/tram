@@ -1,0 +1,38 @@
+
+<html>
+    <head>
+          <link rel="shortcut icon" type="image/png" href="/static/img/favicon.png"/>
+          <title>TRAM | Dashboard</title>
+          <link rel="stylesheet" href="/static/css/basic.css">
+    </head>
+
+    <center>
+        <div id="main">
+            <section style="width: 65%;margin-top: 120px">
+                <div class="loginBox">
+                    <div class="login-header">
+                        <h1><img src="/static/img/favicon.png"/>TRAM</h1>
+                    </div>
+                    <form action="/enter" method="POST">
+                        <div>
+					        <div class="login-username">
+					            <input type="text" class="login-field" value="" placeholder="Username" name="username" autocomplete="username">
+					        </div>
+
+					        <div class="login-password">
+					            <input type="password" class="login-field" value="" placeholder="Password" name="password" id="password" autocomplete="current-password">
+                                <input type="checkbox" onclick="togglePassword()">Show Password
+					        </div>
+					        <input type="submit" value="Log in" class="button-success" >
+				        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </center>
+
+
+<script src="/static/jquery/jquery.js"></script>
+<script src="/static/js/basic.js"></script>
+
+</html>
