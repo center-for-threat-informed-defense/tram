@@ -1,5 +1,6 @@
 aiohttp-jinja2==1.2.0
 aiohttp==3.6.2
+boto3
 beautifulsoup4==4.8.1
 jinja2==2.10.3
 networkx
