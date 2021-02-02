@@ -3,7 +3,6 @@
 __pycache__
 *env
 *.pkl
-/data/*.json
 /data/object_store
 /data/models/*
 /data/reports/*
