@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/center-for-threat-informed-defense/tram/branch/master/graph/badge.svg?token=YISO1NSAMZ)](https://codecov.io/gh/center-for-threat-informed-defense/tram)
+
 # TRAM v1.0
 
 Threat Report ATT&CK<sup>®</sup> Mapping (TRAM) is a tool that leverages Natural Language Processing to aid analysts in mapping finished reports to ATT&CK. 
