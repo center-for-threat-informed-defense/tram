@@ -10,7 +10,7 @@ pytest-aiohttp
 stix2==1.2.1
 stix2-patterns==1.2.1
 taxii2-client==0.5.0
-Sphinx==2.4.4
+Sphinx==3.4.3
 sphinx_rtd_theme==0.4.3
 recommonmark
 pyaml
