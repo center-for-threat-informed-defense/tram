@@ -35,4 +35,4 @@ jobs:
         bandit --exit-zero -r app/ tram.py server.py --exit-zero
     - name: Safety Vulnerability Check
       run: |
-        safety -r requirements/requirements.txt
+        safety check --file requirements/requirements.txt
