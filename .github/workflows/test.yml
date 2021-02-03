@@ -33,3 +33,6 @@ jobs:
     - name: Bandit Security Check
       run: |
         bandit --exit-zero -r app/ tram.py server.py --exit-zero
+    - name: Safety Vulnerability Check
+      run: |
+        safety -r requirements/requirements.txt
