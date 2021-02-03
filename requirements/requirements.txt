@@ -11,11 +11,10 @@ htmldate==0.7.3
 jinja2==2.10.3
 networkx==2.5
 nltk==3.4.5
-node2vec>=0.3.2
+node2vec==0.4.1
 pandas==1.2.1
 pdfplumber==0.5.22
 pyaml==20.4.0
-pytest-aiohttp
 recommonmark==0.7.1
 scikit-learn==0.23.1
 spacy==2.2.4
