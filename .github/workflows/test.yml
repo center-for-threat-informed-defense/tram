@@ -23,7 +23,7 @@ jobs:
         python -m spacy download en_core_web_sm
     - name: Test with pytest
       run: |
-        pytest --cov=./ --cov-report=xml
+        pytest --cov=./app server.py tram.py --cov-report=xml
     - name: Upload Coverage to CodeCov
       uses: codecov/codecov-action@v1
       with:
