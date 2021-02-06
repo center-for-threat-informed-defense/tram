@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}TRAM Login{% endblock %}
+
+{% block body %}
+
+<style>
+    .form-signin {
+        width: 100%;
+        max-width: 330px;
+        padding: 15px;
+        margin: auto;
+    }
+</style>
+
+<main class="form-signin">
+    <form method="POST">
+        {% csrf_token %}
+        <img class="mb-4" src="{% static 'img/tram-logo.png' %}" alt="TRAM - Threat Report ATT&CK Mapper" width="200" height="200">
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        <label for="id_username" class="visually-hidden">Username</label>
+        <input type="username" id="id_username" class="form-control" placeholder="Username" required autofocus>
+        <label for="id_password" class="visually-hidden">Password</label>
+        <input type="password" id="id_password" class="form-control" placeholder="Password" required>
+        <hr>
+        {{ form.as_p }}
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    </form>
+</main>
+
+
+
+{% endblock %}

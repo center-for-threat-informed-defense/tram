@@ -5,8 +5,10 @@ __pycache__
 *.pkl
 /data/object_store
 /data/models/*
+/data/ml-source
 /data/reports/*
 /docs/_build/html/*
 /docs/_generated/*
 !.gitkeep
+db.sqlite3
 *.pem

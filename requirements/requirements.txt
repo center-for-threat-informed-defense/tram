@@ -5,6 +5,7 @@ aiohttp==3.6.2
 beautifulsoup4==4.8.1
 boto3==1.16.59
 cryptography==3.3.1
+django==3.1.6
 feedparser==6.0.2
 forestci==0.4.1
 htmldate==0.7.3
