@@ -116,33 +116,11 @@ class AppService(BaseWorld):
             model = pickle.load(f)
         await self.get_service('data_svc').store(model)
 
-    '''
-    def get_s3(self,version,extension):
-    
-        s3 = boto3.resource('s3', verify=False)
-        bucket = s3.Bucket('mitre-tram-s3')
-        for object in bucket.objects.filter(Prefix = version):
-            matches = re.findall(r'(.+\/)*(.*\.%s)' % extension,object.key)
-            if(len(matches) > 0):
-                bucket.download_file(object.key,'./data/'+matches[0][1])
-    '''
-
     async def load_data(self,version):
         try:
             technique_translation = await self.load_techniques()
             await self.load_training(technique_translation)
         except FileNotFoundError:
-            '''
-            self.log.debug('Data has not been downloaded yet. Downloading...')
-            try:
-                self.get_s3(version, 'json')
-            except Exception as e:
-                self.log.error("Failed to download data")
-                self.log.error(e)
-                return
-            technique_translation = await self.load_techniques()
-            await self.load_training(technique_translation)
-            '''
             self.log.error('Data has not been downloaded yet, please download the files from github releases')
             return
         except Exception as e:
