@@ -8,7 +8,7 @@ from app.services.file_svc import FileService
 from app.services.machine_svc import MachineService
 from app.services.tram_svc import TramService
 from app.utility.base_world import BaseWorld
-from app.objects.c_report import Report
+from app.objects import Report
 from server import setup_logger
 
 

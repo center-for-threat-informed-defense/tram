@@ -1,7 +1,6 @@
 import re
 
-from app.objects.c_search import Search
-from app.objects.c_match import Match
+from app.objects import Search, Match
 
 
 class RegexParser:

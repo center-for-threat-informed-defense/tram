@@ -5,7 +5,7 @@ import boto3
 import re
 import pickle
 
-from app.objects.c_search import Search
+from app.objects import Search
 from app.utility.base_world import BaseWorld
 from app.models.base_model import Model as BaseModel
 

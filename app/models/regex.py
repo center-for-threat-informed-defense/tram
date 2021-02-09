@@ -1,7 +1,6 @@
 import re
 
-from app.objects.c_match import Match
-from app.objects.c_sentence import Sentence
+from app.objects import Match, Sentence
 from app.utility.base_world import BaseWorld
 
 

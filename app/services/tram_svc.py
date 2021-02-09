@@ -1,12 +1,11 @@
 import asyncio
 import feedparser
 import requests
-from app.objects.c_report import Report
+from app.objects import Report, Match
 import htmldate
 import pandas as pd
 
 from app.utility.base_world import BaseWorld
-from app.objects.c_match import Match
 
 
 class TramService(BaseWorld):

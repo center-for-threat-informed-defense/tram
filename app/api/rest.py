@@ -2,7 +2,7 @@ import logging
 import sys
 from aiohttp import web
 from aiohttp_jinja2 import template, render_template
-from app.objects.c_report import Report
+from app.objects import Report
 from app.utility.base_world import BaseWorld
 import os.path, time
 import json

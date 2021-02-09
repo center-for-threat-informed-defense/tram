@@ -20,6 +20,65 @@ class Status(Enum):
     COMPLETED = 4
 
 
+class Match(BaseWorld):
+
+    @property
+    def display(self):
+        return self.clean(dict(id=self.id, model=self.model, search=self.search.display, confidence=self.confidence,
+                               accepted=self.accepted, sentence=self.sentence, manual=self.manual))
+
+    def __init__(self, model=None, search=None, confidence=0, accepted=True, sentence=None, manual=False):
+        self.id = str(uuid.uuid4())
+        self.model = model
+        self.search = search
+        self.confidence = confidence
+        self.accepted = accepted
+        self.sentence = sentence
+        self.manual = manual
+
+
+class Search(BaseWorld):
+
+    @property
+    def unique(self):
+        return '%s' % self.id
+
+    @property
+    def display(self):
+        return self.clean(dict(id=self.unique, tag=self.tag, description=self.description, name=self.name,
+                               code=self.code))
+
+    def __init__(self, tag, name=None, description=None, code=None):
+        self.id = '%s-%s-%s' % (name, code, description)
+        self.tag = tag
+        self.description = description
+        self.name = name
+        self.code = code
+
+    def store(self, ram):
+        existing = self.retrieve(ram['search'], self.unique)
+        if not existing:
+            ram['search'].append(self)
+            return self.retrieve(ram['search'], self.unique)
+        return existing
+
+
+class Sentence(BaseWorld):
+
+    @property
+    def unique(self):
+        return self.id
+
+    @property
+    def display(self):
+        return self.clean(dict(id=self.unique, text=self.text, matches=[m.display for m in self.matches]))
+
+    def __init__(self, id=None, text=None):
+        self.id = id if id else str(uuid.uuid4())
+        self.text = text
+        self.matches = []
+
+
 class Report(BaseWorld):
 
     MINIMUM_SENTENCE_LENGTH = 4
