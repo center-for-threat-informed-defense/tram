@@ -10,7 +10,7 @@ from aiohttp_session import setup as setup_session
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from cryptography import fernet
 
-from app.utility.base_service import BaseService
+from app.utility.base_world import BaseWorld
 
 
 def for_all_public_methods(decorator):
@@ -40,7 +40,7 @@ def check_authorization(func):
     return helper
 
 
-class AuthService(BaseService):
+class AuthService(BaseWorld):
 
     User = namedtuple('User', ['username', 'password', 'permissions'])
 

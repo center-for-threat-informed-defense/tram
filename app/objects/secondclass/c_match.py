@@ -1,9 +1,9 @@
 import uuid
 
-from app.utility.base_object import BaseObject
+from app.utility.base_world import BaseWorld
 
 
-class Match(BaseObject):
+class Match(BaseWorld):
 
     @property
     def display(self):

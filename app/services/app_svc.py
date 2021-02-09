@@ -6,7 +6,7 @@ import re
 import pickle
 
 from app.objects.c_search import Search
-from app.utility.base_service import BaseService
+from app.utility.base_world import BaseWorld
 from app.models.base_model import Model as BaseModel
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -14,7 +14,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 
-class AppService(BaseService):
+class AppService(BaseWorld):
 
     def __init__(self, application):
         self.application = application

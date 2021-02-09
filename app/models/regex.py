@@ -2,10 +2,10 @@ import re
 
 from app.objects.secondclass.c_match import Match
 from app.objects.secondclass.c_sentence import Sentence
-from app.utility.base_service import BaseService
+from app.utility.base_world import BaseWorld
 
 
-class Model(BaseService):
+class Model(BaseWorld):
 
     def __init__(self):
         self.name = 'regex'

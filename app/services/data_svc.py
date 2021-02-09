@@ -4,10 +4,10 @@ import os.path
 import pickle
 import shutil
 
-from app.utility.base_service import BaseService
+from app.utility.base_world import BaseWorld
 
 
-class DataService(BaseService):
+class DataService(BaseWorld):
 
     def __init__(self):
         self.log = self.add_service('data_svc', self)

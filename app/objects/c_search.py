@@ -1,8 +1,7 @@
-from app.objects.interfaces.i_object import FirstClassObjectInterface
-from app.utility.base_object import BaseObject
+from app.utility.base_world import BaseWorld
 
 
-class Search(FirstClassObjectInterface, BaseObject):
+class Search(BaseWorld):
 
     @property
     def unique(self):

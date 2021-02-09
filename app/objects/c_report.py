@@ -7,8 +7,7 @@ import urllib3
 from bs4 import BeautifulSoup
 from enum import Enum
 
-from app.objects.interfaces.i_object import FirstClassObjectInterface
-from app.utility.base_object import BaseObject
+from app.utility.base_world import BaseWorld
 from app.utility.file_parser import parse_file
 
 urllib3.disable_warnings()
@@ -21,7 +20,7 @@ class Status(Enum):
     COMPLETED = 4
 
 
-class Report(FirstClassObjectInterface, BaseObject):
+class Report(BaseWorld):
 
     MINIMUM_SENTENCE_LENGTH = 4
     EXPORTS = ['default', 'stix']

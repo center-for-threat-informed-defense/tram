@@ -15,13 +15,12 @@ import sklearn.ensemble as lm
 import scipy.stats as st
 
 from app.objects.secondclass.c_match import Match
-from app.utility.base_service import BaseService
-from app.utility.base_object import BaseObject
+from app.utility.base_world import BaseWorld
 from app.objects.secondclass.c_sentence import Sentence
 from app.objects.c_report import Status
 
 
-class Model(BaseService, BaseObject):
+class Model(BaseWorld):
     def __init__(self):
         self.log = self.add_service('base_model', self)
         self.name = 'base model'

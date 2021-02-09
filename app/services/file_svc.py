@@ -1,9 +1,9 @@
 import os
 
-from app.utility.base_service import BaseService
+from app.utility.base_world import BaseWorld
 
 
-class FileService(BaseService):
+class FileService(BaseWorld):
 
     def __init__(self):
         self.log = self.add_service('file_svc', self)

@@ -1,9 +1,9 @@
 import uuid
 
-from app.utility.base_object import BaseObject
+from app.utility.base_world import BaseWorld
 
 
-class Sentence(BaseObject):
+class Sentence(BaseWorld):
 
     @property
     def unique(self):
