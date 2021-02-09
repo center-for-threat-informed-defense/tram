@@ -6,7 +6,7 @@ import htmldate
 import pandas as pd
 
 from app.utility.base_world import BaseWorld
-from app.objects.secondclass.c_match import Match
+from app.objects.c_match import Match
 
 
 class TramService(BaseWorld):

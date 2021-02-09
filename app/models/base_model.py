@@ -14,9 +14,9 @@ from sklearn.metrics import f1_score
 import sklearn.ensemble as lm
 import scipy.stats as st
 
-from app.objects.secondclass.c_match import Match
+from app.objects.c_match import Match
 from app.utility.base_world import BaseWorld
-from app.objects.secondclass.c_sentence import Sentence
+from app.objects.c_sentence import Sentence
 from app.objects.c_report import Status
 
 
