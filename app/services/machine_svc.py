@@ -2,12 +2,11 @@ import asyncio
 import glob
 from importlib import import_module
 
-from app.services.interfaces.i_machine_svc import MachineServiceInterface
 from app.utility.base_service import BaseService
 from app.utility.regex_parser import RegexParser
 
 
-class MachineService(MachineServiceInterface, BaseService):
+class MachineService(BaseService):
 
     def __init__(self):
         self.log = self.add_service('machine_svc', self)

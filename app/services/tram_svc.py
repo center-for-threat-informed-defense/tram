@@ -5,12 +5,11 @@ from app.objects.c_report import Report
 import htmldate
 import pandas as pd
 
-from app.services.interfaces.i_tram_svc import TramServiceInterface
 from app.utility.base_service import BaseService
 from app.objects.secondclass.c_match import Match
 
 
-class TramService(TramServiceInterface, BaseService):
+class TramService(BaseService):
 
     def __init__(self):
         self.log = self.add_service('tram_svc', self)

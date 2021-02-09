@@ -1,10 +1,9 @@
 import os
 
-from app.services.interfaces.i_file_svc import FileServiceInterface
 from app.utility.base_service import BaseService
 
 
-class FileService(FileServiceInterface, BaseService):
+class FileService(BaseService):
 
     def __init__(self):
         self.log = self.add_service('file_svc', self)

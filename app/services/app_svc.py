@@ -6,7 +6,6 @@ import re
 import pickle
 
 from app.objects.c_search import Search
-from app.services.interfaces.i_app_svc import AppServiceInterface
 from app.utility.base_service import BaseService
 from app.models.base_model import Model as BaseModel
 
@@ -15,7 +14,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 
-class AppService(AppServiceInterface, BaseService):
+class AppService(BaseService):
 
     def __init__(self, application):
         self.application = application
