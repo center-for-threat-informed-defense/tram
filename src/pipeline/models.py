@@ -309,12 +309,6 @@ class Tram(object):
         existing.update('name', self.name)
         return existing
 
-    def learn(self, report, tokens):
-        model_arr = self.data_svc_locate('model', dict(name='base model'))
-        inference = model_arr[0]
-        full_out, confidence = inference.train_final(tokens)
-        self.add_matches(full_out, confidence, report, tokens)
-
     def add_matches(self, full_out, confidence, report, tokens):
         search = self.data_svc_locate('search', dict(tag='attack'))
 
@@ -454,17 +448,20 @@ class Tram(object):
 
     # Functions from DataService class
     def data_svc_locate(self, object_name, match=None):
-        return [obj for obj in self.ram[object_name] if obj.match(match)]
+        result = [obj for obj in self.ram[object_name] if obj.match(match)]
+        return result
     # End functions from old DataService class
 
     def create_report(self, filepath):
-        new_report = Report(file=filepath, file_date=None)
-        if new_report.url:
-            new_report.file_date = htmldate.find_date(new_report.url)
-        exists = self.data_svc_locate('reports', dict(id=new_report.id))
-        report = new_report.store(self.ram)  # self.data_svc_store(new_report)
-        if not exists:
-            self.machine_svc_learn(report)
+        report = Report(file=filepath, file_date=None)
+        blob, tokens = report.generate_text_blob()
+        for regex in self.regex_expressions:
+            self.log.debug('[%s] Collecting %s indicator' % (report.id, regex['name']))
+            self.regex_parser.find(regex, report, blob)
+        model_arr = self.data_svc_locate('model', dict(name='base model'))
+        inference = model_arr[0]
+        full_out, confidence = inference.train_final(tokens)
+        self.add_matches(full_out, confidence, report, tokens)
         return report
 
     def retrain_model(self, model_name):
@@ -506,18 +503,7 @@ class Tram(object):
                     self.log.error('Failed to pull report/No external references found')
         return attack_reports
     # End functions from tram_svc
-    # Functions from machine service, namespaced
-    def machine_svc_learn(self, report):
-        blob, tokens = report.generate_text_blob()
-        for regex in self.regex_expressions:
-            self.log.debug('[%s] Collecting %s indicator' % (report.id, regex['name']))
-            self.regex_parser.find(regex, report, blob)
-        # for model in self.models:
-        #     self.log.debug('[%s] Running %s model' % (report.id, model.name))
-        #     model.learn(report, tokens)
-        self.learn(report, tokens)
-        report.complete(1)
-    # End functions from machine service
+
 
 class Search(object):
     def __init__(self, tag, name=None, description=None, code=None):
@@ -651,10 +637,6 @@ class Report(object):
             output = self.display
             output['output_type'] = 'json'
             return output
-
-    def complete(self, total_models):
-        self.status = Status.QUEUE
-        self.status = Status.TODO
 
     """ PRIVATE """
 
