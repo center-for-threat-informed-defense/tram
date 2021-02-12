@@ -16,8 +16,6 @@ def upload(request):
     if os.path.exists(filepath):
         return HttpResponse('File was not saved. A file with the same filename was previously uploaded and has not been processed.', status=200)
 
-    import pdb
-    pdb.set_trace()
     with open(filepath, 'wb') as fd:
         contents = request.FILES['file'].read()
         fd.write(contents)
