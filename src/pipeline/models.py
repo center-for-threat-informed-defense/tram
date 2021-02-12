@@ -31,13 +31,15 @@ import scipy.stats as st
 
 
 # Popped out of BaseWorld
-
 def retrieve(collection, id):
     return next((i for i in collection if i.id == id), None)
-
-
 # End popped out of BaseWorld
 
+# Popped out of Tram
+def strip_yml(path):
+    with open(path, encoding='utf-8') as file:
+        return list(yaml.load_all(file, Loader=yaml.FullLoader))[0]
+# End popped out of Tram
 
 class FileParser(object):
     @staticmethod
@@ -72,7 +74,6 @@ class RegexParser(object):
 
 
 class Tram(object):
-    _app_configuration = dict()
     schema = None
     display_schema = None
     load_schema = None
@@ -88,7 +89,7 @@ class Tram(object):
         self.schema = dict(search=[], reports=[])
         self.ram = copy.deepcopy(self.schema)
         self.regex_parser = RegexParser()
-        self.models = [self, ]
+        self.regex_expressions = strip_yml('src/pipeline/regex.yml')
 
     # Functions from AppSvc
     def load_data(self,version):
@@ -421,26 +422,6 @@ class Tram(object):
             items.append(s.description)
         return labels, items
 
-    # Methods from old BaseWorld class
-    @staticmethod
-    def apply_config(name, config):
-        Tram._app_configuration[name] = config
-
-    @staticmethod
-    def get_config(prop=None, name=None):
-        name = name if name else 'default'
-        if prop:
-            return Tram._app_configuration[name].get(prop)
-        return Tram._app_configuration[name]
-
-    @staticmethod
-    def strip_yml(path):
-        if path:
-            with open(path, encoding='utf-8') as seed:
-                return list(yaml.load_all(seed, Loader=yaml.FullLoader))
-        return []
-    # End functions from old base world class
-
     # Functions from old BaseObject class
     def match(self, criteria):
         if not criteria:
@@ -461,14 +442,14 @@ class Tram(object):
         if (value or type(value) == list) and (value != self.__getattribute__(field)):
             self.__setattr__(field, value)
 
-    @classmethod
-    def load(cls, dict_obj):
-        if cls.load_schema:
-            return cls.load_schema.load(dict_obj)
-        elif cls.schema:
-            return cls.schema.load(dict_obj)
-        else:
-            raise NotImplementedError
+    # @classmethod
+    # def load(cls, dict_obj):
+    #     if cls.load_schema:
+    #         return cls.load_schema.load(dict_obj)
+    #     elif cls.schema:
+    #         return cls.schema.load(dict_obj)
+    #     else:
+    #         raise NotImplementedError
     # Functions from old BaseObject class
 
     # Functions from DataService class
@@ -528,13 +509,14 @@ class Tram(object):
     # Functions from machine service, namespaced
     def machine_svc_learn(self, report):
         blob, tokens = report.generate_text_blob()
-        for regex in self.get_config(name='regex'):
+        for regex in self.regex_expressions:
             self.log.debug('[%s] Collecting %s indicator' % (report.id, regex['name']))
             self.regex_parser.find(regex, report, blob)
-        for model in self.models:
-            self.log.debug('[%s] Running %s model' % (report.id, model.name))
-            model.learn(report, tokens)
-        report.complete(len(self.models))
+        # for model in self.models:
+        #     self.log.debug('[%s] Running %s model' % (report.id, model.name))
+        #     model.learn(report, tokens)
+        self.learn(report, tokens)
+        report.complete(1)
     # End functions from machine service
 
 class Search(object):

@@ -49,7 +49,6 @@ def run(args):
         3. Move report to archive directory
     """
     model = Tram()
-    model.apply_config('regex', Tram.strip_yml('src/pipeline/regex.yml')[0])
     model.load_model()
     report_handler = ReportHandler(model, settings.RESULTS_DESTINATION, settings.REPORT_ARCHIVE)
     observer = Observer()
