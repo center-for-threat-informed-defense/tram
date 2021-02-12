@@ -38,117 +38,6 @@ def retrieve(collection, id):
 
 # End popped out of BaseWorld
 
-""" Comment out all of BaseWorld!!!
-class BaseWorld(object):
-    '''
-    A collection of base static functions for service & object module usage
-    '''
-
-    _app_configuration = dict()
-    # _services = dict()  # From old BaseService class
-    # Properties from old BaseObject class
-    schema = None
-    display_schema = None
-    load_schema = None
-
-    # @staticmethod
-    # def apply_config(name, config):
-    #     BaseWorld._app_configuration[name] = config
-
-    @staticmethod
-    def get_config(prop=None, name=None):
-        name = name if name else 'default'
-        if prop:
-            return BaseWorld._app_configuration[name].get(prop)
-        return BaseWorld._app_configuration[name]
-
-    # @staticmethod
-    # def set_config(name, prop, value):
-    #     if value is not None:
-    #         logging.debug('Configuration (%s) update, setting %s=%s' % (name, prop, value))
-    #         BaseWorld._app_configuration[name][prop] = value
-
-    # @staticmethod
-    # def create_logger(name):
-    #     return logging.getLogger(name)
-
-    @staticmethod
-    def strip_yml(path):
-        if path:
-            with open(path, encoding='utf-8') as seed:
-                return list(yaml.load_all(seed, Loader=yaml.FullLoader))
-        return []
-
-    # Functions from old BaseService class
-    # def add_service(self, name, svc):
-    #     self.__class__._services[name] = svc
-    #     return self.create_logger(name)
-
-    # @classmethod
-    # def get_service(cls, name):
-    #     return cls._services.get(name)
-
-    # @classmethod
-    # def get_services(cls):
-    #     return cls._services
-    # End functions from old BaseService class
-
-    # Functions from old BaseObject class
-    def match(self, criteria):
-        if not criteria:
-            return self
-        criteria_matches = []
-        for k, v in criteria.items():
-            if type(v) is tuple:
-                for val in v:
-                    if self.__getattribute__(k) == val:
-                        criteria_matches.append(True)
-            else:
-                if self.__getattribute__(k) == v:
-                    criteria_matches.append(True)
-        if len(criteria_matches) == len(criteria) and all(criteria_matches):
-            return self
-
-    def update(self, field, value):
-        if (value or type(value) == list) and (value != self.__getattribute__(field)):
-            self.__setattr__(field, value)
-
-    @staticmethod
-    def retrieve(collection, unique):
-        return next((i for i in collection if i.unique == unique), None)
-
-    @staticmethod
-    def hash(s):
-        return s
-
-    @staticmethod
-    def clean(d):
-        for k, v in d.items():
-            if v is None:
-                d[k] = ''
-        return d
-
-    @property
-    def display(self):
-        if self.display_schema:
-            dumped = self.display_schema.dump(self)
-        elif self.schema:
-            dumped = self.schema.dump(self)
-        else:
-            raise NotImplementedError
-        return self.clean(dumped)
-
-    @classmethod
-    def load(cls, dict_obj):
-        if cls.load_schema:
-            return cls.load_schema.load(dict_obj)
-        elif cls.schema:
-            return cls.schema.load(dict_obj)
-        else:
-            raise NotImplementedError
-    # Functions from old BaseObject class
-"""
-
 
 class FileParser(object):
     @staticmethod
@@ -184,8 +73,6 @@ class RegexParser(object):
 
 class Tram(object):
     _app_configuration = dict()
-    # _services = dict()  # From old BaseService class
-    # Properties from old BaseObject class
     schema = None
     display_schema = None
     load_schema = None
@@ -272,20 +159,6 @@ class Tram(object):
 
         return(technique_translation)
 
-    # def verify_dependencies(self):
-    #     try:
-    #         nltk.data.find('tokenizers/punkt')
-    #         self.log.debug('Found punkt')
-    #     except LookupError:
-    #         self.log.warning('Could not find the punkt pack, downloading now')
-    #         nltk.download('punkt')
-    #     try:
-    #         nltk.data.find('corpora/stopwords')
-    #         self.log.debug('Found stopwords')
-    #     except LookupError:
-    #         self.log.warning('Could not find the stopwords pack, downloading now')
-    #         nltk.download('stopwords')
-
     def verify_data_format(self, annotations, negs):
         def verify_list(l):
             assert type(l) == list
@@ -306,11 +179,6 @@ class Tram(object):
         with open('data/ml-models/tram-v1.0.0.pkl', 'rb') as f:
             model = pickle.load(f)
         model.store(self.ram)  # self.data_svc_store(model)
-
-    # def teardown(self):
-    #     self.log.debug('[!] shutting down server...good-bye')
-    #     self._services.get('data_svc').save_state()
-    # End functions from AppSvc
 
     @property
     def id(self):
@@ -565,16 +433,6 @@ class Tram(object):
             return Tram._app_configuration[name].get(prop)
         return Tram._app_configuration[name]
 
-    # @staticmethod
-    # def set_config(name, prop, value):
-    #     if value is not None:
-    #         logging.debug('Configuration (%s) update, setting %s=%s' % (name, prop, value))
-    #         Tram._app_configuration[name][prop] = value
-
-    # @staticmethod
-    # def create_logger(name):
-    #     return logging.getLogger(name)
-
     @staticmethod
     def strip_yml(path):
         if path:
@@ -582,20 +440,6 @@ class Tram(object):
                 return list(yaml.load_all(seed, Loader=yaml.FullLoader))
         return []
     # End functions from old base world class
-
-    # Functions from old BaseService class
-    # def add_service(self, name, svc):
-    #     self.__class__._services[name] = svc
-    #     return self.create_logger(name)
-
-    # @classmethod
-    # def get_service(cls, name):
-    #     return cls._services.get(name)
-
-    # @classmethod
-    # def get_services(cls):
-    #     return cls._services
-    # End functions from old BaseService class
 
     # Functions from old BaseObject class
     def match(self, criteria):
@@ -617,27 +461,6 @@ class Tram(object):
         if (value or type(value) == list) and (value != self.__getattribute__(field)):
             self.__setattr__(field, value)
 
-    # @staticmethod
-    # def hash(s):
-    #     return s
-
-    # @staticmethod
-    # def clean(d):
-    #     for k, v in d.items():
-    #         if v is None:
-    #             d[k] = ''
-    #     return d
-
-    # @property
-    # def display(self):
-    #     if self.display_schema:
-    #         dumped = self.display_schema.dump(self)
-    #     elif self.schema:
-    #         dumped = self.schema.dump(self)
-    #     else:
-    #         raise NotImplementedError
-    #     return self.clean(dumped)
-
     @classmethod
     def load(cls, dict_obj):
         if cls.load_schema:
@@ -649,102 +472,9 @@ class Tram(object):
     # Functions from old BaseObject class
 
     # Functions from DataService class
-    # namespaced with 'data_svc_' to avoid name collisions
-    # @staticmethod
-    # def data_svc_destroy():
-    #     if os.path.exists('data/object_store'):
-    #         os.remove('data/object_store')
-    #     for d in ['data/reports']:
-    #         for f in glob.glob('%s/*' % d):
-    #             if not f.startswith('.'):
-    #                 try:
-    #                     os.remove(f)
-    #                 except IsADirectoryError:
-    #                     shutil.rmtree(f)
-
-    # def data_svc_save_state(self):
-    #     self.get_service('file_svc').save_file('object_store', pickle.dumps(self.ram), 'data')
-
-    # def data_svc_restore_state(self):
-    #     if os.path.exists('data/object_store'):
-    #         store = self.get_service('file_svc').read_file('object_store', 'data')
-    #         ram = pickle.loads(store)
-    #         for key in ram.keys():
-    #             self.ram[key] = []
-    #             for c_object in ram[key]:
-    #                 self.store(c_object)
-    #         self.log.debug('Restored data from persistent storage')
-
-    # def data_svc_store(self, c_object):
-    #     return c_object.store(self.ram)
-
     def data_svc_locate(self, object_name, match=None):
         return [obj for obj in self.ram[object_name] if obj.match(match)]
-
-    # def data_svc_remove(self, object_name, match):
-    #     try:
-    #         self.ram[object_name][:] = [obj for obj in self.ram[object_name] if not obj.match(match)]
-    #     except Exception as e:
-    #         self.log.error('[!] REMOVE: %s' % e)
     # End functions from old DataService class
-
-    # Functions from tram_svc
-    # def get_reports(self):
-    #     return [r.display for r in self.data_svc.locate('reports')]
-
-    # def get_search_terms(self):
-    #     return [s.display for s in self.data_svc.locate('search')]
-
-    # def get_ttps(self, reports):
-    #     match_report = lambda report : [[m['search']['name'], m['search']['code'], m['confidence']] for m in report['matches']]
-    #     matches = []
-    #     for report in reports:
-    #          matches_m = match_report(report)
-    #          matches_s = [match_report(i) for i in report['sentences']]
-    #          matches.append(matches_m + sum(matches_s, []))
-    #     matches = sum(matches, [])
-    #     if not matches:
-    #         return []
-    # 
-    #     df = pd.DataFrame(matches)
-    #     df = df.groupby([0,1], as_index=False).agg({2:['mean', 'size']})
-    #     df.columns = ['name', 'code', 'confidence', 'occurrences']
-    #     df = df.sort_values(['occurrences', 'confidence'], ascending=False).reset_index(drop=True)
-    # 
-    #     return df.to_json(orient="records")
-
-    # def get_all_ttps(self):
-    #     reports = self.get_reports()
-    #     return self.get_ttps(reports)
-
-    # def get_current_ttps(self):
-    #     reports = self.get_reports()
-    #     current = [r for r in reports if r['status'] != 'COMPLETED']
-    #     return self.get_ttps(current)
-
-    # def get_past_ttps(self):
-    #     reports = self.get_reports()
-    #     past = [r for r in reports if r['status'] == 'COMPLETED']
-    #     return self.get_ttps(past)
-
-    # def export_ttps(self,ttp):
-    #     if(ttp == 'all'):
-    #         return self.export_all_ttps()
-    #     elif(ttp == 'curr'):
-    #         return self.export_current_ttps()
-    #     elif(ttp == 'past'):
-    #         return self.export_past_ttps()
-    #     elif(ttp == ''):
-    #         return self.export_all_ttps()
-            
-    # def export_all_ttps(self):
-    #     return self.get_all_ttps()
-
-    # def export_current_ttps(self):
-    #     return self.get_current_ttps()
-    
-    # def export_past_ttps(self):
-    #     return self.get_past_ttps()
 
     def create_report(self, filepath):
         new_report = Report(file=filepath, file_date=None)
@@ -755,13 +485,6 @@ class Tram(object):
         if not exists:
             self.machine_svc_learn(report)
         return report
-    
-    # def reassess_report(self,id):
-    #     report =  self.data_svc.locate('reports', dict(id=id))
-    #     new_report = report[0]
-    #     new_report.status = 'QUEUE'
-    #     new_report.matches = []
-    #     asyncio.get_event_loop().create_task(self.get_service('machine_svc').learn(new_report))
 
     def retrain_model(self, model_name):
         model = self.data_svc.locate('model', dict(name=model_name))
@@ -770,50 +493,6 @@ class Tram(object):
     def export_report(self, report_id, type):
         reports = self.data_svc.locate('reports', dict(id=report_id))
         return reports[0].export(type)
-
-    # def update_match(self, report_id, match_id, accepted):
-    #     for report in self.data_svc.locate('reports', dict(id=report_id)):
-    #         for sent in report.sentences:
-    #             for match in [m for m in sent.matches if m.id == match_id]:
-    #                 match.accepted = bool(accepted)
-    #                 self.log.debug('[%s] accepted changed to %s' % (match_id, accepted))
-
-    # def delete_report(self, data):
-    #     self.data_svc.remove('reports', data)
-
-    # def add_user_match(self, match_desc, sentenceID):
-    #     for s in self.data_svc.locate('search'):
-    #         if match_desc == s.description:
-    #             search_info = s
-    #             break
-    #     sentenceIDArr = sentenceID.split(",")
-    #     orig_sentences = []
-    #     for sentence in sentenceIDArr:
-    #         for r in self.data_svc.locate('reports'):
-    #             for sent in r.sentences:
-    #                 if sent.id == sentence:
-    #                     orig_sentences.append(sent)
-    #                     currReport = r
-    #                     break
-    #     for sentObj in orig_sentences:
-    #         sentObj.matches.append(Match(search=search_info, manual=True))
-    #     return currReport.display
-
-    # def delete_match(self,match_desc,sentenceID):
-    #     match_desc = " ".join(match_desc.strip().split(' '))
-    #     for s in self.data_svc.locate('search'):
-    #         if match_desc == s.description:
-    #             search_info = s
-    #             break
-    #     for r in self.data_svc.locate('reports'):
-    #         for sent in r.sentences:
-    #             if sent.id == sentenceID:
-    #                 for i in range(len(sent.matches)):
-    #                     if sent.matches[i].search == search_info:
-    #                         del sent.matches[i]
-    #                         self.data_svc.store(r)
-    #                         break
-                            
 
     def pull_rss_feed(self, rss_url):
         feed = feedparser.parse(rss_url['url'])
@@ -856,23 +535,9 @@ class Tram(object):
             self.log.debug('[%s] Running %s model' % (report.id, model.name))
             model.learn(report, tokens)
         report.complete(len(self.models))
-
-    # def machine_svc_retrain(self,model):
-    #     self.log.debug('Retraining %s model' % (model))
-    #     model[0].train()
     # End functions from machine service
 
 class Search(object):
-
-    # @property
-    # def unique(self):
-    #     return '%s' % self.id
-
-    # @property
-    # def display(self):
-    #     return self.clean(dict(id=self.unique, tag=self.tag, description=self.description, name=self.name,
-    #                            code=self.code))
-
     def __init__(self, tag, name=None, description=None, code=None):
         self.id = '%s-%s-%s' % (name, code, description)
         self.tag = tag
@@ -904,14 +569,6 @@ class Search(object):
 
 
 class Sentence(object):
-    # @property
-    # def unique(self):
-    #     return self.id
-
-    # @property
-    # def display(self):
-    #     return self.clean(dict(id=self.unique, text=self.text, matches=[m.display for m in self.matches]))
-
     def __init__(self, id=None, text=None):
         self.id = id if id else str(uuid.uuid4())
         self.text = text
@@ -926,12 +583,6 @@ class Status(Enum):
 
 
 class Match(object):
-
-    # @property
-    # def display(self):
-    #     return self.clean(dict(id=self.id, model=self.model, search=self.search.display, confidence=self.confidence,
-    #                            accepted=self.accepted, sentence=self.sentence, manual=self.manual))
-
     def __init__(self, model=None, search=None, confidence=0, accepted=True, sentence=None, manual=False):
         self.id = str(uuid.uuid4())
         self.model = model
@@ -947,19 +598,9 @@ class Report(object):
     MINIMUM_SENTENCE_LENGTH = 4
     EXPORTS = ['default', 'stix']
 
-    # @property
-    # def unique(self):
-    #     return self.id
-
     @property
     def stage(self):
         return self.status
-
-    # @property
-    # def display(self):
-    #     return self.clean(dict(id=self.unique, status=self.status.name, name=self.name, url=self.url,
-    #                            file=self.file, file_date=self.file_date, exports=self.EXPORTS, matches=[i.display for i in self.matches],
-    #                            sentences=[s.display for s in self.sentences], assigned_user=self.assigned_user))
 
     def __init__(self, id=None, name=None, url=None, file=None, file_date=None, user=None, status=Status.TODO):
         if type(status) == str:
@@ -1031,8 +672,6 @@ class Report(object):
 
     def complete(self, total_models):
         self.status = Status.QUEUE
-        # while self.completed_models < total_models:
-        #     await asyncio.sleep(2)
         self.status = Status.TODO
 
     """ PRIVATE """
