@@ -1,8 +1,10 @@
 import argparse
+import inspect
 import ntpath
 import os
 import shutil
 import time
+import json
 
 from watchdog.observers import Observer 
 from watchdog.events import FileSystemEventHandler
@@ -22,22 +24,23 @@ class ReportHandler(FileSystemEventHandler):
         filename = ntpath.basename(event.src_path)
         report_path = event.src_path
         archive_path = os.path.join(settings.REPORT_ARCHIVE, filename)
+        result_filename = filename.replace('.', '-') + '.json'
+        result_path = os.path.join(settings.RESULTS_DESTINATION, result_filename)
         if event.is_directory:
             return None
         elif event.event_type == 'created':
             print('Processing %s' % event.src_path)
             start = time.time()
             report = self.model.create_report(event.src_path) # Analyze the report
-            print(report)
-            # report.sentences contains ml-matches
-            # report.sentences.text contains source text
-            # report.sentences.matches contains ATT&CK ttps. Can be 0.
+            with open(result_path, 'w') as outfile:
+                outfile.write(json.dumps(report.export('json')))
+                print('... Results written to %s' % result_path)
             end = time.time()
             elapsed = end - start
             self.files_processed += 1
             # TODO: Put results in result destination in correct format
             shutil.move(event.src_path, archive_path)
-            print('Processing completed in %fs' % elapsed)
+            print('.. Processing completed in %fs' % elapsed)
 
 
 def run(args):
@@ -65,16 +68,21 @@ def run(args):
     print('Processed %d files' % report_handler.files_processed)
 
 
+def load_model_class(name):
+    components = name.split('.')
+    mod = __import__(components[0])
+    for comp in components[1:]:
+        mod = getattr(mod, comp)
+    return mod
+
 def train(args):
     """
-    1. training is done in base_model.py (def train)
-    2. Training data is needed
-    3. Canonized as pkl file
+      1. L
     """
-    model = Tram()
-    model.load_techniques()
-    model.train()
-    # model.train(settings.TRAINING_DATA)
+    tram = Tram()
+    tram.x_load_data('warble')
+    tram.x_train()
+    #model.train(args.train_dir, args.model_file)
     return
 
 
@@ -95,6 +103,14 @@ if __name__ == '__main__':
 
     sp_train = sp.add_parser('train', help='Trains the ML model')
     sp_train.set_defaults(func=train)
+    sp_train.add_argument('--train-dir',
+                          default=settings.TRAINING_DATA,
+                          help='Source directory for training data. Default = %s ' % settings.TRAINING_DATA
+                          )
+    sp_train.add_argument('--model-file',
+                          default=settings.MODEL_STORAGE,
+                          help='Where to save the trained model. Defaults to %s' % settings.MODEL_STORAGE,
+                         )
 
     sp_test = sp.add_parser('test', help='Tests the ML model for accuracy')
     sp_test.set_defaults(func=test)

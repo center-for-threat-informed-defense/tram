@@ -33,6 +33,12 @@ import scipy.stats as st
 # Popped out of BaseWorld
 def retrieve(collection, id):
     return next((i for i in collection if i.id == id), None)
+
+def clean(d):
+    for k, v in d.items():
+        if v is None:
+            d[k] = ''
+    return d
 # End popped out of BaseWorld
 
 # Popped out of Tram
@@ -92,24 +98,18 @@ class Tram(object):
         self.regex_expressions = strip_yml('src/pipeline/regex.yml')
 
     # Functions from AppSvc
-    def load_data(self,version):
-        try:
-            technique_translation = self.load_techniques()
-            self.load_training(technique_translation)
-        except FileNotFoundError:
-            self.log.error('Data has not been downloaded yet, please download the files from github releases')
-            return
-        except Exception as e:
-            self.log.debug('ERROR: {}'.format(e))
+    def x_load_data(self, version):
+        technique_translation = self.x_load_techniques()
+        self.x_load_training(technique_translation)
         self.log.debug('Finished loading data')
 
-    def load_training(self, technique_translation):
+    def x_load_training(self, technique_translation):
         self.log.debug("Loading training data...")
         with open('data/all_analyzed_reports.json','r') as f:
             annotations = json.loads(f.read())
         with open("data/negative_data.json",'r') as f:
             negs = json.loads(f.read())
-        self.verify_data_format(annotations, negs)
+        # self.verify_data_format(annotations, negs)  # Superfluous and computationally expensive?
         keys = set([key for key in list(annotations.keys()) if '-multi' not in key])
         labels = []
         sentances = []
@@ -137,7 +137,7 @@ class Tram(object):
                     description=sentances[i])
             )
 
-    def load_techniques(self):
+    def x_load_techniques(self):
         self.log.debug("Loading techniques...")
         technique_translation = dict()
         technique_files = ['data/pre-attack.json']
@@ -159,6 +159,44 @@ class Tram(object):
                     # self.data_svc_store(Search(tag='attack', name=tactic, code=technique_id, description=name))
 
         return(technique_translation)
+
+    def x_train(self):
+        """
+        Trains and saves model
+        """
+        self.log.debug("Training model...")
+        search = self.data_svc_locate('search', dict(tag='attack'))
+        training_data = self.data_svc_locate('search', dict(tag='training_data'))
+        reports = self.data_svc_locate('reports',dict(status=Status.COMPLETED))
+
+        labels_r, items_r = self.parse_reports(reports)
+        labels_s, items_s = self.parse_search(search)
+        labels_t, items_t = self.parse_training_data(training_data)
+        X = items_s + items_t + items_r
+        y = labels_s + labels_t + labels_r
+
+        X_train = self.extract_X(X)
+        ext_y, n2v = self.extract_y(y)
+        new_y = self.embedding_encode(ext_y, n2v)
+        self.rnc = self.train_embedder(new_y, ext_y)
+
+        self.model = lm.RandomForestRegressor(n_jobs=-1)
+        self.log.debug("base_model: fitting regression model")
+        self.model.fit(X_train, new_y)
+        self.log.debug("base_model: regression model fit")
+        self.inbag = fci.calc_inbag(len(X), self.model)
+
+        self.log.debug("base_model: testing model...")
+        test = self.model.predict(X_train)
+        lab = self.embedding_decode(test, self.rnc)
+        score = f1_score(ext_y, lab, average='weighted')
+        self.log.debug("f1 score on training data: {}".format(score))
+        self.store(self.ram)  # self.data_svc_store(self)
+        # TODO: Provide some kind of application control over this
+        with open('data/ml-models/tram-v1.0.0.pkl', 'wb') as f:
+            pickle.dump(self, f, protocol=pickle.HIGHEST_PROTOCOL)
+
+        self.log.debug("Model trained")
 
     def verify_data_format(self, annotations, negs):
         def verify_list(l):
@@ -257,10 +295,36 @@ class Tram(object):
         n2v = N2V.fit(window=10, min_count=1, batch_words=8)
         return Y, n2v
 
-    def train(self):
+    def load_training_data(self, train_dir):
+        # technique_translation = self.load_techniques()
+        techniques = {}
+        data_files = glob.glob(os.path.join(train_dir, '*.json'))  # Must be STIX 2.? files
+        for data_file in data_files:
+            with open(data_file, 'r') as f:
+                stix_json = json.loads(f.read())
+
+            for stix_object in stix_json['objects']:
+                if stix_object['type'] != 'attack-pattern' or stix_object['revoked']:
+                    continue
+
+                name = stix_object['name']
+                technique_id = [ref.get("external_id") for ref in stix_object.get('external_references')
+                                if 'mitre' in ref.get('source_name')][0]
+                techniques[name.lower()] = technique_id
+                tactics = [phase.get('phase_name') for phase in stix_object.get('kill_chain_phases')]
+                for tactic in tactics:
+                    search = Search(tag='attack', name=tactic, code=technique_id, description=name)
+                    search.store(self.ram)
+        # end technique_translation
+        # self.load_training(technique_translation)
+        # end load_training
+
+    def train(self, train_dir, model_file):
         """
         Trains and saves model
         """
+        self.load_training_data(train_dir)
+
         self.log.debug("Training model...")
         search = self.data_svc_locate('search', dict(tag='attack'))
         training_data = self.data_svc_locate('search', dict(tag='training_data'))
@@ -466,7 +530,7 @@ class Tram(object):
 
     def retrain_model(self, model_name):
         model = self.data_svc.locate('model', dict(name=model_name))
-        asyncio.get_event_loop().create_task(self.get_service('machine_svc').retrain(model))
+        self.get_service('machine_svc').retrain(model)
 
     def export_report(self, report_id, type):
         reports = self.data_svc.locate('reports', dict(id=report_id))
@@ -506,6 +570,11 @@ class Tram(object):
 
 
 class Search(object):
+    @property
+    def display(self):
+        return clean(dict(id=self.id, tag=self.tag, description=self.description, name=self.name,
+                               code=self.code))
+
     def __init__(self, tag, name=None, description=None, code=None):
         self.id = '%s-%s-%s' % (name, code, description)
         self.tag = tag
@@ -537,6 +606,10 @@ class Search(object):
 
 
 class Sentence(object):
+    @property
+    def display(self):
+        return clean(dict(id=self.id, text=self.text, matches=[m.display for m in self.matches]))
+
     def __init__(self, id=None, text=None):
         self.id = id if id else str(uuid.uuid4())
         self.text = text
@@ -551,6 +624,11 @@ class Status(Enum):
 
 
 class Match(object):
+    @property
+    def display(self):
+        return clean(dict(id=self.id, model=self.model, search=self.search.display, confidence=self.confidence,
+                          accepted=self.accepted, sentence=self.sentence, manual=self.manual))
+
     def __init__(self, model=None, search=None, confidence=0, accepted=True, sentence=None, manual=False):
         self.id = str(uuid.uuid4())
         self.model = model
@@ -570,6 +648,12 @@ class Report(object):
     def stage(self):
         return self.status
 
+    @property
+    def display(self):
+        return clean(dict(id=self.id, status=self.status.name, name=self.name, url=self.url,
+                          file=self.file, file_date=self.file_date, exports=self.EXPORTS, matches=[i.display for i in self.matches],
+                          sentences=[s.display for s in self.sentences], assigned_user=self.assigned_user))
+
     def __init__(self, id=None, name=None, url=None, file=None, file_date=None, user=None, status=Status.TODO):
         if type(status) == str:
             status = Status[status]
@@ -587,16 +671,15 @@ class Report(object):
         self.completed_models = 0
         self.assigned_user = user
 
-    def store(self, ram):
-        existing = retrieve(ram['reports'], self.id)
-        if not existing:
-            ram['reports'].append(self)
-            return retrieve(ram['reports'], self.id)
-        existing.update('name', self.name)
-        existing.update('assigned_user',self.assigned_user)
-        existing.update('status', self.status)
-        return existing
-
+    # def store(self, ram):
+    #     existing = retrieve(ram['reports'], self.id)
+    #     if not existing:
+    #         ram['reports'].append(self)
+    #         return retrieve(ram['reports'], self.id)
+    #     existing.update('name', self.name)
+    #     existing.update('assigned_user',self.assigned_user)
+    #     existing.update('status', self.status)
+    #     return existing
 
     def generate_text_blob(self):
         if self.url:
@@ -606,8 +689,8 @@ class Report(object):
             content = FileParser.parse_file(self.file)
             return content, self._clean_file_text(content)
 
-    def export(self, type): # what to return for each export type
-        if type == 'stix':
+    def export(self, export_type): # what to return for each export type
+        if export_type == 'stix':
             data = self.display
             output_stix = {}
             output_stix['objects'] = []
@@ -633,10 +716,45 @@ class Report(object):
             output_stix['type'] = 'bundle'
             output_stix['output_type'] = 'json'
             return output_stix
+        elif export_type == 'json':
+            return self.to_json()
         else:
             output = self.display
             output['output_type'] = 'json'
             return output
+
+    def to_json(self):
+        """
+        """
+        import pdb
+        pdb.set_trace()
+        to_return = {
+                'meta': {
+                            'filename': self.file,
+                            'date': 'TODO',
+                            'indicators': len(self.matches),
+                            'sentences': len(self.sentences),
+                        },
+                'indicators': [],
+                'sentences': []
+            }
+
+        for indicator in self.matches:
+            to_return['indicators'].append(
+                {
+                    'pattern_name': indicator.search.name,
+                    'indicator': indicator.search.description,
+                }
+            )
+
+        for sentence in self.sentences:
+            to_return['sentences'].append(
+                {
+                    'source_text': sentence.text,
+                    'tecniques': [m for m in sentence.matches]
+                }
+            )
+        return to_return
 
     """ PRIVATE """
 

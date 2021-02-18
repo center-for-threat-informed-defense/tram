@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}TRAM - Threat Report ATT&CK Mapper{% endblock %}
+
+{% block body %}
+<script src="{% static 'js/index.js' %}"></script>
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+        <div class="navbar nav-masthead">
+            <div class="float-left">
+                <a href="/">
+                    <img class="mb-4" src="{% static 'img/tram-logo.png' %}" alt="TRAM - Threat Report ATT&CK Mapper" width="100" height="100">
+                </a>
+            </div>
+
+            <div class="float-right">
+                <form id="id-upload-form">
+                    {% csrf_token %}
+                    <label for="id-upload" class="btn btn-primary float-right" title="Upload File">
+                        <i class="fas fa-upload"></i>
+                    </label>
+                    <input type="file" id="id-upload" style="display: none; height: max-content;">
+                </form>
+            </div>
+            <div class="btn btn-pimary float-right">
+                <a href="/logout">Logout</a>
+            </div>
+        </nav>
+      </div>
+    </header>
+  
+    <main class="px-3">
+      View uploaded files
+    </main>
+</div>
+
+{% endblock %}
