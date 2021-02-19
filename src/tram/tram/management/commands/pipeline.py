@@ -2,6 +2,7 @@ import time
 
 from django.core.management.base import BaseCommand
 
+from tram.ml.base import ModelManager
 from tram.models import Document, DocumentProcessingJob
 
 RUN = 'run'
@@ -16,12 +17,12 @@ class Command(BaseCommand):
                                    dest='subcommand',
                                    required=True)
         sp_run = sp.add_parser(RUN, help='Run the ML Pipeline')
+        sp_run.add_argument('--model')
         sp_test = sp.add_parser(TEST, help='Test the ML pipeline')
         sp_train = sp.add_parser(TRAIN, help='Train the ML Pipeline')
 
     def handle(self, *args, **options):
-        model = TramModel()
-        model_manager = ModelManager(model=model)
+        model_manager = ModelManager(model='dummy')
 
         subcommand = options['subcommand']
 

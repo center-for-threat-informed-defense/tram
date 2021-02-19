@@ -12,6 +12,7 @@
     <!-- JS, Popper.js, and jQuery -->
     <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
     <link rel="icon" href="{% static 'img/tram-logo.png' %}">
     <meta name="theme-color" content="#7952b3">
 </head>
@@ -23,6 +24,9 @@
             </a>
             <ul class="navbar-nav d-flex m-0">
                 <li class="navbar-item me-1">
+                    <a class="btn btn-primary" href="/admin">Database Admin</a>
+                </li>
+                <li class="navbar-item me-1">
                     <form id="id-upload-form">
                     {% csrf_token %}
                     <label for="id-upload" class="btn btn-primary btn-lg" title="Upload File">
@@ -31,7 +35,7 @@
                     <input type="file" id="id-upload" style="display: none; height: max-content;">
                     </form>
                 </li>
-                <li class="navbar-item">
+                <li class="navbar-item me-1">
                     <a class="btn-outline-danger btn" href="/logout">Logout</a>
                 </li>
             </ul>
