@@ -2,3 +2,4 @@ pytest
 pytest-django==4.1.0
 pytest-cov==2.11.1
 pytest-pythonpath
+bandit==1.7.0
