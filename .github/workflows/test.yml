@@ -19,8 +19,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements/test-requirements.txt
         pip install -r requirements/requirements.txt
-        python -c "import nltk; nltk.download('punkt')"
-        python -m spacy download en_core_web_sm
     - name: Test with pytest
       run: |
         pytest --cov=src/ --cov-report=xml
