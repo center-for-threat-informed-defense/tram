@@ -1,0 +1,6 @@
+bandit
+flake8
+pytest
+pytest-aiohttp
+pytest-cov
+safety

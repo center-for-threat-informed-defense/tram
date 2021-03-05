@@ -19,11 +19,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements/test-requirements.txt
         pip install -r requirements/requirements.txt
-        python -c "import nltk; nltk.download('punkt')"
-        python -m spacy download en_core_web_sm
     - name: Test with pytest
       run: |
-        pytest --cov=./ --cov-report=xml
+        pytest --cov=src/ --cov-report=xml
     - name: Upload Coverage to CodeCov
       uses: codecov/codecov-action@v1
       with:
@@ -32,7 +30,7 @@ jobs:
         verbose: true
     - name: Bandit Security Check
       run: |
-        bandit --exit-zero -r app/ tram.py server.py --exit-zero
+        bandit -r src/ --exit-zero
     - name: Safety Vulnerability Check
       run: |
         safety check --file requirements/requirements.txt
