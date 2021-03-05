@@ -136,7 +136,7 @@ class Model(ABC):
         return text
 
     def get_attack_technique_ids(self):
-        techniques = [t.attack_id for t in AttackTechnique.objects.all().order_by('attack_id')]
+        techniques = [t.attack_id for t in db_models.AttackTechnique.objects.all().order_by('attack_id')]
         return techniques
 
     @abstractmethod

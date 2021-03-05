@@ -1,6 +1,4 @@
-bandit
-flake8
-pytest
-pytest-aiohttp
-pytest-cov
-safety
+pytest==6.2.2
+pytest-django==4.1.0
+pytest-cov=2.11.1
+pytest-pythonpaths=0.7.3
