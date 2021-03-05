@@ -155,7 +155,7 @@ class Model(BaseWorld):
 
     async def learn(self, report, tokens):
         model_arr = await self.get_service('data_svc').locate('model', dict(name='base model'))
-        inference = model_arr[0]
+        inference = model_arr[0]  # inference = model
         full_out, confidence = await inference.train_final(tokens)
         await self.add_matches(full_out, confidence, report, tokens)
 
@@ -197,7 +197,7 @@ class Model(BaseWorld):
 
         return confidence
 
-    async def train_final(self, tokens):
+    async def train_final(self, tokens):  # predict / map_techniques
         new_X = await self.remove_stops(tokens)
         all_counts = self.count_vec.transform(new_X)
         ext_X = self.tfid.transform(all_counts)

@@ -13,7 +13,7 @@ class MachineService(BaseWorld):
         self.models = self._add_models('app/models', tag='model')
         self.regex_parser = RegexParser()
 
-    async def learn(self, report):
+    async def learn(self, report):  # aka def process()
         loop = asyncio.get_event_loop()
         blob, tokens = report.generate_text_blob()
         for regex in self.get_config(name='regex'):

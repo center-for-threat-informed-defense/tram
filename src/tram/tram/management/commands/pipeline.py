@@ -1,5 +1,3 @@
-import time
-
 from django.core.management.base import BaseCommand
 
 from tram.ml.base import ModelManager
