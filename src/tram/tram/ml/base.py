@@ -215,7 +215,7 @@ class Model(ABC):
         assert cls == model.__class__
         return model
 
-
+                                    # Should fail the CI check
 class DummyModel(Model):
     def __init__(self):
         self.faker = Faker()
