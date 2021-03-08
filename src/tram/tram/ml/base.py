@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from io import BytesIO
-import json
 import pathlib
 import pickle
 import random
@@ -24,24 +23,28 @@ class Indicator(object):
         return 'Indicator: %s=%s' % (self.type_, self.value)
 
 
+class Sentence(object):
+    def __init__(self, text, order, mappings):
+        self.text = text
+        self.order = order
+        self.mappings = mappings
+
+
 class Mapping(object):
-    def __init__(self, sentence, confidence=0.0, attack_technique=None):
-        self.sentence = sentence
+    def __init__(self, confidence=0.0, attack_technique=None):
         self.confidence = confidence
         self.attack_technique = attack_technique
 
     def __repr__(self):
-        short_sentence = self.sentence[:20].replace('\n', '')
-        return 'Sentence=%s; Confidence=%f; Techniques=%s' % (short_sentence, self.confidence, self.attack_technique)
+        return 'Confidence=%f; Technique=%s' % (self.confidence, self.attack_technique)
 
 
 class Report(object):
-    def __init__(self, name, text, sentences, indicators=None, mappings=None):
+    def __init__(self, name, text, sentences, indicators=None):
         self.name = name
         self.text = text
-        self.sentences = sentences
+        self.sentences = sentences  # Sentence objects
         self.indicators = indicators or []
-        self.mappings = mappings or []
 
 
 class ModelManager(object):
@@ -55,33 +58,42 @@ class ModelManager(object):
 
     def _save_report(self, report, document):
         rpt = db_models.Report(
-            name = report.name,
-            document = document,
-            ml_model = self.model.__class__.__name__
+            name=report.name,
+            document=document,
+            text=report.text,
+            ml_model=self.model.__class__.__name__
         )
         rpt.save()
 
         for indicator in report.indicators:
             ind = db_models.Indicator(
-                report = rpt,
-                indicator_type = indicator.type_,
-                value = indicator.value
+                report=rpt,
+                indicator_type=indicator.type_,
+                value=indicator.value
             )
             ind.save()
 
-        for mapping in report.mappings:
-            if mapping.attack_technique:
-                technique = db_models.AttackTechnique.objects.get(attack_id=mapping.attack_technique)
-            else:
-                technique = None
-            
-            m = db_models.Mapping(
-                report = rpt,
-                sentence = mapping.sentence,
-                attack_technique = technique,
-                confidence = mapping.confidence,
+        for sentence in report.sentences:
+            s = db_models.Sentence(
+                text=sentence.text,
+                order=sentence.order,
+                document=document
             )
-            m.save()
+            s.save()
+
+            for mapping in sentence.mappings:
+                if mapping.attack_technique:
+                    technique = db_models.AttackTechnique.objects.get(attack_id=mapping.attack_technique)
+                else:
+                    technique = None
+
+                m = db_models.Mapping(
+                    report=rpt,
+                    sentence=s,
+                    attack_technique=technique,
+                    confidence=mapping.confidence,
+                )
+                m.save()
 
     def run_model(self):
         while True:
@@ -94,7 +106,7 @@ class ModelManager(object):
                     job.delete()
                 print('Created report %s' % report.name)
             time.sleep(1)
-    
+
     def train_model(self):
         raise NotImplementedError()
 
@@ -108,7 +120,7 @@ class Model(ABC):
         """Trains the model based on:
            1. Source data (??)
            2. Reports in the database
-        
+
         Returns ???
         """
         pass
@@ -137,6 +149,8 @@ class Model(ABC):
 
     def get_attack_technique_ids(self):
         techniques = [t.attack_id for t in db_models.AttackTechnique.objects.all().order_by('attack_id')]
+        if len(techniques) == 0:
+            raise ValueError('Zero techniques found. Maybe run `python manage.py attackdata load` ?')
         return techniques
 
     @abstractmethod
@@ -174,15 +188,19 @@ class Model(ABC):
         text = self._extract_text(job.document)
         sentences = self._sentence_tokenize(text)
         indicators = self.get_indicators(text)
-        report_mappings = []
+
+        report_sentences = []
+        order = 0
         for sentence in sentences:
             mappings = self.get_mappings(sentence)
-            if len(mappings) > 0:
-                report_mappings.extend(mappings)
-            else:
-                report_mappings.append(Mapping(sentence, 100, None))
+            s = Sentence(text=sentence, order=order, mappings=mappings)
+            order += 1
+            report_sentences.append(s)
+            # TODO: Implement
+            # else:
+            #    if list is empty, append None mapping with 100% confidence
 
-        report = Report(name, text, sentences, indicators, report_mappings)
+        report = Report(name, text, report_sentences, indicators)
         return report
 
     def save_to_file(self, filepath):
@@ -196,6 +214,7 @@ class Model(ABC):
 
         assert cls == model.__class__
         return model
+
 
 class DummyModel(Model):
     def __init__(self):
@@ -226,7 +245,7 @@ class DummyModel(Model):
         attack_techniques = self._pick_random_techniques()
         for attack_technique in attack_techniques:
             confidence = random.uniform(0.0, 100.0)
-            mapping = Mapping(sentence, confidence, attack_technique)
+            mapping = Mapping(confidence, attack_technique)
             mappings.append(mapping)
 
         return mappings

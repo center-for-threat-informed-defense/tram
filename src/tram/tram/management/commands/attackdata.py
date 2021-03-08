@@ -7,6 +7,7 @@ from tram.models import AttackTechnique
 LOAD = 'load'
 CLEAR = 'clear'
 
+
 class Command(BaseCommand):
     help = 'Machine learning pipeline commands'
 
@@ -14,8 +15,8 @@ class Command(BaseCommand):
         sp = parser.add_subparsers(title='subcommands',
                                    dest='subcommand',
                                    required=True)
-        sp_load = sp.add_parser(LOAD, help='Load ATT&CK Data into the Database')
-        sp_clear = sp.add_parser(CLEAR, help='Clear ATT&CK Data from the Database')
+        sp_load = sp.add_parser(LOAD, help='Load ATT&CK Data into the Database')  # noqa: F841
+        sp_clear = sp.add_parser(CLEAR, help='Clear ATT&CK Data from the Database')  # noqa: F841
 
     def clear_attack_data(self):
         AttackTechnique.objects.all().delete()
@@ -47,11 +48,11 @@ class Command(BaseCommand):
 
                 t.attack_id = external_reference['external_id']
                 t.attack_url = external_reference['url']
-                t.platform = external_reference['source_name']
+                t.matrix = external_reference['source_name']
 
             assert t.attack_id is not None
             assert t.attack_url is not None
-            assert t.platform is not None
+            assert t.matrix is not None
 
             t.save()
             num_saved += 1

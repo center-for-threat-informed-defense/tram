@@ -1,10 +1,8 @@
-import os
-
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 from tram.models import Document, DocumentProcessingJob
+
 
 @login_required
 def upload(request):

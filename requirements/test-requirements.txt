@@ -2,5 +2,6 @@ bandit==1.7.0
 pytest
 pytest-cov==2.11.1
 pytest-django==4.1.0
+flake8>=3.5
 pytest-pythonpath
 safety==1.10.3
