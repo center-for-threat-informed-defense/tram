@@ -5,8 +5,9 @@ import pickle
 import random
 import time
 
+from bs4 import BeautifulSoup
 from django.db import transaction
-from faker import Faker
+import docx
 import pdfplumber
 import nltk
 
@@ -108,13 +109,16 @@ class ModelManager(object):
             time.sleep(1)
 
     def train_model(self):
-        raise NotImplementedError()
+        return self.model.train()
 
     def test_model(self):
-        raise NotImplementedError()
+        return self.model.test()
 
 
 class Model(ABC):
+    def __init__(self):
+        self._technique_ids = None
+
     @abstractmethod
     def train(self):
         """Trains the model based on:
@@ -123,16 +127,21 @@ class Model(ABC):
 
         Returns ???
         """
-        pass
 
     @abstractmethod
     def test(self):
         """Returns the f1 score as a float
         """
-        pass
+
+    @property
+    def technique_ids(self):
+        if not self._technique_ids:
+            self._technique_ids = self.get_attack_technique_ids()
+        return self._technique_ids
 
     def _get_report_name(self, job):
-        return 'Report for %s' % job.document.docfile.name
+        name = pathlib.Path(job.document.docfile.path).name
+        return 'Report for %s' % name
 
     def _extract_text(self, document):
         suffix = pathlib.Path(document.docfile.path).suffix
@@ -158,7 +167,6 @@ class Model(ABC):
         """
         Returns an array of indicator objects
         """
-        pass
 
     @abstractmethod
     def get_mappings(self, sentence):
@@ -166,7 +174,6 @@ class Model(ABC):
         Returns a list of Mapping objects for the sentence.
         Returns an empty list if there are no Mappings
         """
-        pass
 
     def _sentence_tokenize(self, text):
         return nltk.sent_tokenize(text)
@@ -178,10 +185,15 @@ class Model(ABC):
         return text
 
     def _extract_html_text(self, document):
-        raise NotImplementedError()
+        html = document.docfile.read()
+        soup = BeautifulSoup(html, features="html.parser")
+        text = soup.get_text()
+        return text
 
     def _extract_docx_text(self, document):
-        raise NotImplementedError()
+        parsed_docx = docx.Document(BytesIO(document.docfile.read()))
+        text = ' '.join([paragraph.text for paragraph in parsed_docx.paragraphs])
+        return text
 
     def process_job(self, job):
         name = self._get_report_name(job)
@@ -217,10 +229,6 @@ class Model(ABC):
 
 
 class DummyModel(Model):
-    def __init__(self):
-        self.faker = Faker()
-        self.technique_ids = self.get_attack_technique_ids()
-
     def train(self):
         pass
 
@@ -228,9 +236,10 @@ class DummyModel(Model):
         pass
 
     def get_indicators(self, text):
+        import uuid
         indicators = []
         for i in range(3):
-            ind = Indicator(type_='MD5', value=self.faker.md5())
+            ind = Indicator(type_='MD5', value=uuid.uuid4().hex)
             indicators.append(ind)
         return indicators
 
@@ -249,13 +258,6 @@ class DummyModel(Model):
             mappings.append(mapping)
 
         return mappings
-
-    def save_to_file(self, filename):
-        pass
-
-    @classmethod
-    def load_from_file(filename):
-        return DummyModel()
 
 
 class TramModel(Model):

@@ -1,4 +1,8 @@
+import os
+
 from django.db import models
+from django.db.models.signals import post_delete
+from django.dispatch.dispatcher import receiver
 
 DISPOSITION_CHOICES = (
     ('accept', 'Accepted'),
@@ -89,3 +93,15 @@ class Mapping(models.Model):
 
     def __str__(self):
         return 'Sentence "%s" to %s' % (self.sentence, self.attack_technique)
+
+
+def _delete_file(path):
+    # Deletes file from filesystem
+    if os.path.isfile(path):
+        os.remove(path)
+
+
+@receiver(post_delete, sender=Document)
+def delete_file_post_delete(sender, instance, *args, **kwargs):
+    if instance.docfile:
+        _delete_file(instance.docfile.path)
