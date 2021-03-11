@@ -5,6 +5,11 @@ from tram.ml import base
 from tram.models import Document, DocumentProcessingJob
 
 
+@pytest.fixture
+def dummy_model():
+    return base.DummyModel()
+
+
 class TestIndicator:
     def test_repr_is_correct(self):
         # Arrange
@@ -77,10 +82,6 @@ class TestReport:
 @pytest.mark.django_db
 class TestModel:
     """Tests ml.base.Model via DummyModel"""
-
-    @pytest.fixture(autouse=True)
-    def dummy_model(self):
-        return base.DummyModel()
 
     def test__sentence_tokenize_works_for_paragraph(self, dummy_model):
         # Arrange
@@ -196,10 +197,6 @@ class TestModel:
 
 
 class TestDummyModel:
-    @pytest.fixture(autouse=True)
-    def dummy_model(self):
-        return base.DummyModel()
-
     def test_train_passes(self, dummy_model):
         # Act
         dummy_model.train()  # Has no effect
@@ -209,3 +206,44 @@ class TestDummyModel:
         dummy_model.test()  # Has no effect
 
     # TODO: Test get_indicators, pick_random_techniques, get_mappings
+
+
+class TestModelManager:
+    def test___init__loads_tram_model(self):
+        # Act
+        model_manager = base.ModelManager('tram')
+
+        # Assert
+        assert model_manager.model.__class__ == base.TramModel
+
+    def test__init__loads_dummy_model(self):
+        # Act
+        model_manager = base.ModelManager('dummy')
+
+        # Assert
+        assert model_manager.model.__class__ == base.DummyModel
+
+    def test__init__raises_value_error_on_unknown_model(self):
+        # Act / Assert
+        with pytest.raises(ValueError):
+            base.ModelManager('this-should-raise')
+
+    def test_train_model_doesnt_raise(self):
+        # Arrange
+        model_manager = base.ModelManager('dummy')
+
+        # Act
+        model_manager.train_model()
+
+        # Assert
+        # TODO: Something meaningful
+
+    def test_test_model_doesnt_raise(self):
+        # Arrange
+        model_manager = base.ModelManager('dummy')
+
+        # Act
+        model_manager.test_model()
+
+        # Assert
+        # TODO: Something meaningful

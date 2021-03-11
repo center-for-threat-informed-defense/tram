@@ -49,8 +49,8 @@ class Report(object):
 
 
 class ModelManager(object):
-    def __init__(self, model=None):
-        if model is None or model == 'tram':
+    def __init__(self, model):
+        if model == 'tram':
             self.model = TramModel()
         elif model == 'dummy':
             self.model = DummyModel()
@@ -155,6 +155,17 @@ class Model(ABC):
             raise ValueError('Unknown file suffix: %s' % suffix)
 
         return text
+
+    def get_training_data(self):
+        """Returns a list of Sentence objects where the mapping is accepted"""
+        sentences = {}
+        accepted_mappings = db_models.Mapping.objects.filter(disposition='accept')
+        for mapping in accepted_mappings:
+            if mapping.sentence.id not in sentences:
+                sentences[mapping.sentence.id] = Sentence(mapping.sentence.text, mapping.sentence.order, [])
+            sentence = sentences.get(mapping.sentence.id)
+            sentence.mappings.append(Mapping(mapping.confidence, mapping.attack_technique.attack_id))
+        return list(sentences.values())
 
     def get_attack_technique_ids(self):
         techniques = [t.attack_id for t in db_models.AttackTechnique.objects.all().order_by('attack_id')]
@@ -277,5 +288,5 @@ class TramModel(Model):
     def get_indicators(self, text):
         raise NotImplementedError()
 
-    def get_mapping(self, sentence):
-        pass
+    def get_mappings(self, sentence):
+        raise NotImplementedError()
