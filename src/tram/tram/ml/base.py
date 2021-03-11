@@ -159,7 +159,8 @@ class Model(ABC):
     def get_training_data(self):
         """Returns a list of Sentence objects where the mapping is accepted"""
         sentences = {}
-        accepted_mappings = db_models.Mapping.objects.filter(disposition='accept')
+        # Get Mappings that are accepted and map to an Attack Technique
+        accepted_mappings = db_models.Mapping.objects.filter(disposition='accept').exclude(attack_technique=None)
         for mapping in accepted_mappings:
             if mapping.sentence.id not in sentences:
                 sentences[mapping.sentence.id] = Sentence(mapping.sentence.text, mapping.sentence.order, [])

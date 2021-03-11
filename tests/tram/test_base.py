@@ -2,7 +2,7 @@ from django.core.files.base import File
 import pytest
 
 from tram.ml import base
-from tram.models import Document, DocumentProcessingJob
+import tram.models as db_models
 
 
 @pytest.fixture
@@ -106,12 +106,12 @@ class TestModel:
     def test__extract_text_succeeds(self, dummy_model, filepath, expected):
         # Arrange
         with open(filepath, 'rb') as f:
-            doc = Document(docfile=File(f))
+            doc = db_models.Document(docfile=File(f))
             doc.save()
 
         # Act
         text = dummy_model._extract_text(doc)
-        doc.delete()
+        # doc.delete()
 
         # Assert
         assert expected in text
@@ -119,7 +119,7 @@ class TestModel:
     def test__extract_text_unknown_extension_raises_value_error(self, dummy_model):
         # Arrange
         with open('tests/data/unknown-extension.fizzbuzz', 'rb') as f:
-            doc = Document(docfile=File(f))
+            doc = db_models.Document(docfile=File(f))
             doc.save()
 
         # Act / Assert
@@ -127,15 +127,15 @@ class TestModel:
             dummy_model._extract_text(doc)
 
         # Cleanup
-        doc.delete()
+        # doc.delete()
 
     def test_get_report_name_succeeds(self, dummy_model):
         # Arrange
         expected = 'Report for AA20-302A'
         with open('tests/data/AA20-302A.docx', 'rb') as f:
-            doc = Document(docfile=File(f))
+            doc = db_models.Document(docfile=File(f))
             doc.save()
-        job = DocumentProcessingJob(document=doc)
+        job = db_models.DocumentProcessingJob(document=doc)
         job.save()
 
         # Act
@@ -180,20 +180,80 @@ class TestModel:
     def test_process_job_produces_valid_report(self, dummy_model):
         # Arrange
         with open('tests/data/AA20-302A.docx', 'rb') as f:
-            doc = Document(docfile=File(f))
+            doc = db_models.Document(docfile=File(f))
             doc.save()
-        job = DocumentProcessingJob(document=doc)
+        job = db_models.DocumentProcessingJob(document=doc)
         job.save()
         # Act
         report = dummy_model.process_job(job)
-        job.delete()
-        doc.delete()
+        # job.delete()
+        # doc.delete()
 
         # Assert
         assert report.name is not None
         assert report.text is not None
         assert len(report.sentences) > 0
         assert len(report.indicators) > 0
+
+    @pytest.mark.usefixtures('load_attack_data')
+    def test_get_training_data_succeeds(self, dummy_model):
+        # Arrange
+        with open('tests/data/AA20-302A.docx', 'rb') as f:
+            doc = db_models.Document(docfile=File(f))
+            doc.save()
+        rpt = db_models.Report(name='test report',
+                               document=doc,
+                               text='test text',
+                               ml_model='NoModel'
+                               )
+        rpt.save()
+
+        # Local aliases
+        create_sentence = db_models.Sentence.objects.create
+        create_mapping = db_models.Mapping.objects.create
+
+        s1 = create_sentence(text='sentence1', order=0, document=doc)
+        s2 = create_sentence(text='sentence2', order=1, document=doc)
+        s3 = create_sentence(text='sentence3', order=2, document=doc)
+        s4 = create_sentence(text='sentence4', order=3, document=doc)
+        s5 = create_sentence(text='sentence5', order=4, document=doc)
+
+        t1 = db_models.AttackTechnique.objects.get(attack_id='T1327')
+        t2 = db_models.AttackTechnique.objects.get(attack_id='T1497.003')
+        t3 = db_models.AttackTechnique.objects.get(attack_id='T1579')
+
+        # Sentence 1 has no mapping
+        create_mapping(report=rpt, sentence=s1, confidence=1.0, attack_technique=None, disposition='accept')
+
+        # Sentence 2 has 1 mapping
+        create_mapping(report=rpt, sentence=s2, confidence=2.0, attack_technique=t1, disposition='accept')
+
+        # Sentence 3 has 2 mappings
+        create_mapping(report=rpt, sentence=s3, confidence=33.3, attack_technique=t2, disposition='accept')
+        create_mapping(report=rpt, sentence=s3, confidence=33.4, attack_technique=t3, disposition='accept')
+
+        # Sentence 4 has 3 mappings, 2 accepted and one rejected
+        create_mapping(report=rpt, sentence=s4, confidence=99.9, attack_technique=t1, disposition='accept')
+        create_mapping(report=rpt, sentence=s4, confidence=99.9, attack_technique=t2, disposition='accept')
+        create_mapping(report=rpt, sentence=s4, confidence=99.9, attack_technique=t3, disposition='reject')
+
+        # Sentence 5 has 2 mappings, both rejected
+        create_mapping(report=rpt, sentence=s5, confidence=50.0, attack_technique=t1, disposition='reject')
+        create_mapping(report=rpt, sentence=s5, confidence=50.0, attack_technique=t3, disposition='reject')
+
+        # Act
+        sentences = dummy_model.get_training_data()
+
+        # Assert
+        assert len(sentences) == 3  # There should be 3 sentence objects
+        for sentence in sentences:
+            assert sentence.__class__ == base.Sentence
+            for mapping in sentence.mappings:
+                assert mapping.__class__ == base.Mapping
+                assert mapping.confidence is not None
+                assert mapping.confidence >= 0.0
+                assert mapping.confidence <= 100.0
+                assert mapping.attack_technique is not None
 
 
 class TestDummyModel:
