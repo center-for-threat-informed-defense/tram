@@ -47,7 +47,6 @@ class ReportSerializer(serializers.ModelSerializer):
     confirmed_sentences = serializers.SerializerMethodField()
     pending_sentences = serializers.SerializerMethodField()
 
-
     class Meta:
         model = db_models.Report
         fields = ['id', 'name', 'byline', 'confirmed_sentences', 'pending_sentences']

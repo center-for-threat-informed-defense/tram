@@ -19,7 +19,7 @@
     {% endfor %}
   </div>
   <div id="needs-review" class="card col pt-3 pb-3">
-    <h6 class="card-title">Needs Review (Has Unconfirmed Mappings)</h6>
+    <h6 class="card-title">In Review</h6>
     {% for report in needs_review %}
       <div id="{{ report.id }}" class="card shadow-sm">
         <div class="card-text">
@@ -27,7 +27,7 @@
           <a class="btn btn-primary" onclick="deleteReport({{ report.id }})"><i class="fas fa-trash"></i></a>
           <div>
             Confirmed Sentences: {{ report.confirmed_sentences }}<br>
-            Pending Sentences: {{ report.pending_sentences }}<br>
+            Pending Sentences: {{ report.pending_sentences   }}<br>
           </div>
         </div>
         <div class="d-flex justify-content-between align-items-center">
@@ -44,7 +44,7 @@
   <div id="in-review" class="card col pt-3 pb-3">
     <h6 class="card-title">Done (All mappings accepted/rejected)</h6>
     {% for report in done %}
-      <div id="{{ report.id }}" class="card draggable shadow-sm" draggable="true">
+      <div id="{{ report.id }}" class="card shadow-sm">
         <div class="card-text">
           {{ report.name }}
           <a class="btn btn-primary" onclick="deleteReport({{ report.id }})"><i class="fas fa-trash"></i></a>

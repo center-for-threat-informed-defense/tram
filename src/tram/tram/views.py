@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from rest_framework import generics, permissions, viewsets
+from rest_framework import viewsets
 
 from tram.models import AttackTechnique, Document, DocumentProcessingJob, Mapping, Report, Sentence
 from tram import serializers

@@ -195,6 +195,7 @@ class TestModel:
         assert len(report.sentences) > 0
         assert len(report.indicators) > 0
 
+    @pytest.mark.skip('Function not implemented')
     @pytest.mark.usefixtures('load_attack_data')
     def test_get_training_data_succeeds(self, dummy_model):
         # Arrange
