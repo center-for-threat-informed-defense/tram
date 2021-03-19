@@ -78,7 +78,9 @@ class ModelManager(object):
             s = db_models.Sentence(
                 text=sentence.text,
                 order=sentence.order,
-                document=document
+                document=document,
+                report=rpt,
+                disposition=None,
             )
             s.save()
 
@@ -157,14 +159,17 @@ class Model(ABC):
         return text
 
     def get_training_data(self):
-        """Returns a list of Sentence objects where the mapping is accepted"""
+        """Returns a list of base.Sentence objects where there is an accepted mapping"""
         sentences = {}
         # Get Mappings that are accepted and map to an Attack Technique
-        accepted_mappings = db_models.Mapping.objects.filter(disposition='accept').exclude(attack_technique=None)
+        accepted_mappings = db_models.Mapping.objects.filter(disposition='accept')
         for mapping in accepted_mappings:
             if mapping.sentence.id not in sentences:
                 sentences[mapping.sentence.id] = Sentence(mapping.sentence.text, mapping.sentence.order, [])
             sentence = sentences.get(mapping.sentence.id)
+            technique = None
+            if mapping.attack_technique:
+                technique = mapping.attack_technique.attack_id
             sentence.mappings.append(Mapping(mapping.confidence, mapping.attack_technique.attack_id))
         return list(sentences.values())
 

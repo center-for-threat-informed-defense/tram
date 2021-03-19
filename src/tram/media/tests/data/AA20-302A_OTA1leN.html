@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/  dc: http://purl.org/dc/terms/  foaf: http://xmlns.com/foaf/0.1/  og: http://ogp.me/ns#  rdfs: http://www.w3.org/2000/01/rdf-schema#  schema: http://schema.org/  sioc: http://rdfs.org/sioc/ns#  sioct: http://rdfs.org/sioc/types#  skos: http://www.w3.org/2004/02/skos/core#  xsd: http://www.w3.org/2001/XMLSchema# ">
+  <head>
+    <meta charset="utf-8" /><script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={licenseKey:"877b02039c",applicationID:"628657512"};window.NREUM||(NREUM={}),__nr_require=function(e,t,n){function r(n){if(!t[n]){var i=t[n]={exports:{}};e[n][0].call(i.exports,function(t){var i=e[n][1][t];return r(i||t)},i,i.exports)}return t[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var i=0;i<n.length;i++)r(n[i]);return r}({1:[function(e,t,n){function r(){}function i(e,t,n){return function(){return o(e,[u.now()].concat(c(arguments)),t?null:this,n),t?void 0:this}}var o=e("handle"),a=e(6),c=e(7),f=e("ee").get("tracer"),u=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],p="api-",l=p+"ixn-";a(d,function(e,t){s[t]=i(p+t,!0,"api")}),s.addPageAction=i(p+"addPageAction",!0),s.setCurrentRouteName=i(p+"routeName",!0),t.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,t){var n={},r=this,i="function"==typeof t;return o(l+"tracer",[u.now(),e,n],r),function(){if(f.emit((i?"":"no-")+"fn-start",[u.now(),r,i],n),i)try{return t.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],n),e}finally{f.emit("fn-end",[u.now()],n)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,t){m[t]=i(l+t)}),newrelic.noticeError=function(e,t){"string"==typeof e&&(e=new Error(e)),o("err",[e,u.now(),!1,t])}},{}],2:[function(e,t,n){function r(){return c.exists&&performance.now?Math.round(performance.now()):(o=Math.max((new Date).getTime(),o))-a}function i(){return o}var o=(new Date).getTime(),a=o,c=e(8);t.exports=r,t.exports.offset=a,t.exports.getLastTimestamp=i},{}],3:[function(e,t,n){function r(e,t){var n=e.getEntries();n.forEach(function(e){"first-paint"===e.name?d("timing",["fp",Math.floor(e.startTime)]):"first-contentful-paint"===e.name&&d("timing",["fcp",Math.floor(e.startTime)])})}function i(e,t){var n=e.getEntries();n.length>0&&d("lcp",[n[n.length-1]])}function o(e){e.getEntries().forEach(function(e){e.hadRecentInput||d("cls",[e])})}function a(e){if(e instanceof m&&!g){var t=Math.round(e.timeStamp),n={type:e.type};t<=p.now()?n.fid=p.now()-t:t>p.offset&&t<=Date.now()?(t-=p.offset,n.fid=p.now()-t):t=p.now(),g=!0,d("timing",["fi",t,n])}}function c(e){d("pageHide",[p.now(),e])}if(!("init"in NREUM&&"page_view_timing"in NREUM.init&&"enabled"in NREUM.init.page_view_timing&&NREUM.init.page_view_timing.enabled===!1)){var f,u,s,d=e("handle"),p=e("loader"),l=e(5),m=NREUM.o.EV;if("PerformanceObserver"in window&&"function"==typeof window.PerformanceObserver){f=new PerformanceObserver(r);try{f.observe({entryTypes:["paint"]})}catch(v){}u=new PerformanceObserver(i);try{u.observe({entryTypes:["largest-contentful-paint"]})}catch(v){}s=new PerformanceObserver(o);try{s.observe({type:"layout-shift",buffered:!0})}catch(v){}}if("addEventListener"in document){var g=!1,w=["click","keydown","mousedown","pointerdown","touchstart"];w.forEach(function(e){document.addEventListener(e,a,!1)})}l(c)}},{}],4:[function(e,t,n){function r(e,t){if(!i)return!1;if(e!==i)return!1;if(!t)return!0;if(!o)return!1;for(var n=o.split("."),r=t.split("."),a=0;a<r.length;a++)if(r[a]!==n[a])return!1;return!0}var i=null,o=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var c=navigator.userAgent,f=c.match(a);f&&c.indexOf("Chrome")===-1&&c.indexOf("Chromium")===-1&&(i="Safari",o=f[1])}t.exports={agent:i,version:o,match:r}},{}],5:[function(e,t,n){function r(e){function t(){e(a&&document[a]?document[a]:document[i]?"hidden":"visible")}"addEventListener"in document&&o&&document.addEventListener(o,t,!1)}t.exports=r;var i,o,a;"undefined"!=typeof document.hidden?(i="hidden",o="visibilitychange",a="visibilityState"):"undefined"!=typeof document.msHidden?(i="msHidden",o="msvisibilitychange"):"undefined"!=typeof document.webkitHidden&&(i="webkitHidden",o="webkitvisibilitychange",a="webkitVisibilityState")},{}],6:[function(e,t,n){function r(e,t){var n=[],r="",o=0;for(r in e)i.call(e,r)&&(n[o]=t(r,e[r]),o+=1);return n}var i=Object.prototype.hasOwnProperty;t.exports=r},{}],7:[function(e,t,n){function r(e,t,n){t||(t=0),"undefined"==typeof n&&(n=e?e.length:0);for(var r=-1,i=n-t||0,o=Array(i<0?0:i);++r<i;)o[r]=e[t+r];return o}t.exports=r},{}],8:[function(e,t,n){t.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,t,n){function r(){}function i(e){function t(e){return e&&e instanceof r?e:e?u(e,f,a):a()}function n(n,r,i,o,a){if(a!==!1&&(a=!0),!l.aborted||o){e&&a&&e(n,r,i);for(var c=t(i),f=v(n),u=f.length,s=0;s<u;s++)f[s].apply(c,r);var p=d[h[n]];return p&&p.push([b,n,r,c]),c}}function o(e,t){y[e]=v(e).concat(t)}function m(e,t){var n=y[e];if(n)for(var r=0;r<n.length;r++)n[r]===t&&n.splice(r,1)}function v(e){return y[e]||[]}function g(e){return p[e]=p[e]||i(n)}function w(e,t){s(e,function(e,n){t=t||"feature",h[n]=t,t in d||(d[t]=[])})}var y={},h={},b={on:o,addEventListener:o,removeEventListener:m,emit:n,get:g,listeners:v,context:t,buffer:w,abort:c,aborted:!1};return b}function o(e){return u(e,f,a)}function a(){return new r}function c(){(d.api||d.feature)&&(l.aborted=!0,d=l.backlog={})}var f="nr@context",u=e("gos"),s=e(6),d={},p={},l=t.exports=i();t.exports.getOrSetContext=o,l.backlog=d},{}],gos:[function(e,t,n){function r(e,t,n){if(i.call(e,t))return e[t];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:r,writable:!0,enumerable:!1}),r}catch(o){}return e[t]=r,r}var i=Object.prototype.hasOwnProperty;t.exports=r},{}],handle:[function(e,t,n){function r(e,t,n,r){i.buffer([e],r),i.emit(e,t,n)}var i=e("ee").get("handle");t.exports=r,r.ee=i},{}],id:[function(e,t,n){function r(e){var t=typeof e;return!e||"object"!==t&&"function"!==t?-1:e===window?0:a(e,o,function(){return i++})}var i=1,o="nr@id",a=e("gos");t.exports=r},{}],loader:[function(e,t,n){function r(){if(!x++){var e=b.info=NREUM.info,t=p.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&t))return u.abort();f(y,function(t,n){e[t]||(e[t]=n)});var n=a();c("mark",["onload",n+b.offset],null,"api"),c("timing",["load",n]);var r=p.createElement("script");r.src="https://"+e.agent,t.parentNode.insertBefore(r,t)}}function i(){"complete"===p.readyState&&o()}function o(){c("mark",["domContent",a()+b.offset],null,"api")}var a=e(2),c=e("handle"),f=e(6),u=e("ee"),s=e(4),d=window,p=d.document,l="addEventListener",m="attachEvent",v=d.XMLHttpRequest,g=v&&v.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:v,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var w=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1198.min.js"},h=v&&g&&g[l]&&!/CriOS/.test(navigator.userAgent),b=t.exports={offset:a.getLastTimestamp(),now:a,origin:w,features:{},xhrWrappable:h,userAgent:s};e(1),e(3),p[l]?(p[l]("DOMContentLoaded",o,!1),d[l]("load",r,!1)):(p[m]("onreadystatechange",i),d[m]("onload",r)),c("mark",["firstbyte",a.getLastTimestamp()],null,"api");var x=0},{}],"wrap-function":[function(e,t,n){function r(e,t){function n(t,n,r,f,u){function nrWrapper(){var o,a,s,p;try{a=this,o=d(arguments),s="function"==typeof r?r(o,a):r||{}}catch(l){i([l,"",[o,a,f],s],e)}c(n+"start",[o,a,f],s,u);try{return p=t.apply(a,o)}catch(m){throw c(n+"err",[o,a,m],s,u),m}finally{c(n+"end",[o,a,p],s,u)}}return a(t)?t:(n||(n=""),nrWrapper[p]=t,o(t,nrWrapper,e),nrWrapper)}function r(e,t,r,i,o){r||(r="");var c,f,u,s="-"===r.charAt(0);for(u=0;u<t.length;u++)f=t[u],c=e[f],a(c)||(e[f]=n(c,s?f+r:r,i,f,o))}function c(n,r,o,a){if(!m||t){var c=m;m=!0;try{e.emit(n,r,o,t,a)}catch(f){i([f,n,r,o],e)}m=c}}return e||(e=s),n.inPlace=r,n.flag=p,n}function i(e,t){t||(t=s);try{t.emit("internal-error",e)}catch(n){}}function o(e,t,n){if(Object.defineProperty&&Object.keys)try{var r=Object.keys(e);return r.forEach(function(n){Object.defineProperty(t,n,{get:function(){return e[n]},set:function(t){return e[n]=t,t}})}),t}catch(o){i([o],n)}for(var a in e)l.call(e,a)&&(t[a]=e[a]);return t}function a(e){return!(e&&e instanceof Function&&e.apply&&!e[p])}function c(e,t){var n=t(e);return n[p]=e,o(e,n,s),n}function f(e,t,n){var r=e[t];e[t]=c(r,n)}function u(){for(var e=arguments.length,t=new Array(e),n=0;n<e;++n)t[n]=arguments[n];return t}var s=e("ee"),d=e(7),p="nr@original",l=Object.prototype.hasOwnProperty,m=!1;t.exports=r,t.exports.wrapFunction=c,t.exports.wrapInPlace=f,t.exports.argsToArray=u},{}]},{},["loader"]);</script>
+<script>(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","/sites/default/files/google_analytics/analytics.js?qpimf5","ga");ga("create", "UA-34879253-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");</script>
+<meta name="description" content="This advisory was updated to include information on Conti, TrickBot, and BazarLoader, including new IOCs and Yara Rules for detection.
+
+This advisory uses the MITRE Adversarial Tactics, Techniques, and Common Knowledge (ATT&amp;CK®) version 7 framework. See the ATT&amp;CK for Enterprise version 7 for all referenced threat actor tactics and techniques." />
+<meta name="abstract" content="As part of its mission, CISA leads the effort to enhance the security, resiliency, and reliability of the Nation&#039;s cybersecurity and communications infrastructure." />
+<meta name="keywords" content="uscert, csirt, cert, cybersecurity, cyber security, computer security, U. S. Computer Emergency Readiness, cyber risks" />
+<meta name="Generator" content="Drupal 8 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="/sites/default/files/images/favicon.ico" type="image/vnd.microsoft.icon" />
+<link rel="canonical" href="https://us-cert.cisa.gov/ncas/alerts/aa20-302a" />
+<link rel="shortlink" href="https://us-cert.cisa.gov/node/15478" />
+<link rel="revision" href="https://us-cert.cisa.gov/ncas/alerts/aa20-302a" />
+
+    <title>Ransomware Activity Targeting the Healthcare and Public Health Sector | CISA</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_HVYUWve-etdcyfo-jK1VZCUdQrrPCTHPL3eas-Q22K0.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_INLEIPWI-5imLBTnGxrm__cxxQ1KVZj_FAhH5qQMCYg.css" />
+
+    
+<!--[if lte IE 8]>
+<script src="/sites/default/files/js/js_VtafjXmRvoUgAzqzYTA3Wrjkx9wcWhjP0G4ZnnqRamA.js"></script>
+<![endif]-->
+
+    <!-- Google Font -->
+    <style type="text/css">
+/* source-sans-pro-regular - latin */
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/profiles/uscertd8_gov/themes/custom/cert/fonts/source-sans-pro-v12-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'),
+  url('/profiles/uscertd8_gov/themes/custom/cert/fonts/source-sans-pro-v12-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('/profiles/uscertd8_gov/themes/custom/cert/fonts/source-sans-pro-v12-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+  url('/profiles/uscertd8_gov/themes/custom/cert/fonts/source-sans-pro-v12-latin-regular.woff') format('woff'), /* Modern Browsers */
+  url('/profiles/uscertd8_gov/themes/custom/cert/fonts/source-sans-pro-v12-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+  url('/profiles/uscertd8_gov/themes/custom/cert/fonts/source-sans-pro-v12-latin-regular.svg#SourceSansPro') format('svg'); /* Legacy iOS */
+}
+    </style>
+    <!--link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet"--> 
+    <!-- Google Font -->
+  </head>
+  <body class="path-node page-node-type-activity-alert has-glyphicons">
+    <a href="#main-content" class="visually-hidden focusable skip-link">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+    
+
+
+<div class="container-fluid top-top">
+      <aside role="complementary">
+        <div class="region region-top">
+    <section id="block-certtoptop" class="block block-block-content block-block-content4d95ffde-0818-4e6b-bd79-d1547b08c0c0 clearfix">
+  
+    
+
+      
+            <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"><div class="container">
+<div id="top">
+<div class="row">
+<div class="col-sm-12 flag"><img alt="United States Flag" data-entity-type="" data-entity-uuid="" src="/sites/default/files/cert/flag.png" style="position: absolute;" /><p style="padding-left: 35px; font-family: Arial; font-size: 11px;">An official website of the United States government <a href="#" id="here-is-how-u-know">Here's how you know <span class="arrow down"> </span></a></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="usa-banner-content usa-grid usa-accordion-content hidden container" id="gov-banner">
+<div class="usa-banner-guidance-gov usa-width-one-half col-sm-6"><img alt="Dot gov" class="usa-banner-icon usa-media_block-img" data-entity-type="" data-entity-uuid="" src="/sites/default/files/images/icon-dot-gov.svg" /><div class="usa-media_block-body"><strong>Official websites use .gov</strong><br />
+A <b>.gov</b> website belongs to an official government organization in the United States.</div>
+</div>
+
+<div class="usa-banner-guidance-ssl usa-width-one-half col-sm-6"><img alt="SSL" class="usa-banner-icon usa-media_block-img" data-entity-type="" data-entity-uuid="" src="/sites/default/files/images/icon-https.svg" /><div class="usa-media_block-body"><strong>Secure .gov websites use HTTPS</strong> A <b>lock (<img alt="lock icon" src="/sites/default/files/icons/lock.svg" style="width:15px;" />)</b> or <b>https://</b> means you've safely connected to the .gov website. Share sensitive information only on official, secure websites.</div>
+</div>
+</div>
+
+
+</div>
+      
+  </section>
+
+
+  </div>
+
+    </aside>
+  </div>
+
+
+
+<div class="container-fluid hidden-xs hidden-sm banner-region">
+<div class="container">
+<div class="row">
+
+
+  
+
+<section class="col-sm-9">
+
+      <a id="logo-section"></a>
+        <div class="region region-logo">
+    <section id="block-certlogo" class="block block-block-content block-block-content4639a667-debe-4642-bc69-7839662c0187 clearfix">
+  
+    
+
+      
+            <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"><div class="hidden-xs hidden-sm"><a href="/"><img alt="Cybersecurity and Infrastructure Security Agency CISA" data-entity-type="" data-entity-uuid="" src="/sites/default/files/cert/logo_verbose.png" title="Cybersecurity and Infrastructure Security Agency CISA" /></a></div>
+
+
+</div>
+      
+  </section>
+
+
+  </div>
+
+    </aside>
+  </section>
+
+
+
+      <aside class="col-sm-3" role="complementary">
+        <div class="region region-search">
+    <section id="block-certsearch" class="block block-block-content block-block-contentc33bd875-6ea6-42cc-b1ab-348a4e4bdff7 clearfix">
+  
+    
+
+      
+            <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"><form accept-charset="UTF-8" action="https://search.us-cert.gov/search" class="hidden-xs searchbox" method="get"><input name="utf8" type="hidden" value="✓" /><input id="affiliate-desktop" name="affiliate" type="hidden" value="us-cert" /><div class="form-group"><label class="sr-only" for="query-desktop">Enter Search Terms(s):</label>
+<div class="input-group"><input autocomplete="off" class="form-control form-control-custom input-lg" id="query-desktop" name="query" placeholder="Search" type="text" /><div class="input-group-addon input-group-addon-custom"><button class="submit input-lg"><img alt="search icon" data-entity-type="" data-entity-uuid="" src="/sites/default/files/cert/search-icon.png" title="search icon" /></button></div>
+</div>
+</div>
+</form>
+<style type="text/css">
+<!--/*--><![CDATA[/* ><!--*/
+.navbar-default ul.navbar-nav > li.last a{
+display: none;
+
+/*--><!]]>*/
+</style><div style="padding: 16px 12px 8px 12px"><a class="btn btn-primary" href="/services" type="button" style="font-weight: bold; width: 40%">Services</a><a class="btn btn-primary pull-right" href="/report" type="button" style="font-weight: bold; width: 40%">Report</a></div>
+
+
+</div>
+      
+  </section>
+
+
+  </div>
+
+    </aside>
+  </div>
+</div>
+<hr class="hidden-xs nav-top-line">
+</div>
+
+
+
+          <header class="navbar navbar-default container-fluid" id="navbar" role="banner">
+        <div class="container ">
+      <div class="navbar-header">
+        
+                          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+            <div class="hidden-lg hidden-md mobile-nav">
+        <a class="" href="/">
+            <img src="/sites/default/files/cert/logo3.png"  alt="US Department of Homeland Security CISA Cyber + Infrastructure" title="US Department of Homeland Security CISA Cyber + Infrastructure">
+          </a>
+        </div>
+      </div>
+
+              <div id="navbar-collapse" class="navbar-collapse collapse">
+            <div class="region region-navigation-collapsible">
+    <section id="block-certsearchmobile" class="block block-block-content block-block-content0da6361c-e31a-4a58-b455-f9ebde1ba544 clearfix">
+  
+    
+
+      
+            <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"><form accept-charset="UTF-8" action="https://search.us-cert.gov/search" class="hidden-lg hidden-md searchbox" method="get"><input name="utf8" type="hidden" value="✓" /><input id="affiliate-mobile" name="affiliate" type="hidden" value="us-cert" /><div class="form-group"><label class="sr-only" for="query-mobile">Enter Search Terms(s):</label>
+<div class="input-group"><input autocomplete="off" class="form-control form-control-custom input-lg" id="query-mobile" name="query" placeholder="Search" type="text" /><div class="input-group-addon input-group-addon-custom"><button class="submit input-lg"><img alt="search icon" data-entity-type="" data-entity-uuid="" src="/sites/default/files/cert/search-icon.png" title="search icon" /></button></div>
+</div>
+</div>
+</form>
+<div class="hidden-md hidden-lg" style="padding: 8px"><a class="btn btn-primary btn-block" href="/services" role="button" style="font-weight: bold">Services</a></div>
+
+<div class="hidden-md hidden-lg" style="padding: 8px"><a class="btn btn-primary btn-block" href="/report" role="button" style="font-weight: bold">Report</a></div>
+
+</div>
+      
+  </section>
+
+<nav role="navigation" aria-labelledby="block-certmainmenu-menu" id="block-certmainmenu">
+            
+  <h2 class="visually-hidden" id="block-certmainmenu-menu">CertMain Menu</h2>
+  
+
+        
+      <ul class="menu menu--certmain-menu nav navbar-nav">
+                      <li class="first">
+                                        <a href="/ncas" title="Alerts and Tips" data-drupal-link-system-path="node/5">Alerts and Tips</a>
+              </li>
+                      <li>
+                                        <a href="/resources" title="Resources" data-drupal-link-system-path="node/12436">Resources</a>
+              </li>
+                      <li>
+                                        <a href="/ics" title="Industrial Control Systems" data-drupal-link-system-path="node/14614">Industrial Control Systems</a>
+              </li>
+                      <li class="last">
+                                        <a href="/report" title="Report" data-drupal-link-system-path="node/5745">Report</a>
+              </li>
+        </ul>
+  
+
+  </nav>
+
+  </div>
+
+        </div>
+                </header>
+  <hr class="hidden-xs hidden-sm nav-bottom-line">
+<div class="visible-xs visible-sm mobile-border"></div>
+
+
+<div class="container">
+    <div id="print-logo"><img alt="US Department of Homeland Security CISA Cyber + Infrastructure" src="/sites/default/files/cert/logo2.png"/></div>
+    <div id="tlp-header"><svg height="30" width="120"> <rect fill="black" height="30" width="120" x="0" y="0"></rect> <text fill="#ffffff" font-size="18px" x="10" y="20">TLP:WHITE</text> </svg></div>
+    <div id="tlp-footer"><svg height="30" width="120"> <rect fill="black" height="30" width="120" x="0" y="0"></rect> <text fill="#ffffff" font-size="18px" x="10" y="20">TLP:WHITE</text> </svg></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <div role="main" class="main-container container js-quickedit-main-content">
+    <div class="row">
+
+                              <div class="col-sm-12" role="heading" aria-level="1">
+              <div class="region region-header">
+      <div class="container-fluid hidden-xs">
+  <ol class="breadcrumb">
+          <li >
+                  <a href="/ncas">National Cyber Awareness System</a>
+              </li>
+          <li >
+                  <a href="/ncas/alerts">Alerts</a>
+              </li>
+          <li  class="active">
+                  Ransomware Activity Targeting the Healthcare and Public Health Sector
+              </li>
+      </ol>
+</div>
+
+
+
+  </div>
+
+          </div>
+              
+
+            
+            
+                        
+
+            
+                  <section class="col-sm-12">
+
+                              <div class="highlighted">  <div class="region region-highlighted">
+    <div data-drupal-messages-fallback class="hidden"></div>
+
+  </div>
+</div>
+              
+                                      
+                  
+                          <a id="main-content"></a>
+            <div class="region region-content">
+                  <div id="ncas-header">
+            <div id="alerts-archive">
+                <a title="View Archives" href="/ncas/alerts/">More Alerts</a>
+            </div>
+            <h1 id="page-title">Alert (AA20-302A)</h1>
+            <h2 id="page-sub-title">Ransomware Activity Targeting the Healthcare and Public Health Sector</h2>
+            <div class="submitted meta-text">
+                                Original release date: October 28, 2020  | Last <a href="#revisions">revised</a>: November 02, 2020
+                                            </div>
+            <div id="social-options">
+	<!-- START PRINT BUTTON -->
+		<div id="print-button">
+			<span id="custom-print-button">
+				<a rel="nofollow" href="javascript:window.print();" title="Click to print."><img src="/sites/default/files/icons/print-button.png" alt="Click to print." /></a>
+			</span>
+		</div>
+    <!-- END PRINT BUTTON -->
+	<!-- START TWEET BUTTON -->
+	<div id="tweet-button">
+		<span id="custom-tweet-button">
+			<a rel="nofollow" target="_blank" href="https://twitter.com/share?url=https%3A%2F%2Fus-cert.cisa.gov%2Fncas%2Falerts%2Faa20-302a" class="popup-twitter" title="Click to Tweet."><img src="/sites/default/files/icons/tweet-button.png" alt="Click to Tweet." /></a>
+		</span>
+	</div>
+	<!-- END TWEET BUTTON -->
+
+	<!-- START FACEBOOK BUTTON -->
+	<div id="facebook-button">
+		<span id="custom-facebook-button">
+		<a rel="nofollow" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fus-cert.cisa.gov%2Fncas%2Falerts%2Faa20-302a" class="popup-facebook" title="Click to send to Facebook."><img src="/sites/default/files/icons/facebook-send-button.png" alt="Click to send to Facebook." /></a>
+		</span>
+	</div>
+	<!-- END FACEBOOK BUTTON -->
+
+	<!-- START SHARE BUTTON -->
+	<div id="share-button">
+		<span id="custom-share-button">
+			<a rel="nofollow" target="_blank" href="http://www.addthis.com/bookmark.php?url=https%3A%2F%2Fus-cert.cisa.gov%2Fncas%2Falerts%2Faa20-302a" class="popup-share" title="Click to Share." ><img src="/sites/default/files/icons/share-button.png" alt="Click to Share." /></a>
+		</span>
+	</div>
+	<!-- END SHARE BUTTON -->
+
+</div>
+        </div>
+    
+  
+<article role="article" about="/ncas/alerts/aa20-302a" class="activity-alert full clearfix">
+
+  
+    
+
+  
+  <div class="content">
+	<div id="ncas-content">
+		<a id="summary"></a>
+		<h3>Summary</h3>
+        
+            <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"><p><strong><em>This advisory was updated to include information on Conti, TrickBot, and BazarLoader, including new IOCs and Yara Rules for detection.</em></strong></p>
+
+<p class="tip-intro" style="font-size: 15px;"><em>This advisory uses the MITRE Adversarial Tactics, Techniques, and Common Knowledge (ATT&amp;CK®) version 7 framework. See the <a href="https://attack.mitre.org/versions/v7/techniques/enterprise/">ATT&amp;CK for Enterprise version 7</a> for all referenced threat actor tactics and techniques.</em></p>
+
+<p>This joint cybersecurity advisory was coauthored by the Cybersecurity and Infrastructure Security Agency (CISA), the Federal Bureau of Investigation (FBI), and the Department of Health and Human Services (HHS). This advisory describes the tactics, techniques, and procedures (TTPs) used by cybercriminals against targets in the Healthcare and Public Health (HPH) Sector to infect systems with ransomware, notably Ryuk and Conti, for financial gain.</p>
+
+<p>CISA, FBI, and HHS have credible information of an increased and imminent cybercrime threat to U.S. hospitals and healthcare providers. CISA, FBI, and HHS are sharing this information to provide warning to healthcare providers to ensure that they take timely and reasonable precautions to protect their networks from these threats.</p>
+
+<p><a href="/sites/default/files/publications/AA20-302A_Ransomware%20_Activity_Targeting_the_Healthcare_and_Public_Health_Sector.pdf">Click here</a> for a PDF version of this report.</p>
+
+<h4>Key Findings</h4>
+
+<ul><li>CISA, FBI, and HHS assess malicious cyber actors are targeting the HPH Sector with TrickBot and BazarLoader malware, often leading to ransomware attacks, data theft, and the disruption of healthcare services.</li>
+	<li>These issues will be particularly challenging for organizations within the COVID-19 pandemic; therefore, administrators will need to balance this risk when determining their cybersecurity investments.</li>
+</ul></div>
+      
+
+        
+        		    <a id="technical-details"></a>
+		    <h3>Technical Details</h3>
+            
+            <div class="field field--name-field-aa-technical-details field--type-text-long field--label-hidden field--item"><h3>Threat Details</h3>
+
+<p>The cybercriminal enterprise behind TrickBot, which is likely also the creator of BazarLoader malware, has continued to develop new functionality and tools, increasing the ease, speed, and profitability of victimization. These threat actors increasingly use loaders—like TrickBot and BazarLoader (or BazarBackdoor)—as part of their malicious cyber campaigns. Cybercriminals disseminate TrickBot and BazarLoader via phishing campaigns that contain either links to malicious websites that host the malware or attachments with the malware. Loaders start the infection chain by distributing the payload; they deploy and execute the backdoor from the command and control (C2) server and install it on the victim’s machine.</p>
+
+<h4>TrickBot</h4>
+
+<p>What began as a banking trojan and descendant of Dyre malware, TrickBot now provides its operators a full suite of tools to conduct a myriad of illegal cyber activities. These activities include credential harvesting, mail exfiltration, cryptomining, point-of-sale data exfiltration, and the deployment of ransomware, such as Ryuk and Conti.</p>
+
+<p>In early 2019, the FBI began to observe new TrickBot modules named Anchor, which cyber actors typically used in attacks targeting high-profile victims—such as large corporations. These attacks often involved data exfiltration from networks and point-of-sale devices. As part of the new Anchor toolset, TrickBot developers created <code>anchor_dns</code>, a tool for sending and receiving data from victim machines using Domain Name System (DNS) tunneling.</p>
+
+<p><code>anchor_dns</code> is a backdoor that allows victim machines to communicate with C2 servers over DNS to evade typical network defense products and make their malicious communications blend in with legitimate DNS traffic. <code>anchor_dns</code> uses a single-byte <code>XOR</code> cipher to encrypt its communications, which have been observed using key <code>0xB9</code>. Once decrypted, the string <code>anchor_dns</code> can be found in the DNS request traffic.</p>
+
+<h4>TrickBot Indicators of Compromise</h4>
+
+<p>After successful execution of the malware, TrickBot copies itself as an executable file with a 12-character randomly generated file name (e.g. <code>mfjdieks.exe</code>) and places this file in one of the following directories.</p>
+
+<ul><li>C:\Windows\</li>
+	<li>C:\Windows\SysWOW64\</li>
+	<li>C:\Users\[Username]\AppData\Roaming\</li>
+</ul><p>Once the executable is running and successful in establishing communication with C2s, the executable places appropriate modules downloaded from C2s for the infected processor architecture type (32 or 64 bit instruction set), to the infected host’s <code>%APPDATA%</code> or <code>%PROGRAMDATA%</code> directory, such as <code>%AppData\Roaming\winapp</code>. Some commonly named plugins that are created in a Modules subdirectory are (the detected architecture is appended to the module filename, e.g., <code>importDll32</code> or <code>importDll64</code>):</p>
+
+<ul><li><code>Systeminfo</code></li>
+	<li><code>importDll</code></li>
+	<li><code>outlookDll</code></li>
+	<li><code>injectDll </code>with a directory (ex. <code>injectDLL64_configs</code>) containing configuration files:
+	<ul><li><code>dinj</code></li>
+		<li><code>sinj</code></li>
+		<li><code>dpost</code></li>
+	</ul></li>
+	<li><code>mailsearcher</code> with a directory (ex. <code>mailsearcher64_configs</code>) containing configuration file:
+	<ul><li><code>mailconf</code></li>
+	</ul></li>
+	<li><code>networkDll</code> with a directory (ex. networkDll64_configs) containing configuration file:
+	<ul><li><code>dpost</code></li>
+	</ul></li>
+	<li><code>wormDll</code></li>
+	<li><code>tabDll</code></li>
+	<li><code>shareDll</code></li>
+</ul><p>Filename <code>client_id</code> or <code>data </code>or <code>FAQ </code>with the assigned bot ID of the compromised system is created in the malware directory. Filename <code>group_tag</code> or <code>Readme.md</code> containing the TrickBot campaign IDs is created in the malware directory.</p>
+
+<p>The malware may also drop a file named <code>anchorDiag.txt</code> in one of the directories listed above.</p>
+
+<p>Part of the initial network communications with the C2 server involves sending information about the victim machine such as its computer name/hostname, operating system version, and build via a base64-encoded <code>GUID</code>. The <code>GUID </code>is composed of <code>/GroupID/ClientID/</code> with the following naming convention:</p>
+
+<p><code>/anchor_dns/[COMPUTERNAME]_[WindowsVersionBuildNo].[32CharacterString]/</code>.</p>
+
+<p>The malware uses scheduled tasks that run every 15 minutes to ensure persistence on the victim machine. The scheduled task typically uses the following naming convention.</p>
+
+<p><code>[random_folder_name_in_%APPDATA%_excluding_Microsoft]</code></p>
+
+<p><code>autoupdate#[5_random_numbers] (e.g., Task autoupdate#16876)</code>.</p>
+
+<p>After successful execution, <code>anchor_dns</code> further deploys malicious batch scripts (<code>.bat</code>) using PowerShell commands.</p>
+
+<p>The malware deploys self-deletion techniques by executing the following commands.</p>
+
+<ul><li><code>cmd.exe /c timeout 3 &amp;&amp; del C:\Users\[username]\[malware_sample]</code></li>
+	<li><code>cmd.exe /C PowerShell \"Start-Sleep 3; Remove-Item C:\Users\[username]\[malware_sample_location]\"</code></li>
+</ul><p>The following domains found in outbound DNS records are associated with <code>anchor_dns</code>.</p>
+
+<ul><li><code>kostunivo[.]com</code></li>
+	<li><code>chishir[.]com</code></li>
+	<li><code>mangoclone[.]com</code></li>
+	<li><code>onixcellent[.]com</code></li>
+</ul><p>This malware used the following legitimate domains to test internet connectivity.</p>
+
+<ul><li><code>ipecho[.]net</code></li>
+	<li><code>api[.]ipify[.]org</code></li>
+	<li><code>checkip[.]amazonaws[.]com</code></li>
+	<li><code>ip[.]anysrc[.]net</code></li>
+	<li><code>wtfismyip[.]com</code></li>
+	<li><code>ipinfo[.]io</code></li>
+	<li><code>icanhazip[.]com</code></li>
+	<li><code>myexternalip[.]com</code></li>
+	<li><code>ident[.]me</code></li>
+</ul><p>Currently, there is an open-source tracker for TrickBot C2 servers located at <a href="https://feodotracker.abuse.ch/browse/trickbot/">https://feodotracker.abuse.ch/browse/trickbot/</a>.</p>
+
+<p>The <code>anchor_dns</code> malware historically used the following C2 servers.</p>
+
+<ul><li><code>23[.]95[.]97[.]59</code></li>
+	<li><code>51[.]254[.]25[.]115</code></li>
+	<li><code>193[.]183[.]98[.]66</code></li>
+	<li><code>91[.]217[.]137[.]37</code></li>
+	<li><code>87[.]98[.]175[.]85</code></li>
+</ul><h4>TrickBot YARA Rules</h4>
+
+<div class="special_container">rule anchor_dns_strings_filenames {<br />
+    meta:<br />
+        description = "Rule to detect AnchorDNS samples based off strings or filenames used in malware"<br />
+        author = "NCSC"<br />
+        hash1 = "fc0efd612ad528795472e99cae5944b68b8e26dc"<br />
+        hash2 = "794eb3a9ce8b7e5092bb1b93341a54097f5b78a9"<br />
+        hash3 = "9dfce70fded4f3bc2aa50ca772b0f9094b7b1fb2"<br />
+        hash4 = "24d4bbc982a6a561f0426a683b9617de1a96a74a"<br />
+    strings:<br />
+        $ = ",Control_RunDLL \x00"<br />
+        $ = ":$GUID" ascii wide<br />
+        $ = ":$DATA" ascii wide<br />
+        $ = "/1001/"<br />
+        $ = /(\x00|\xCC)qwertyuiopasdfghjklzxcvbnm(\x00|\xCC)/<br />
+        $ = /(\x00|\xCC)QWERTYUIOPASDFGHJKLZXCVBNM(\x00|\xCC)/<br />
+        $ = "start program with cmdline \"%s\""<br />
+        $ = "Global\\fde345tyhoVGYHUJKIOuy"<br />
+        $ = "ChardWorker::thExecute: error registry me"<br />
+        $ = "get command: incode %s, cmdid \"%s\", cmd \"%s\""<br />
+        $ = "anchorDNS"<br />
+        $ = "Anchor_x86"<br />
+        $ = "Anchor_x64"<br />
+    condition:<br />
+        (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550) and 3 of them<br />
+}</div>
+
+<div class="special_container">rule anchor_dns_icmp_transport {<br />
+    meta:<br />
+        description = "Rule to detect AnchorDNS samples based off ICMP transport strings"<br />
+        author = "NCSC"<br />
+        hash1 = "056f326d9ab960ed02356b34a6dcd72d7180fc83"<br />
+    strings:<br />
+        $ = "reset_connection &lt;- %s"<br />
+        $ = "server_ok &lt;- %s (packets on server %s)"<br />
+        $ = "erase successfully transmitted packet (count: %d)"<br />
+        $ = "Packet sended with crc %s -&gt; %s"<br />
+        $ = "send data confimation to server(%s)"<br />
+        $ = "data recived from &lt;- %s"<br />
+        $ = "Rearmost packed recived (id: %s)"<br />
+        $ = "send poll to server -&gt; : %s"<br />
+    condition:<br />
+        (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550) and 3 of them<br />
+}</div>
+
+<div class="special_container">rule anchor_dns_config_dexor {<br />
+    meta:<br />
+        description = "Rule to detect AnchorDNS samples based off configuration deobfuscation (XOR 0x23 countup)"<br />
+        author = "NCSC"<br />
+        hash1 = "d0278ec015e10ada000915a1943ddbb3a0b6b3db"<br />
+        hash2 = "056f326d9ab960ed02356b34a6dcd72d7180fc83"<br />
+    strings:<br />
+        $x86 = {75 1F 56 6A 40 B2 23 33 C9 5E 8A 81 ?? ?? ?? ?? 32 C2 FE C2 88 81 ?? ?? ?? ?? 41 83 EE 01 75 EA 5E B8 ?? ?? ?? ?? C3}<br />
+        $x64 = {41 B0 23 41 B9 80 00 00 00 8A 84 3A ?? ?? ?? 00 41 32 C0 41 FE C0 88 04 32 48 FF C2 49 83 E9 01 75 E7}<br />
+    condition:<br />
+        (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550) and any of them<br />
+}</div>
+
+<div class="special_container">rule anchor_dns_installer {<br />
+    meta:<br />
+        description = "Rule to detect AnchorDNS installer samples based off MZ magic under one-time pad or deobfuscation loop code"<br />
+        author = "NCSC"<br />
+        hash1 = "fa98074dc18ad7e2d357b5d168c00a91256d87d1"<br />
+        hash2 = "78f0737d2b1e605aad62af252b246ef390521f02"<br />
+    strings:<br />
+        $pre = {43 00 4F 00 4E 00 4F 00 55 00 54 00 24 00 00 00} //CONOUT$<br />
+        $pst = {6B 65 72 6E 65 6C 33 32 2E 64 6C 6C 00 00 00 00} //kernel32.dll<br />
+        $deob_x86 = {8B C8 89 4D F8 83 F9 FF 74 52 46 89 5D F4 88 5D FF 85 F6 74 34 8A 83 ?? ?? ?? ?? 32 83 ?? ?? ?? ?? 6A 00 88 45 FF 8D 45 F4 50 6A 01 8D 45 FF 50 51 FF 15 34 80 41 00 8B 4D F8 43 8B F0 81 FB 00 ?? ?? ?? 72 CC 85 F6 75 08}<br />
+        $deob_x64 = {42 0F B6 84 3F ?? ?? ?? ?? 4C 8D 8C 24 80 00 00 00 42 32 84 3F ?? ?? ?? ?? 48 8D 54 24 78 41 B8 01 00 00 00 88 44 24 78 48 8B CE 48 89 6C 24 20 FF 15 ?? ?? ?? ?? 48 FF C7 8B D8 48 81 FF ?? ?? ?? ?? 72 B8}<br />
+    condition:<br />
+        (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550)<br />
+        and<br />
+            (   uint16(@pre+16) ^ uint16(@pre+16+((@pst-(@pre+16))\2)) == 0x5A4D<br />
+                or<br />
+                $deob_x86 or $deob_x64<br />
+            )<br />
+}</div>
+
+<div class="special_container">import "pe"<br />
+rule anchor_dns_string_1001_with_pe_section_dll_export_resolve_ip_domains {<br />
+    meta:<br />
+        description = "Rule to detect AnchorDNS samples based off /1001/ string in combination with DLL export name string, PE section .addr or IP resolution domains"<br />
+        author = "NCSC"<br />
+        hash1 = "ff8237252d53200c132dd742edc77a6c67565eee"<br />
+        hash2 = "c8299aadf886da55cb47e5cbafe8c5a482b47fc8"<br />
+    strings:<br />
+        $str1001 = {2F 31 30 30 31 2F 00} // /1001/<br />
+        $strCtrl = {2C 43 6F 6E 74 72 6F 6C 5F 52 75 6E 44 4C 4C 20 00} // ,Control_RunDLL<br />
+        $ip1 = "checkip.amazonaws.com" ascii wide<br />
+        $ip2 = "ipecho.net" ascii wide<br />
+        $ip3 = "ipinfo.io" ascii wide<br />
+        $ip4 = "api.ipify.org" ascii wide<br />
+        $ip5 = "icanhazip.com" ascii wide<br />
+        $ip6 = "myexternalip.com" ascii wide<br />
+        $ip7 = "wtfismyip.com" ascii wide<br />
+        $ip8 = "ip.anysrc.net" ascii wide<br />
+    condition:<br />
+        (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550)<br />
+        and $str1001<br />
+        and (<br />
+                for any i in (0..pe.number_of_sections): (<br />
+                   pe.sections[i].name == ".addr"<br />
+                )<br />
+            or<br />
+                $strCtrl<br />
+            or<br />
+                6 of ($ip*)<br />
+            )<br />
+}</div>
+
+<div class="special_container">rule anchor_dns_check_random_string_in_dns_response {<br />
+    meta:<br />
+        description = "Rule to detect AnchorDNS samples based off checking random string in DNS response"<br />
+        author = "NCSC"<br />
+        hash1 = "056f326d9ab960ed02356b34a6dcd72d7180fc83"<br />
+        hash2 = "14e9d68bba7a184863667c680a8d5a757149aa36"<br />
+    strings:<br />
+        $x86 = {8A D8 83 C4 10 84 DB 75 08 8B 7D BC E9 84 00 00 00 8B 7D BC 32 DB 8B C7 33 F6 0F 1F 00 85 C0 74 71 40 6A 2F 50 E8 ?? ?? ?? ?? 46 83 C4 08 83 FE 03 72 EA 85 C0 74 5B 83 7D D4 10 8D 4D C0 8B 75 D0 8D 50 01 0F 43 4D C0 83 EE 04 72 11 8B 02 3B 01 75 10 83 C2 04 83 C1 04 83 EE 04 73 EF 83 FE FC 74 2D 8A 02 3A 01 75 29 83 FE FD 74 22 8A 42 01 3A 41 01 75 1C 83 FE FE 74 15 8A 42 02 3A 41 02 75 0F 83 FE FF 74 08 8A 42 03 3A 41 03 75 02 B3 01 8B 75 B8}<br />
+        $x64 = {4C 39 75 EF 74 56 48 8D 45 DF 48 83 7D F7 10 48 0F 43 45 DF 49 8B FE 48 85 C0 74 40 48 8D 48 01 BA 2F 00 00 00 E8 ?? ?? ?? ?? 49 03 FF 48 83 FF 03 72 E4 48 85 C0 74 24 48 8D 55 1F 48 83 7D 37 10 48 0F 43 55 1F 48 8D 48 01 4C 8B 45 2F E8 ?? ?? ?? ?? 0F B6 DB 85 C0 41 0F 44 DF 49 03 F7 48 8B 55 F7 48 83 FE 05 0F 82 6A FF FF FF}<br />
+    condition:<br />
+        (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550) and any of them<br />
+}</div>
+
+<div class="special_container">rule anchor_dns_default_result_execute_command {<br />
+    meta:<br />
+        description = "Rule to detect AnchorDNS samples based off default result value and executing command"<br />
+        author = "NCSC"<br />
+        hash1 = "056f326d9ab960ed02356b34a6dcd72d7180fc83"<br />
+        hash2 = "14e9d68bba7a184863667c680a8d5a757149aa36"<br />
+    strings:<br />
+        $x86 = {83 C4 04 3D 80 00 00 00 73 15 8B 04 85 ?? ?? ?? ?? 85 C0 74 0A 8D 4D D8 51 8B CF FF D0 8A D8 84 DB C7 45 A4 0F 00 00 00}<br />
+        $x64 = {48 98 B9 E7 03 00 00 48 3D 80 00 00 00 73 1B 48 8D 15 ?? ?? ?? ?? 48 8B 04 C2 48 85 C0 74 0B 48 8D 55 90 48 8B CE FF D0 8B C8}<br />
+    condition:<br />
+        (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550) and any of them<br />
+}</div>
+
+<div class="special_container">rule anchor_dns_pdbs {<br />
+    meta:<br />
+        description = "Rule to detect AnchorDNS samples based off partial PDB paths"<br />
+        author = "NCSC"<br />
+        hash1 = "f0e575475f33600aede6a1b9a5c14f671cb93b7b"<br />
+        hash2 = "1304372bd4cdd877778621aea715f45face93d68"<br />
+        hash3 = "e5dc7c8bfa285b61dda1618f0ade9c256be75d1a"<br />
+        hash4 = "f96613ac6687f5dbbed13c727fa5d427e94d6128"<br />
+        hash5 = "46750d34a3a11dd16727dc622d127717beda4fa2"<br />
+    strings:<br />
+        $ = ":\\MyProjects\\secondWork\\Anchor\\"        <br />
+        $ = ":\\simsim\\anchorDNS"<br />
+        $ = ":\\[JOB]\\Anchor\\"<br />
+        $ = ":\\Anchor\\Win32\\Release\\Anchor_"<br />
+        $ = ":\\Users\\ProFi\\Desktop\\data\\Win32\\anchor"<br />
+    condition:<br />
+        (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550) and any of them<br />
+}</div>
+
+<h4>BazarLoader/BazarBackdoor</h4>
+
+<p>Beginning in approximately early 2020, actors believed to be associated with TrickBot began using BazarLoader and BazarBackdoor to infect victim networks. The loader and backdoor work closely together to achieve infection and communicate with the same C2 infrastructure. Campaigns using Bazar represent a new technique for cybercriminals to infect and monetize networks and have increasingly led to the deployment of ransomware, including Ryuk. BazarLoader has become one of the most commonly used vectors for ransomware deployment.</p>
+
+<p>Deployment of the BazarLoader malware typically comes from phishing email and contains the following:</p>
+
+<ul><li>Phishing emails are typically delivered by commercial mass email delivery services. Email received by a victim will contain a link to an actor-controlled Google Drive document or other free online filehosting solutions, typically purporting to be a PDF file.</li>
+	<li>This document usually references a failure to create a preview of the document and contains a link to a URL hosting a malware payload in the form of a misnamed or multiple extension file.</li>
+	<li>Emails can appear as routine, legitimate business correspondence about customer complaints, hiring decision, or other important tasks that require the attention of the recipient.  </li>
+	<li>Some email communications have included the recipient’s name or employer name in the subject line and/or email body.</li>
+</ul><p>Through phishing emails linking users to Google Documents, actors used the below identified file names to install BazarLoader:</p>
+
+<ul><li><code>Report-Review26-10.exe</code></li>
+	<li><code>Review_Report15-10.exe</code></li>
+	<li><code>Document_Print.exe</code></li>
+	<li><code>Report10-13.exe</code></li>
+	<li><code>Text_Report.exe</code></li>
+</ul><p>Bazar activity can be identified by searching the system startup folders and Userinit values under the <code>HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon</code> registry key:</p>
+
+<p><code>%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\adobe.lnk</code></p>
+
+<p>For a comprehensive list of indicators of compromise regarding the BazarLocker and other malware, see <a href="https://www.fireeye.com/blog/threat-research/2020/10/kegtap-and-singlemalt-with-a-ransomware-chaser.html">https://www.fireeye.com/blog/threat-research/2020/10/kegtap-and-singlemalt-with-a-ransomware-chaser.html</a>.</p>
+
+<h4>Indicators</h4>
+
+<p>In addition to TrickBot and BazarLoader, threat actors are using malware, such as KEGTAP, BEERBOT, SINGLEMALT, and others as they continue to change tactics, techniques, and procedures in their highly dynamic campaign. The following C2 servers are known to be associated with this malicious activity.</p>
+
+<ul><li><code>45[.]148[.]10[.]92</code></li>
+	<li><code>170[.]238[.]117[.]187</code></li>
+	<li><code>177[.]74[.]232[.]124</code></li>
+	<li><code>185[.]68[.]93[.]17</code></li>
+	<li><code>203[.]176[.]135[.]102</code></li>
+	<li><code>96[.]9[.]73[.]73</code></li>
+	<li><code>96[.]9[.]77[.]142</code></li>
+	<li><code>37[.]187[.]3[.]176</code></li>
+	<li><code>45[.]89[.]127[.]92</code></li>
+	<li><code>62[.]108[.]35[.]103</code></li>
+	<li><code>91[.]200[.]103[.]242</code></li>
+	<li><code>103[.]84[.]238[.]3</code></li>
+	<li><code>36[.]89[.]106[.]69</code></li>
+	<li><code>103[.]76[.]169[.]213</code></li>
+	<li><code>36[.]91[.]87[.]227</code></li>
+	<li><code>105[.]163[.]17[.]83</code></li>
+	<li><code>185[.]117[.]73[.]163</code></li>
+	<li><code>5[.]2[.]78[.]118</code></li>
+	<li><code>185[.]90[.]61[.]69</code></li>
+	<li><code>185[.]90[.]61[.]62</code></li>
+	<li><code>86[.]104[.]194[.]30</code></li>
+	<li><code>31[.]131[.]21[.]184</code></li>
+	<li><code>46[.]28[.]64[.]8</code></li>
+	<li><code>104[.]161[.]32[.]111</code></li>
+	<li><code>107[.]172[.]140[.]171</code></li>
+	<li><code>131[.]153[.]22[.]148</code></li>
+	<li><code>195[.]123[.]240[.]219</code></li>
+	<li><code>195[.]123[.]242[.]119</code></li>
+	<li><code>195[.]123[.]242[.]120</code></li>
+	<li><code>51[.]81[.]113[.]25</code></li>
+	<li><code>74[.]222[.]14[.]27</code></li>
+</ul><h4>Ryuk Ransomware</h4>
+
+<p>Typically Ryuk has been deployed as a payload from banking Trojans such as TrickBot. (See the <a href="https://www.ncsc.gov.uk/news/ryuk-advisory">United Kingdom (UK) National Cyber Security Centre (NCSC) advisory, Ryuk Ransomware Targeting Organisations Globally</a>, on their ongoing investigation into global Ryuk ransomware campaigns and associated Emotet and TrickBot malware.) Ryuk first appeared in August 2018 as a derivative of Hermes 2.1 ransomware, which first emerged in late 2017 and was available for sale on the open market as of August 2018. Ryuk still retains some aspects of the Hermes code. For example, all of the files encrypted by Ryuk contain the <code>HERMES </code>tag but, in some infections, the files have <code>.ryk</code> added to the filename, while others do not. In other parts of the ransomware code, Ryuk has removed or replaced features of Hermes, such as the restriction against targeting specific Eurasia-based systems.</p>
+
+<p>While negotiating the victim network, Ryuk actors will commonly use commercial off-the-shelf products—such as Cobalt Strike and PowerShell Empire—in order to steal credentials. Both frameworks are very robust and are highly effective dual-purpose tools, allowing actors to dump clear text passwords or hash values from memory with the use of Mimikatz. This allows the actors to inject malicious dynamic-link library into memory with read, write, and execute permissions. In order to maintain persistence in the victim environment, Ryuk actors have been known to use scheduled tasks and service creation.</p>
+
+<p>Ryuk actors will quickly map the network in order to enumerate the environment to understand the scope of the infection. In order to limit suspicious activity and possible detection, the actors choose to live off the land and, if possible, use native tools—such as net view, net computers, and ping—to locate mapped network shares, domain controllers, and active directory. In order to move laterally throughout the network, the group relies on native tools, such as PowerShell, Windows Management Instrumentation (WMI), Windows Remote Management , and Remote Desktop Protocol (RDP). The group also uses third-party tools, such as Bloodhound.</p>
+
+<p>Once dropped, Ryuk uses AES-256 to encrypt files and an RSA public key to encrypt the AES key. The Ryuk dropper drops a <code>.bat</code> file that attempts to delete all backup files and Volume Shadow Copies (automatic backup snapshots made by Windows), preventing the victim from recovering encrypted files without the decryption program.</p>
+
+<p>In addition, the attackers will attempt to shut down or uninstall security applications on the victim systems that might prevent the ransomware from executing. Normally this is done via a script, but if that fails, the attackers are capable of manually removing the applications that could stop the attack. The <code>RyukReadMe</code> file placed on the system after encryption provides either one or two email  addresses, using the end-to-end encrypted email provider Protonmail, through which the victim can contact the attacker(s). While earlier versions provide a ransom amount in the initial notifications, Ryuk users are now designating a ransom amount only after the victim makes contact.</p>
+
+<p>The victim is told how much to pay to a specified Bitcoin wallet for the decryptor and is provided a sample decryption of two files.</p>
+
+<p>Initial testing indicates that the <code>RyukReadMe</code> file does not need to be present for the decryption script to run successfully but other reporting advises some files will not decrypt properly without it. Even if run correctly, there is no guarantee the decryptor will be effective. This is further complicated because the <code>RyukReadMe</code> file is deleted when the script is finished. This may affect the decryption script unless it is saved and stored in a different location before running.</p>
+
+<p>According to MITRE, <a href="https://attack.mitre.org/versions/v7/software/S0446/">Ryuk </a>uses the ATT&amp;CK techniques listed in table 1.</p>
+
+<p class="text-align-center"><em>Table 1: Ryuk ATT&amp;CK techniques</em></p>
+
+<table border="1" cellpadding="1" cellspacing="1" class="general-table" style="width: 881.46px; height: 312px; margin-right: auto; margin-left: auto;"><thead><tr><th scope="col" style="width: 198px;"><strong>Technique</strong></th>
+			<th scope="col" style="width: 356px;"><strong>Use</strong></th>
+		</tr></thead><tbody><tr><td scope="col" style="width: 198px; text-align: left;">System Network Configuration Discovery [<a href="https://attack.mitre.org/versions/v7/techniques/T1016/">T1016</a>]</td>
+			<td scope="col" style="width: 356px; text-align: left;">Ryuk has called <code>GetIpNetTable</code> in attempt to identify all mounted drives and hosts that have Address Resolution Protocol entries. </td>
+		</tr><tr><td scope="col" style="width: 198px; text-align: left;">
+			<p>Masquerading: Match Legitimate Name or Location [<a href="https://attack.mitre.org/versions/v7/techniques/T1036/005/">T1036.005</a>]</p>
+			</td>
+			<td scope="col" style="width: 356px; text-align: left;">Ryuk has constructed legitimate appearing installation folder paths by calling <code>GetWindowsDirectoryW</code> and then inserting a null byte at the fourth character of the path. For Windows Vista or higher, the path would appear as <code>C:\Users\Public</code>. </td>
+		</tr><tr><td scope="col" style="width: 198px; text-align: left;">Process Injection [<a href="https://attack.mitre.org/versions/v7/techniques/T1055/">T1055</a>]</td>
+			<td scope="col" style="width: 356px; text-align: left;">Ryuk has injected itself into remote processes to encrypt files using a combination of <code>VirtualAlloc</code>, <code>WriteProcessMemory</code>, and <code>CreateRemoteThread</code>. </td>
+		</tr><tr><td scope="col" style="width: 198px; text-align: left;">Process Discovery [<a href="https://attack.mitre.org/versions/v7/techniques/T1057/">T1057</a>]</td>
+			<td scope="col" style="width: 356px; text-align: left;">Ryuk has called <code>CreateToolhelp32Snapshot</code> to enumerate all running processes. </td>
+		</tr><tr><td scope="col" style="width: 198px; text-align: left;">Command and Scripting Interpreter: Windows Command Shell [<a href="https://attack.mitre.org/versions/v7/techniques/T1059/003/">T1059.003</a>]</td>
+			<td scope="col" style="width: 356px; text-align: left;">Ryuk has used <code>cmd.exe</code> to create a Registry entry to establish persistence. </td>
+		</tr><tr><td scope="col" style="width: 198px; text-align: left;">File and Directory Discovery [<a href="https://attack.mitre.org/versions/v7/techniques/T1083/">T1083</a>]</td>
+			<td scope="col" style="width: 356px; text-align: left;">Ryuk has called <code>GetLogicalDrives</code> to enumerate all mounted drives, and <code>GetDriveTypeW</code> to determine the drive type.</td>
+		</tr><tr><td scope="col" style="width: 198px; text-align: left;">Native API [<a href="https://attack.mitre.org/versions/v7/techniques/T1106/">T1106</a>]</td>
+			<td scope="col" style="width: 356px; text-align: left;">Ryuk has used multiple native APIs including <code>ShellExecuteW</code> to run executables; <code>GetWindowsDirectoryW</code> to create folders; and <code>VirtualAlloc</code>, <code>WriteProcessMemory</code>, and <code>CreateRemoteThread</code> for process injection. </td>
+		</tr><tr><td scope="col" style="width: 198px; text-align: left;">Access Token Manipulation [<a href="https://attack.mitre.org/versions/v7/techniques/T1134/">T1134</a>]</td>
+			<td scope="col" style="width: 356px; text-align: left;">Ryuk has attempted to adjust its token privileges to have the <code>SeDebugPrivilege</code>. </td>
+		</tr><tr><td scope="col" style="width: 198px; text-align: left;">Data Encrypted for Impact [<a href="https://attack.mitre.org/versions/v7/techniques/T1486/">T1486</a>]</td>
+			<td scope="col" style="width: 356px; text-align: left;">Ryuk has used a combination of symmetric and asymmetric encryption to encrypt files. Files have been encrypted with their own AES key and given a file extension of <code>.RYK</code>. Encrypted directories have had a ransom note of <code>RyukReadMe.txt</code> written to the directory. </td>
+		</tr><tr><td scope="col" style="width: 198px; text-align: left;">Service Stop [<a href="https://attack.mitre.org/versions/v7/techniques/T1489/">T1489</a>]</td>
+			<td scope="col" style="width: 356px; text-align: left;">Ryuk has called <code>kill.bat</code> for stopping services, disabling services and killing processes. </td>
+		</tr><tr><td scope="col" style="width: 198px; text-align: left;">Inhibit System Recovery [<a href="https://attack.mitre.org/versions/v7/techniques/T1490/">T1490</a>]</td>
+			<td scope="col" style="width: 356px; text-align: left;">Ryuk has used <code>vssadmin Delete Shadows /all /quiet</code> to delete volume shadow copies and <code>vssadmin resize shadowstorage</code> to force deletion of shadow copies created by third-party applications. </td>
+		</tr><tr><td scope="col" style="width: 198px; text-align: left;">Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder [<a href="https://attack.mitre.org/versions/v7/techniques/T1547/001/">T1047.001</a>]</td>
+			<td scope="col" style="width: 356px; text-align: left;">Ryuk has used the Windows command line to create a Registry entry under <code>HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</code> to establish persistence.</td>
+		</tr><tr><td scope="col" style="width: 198px; text-align: left;">Impair Defenses: Disable or Modify Tools [<a href="https://attack.mitre.org/versions/v7/techniques/T1562/001/">T1562.001</a>]</td>
+			<td scope="col" style="width: 356px; text-align: left;">Ryuk has stopped services related to anti-virus.</td>
+		</tr></tbody></table></div>
+      
+        
+        		    <a id="mitigations"></a>
+		    <h3>Mitigations</h3>
+            
+            <div class="field field--name-field-aa-mitigations field--type-text-long field--label-hidden field--item"><p>For a downloadable copy of IOCs, see <a href="/sites/default/files/publications/AA20-302A.stix.xml">AA20-302A.stix</a>. For additional IOCs detailing this activity, see <a href="https://gist.github.com/aaronst/6aa7f61246f53a8dd4befea86e832456">https://gist.github.com/aaronst/6aa7f61246f53a8dd4befea86e832456</a>.</p>
+
+<h4>Plans and Policies</h4>
+
+<p>CISA, FBI, and HHS encourage HPH Sector organizations to maintain business continuity plans—the practice of executing essential functions through emergencies (e.g., cyberattacks)—to minimize service interruptions. Without planning, provision, and implementation of continuity principles, organizations may be unable to continue operations. Evaluating continuity and capability will help identify continuity gaps. Through identifying and addressing these gaps, organizations can establish a viable continuity program that will help keep them functioning during cyberattacks or other emergencies. CISA, FBI, and HHS suggest HPH Sector organizations review or establish patching plans, security policies, user agreements, and business continuity plans to ensure they address current threats posed by malicious cyber actors.</p>
+
+<h4>Network Best Practices</h4>
+
+<ul><li>Patch operating systems, software, and firmware as soon as manufacturers release updates.</li>
+	<li>Check configurations for every operating system version for HPH organization-owned assets to prevent issues from arising that local users are unable to fix due to having local administration disabled.</li>
+	<li>Regularly change passwords to network systems and accounts and avoid reusing passwords for different accounts.</li>
+	<li>Use multi-factor authentication where possible.</li>
+	<li>Disable unused remote access/Remote Desktop Protocol (RDP) ports and monitor remote access/RDP logs.</li>
+	<li>Implement application and remote access allow listing to only allow systems to execute programs known and permitted by the established security policy.</li>
+	<li>Audit user accounts with administrative privileges and configure access controls with least privilege in mind.</li>
+	<li>Audit logs to ensure new accounts are legitimate.</li>
+	<li>Scan for open or listening ports and mediate those that are not needed.</li>
+	<li>Identify critical assets such as patient database servers, medical records, and teleheatlh and telework infrastructure; create backups of these systems and house the backups offline from the network.</li>
+	<li>Implement network segmentation. Sensitive data should not reside on the same server and network segment as the email environment.</li>
+	<li>Set antivirus and anti-malware solutions to automatically update; conduct regular scans.</li>
+</ul><h4>Ransomware Best Practices</h4>
+
+<p>CISA, FBI and HHS do not recommend paying ransoms. Payment does not guarantee files will be recovered. It may also embolden adversaries to target additional organizations, encourage other criminal actors to engage in the distribution of ransomware, and/or fund illicit activities. In addition to implementing the above network best practices, the FBI, CISA and HHS also recommend the following:</p>
+
+<ul><li>Regularly back up data, air gap, and password protect backup copies offline.</li>
+	<li>Implement a recovery plan to maintain and retain multiple copies of sensitive or proprietary data and servers in a physically separate, secure location.</li>
+</ul><h4>User Awareness Best Practices</h4>
+
+<ul><li>Focus on awareness and training. Because end users are targeted, make employees and stakeholders aware of the threats—such as ransomware and phishing scams—and how they are delivered. Additionally, provide users training on information security principles and techniques as well as overall emerging cybersecurity risks and vulnerabilities.</li>
+	<li>Ensure that employees know who to contact when they see suspicious activity or when they believe they have been a victim of a cyberattack. This will ensure that the proper established mitigation strategy can be employed quickly and efficiently.</li>
+</ul><h4>Recommended Mitigation Measures</h4>
+
+<p>System administrators who have indicators of a TrickBot network compromise should immediately take steps to back up and secure sensitive or proprietary data. TrickBot infections may be indicators of an imminent ransomware attack; system administrators should take steps to secure network devices accordingly. Upon evidence of a TrickBot infection, review DNS logs and use the <code>XOR</code> key of <code>0xB9</code> to decode <code>XOR</code> encoded DNS requests to reveal the presence of <code>Anchor_DNS</code>, and maintain and provide relevant logs.</p>
+
+<h3>GENERAL RANSOMWARE MITIGATIONS — HPH SECTOR</h3>
+
+<p>This section is based on CISA and Multi-State Information Sharing and Analysis Center (MS-ISAC)'s Joint Ransomware Guide, which can be found at <a href="https://www.cisa.gov/publication/ransomware-guide">https://www.cisa.gov/publication/ransomware-guide</a>.</p>
+
+<p>CISA, FBI, and HHS recommend that healthcare organizations implement both ransomware prevention and ransomware response measures immediately.</p>
+
+<h4>Ransomware Prevention</h4>
+
+<h4><em>Join and Engage with Cybersecurity Organizations</em></h4>
+
+<p>CISA, FBI, and HHS recommend that healthcare organizations take the following initial steps:</p>
+
+<ul><li>Join a healthcare information sharing organization, H-ISAC:
+	<ul><li>Health Information Sharing and Analysis Center (H-ISAC): <a href="https://h-isac.org/membership-account/join-h-isac/">https://h-isac.org/membership-account/join-h-isac/</a></li>
+		<li>Sector-based ISACs - National Council of ISACs: <a href="https://www.nationalisacs.org/member-isacs">https://www.nationalisacs.org/member-isacs</a></li>
+		<li>Information Sharing and Analysis Organization (ISAO) Standards Organization: <a href="https://www.isao.org/information-sharing-groups/">https://www.isao.org/information-sharing-groups/</a></li>
+	</ul></li>
+	<li>Engage with CISA and FBI, as well as HHS—through the HHS Health Sector Cybersecurity Coordination Center (HC3)—to build a lasting partnership and collaborate on information sharing, best practices, assessments, and exercises.
+	<ul><li>CISA: <a href="cisa.gov">cisa.gov</a>, <a href="https://us-cert.cisa.gov/mailing-lists-and-feeds">https://us-cert.cisa.gov/mailing-lists-and-feeds</a>, <a href="central@cisa.gov">central@cisa.gov</a>  </li>
+		<li>FBI: <a href="ic3.gov">ic3.gov</a>, <a href="www.fbi.gov/contact-us/field">www.fbi.gov/contact-us/field</a>, <a href="www.fbi.gov/contact-us/field">CyWatch@fbi.gov</a></li>
+		<li>HHS/HC3: <a href="http://www.hhs.gov/hc3">http://www.hhs.gov/hc3</a>, <a href="HC3@HHS.gov">HC3@HHS.gov</a></li>
+	</ul></li>
+</ul><p>Engaging with the H-ISAC, ISAO, CISA, FBI, and HHS/HC3 will enable your organization to receive critical information and access to services to better manage the risk posed by ransomware and other cyber threats.</p>
+
+<h4><em>Follow Ransomware Best Practices</em></h4>
+
+<p>Refer to the best practices and references below to help manage the risk posed by ransomware and support your organization’s coordinated and efficient response to a ransomware incident. Apply these practices to the greatest extent possible based on availability of organizational resources.</p>
+
+<ul><li>It is critical to maintain offline, encrypted backups of data and to regularly test your backups. Backup procedures should be conducted on a regular basis. It is important that backups be maintained offline or in separated networks as many ransomware variants attempt to find and delete any accessible backups. Maintaining offline, current backups is most critical because there is no need to pay a ransom for data that is readily accessible to your organization.
+	<ul><li>Use the 3-2-1 rule as a guideline for backup practices. The rule states that three copies of all critical data are retained on at least two different types of media and at least one of them is stored offline.</li>
+		<li>Maintain regularly updated “gold images” of critical systems in the event they need to be rebuilt. This entails maintaining image “templates” that include a preconfigured operating system (OS) and associated software applications that can be quickly deployed to rebuild a system, such as a virtual machine or server.</li>
+		<li>Retain backup hardware to rebuild systems in the event rebuilding the primary system is not preferred.
+		<ul><li>Hardware that is newer or older than the primary system can present installation or compatibility hurdles when rebuilding from images.</li>
+			<li>Ensure all backup hardware is properly patched.</li>
+		</ul></li>
+	</ul></li>
+	<li>In addition to system images, applicable source code or executables should be available (stored with backups, escrowed, license agreement to obtain, etc.). It is more efficient to rebuild from system images, but some images will not install on different hardware or platforms correctly; having separate access to needed software will help in these cases.</li>
+	<li>Create, maintain, and exercise a basic cyber incident response plan and associated communications plan that includes response and notification procedures for a ransomware incident.
+	<ul><li>Review available incident response guidance, such as CISA’s Technical Approaches to Uncovering and Remediating Malicious Activity <a href="https://us-cert.cisa.gov/ncas/alerts/aa20-245a">https://us-cert.cisa.gov/ncas/alerts/aa20-245a</a>.</li>
+	</ul></li>
+	<li>Help your organization better organize around cyber incident response.</li>
+	<li>Develop a cyber incident response plan.</li>
+	<li>The Ransomware Response Checklist, available in the <a href="https://www.cisa.gov/publication/ransomware-guide">CISA and MS-ISAC Joint Ransomware Guide</a>, serves as an adaptable, ransomware- specific annex to organizational cyber incident response or disruption plans.</li>
+	<li>Review and implement as applicable MITRE’s Medical Device Cybersecurity: Regional Incident Preparedness and Response Playbook (<a href="https://www.mitre.org/sites/default/files/publications/pr-18-1550-Medical-Device-Cybersecurity-Playbook.pdf">https://www.mitre.org/sites/default/files/publications/pr-18-1550-Medical-Device-Cybersecurity-Playbook.pdf</a>).</li>
+	<li>Develop a risk management plan that maps critical health services and care to the necessary information systems; this will ensure that the incident response plan will contain the proper triage procedures.</li>
+	<li>Plan for the possibility of critical information systems being inaccessible for an extended period of time. This should include but not be limited to the following:
+	<ul><li>Print and properly store/protect hard copies of digital information that would be required for critical patient healthcare.</li>
+		<li>Plan for and periodically train staff to handle the re-routing of incoming/existing patients in an expedient manner if information systems were to abruptly and unexpectedly become unavailable.</li>
+		<li>Coordinate the potential for surge support with other healthcare facilities in the greater local area. This should include organizational leadership periodically meeting and collaborating with counterparts in the greater local area to create/update plans for their facilities to both abruptly send and receive a significant amount of critical patients for immediate care. This may include the opportunity to re-route healthcare employees (and possibly some equipment) to provide care along with additional patients.</li>
+	</ul></li>
+	<li>Consider the development of a second, air-gapped communications network that can provide a minimum standard of backup support for hospital operations if the primary network becomes unavailable if/when needed.</li>
+	<li>Predefine network segments, IT capabilities and other functionality that can either be quickly separated from the greater network or shut down entirely without impacting operations of the rest of the IT infrastructure.</li>
+	<li>Legacy devices should be identified and inventoried with highest priority and given special consideration during a ransomware event.</li>
+	<li>See <a href="https://www.cisa.gov/publication/ransomware-guide">CISA and MS-ISAC's Joint Ransomware Guide</a> for infection vectors including internet-facing vulnerabilities and misconfigurations; phishing; precursor malware infection; and third parties and managed service providers.</li>
+	<li>HHS/HC3 tracks ransomware that is targeting the HPH Sector; this information can be found at <a href="http://www.hhs.gov/hc3">http://www.hhs.gov/hc3</a>.</li>
+</ul><h4><em>Hardening Guidance</em></h4>
+
+<ul><li>The Food and Drug Administration provides multiple guidance documents regarding the hardening of healthcare and specifically medical devices found here: <a href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity">https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity</a>.</li>
+	<li>See <a href="https://www.cisa.gov/publication/ransomware-guide">CISA and MS-ISAC's Joint Ransomware Guide</a> for additional in-depth hardening guidance.</li>
+</ul><h4><em>Contact CISA for These No-Cost Resources</em></h4>
+
+<ul><li>Information sharing with CISA and MS-ISAC (for SLTT organizations) includes bi-directional sharing of best practices and network defense information regarding ransomware trends and variants as well as malware that is a precursor to ransomware.</li>
+	<li>Policy-oriented or technical assessments help organizations understand how they can improve their defenses to avoid ransomware infection: <a href="https://www.cisa.gov/cyber-resource-hub">https://www.cisa.gov/cyber-resource-hub</a>.
+	<ul><li>Assessments include Vulnerability Scanning and Phishing Campaign Assessment.</li>
+	</ul></li>
+	<li>Cyber exercises evaluate or help develop a cyber incident response plan in the context of a ransomware incident scenario.</li>
+	<li>CISA Cybersecurity Advisors (CSAs) advise on best practices and connect you with CISA resources to manage cyber risk.</li>
+	<li>Contacts:
+	<ul><li>SLTT organizations: <a href="CyberLiaison_SLTT@cisa.dhs.gov">CyberLiaison_SLTT@cisa.dhs.gov</a></li>
+		<li>Private sector organizations: <a href="CyberLiaison_Industry@cisa.dhs.gov">CyberLiaison_Industry@cisa.dhs.gov</a></li>
+	</ul></li>
+</ul><h4><em>Ransomware Quick References</em></h4>
+
+<ul><li><em>Ransomware: What It Is and What to Do About It </em>(CISA): General ransomware guidance for organizational leadership and more in-depth information for CISOs and technical staff: <a href="https://www.us-cert.cisa.gov/sites/default/files/publications/Ransomware_Executive_One-Pager_and_Technical_ Document-FINAL.pdf">https://www.us-cert.cisa.gov/sites/default/files/publications/Ransomware_Executive_One-Pager_and_Technical_ Document-FINAL.pdf</a></li>
+	<li>Ransomware (CISA): Introduction to ransomware, notable links to CISA products on protecting networks, specific ransomware threats, and other resources: <a href="https://www.us-cert.cisa.gov/Ransomware">https://www.us-cert.cisa.gov/Ransomware</a>  </li>
+	<li>HHS/HC3: Ransomware that impacts HPH is tracked by the HC3 and can be found at <a href="www.hhs.gov/hc3">www.hhs.gov/hc3</a></li>
+	<li><em>Security Primer – Ransomware</em> (MS-ISAC): Outlines opportunistic and strategic ransomware campaigns, common infection vectors, and best practice recommendations: <a href="https://www.cisecurity.org/white-papers/security-primer-ransomware/">https://www.cisecurity.org/white-papers/security-primer-ransomware/</a></li>
+	<li><em>Ransomware: Facts, Threats, and Countermeasures </em>(MS- ISAC): Facts about ransomware, infection vectors, ransomware capabilities, and how to mitigate the risk of ransomware infection: <a href="https://www.cisecurity.org/blog/ransomware- facts-threats-and-countermeasures/">https://www.cisecurity.org/blog/ransomware- facts-threats-and-countermeasures/</a></li>
+	<li>HHS Ransomware Fact Sheet: <a href="https://www.hhs.gov/sites/default/files/RansomwareFactSheet.pdf">https://www.hhs.gov/sites/default/files/RansomwareFactSheet.pdf</a></li>
+	<li>NIST Securing Data Integrity White Paper: <a href="https://csrc.nist.gov/publications/detail/white-paper/2020/10/01/securing-data-integrity-against-ransomware-attacks/draft">https://csrc.nist.gov/publications/detail/white-paper/2020/10/01/securing-data-integrity-against-ransomware-attacks/draft</a></li>
+</ul><h4>Ransomware Response Checklist</h4>
+
+<p><strong>Remember: Paying the ransom will not ensure your data is decrypted or that your systems or data will no longer be compromised. CISA, FBI, and HHS do not recommend paying ransom.</strong></p>
+
+<p>Should your organization be a victim of ransomware, CISA strongly recommends responding by using the Ransomware Response Checklist located in <a href="https://www.cisa.gov/publication/ransomware-guide">CISA and MS-ISAC's Joint Ransomware Guide</a>, which contains steps for detection and analysis as well as containment and eradication.</p>
+
+<h4><em>Consider the Need For Extended Identification or Analysis</em></h4>
+
+<p>If extended identification or analysis is needed, CISA, HHS/HC3, or federal law enforcement may be interested in any of the following information that your organization determines it can legally share:</p>
+
+<ul><li>Recovered executable file</li>
+	<li>Copies of the readme file – DO NOT REMOVE the file or decryption may not be possible</li>
+	<li>Live memory (RAM) capture from systems with additional signs of compromise (use of exploit toolkits, RDP activity, additional files found locally)</li>
+	<li>Images of infected systems with additional signs of compromise (use of exploit toolkits, RDP activity, additional files found locally)</li>
+	<li>Malware samples</li>
+	<li>Names of any other malware identified on your system</li>
+	<li>Encrypted file samples</li>
+	<li>Log files (Windows Event Logs from compromised systems, Firewall logs, etc.)</li>
+	<li>Any PowerShell scripts found having executed on the systems</li>
+	<li>Any user accounts created in Active Directory or machines added to the network during the exploitation</li>
+	<li>Email addresses used by the attackers and any associated phishing emails</li>
+	<li>A copy of the ransom note</li>
+	<li>Ransom amount and whether or not the ransom was paid</li>
+	<li>Bitcoin wallets used by the attackers</li>
+	<li>Bitcoin wallets used to pay the ransom (if applicable)</li>
+	<li>Copies of any communications with attackers</li>
+</ul><p>Upon voluntary request, CISA can assist with analysis (e.g., phishing emails, storage media, logs, malware) at no cost to support your organization in understanding the root cause of an incident, even in the event additional remote assistance is not requested.</p>
+
+<ul><li>CISA – Advanced Malware Analysis Center: <a href="https://www.malware.us-cert.gov/MalwareSubmission/pages/submission.jsf">https://www.malware.us-cert.gov/MalwareSubmission/pages/submission.jsf</a></li>
+	<li>Remote Assistance – Request via <a href="Central@cisa.gov">Central@cisa.gov</a></li>
+</ul></div>
+      
+        
+        		    <a id="contact-information"></a>
+		    <h3>Contact Information</h3>
+            
+            <div class="field field--name-field-aa-contact-info field--type-text-long field--label-hidden field--item"><p>CISA, FBI, and HHS recommend identifying and having on hand the following contact information for ready use should your organization become a victim of a ransomware incident. Consider contacting these organizations for mitigation and response assistance or for purpose of notification.</p>
+
+<ul><li>State and Local Response Contacts</li>
+	<li>IT/IT Security Team – Centralized Cyber Incident Reporting</li>
+	<li>State and Local Law Enforcement</li>
+	<li>Fusion Center        </li>
+	<li>Managed/Security Service Providers</li>
+	<li>Cyber Insurance       </li>
+</ul><p>To report suspicious or criminal activity related to information found in this Joint Cybersecurity Advisory, contact your local FBI field office at <a href="https://www.fbi.gov/contact-us/field-offices">www.fbi.gov/contact-us/field</a>, or the FBI’s 24/7 Cyber Watch (CyWatch) at (855) 292-3937 or by email at <a href="CyWatch@fbi.gov">CyWatch@fbi.gov</a>. When available, please include the following information regarding the incident: date, time, and location of the incident; type of activity; number of people affected; type of equipment used for the activity; the name of the submitting company or organization; and a designated point of contact. To request incident response resources or technical assistance related to these threats, contact CISA at <a href="Central@cisa.dhs.gov">Central@cisa.gov</a>.</p>
+
+<p>Additionally, see <a href="https://www.cisa.gov/publication/ransomware-guide">CISA and MS-ISAC's Joint Ransomware Guide</a> for information on contacting—and what to expect from contacting—federal asset response and federal threat response contacts.</p>
+
+<h3><em>Disclaimer</em></h3>
+
+<p>This document is marked TLP:WHITE. Disclosure is not limited. Sources may use TLP:WHITE when information carries minimal or no foreseeable risk of misuse, in accordance with applicable rules and procedures for public release. Subject to standard copyright rules, TLP:WHITE information may be distributed without restriction. For more information on the Traffic Light Protocol, see <a href="https://cisa.gov/tlp">https://cisa.gov/tlp</a>.</p>
+
+
+</div>
+      
+        
+        		    <a id="references"></a>
+		    <h3>References</h3>
+            
+      <div class="field field--name-field-aa-references field--type-link field--label-hidden field--items">
+              <div class="field--item"><a href="https://www.cisa.gov/emergency-services-sector-continuity-planning-suite">CISA Emergency Services Sector Continuity Planning Suite </a></div>
+              <div class="field--item"><a href="https://www.cisa.gov/publication/ransomware-guide">CISA MS-ISAC Joint Ransomware Guide</a></div>
+              <div class="field--item"><a href="https://us-cert.cisa.gov/ncas/tips/ST04-014">CISA Tip: Avoiding Social Engineering and Phishing Attacks</a></div>
+              <div class="field--item"><a href="https://www.ic3.gov/media/2019/191002.aspx">FBI PSA: “High-Impact Ransomware Attacks Threaten U.S. Businesses and Organizat…</a></div>
+              <div class="field--item"><a href="https://healthsectorcouncil.org/hic-tcr/">Health Industry Cybersecurity Tactical Crisis Response</a></div>
+              <div class="field--item"><a href="http://www.phe.gov/405d">Health Industry Cybersecurity Practices (HICP) </a></div>
+              <div class="field--item"><a href="https://protect2.fireeye.com/url?k=661c55bd-3a495cae-661c6482-0cc47adb5650-bb09b09e1017f10b&amp;u=https%3A//phe.us4.list-manage.com/track/click%3Fu%3Df758a61addf9399176e6a0c3a&amp;id=99373fd9c7&amp;e=7882426b51">HHS - Ransomware Spotlight Webinar </a></div>
+              <div class="field--item"><a href="https://protect2.fireeye.com/url?k=b43c8fe1-e86986f2-b43cbede-0cc47adb5650-84218742b50e2b7e&amp;u=https%3A//phe.us4.list-manage.com/track/click%3Fu%3Df758a61addf9399176e6a0c3a&amp;id=3d453bb6fe&amp;e=7882426b51">HHS - Health Industry Cybersecurity Practices: Managing Threats and Protecting …</a></div>
+              <div class="field--item"><a href="https://protect2.fireeye.com/url?k=6a477b44-36127257-6a474a7b-0cc47adb5650-f6c92a4c247070ec&amp;u=https%3A//phe.us4.list-manage.com/track/click%3Fu%3Df758a61addf9399176e6a0c3a&amp;id=071616ff3e&amp;e=7882426b51">HHS - Ransomware Briefing </a></div>
+              <div class="field--item"><a href="https://protect2.fireeye.com/url?k=fe80c15e-a2d5c84d-fe80f061-0cc47adb5650-2206dbc55c13f1de&amp;u=https%3A//phe.us4.list-manage.com/track/click%3Fu%3Df758a61addf9399176e6a0c3a&amp;id=ebb762e019&amp;e=7882426b51">HHS - Aggressive Ransomware Impacts</a></div>
+              <div class="field--item"><a href="https://protect2.fireeye.com/url?k=2923cea5-7576c7b6-2923ff9a-0cc47adb5650-26d7a0932fe07e31&amp;u=https%3A//phe.us4.list-manage.com/track/click%3Fu%3Df758a61addf9399176e6a0c3a&amp;id=107ba38369&amp;e=7882426b51">HHS - Ransomware Fact Sheet</a></div>
+              <div class="field--item"><a href="https://protect2.fireeye.com/url?k=08e10c16-54b40505-08e13d29-0cc47adb5650-70b9e6fd13ea4f2d&amp;u=https%3A//phe.us4.list-manage.com/track/click%3Fu%3Df758a61addf9399176e6a0c3a&amp;id=bcc423d21d&amp;e=7882426b51">HHS - Cyber Attack Checklist</a></div>
+              <div class="field--item"><a href="https://protect2.fireeye.com/url?k=8497e505-d8c2ec16-8497d43a-0cc47adb5650-ba5cee20bcf28bab&amp;u=https%3A//phe.us4.list-manage.com/track/click%3Fu%3Df758a61addf9399176e6a0c3a&amp;id=dc2b43974c&amp;e=7882426b51">HHS - Cyber-Attack Response Infographic</a></div>
+              <div class="field--item"><a href="https://protect2.fireeye.com/url?k=0be33d8b-57b63498-0be30cb4-0cc47adb5650-be7b920b52ab7927&amp;u=https%3A//phe.us4.list-manage.com/track/click%3Fu%3Df758a61addf9399176e6a0c3a&amp;id=c89bf12fa8&amp;e=7882426b51">NIST - Data Integrity Publication</a></div>
+              <div class="field--item"><a href="https://protect2.fireeye.com/url?k=5335b9d4-0f60b0c7-533588eb-0cc47adb5650-bbc2d82317c6bc45&amp;u=https%3A//phe.us4.list-manage.com/track/click%3Fu%3Df758a61addf9399176e6a0c3a&amp;id=eeb05487cf&amp;e=7882426b51">NIST - Guide for Cybersecurity Event Recovery</a></div>
+              <div class="field--item"><a href="https://protect2.fireeye.com/url?k=348a7900-68df7013-348a483f-0cc47adb5650-5210c734b99339b1&amp;u=https%3A//phe.us4.list-manage.com/track/click%3Fu%3Df758a61addf9399176e6a0c3a&amp;id=9f0f789411&amp;e=7882426b51">NIST - Identifying and Protecting Assets Against Ransomware and Other Destructi…</a></div>
+              <div class="field--item"><a href="https://protect2.fireeye.com/url?k=daf6be91-86a3b782-daf68fae-0cc47adb5650-1f4f5f947a590fa0&amp;u=https%3A//phe.us4.list-manage.com/track/click%3Fu%3Df758a61addf9399176e6a0c3a&amp;id=958743a29c&amp;e=7882426b51">NIST - Detecting and Responding to Ransomware and Other Destructive Events </a></div>
+              <div class="field--item"><a href="https://protect2.fireeye.com/url?k=90b40d5e-cce1044d-90b43c61-0cc47adb5650-bab63aa79a2b0b2a&amp;u=https%3A//phe.us4.list-manage.com/track/click%3Fu%3Df758a61addf9399176e6a0c3a&amp;id=4947ff3a54&amp;e=7882426b51">NIST - Recovering from Ransomware and Other Destructive Events </a></div>
+              <div class="field--item"><a href="https://gist.github.com/aaronst/6aa7f61246f53a8dd4befea86e832456">Github List of IOCs</a></div>
+          </div>
+  
+        
+        		    <a id="revisions"></a>
+		    <h3>Revisions</h3>
+            
+      <div class="field field--name-field-aa-revisions field--type-string field--label-hidden field--items">
+              <div class="field--item">October 28, 2020: Initial version</div>
+              <div class="field--item">October 29, 2020: Updated to include information on Conti, TrickBot, and BazarLoader, including new IOCs and Yara Rules for detection</div>
+              <div class="field--item">November 2, 2020: Updated FBI link</div>
+          </div>
+  
+        
+        
+            <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"><p class="privacy-and-terms">This product is provided subject to this <a href="/privacy/notification">Notification</a> and this <a href="https://www.dhs.gov/privacy-policy">Privacy &amp; Use</a> policy.</p>
+
+
+</div>
+      
+
+	</div>
+                        <div id="document-feedback">
+	<div class="inner-document-feedback center-center">
+        <p><b>Please share your thoughts.</b></p>
+		<p>We recently updated our anonymous <a href="https://www.surveymonkey.com/r/CISA-cyber-survey?product=https://us-cert.cisa.gov/ncas/alerts/aa20-302a">product survey</a>; we'd welcome your feedback.</p>
+	</div>
+</div>
+
+              </div>
+
+</article>
+
+
+  </div>
+
+              </section>
+
+
+                      </div>
+  </div>
+
+
+
+
+
+
+      <footer class="footer container-fluid" role="contentinfo">
+        <div class="region region-footer">
+    <section id="block-certsignup" class="block block-block-content block-block-contentc5846d10-2e2b-4822-aa59-7a5c3262f671 clearfix">
+  
+    
+
+      
+            <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"><div class="container-fluid signup">
+<div class="container">
+<div class="row">
+<div class="col-lg-3 contact-icons">
+<h3>Contact Us</h3>
+
+<p class="phone-text"><img alt="phone icon" data-entity-type="" data-entity-uuid="" src="/sites/default/files/images/Icon-Phone.png" />(888)282-0870</p>
+
+<p><img alt="email icon" data-entity-type="" data-entity-uuid="" src="/sites/default/files/images/Icon-Email.png" /><a class="mailto" href="mailto:central@cisa.dhs.gov" title="General questions or suggestions">Send us email</a></p>
+
+<p><img alt="lock icon" data-entity-type="" data-entity-uuid="" src="/sites/default/files/images/Icon-Lock.png" /><a href="/contact-us/" title="Download PGP/GPG keys">Download PGP/GPG keys</a></p>
+
+<p><img alt="feedback icon" data-entity-type="" data-entity-uuid="" height="32" src="/sites/default/files/images/icon-feedback.png" /><a href="/forms/website-feedback" title="Website Feedback">Submit website feedback</a></p>
+</div>
+
+<div class="col-lg-6 sub-alert">
+<h3>Subscribe to Alerts</h3>
+
+<p>Receive security alerts, tips, and other updates.</p>
+
+<form action="https://public.govdelivery.com/accounts/USDHSCISA/subscribers/qualify"><label class="visually-hidden" for="email-address-field">Enter your email address</label> <input class="signup-form" id="email-address-field" name="email" placeholder=" Enter your email address" title="Enter your email address" type="text" /><br /><input class="btn btn-primary" name="submit" title="Sign up for alerts" type="submit" value="Sign Up" /> </form>
+
+<div class="pull-right signup-icon-one"><a href="https://twitter.com/uscert_gov" title="US-CERT Twitter Feed"><img alt="twitter icon" data-entity-type="" data-entity-uuid="" src="/sites/default/files/images/twitter-button.png" /></a></div>
+
+<div class="pull-right signup-icon-two"><a href="/mailing-lists-and-feeds" title="Mailing Lists and Feeds"><img alt="rss icon" data-entity-type="" data-entity-uuid="" src="/sites/default/files/images/rss-button-bottom.png" /></a></div>
+
+<div class="pull-right signup-icon-three"><a href="/hsin" class="btn btn-cert-report" name="button" type="button" id="button">HSIN</a></div>
+</div>
+
+<div class="col-lg-3 cert-report"><a class="btn btn-cert-report btn-lg" href="/report" name="button" type="button" id="button">Report</a></div>
+</div>
+</div>
+</div>
+
+
+</div>
+      
+  </section>
+
+<section id="block-certcertfooter" class="block block-block-content block-block-contentd5b85bd2-62d1-485a-b9ae-f040b1ca1a45 clearfix">
+  
+    
+
+      
+            <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"><div class="container">
+<hr /><div class="text-center"><a href="/" title="Home">Home</a>   <a href="/sitemap" title="Site Map">Site Map</a>   <a href="/faq/" title="Frequently Asked Questions">FAQ</a>   <a href="/contact-us/" title="Contact Us">Contact Us</a>   <a href="/tlp/" title="Traffic Light Protocol">Traffic Light Protocol</a>   <a href="/pcii" title="PCII">PCII</a>   <a href="https://www.dhs.gov" title="Accountability">Accountability</a>   <a href="/disclaimer" title="Disclaimer">Disclaimer</a>   <a href="/privacy-policy" title="Privacy Policy">Privacy Policy</a>   <a href="https://www.dhs.gov/freedom-information-act-foia" title="FOIA">FOIA</a>   <a href="https://www.dhs.gov/homeland-security-no-fear-act-reporting" title="No Fear Act">No Fear Act</a>   <a href="/accessibility/" title="Accessibility">Accessibility</a><a href="https://www.dhs.gov/plain-writing-dhs" title="Plain Writing">Plain Writing</a><a href="https://www.dhs.gov/plug-information" title="Plug-ins">Plug-ins</a>   <a href="https://www.oig.dhs.gov/" title="Office of the Inspector General">Inspector General</a>   <a href="https://www.whitehouse.gov/" title="The White House">The White House</a>   <a href="https://www.usa.gov/" title="USA.gov">USA.gov</a><br />
+ 
+<p>CISA is part of the <a href="https://www.dhs.gov/" title="Department of Homeland Security">Department of Homeland Security</a></p>
+</div>
+<script type="text/javascript">
+<!--//--><![CDATA[// ><!--
+
+    window.onload = function(){
+            jQuery('body.page-node-type-us-cert-events div#ncas-header').find('img').each(function(){
+                    var $src=jQuery(this).prop('src');
+                    if($src.indexOf('default/files/') == -1)jQuery(this).remove();
+                    });
+            if('Privacy Data Breach' == jQuery('#uscert-utilities-irf-form #item-info-impact option:selected').text()){ 
+                jQuery('#item-info-impact-block').removeClass('collapsed'); 
+            }
+jQuery('#print-logo img').removeAttr('width').removeAttr('height');
+if(jQuery('body.path-frontpage').length > 0)
+{   
+    jQuery('.main-container').find('.col-sm-12').removeAttr('role');
+}
+jQuery('#map area').each(function(){ jQuery(this).click(function(){var idstr=jQuery(this).attr('clickthis'); if(jQuery(idstr).hasClass('open') == false){jQuery(idstr).click();}});});  
+if(jQuery('#document-feedback').length > 0)
+{ 
+    var $url    = window.location.href
+    //var str ='Your feedback is very important to us. Please take a moment to complete this <a href="https://surveymonkey.com/r/G8STDRY?product=' + $url + '">survey.';
+    //var $p = jQuery('#document-feedback div p').html(str);
+}
+    };
+
+//--><!]]>
+</script></div>
+<style type="text/css">
+<!--/*--><![CDATA[/* ><!--*/
+#views-bootstrap-carousel-block-2 .carousel-inner > .item > a > img {
+  margin:auto;
+}
+button#product-feedback-next {
+    margin-bottom: 10px;
+}
+/*
+.mobile-nav {
+border-bottom: 3px solid #112e51;
+}
+*/
+.cma-banner-container {
+    display: none;
+}
+@media (max-width: 991px) {
+.navbar .navbar-header {
+background: #fff;
+}
+}
+div.banner-region { background: #fff; }
+
+.accordion_fold {
+    padding-bottom: 25px;
+}
+
+h2.accordion.open {
+    background: #f2f2f2;
+}
+
+a { color: #2b72af;}
+
+.navbar-default .navbar-nav > li > a { color: #767676; }
+/* andi */
+.sidebar-widget-orange .orange {
+    background-color: #e77431;
+}
+#block-views-block-ics-announcements-block-1 .views-field-created {
+    color: #565656;
+}
+
+/*--><!]]>*/
+</style></div>
+      
+  </section>
+
+
+  </div>
+
+    </footer>
+  
+  </div>
+
+    
+    <script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","scriptPath":null,"pathPrefix":"","currentPath":"node\/15478","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"google_analytics":{"trackOutbound":true,"trackMailto":true,"trackDownload":true,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"data":{"extlink":{"extTarget":false,"extTargetNoOverride":false,"extNofollow":false,"extNoreferrer":false,"extFollowNoOverride":false,"extClass":"ext","extLabel":"(link is external)","extImgClass":false,"extSubdomains":true,"extExclude":"(\\.gov|\\.mil|\\.org.*|twitter\\.com\\\/share\\?url\\=.*|www\\.facebook\\.com\\\/sharer\\.php\\?u\\=.*|www\\.addthis\\.com\\\/bookmark\\.php\\?url\\=.*|javascript\\:window\\.print\\(\\)\\;)","extInclude":"","extCssExclude":"","extCssExplicit":"","extAlert":true,"extAlertText":"You are now leaving an official website of the United States Government (USG), the Department of Homeland Security (DHS), and the Cybersecurity and Infrastructure Security Agency (CISA). Links to non-USG, non-DHS, and non-CISA sites are provided for the visitor\u0027s convenience and do not represent an endorsement by USG, DHS, or CISA of any commercial or private issues, products, or services. Note that the privacy policy of the linked site may differ from that of USG, DHS, and CISA.","mailtoClass":"mailto","mailtoLabel":"(link sends email)","extUseFontAwesome":false,"extIconPlacement":"append","extFaLinkClasses":"fa fa-external-link","extFaMailtoClasses":"fa fa-envelope-o","whitelistedDomains":null}},"bootstrap":{"forms_has_error_value_toggle":1,"popover_enabled":1,"popover_animation":1,"popover_auto_close":1,"popover_container":"body","popover_content":"","popover_delay":"0","popover_html":0,"popover_placement":"right","popover_selector":"","popover_title":"","popover_trigger":"click","tooltip_enabled":1,"tooltip_animation":1,"tooltip_container":"body","tooltip_delay":"0","tooltip_html":0,"tooltip_placement":"auto left","tooltip_selector":"","tooltip_trigger":"hover"},"user":{"uid":0,"permissionsHash":"5ac3ae468050ddd0aa4ecea12c34a32977a23244239ed53eb7226f296aed658f"}}</script>
+<script src="/sites/default/files/js/js_2-jasyiWi1QzhRd3aK00jTh-Bx7kW70lGptCkArP9iA.js"></script>
+<script src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DHS&amp;subagency=US-CERT&amp;pua=0" id="_fed_an_ua_tag"></script>
+<script src="/sites/default/files/js/js_B7Cf7zBo3Z_4XPNjuPfK2Vk1r4mZZ9YjOS-E8TJy9Y4.js"></script>
+
+  <script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"877b02039c","applicationID":"628657512,979282327","transactionName":"ZFYHMhZSXUpRUkcKDF0cJAUQWlxXH0FSBAZsUAQFDFY=","queueTime":0,"applicationTime":11,"atts":"SBEERF5ITkQ=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>

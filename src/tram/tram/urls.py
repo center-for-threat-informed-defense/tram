@@ -18,15 +18,27 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import TemplateView
+from rest_framework.routers import DefaultRouter
 
-import tram.views
+from tram import views
+
+
+router = DefaultRouter()
+router.register(r'attack', views.AttackTechniqueViewSet)
+router.register(r'jobs', views.DocumentProcessingJobViewSet)
+router.register(r'mappings', views.MappingViewSet)
+router.register(r'reports', views.ReportViewSet)
+router.register(r'sentences', views.SentenceViewSet)
+
 
 urlpatterns = [
-    path('', login_required(TemplateView.as_view(template_name="index.html"))),
+    path('', views.index),
+    path('analyze/<int:pk>/', views.analyze),
+    path('api/', include(router.urls)),
     path('login/', auth_views.LoginView.as_view()),
     path('logout/', auth_views.LogoutView.as_view()),
-    path('upload/', tram.views.upload),
+    path('upload/', views.upload),
     path('admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -5,10 +5,65 @@
 {% block title %}TRAM - Threat Report ATT&CK Mapper{% endblock %}
 
 {% block body %}
-<div class="container-xxl text-center">
-    <main class="px-3">
-      Site content goes here
-    </main>
+<div class="row">
+  <div id="report-queue" class="card col pt-3 pb-3">
+    <h6 class="card-title">Queued Reports</h6>
+    {% for job in queued_jobs %}
+      <div id="{{ report.id }}" class="card shadow-sm">
+        <p class="card-text">
+          {{ job.filename }}
+          <a class="btn btn-primary" onclick="deleteJob({{ job.id }})"><i class="fas fa-trash"></i></a>
+        </p>
+        <p class="card-text small">By {{ job.byline }}</p>
+      </div>
+    {% endfor %}
+  </div>
+  <div id="needs-review" class="card col pt-3 pb-3">
+    <h6 class="card-title">Needs Review (Has Unconfirmed Mappings)</h6>
+    {% for report in needs_review %}
+      <div id="{{ report.id }}" class="card shadow-sm">
+        <div class="card-text">
+          {{ report.name }}
+          <a class="btn btn-primary" onclick="deleteReport({{ report.id }})"><i class="fas fa-trash"></i></a>
+          <div>
+            Confirmed Sentences: {{ report.confirmed_sentences }}<br>
+            Pending Sentences: {{ report.pending_sentences }}<br>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+              <a href="/analyze/{{ report.id }}" class="btn btn-sm btn-outline-secondary">Analyze</a>
+              <a href="#" class="btn btn-sm btn-outline-secondary">Export</a>
+              <a href="#" class="btn btn-sm btn-outline-secondary">Download</a>
+          </div>
+        </div>
+        <p class="card-text small">By {{ report.byline }}</p>
+      </div>
+    {% endfor %}
+  </div>
+  <div id="in-review" class="card col pt-3 pb-3">
+    <h6 class="card-title">Done (All mappings accepted/rejected)</h6>
+    {% for report in done %}
+      <div id="{{ report.id }}" class="card draggable shadow-sm" draggable="true">
+        <div class="card-text">
+          {{ report.name }}
+          <a class="btn btn-primary" onclick="deleteReport({{ report.id }})"><i class="fas fa-trash"></i></a>
+          <div>
+            Confirmed Mappings: {{ report.confirmed_mappings }}<br>
+            Uncomfirmed Mappings: {{ report.proposed_mappings }}<br>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+              <a href="/analyze/{{ report.id }}" class="btn btn-sm btn-outline-secondary">Analyze</a>
+              <a href="#" class="btn btn-sm btn-outline-secondary">Export</a>
+              <a href="#" class="btn btn-sm btn-outline-secondary">Download</a>
+          </div>
+        </div>
+        <p class="card-text small">By {{ report.byline }}</p>
+      </div>
+    {% endfor %}
+  </div>
 </div>
 
 {% endblock %}

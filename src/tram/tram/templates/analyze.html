@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}TRAM - Analyze Report{% endblock %}
+
+{% block head %}
+<script src="{% static 'js/analyze.js' %}"></script>
+<script type="text/javascript">
+    const REPORT_ID = parseInt({{ report_id }});
+</script>
+{% endblock %}
+
+{% block body %}
+
+<h3 class="display-4 text-center">{{ report_name }}</h3>
+
+<div class="row">
+    <div id="sentence-container" class="col overflow-auto">
+        <h4>Report SentencesXXX</h4>
+        <table id="sentence-table" class="table table-striped table-hover">
+            {% for sentence in sentences %}
+                <tr id="sentence-row-{{sentence.id}}" style="cursor: pointer;" onclick="loadSentenceMappings({{sentence.id}})">
+                    <td>
+                        {{ sentence.text }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col" id="mapping-container">
+        <!-- Contents rendered by JavaScript -->
+    </div>
+</div>
+
+<div id="addMappingModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Mapping</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-technique-form">
+                    <select id="technique-select" class="form-select">
+                        {% for technique in attack_techniques %}
+                        <option value="{{technique.id}}">{{technique.attack_id}} - {{technique.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <input id="sentence-id" type="hidden" value="TBD">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="add-mapping-button" type="button" class="btn btn-primary" data-dismiss="modal" onclick="addMapping()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
