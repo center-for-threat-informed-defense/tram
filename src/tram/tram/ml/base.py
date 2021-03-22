@@ -265,6 +265,18 @@ class TramModel(Model):
         }
         self._i2t = {v: k for k, v in self._t2i.items()}
 
+    def __vectorize(self, sents: List[Sentence]):
+        X = []
+        y = []
+        for sent in sents:
+            X.append(sent.text)
+            y_ = np.zeros(shape=(len(self._t2i)))
+            for mapping in sent.mappings:
+                for technique in mapping.attack_technique:
+                    y_[self._t2i[technique]] = 1
+            y.append(y_)
+        return X, y
+
     def train(self):
         """
         Trains the model based on:
@@ -272,16 +284,7 @@ class TramModel(Model):
           2. User-annotated reports from models.Report
         """
         accepted_sents = self.get_training_data()
-        X = []
-        y = []
-        for sent in accepted_sents:
-            X.append(sent.text)
-            y_ = np.zeros(shape=(len(self._t2i)))
-            for mapping in sent.mappings:
-                for technique in mapping.attack_technique:
-                    y_[self._t2i[technique]] = 1
-            y.append(y_)
-
+        X, y = self.__vectorize(accepted_sents)
         self.techniques_model.fit(X, y)
 
     def test(self):
