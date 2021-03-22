@@ -7,16 +7,17 @@ import time
 
 from bs4 import BeautifulSoup
 from django.db import transaction
-<<<<<<< HEAD
 import docx
-=======
 from faker import Faker
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 from sklearn.multiclass import OneVsRestClassifier
->>>>>>> 6258901 (initial commit with sentence-transformer based featurizer.)
 import pdfplumber
 import nltk
+import pandas as pd
+import numpy as np
+
+from typing import List
 
 # The word model is overloaded in this scope, so a prefix is necessary
 from tram import models as db_models
@@ -254,11 +255,6 @@ class DummyModel(Model):
 
 class TramModel(Model):
     def __init__(self, model_name: str, max_iter: int=10_000):
-        self.has_technique_model = Pipeline([
-            ("features", SentenceEmbeddingTransformer(model_name)),
-            ("clf", LinearSVC(max_iter))
-        ])
-
         self.techniques_model = Pipeline([
             ("features", SentenceEmbeddingTransformer(model_name)),
             ("clf", OneVsRestClassifier(LinearSVC(max_iter)))
@@ -269,13 +265,34 @@ class TramModel(Model):
         }
         self._i2t = {v: k for k, v in self._t2i.items()}
 
+    def _split(self, accepted_sents: List[Sentence]) -> (List[Sentence], List[Sentence]):
+        with_techniques, without_techniques = [], []
+        for sent in accepted_sents:
+            if len(sent.mappings):
+                without_techniques.append(sent)
+            else:
+                without_techniques.append(sent)
+
+        return with_techniques, without_techniques
+
     def train(self):
         """
         Trains the model based on:
           1. ATT&CK data from disk
           2. User-annotated reports from models.Report
         """
-        raise NotImplementedError()
+        accepted_sents = self.get_training_data()
+        X = []
+        y = []
+        for sent in accepted_sents:
+            X.append(sent.text)
+            y_ = np.zeros(shape=(len(self._t2i)))
+            for mapping in sent.mappings:
+                for technique in mapping.attack_technique:
+                    y_[self._t2i[technique]] = 1
+            y.append(y_)
+
+        self.techniques_model.fit(X, y)
 
     def test(self):
         """Returns the f1 score
@@ -285,12 +302,10 @@ class TramModel(Model):
     def get_mapping(self, sentence):
         mappings = []
         # [0] because we're doing this one sentence at a time, but expected is batch in, batch out
-        has_technique_pred = self.has_technique_model.predict_proba([sentence])[0]
-        if has_technique_pred >= 0.5:
-            technique_preds = self.techniques_model.predict_proba([sentence])[0].tolist()
-            for i, confidence in enumerate(technique_preds):
-                if confidence >= 0.5:
-                    attack_technique = self._i2t[i]
-                    mapping = Mapping(sentence, confidence, attack_technique)
-                    mappings.append(mapping)
+        technique_preds = self.techniques_model.predict_proba([sentence])[0].tolist()
+        for i, confidence in enumerate(technique_preds):
+            if confidence >= 0.5:
+                attack_technique = self._i2t[i]
+                mapping = Mapping(confidence, attack_technique)
+                mappings.append(mapping)
         return mappings
