@@ -50,27 +50,28 @@ class SentenceViewSet(viewsets.ModelViewSet):
 
 @login_required
 def index(request):
+    reviewing_reports = []
+    accepted_reports = []
+
     jobs = DocumentProcessingJob.objects.all()
     job_serializer = serializers.DocumentProcessingJobSerializer(jobs, many=True)
 
     reports = Report.objects.all()
+    report_serializer = serializers.ReportSerializer(reports, many=True)
 
-    in_progress = []
-    done = []
-    for report in reports:
-        pending_sentence_count = Sentence.objects.filter(disposition=None, report=report).count()
-        if pending_sentence_count > 0:
-            in_progress.append(report)
+    for report in report_serializer.data:  # TODO: Implement this as an annotation in the query and not in python
+        if report.get('status') == 'Accepted':
+            accepted_reports.append(report)
         else:
-            done.append(report)
+            reviewing_reports.append(report)
 
-    in_progress_serializer = serializers.ReportSerializer(in_progress, many=True)
-    done_serializer = serializers.ReportSerializer(done, many=True)
+    all_reports = []
+    all_reports.extend(reviewing_reports)
+    all_reports.extend(accepted_reports)
 
     context = {
-        'queued_jobs': job_serializer.data,
-        'needs_review': in_progress_serializer.data,
-        'done': done_serializer.data,
+        'job_queue': job_serializer.data,
+        'reports': all_reports,
     }
 
     return render(request, 'index.html', context=context)

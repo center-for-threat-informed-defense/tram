@@ -45,6 +45,7 @@ class DocumentProcessingJob(models.Model):
     """Queue of document processing jobs
     """
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -103,7 +104,6 @@ class Mapping(models.Model):
     sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE)
     attack_technique = models.ForeignKey(AttackTechnique, on_delete=models.CASCADE, blank=True, null=True)
     confidence = models.FloatField()
-    # disposition = models.CharField(max_length=200, default=None, null=True, blank=True, choices=DISPOSITION_CHOICES)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 

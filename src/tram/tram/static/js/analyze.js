@@ -90,20 +90,16 @@ function renderMappings(sentence_id) {
 
     if (sentence.disposition == "accept") {
         accept_class = "btn btn-success";
-        accept_text = "Accepted";
         review_class = "btn btn-outline-warning";
-        review_text = "Reviewing"
     } else {
         accept_class = "btn btn-outline-success";
-        accept_text = "Accepted";
         review_class = "btn btn-warning";
-        review_text = "Reviewing"
     }
     var accept_onclick = `updateSentence(${sentence.id}, {disposition: 'accept'})`;
-    $accept = $(`<button type="button" class="${accept_class}" onclick="${accept_onclick}">${accept_text}</button>`);
+    $accept = $(`<button type="button" class="${accept_class}" onclick="${accept_onclick}">Accepted</button>`);
 
     var review_onclick = `updateSentence(${sentence.id}, {disposition: null})`;
-    $review = $(`<button type="button" class="${review_class}" onclick="${review_onclick}">${review_text}</button>`);
+    $review = $(`<button type="button" class="${review_class}" onclick="${review_onclick}">$In Review</button>`);
 
     $dispositionGroup.append($accept).append($review);
     $mappingContainer.append($dispositionGroup);

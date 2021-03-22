@@ -4,8 +4,120 @@
 
 {% block title %}TRAM - Threat Report ATT&CK Mapper{% endblock %}
 
+{% block head %}
+<meta http-equiv="refresh" content="30" />
+{% endblock %}
+
 {% block body %}
-<div class="row">
+<table id="report-table" class="table table-striped table-hover">
+  <tbody>
+    <tr>
+      <th>Report</th>
+      <th>Actions</th> <!-- Actions 1 -->
+      <th>Status</th>
+      <th>Sentences</th>
+      <th></th> <!-- Actions 2 - Delete -->
+    </tr>
+    {% for job in job_queue%}
+    <tr>
+      <td>
+        <div>
+          <b>Job: Analyze {{job.name}}</b><br>
+          <small>By: {{job.byline}}</small>
+        </div>
+      </td>
+      <td><!-- No Actions --></td>
+      <td>
+        <button type="button" class="btn btn-secondary" disabled>Queued</button>
+      </td>
+      <td><!-- No Sentence Info --> </td>
+      <td>
+        <a class="btn btn-danger btn-sm" onclick="deleteJob({{ job.id }})"><i class="fas fa-trash"></i></a>
+      </td>
+    </tr>
+    {% endfor %}
+    {% for report in reports %}
+    <tr>
+      <td>
+        <div>
+          <b>{{report.name}}</b><br>
+          <small>By: {{report.byline}}</small>
+        </div>
+      </td>
+      <td>
+        <div class="btn-group">
+          <a href="/analyze/{{ report.id }}" class="btn btn-sm btn-outline-secondary">Analyze</a>
+          <a href="#" class="btn btn-sm btn-outline-secondary">Export</a>
+          <a href="#" class="btn btn-sm btn-outline-secondary">Download</a>
+        </div>
+      </td>
+      <td>
+        {% if report.status == "Reviewing" %}
+          <button type="button" class="btn btn-warning" disabled>Reviewing</button>
+        {% elif report.status == "Accepted" %}
+          <button type="button" class="btn btn-success" disabled>Accepted</button>
+        {% else %}
+          Unknown Status: {{report.status}}
+        {% endif %}
+      </td>
+      <td>
+        Accepted: {{report.accepted_sentences}}<br>
+        Reviewing: {{report.reviewing_sentences}}<br>
+        Total: {{report.total_sentences}}<br>
+      </td>
+      <td>
+        <a class="btn btn-danger btn-sm" onclick="deleteReport({{ report.id }})"><i class="fas fa-trash"></i></a>
+      </td>
+    </tr>
+    {% endfor %}
+    <!-- <tr>
+      <td>Report for simple-test.docx 
+        <br>By mdavidson on 2021-03-22 
+      </td>
+      <td>
+        <div class="btn-group">
+          <a href="/analyze/{{ report.id }}" class="btn btn-sm btn-outline-secondary">Analyze</a>
+          <a href="#" class="btn btn-sm btn-outline-secondary">Export</a>
+          <a href="#" class="btn btn-sm btn-outline-secondary">Download</a>
+        </div>
+      </td>
+      <td><button type="button" class="btn btn-warning" disabled>In Review</button></td>
+      <td>Accepted: 22<br>In Review: 23</td>
+      <td><a class="btn btn-danger btn-sm" onclick="deleteReport({{ report.id }})"><i class="fas fa-trash"></i></a></td>
+    </tr>
+    <tr>
+      <td>Report for simple-test.docx 
+        <br>By mdavidson on 2021-03-22 
+      </td>
+      <td>
+        <div class="btn-group">
+          <a href="/analyze/{{ report.id }}" class="btn btn-sm btn-outline-secondary">Analyze</a>
+          <a href="#" class="btn btn-sm btn-outline-secondary">Export</a>
+          <a href="#" class="btn btn-sm btn-outline-secondary">Download</a>
+        </div>
+      </td>
+      <td><button type="button" class="btn btn-warning" disabled>In Review</button></td>
+      <td>Accepted: 22<br>In Review: 23</td>
+      <td><a class="btn btn-danger btn-sm" onclick="deleteReport({{ report.id }})"><i class="fas fa-trash"></i></a></td>
+    </tr>
+    <tr>
+      <td>Report for simple-test.docx 
+        <br>By mdavidson on 2021-03-22 
+      </td>
+      <td>
+        <div class="btn-group">
+          <a href="/analyze/{{ report.id }}" class="btn btn-sm btn-outline-secondary">Analyze</a>
+          <a href="#" class="btn btn-sm btn-outline-secondary">Export</a>
+          <a href="#" class="btn btn-sm btn-outline-secondary">Download</a>
+        </div>
+      </td>
+      <td>Accepted</td>
+      <td>Accepted: 23<br>In Review: 0</td>
+      <td><a class="btn btn-danger btn-sm" onclick="deleteReport({{ report.id }})"><i class="fas fa-trash"></i></a></td>
+    </tr> -->
+  </tbody>
+</table>
+<!-- <div class="row">
   <div id="report-queue" class="card col pt-3 pb-3">
     <h6 class="card-title">Queued Reports</h6>
     {% for job in queued_jobs %}
@@ -21,10 +133,10 @@
   <div id="needs-review" class="card col pt-3 pb-3">
     <h6 class="card-title">In Review</h6>
     {% for report in needs_review %}
-      <div id="{{ report.id }}" class="card shadow-sm">
+      <div id="{{ report.id }}" class="card shadow-sm pb-3">
         <div class="card-text">
           {{ report.name }}
-          <a class="btn btn-primary" onclick="deleteReport({{ report.id }})"><i class="fas fa-trash"></i></a>
+          <a class="btn btn-primary btn-sm" onclick="deleteReport({{ report.id }})"><i class="fas fa-trash"></i></a>
           <div>
             Confirmed Sentences: {{ report.confirmed_sentences }}<br>
             Pending Sentences: {{ report.pending_sentences   }}<br>
@@ -37,12 +149,12 @@
               <a href="#" class="btn btn-sm btn-outline-secondary">Download</a>
           </div>
         </div>
-        <p class="card-text small">By {{ report.byline }}</p>
+        <div class="card-text small">By {{ report.byline }}</div>
       </div>
     {% endfor %}
   </div>
   <div id="in-review" class="card col pt-3 pb-3">
-    <h6 class="card-title">Done (All mappings accepted/rejected)</h6>
+    <h6 class="card-title">Done</h6>
     {% for report in done %}
       <div id="{{ report.id }}" class="card shadow-sm">
         <div class="card-text">
@@ -64,6 +176,6 @@
       </div>
     {% endfor %}
   </div>
-</div>
+</div> -->
 
 {% endblock %}

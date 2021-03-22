@@ -160,8 +160,15 @@ class Model(ABC):
 
     def get_training_data(self):
         """Returns a list of base.Sentence objects where there is an accepted mapping"""
-        # TODO: Get a list of accepted sentences and their mappings
-        pass
+        sentences = []
+        accepted_sentences = db_models.Sentence.filter(disposition='accept')
+        for accepted_sentence in accepted_sentences:
+            sentence = Sentence(accepted_sentence.text, accepted_sentence.order)
+            mappings = db_models.Mappings.filter(sentence=accepted_sentence)
+            for mapping in mappings:
+                sentence.append(Mapping(mapping.confidence, mapping.attack_technique.attack_id))
+            sentences.append(sentence)
+        return sentences
 
     def get_attack_technique_ids(self):
         techniques = [t.attack_id for t in db_models.AttackTechnique.objects.all().order_by('attack_id')]
@@ -215,9 +222,6 @@ class Model(ABC):
             s = Sentence(text=sentence, order=order, mappings=mappings)
             order += 1
             report_sentences.append(s)
-            # TODO: Implement
-            # else:
-            #    if list is empty, append None mapping with 100% confidence
 
         report = Report(name, text, report_sentences, indicators)
         return report
