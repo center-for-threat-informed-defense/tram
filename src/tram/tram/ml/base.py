@@ -7,13 +7,20 @@ import time
 
 from bs4 import BeautifulSoup
 from django.db import transaction
+<<<<<<< HEAD
 import docx
+=======
+from faker import Faker
+from sklearn.pipeline import Pipeline
+from sklearn.svm import LinearSVC
+from sklearn.multiclass import OneVsRestClassifier
+>>>>>>> 6258901 (initial commit with sentence-transformer based featurizer.)
 import pdfplumber
 import nltk
 
 # The word model is overloaded in this scope, so a prefix is necessary
 from tram import models as db_models
-
+from .sentence_embedding_transformer import SentenceEmbeddingTransformer
 
 class Indicator(object):
     def __init__(self, type_, value):
@@ -240,38 +247,28 @@ class Model(ABC):
 
 
 class DummyModel(Model):
-    def train(self):
-        pass
-
-    def test(self):
-        pass
-
-    def get_indicators(self, text):
-        import uuid
-        indicators = []
-        for i in range(3):
-            ind = Indicator(type_='MD5', value=uuid.uuid4().hex)
-            indicators.append(ind)
-        return indicators
-
-    def _pick_random_techniques(self):
-        """Returns a list of 0-4 randomly selected ATTACK Technique IDs"""
-        num_techniques = random.randint(0, 4)
-        techniques = random.choices(self.technique_ids, k=num_techniques)
-        return techniques
-
-    def get_mappings(self, sentence):
-        mappings = []
-        attack_techniques = self._pick_random_techniques()
-        for attack_technique in attack_techniques:
-            confidence = random.uniform(0.0, 100.0)
-            mapping = Mapping(confidence, attack_technique)
-            mappings.append(mapping)
-
-        return mappings
+    def __init__(self):
+        self.faker = Faker()
+        self.technique_ids = self.get_attack_technique_ids()
 
 
 class TramModel(Model):
+    def __init__(self, model_name: str, max_iter: int=10_000):
+        self.has_technique_model = Pipeline([
+            ("features", SentenceEmbeddingTransformer(model_name)),
+            ("clf", LinearSVC(max_iter))
+        ])
+
+        self.techniques_model = Pipeline([
+            ("features", SentenceEmbeddingTransformer(model_name)),
+            ("clf", OneVsRestClassifier(LinearSVC(max_iter)))
+        ])
+
+        self._t2i = {
+            t.attack_id: i for i, t in enumerate(db_models.AttackTechnique.objects.all().order_by('attack_id'))
+        }
+        self._i2t = {v: k for k, v in self._t2i.items()}
+
     def train(self):
         """
         Trains the model based on:
@@ -285,8 +282,15 @@ class TramModel(Model):
         """
         raise NotImplementedError()
 
-    def get_indicators(self, text):
-        raise NotImplementedError()
-
-    def get_mappings(self, sentence):
-        raise NotImplementedError()
+    def get_mapping(self, sentence):
+        mappings = []
+        # [0] because we're doing this one sentence at a time, but expected is batch in, batch out
+        has_technique_pred = self.has_technique_model.predict_proba([sentence])[0]
+        if has_technique_pred >= 0.5:
+            technique_preds = self.techniques_model.predict_proba([sentence])[0].tolist()
+            for i, confidence in enumerate(technique_preds):
+                if confidence >= 0.5:
+                    attack_technique = self._i2t[i]
+                    mapping = Mapping(sentence, confidence, attack_technique)
+                    mappings.append(mapping)
+        return mappings
