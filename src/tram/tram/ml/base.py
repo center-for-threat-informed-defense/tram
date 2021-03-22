@@ -169,11 +169,11 @@ class Model(ABC):
         """Returns a list of base.Sentence objects where there is an accepted mapping"""
         sentences = []
         accepted_sentences = db_models.Sentence.filter(disposition='accept')
+
         for accepted_sentence in accepted_sentences:
-            sentence = Sentence(accepted_sentence.text, accepted_sentence.order)
             mappings = db_models.Mappings.filter(sentence=accepted_sentence)
-            for mapping in mappings:
-                sentence.append(Mapping(mapping.confidence, mapping.attack_technique.attack_id))
+            m = [Mapping(mapping.confidence, mapping.attack_technique.attack_id) for mapping in mappings]
+            sentence = Sentence(accepted_sentence.text, accepted_sentence.order, m)
             sentences.append(sentence)
         return sentences
 
