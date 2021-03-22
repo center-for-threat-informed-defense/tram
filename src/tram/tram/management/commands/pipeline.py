@@ -1,11 +1,11 @@
 from django.core.management.base import BaseCommand
 
 from tram.ml.base import ModelManager
-from tram.models import Document, DocumentProcessingJob
 
 RUN = 'run'
 TEST = 'test'
 TRAIN = 'train'
+
 
 class Command(BaseCommand):
     help = 'Machine learning pipeline commands'
@@ -15,20 +15,24 @@ class Command(BaseCommand):
                                    dest='subcommand',
                                    required=True)
         sp_run = sp.add_parser(RUN, help='Run the ML Pipeline')
-        sp_run.add_argument('--model')
-        sp_test = sp.add_parser(TEST, help='Test the ML pipeline')
-        sp_train = sp.add_parser(TRAIN, help='Train the ML Pipeline')
+        sp_run.add_argument('--model', default='tram', help='Select the ML model.')
+        sp_test = sp.add_parser(TEST, help='Test the ML pipeline')  # noqa: F841
+        sp_train = sp.add_parser(TRAIN, help='Train the ML Pipeline')  # noqa: F841
 
     def handle(self, *args, **options):
-        model_manager = ModelManager(model='dummy')
+        model = options['model']
+        model_manager = ModelManager(model)
 
         subcommand = options['subcommand']
 
         if subcommand == RUN:
+            print('Running ML Pipeline with Model: %s' % model)
             return model_manager.run_model()
         elif subcommand == TEST:
-            return self.test_model()
+            print('Testing ML Model: %s' % model)
+            return model_manager.test_model()
         elif subcommand == TRAIN:
-            return self.train_model()
+            print('Training ML Model: %s' % model)
+            return model_manager.train_model()
 
         return

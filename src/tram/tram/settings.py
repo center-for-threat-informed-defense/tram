@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'tram'
 ]
 
@@ -129,6 +130,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'tram', 'static'),
 )
 
-# ml-pipeline integration points
-ML_PIPELINE_SOURCE = os.path.join(BASE_DIR, '..', '..', 'data', 'ml-source')  # Files to be processed will be put here
-ML_PIPELINE_DESTINATION = os.path.join(BASE_DIR, '..', '..', 'data', 'ml-destination')  # This directory will be watched for results
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}

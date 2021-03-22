@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 from io import BytesIO
-import json
 import pathlib
 import pickle
 import random
 import time
 
+from bs4 import BeautifulSoup
 from django.db import transaction
-from faker import Faker
+import docx
 import pdfplumber
 import nltk
 
@@ -24,29 +24,33 @@ class Indicator(object):
         return 'Indicator: %s=%s' % (self.type_, self.value)
 
 
+class Sentence(object):
+    def __init__(self, text, order, mappings):
+        self.text = text
+        self.order = order
+        self.mappings = mappings
+
+
 class Mapping(object):
-    def __init__(self, sentence, confidence=0.0, attack_technique=None):
-        self.sentence = sentence
+    def __init__(self, confidence=0.0, attack_technique=None):
         self.confidence = confidence
         self.attack_technique = attack_technique
 
     def __repr__(self):
-        short_sentence = self.sentence[:20].replace('\n', '')
-        return 'Sentence=%s; Confidence=%f; Techniques=%s' % (short_sentence, self.confidence, self.attack_technique)
+        return 'Confidence=%f; Technique=%s' % (self.confidence, self.attack_technique)
 
 
 class Report(object):
-    def __init__(self, name, text, sentences, indicators=None, mappings=None):
+    def __init__(self, name, text, sentences, indicators=None):
         self.name = name
         self.text = text
-        self.sentences = sentences
+        self.sentences = sentences  # Sentence objects
         self.indicators = indicators or []
-        self.mappings = mappings or []
 
 
 class ModelManager(object):
-    def __init__(self, model=None):
-        if model is None or model == 'tram':
+    def __init__(self, model):
+        if model == 'tram':
             self.model = TramModel()
         elif model == 'dummy':
             self.model = DummyModel()
@@ -55,33 +59,44 @@ class ModelManager(object):
 
     def _save_report(self, report, document):
         rpt = db_models.Report(
-            name = report.name,
-            document = document,
-            ml_model = self.model.__class__.__name__
+            name=report.name,
+            document=document,
+            text=report.text,
+            ml_model=self.model.__class__.__name__
         )
         rpt.save()
 
         for indicator in report.indicators:
             ind = db_models.Indicator(
-                report = rpt,
-                indicator_type = indicator.type_,
-                value = indicator.value
+                report=rpt,
+                indicator_type=indicator.type_,
+                value=indicator.value
             )
             ind.save()
 
-        for mapping in report.mappings:
-            if mapping.attack_technique:
-                technique = db_models.AttackTechnique.objects.get(attack_id=mapping.attack_technique)
-            else:
-                technique = None
-            
-            m = db_models.Mapping(
-                report = rpt,
-                sentence = mapping.sentence,
-                attack_technique = technique,
-                confidence = mapping.confidence,
+        for sentence in report.sentences:
+            s = db_models.Sentence(
+                text=sentence.text,
+                order=sentence.order,
+                document=document,
+                report=rpt,
+                disposition=None,
             )
-            m.save()
+            s.save()
+
+            for mapping in sentence.mappings:
+                if mapping.attack_technique:
+                    technique = db_models.AttackTechnique.objects.get(attack_id=mapping.attack_technique)
+                else:
+                    technique = None
+
+                m = db_models.Mapping(
+                    report=rpt,
+                    sentence=s,
+                    attack_technique=technique,
+                    confidence=mapping.confidence,
+                )
+                m.save()
 
     def run_model(self):
         while True:
@@ -94,33 +109,41 @@ class ModelManager(object):
                     job.delete()
                 print('Created report %s' % report.name)
             time.sleep(1)
-    
+
     def train_model(self):
-        raise NotImplementedError()
+        return self.model.train()
 
     def test_model(self):
-        raise NotImplementedError()
+        return self.model.test()
 
 
 class Model(ABC):
+    def __init__(self):
+        self._technique_ids = None
+
     @abstractmethod
     def train(self):
         """Trains the model based on:
            1. Source data (??)
            2. Reports in the database
-        
+
         Returns ???
         """
-        pass
 
     @abstractmethod
     def test(self):
         """Returns the f1 score as a float
         """
-        pass
+
+    @property
+    def technique_ids(self):
+        if not self._technique_ids:
+            self._technique_ids = self.get_attack_technique_ids()
+        return self._technique_ids
 
     def _get_report_name(self, job):
-        return 'Report for %s' % job.document.docfile.name
+        name = pathlib.Path(job.document.docfile.path).name
+        return 'Report for %s' % name
 
     def _extract_text(self, document):
         suffix = pathlib.Path(document.docfile.path).suffix
@@ -135,8 +158,22 @@ class Model(ABC):
 
         return text
 
+    def get_training_data(self):
+        """Returns a list of base.Sentence objects where there is an accepted mapping"""
+        sentences = []
+        accepted_sentences = db_models.Sentence.filter(disposition='accept')
+        for accepted_sentence in accepted_sentences:
+            sentence = Sentence(accepted_sentence.text, accepted_sentence.order)
+            mappings = db_models.Mappings.filter(sentence=accepted_sentence)
+            for mapping in mappings:
+                sentence.append(Mapping(mapping.confidence, mapping.attack_technique.attack_id))
+            sentences.append(sentence)
+        return sentences
+
     def get_attack_technique_ids(self):
         techniques = [t.attack_id for t in db_models.AttackTechnique.objects.all().order_by('attack_id')]
+        if len(techniques) == 0:
+            raise ValueError('Zero techniques found. Maybe run `python manage.py attackdata load` ?')
         return techniques
 
     @abstractmethod
@@ -144,7 +181,6 @@ class Model(ABC):
         """
         Returns an array of indicator objects
         """
-        pass
 
     @abstractmethod
     def get_mappings(self, sentence):
@@ -152,7 +188,6 @@ class Model(ABC):
         Returns a list of Mapping objects for the sentence.
         Returns an empty list if there are no Mappings
         """
-        pass
 
     def _sentence_tokenize(self, text):
         return nltk.sent_tokenize(text)
@@ -164,25 +199,31 @@ class Model(ABC):
         return text
 
     def _extract_html_text(self, document):
-        raise NotImplementedError()
+        html = document.docfile.read()
+        soup = BeautifulSoup(html, features="html.parser")
+        text = soup.get_text()
+        return text
 
     def _extract_docx_text(self, document):
-        raise NotImplementedError()
+        parsed_docx = docx.Document(BytesIO(document.docfile.read()))
+        text = ' '.join([paragraph.text for paragraph in parsed_docx.paragraphs])
+        return text
 
     def process_job(self, job):
         name = self._get_report_name(job)
         text = self._extract_text(job.document)
         sentences = self._sentence_tokenize(text)
         indicators = self.get_indicators(text)
-        report_mappings = []
+
+        report_sentences = []
+        order = 0
         for sentence in sentences:
             mappings = self.get_mappings(sentence)
-            if len(mappings) > 0:
-                report_mappings.extend(mappings)
-            else:
-                report_mappings.append(Mapping(sentence, 100, None))
+            s = Sentence(text=sentence, order=order, mappings=mappings)
+            order += 1
+            report_sentences.append(s)
 
-        report = Report(name, text, sentences, indicators, report_mappings)
+        report = Report(name, text, report_sentences, indicators)
         return report
 
     def save_to_file(self, filepath):
@@ -197,11 +238,8 @@ class Model(ABC):
         assert cls == model.__class__
         return model
 
-class DummyModel(Model):
-    def __init__(self):
-        self.faker = Faker()
-        self.technique_ids = self.get_attack_technique_ids()
 
+class DummyModel(Model):
     def train(self):
         pass
 
@@ -209,9 +247,10 @@ class DummyModel(Model):
         pass
 
     def get_indicators(self, text):
+        import uuid
         indicators = []
         for i in range(3):
-            ind = Indicator(type_='MD5', value=self.faker.md5())
+            ind = Indicator(type_='MD5', value=uuid.uuid4().hex)
             indicators.append(ind)
         return indicators
 
@@ -226,17 +265,10 @@ class DummyModel(Model):
         attack_techniques = self._pick_random_techniques()
         for attack_technique in attack_techniques:
             confidence = random.uniform(0.0, 100.0)
-            mapping = Mapping(sentence, confidence, attack_technique)
+            mapping = Mapping(confidence, attack_technique)
             mappings.append(mapping)
 
         return mappings
-
-    def save_to_file(self, filename):
-        pass
-
-    @classmethod
-    def load_from_file(filename):
-        return DummyModel()
 
 
 class TramModel(Model):
@@ -256,5 +288,5 @@ class TramModel(Model):
     def get_indicators(self, text):
         raise NotImplementedError()
 
-    def get_mapping(self, sentence):
-        pass
+    def get_mappings(self, sentence):
+        raise NotImplementedError()

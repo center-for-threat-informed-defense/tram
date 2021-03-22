@@ -19,9 +19,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements/test-requirements.txt
         pip install -r requirements/requirements.txt
-    - name: Test with pytest
+        python -c "import nltk; nltk.download('punkt')"
+    - name: Test and lint with pytest
       run: |
-        pytest --cov=src/ --cov-report=xml
+        pytest --cov=src/ --cov=src/tram --cov=src/tram/tram/ml --cov=src/tram/tram/management/commands --cov-report=xml --flake8
     - name: Upload Coverage to CodeCov
       uses: codecov/codecov-action@v1
       with:

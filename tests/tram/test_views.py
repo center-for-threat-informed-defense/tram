@@ -2,8 +2,6 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase
 
-from io import StringIO
-
 from tram.models import Document, DocumentProcessingJob
 
 
@@ -41,7 +39,7 @@ class TestLogin(TestCase):
 
         # Act
         response = self.client.post('/login/', data)
-    
+
         # Assert
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Please sign in', response.content)
@@ -74,6 +72,7 @@ class TestUpload(TestCase):
         response = self.client.post('/upload/', data)
         doc_count_post = Document.objects.all().count()
         job_count_post = DocumentProcessingJob.objects.all().count()
+        Document.objects.get(docfile='test-report.pdf').delete()
 
         # Assert
         self.assertEqual(response.status_code, 200)
