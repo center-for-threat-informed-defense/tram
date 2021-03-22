@@ -265,16 +265,6 @@ class TramModel(Model):
         }
         self._i2t = {v: k for k, v in self._t2i.items()}
 
-    def _split(self, accepted_sents: List[Sentence]) -> (List[Sentence], List[Sentence]):
-        with_techniques, without_techniques = [], []
-        for sent in accepted_sents:
-            if len(sent.mappings):
-                without_techniques.append(sent)
-            else:
-                without_techniques.append(sent)
-
-        return with_techniques, without_techniques
-
     def train(self):
         """
         Trains the model based on:
