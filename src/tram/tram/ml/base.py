@@ -10,7 +10,7 @@ from django.db import transaction
 import docx
 from faker import Faker
 from sklearn.pipeline import Pipeline
-from sklearn.svm import LinearSVC
+from sklearn.linear_model import LogisticRegression
 from sklearn.multiclass import OneVsRestClassifier
 import pdfplumber
 import nltk
@@ -59,7 +59,7 @@ class Report(object):
 class ModelManager(object):
     def __init__(self, model):
         if model == 'tram':
-            self.model = TramModel()
+            self.model = TramModel('stsb-roberta-large')
         elif model == 'dummy':
             self.model = DummyModel()
         else:
@@ -169,13 +169,14 @@ class Model(ABC):
     def get_training_data(self):
         """Returns a list of base.Sentence objects where there is an accepted mapping"""
         sentences = []
-        accepted_sentences = db_models.Sentence.filter(disposition='accept')
+        accepted_sentences = db_models.Sentence.objects.filter(disposition='accept')
 
         for accepted_sentence in accepted_sentences:
-            mappings = db_models.Mappings.filter(sentence=accepted_sentence)
+            mappings = db_models.Mapping.objects.filter(sentence=accepted_sentence)
             m = [Mapping(mapping.confidence, mapping.attack_technique.attack_id) for mapping in mappings]
             sentence = Sentence(accepted_sentence.text, accepted_sentence.order, m)
             sentences.append(sentence)
+
         return sentences
 
     def get_attack_technique_ids(self):
@@ -248,16 +249,25 @@ class Model(ABC):
 
 
 class DummyModel(Model):
-    def __init__(self):
-        self.faker = Faker()
-        self.technique_ids = self.get_attack_technique_ids()
+
+    def train(self):
+        pass
+
+    def test(self):
+        pass
+
+    def get_indicators(self, text):
+        return []
+
+    def get_mappings(self, sentence):
+        return []
 
 
 class TramModel(Model):
     def __init__(self, model_name: str, max_iter: int=10_000):
         self.techniques_model = Pipeline([
             ("features", SentenceEmbeddingTransformer(model_name)),
-            ("clf", OneVsRestClassifier(LinearSVC(max_iter)))
+            ("clf", OneVsRestClassifier(LogisticRegression(max_iter=max_iter)))
         ])
 
         self._t2i = {
@@ -272,8 +282,7 @@ class TramModel(Model):
             X.append(sent.text)
             y_ = np.zeros(shape=(len(self._t2i)))
             for mapping in sent.mappings:
-                for technique in mapping.attack_technique:
-                    y_[self._t2i[technique]] = 1
+                y_[self._t2i[mapping.attack_technique]] = 1
             y.append(y_)
         return X, y
 
@@ -292,7 +301,10 @@ class TramModel(Model):
         """
         raise NotImplementedError()
 
-    def get_mapping(self, sentence):
+    def get_indicators(self, text):
+        return []
+
+    def get_mappings(self, sentence):
         mappings = []
         # [0] because we're doing this one sentence at a time, but expected is batch in, batch out
         technique_preds = self.techniques_model.predict_proba([sentence])[0].tolist()

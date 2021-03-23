@@ -17,7 +17,9 @@ class Command(BaseCommand):
         sp_run = sp.add_parser(RUN, help='Run the ML Pipeline')
         sp_run.add_argument('--model', default='tram', help='Select the ML model.')
         sp_test = sp.add_parser(TEST, help='Test the ML pipeline')  # noqa: F841
+        sp_test.add_argument('--model', default='tram', help='Select the ML model.')
         sp_train = sp.add_parser(TRAIN, help='Train the ML Pipeline')  # noqa: F841
+        sp_train.add_argument('--model', default='tram', help='Select the ML model.')
 
     def handle(self, *args, **options):
         model = options['model']
