@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from io import BytesIO
 import pathlib
 import pickle
+import random
 import time
 
 from bs4 import BeautifulSoup
@@ -271,10 +272,28 @@ class DummyModel(Model):
         pass
 
     def get_indicators(self, text):
-        return []
+        import uuid
+        indicators = []
+        for i in range(3):
+            ind = Indicator(type_='MD5', value=uuid.uuid4().hex)
+            indicators.append(ind)
+        return indicators
+
+    def _pick_random_techniques(self):
+        """Returns a list of 0-4 randomly selected ATTACK Technique IDs"""
+        num_techniques = random.randint(0, 4)
+        techniques = random.choices(self.technique_ids, k=num_techniques)
+        return techniques
 
     def get_mappings(self, sentence):
-        return []
+        mappings = []
+        attack_techniques = self._pick_random_techniques()
+        for attack_technique in attack_techniques:
+            confidence = random.uniform(0.0, 100.0)
+            mapping = Mapping(confidence, attack_technique)
+            mappings.append(mapping)
+
+        return mappings
 
 
 class TramModel(Model):
