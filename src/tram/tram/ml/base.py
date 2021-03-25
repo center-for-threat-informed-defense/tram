@@ -2,26 +2,40 @@ from abc import ABC, abstractmethod
 from io import BytesIO
 import pathlib
 import pickle
-import random
 import time
 
 from bs4 import BeautifulSoup
 from django.db import transaction
 import docx
-from faker import Faker
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.multiclass import OneVsRestClassifier
 import pdfplumber
 import nltk
-import pandas as pd
 import numpy as np
 
 from typing import List
 
 # The word model is overloaded in this scope, so a prefix is necessary
 from tram import models as db_models
-from .sentence_embedding_transformer import SentenceEmbeddingTransformer
+
+from sklearn.base import TransformerMixin
+from sentence_transformers import SentenceTransformer
+
+
+class SentenceEmbeddingTransformer(TransformerMixin):
+    """Use pretrained sentence-transformer architectures as features to downstream classification models.
+
+    """
+    def __init__(self, model_name):
+        self._model = SentenceTransformer(model_name)
+
+    def fit(self, X, y=None, **fit_params):
+        return self
+
+    def transform(self, X, y=None):
+        return self._model.encode(X)
+
 
 class Indicator(object):
     def __init__(self, type_, value):
