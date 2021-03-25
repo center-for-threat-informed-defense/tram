@@ -270,6 +270,7 @@ class TestDummyModel:
 
 
 class TestModelManager:
+    @pytest.mark.django_db
     def test___init__loads_tram_model(self):
         # Act
         model_manager = base.ModelManager('tram')
@@ -277,6 +278,7 @@ class TestModelManager:
         # Assert
         assert model_manager.model.__class__ == base.TramModel
 
+    @pytest.mark.django_db
     def test__init__loads_dummy_model(self):
         # Act
         model_manager = base.ModelManager('dummy')
