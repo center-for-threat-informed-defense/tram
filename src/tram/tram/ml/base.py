@@ -297,7 +297,7 @@ class DummyModel(Model):
 
 
 class TramModel(Model):
-    def __init__(self, model_name: str, max_iter: int=10_000):
+    def __init__(self, model_name: str, max_iter: int = 10_000):
         self.techniques_model = Pipeline([
             ("features", SentenceEmbeddingTransformer(model_name)),
             ("clf", OneVsRestClassifier(LogisticRegression(max_iter=max_iter)))
