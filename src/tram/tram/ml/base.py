@@ -8,11 +8,34 @@ import time
 from bs4 import BeautifulSoup
 from django.db import transaction
 import docx
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LogisticRegression
+from sklearn.multiclass import OneVsRestClassifier
 import pdfplumber
 import nltk
+import numpy as np
+
+from typing import List
 
 # The word model is overloaded in this scope, so a prefix is necessary
 from tram import models as db_models
+
+from sklearn.base import TransformerMixin
+from sentence_transformers import SentenceTransformer
+
+
+class SentenceEmbeddingTransformer(TransformerMixin):
+    """Use pretrained sentence-transformer architectures as features to downstream classification models.
+
+    """
+    def __init__(self, model_name):
+        self._model = SentenceTransformer(model_name)
+
+    def fit(self, X, y=None, **fit_params):
+        return self
+
+    def transform(self, X, y=None):
+        return self._model.encode(X)
 
 
 class Indicator(object):
@@ -51,7 +74,7 @@ class Report(object):
 class ModelManager(object):
     def __init__(self, model):
         if model == 'tram':
-            self.model = TramModel()
+            self.model = TramModel('stsb-roberta-large')
         elif model == 'dummy':
             self.model = DummyModel()
         else:
@@ -161,13 +184,14 @@ class Model(ABC):
     def get_training_data(self):
         """Returns a list of base.Sentence objects where there is an accepted mapping"""
         sentences = []
-        accepted_sentences = db_models.Sentence.filter(disposition='accept')
+        accepted_sentences = db_models.Sentence.objects.filter(disposition='accept')
+
         for accepted_sentence in accepted_sentences:
-            sentence = Sentence(accepted_sentence.text, accepted_sentence.order)
-            mappings = db_models.Mappings.filter(sentence=accepted_sentence)
-            for mapping in mappings:
-                sentence.append(Mapping(mapping.confidence, mapping.attack_technique.attack_id))
+            mappings = db_models.Mapping.objects.filter(sentence=accepted_sentence)
+            m = [Mapping(mapping.confidence, mapping.attack_technique.attack_id) for mapping in mappings]
+            sentence = Sentence(accepted_sentence.text, accepted_sentence.order, m)
             sentences.append(sentence)
+
         return sentences
 
     def get_attack_technique_ids(self):
@@ -240,6 +264,7 @@ class Model(ABC):
 
 
 class DummyModel(Model):
+
     def train(self):
         pass
 
@@ -272,13 +297,37 @@ class DummyModel(Model):
 
 
 class TramModel(Model):
+    def __init__(self, model_name: str, max_iter: int = 10_000):
+        self.techniques_model = Pipeline([
+            ("features", SentenceEmbeddingTransformer(model_name)),
+            ("clf", OneVsRestClassifier(LogisticRegression(max_iter=max_iter)))
+        ])
+
+        self._t2i = {
+            t.attack_id: i for i, t in enumerate(db_models.AttackTechnique.objects.all().order_by('attack_id'))
+        }
+        self._i2t = {v: k for k, v in self._t2i.items()}
+
+    def __vectorize(self, sents: List[Sentence]):
+        X = []
+        y = []
+        for sent in sents:
+            X.append(sent.text)
+            y_ = np.zeros(shape=(len(self._t2i)))
+            for mapping in sent.mappings:
+                y_[self._t2i[mapping.attack_technique]] = 1
+            y.append(y_)
+        return X, y
+
     def train(self):
         """
         Trains the model based on:
           1. ATT&CK data from disk
           2. User-annotated reports from models.Report
         """
-        raise NotImplementedError()
+        accepted_sents = self.get_training_data()
+        X, y = self.__vectorize(accepted_sents)
+        self.techniques_model.fit(X, y)
 
     def test(self):
         """Returns the f1 score
@@ -286,7 +335,15 @@ class TramModel(Model):
         raise NotImplementedError()
 
     def get_indicators(self, text):
-        raise NotImplementedError()
+        return []
 
     def get_mappings(self, sentence):
-        raise NotImplementedError()
+        mappings = []
+        # [0] because we're doing this one sentence at a time, but expected is batch in, batch out
+        technique_preds = self.techniques_model.predict_proba([sentence])[0].tolist()
+        for i, confidence in enumerate(technique_preds):
+            if confidence >= 0.5:
+                attack_technique = self._i2t[i]
+                mapping = Mapping(confidence, attack_technique)
+                mappings.append(mapping)
+        return mappings
