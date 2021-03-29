@@ -137,3 +137,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ]
 }
+
+ML_MODEL_DIR = os.path.join(BASE_DIR, 'ml-models')
