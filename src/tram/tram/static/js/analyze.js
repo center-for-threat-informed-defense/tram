@@ -99,7 +99,7 @@ function renderMappings(sentence_id) {
     $accept = $(`<button type="button" class="${accept_class}" onclick="${accept_onclick}">Accepted</button>`);
 
     var review_onclick = `updateSentence(${sentence.id}, {disposition: null})`;
-    $review = $(`<button type="button" class="${review_class}" onclick="${review_onclick}">$In Review</button>`);
+    $review = $(`<button type="button" class="${review_class}" onclick="${review_onclick}">Reviewing</button>`);
 
     $dispositionGroup.append($accept).append($review);
     $mappingContainer.append($dispositionGroup);

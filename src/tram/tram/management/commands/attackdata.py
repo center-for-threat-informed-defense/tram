@@ -1,5 +1,6 @@
 import json
 
+from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from tram.models import AttackTechnique
@@ -61,9 +62,9 @@ class Command(BaseCommand):
         subcommand = options['subcommand']
 
         if subcommand == LOAD:
-            self.load_attack_data('data/enterprise-attack.json')
-            self.load_attack_data('data/mobile-attack.json')
-            self.load_attack_data('data/pre-attack.json')
+            self.load_attack_data(settings.DATA_DIRECTORY / 'attack/enterprise-attack.json')
+            self.load_attack_data(settings.DATA_DIRECTORY / 'attack/mobile-attack.json')
+            self.load_attack_data(settings.DATA_DIRECTORY / 'attack/pre-attack.json')
         elif subcommand == CLEAR:
             self.clear_attack_data()
 

@@ -15,7 +15,8 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+PROJECT_ROOT = BASE_DIR.parent.parent
+DATA_DIRECTORY = PROJECT_ROOT / 'data'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -84,7 +85,7 @@ WSGI_APPLICATION = 'tram.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': DATA_DIRECTORY / 'db.sqlite3',
     }
 }
 
@@ -130,10 +131,12 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'tram', 'static'),
 )
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(DATA_DIRECTORY, 'media')
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ]
 }
+
+ML_MODEL_DIR = os.path.join(DATA_DIRECTORY, 'ml-models')

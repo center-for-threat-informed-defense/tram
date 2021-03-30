@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from io import BytesIO
+from os import path
 import pathlib
 import pickle
 import random
@@ -7,10 +8,13 @@ import time
 
 from bs4 import BeautifulSoup
 from django.db import transaction
+from django.conf import settings
 import docx
+from sklearn.exceptions import NotFittedError
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.multiclass import OneVsRestClassifier
+from sklearn.utils.validation import check_is_fitted
 import pdfplumber
 import nltk
 import numpy as np
@@ -69,75 +73,6 @@ class Report(object):
         self.text = text
         self.sentences = sentences  # Sentence objects
         self.indicators = indicators or []
-
-
-class ModelManager(object):
-    def __init__(self, model):
-        if model == 'tram':
-            self.model = TramModel('stsb-roberta-large')
-        elif model == 'dummy':
-            self.model = DummyModel()
-        else:
-            raise ValueError('Unkown model: %s' % model)
-
-    def _save_report(self, report, document):
-        rpt = db_models.Report(
-            name=report.name,
-            document=document,
-            text=report.text,
-            ml_model=self.model.__class__.__name__
-        )
-        rpt.save()
-
-        for indicator in report.indicators:
-            ind = db_models.Indicator(
-                report=rpt,
-                indicator_type=indicator.type_,
-                value=indicator.value
-            )
-            ind.save()
-
-        for sentence in report.sentences:
-            s = db_models.Sentence(
-                text=sentence.text,
-                order=sentence.order,
-                document=document,
-                report=rpt,
-                disposition=None,
-            )
-            s.save()
-
-            for mapping in sentence.mappings:
-                if mapping.attack_technique:
-                    technique = db_models.AttackTechnique.objects.get(attack_id=mapping.attack_technique)
-                else:
-                    technique = None
-
-                m = db_models.Mapping(
-                    report=rpt,
-                    sentence=s,
-                    attack_technique=technique,
-                    confidence=mapping.confidence,
-                )
-                m.save()
-
-    def run_model(self):
-        while True:
-            jobs = db_models.DocumentProcessingJob.objects.all().order_by('created_on')
-            for job in jobs:
-                print('Processing Job #%d: %s' % (job.id, job.document.docfile.name))
-                report = self.model.process_job(job)
-                with transaction.atomic():
-                    self._save_report(report, job.document)
-                    job.delete()
-                print('Created report %s' % report.name)
-            time.sleep(1)
-
-    def train_model(self):
-        return self.model.train()
-
-    def test_model(self):
-        return self.model.test()
 
 
 class Model(ABC):
@@ -266,10 +201,10 @@ class Model(ABC):
 class DummyModel(Model):
 
     def train(self):
-        pass
+        return
 
     def test(self):
-        pass
+        return 0.0
 
     def get_indicators(self, text):
         import uuid
@@ -297,7 +232,7 @@ class DummyModel(Model):
 
 
 class TramModel(Model):
-    def __init__(self, model_name: str, max_iter: int = 10_000):
+    def __init__(self, model_name: str = 'stsb-roberta-large', max_iter: int = 10_000):
         self.techniques_model = Pipeline([
             ("features", SentenceEmbeddingTransformer(model_name)),
             ("clf", OneVsRestClassifier(LogisticRegression(max_iter=max_iter)))
@@ -338,6 +273,12 @@ class TramModel(Model):
         return []
 
     def get_mappings(self, sentence):
+        try:
+            check_is_fitted(self.techniques_model)
+        except NotFittedError:  # If the model is not fitted, propose zero mappings
+            print('Info: Model has not been fitted. Proposing zero mappings')
+            return []
+
         mappings = []
         # [0] because we're doing this one sentence at a time, but expected is batch in, batch out
         technique_preds = self.techniques_model.predict_proba([sentence])[0].tolist()
@@ -347,3 +288,90 @@ class TramModel(Model):
                 mapping = Mapping(confidence, attack_technique)
                 mappings.append(mapping)
         return mappings
+
+
+class ModelManager(object):
+    model_registry = {  # TODO: Add a hook to register user-created models
+        'tram': TramModel,
+        'dummy': DummyModel,
+    }
+
+    def __init__(self, model):
+        model_class = self.model_registry.get(model)
+        if not model_class:
+            raise ValueError('Unrecognized model: %s' % model)
+
+        model_filepath = self.get_model_filepath(model_class)
+        if path.exists(model_filepath):
+            self.model = model_class.load_from_file(model_filepath)
+            print('%s loaded from %s' % (model_class.__name__, model_filepath))
+        else:
+            self.model = model_class()
+            print('%s loaded from __init__' % model_class.__name__)
+
+    def _save_report(self, report, document):
+        rpt = db_models.Report(
+            name=report.name,
+            document=document,
+            text=report.text,
+            ml_model=self.model.__class__.__name__
+        )
+        rpt.save()
+
+        for indicator in report.indicators:
+            ind = db_models.Indicator(
+                report=rpt,
+                indicator_type=indicator.type_,
+                value=indicator.value
+            )
+            ind.save()
+
+        for sentence in report.sentences:
+            s = db_models.Sentence(
+                text=sentence.text,
+                order=sentence.order,
+                document=document,
+                report=rpt,
+                disposition=None,
+            )
+            s.save()
+
+            for mapping in sentence.mappings:
+                if mapping.attack_technique:
+                    technique = db_models.AttackTechnique.objects.get(attack_id=mapping.attack_technique)
+                else:
+                    technique = None
+
+                m = db_models.Mapping(
+                    report=rpt,
+                    sentence=s,
+                    attack_technique=technique,
+                    confidence=mapping.confidence,
+                )
+                m.save()
+
+    def run_model(self):
+        while True:
+            jobs = db_models.DocumentProcessingJob.objects.all().order_by('created_on')
+            for job in jobs:
+                print('Processing Job #%d: %s' % (job.id, job.document.docfile.name))
+                report = self.model.process_job(job)
+                with transaction.atomic():
+                    self._save_report(report, job.document)
+                    job.delete()
+                print('Created report %s' % report.name)
+            time.sleep(1)
+
+    def get_model_filepath(self, model_class):
+        filepath = settings.ML_MODEL_DIR + '/' + model_class.__name__ + '.pkl'
+        return filepath
+
+    def train_model(self):
+        self.model.train()
+        filepath = self.get_model_filepath(self.model.__class__)
+        self.model.save_to_file(filepath)
+        print('Trained model saved to %s' % filepath)
+        return
+
+    def test_model(self):
+        return self.model.test()
