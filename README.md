@@ -1,21 +1,14 @@
 [![codecov](https://codecov.io/gh/center-for-threat-informed-defense/tram/branch/master/graph/badge.svg?token=YISO1NSAMZ)](https://codecov.io/gh/center-for-threat-informed-defense/tram)
 
-# TRAM v1.0
+# TRAM
 
 Threat Report ATT&CK<sup>®</sup> Mapping (TRAM) is a tool that leverages Natural Language Processing to aid analysts in mapping finished reports to ATT&CK. 
 
-There is no shortage of cyber threat intelligence (CTI) reporting, and analysts often find themselves overburdened by the constant stream of reports. Analyzing
-these reports can be strenuous and tedious for analysts, often taking up large amounts of their time. Automating CTI mapping to ATT&CK will reduce analyst fatigue,
-increase ATT&CK coverage and timeliness, and improve consistency of threat intelligence mappings. 
+There is no shortage of cyber threat intelligence (CTI) reporting, and analysts often find themselves overburdened by the constant stream of reports. Analyzing these reports can be strenuous and tedious for analysts, often taking up large amounts of their time. Automating CTI mapping to ATT&CK will reduce analyst fatigue and improve consistency of threat intelligence mappings. 
 
-TRAM seeks to help analysts by automatically extracting adversary behaviors, which can help with the acceleration of the analysis process to prevent a backlog. 
-With faster analysis, CTI teams can more easily operationalize their intel. While TRAM cannot replace a human analyst, it certainly can help by providing analysts
-with some starting data about the report.
+TRAM seeks to help analysts by automatically extracting adversary behaviors, which can help with the acceleration of the analysis process to prevent a backlog.  With faster analysis, CTI teams can more easily operationalize their intel. While TRAM cannot replace a human analyst, it certainly can help by providing analysts with some starting data about the report.
 
-TRAM uses natural language processing and classification techniques to extract adversary behaviors (ATT&CK techniques) from raw text which comes in the form of 
-published threat reports. The current practice to extract these techniques relies entirely on manual analysis performed by human analysts. This introduces problems
-like human error, dependence on physical availability, and demand for an extensive understanding of ATT&CK. With automation, this project will increase the quality
-and completeness of the ATT&CK knowledge base while reducing demand on human analysts. 
+TRAM uses natural language processing and classification techniques to extract adversary behaviors (ATT&CK techniques) from raw text which comes in the form of published threat reports. The current practice to extract these techniques relies entirely on manual analysis performed by human analysts. This introduces problems like human error, dependence on physical availability, and demand for an extensive understanding of ATT&CK. With automation, this project will increase the quality and completeness of the ATT&CK knowledge base while reducing demand on human analysts. 
 
 ## Table of contents
 * [Requirements](#requirements)
@@ -33,51 +26,49 @@ and completeness of the ATT&CK knowledge base while reducing demand on human ana
 ## Installation
 Start by cloning this repository.
 ```
-git clone https://github.com/mitre-attack/tram.git
+git clone git@github.com:center-for-threat-informed-defense/tram.git
+```
+Change to the TRAM directory
+```
+cd tram/
 ```
 Create a virtual environment
 ```
-virtualenv TRAMenv
+virtualenv venv
 ```
 and activate it
 ```
-source TRAMenv/bin/activate
+source venv/bin/activate
 ```
 Or for Windows
 ```
-TRAMenv\Scripts\activate.bat
+venv\Scripts\activate.bat
 ```
-From the root of this project, install the PIP requirements.
+install requirements
 ```
-pip install -r requirements.txt
+pip install -r requirements/requirements.txt
 ```
+set up the database
+```
+python src/tram/manage.py makemigrations tram
+python src/tram/manage.py migrate
+```
+create a superuser (web login)
+```
+python src/tram/manage.py createsuperuser
+```
+Run the webserver
+```
+python src/tram/manage.py runserver 
+```
+Then you can navigate to http://localhost:8000 and use the superuser to log in
 
-We use nltk and spacy, so you must download the necessary nltk and spacy librarys in a python interpreter.
+In a separate terminal window, run the ML pipeline
 ```
->>> import nltk
->>> nltk.download('punkt')
+cd tram/
+source venv/bin/activate
+python src/tram/manage.py pipeline run
 ```
-```
-python -m spacy download en_core_web_sm
-```
-
-Afterwards, make sure you download the model and training data and place them within the data directory
-```
-https://github.com/center-for-threat-informed-defense/tram/releases
-```
-
-Then start the server.
-```
-python server.py
-```
-Once the server has started, point your browser to localhost:9999, you must first login. credentials are admin:admin but you can
-change them in the default.yml file.
-
-Previously, TRAM was started by running `python tram.py`. The tram.py file now is used for the TRAM library.
-
-## Documentation
-
-After starting the TRAM server, you can read the documentation for TRAM here: http://localhost:9999/docs/index.html.
 
 ## How do I contribute?
 
@@ -91,7 +82,7 @@ There's also a Developer Certificate of Origin that you'll need to sign off on.
 ​
 ## Notice
 
-Copyright 2020 The MITRE Corporation
+Copyright 2021 The MITRE Corporation
 
 Approved for Public Release; Distribution Unlimited. Case Number 19-3429.
 
