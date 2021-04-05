@@ -30,7 +30,7 @@ class Command(BaseCommand):
         if subcommand == ADD:
             filepath = options['file']
             base.add_document_process_job(filepath)
-            print ('Added file to ML Pipeline: %s' % filepath)
+            print('Added file to ML Pipeline: %s' % filepath)
             return
 
         model = options['model']
