@@ -86,12 +86,6 @@ def upload(request):
 
     DocumentProcessingJob.create_from_file(request.FILES['file'])
 
-    # doc = Document(docfile=request.FILES['file'])
-    # doc.save()
-
-    # dpq = DocumentProcessingJob(document=doc)
-    # dpq.save()
-
     return HttpResponse('File saved for processing', status=200)
 
 
