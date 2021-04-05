@@ -37,7 +37,7 @@ class TestLogin:
         response = client.get('/login/')
 
         # Assert
-        assert b'Please sign in' in response.content
+        assert b'<title>Login</title>' in response.content
 
     def test_valid_login_redirects(self, client):
         # Arrange
@@ -61,7 +61,7 @@ class TestLogin:
 
         # Assert
         assert response.status_code == 200
-        assert b'Please sign in' in response.content
+        assert b'<title>Login</title>' in response.content
 
 
 @pytest.mark.django_db
