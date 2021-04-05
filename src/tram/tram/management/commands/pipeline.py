@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 
 from tram.ml import base
+import tram.models as ml_models
 
 ADD = 'add'
 RUN = 'run'
@@ -28,8 +29,11 @@ class Command(BaseCommand):
         subcommand = options['subcommand']
 
         if subcommand == ADD:
+            import pdb
+            pdb.set_trace()
             filepath = options['file']
-            base.add_document_process_job(filepath)
+            f = None
+            ml_models.DocumentProcessingJob.create_from_file(f)
             print('Added file to ML Pipeline: %s' % filepath)
             return
 

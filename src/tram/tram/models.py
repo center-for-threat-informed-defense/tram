@@ -49,6 +49,14 @@ class DocumentProcessingJob(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
+    @classmethod
+    def create_from_file(cls, f):
+        doc = Document(docfile=f)
+        doc.save()
+        dpj = DocumentProcessingJob(document=doc)
+        dpj.save()
+        return dpj
+
     def __str__(self):
         return 'Process %s' % self.document.docfile.name
 
