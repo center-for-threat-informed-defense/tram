@@ -23,32 +23,35 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script> -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{% static 'js/base.js' %}"></script>
-    <link rel="icon" href="{% static 'img/tram-logo.png' %}">
+    <link rel="icon" href="{% static 'img/favicon-32x32.png' %}">
     <meta name="theme-color" content="#7952b3">
     <meta charset="utf-8">
     {% block head %} {% endblock %}
 </head>
 <body>
-    <header class="navbar navbar-expand-md">
+    <header class="navbar  navbar-fixed-top navbar-expand-md">
         <nav class="container-xxl d-flex justify-content-between">
-            <a class="navbar-brand" href="/">
-                <img src="{% static 'img/tram-logo.png' %}" alt="TRAM - Threat Report ATT&amp;CK Mapper" width="100" height="100">
+            <a class="navbar-brand pt-0 pb-0" href="/">
+                <h1>
+                    <img src="{% static 'img/me_300x300.jpeg' %}" alt="TRAM - Threat Report ATT&amp;CK Mapper">
+                    TRAM
+                </h1>
             </a>
             <ul class="navbar-nav d-flex m-0">
                 <li class="navbar-item me-1">
-                    <a class="btn btn-primary" href="/admin">Database Admin</a>
+                    <a class="btn btn btn-outline-light" href="/admin">Database Admin</a>
                 </li>
                 <li class="navbar-item me-1">
                     <form id="id-upload-form">
                     {% csrf_token %}
-                    <label for="id-upload" class="btn btn-primary" title="Upload File">
+                    <label for="id-upload" class="btn btn btn-outline-light" title="Upload File">
                         <i class="fas fa-upload"></i>
                     </label>
                     <input type="file" id="id-upload" style="display: none; height: max-content;">
                     </form>
                 </li>
                 <li class="navbar-item me-1">
-                    <a class="btn-outline-danger btn" href="/logout">Logout</a>
+                    <a class="btn-danger btn" href="/logout">Logout</a>
                 </li>
             </ul>
         </nav>
