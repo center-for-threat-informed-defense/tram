@@ -7,6 +7,7 @@ import random
 import time
 
 from bs4 import BeautifulSoup
+from django.core.files.base import File
 from django.db import transaction
 from django.conf import settings
 import docx
@@ -375,3 +376,12 @@ class ModelManager(object):
 
     def test_model(self):
         return self.model.test()
+
+
+def add_document_process_job(filepath):
+    with open(filepath, 'rb') as f:
+        doc = db_models.Document(docfile=File(f))
+        doc.save()
+
+        dpq = db_models.DocumentProcessingJob(document=doc)
+        dpq.save()
