@@ -1,3 +1,4 @@
+from django.core.files import File
 from django.core.management.base import BaseCommand
 
 from tram.ml import base
@@ -29,11 +30,10 @@ class Command(BaseCommand):
         subcommand = options['subcommand']
 
         if subcommand == ADD:
-            import pdb
-            pdb.set_trace()
             filepath = options['file']
-            f = None
-            ml_models.DocumentProcessingJob.create_from_file(f)
+            with open(filepath, 'rb') as f:
+                django_file = File(f)
+                ml_models.DocumentProcessingJob.create_from_file(django_file)
             print('Added file to ML Pipeline: %s' % filepath)
             return
 
@@ -49,7 +49,3 @@ class Command(BaseCommand):
         elif subcommand == TRAIN:
             print('Training ML Model: %s' % model)
             return model_manager.train_model()
-        else:
-            raise ValueError('Unknown subcommand: %s' % subcommand)
-
-        return

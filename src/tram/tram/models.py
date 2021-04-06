@@ -1,6 +1,7 @@
 import os
 
 from django.contrib.auth.models import User
+from django.core.files import File
 from django.db import models
 from django.db.models.signals import post_delete
 from django.dispatch.dispatcher import receiver
@@ -51,6 +52,7 @@ class DocumentProcessingJob(models.Model):
 
     @classmethod
     def create_from_file(cls, f):
+        assert isinstance(f, File)
         doc = Document(docfile=f)
         doc.save()
         dpj = DocumentProcessingJob(document=doc)

@@ -67,5 +67,3 @@ class Command(BaseCommand):
             self.load_attack_data(settings.DATA_DIRECTORY / 'attack/pre-attack.json')
         elif subcommand == CLEAR:
             self.clear_attack_data()
-
-        return

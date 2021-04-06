@@ -9,9 +9,9 @@ from tram import models
 
 @pytest.fixture(scope="session", autouse=True)
 def verify_test_data_directory_is_empty(request):
-    files = glob.glob('src/tram/media/tests/data/*')
+    files = glob.glob('data/media/tests/data/*')
     if len(files) > 0:
-        raise ValueError('src/tram/media/tests/data/ is not empty! Remove contents to run tests.')
+        raise ValueError('data/media/tests/data/ is not empty! Remove contents to run tests.')
 
 
 @pytest.fixture
