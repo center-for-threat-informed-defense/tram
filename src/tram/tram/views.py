@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils.text import slugify
 from rest_framework import viewsets
 
 from tram.models import AttackTechnique, DocumentProcessingJob, Mapping, Report, Sentence
@@ -33,6 +34,17 @@ class MappingViewSet(viewsets.ModelViewSet):
 class ReportViewSet(viewsets.ModelViewSet):
     queryset = Report.objects.all()
     serializer_class = serializers.ReportSerializer
+
+
+class ReportExportViewSet(viewsets.ModelViewSet):
+    queryset = Report.objects.all()
+    serializer_class = serializers.ReportExportSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        response = super().retrieve(request, *args, **kwargs)
+        filename = slugify(self.get_object().name) + '.json'
+        response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+        return response
 
 
 class SentenceViewSet(viewsets.ModelViewSet):
