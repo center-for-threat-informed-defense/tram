@@ -89,7 +89,7 @@ class ReportExportSerializer(ReportSerializer):
     sentences = serializers.SerializerMethodField()
 
     class Meta(ReportSerializer.Meta):
-        fields = ReportSerializer.Meta.fields + ['sentences',]
+        fields = ReportSerializer.Meta.fields + ['sentences', ]
 
     def get_sentences(self, obj):
         sentences = db_models.Sentence.objects.filter(report=obj)
