@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework import viewsets
 
-from tram.models import AttackTechnique, Document, DocumentProcessingJob, Mapping, Report, Sentence
+from tram.models import AttackTechnique, DocumentProcessingJob, Mapping, Report, Sentence
 from tram import serializers
 
 
@@ -84,11 +84,7 @@ def upload(request):
     if request.method != 'POST':
         return HttpResponse('Request method must be POST', status=405)
 
-    doc = Document(docfile=request.FILES['file'])
-    doc.save()
-
-    dpq = DocumentProcessingJob(document=doc)
-    dpq.save()
+    DocumentProcessingJob.create_from_file(request.FILES['file'])
 
     return HttpResponse('File saved for processing', status=200)
 

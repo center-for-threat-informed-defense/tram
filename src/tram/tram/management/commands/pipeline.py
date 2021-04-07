@@ -1,7 +1,10 @@
+from django.core.files import File
 from django.core.management.base import BaseCommand
 
-from tram.ml.base import ModelManager
+from tram.ml import base
+import tram.models as ml_models
 
+ADD = 'add'
 RUN = 'run'
 TEST = 'test'
 TRAIN = 'train'
@@ -20,12 +23,22 @@ class Command(BaseCommand):
         sp_test.add_argument('--model', default='tram', help='Select the ML model.')
         sp_train = sp.add_parser(TRAIN, help='Train the ML Pipeline')  # noqa: F841
         sp_train.add_argument('--model', default='tram', help='Select the ML model.')
+        sp_add = sp.add_parser(ADD, help='Add a document for processing by the ML pipeline')
+        sp_add.add_argument('--file', required=True, help='Specify the file to be added')
 
     def handle(self, *args, **options):
-        model = options['model']
-        model_manager = ModelManager(model)
-
         subcommand = options['subcommand']
+
+        if subcommand == ADD:
+            filepath = options['file']
+            with open(filepath, 'rb') as f:
+                django_file = File(f)
+                ml_models.DocumentProcessingJob.create_from_file(django_file)
+            print('Added file to ML Pipeline: %s' % filepath)
+            return
+
+        model = options['model']
+        model_manager = base.ModelManager(model)
 
         if subcommand == RUN:
             print('Running ML Pipeline with Model: %s' % model)
@@ -36,5 +49,3 @@ class Command(BaseCommand):
         elif subcommand == TRAIN:
             print('Training ML Model: %s' % model)
             return model_manager.train_model()
-
-        return
