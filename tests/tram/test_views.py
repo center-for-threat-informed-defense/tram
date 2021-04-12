@@ -187,3 +187,15 @@ class TestSentenceViewSet:
         # Assert
         assert len(json_response) == 1
         assert json_response[0]['order'] == 0
+
+
+@pytest.mark.django_db
+class TestReportExport:
+    def test_get_report_export_succeeds(self, logged_in_client, mapping):
+        # Act
+        response = logged_in_client.get('/api/report-export/1/')
+        json_response = json.loads(response.content)
+
+        # Assert
+        assert 'sentences' in json_response
+        assert len(json_response['sentences'][0]['mappings']) == 1

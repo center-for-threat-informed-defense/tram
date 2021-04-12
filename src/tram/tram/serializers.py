@@ -81,6 +81,22 @@ class ReportSerializer(serializers.ModelSerializer):
         return status
 
 
+class ReportExportSerializer(ReportSerializer):
+    """Defines the export format for reports. Defined separately from ReportSerializer so that:
+        1. ReportSerializer and ReportExportSerializer can evolve independently
+        2. The export is larger than what the REST API needs
+    """
+    sentences = serializers.SerializerMethodField()
+
+    class Meta(ReportSerializer.Meta):
+        fields = ReportSerializer.Meta.fields + ['sentences', ]
+
+    def get_sentences(self, obj):
+        sentences = db_models.Sentence.objects.filter(report=obj)
+        sentences_serializer = SentenceSerializer(sentences, many=True)
+        return sentences_serializer.data
+
+
 class SentenceSerializer(serializers.ModelSerializer):
     mappings = serializers.SerializerMethodField()
 
