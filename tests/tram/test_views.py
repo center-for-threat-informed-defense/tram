@@ -130,6 +130,14 @@ class TestUpload:
         assert doc_count_pre + 1 == doc_count_post
         assert job_count_pre + 1 == job_count_post
 
+    def test_report_export_upload_creates_report(self, logged_in_client, load_attack_data):
+        # Act
+        with open('tests/data/report-for-simple-testdocx.json') as f:
+            response = logged_in_client.post('/upload/', {'file': f})
+
+        # Assert
+        assert response.status_code == 200
+
 
 @pytest.mark.django_db
 class TestMappingViewSet:
@@ -199,3 +207,11 @@ class TestReportExport:
         # Assert
         assert 'sentences' in json_response
         assert len(json_response['sentences'][0]['mappings']) == 1
+
+    def test_bootstrap_training_data_can_be_loaded_as_report(self, logged_in_client):
+        # Act
+        with open('data/training/bootstrap-training-data.json') as f:
+            response = logged_in_client.post('/api/report-export/', {'file': f})
+
+        # Assert
+        assert response.status_code == 200

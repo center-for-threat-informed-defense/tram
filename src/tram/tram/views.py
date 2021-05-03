@@ -1,5 +1,7 @@
+import json
+
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.utils.text import slugify
 from rest_framework import viewsets
@@ -83,7 +85,22 @@ def upload(request):
     if request.method != 'POST':
         return HttpResponse('Request method must be POST', status=405)
 
-    DocumentProcessingJob.create_from_file(request.FILES['file'])
+    file_content_type = request.FILES['file'].content_type
+    if file_content_type in ('application/pdf',  # .pdf files
+                             'text/html',  # .html files
+                             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',  # .docx files
+                             ):
+        DocumentProcessingJob.create_from_file(request.FILES['file'])
+    elif file_content_type in ('application/json', ):  # .json files
+        json_data = json.loads(request.FILES['file'].read())
+        res = serializers.ReportExportSerializer(data=json_data)
+
+        if res.is_valid():
+            res.save()
+        else:
+            return HttpResponseBadRequest(res.errors)
+    else:
+        return HttpResponseBadRequest('Unsupported file type')
 
     return HttpResponse('File saved for processing', status=200)
 

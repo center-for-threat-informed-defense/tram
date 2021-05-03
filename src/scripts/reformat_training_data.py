@@ -1,5 +1,5 @@
 """
-Reformat training data into a format usable by TRAM.
+Reformat training data into a report export so that it can be imported into TRAM.
 
 The target format is:
 {
@@ -11,8 +11,8 @@ The original format is:
     * all_analyzed_reports.json - A file with mappings. Has the following structure:
     {
         "<attack-technique-description>": ["<sentence-1>", "<sentence-2>", "<sentence-n>"],  # OR
-        "<description-1 description-2 description-N -multi>": {  # Can use the -multi flag to infer which type the value is
-            "technique_names": [
+        "<description-1 description-2 description-N -multi>": {  # Can use key.endswith('-multi') to test
+        "technique_names": [
                 "description-1",
                 "description-2",
                 "description-N",
@@ -24,9 +24,12 @@ The original format is:
             ]
         }
     }
+
+The target format is defined by tram.serializers.ReportExportSerializer
 """
 
 import json
+from tram.serializers import ReportExportSerializer
 
 outfile = 'data/training/bootstrap-training-data.json'
 
@@ -196,7 +199,6 @@ class TrainingData(object):
                 mappings.append(attack_id)
 
         self.mappings[sentence_text] = mappings  # Put the mapping list back in
-        
 
 
 def get_attack_id(description):
@@ -233,8 +235,11 @@ def main():
     for sentence in negative_data:
         training_data.add_mapping(sentence, None)
 
+    res = ReportExportSerializer(training_data)
+    res.is_valid()
+
     with open(outfile, 'w') as f:
-        json.dump(training_data.mappings, f, indent=4)
+        json.dump(res.data, f, indent=4)
 
 
 if __name__ == "__main__":

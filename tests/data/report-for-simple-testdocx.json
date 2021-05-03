@@ -1,0 +1,109 @@
+{
+    "id": 38,
+    "name": "Report for simple-test.docx",
+    "byline": "None on 2021-04-12 18:32:56 UTC",
+    "ml_model": "dummy",
+    "text": "test-text; incorect-but-whatever",
+    "accepted_sentences": 2,
+    "reviewing_sentences": 2,
+    "total_sentences": 4,
+    "created_by": null,
+    "created_on": "2021-04-12T18:32:56.065453Z",
+    "updated_on": "2021-04-12T18:32:56.065476Z",
+    "status": "Reviewing",
+    "sentences": [
+        {
+            "id": 3143,
+            "text": "Test data sentence 1.",
+            "order": 0,
+            "disposition": null,
+            "mappings": []
+        },
+        {
+            "id": 3144,
+            "text": "Test data sentence 2.",
+            "order": 1,
+            "disposition": null,
+            "mappings": [
+                {
+                    "id": 5660,
+                    "attack_id": "T1001.001",
+                    "report": 38,
+                    "sentence": 3144,
+                    "name": "Junk Data",
+                    "confidence": "100.0",
+                    "attack_technique": 254
+                },
+                {
+                    "id": 5661,
+                    "attack_id": "T1061",
+                    "report": 38,
+                    "sentence": 3144,
+                    "name": "Graphical User Interface",
+                    "confidence": "100.0",
+                    "attack_technique": 220
+                },
+                {
+                    "id": 5662,
+                    "attack_id": "T1102.001",
+                    "report": 38,
+                    "sentence": 3144,
+                    "name": "Dead Drop Resolver",
+                    "confidence": "100.0",
+                    "attack_technique": 124
+                }
+            ]
+        },
+        {
+            "id": 3145,
+            "text": "Test sentence 3.",
+            "order": 2,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "id": 5654,
+                    "attack_id": "T1305",
+                    "report": 38,
+                    "sentence": 3145,
+                    "name": "Private whois services",
+                    "confidence": "27.9",
+                    "attack_technique": 762
+                },
+                {
+                    "id": 5655,
+                    "attack_id": "T1591.003",
+                    "report": 38,
+                    "sentence": 3145,
+                    "name": "Identify Business Tempo",
+                    "confidence": "32.6",
+                    "attack_technique": 233
+                },
+                {
+                    "id": 5656,
+                    "attack_id": "T1491.001",
+                    "report": 38,
+                    "sentence": 3145,
+                    "name": "Internal Defacement",
+                    "confidence": "71.0",
+                    "attack_technique": 249
+                },
+                {
+                    "id": 5657,
+                    "attack_id": "T1421",
+                    "report": 38,
+                    "sentence": 3145,
+                    "name": "System Network Connections Discovery",
+                    "confidence": "37.7",
+                    "attack_technique": 619
+                }
+            ]
+        },
+        {
+            "id": 3146,
+            "text": "Test sentence 4.",
+            "order": 3,
+            "disposition": "accept",
+            "mappings": []
+        }
+    ]
+}
