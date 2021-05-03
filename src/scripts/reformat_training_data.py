@@ -28,7 +28,17 @@ The original format is:
 The target format is defined by tram.serializers.ReportExportSerializer
 """
 
+from datetime import datetime
 import json
+import os
+import sys
+
+sys.path.append('src/tram/')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tram.settings')
+
+import django
+django.setup()
+
 from tram.serializers import ReportExportSerializer
 
 outfile = 'data/training/bootstrap-training-data.json'
@@ -200,6 +210,40 @@ class TrainingData(object):
 
         self.mappings[sentence_text] = mappings  # Put the mapping list back in
 
+    def to_report_export_serializer_json(self):
+        """Creates a dict that can be used to create
+        a serializers.ReportExportSerializer instance
+        """
+        res_json = {
+            'name': 'Bootstrap Training Data',
+            'text': 'There is no text for this report. These sentences were mapped by human analysts.',
+            'ml_model': 'humans',
+            'created_on': datetime.utcnow().isoformat() + 'Z',
+            'updated_on': datetime.utcnow().isoformat() + 'Z',
+            'sentences': []
+        }
+
+        order = 0
+        for sentence_text, mappings in self.mappings.items():
+            sentence = {
+                'text': sentence_text,
+                'order': order,
+                'disposition': 'accept',
+                'mappings': [],
+            }
+
+            order += 1
+
+            for mapping in mappings:
+                mapping = {
+                    'attack_id': mapping,
+                    'confidence': '100.0'
+                }
+                sentence['mappings'].append(mapping)
+            res_json['sentences'].append(sentence)
+
+        return res_json
+
 
 def get_attack_id(description):
     """Given a description, get the ATTACK ID. Raises IndexError if the retrieval fails."""
@@ -234,12 +278,15 @@ def main():
     # Add the negatives
     for sentence in negative_data:
         training_data.add_mapping(sentence, None)
+    res_json = training_data.to_report_export_serializer_json()
 
-    res = ReportExportSerializer(training_data)
-    res.is_valid()
+    res = ReportExportSerializer(data=res_json)
+    res.is_valid(raise_exception=True)
 
     with open(outfile, 'w') as f:
-        json.dump(res.data, f, indent=4)
+        json.dump(res.initial_data, f, indent=4)
+
+    print('Wrote data to %s' % outfile)
 
 
 if __name__ == "__main__":

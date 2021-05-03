@@ -1,109 +1,95 @@
 {
-    "id": 38,
+    "id": 44,
     "name": "Report for simple-test.docx",
-    "byline": "None on 2021-04-12 18:32:56 UTC",
-    "ml_model": "dummy",
-    "text": "test-text; incorect-but-whatever",
+    "byline": "None on 2021-05-03 12:55:40 UTC",
     "accepted_sentences": 2,
     "reviewing_sentences": 2,
     "total_sentences": 4,
+    "text": "Test data sentence 1. Test data sentence 2. Test sentence 3. Test sentence 4.",
+    "ml_model": "DummyModel",
     "created_by": null,
-    "created_on": "2021-04-12T18:32:56.065453Z",
-    "updated_on": "2021-04-12T18:32:56.065476Z",
+    "created_on": "2021-05-03T12:55:40.433009Z",
+    "updated_on": "2021-05-03T12:55:40.433038Z",
     "status": "Reviewing",
     "sentences": [
         {
-            "id": 3143,
+            "id": 9,
             "text": "Test data sentence 1.",
             "order": 0,
             "disposition": null,
+            "mappings": [
+                {
+                    "id": 6200,
+                    "attack_id": "T1053.002",
+                    "name": "At (Windows)",
+                    "confidence": "64.2"
+                },
+                {
+                    "id": 6201,
+                    "attack_id": "T1059.005",
+                    "name": "Visual Basic",
+                    "confidence": "92.8"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "text": "Test data sentence 2.",
+            "order": 1,
+            "disposition": "accept",
             "mappings": []
         },
         {
-            "id": 3144,
-            "text": "Test data sentence 2.",
-            "order": 1,
+            "id": 11,
+            "text": "Test sentence 3.",
+            "order": 2,
             "disposition": null,
             "mappings": [
                 {
-                    "id": 5660,
-                    "attack_id": "T1001.001",
-                    "report": 38,
-                    "sentence": 3144,
-                    "name": "Junk Data",
-                    "confidence": "100.0",
-                    "attack_technique": 254
+                    "id": 6202,
+                    "attack_id": "T1321",
+                    "name": "Common, high volume protocols and software",
+                    "confidence": "56.9"
                 },
                 {
-                    "id": 5661,
-                    "attack_id": "T1061",
-                    "report": 38,
-                    "sentence": 3144,
-                    "name": "Graphical User Interface",
-                    "confidence": "100.0",
-                    "attack_technique": 220
-                },
-                {
-                    "id": 5662,
-                    "attack_id": "T1102.001",
-                    "report": 38,
-                    "sentence": 3144,
-                    "name": "Dead Drop Resolver",
-                    "confidence": "100.0",
-                    "attack_technique": 124
+                    "id": 6203,
+                    "attack_id": "T1345",
+                    "name": "Create custom payloads",
+                    "confidence": "85.5"
                 }
             ]
         },
         {
-            "id": 3145,
-            "text": "Test sentence 3.",
-            "order": 2,
-            "disposition": "accept",
-            "mappings": [
-                {
-                    "id": 5654,
-                    "attack_id": "T1305",
-                    "report": 38,
-                    "sentence": 3145,
-                    "name": "Private whois services",
-                    "confidence": "27.9",
-                    "attack_technique": 762
-                },
-                {
-                    "id": 5655,
-                    "attack_id": "T1591.003",
-                    "report": 38,
-                    "sentence": 3145,
-                    "name": "Identify Business Tempo",
-                    "confidence": "32.6",
-                    "attack_technique": 233
-                },
-                {
-                    "id": 5656,
-                    "attack_id": "T1491.001",
-                    "report": 38,
-                    "sentence": 3145,
-                    "name": "Internal Defacement",
-                    "confidence": "71.0",
-                    "attack_technique": 249
-                },
-                {
-                    "id": 5657,
-                    "attack_id": "T1421",
-                    "report": 38,
-                    "sentence": 3145,
-                    "name": "System Network Connections Discovery",
-                    "confidence": "37.7",
-                    "attack_technique": 619
-                }
-            ]
-        },
-        {
-            "id": 3146,
+            "id": 12,
             "text": "Test sentence 4.",
             "order": 3,
             "disposition": "accept",
-            "mappings": []
+            "mappings": [
+                {
+                    "id": 6204,
+                    "attack_id": "T1396",
+                    "name": "Obtain booter/stressor subscription",
+                    "confidence": "66.0"
+                },
+                {
+                    "id": 6205,
+                    "attack_id": "T1256",
+                    "name": "Identify web defensive services",
+                    "confidence": "96.4"
+                },
+                {
+                    "id": 6206,
+                    "attack_id": "T1200",
+                    "name": "Hardware Additions",
+                    "confidence": "52.3"
+                },
+                {
+                    "id": 6207,
+                    "attack_id": "T1003.004",
+                    "name": "LSA Secrets",
+                    "confidence": "58.0"
+                }
+            ]
         }
     ]
 }
