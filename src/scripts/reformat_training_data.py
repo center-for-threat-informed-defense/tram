@@ -264,7 +264,7 @@ def main():
     # Add the positives
     for key, value in all_analyzed_reports.items():
         if key.endswith('-multi'):  # It's a multi-mapping, value is a dictionary
-            from functools import partial. # TODO: move to top of module
+            from functools import partial # TODO: move to top of module
             for sentence in value['sentances']:  # Sentences is misspelled in the source data:
                 map(partial(training_data.add_mapping, sentence), [attack_lookup[name.lower()] for name in value['technique_names']])
         else:  # It's a single-mapping, value is a list of sentences
