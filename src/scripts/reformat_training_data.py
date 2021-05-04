@@ -43,7 +43,7 @@ from tram.serializers import ReportExportSerializer
 
 outfile = 'data/training/bootstrap-training-data.json'
 
-attack_lookup = {  # A mapping of attack descriptions to technique IDs
+ATTACK_LOOKUP = {  # A mapping of attack descriptions to technique IDs
     'drive-by compromise': 'T1189',
     'system information discovery': 'T1082',
     'new service': 'UNKNOWN',
@@ -248,7 +248,7 @@ class TrainingData(object):
 def get_attack_id(description):
     """Given a description, get the ATTACK ID. Raises IndexError if the retrieval fails."""
     lower_description = description.lower()
-    attack_id = attack_lookup[lower_description]
+    attack_id = ATTACK_LOOKUP[lower_description]
     return attack_id
 
 
