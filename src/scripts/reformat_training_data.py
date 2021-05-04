@@ -286,5 +286,5 @@ def main():
     print('Wrote data to %s' % outfile)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

@@ -138,6 +138,7 @@ class ReportExportSerializer(ReportSerializer):
                     sentence.validated_data['report'] = report
                     sentence.save()
                 else:
+                    # TODO: Handle this case better
                     raise Exception('Sentence validation needs to be handled better')
 
         return report
@@ -174,20 +175,22 @@ class SentenceSerializer(serializers.ModelSerializer):
         return internal_value
 
     def create(self, validated_data):
-        sentence = db_models.Sentence.objects.create(
-            text=validated_data['text'],
-            document=None,
-            report=validated_data['report'],
-            disposition=validated_data['disposition']
-        )
+        with transaction.atomic():
+            sentence = db_models.Sentence.objects.create(
+                text=validated_data['text'],
+                document=None,
+                report=validated_data['report'],
+                disposition=validated_data['disposition']
+            )
 
-        for mapping in validated_data.get('mappings', []):
-            if mapping.is_valid():
-                mapping.validated_data['attack_id'] = mapping.initial_data['attack_id']
-                mapping.validated_data['report'] = validated_data['report']
-                mapping.validated_data['sentence'] = sentence
-                mapping.save()
-            else:
-                raise Exception('Mapping validation needs to be handled better')
+            for mapping in validated_data.get('mappings', []):
+                if mapping.is_valid():
+                    mapping.validated_data['attack_id'] = mapping.initial_data['attack_id']
+                    mapping.validated_data['report'] = validated_data['report']
+                    mapping.validated_data['sentence'] = sentence
+                    mapping.save()
+                else:
+                    # TODO: Handle this case better
+                    raise Exception('Mapping validation needs to be handled better')
 
         return sentence
