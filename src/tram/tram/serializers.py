@@ -118,11 +118,7 @@ class ReportExportSerializer(ReportSerializer):
         internal_value = super().to_internal_value(data)  # Keeps model fields
 
         # Add sentences
-        sentence_serializers = []
-        sentences = data.get('sentences', [])
-        for sentence in sentences:
-            s = SentenceSerializer(data=sentence)
-            sentence_serializers.append(s)
+        sentence_serializers = [SentenceSerializer(data=sentence) for sentence in data.get('sentences', [])]
 
         internal_value.update({'sentences': sentence_serializers})
         return internal_value
