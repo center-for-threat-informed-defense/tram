@@ -168,12 +168,7 @@ class SentenceSerializer(serializers.ModelSerializer):
         internal_value = super().to_internal_value(data)  # Keeps model fields
 
         # Add mappings
-        mapping_serializers = []
-        mappings = data.get('mappings', [])
-
-        for mapping in mappings:
-            m = MappingSerializer(data=mapping)
-            mapping_serializers.append(m)
+        mapping_serializers = [MappingSerializer(data=mapping) for mapping in data.get('mappings', [])]
 
         internal_value.update({'mappings': mapping_serializers})
         return internal_value
