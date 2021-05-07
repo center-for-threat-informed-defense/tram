@@ -208,10 +208,13 @@ class TestReportExport:
         assert 'sentences' in json_response
         assert len(json_response['sentences'][0]['mappings']) == 1
 
-    def test_bootstrap_training_data_can_be_loaded_as_report(self, logged_in_client):
-        # Act
+    def test_bootstrap_training_data_can_be_posted_as_json_report(self, logged_in_client, load_attack_data):
+        # Arrange
         with open('data/training/bootstrap-training-data.json') as f:
-            response = logged_in_client.post('/api/report-export/', {'file': f})
+            json_string = f.read()
+        
+        # Act
+        response = logged_in_client.post('/api/report-export/', json_string, content_type='application/json')
 
         # Assert
-        assert response.status_code == 200
+        assert response.status_code == 201  # HTTP 201 Created

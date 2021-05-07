@@ -33,10 +33,10 @@ import json
 import os
 import sys
 
+import django
+
 sys.path.append('src/tram/')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tram.settings')
-
-import django
 django.setup()
 
 from tram.serializers import ReportExportSerializer
@@ -46,7 +46,7 @@ outfile = 'data/training/bootstrap-training-data.json'
 ATTACK_LOOKUP = {  # A mapping of attack descriptions to technique IDs
     'drive-by compromise': 'T1189',
     'system information discovery': 'T1082',
-    'new service': 'UNKNOWN',
+    'new service': 'T1543',
     'service execution': 'T1569.002',
     'command-line interface': 'T1059',  # Maps to: T1059 - Command and Scripting Interpreter
     'obfuscated files or information': 'T1027',
@@ -225,6 +225,9 @@ class TrainingData(object):
 
         order = 0
         for sentence_text, mappings in self.mappings.items():
+            if len(sentence_text.strip()) == 0:  # Skip empty sentences
+                continue
+
             sentence = {
                 'text': sentence_text,
                 'order': order,
@@ -266,7 +269,8 @@ def main():
         if key.endswith('-multi'):  # It's a multi-mapping, value is a dictionary
             from functools import partial # TODO: move to top of module
             for sentence in value['sentances']:  # Sentences is misspelled in the source data:
-                map(partial(training_data.add_mapping, sentence), [attack_lookup[name.lower()] for name in value['technique_names']])
+                map(partial(training_data.add_mapping, sentence), 
+                    [ATTACK_LOOKUP[name.lower()] for name in value['technique_names']])
         else:  # It's a single-mapping, value is a list of sentences
             technique_id = get_attack_id(key)
             for sentence in value:
