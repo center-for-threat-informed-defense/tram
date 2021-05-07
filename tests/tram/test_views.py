@@ -113,7 +113,9 @@ class TestUpload:
 
     def test_file_upload_succeeds_and_creates_job(self, logged_in_client):
         # Arrange
-        f = SimpleUploadedFile('test-report.pdf', b'test file content')
+        f = SimpleUploadedFile('test-report.pdf',
+                               b'test file content',
+                               content_type='application/pdf')
         data = {'file': f}
         doc_count_pre = Document.objects.all().count()
         job_count_pre = DocumentProcessingJob.objects.all().count()
@@ -212,7 +214,7 @@ class TestReportExport:
         # Arrange
         with open('data/training/bootstrap-training-data.json') as f:
             json_string = f.read()
-        
+
         # Act
         response = logged_in_client.post('/api/report-export/', json_string, content_type='application/json')
 

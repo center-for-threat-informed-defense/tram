@@ -29,6 +29,7 @@ The target format is defined by tram.serializers.ReportExportSerializer
 """
 
 from datetime import datetime
+from functools import partial
 import json
 import os
 import sys
@@ -39,7 +40,7 @@ sys.path.append('src/tram/')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tram.settings')
 django.setup()
 
-from tram.serializers import ReportExportSerializer
+from tram.serializers import ReportExportSerializer  # noqa: E402
 
 outfile = 'data/training/bootstrap-training-data.json'
 
@@ -267,9 +268,8 @@ def main():
     # Add the positives
     for key, value in all_analyzed_reports.items():
         if key.endswith('-multi'):  # It's a multi-mapping, value is a dictionary
-            from functools import partial # TODO: move to top of module
-            for sentence in value['sentances']:  # Sentences is misspelled in the source data:
-                map(partial(training_data.add_mapping, sentence), 
+            for sentence in value['sentances']:  # Sentences is misspelled in the source data
+                map(partial(training_data.add_mapping, sentence),
                     [ATTACK_LOOKUP[name.lower()] for name in value['technique_names']])
         else:  # It's a single-mapping, value is a list of sentences
             technique_id = get_attack_id(key)

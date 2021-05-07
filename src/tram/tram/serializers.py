@@ -112,7 +112,7 @@ class ReportExportSerializer(ReportSerializer):
         """DRF's to_internal_value function only retains model fields from the input JSON. For Report Exports,
         there are many important fields that are not on the Report model. For instance sentences and mappings.
 
-        This function overrides DRF's base to_internal_value so that those important fields are retained and 
+        This function overrides DRF's base to_internal_value so that those important fields are retained and
         available to the is_valid() and create() methods later on.
         """
         internal_value = super().to_internal_value(data)  # Keeps model fields
@@ -163,7 +163,7 @@ class SentenceSerializer(serializers.ModelSerializer):
         """DRF's to_internal_value function only retains model fields from the input JSON. For Sentences,
         mappings are an important field that is not on the model.
 
-        This function overrides DRF's base to_internal_value so that those mappings are retained and 
+        This function overrides DRF's base to_internal_value so that those mappings are retained and
         available to the is_valid() and create() methods later on.
         """
         internal_value = super().to_internal_value(data)  # Keeps model fields
