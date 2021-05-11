@@ -215,12 +215,13 @@ class TrainingData(object):
         """Creates a dict that can be used to create
         a serializers.ReportExportSerializer instance
         """
+        utc_now = datetime.utcnow().isoformat() + 'Z'
         res_json = {
             'name': 'Bootstrap Training Data',
             'text': 'There is no text for this report. These sentences were mapped by human analysts.',
             'ml_model': 'humans',
-            'created_on': datetime.utcnow().isoformat() + 'Z',
-            'updated_on': datetime.utcnow().isoformat() + 'Z',
+            'created_on': utc_now,
+            'updated_on': utc_now,
             'sentences': []
         }
 
