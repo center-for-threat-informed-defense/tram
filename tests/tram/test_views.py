@@ -140,6 +140,20 @@ class TestUpload:
         # Assert
         assert response.status_code == 200
 
+    def test_upload_unsupported_file_type_causes_bad_request(self, logged_in_client):
+        # Arrange
+        f = SimpleUploadedFile('test-document.zip',
+                               b'test file content',
+                               content_type='application/zip')
+        data = {'file': f}
+
+        # Act
+        response = logged_in_client.post('/upload/', data)
+
+        # Assert
+        assert response.status_code == 400
+        assert response.content == b'Unsupported file type'
+
 
 @pytest.mark.django_db
 class TestMappingViewSet:
@@ -220,3 +234,10 @@ class TestReportExport:
 
         # Assert
         assert response.status_code == 201  # HTTP 201 Created
+
+    def test_report_export_update_not_implemented(self, logged_in_client):
+        # Act
+        response = logged_in_client.post('/api/report-export/1/', '{}', content_type='application/json')
+
+        # Assert
+        assert response.status_code == 405  # Method not allowed
