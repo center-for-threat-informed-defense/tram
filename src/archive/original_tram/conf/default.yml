@@ -1,7 +1,0 @@
----
-host: 0.0.0.0
-port: 9999
-version: 0.6
-users:
-  admin:
-    admin: admin

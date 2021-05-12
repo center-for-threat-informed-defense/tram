@@ -31,7 +31,7 @@ jobs:
         verbose: true
     - name: Bandit Security Check
       run: |
-        bandit -r src/ --exit-zero
+        bandit -r src/ -ll -ii
     - name: Safety Vulnerability Check
       run: |
         safety check --file requirements/requirements.txt
