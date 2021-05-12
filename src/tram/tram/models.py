@@ -67,7 +67,7 @@ class Report(models.Model):
     """Store reports
     """
     name = models.CharField(max_length=200)
-    document = models.ForeignKey(Document, on_delete=models.CASCADE)
+    document = models.ForeignKey(Document, null=True, on_delete=models.CASCADE)
     text = models.TextField()
     ml_model = models.CharField(max_length=200)
     created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
@@ -93,7 +93,7 @@ class Indicator(models.Model):
 
 class Sentence(models.Model):
     text = models.TextField()
-    document = models.ForeignKey(Document, on_delete=models.CASCADE)
+    document = models.ForeignKey(Document, null=True, on_delete=models.CASCADE)
     order = models.IntegerField(default=1000)  # Sentences with lower numbers are displayed first
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
     disposition = models.CharField(max_length=200, default=None, null=True, blank=True, choices=DISPOSITION_CHOICES)

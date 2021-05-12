@@ -113,7 +113,9 @@ class TestUpload:
 
     def test_file_upload_succeeds_and_creates_job(self, logged_in_client):
         # Arrange
-        f = SimpleUploadedFile('test-report.pdf', b'test file content')
+        f = SimpleUploadedFile('test-report.pdf',
+                               b'test file content',
+                               content_type='application/pdf')
         data = {'file': f}
         doc_count_pre = Document.objects.all().count()
         job_count_pre = DocumentProcessingJob.objects.all().count()
@@ -129,6 +131,28 @@ class TestUpload:
         assert b'File saved for processing' in response.content
         assert doc_count_pre + 1 == doc_count_post
         assert job_count_pre + 1 == job_count_post
+
+    def test_report_export_upload_creates_report(self, logged_in_client, load_attack_data):
+        # Act
+        with open('tests/data/report-for-simple-testdocx.json') as f:
+            response = logged_in_client.post('/upload/', {'file': f})
+
+        # Assert
+        assert response.status_code == 200
+
+    def test_upload_unsupported_file_type_causes_bad_request(self, logged_in_client):
+        # Arrange
+        f = SimpleUploadedFile('test-document.zip',
+                               b'test file content',
+                               content_type='application/zip')
+        data = {'file': f}
+
+        # Act
+        response = logged_in_client.post('/upload/', data)
+
+        # Assert
+        assert response.status_code == 400
+        assert response.content == b'Unsupported file type'
 
 
 @pytest.mark.django_db
@@ -199,3 +223,21 @@ class TestReportExport:
         # Assert
         assert 'sentences' in json_response
         assert len(json_response['sentences'][0]['mappings']) == 1
+
+    def test_bootstrap_training_data_can_be_posted_as_json_report(self, logged_in_client, load_attack_data):
+        # Arrange
+        with open('data/training/bootstrap-training-data.json') as f:
+            json_string = f.read()
+
+        # Act
+        response = logged_in_client.post('/api/report-export/', json_string, content_type='application/json')
+
+        # Assert
+        assert response.status_code == 201  # HTTP 201 Created
+
+    def test_report_export_update_not_implemented(self, logged_in_client):
+        # Act
+        response = logged_in_client.post('/api/report-export/1/', '{}', content_type='application/json')
+
+        # Assert
+        assert response.status_code == 405  # Method not allowed

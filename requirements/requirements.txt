@@ -1,5 +1,5 @@
 beautifulsoup4==4.9.3
-django==3.1.7
+django==3.1.8
 django-rest-framework
 faker==6.5.0
 pdfplumber==0.5.27

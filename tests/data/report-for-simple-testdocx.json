@@ -1,0 +1,95 @@
+{
+    "id": 44,
+    "name": "Report for simple-test.docx",
+    "byline": "None on 2021-05-03 12:55:40 UTC",
+    "accepted_sentences": 2,
+    "reviewing_sentences": 2,
+    "total_sentences": 4,
+    "text": "Test data sentence 1. Test data sentence 2. Test sentence 3. Test sentence 4.",
+    "ml_model": "DummyModel",
+    "created_by": null,
+    "created_on": "2021-05-03T12:55:40.433009Z",
+    "updated_on": "2021-05-03T12:55:40.433038Z",
+    "status": "Reviewing",
+    "sentences": [
+        {
+            "id": 9,
+            "text": "Test data sentence 1.",
+            "order": 0,
+            "disposition": null,
+            "mappings": [
+                {
+                    "id": 6200,
+                    "attack_id": "T1053.002",
+                    "name": "At (Windows)",
+                    "confidence": "64.2"
+                },
+                {
+                    "id": 6201,
+                    "attack_id": "T1059.005",
+                    "name": "Visual Basic",
+                    "confidence": "92.8"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "text": "Test data sentence 2.",
+            "order": 1,
+            "disposition": "accept",
+            "mappings": []
+        },
+        {
+            "id": 11,
+            "text": "Test sentence 3.",
+            "order": 2,
+            "disposition": null,
+            "mappings": [
+                {
+                    "id": 6202,
+                    "attack_id": "T1321",
+                    "name": "Common, high volume protocols and software",
+                    "confidence": "56.9"
+                },
+                {
+                    "id": 6203,
+                    "attack_id": "T1345",
+                    "name": "Create custom payloads",
+                    "confidence": "85.5"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "text": "Test sentence 4.",
+            "order": 3,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "id": 6204,
+                    "attack_id": "T1396",
+                    "name": "Obtain booter/stressor subscription",
+                    "confidence": "66.0"
+                },
+                {
+                    "id": 6205,
+                    "attack_id": "T1256",
+                    "name": "Identify web defensive services",
+                    "confidence": "96.4"
+                },
+                {
+                    "id": 6206,
+                    "attack_id": "T1200",
+                    "name": "Hardware Additions",
+                    "confidence": "52.3"
+                },
+                {
+                    "id": 6207,
+                    "attack_id": "T1003.004",
+                    "name": "LSA Secrets",
+                    "confidence": "58.0"
+                }
+            ]
+        }
+    ]
+}
