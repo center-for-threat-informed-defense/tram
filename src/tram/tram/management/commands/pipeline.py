@@ -32,7 +32,7 @@ class Command(BaseCommand):
         sp_add.add_argument('--file', required=True, help='Specify the file to be added')
         sp_load = sp.add_parser(LOAD_TRAINING_DATA, help='Load training data. Must be formatted as a Report Export.')
         sp_load.add_argument('--file', default='data/training/bootstrap-training-data.json',
-                             help='Training data file to be loaded. Defaults to data/training/bootstrap-training-data.json')
+                             help='Training data file to load. Defaults: data/training/bootstrap-training-data.json')
 
     def handle(self, *args, **options):
         subcommand = options['subcommand']
