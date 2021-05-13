@@ -43,7 +43,7 @@ class Command(BaseCommand):
             with open(filepath, 'rb') as f:
                 django_file = File(f)
                 db_models.DocumentProcessingJob.create_from_file(django_file)
-            self.stout.write('Added file to ML Pipeline: %s' % filepath)
+            self.stdout.write('Added file to ML Pipeline: %s' % filepath)
             return
 
         if subcommand == LOAD_TRAINING_DATA:
