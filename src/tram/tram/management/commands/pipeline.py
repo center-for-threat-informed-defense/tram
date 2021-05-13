@@ -61,16 +61,16 @@ class Command(BaseCommand):
         model_manager = base.ModelManager(model)
 
         if subcommand == RUN:
-            self.stdout.write('Running ML Pipeline with Model: %s' % model)
+            self.stdout.write(f'Running ML Pipeline with Model: {model}')
             return model_manager.run_model()
         elif subcommand == TEST:
-            self.stdout.write('Testing ML Model: %s' % model)
+            self.stdout.write(f'Testing ML Model: {model}')
             return model_manager.test_model()
         elif subcommand == TRAIN:
-            self.stdout.write('Training ML Model: %s' % model)
+            self.stdout.write(f'Training ML Model: {model}')
             start = time.time()
             return_value = model_manager.train_model()
             end = time.time()
             elapsed = end - start
-            self.stdout.write('Trained ML model in %s seconds' % elapsed)
+            self.stdout.write(f'Trained ML model in {elapsed} seconds')
             return return_value
