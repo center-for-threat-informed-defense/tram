@@ -31,7 +31,7 @@ function storeSentences(sentences) {
 }
 
 function renderSentences(active_sentence_id) {
-    var $sentenceTable = $(`<table id="sentence-table" class="table table-striped table-hover"><tbody></tbody></table>`)
+    var $sentenceTable = $(`<table id="sentence-table" class="table table-striped table-hover text-start"><tbody></tbody></table>`)
     for (sentence_id in stored_sentences) {
         sentence = stored_sentences[sentence_id];
         var flag_class = "";
@@ -46,7 +46,7 @@ function renderSentences(active_sentence_id) {
             $row.addClass("bg-info");
         }
         $flag = $(`<td style="width: 1%"></td>`).addClass(flag_class);
-        $text = $(`<td>${sentence.text}</td>`);
+        $text = $(`<td style="word-wrap: break-word;min-width: 160px;max-width: 160px;"></td>`).text(sentence.text);
         $row.append($flag).append($text);
         $sentenceTable.append($row);
     }
