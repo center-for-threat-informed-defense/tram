@@ -3,8 +3,8 @@ import json
 from django.core.files import File
 from django.core.management.base import BaseCommand
 
-from tram.ml import base
 import tram.models as db_models
+from tram.ml import base
 from tram import serializers
 
 
@@ -42,12 +42,12 @@ class Command(BaseCommand):
             with open(filepath, 'rb') as f:
                 django_file = File(f)
                 db_models.DocumentProcessingJob.create_from_file(django_file)
-            print('Added file to ML Pipeline: %s' % filepath)
+            self.stout.write('Added file to ML Pipeline: %s' % filepath)
             return
 
         if subcommand == LOAD_TRAINING_DATA:
             filepath = options['file']
-            print('Loading training data from %s' % filepath)
+            self.stout.write('Loading training data from %s' % filepath)
             with open(filepath, 'r') as f:
                 filedata = f.read()
                 json_data = json.loads(filedata)
@@ -60,11 +60,11 @@ class Command(BaseCommand):
         model_manager = base.ModelManager(model)
 
         if subcommand == RUN:
-            print('Running ML Pipeline with Model: %s' % model)
+            self.stout.write('Running ML Pipeline with Model: %s' % model)
             return model_manager.run_model()
         elif subcommand == TEST:
-            print('Testing ML Model: %s' % model)
+            self.stout.write('Testing ML Model: %s' % model)
             return model_manager.test_model()
         elif subcommand == TRAIN:
-            print('Training ML Model: %s' % model)
+            self.stout.write('Training ML Model: %s' % model)
             return model_manager.train_model()

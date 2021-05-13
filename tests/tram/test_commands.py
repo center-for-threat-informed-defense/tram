@@ -3,8 +3,8 @@ from django.core.management.base import CommandError
 import pytest
 
 from tram.management.commands import pipeline, attackdata
-from tram.models import AttackTechnique, Sentence
 from tram.ml import base
+from tram.models import AttackTechnique, Sentence
 
 
 class TestPipeline:
@@ -45,7 +45,7 @@ class TestPipeline:
         call_command('pipeline', pipeline.LOAD_TRAINING_DATA)
 
         # Assert
-        assert Sentence.objects.all().count() == 12588  # Count of sentences data/training/bootstrap-training-data.json
+        assert Sentence.objects.count() == 12588  # Count of sentences data/training/bootstrap-training-data.json
 
 
 @pytest.mark.django_db
