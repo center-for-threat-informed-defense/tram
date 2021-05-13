@@ -1,4 +1,5 @@
 import json
+import time
 
 from django.core.files import File
 from django.core.management.base import BaseCommand
@@ -47,7 +48,7 @@ class Command(BaseCommand):
 
         if subcommand == LOAD_TRAINING_DATA:
             filepath = options['file']
-            self.stout.write('Loading training data from %s' % filepath)
+            self.stdout.write('Loading training data from %s' % filepath)
             with open(filepath, 'r') as f:
                 filedata = f.read()
                 json_data = json.loads(filedata)
@@ -60,11 +61,16 @@ class Command(BaseCommand):
         model_manager = base.ModelManager(model)
 
         if subcommand == RUN:
-            self.stout.write('Running ML Pipeline with Model: %s' % model)
+            self.stdout.write('Running ML Pipeline with Model: %s' % model)
             return model_manager.run_model()
         elif subcommand == TEST:
-            self.stout.write('Testing ML Model: %s' % model)
+            self.stdout.write('Testing ML Model: %s' % model)
             return model_manager.test_model()
         elif subcommand == TRAIN:
-            self.stout.write('Training ML Model: %s' % model)
-            return model_manager.train_model()
+            self.stdout.write('Training ML Model: %s' % model)
+            start = time.time()
+            return_value = model_manager.train_model()
+            end = time.time()
+            elapsed = end - start
+            self.stdout.write('Trained ML model in %s seconds' % elapsed)
+            return return_value
