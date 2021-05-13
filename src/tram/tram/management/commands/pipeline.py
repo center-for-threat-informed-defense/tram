@@ -50,9 +50,7 @@ class Command(BaseCommand):
             filepath = options['file']
             self.stdout.write('Loading training data from %s' % filepath)
             with open(filepath, 'r') as f:
-                filedata = f.read()
-                json_data = json.loads(filedata)
-                res = serializers.ReportExportSerializer(data=json_data)
+                res = serializers.ReportExportSerializer(data=json.load(f))
                 res.is_valid(raise_exception=True)
                 res.save()
             return
