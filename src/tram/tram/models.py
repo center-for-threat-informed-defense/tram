@@ -26,6 +26,8 @@ class AttackTechnique(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
+    sentences = models.ManyToManyField('Sentence', through='Mapping')
+
     def __str__(self):
         return '(%s) %s' % (self.attack_id, self.name)
 
@@ -119,6 +121,12 @@ class Mapping(models.Model):
 
     def __str__(self):
         return 'Sentence "%s" to %s' % (self.sentence, self.attack_technique)
+
+
+class MLSettings(models.Model):
+    """Settings for Machine Learning models
+    """
+
 
 
 def _delete_file(path):

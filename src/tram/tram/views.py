@@ -1,5 +1,7 @@
 import json
 
+from constance import config
+from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
@@ -103,6 +105,20 @@ def upload(request):
         return HttpResponseBadRequest('Unsupported file type')
 
     return HttpResponse('File saved for processing', status=200)
+
+
+@login_required
+def ml_home(request):
+    techniques = AttackTechnique.objects.annotate(sentence_count=
+                                                  Count('sentences', filter=Q(sentences__disposition='accept'))).\
+                                                  order_by('-sentence_count', 'attack_id')
+
+    context = {
+               'techniques': techniques,
+               'ML_ACCEPT_THRESHOLD': config.ML_ACCEPT_THRESHOLD
+               }
+
+    return render(request, 'ml_home.html', context)
 
 
 @login_required

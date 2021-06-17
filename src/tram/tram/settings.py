@@ -41,8 +41,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'tram'
+    'constance',
+    'constance.backends.database',
+    'tram',
 ]
+
+CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+
+CONSTANCE_CONFIG = {
+    'ML_ACCEPT_THRESHOLD': (4, 'Exclude Attack Techniques with fewer than ML_ACCEPT_THRESHOLD accepted sentences', int),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
