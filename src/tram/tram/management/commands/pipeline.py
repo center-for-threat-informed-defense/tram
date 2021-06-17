@@ -43,12 +43,12 @@ class Command(BaseCommand):
             with open(filepath, 'rb') as f:
                 django_file = File(f)
                 db_models.DocumentProcessingJob.create_from_file(django_file)
-            self.stdout.write('Added file to ML Pipeline: %s' % filepath)
+            self.stdout.write(f'Added file to ML Pipeline: {filepath}')
             return
 
         if subcommand == LOAD_TRAINING_DATA:
             filepath = options['file']
-            self.stdout.write('Loading training data from %s' % filepath)
+            self.stdout.write(f'Loading training data from {filepath}')
             with open(filepath, 'r') as f:
                 res = serializers.ReportExportSerializer(data=json.load(f))
                 res.is_valid(raise_exception=True)
