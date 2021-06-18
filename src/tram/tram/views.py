@@ -109,9 +109,9 @@ def upload(request):
 
 @login_required
 def ml_home(request):
-    techniques = AttackTechnique.objects.annotate(sentence_count=
-                                                  Count('sentences', filter=Q(sentences__disposition='accept'))).\
-                                                  order_by('-sentence_count', 'attack_id')
+    techniques = AttackTechnique.objects.annotate(sentence_count=Count('sentences',
+                                                                       filter=Q(sentences__disposition='accept'))).\
+                                                                       order_by('-sentence_count', 'attack_id')
 
     context = {
                'techniques': techniques,
