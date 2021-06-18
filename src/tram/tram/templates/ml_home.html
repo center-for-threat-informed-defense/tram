@@ -10,12 +10,13 @@
   <div class="col-sm">
     <h3>Accepted Sentences Per Technique</h3>
     <table id="technique-sentence-table" class="table table-striped table-hover">
+      <caption>Technique Sentence Table</caption>
       <tbody>
         <tr>
-          <th>#</th>
-          <th>Technique ID</th>
-          <th>Technique Name</th>
-          <th>Accepted Sentences</th>
+          <th scope="col">#</th>
+          <th scope="col">Technique ID</th>
+          <th scope="col">Technique Name</th>
+          <th scope="col">Accepted Sentences</th>
         </tr>
         {% for t in techniques %}
         <tr>
@@ -32,12 +33,13 @@
     <div>
       <h3>ML Settings <a class="btn btn-primary-outline" href="/admin/constance/config/">Manage</a></h3>
 
-      <table class="table table-striped">
+      <table id="ml-settings-table" class="table table-striped">
+        <caption>ML Settings Table</caption>
         <tbody>
           <tr>
-            <th>Setting</th>
-            <th>Value</th>
-            <th>Note</th>
+            <th scope="col">Setting</th>
+            <th scope="col">Value</th>
+            <th scope="col">Note</th>
           </tr>
           <tr>
             <td>ML_ACCEPT_THRESHOLD</td>
@@ -50,11 +52,12 @@
     <div>
       <h3>ML Models</h3>
       TODO: This is mocked up
-      <table class="table table-striped">
+      <table id="ml-models-table" class="table table-striped">
+        <caption>ML Models Table</caption>
         <tbody>
           <tr>
-            <th>Model Name</th>
-            <th>Trained Techniques</th>
+            <th scope="col">Model Name</th>
+            <th scope="col">Trained Techniques</th>
           </tr>
           <tr>
             <td>Dummy</td>
