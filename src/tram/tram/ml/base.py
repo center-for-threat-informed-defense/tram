@@ -135,11 +135,11 @@ class Model(ABC):
             raise ValueError('Zero techniques found. Maybe run `python manage.py attackdata load` ?')
         return techniques
 
-    @abstractmethod
     def get_indicators(self, text):
         """
         Returns an array of indicator objects
         """
+        return []  # TODO: Move this out of the ML model and into the application generally
 
     @abstractmethod
     def get_mappings(self, sentence):
@@ -239,14 +239,6 @@ class NaiveBayesModel(Model):
     def test(self):
         return 0.0
 
-    def get_indicators(self, text):
-        import uuid
-        indicators = []
-        for i in range(3):
-            ind = Indicator(type_='MD5', value=uuid.uuid4().hex)
-            indicators.append(ind)
-        return indicators
-
     def _pick_random_techniques(self):
         """Returns a list of 0-4 randomly selected ATTACK Technique IDs"""
         num_techniques = random.randint(0, 4)
@@ -301,9 +293,6 @@ class TramModel(Model):
         """Returns the f1 score
         """
         raise NotImplementedError()
-
-    def get_indicators(self, text):
-        return []
 
     def get_mappings(self, sentence):
         try:
