@@ -241,3 +241,13 @@ class TestReportExport:
 
         # Assert
         assert response.status_code == 405  # Method not allowed
+
+
+@pytest.mark.django_db
+class TestMlHome:
+    def test_ml_home_returns_http_200_ok(self, logged_in_client):
+        # Act
+        response = logged_in_client.get('/ml/')
+
+        # Assert
+        assert response.status_code == 200  # HTTP 200 Ok
