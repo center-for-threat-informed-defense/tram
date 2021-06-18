@@ -40,4 +40,5 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view()),
     path('upload/', views.upload),
     path('admin/', admin.site.urls),
+    path('ml/', views.ml_home),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
