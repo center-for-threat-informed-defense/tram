@@ -17,19 +17,6 @@ def tram_model():
     return base.TramModel()
 
 
-class TestIndicator:
-    def test_repr_is_correct(self):
-        # Arrange
-        expected = 'Indicator: MD5=54b0c58c7ce9f2a8b551351102ee0938'
-
-        # Act
-        ind = base.Indicator(type_='MD5',
-                             value='54b0c58c7ce9f2a8b551351102ee0938')
-
-        # Assert
-        assert str(ind) == expected
-
-
 class TestSentence:
     def test_sentence_stores_no_mapping(self):
         # Arrange
@@ -67,23 +54,18 @@ class TestReport:
         sentences = [
             base.Sentence('test sentence text', 0, None)
         ]
-        indicators = [
-            base.Indicator('MD5', '54b0c58c7ce9f2a8b551351102ee0938')
-        ]
 
         # Act
         rpt = base.Report(
             name=name,
             text=text,
-            sentences=sentences,
-            indicators=indicators
+            sentences=sentences
         )
 
         # Assert
         assert rpt.name == name
         assert rpt.text == text
         assert rpt.sentences == sentences
-        assert rpt.indicators == indicators
 
 
 @pytest.mark.django_db
@@ -206,7 +188,6 @@ class TestModel:
         assert report.name is not None
         assert report.text is not None
         assert len(report.sentences) > 0
-        assert len(report.indicators) > 0
 
     def test_no_data_get_training_data_succeeds(self, dummy_model):
         # Act
@@ -241,7 +222,7 @@ class TestModel:
         assert len(training_data) == 1
         assert training_data[0].__class__ == base.Sentence
 
-
+@pytest.mark.django_db
 class TestDummyModel:
     def test_train_passes(self, dummy_model):
         # Act

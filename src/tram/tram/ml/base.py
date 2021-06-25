@@ -74,6 +74,11 @@ class Model(ABC):
     def __init__(self):
         self._technique_ids = None
         self.techniques_model = self.get_model()
+        if not hasattr(self.techniques_model, 'fit'):
+            raise TypeError('Object returned by get_model() must have a fit() method')
+
+        if not hasattr(self.techniques_model, 'predict'):
+            raise TypeError('Object returned by get_model() must have a fit() method')
 
     @abstractmethod
     def get_model(self):
@@ -273,8 +278,14 @@ class Model(ABC):
 
 
 class DummyModel(Model):
-    def get_model(self):
+    def _dummy_function(self):
         return None
+
+    def get_model(self):
+        obj = object()
+        obj.fit = self._dummy_function
+        obj.predict = self._dummy_function
+        return obj
 
     def _pick_random_techniques(self):
         """Returns a list of 0-4 randomly selected ATTACK Technique IDs"""
