@@ -16,16 +16,12 @@ import pandas as pd
 import pdfplumber
 import re
 from sklearn.base import TransformerMixin
-from sklearn.exceptions import NotFittedError
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
-from sklearn.multiclass import OneVsRestClassifier
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
-from sklearn.utils.validation import check_is_fitted
-from typing import List
 
 # The word model is overloaded in this scope, so a prefix is necessary
 from tram import models as db_models
@@ -277,15 +273,17 @@ class Model(ABC):
         return model
 
 
-class DummyModel(Model):
-    def _dummy_function(self):
+class DummyPipeline(object):
+    def fit(self, X, y):
         return None
 
+    def predict(self, X, y):
+        return None
+
+
+class DummyModel(Model):
     def get_model(self):
-        obj = object()
-        obj.fit = self._dummy_function
-        obj.predict = self._dummy_function
-        return obj
+        return DummyPipeline()
 
     def _pick_random_techniques(self):
         """Returns a list of 0-4 randomly selected ATTACK Technique IDs"""
@@ -366,45 +364,8 @@ class LogisticRegressionModel(Model):
         return mappings
 
 
-class TramModel(Model):
-    def get_model(self):
-        model = Pipeline([
-            ("features", SentenceEmbeddingTransformer('stsb-roberta-large')),
-            ("clf", OneVsRestClassifier(LogisticRegression(max_iter=10_000)))
-        ])
-
-        model._t2i = {
-            t.attack_id: i for i, t in enumerate(db_models.AttackTechnique.objects.all().order_by('attack_id'))
-        }
-        model._i2t = {v: k for k, v in self._t2i.items()}
-        return model
-
-    def __vectorize(self, sents: List[Sentence]):
-        X = []
-        y = []
-        for sent in sents:
-            X.append(sent.text)
-            y_ = np.zeros(shape=(len(self._t2i)))
-            for mapping in sent.mappings:
-                y_[self._t2i[mapping.attack_technique]] = 1
-            y.append(y_)
-        return X, y
-
-    def get_mappings(self, sentence):
-        mappings = []
-        # [0] because we're doing this one sentence at a time, but expected is batch in, batch out
-        technique_preds = self.techniques_model.predict_proba([sentence])[0].tolist()
-        for i, confidence in enumerate(technique_preds):
-            if confidence >= 0.5:
-                attack_technique = self._i2t[i]
-                mapping = Mapping(confidence, attack_technique)
-                mappings.append(mapping)
-        return mappings
-
-
 class ModelManager(object):
     model_registry = {  # TODO: Add a hook to register user-created models
-        'tram': TramModel,
         'dummy': DummyModel,
         'nb': NaiveBayesModel,
         'logreg': LogisticRegressionModel,

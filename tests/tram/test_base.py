@@ -1,5 +1,3 @@
-import warnings
-
 from django.core.files.base import File
 import pytest
 
@@ -222,29 +220,22 @@ class TestModel:
         assert len(training_data) == 1
         assert training_data[0].__class__ == base.Sentence
 
+
 @pytest.mark.django_db
 class TestDummyModel:
     def test_train_passes(self, dummy_model):
         # Act
         dummy_model.train()  # Has no effect
 
-    def test_test_passes(self, dummy_model):
+    def test_test_passes(self, dummy_model, report):
         # Act
         dummy_model.test()  # Has no effect
 
     # TODO: Test get_indicators, pick_random_techniques, get_mappings
 
 
+@pytest.mark.django_db
 class TestModelManager:
-    @pytest.mark.django_db
-    def test___init__loads_tram_model(self):
-        # Act
-        model_manager = base.ModelManager('tram')
-
-        # Assert
-        assert model_manager.model.__class__ == base.TramModel
-
-    @pytest.mark.django_db
     def test__init__loads_dummy_model(self):
         # Act
         model_manager = base.ModelManager('dummy')
@@ -276,34 +267,3 @@ class TestModelManager:
 
         # Assert
         # TODO: Something meaningful
-
-
-@pytest.mark.django_db
-class TestTramModel:
-    def test_train_doesnt_raise(self, simple_training_data, tram_model):
-        # Act
-        with warnings.catch_warnings():
-            # TODO: This makes TONS of warnings that looks like this:
-            #       UserWarning: Label not 796 is present in all training examples.
-            warnings.simplefilter("ignore")
-            tram_model.train()
-
-        # Assert
-        # n/a - If .train() doesn't raise, test passes
-
-    def test_test_raises_notimplemented(self, tram_model):
-        # Act
-        with pytest.raises(NotImplementedError):
-            tram_model.test()
-
-    def test_get_mappings_returns_mappings(self, simple_training_data, tram_model):
-        # Arrange
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            tram_model.train()
-
-        # Act
-        mappings = tram_model.get_mappings('This is a test sentence')
-
-        # Assert
-        assert mappings.__class__ == list
