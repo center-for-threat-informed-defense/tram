@@ -73,6 +73,12 @@ class Report(object):
 class Model(ABC):
     def __init__(self):
         self._technique_ids = None
+        self.techniques_model = self.get_model()
+
+    @abstractmethod
+    def get_model(self):
+        """TBD
+        """
 
     def train(self):
         """
@@ -101,15 +107,6 @@ class Model(ABC):
 
         # Generate predictions on test set
         y_predicted = self.techniques_model.predict(X_test)
-
-        """
-        # Average training and test accuracy
-        print('Training accuracy:', self.techniques_model.score(X_train, y_train))
-        print('Test accuracy:', self.techniques_model.score(X_test, y_test))
-
-        # Precision, recall, F1 score by technique
-        print(classification_report(y_test, y_predicted, zero_division = 0))
-        """
 
         # Average F1 score across techniques, weighted by the # of training examples per technique
         weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
@@ -276,6 +273,9 @@ class Model(ABC):
 
 
 class DummyModel(Model):
+    def get_model(self):
+        return None
+
     def _pick_random_techniques(self):
         """Returns a list of 0-4 randomly selected ATTACK Technique IDs"""
         num_techniques = random.randint(0, 4)
@@ -294,13 +294,13 @@ class DummyModel(Model):
 
 
 class NaiveBayesModel(Model):
-    def __init__(self):
+    def get_model(self):
         """
         Modeling pipeline:
         1) Features = document-term matrix, with stop words removed from the term vocabulary.
         2) Classifier (clf) = multinomial Naive Bayes
         """
-        self.techniques_model = Pipeline([
+        return Pipeline([
             ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
             ("clf", MultinomialNB())
         ])
@@ -325,13 +325,13 @@ class NaiveBayesModel(Model):
 
 
 class LogisticRegressionModel(Model):
-    def __init__(self):
+    def get_model(self):
         """
         Modeling pipeline:
         1) Features = document-term matrix, with stop words removed from the term vocabulary.
         2) Classifier (clf) = multinomial logistic regression
         """
-        self.techniques_model = Pipeline([
+        return Pipeline([
             ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
             ("clf", LogisticRegression())
         ])
@@ -356,16 +356,17 @@ class LogisticRegressionModel(Model):
 
 
 class TramModel(Model):
-    def __init__(self, model_name: str = 'stsb-roberta-large', max_iter: int = 10_000):
-        self.techniques_model = Pipeline([
-            ("features", SentenceEmbeddingTransformer(model_name)),
-            ("clf", OneVsRestClassifier(LogisticRegression(max_iter=max_iter)))
+    def get_model(self):
+        model = Pipeline([
+            ("features", SentenceEmbeddingTransformer('stsb-roberta-large')),
+            ("clf", OneVsRestClassifier(LogisticRegression(max_iter=10_000)))
         ])
 
-        self._t2i = {
+        model._t2i = {
             t.attack_id: i for i, t in enumerate(db_models.AttackTechnique.objects.all().order_by('attack_id'))
         }
-        self._i2t = {v: k for k, v in self._t2i.items()}
+        model._i2t = {v: k for k, v in self._t2i.items()}
+        return model
 
     def __vectorize(self, sents: List[Sentence]):
         X = []
