@@ -41,4 +41,5 @@ urlpatterns = [
     path('upload/', views.upload),
     path('admin/', admin.site.urls),
     path('ml/', views.ml_home),
+    path('ml/<str:attack_id>', views.ml_technique_sentences),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

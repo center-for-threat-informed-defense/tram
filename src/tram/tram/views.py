@@ -61,6 +61,11 @@ class SentenceViewSet(viewsets.ModelViewSet):
         if report_id:
             queryset = queryset.filter(report__id=report_id)
 
+        attack_id = self.request.query_params.get('attack-id', None)
+        if attack_id:
+            sentences = Mapping.objects.filter(attack_technique__attack_id=attack_id).values('sentence')
+            queryset = queryset.filter(id__in=sentences)
+
         return queryset
 
 
@@ -109,9 +114,7 @@ def upload(request):
 
 @login_required
 def ml_home(request):
-    techniques = AttackTechnique.objects.annotate(sentence_count=Count('sentences',
-                                                                       filter=Q(sentences__disposition='accept'))).\
-                                                                       order_by('-sentence_count', 'attack_id')
+    techniques = AttackTechnique.get_sentence_counts()
 
     context = {
                'techniques': techniques,
@@ -119,6 +122,13 @@ def ml_home(request):
                }
 
     return render(request, 'ml_home.html', context)
+
+
+@login_required
+def ml_technique_sentences(request, attack_id):
+    disposition = request.GET.get('disposition', 'no-disposition')
+    context = {'attack_id': attack_id}
+    return render(request, 'technique_sentences.html', context)
 
 
 @login_required
