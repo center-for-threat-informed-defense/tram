@@ -3,6 +3,7 @@ import os
 from django.contrib.auth.models import User
 from django.core.files import File
 from django.db import models
+from django.db.models import Count, Q
 from django.db.models.signals import post_delete
 from django.dispatch.dispatcher import receiver
 
@@ -27,6 +28,24 @@ class AttackTechnique(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     sentences = models.ManyToManyField('Sentence', through='Mapping')
+
+    @classmethod
+    def get_sentence_counts(cls):
+        sentence_counts = cls.objects.annotate(
+            accepted_sentences=Count('sentences', filter=Q(sentences__disposition='accept')),
+            pending_sentences=Count('sentences', filter=Q(sentences__disposition=None)),
+            total_sentences=Count('sentences')
+        ).order_by('-accepted_sentences', 'attack_id')
+
+        return sentence_counts
+
+    @classmethod
+    def xget_accepted_sentence_counts(cls):
+        return cls.get_sentence_counts(disposition='accepted')
+
+    @classmethod
+    def xget_pending_sentence_counts(cls):
+        return cls.get_sentence_counts(disposition=None)
 
     def __str__(self):
         return '(%s) %s' % (self.attack_id, self.name)
