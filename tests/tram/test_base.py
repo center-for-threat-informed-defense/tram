@@ -222,33 +222,29 @@ class TestModel:
 
 
 @pytest.mark.django_db
-class TestDummyModel:
-    def test_train_passes(self, dummy_model):
-        # Act
-        dummy_model.train()  # Has no effect
-
-    def test_test_passes(self, dummy_model, report):
-        # Act
-        dummy_model.test()  # Has no effect
-
-    # TODO: Test get_indicators, pick_random_techniques, get_mappings
-
-
-@pytest.mark.django_db
+@pytest.mark.usefixtures('load_attack_data', 'load_training_data')
 class TestModelManager:
-    def test__init__loads_dummy_model(self):
+    """
+    Loading the training data is a large time cost, so this groups tests together that use
+    the training data, even if it doesn't follow the class structure.
+    """
+
+    """
+    ----- Begin ModelManager Tests -----
+    """
+    def test_modelmanager__init__loads_dummy_model(self):
         # Act
         model_manager = base.ModelManager('dummy')
 
         # Assert
         assert model_manager.model.__class__ == base.DummyModel
 
-    def test__init__raises_value_error_on_unknown_model(self):
+    def test_modelmanager__init__raises_value_error_on_unknown_model(self):
         # Act / Assert
         with pytest.raises(ValueError):
             base.ModelManager('this-should-raise')
 
-    def test_train_model_doesnt_raise(self):
+    def test_modelmanager_train_model_doesnt_raise(self):
         # Arrange
         model_manager = base.ModelManager('dummy')
 
@@ -258,7 +254,7 @@ class TestModelManager:
         # Assert
         # TODO: Something meaningful
 
-    def test_test_model_doesnt_raise(self):
+    def test_modelmanager_test_model_doesnt_raise(self):
         # Arrange
         model_manager = base.ModelManager('dummy')
 
@@ -267,3 +263,20 @@ class TestModelManager:
 
         # Assert
         # TODO: Something meaningful
+    """
+    ----- End ModelManager Tests -----
+    """
+
+    """
+    ----- Begin DummyModel Tests -----
+    """
+    def test_dummymodel_train_passes(self, dummy_model):
+        # Act
+        dummy_model.train()  # Has no effect
+
+    def test_dummymodel_test_passes(self, dummy_model, load_attack_data, load_training_data):
+        # Act
+        dummy_model.test()  # Has no effect
+    """
+    ----- End DummyModel Tests -----
+    """
