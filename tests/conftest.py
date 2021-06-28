@@ -3,7 +3,7 @@ import glob
 from django.core.files.base import File
 import pytest
 
-from tram.management.commands import attackdata
+from tram.management.commands import attackdata, pipeline
 from tram import models
 
 
@@ -18,6 +18,15 @@ def verify_test_data_directory_is_empty(request):
 def load_attack_data():
     command = attackdata.Command()
     command.handle(subcommand=attackdata.LOAD)
+
+
+@pytest.fixture
+def load_training_data():
+    options = {
+        'file': 'data/training/bootstrap-training-data.json',
+    }
+    command = pipeline.Command()
+    command.handle(subcommand=pipeline.LOAD_TRAINING_DATA, **options)
 
 
 @pytest.fixture

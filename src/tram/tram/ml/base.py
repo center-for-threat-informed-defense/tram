@@ -15,45 +15,15 @@ import numpy as np
 import pandas as pd
 import pdfplumber
 import re
-from sklearn.base import TransformerMixin
-from sklearn.exceptions import NotFittedError
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
-from sklearn.multiclass import OneVsRestClassifier
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
-from sklearn.utils.validation import check_is_fitted
-from typing import List
 
 # The word model is overloaded in this scope, so a prefix is necessary
 from tram import models as db_models
-
-from sentence_transformers import SentenceTransformer
-
-
-class SentenceEmbeddingTransformer(TransformerMixin):
-    """Use pretrained sentence-transformer architectures as features to downstream classification models.
-
-    """
-    def __init__(self, model_name):
-        self._model = SentenceTransformer(model_name)
-
-    def fit(self, X, y=None, **fit_params):
-        return self
-
-    def transform(self, X, y=None):
-        return self._model.encode(X)
-
-
-class Indicator(object):
-    def __init__(self, type_, value):
-        self.type_ = type_
-        self.value = value
-
-    def __repr__(self):
-        return 'Indicator: %s=%s' % (self.type_, self.value)
 
 
 class Sentence(object):
@@ -73,30 +43,58 @@ class Mapping(object):
 
 
 class Report(object):
-    def __init__(self, name, text, sentences, indicators=None):
+    def __init__(self, name, text, sentences):
         self.name = name
         self.text = text
         self.sentences = sentences  # Sentence objects
-        self.indicators = indicators or []
 
 
 class Model(ABC):
     def __init__(self):
         self._technique_ids = None
+        self.techniques_model = self.get_model()
+        if not hasattr(self.techniques_model, 'fit'):
+            raise TypeError('Object returned by get_model() must have a fit() method')
+
+        if not hasattr(self.techniques_model, 'predict'):
+            raise TypeError('Object returned by get_model() must have a fit() method')
 
     @abstractmethod
+    def get_model(self):
+        """TBD
+        """
+
     def train(self):
-        """Trains the model based on:
-           1. Source data (??)
-           2. Reports in the database
-
-        Returns ???
         """
+        Load and preprocess data. Train model pipeline
+        """
+        X, y = self._load_and_vectorize_data()
+        X, y = self._filter_low_data_classes(X, y)
+        X = self._preprocess_text(X)
+        self.techniques_model.fit(X, y)  # Train classification model
 
-    @abstractmethod
     def test(self):
-        """Returns the f1 score as a float
         """
+        Return classification metrics based on train/test evaluation of the data
+        Note: potential extension is to use cross-validation rather than a single train/test split
+        """
+        X, y = self._load_and_vectorize_data()
+        X, y = self._filter_low_data_classes(X, y)
+        X = self._preprocess_text(X)
+
+        # Create training set and test set
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
+                                                            shuffle=True, random_state=0, stratify=y)
+
+        # Train model
+        self.techniques_model.fit(X_train, y_train)
+
+        # Generate predictions on test set
+        y_predicted = self.techniques_model.predict(X_test)
+
+        # Average F1 score across techniques, weighted by the # of training examples per technique
+        weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
+        return str(weighted_f1)  # TODO: Should this be a float?
 
     @property
     def technique_ids(self):
@@ -121,6 +119,54 @@ class Model(ABC):
 
         return text
 
+    def _preprocess_text(self, sentences):
+        """
+        Preprocess text by
+        1) Lemmatizing - reducing words to their root, as a way to eliminate noise in the text
+        2) Removing digits
+        """
+        lemma = nltk.stem.WordNetLemmatizer()
+        preprocessed_sentences = []
+        for sentence in sentences:
+            # Lemmatize each word in sentence
+            sentence = ' '.join([lemma.lemmatize(w) for w in sentence.rstrip().split()])
+            sentence = re.sub(r'\d+', '', sentence)  # Remove digits with regex
+            preprocessed_sentences.append(sentence)
+        return preprocessed_sentences
+
+    def _load_and_vectorize_data(self):
+        """
+        Load training data from database.
+        Store sentence text in vector X
+        Store attack technique in vector y
+        """
+        X = []
+        y = []
+        accepted_sents = self.get_training_data()
+        for sent_obj in accepted_sents:
+            if sent_obj.mappings:  # Only store sentences with a labeled technique
+                sentence = sent_obj.text
+                technique_label = sent_obj.mappings[0].attack_technique
+                technique = technique_label[0:5]  # Cut string to technique level. leave out sub-technique
+                X.append(sentence)
+                y.append(technique)
+        return X, y
+
+    def _filter_low_data_classes(self, X, y, n_examples_threshold=5):
+        """
+        Only retain data for classes with at least examples above n_examples_threshold
+        Prevents predictions being made for classes without enough data to learn a
+        generalizable pattern (i.e., too much noise)
+
+        TODO: filter classes before data gets loaded
+        """
+        df = pd.DataFrame({'X': X, 'y': y})
+        classes_to_keep = df['y'].value_counts().index[df['y'].value_counts() >= n_examples_threshold]
+        df = df.loc[df['y'].isin(classes_to_keep)]
+        X = df['X']
+        y = df['y']
+        return X, y
+
     def get_training_data(self):
         """Returns a list of base.Sentence objects where there is an accepted mapping"""
         sentences = []
@@ -139,12 +185,6 @@ class Model(ABC):
         if len(techniques) == 0:
             raise ValueError('Zero techniques found. Maybe run `python manage.py attackdata load` ?')
         return techniques
-
-    def get_indicators(self, text):
-        """
-        Returns an array of indicator objects
-        """
-        return []  # TODO: Move this out of the ML model and into the application generally
 
     @abstractmethod
     def get_mappings(self, sentence):
@@ -177,7 +217,6 @@ class Model(ABC):
         name = self._get_report_name(job)
         text = self._extract_text(job.document)
         sentences = self._sentence_tokenize(text)
-        indicators = self.get_indicators(text)
 
         report_sentences = []
         order = 0
@@ -187,7 +226,7 @@ class Model(ABC):
             order += 1
             report_sentences.append(s)
 
-        report = Report(name, text, report_sentences, indicators)
+        report = Report(name, text, report_sentences)
         return report
 
     def save_to_file(self, filepath):
@@ -203,21 +242,18 @@ class Model(ABC):
         return model
 
 
+class DummyPipeline(object):
+    def fit(self, X, y):
+        return None
+
+    def predict(self, X):
+        y_predicted = ['dummy' for item in X]
+        return y_predicted
+
+
 class DummyModel(Model):
-
-    def train(self):
-        return
-
-    def test(self):
-        return 0.0
-
-    def get_indicators(self, text):
-        import uuid
-        indicators = []
-        for i in range(3):
-            ind = Indicator(type_='MD5', value=uuid.uuid4().hex)
-            indicators.append(ind)
-        return indicators
+    def get_model(self):
+        return DummyPipeline()
 
     def _pick_random_techniques(self):
         """Returns a list of 0-4 randomly selected ATTACK Technique IDs"""
@@ -237,64 +273,16 @@ class DummyModel(Model):
 
 
 class NaiveBayesModel(Model):
-    def __init__(self):
+    def get_model(self):
         """
         Modeling pipeline:
         1) Features = document-term matrix, with stop words removed from the term vocabulary.
         2) Classifier (clf) = multinomial Naive Bayes
         """
-        self.techniques_model = Pipeline([
+        return Pipeline([
             ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
             ("clf", MultinomialNB())
         ])
-
-    def _preprocess_text(self, sentences):
-        """
-        Preprocess text by
-        1) Lemmatizing - reducing words to their root, as a way to eliminate noise in the text
-        2) Removing digits
-        """
-        lemma = nltk.stem.WordNetLemmatizer()
-        preprocessed_sentences = []
-        for sentence in sentences:
-            # Lemmatize each word in sentence
-            sentence = ' '.join([lemma.lemmatize(w) for w in sentence.rstrip().split()])
-            sentence = re.sub(r'\d+', '', sentence)  # Remove digits with regex
-            preprocessed_sentences.append(sentence)
-        return preprocessed_sentences
-
-    def _load_and_vectorize_data(self):
-        """
-        Load training data from database.
-        Store sentence text in vector X
-        Store attack technique in vector y
-        """
-        X = []
-        y = []
-        accepted_sents = self.get_training_data()
-        for sent_obj in accepted_sents:
-            if sent_obj.mappings:  # Only store sentences with a labeled technique
-                sentence = sent_obj.text
-                technique_label = sent_obj.mappings[0].attack_technique
-                technique = technique_label[0:5]  # Cut string to technique level. leave out sub-technique
-                X.append(sentence)
-                y.append(technique)
-        return X, y
-
-    def _filter_low_data_classes(self, X, y, n_examples_threshold=5):
-        """
-        Only retain data for classes with at least examples above n_examples_threshold
-        Prevents predictions being made for classes without enough data to learn a
-        generalizable pattern (i.e., too much noise)
-
-        TODO: filter classes before data gets loaded
-        """
-        df = pd.DataFrame({'X': X, 'y': y})
-        classes_to_keep = df['y'].value_counts().index[df['y'].value_counts() >= n_examples_threshold]
-        df = df.loc[df['y'].isin(classes_to_keep)]
-        X = df['X']
-        y = df['y']
-        return X, y
 
     def _inspect_estimated_parameters(self):
         """
@@ -310,63 +298,11 @@ class NaiveBayesModel(Model):
             prob_sorted = classifier.feature_log_prob_[technique_idx, :].argsort()[::-1]
             print(np.take(vocabulary, prob_sorted[:5]))
 
-    def train(self):
-        """
-        Load and preprocess data. Train model pipeline
-        """
-        X, y = self._load_and_vectorize_data()
-        X, y = self._filter_low_data_classes(X, y)
-        X = self._preprocess_text(X)
-        self.techniques_model.fit(X, y)  # Train classification model
-
-    def test(self):
-        """
-        Return classification metrics based on train/test evaluation of the data
-        Note: potential extension is to use cross-validation rather than a single train/test split
-        """
-        X, y = self._load_and_vectorize_data()
-        X, y = self._filter_low_data_classes(X, y)
-        X = self._preprocess_text(X)
-
-        # Create training set and test set
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
-                                                            shuffle=True, random_state=0, stratify=y)
-
-        # Train model
-        self.techniques_model.fit(X_train, y_train)
-
-        # Generate predictions on test set
-        y_predicted = self.techniques_model.predict(X_test)
-
-        """
-        # Average training and test accuracy
-        print('Training accuracy:', self.techniques_model.score(X_train, y_train))
-        print('Test accuracy:', self.techniques_model.score(X_test, y_test))
-
-        # Precision, recall, F1 score by technique
-        print(classification_report(y_test, y_predicted, zero_division = 0))
-        """
-
-        # Average F1 score across techniques, weighted by the # of training examples per technique
-        weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
-        return str(weighted_f1)
-
-    def get_indicators(self, text):
-        return []
-
     def get_mappings(self, sentence):
         """
         Use trained model to predict the technique for a given sentence.
         """
         mappings = []
-
-        """
-        # Output top technique based on prediction confidence
-        attack_technique = self.techniques_model.predict([sentence])[0]
-        confidence = self.techniques_model.predict_proba([sentence]).max(axis=1)[0] * 100
-        mapping = Mapping(confidence, attack_technique)
-        mappings.append(mapping)
-        """
 
         # Output top 3 techniques based on prediction confidence
         techniques = self.techniques_model.classes_
@@ -382,64 +318,16 @@ class NaiveBayesModel(Model):
 
 
 class LogisticRegressionModel(Model):
-    def __init__(self):
+    def get_model(self):
         """
         Modeling pipeline:
         1) Features = document-term matrix, with stop words removed from the term vocabulary.
         2) Classifier (clf) = multinomial logistic regression
         """
-        self.techniques_model = Pipeline([
+        return Pipeline([
             ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
             ("clf", LogisticRegression())
         ])
-
-    def _preprocess_text(self, sentences):
-        """
-        Preprocess text by
-        1) Lemmatizing - reducing words to their root, as a way to eliminate noise in the text
-        2) Removing digits
-        """
-        lemma = nltk.stem.WordNetLemmatizer()
-        preprocessed_sentences = []
-        for sentence in sentences:
-            # Lemmatize each word in sentence
-            sentence = ' '.join([lemma.lemmatize(w) for w in sentence.rstrip().split()])
-            sentence = re.sub(r'\d+', '', sentence)  # Remove digits with regex
-            preprocessed_sentences.append(sentence)
-        return preprocessed_sentences
-
-    def _load_and_vectorize_data(self):
-        """
-        Load training data from database.
-        Store sentence text in vector X
-        Store attack technique in vector y
-        """
-        X = []
-        y = []
-        accepted_sents = self.get_training_data()
-        for sent_obj in accepted_sents:
-            if sent_obj.mappings:  # Only store sentences with a labeled technique
-                sentence = sent_obj.text
-                technique_label = sent_obj.mappings[0].attack_technique
-                technique = technique_label[0:5]  # Cut string to technique level. leave out sub-technique
-                X.append(sentence)
-                y.append(technique)
-        return X, y
-
-    def _filter_low_data_classes(self, X, y, n_examples_threshold=5):
-        """
-        Only retain data for classes with at least examples above n_examples_threshold
-        Prevents predictions being made for classes without enough data to learn a
-        generalizable pattern (i.e., too much noise)
-
-        TODO: filter classes before data gets loaded
-        """
-        df = pd.DataFrame({'X': X, 'y': y})
-        classes_to_keep = df['y'].value_counts().index[df['y'].value_counts() >= n_examples_threshold]
-        df = df.loc[df['y'].isin(classes_to_keep)]
-        X = df['X']
-        y = df['y']
-        return X, y
 
     def _inspect_estimated_parameters(self):
         """
@@ -455,63 +343,11 @@ class LogisticRegressionModel(Model):
             prob_sorted = classifier.coef_[technique_idx, :].argsort()[::-1]
             print(np.take(vocabulary, prob_sorted[:5]))
 
-    def train(self):
-        """
-        Load and preprocess data. Train model pipeline
-        """
-        X, y = self._load_and_vectorize_data()
-        X, y = self._filter_low_data_classes(X, y)
-        X = self._preprocess_text(X)
-        self.techniques_model.fit(X, y)  # Train classification model
-
-    def test(self):
-        """
-        Return classification metrics based on train/test evaluation of the data
-        Note: potential extension is to use cross-validation rather than a single train/test split
-        """
-        X, y = self._load_and_vectorize_data()
-        X, y = self._filter_low_data_classes(X, y)
-        X = self._preprocess_text(X)
-
-        # Create training set and test set
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
-                                                            shuffle=True, random_state=0, stratify=y)
-
-        # Train model
-        self.techniques_model.fit(X_train, y_train)
-
-        # Generate predictions on test set
-        y_predicted = self.techniques_model.predict(X_test)
-
-        """
-        # Average training and test accuracy
-        print('Training accuracy:', self.techniques_model.score(X_train, y_train))
-        print('Test accuracy:', self.techniques_model.score(X_test, y_test))
-
-        # Precision, recall, F1 score by technique
-        print(classification_report(y_test, y_predicted, zero_division = 0))
-        """
-
-        # Average F1 score across techniques, weighted by the # of training examples per technique
-        weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
-        return str(weighted_f1)
-
-    def get_indicators(self, text):
-        return []
-
     def get_mappings(self, sentence):
         """
         Use trained model to predict the technique for a given sentence.
         """
         mappings = []
-
-        """
-        # Output top technique based on prediction confidence
-        attack_technique = self.techniques_model.predict([sentence])[0]
-        confidence = self.techniques_model.predict_proba([sentence]).max(axis=1)[0] * 100
-        mapping = Mapping(confidence, attack_technique)
-        mappings.append(mapping)
-        """
 
         # Output top 3 techniques based on prediction confidence
         techniques = self.techniques_model.classes_
@@ -526,65 +362,8 @@ class LogisticRegressionModel(Model):
         return mappings
 
 
-class TramModel(Model):
-    def __init__(self, model_name: str = 'stsb-roberta-large', max_iter: int = 10_000):
-        self.techniques_model = Pipeline([
-            ("features", SentenceEmbeddingTransformer(model_name)),
-            ("clf", OneVsRestClassifier(LogisticRegression(max_iter=max_iter)))
-        ])
-
-        self._t2i = {
-            t.attack_id: i for i, t in enumerate(db_models.AttackTechnique.objects.all().order_by('attack_id'))
-        }
-        self._i2t = {v: k for k, v in self._t2i.items()}
-
-    def __vectorize(self, sents: List[Sentence]):
-        X = []
-        y = []
-        for sent in sents:
-            X.append(sent.text)
-            y_ = np.zeros(shape=(len(self._t2i)))
-            for mapping in sent.mappings:
-                y_[self._t2i[mapping.attack_technique]] = 1
-            y.append(y_)
-        return X, y
-
-    def train(self):
-        """
-        Trains the model based on:
-          1. ATT&CK data from disk
-          2. User-annotated reports from models.Report
-        """
-        accepted_sents = self.get_training_data()
-        X, y = self.__vectorize(accepted_sents)
-        self.techniques_model.fit(X, y)
-
-    def test(self):
-        """Returns the f1 score
-        """
-        raise NotImplementedError()
-
-    def get_mappings(self, sentence):
-        try:
-            check_is_fitted(self.techniques_model)
-        except NotFittedError:  # If the model is not fitted, propose zero mappings
-            print('Info: Model has not been fitted. Proposing zero mappings')
-            return []
-
-        mappings = []
-        # [0] because we're doing this one sentence at a time, but expected is batch in, batch out
-        technique_preds = self.techniques_model.predict_proba([sentence])[0].tolist()
-        for i, confidence in enumerate(technique_preds):
-            if confidence >= 0.5:
-                attack_technique = self._i2t[i]
-                mapping = Mapping(confidence, attack_technique)
-                mappings.append(mapping)
-        return mappings
-
-
 class ModelManager(object):
     model_registry = {  # TODO: Add a hook to register user-created models
-        'tram': TramModel,
         'dummy': DummyModel,
         'nb': NaiveBayesModel,
         'logreg': LogisticRegressionModel,
@@ -612,14 +391,6 @@ class ModelManager(object):
             ml_model=self.model.__class__.__name__
         )
         rpt.save()
-
-        for indicator in report.indicators:
-            ind = db_models.Indicator(
-                report=rpt,
-                indicator_type=indicator.type_,
-                value=indicator.value
-            )
-            ind.save()
 
         for sentence in report.sentences:
             s = db_models.Sentence(

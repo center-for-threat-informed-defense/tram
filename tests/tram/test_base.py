@@ -1,5 +1,3 @@
-import warnings
-
 from django.core.files.base import File
 import pytest
 
@@ -15,19 +13,6 @@ def dummy_model():
 @pytest.fixture
 def tram_model():
     return base.TramModel()
-
-
-class TestIndicator:
-    def test_repr_is_correct(self):
-        # Arrange
-        expected = 'Indicator: MD5=54b0c58c7ce9f2a8b551351102ee0938'
-
-        # Act
-        ind = base.Indicator(type_='MD5',
-                             value='54b0c58c7ce9f2a8b551351102ee0938')
-
-        # Assert
-        assert str(ind) == expected
 
 
 class TestSentence:
@@ -67,23 +52,18 @@ class TestReport:
         sentences = [
             base.Sentence('test sentence text', 0, None)
         ]
-        indicators = [
-            base.Indicator('MD5', '54b0c58c7ce9f2a8b551351102ee0938')
-        ]
 
         # Act
         rpt = base.Report(
             name=name,
             text=text,
-            sentences=sentences,
-            indicators=indicators
+            sentences=sentences
         )
 
         # Assert
         assert rpt.name == name
         assert rpt.text == text
         assert rpt.sentences == sentences
-        assert rpt.indicators == indicators
 
 
 @pytest.mark.django_db
@@ -206,7 +186,6 @@ class TestModel:
         assert report.name is not None
         assert report.text is not None
         assert len(report.sentences) > 0
-        assert len(report.indicators) > 0
 
     def test_no_data_get_training_data_succeeds(self, dummy_model):
         # Act
@@ -242,41 +221,30 @@ class TestModel:
         assert training_data[0].__class__ == base.Sentence
 
 
-class TestDummyModel:
-    def test_train_passes(self, dummy_model):
-        # Act
-        dummy_model.train()  # Has no effect
-
-    def test_test_passes(self, dummy_model):
-        # Act
-        dummy_model.test()  # Has no effect
-
-    # TODO: Test get_indicators, pick_random_techniques, get_mappings
-
-
+@pytest.mark.django_db
+@pytest.mark.usefixtures('load_attack_data', 'load_training_data')
 class TestModelManager:
-    @pytest.mark.django_db
-    def test___init__loads_tram_model(self):
-        # Act
-        model_manager = base.ModelManager('tram')
+    """
+    Loading the training data is a large time cost, so this groups tests together that use
+    the training data, even if it doesn't follow the class structure.
+    """
 
-        # Assert
-        assert model_manager.model.__class__ == base.TramModel
-
-    @pytest.mark.django_db
-    def test__init__loads_dummy_model(self):
+    """
+    ----- Begin ModelManager Tests -----
+    """
+    def test_modelmanager__init__loads_dummy_model(self):
         # Act
         model_manager = base.ModelManager('dummy')
 
         # Assert
         assert model_manager.model.__class__ == base.DummyModel
 
-    def test__init__raises_value_error_on_unknown_model(self):
+    def test_modelmanager__init__raises_value_error_on_unknown_model(self):
         # Act / Assert
         with pytest.raises(ValueError):
             base.ModelManager('this-should-raise')
 
-    def test_train_model_doesnt_raise(self):
+    def test_modelmanager_train_model_doesnt_raise(self):
         # Arrange
         model_manager = base.ModelManager('dummy')
 
@@ -286,7 +254,7 @@ class TestModelManager:
         # Assert
         # TODO: Something meaningful
 
-    def test_test_model_doesnt_raise(self):
+    def test_modelmanager_test_model_doesnt_raise(self):
         # Arrange
         model_manager = base.ModelManager('dummy')
 
@@ -295,34 +263,20 @@ class TestModelManager:
 
         # Assert
         # TODO: Something meaningful
+    """
+    ----- End ModelManager Tests -----
+    """
 
-
-@pytest.mark.django_db
-class TestTramModel:
-    def test_train_doesnt_raise(self, simple_training_data, tram_model):
+    """
+    ----- Begin DummyModel Tests -----
+    """
+    def test_dummymodel_train_passes(self, dummy_model):
         # Act
-        with warnings.catch_warnings():
-            # TODO: This makes TONS of warnings that looks like this:
-            #       UserWarning: Label not 796 is present in all training examples.
-            warnings.simplefilter("ignore")
-            tram_model.train()
+        dummy_model.train()  # Has no effect
 
-        # Assert
-        # n/a - If .train() doesn't raise, test passes
-
-    def test_test_raises_notimplemented(self, tram_model):
+    def test_dummymodel_test_passes(self, dummy_model, load_attack_data, load_training_data):
         # Act
-        with pytest.raises(NotImplementedError):
-            tram_model.test()
-
-    def test_get_mappings_returns_mappings(self, simple_training_data, tram_model):
-        # Arrange
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            tram_model.train()
-
-        # Act
-        mappings = tram_model.get_mappings('This is a test sentence')
-
-        # Assert
-        assert mappings.__class__ == list
+        dummy_model.test()  # Has no effect
+    """
+    ----- End DummyModel Tests -----
+    """
