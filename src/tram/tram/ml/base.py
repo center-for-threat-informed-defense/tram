@@ -15,7 +15,6 @@ import numpy as np
 import pandas as pd
 import pdfplumber
 import re
-from sklearn.base import TransformerMixin
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score
@@ -25,22 +24,6 @@ from sklearn.pipeline import Pipeline
 
 # The word model is overloaded in this scope, so a prefix is necessary
 from tram import models as db_models
-
-from sentence_transformers import SentenceTransformer
-
-
-class SentenceEmbeddingTransformer(TransformerMixin):
-    """Use pretrained sentence-transformer architectures as features to downstream classification models.
-
-    """
-    def __init__(self, model_name):
-        self._model = SentenceTransformer(model_name)
-
-    def fit(self, X, y=None, **fit_params):
-        return self
-
-    def transform(self, X, y=None):
-        return self._model.encode(X)
 
 
 class Sentence(object):
