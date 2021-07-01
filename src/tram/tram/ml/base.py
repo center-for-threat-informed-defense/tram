@@ -69,7 +69,6 @@ class Model(ABC):
         Load and preprocess data. Train model pipeline
         """
         X, y = self._load_and_vectorize_data()
-        # X, y = self._filter_low_data_classes(X, y)  # Moved into get_training_data()
         X = self._preprocess_text(X)
         self.techniques_model.fit(X, y)  # Train classification model
 
@@ -79,7 +78,6 @@ class Model(ABC):
         Note: potential extension is to use cross-validation rather than a single train/test split
         """
         X, y = self._load_and_vectorize_data()
-        # X, y = self._filter_low_data_classes(X, y)  # Moved into get_training_data()
         X = self._preprocess_text(X)
 
         # Create training set and test set
@@ -150,21 +148,6 @@ class Model(ABC):
                 technique = technique_label[0:5]  # Cut string to technique level. leave out sub-technique
                 X.append(sentence)
                 y.append(technique)
-        return X, y
-
-    def _x_filter_low_data_classes(self, X, y, n_examples_threshold=5):
-        """
-        Only retain data for classes with at least examples above n_examples_threshold
-        Prevents predictions being made for classes without enough data to learn a
-        generalizable pattern (i.e., too much noise)
-
-        TODO: filter classes before data gets loaded
-        """
-        df = pd.DataFrame({'X': X, 'y': y})
-        classes_to_keep = df['y'].value_counts().index[df['y'].value_counts() >= n_examples_threshold]
-        df = df.loc[df['y'].isin(classes_to_keep)]
-        X = df['X']
-        y = df['y']
         return X, y
 
     def get_training_data(self):
