@@ -1,4 +1,5 @@
 from django.core.files.base import File
+from constance import config
 import pytest
 
 from tram.ml import base
@@ -67,6 +68,16 @@ class TestReport:
 
 
 @pytest.mark.django_db
+class TestModelWithoutAttackData:
+    """Tests ml.base.Model via DummyModel, without the load_attack_data fixture"""
+    def test_get_attack_techniques_raises_if_not_initialized(self, dummy_model):
+        # Act / Assert
+        with pytest.raises(ValueError):
+            dummy_model.get_attack_technique_ids()
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures('load_attack_data')
 class TestModel:
     """Tests ml.base.Model via DummyModel"""
 
@@ -137,12 +148,6 @@ class TestModel:
         # Assert
         assert report_name.startswith(expected)
 
-    def test_get_attack_techniques_raises_if_not_initialized(self, dummy_model):
-        # Act / Assert
-        with pytest.raises(ValueError):
-            dummy_model.get_attack_technique_ids()
-
-    @pytest.mark.usefixtures('load_attack_data')
     def test_get_attack_techniques_succeeds_after_initialization(self, dummy_model):
         # Act
         techniques = dummy_model.get_attack_technique_ids()
@@ -152,7 +157,6 @@ class TestModel:
         assert 'T1497.003' in techniques  # Ensures mitre-attack is available
         assert 'T1579' in techniques  # Ensures mitre-mobile-attack is available
 
-    @pytest.mark.usefixtures('load_attack_data')
     def test_disk_round_trip_succeeds(self, dummy_model, tmpdir):
         # Arrange
         filepath = (tmpdir + 'dummy_model.pkl').strpath
@@ -167,7 +171,6 @@ class TestModel:
         assert dummy_model.__class__ == dummy_model_2.__class__
         assert dummy_model.get_attack_technique_ids() == dummy_model_2.get_attack_technique_ids()
 
-    @pytest.mark.usefixtures('load_attack_data')
     def test_process_job_produces_valid_report(self, dummy_model):
         # Arrange
         with open('tests/data/AA20-302A.docx', 'rb') as f:
@@ -210,11 +213,19 @@ class TestModel:
             report=report,
             disposition='accept'
         )
+        m1 = db_models.Mapping.objects.create(
+            report=report,
+            sentence=s2,
+            attack_technique=db_models.AttackTechnique.objects.get(attack_id='T1548'),
+            confidence=100.0,
+        )
+        config.ML_ACCEPT_THRESHOLD = 0  # Set the threshold to 0 for this test
 
         # Act
         training_data = dummy_model.get_training_data()
         s1.delete()
         s2.delete()
+        m1.delete()
 
         # Assert
         assert len(training_data) == 1

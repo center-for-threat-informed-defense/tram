@@ -7,6 +7,7 @@ import random
 import time
 
 from bs4 import BeautifulSoup
+from constance import config
 from django.db import transaction
 from django.conf import settings
 import docx
@@ -57,11 +58,11 @@ class Model(ABC):
             raise TypeError('Object returned by get_model() must have a fit() method')
 
         if not hasattr(self.techniques_model, 'predict'):
-            raise TypeError('Object returned by get_model() must have a fit() method')
+            raise TypeError('Object returned by get_model() must have a predict() method')
 
     @abstractmethod
     def get_model(self):
-        """TBD
+        """Returns an sklearn.Pipeline that has fit() and predict() methods
         """
 
     def train(self):
@@ -69,7 +70,7 @@ class Model(ABC):
         Load and preprocess data. Train model pipeline
         """
         X, y = self._load_and_vectorize_data()
-        X, y = self._filter_low_data_classes(X, y)
+        # X, y = self._filter_low_data_classes(X, y)  # Moved into get_training_data()
         X = self._preprocess_text(X)
         self.techniques_model.fit(X, y)  # Train classification model
 
@@ -79,7 +80,7 @@ class Model(ABC):
         Note: potential extension is to use cross-validation rather than a single train/test split
         """
         X, y = self._load_and_vectorize_data()
-        X, y = self._filter_low_data_classes(X, y)
+        # X, y = self._filter_low_data_classes(X, y)  # Moved into get_training_data()
         X = self._preprocess_text(X)
 
         # Create training set and test set
@@ -152,7 +153,7 @@ class Model(ABC):
                 y.append(technique)
         return X, y
 
-    def _filter_low_data_classes(self, X, y, n_examples_threshold=5):
+    def _x_filter_low_data_classes(self, X, y, n_examples_threshold=5):
         """
         Only retain data for classes with at least examples above n_examples_threshold
         Prevents predictions being made for classes without enough data to learn a
@@ -168,14 +169,27 @@ class Model(ABC):
         return X, y
 
     def get_training_data(self):
-        """Returns a list of base.Sentence objects where there is an accepted mapping"""
-        sentences = []
-        accepted_sentences = db_models.Sentence.objects.filter(disposition='accept')
+        """Returns a list of base.Sentence objects where there the number
+           of accepted mappings is above the configured threshold (ML_ACCEPT_THRESHOLD)
+        """
+        # TODO: Refactor for readability and performance
+        # Get Attack techniques that have >= the required amount of positive examples
+        attack_techniques = db_models.AttackTechnique.get_sentence_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
 
-        for accepted_sentence in accepted_sentences:
-            mappings = db_models.Mapping.objects.filter(sentence=accepted_sentence)
+        # Get mappings for the attack techniques above threshold
+        mappings = db_models.Mapping.objects.filter(attack_technique__in=attack_techniques)
+
+        # For the mappings that are above threshold, identify the sentences
+        training_sentence_ids = set()
+        for mapping in mappings:
+            training_sentence_ids.add(mapping.sentence.id)
+
+        sentences = []
+        for training_sentence_id in training_sentence_ids:
+            training_sentence = db_models.Sentence.objects.get(id=training_sentence_id)
+            mappings = db_models.Mapping.objects.filter(sentence=training_sentence)
             m = [Mapping(mapping.confidence, mapping.attack_technique.attack_id) for mapping in mappings]
-            sentence = Sentence(accepted_sentence.text, accepted_sentence.order, m)
+            sentence = Sentence(training_sentence.text, training_sentence.order, m)
             sentences.append(sentence)
 
         return sentences
@@ -298,7 +312,7 @@ class NaiveBayesModel(Model):
             prob_sorted = classifier.feature_log_prob_[technique_idx, :].argsort()[::-1]
             print(np.take(vocabulary, prob_sorted[:5]))
 
-    def get_mappings(self, sentence):
+    def get_mappings(self, sentence):  # TODO: Move into base class
         """
         Use trained model to predict the technique for a given sentence.
         """
@@ -343,7 +357,7 @@ class LogisticRegressionModel(Model):
             prob_sorted = classifier.coef_[technique_idx, :].argsort()[::-1]
             print(np.take(vocabulary, prob_sorted[:5]))
 
-    def get_mappings(self, sentence):
+    def get_mappings(self, sentence):  # TODO: Move into base model
         """
         Use trained model to predict the technique for a given sentence.
         """
@@ -367,7 +381,6 @@ class ModelManager(object):
         'dummy': DummyModel,
         'nb': NaiveBayesModel,
         'logreg': LogisticRegressionModel,
-
     }
 
     def __init__(self, model):

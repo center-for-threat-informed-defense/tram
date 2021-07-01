@@ -1,7 +1,6 @@
 import json
 
 from constance import config
-from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
@@ -126,7 +125,6 @@ def ml_home(request):
 
 @login_required
 def ml_technique_sentences(request, attack_id):
-    disposition = request.GET.get('disposition', 'no-disposition')
     context = {'attack_id': attack_id}
     return render(request, 'technique_sentences.html', context)
 
