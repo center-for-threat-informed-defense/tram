@@ -12,7 +12,6 @@ from django.db import transaction
 from django.conf import settings
 import docx
 import nltk
-import numpy as np
 import pandas as pd
 import pdfplumber
 import re
@@ -267,18 +266,16 @@ class Model(ABC):
         return model
 
 
-class DummyPipeline(object):
+class DummyModel(Model):
+    def get_model(self):
+        return self
+
     def fit(self, X, y):
         return None
 
     def predict(self, X):
         y_predicted = ['dummy' for item in X]
         return y_predicted
-
-
-class DummyModel(Model):
-    def get_model(self):
-        return DummyPipeline()
 
     def _pick_random_techniques(self):
         """Returns a list of 0-4 randomly selected ATTACK Technique IDs"""
