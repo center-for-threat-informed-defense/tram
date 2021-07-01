@@ -309,20 +309,6 @@ class NaiveBayesModel(Model):
             ("clf", MultinomialNB())
         ])
 
-    def _inspect_estimated_parameters(self):
-        """
-        For Naive Bayes, we can obtain the log probability of a term given a technique, P(term|y)
-        Here we print the top 5 terms by technique
-        """
-        classifier = self.techniques_model.named_steps['clf']
-        vocabulary = self.techniques_model.named_steps['features'].get_feature_names()
-        model_classes = self.techniques_model.classes_
-        for technique_idx in range(len(model_classes)):
-            technique = model_classes[technique_idx]
-            print(technique)
-            prob_sorted = classifier.feature_log_prob_[technique_idx, :].argsort()[::-1]
-            print(np.take(vocabulary, prob_sorted[:5]))
-
 
 class LogisticRegressionModel(Model):
     def get_model(self):
@@ -335,20 +321,6 @@ class LogisticRegressionModel(Model):
             ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
             ("clf", LogisticRegression())
         ])
-
-    def _inspect_estimated_parameters(self):
-        """
-        For logistic regression, we can obtain the terms associated with the greatest-magnitude regression coefficients
-        Here we print the top 5 terms by technique
-        """
-        classifier = self.techniques_model.named_steps['clf']
-        vocabulary = self.techniques_model.named_steps['features'].get_feature_names()
-        model_classes = self.techniques_model.classes_
-        for technique_idx in range(len(model_classes)):
-            technique = model_classes[technique_idx]
-            print(technique)
-            prob_sorted = classifier.coef_[technique_idx, :].argsort()[::-1]
-            print(np.take(vocabulary, prob_sorted[:5]))
 
 
 class ModelManager(object):
