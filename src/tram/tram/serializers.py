@@ -54,7 +54,7 @@ class MappingSerializer(serializers.ModelSerializer):
         internal_value = super().to_internal_value(data)  # Keeps model fields
 
         # Add necessary fields
-        attack_technique = db_models.AttackTechnique.objects.get(attack_id=data['attack_technique'])
+        attack_technique = db_models.AttackTechnique.objects.get(attack_id=data['attack_id'])
         sentence = db_models.Sentence.objects.get(id=data['sentence'])
         report = db_models.Report.objects.get(id=data['report'])
 
@@ -205,10 +205,9 @@ class SentenceSerializer(serializers.ModelSerializer):
             )
 
             for mapping in validated_data.get('mappings', []):
+                mapping.initial_data['sentence'] = sentence.id
+                mapping.initial_data['report'] = validated_data['report'].id
                 if mapping.is_valid():
-                    mapping.validated_data['attack_id'] = mapping.initial_data['attack_id']
-                    mapping.validated_data['report'] = validated_data['report']
-                    mapping.validated_data['sentence'] = sentence
                     mapping.save()
                 else:
                     # TODO: Handle this case better

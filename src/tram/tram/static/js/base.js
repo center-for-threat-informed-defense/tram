@@ -38,7 +38,7 @@ function uploadReport() {
 
 
 function addMapping(attack_id, sentence_id) {
-    var data = {report: REPORT_ID, sentence: sentence_id, attack_technique: attack_id, confidence: 100.0};
+    var data = {report: REPORT_ID, sentence: sentence_id, attack_id: attack_id, confidence: 100.0};
 
     $.ajax({
         type: "POST",
