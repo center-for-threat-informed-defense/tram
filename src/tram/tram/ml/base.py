@@ -200,12 +200,23 @@ class Model(ABC):
             raise ValueError('Zero techniques found. Maybe run `python manage.py attackdata load` ?')
         return techniques
 
-    @abstractmethod
-    def get_mappings(self, sentence):
+    def get_mappings(self, sentence):  # TODO: Move into base class
         """
-        Returns a list of Mapping objects for the sentence.
-        Returns an empty list if there are no Mappings
+        Use trained model to predict the technique for a given sentence.
         """
+        mappings = []
+
+        # Output top 3 techniques based on prediction confidence
+        techniques = self.techniques_model.classes_
+        probs = self.techniques_model.predict_proba([sentence])[0]
+        top_3_conf_techniques = sorted(zip(probs, techniques), reverse=True)[:3]
+        for res in top_3_conf_techniques:
+            conf = res[0] * 100
+            attack_technique = res[1]
+            mapping = Mapping(conf, attack_technique)
+            mappings.append(mapping)
+
+        return mappings
 
     def _sentence_tokenize(self, text):
         return nltk.sent_tokenize(text)
@@ -312,24 +323,6 @@ class NaiveBayesModel(Model):
             prob_sorted = classifier.feature_log_prob_[technique_idx, :].argsort()[::-1]
             print(np.take(vocabulary, prob_sorted[:5]))
 
-    def get_mappings(self, sentence):  # TODO: Move into base class
-        """
-        Use trained model to predict the technique for a given sentence.
-        """
-        mappings = []
-
-        # Output top 3 techniques based on prediction confidence
-        techniques = self.techniques_model.classes_
-        probs = self.techniques_model.predict_proba([sentence])[0]
-        top_3_conf_techniques = sorted(zip(probs, techniques), reverse=True)[:3]
-        for res in top_3_conf_techniques:
-            conf = res[0] * 100
-            attack_technique = res[1]
-            mapping = Mapping(conf, attack_technique)
-            mappings.append(mapping)
-
-        return mappings
-
 
 class LogisticRegressionModel(Model):
     def get_model(self):
@@ -356,24 +349,6 @@ class LogisticRegressionModel(Model):
             print(technique)
             prob_sorted = classifier.coef_[technique_idx, :].argsort()[::-1]
             print(np.take(vocabulary, prob_sorted[:5]))
-
-    def get_mappings(self, sentence):  # TODO: Move into base model
-        """
-        Use trained model to predict the technique for a given sentence.
-        """
-        mappings = []
-
-        # Output top 3 techniques based on prediction confidence
-        techniques = self.techniques_model.classes_
-        probs = self.techniques_model.predict_proba([sentence])[0]
-        top_3_conf_techniques = sorted(zip(probs, techniques), reverse=True)[:3]
-        for res in top_3_conf_techniques:
-            conf = res[0] * 100
-            attack_technique = res[1]
-            mapping = Mapping(conf, attack_technique)
-            mappings.append(mapping)
-
-        return mappings
 
 
 class ModelManager(object):
