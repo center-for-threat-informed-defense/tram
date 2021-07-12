@@ -3,7 +3,6 @@ from io import BytesIO
 from os import path
 import pathlib
 import pickle
-import random
 import time
 
 from bs4 import BeautifulSoup
@@ -264,22 +263,6 @@ class DummyModel(SKLearnModel):
             ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
             ("clf", DummyClassifier(strategy='uniform'))
         ])
-
-    def _pick_random_techniques(self):
-        """Returns a list of 0-4 randomly selected ATTACK Technique IDs"""
-        num_techniques = random.randint(0, 4)
-        techniques = random.choices(self.technique_ids, k=num_techniques)
-        return techniques
-
-    def get_mappings(self, sentence):
-        mappings = []
-        attack_techniques = self._pick_random_techniques()
-        for attack_technique in attack_techniques:
-            confidence = random.uniform(0.0, 100.0)
-            mapping = Mapping(confidence, attack_technique)
-            mappings.append(mapping)
-
-        return mappings
 
 
 class NaiveBayesModel(SKLearnModel):

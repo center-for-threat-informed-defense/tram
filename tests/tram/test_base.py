@@ -171,25 +171,6 @@ class TestSkLearnModel:
         assert dummy_model.__class__ == dummy_model_2.__class__
         assert dummy_model.get_attack_technique_ids() == dummy_model_2.get_attack_technique_ids()
 
-    def test_process_job_produces_valid_report(self, dummy_model):
-        # Arrange
-        with open('tests/data/AA20-302A.docx', 'rb') as f:
-            doc = db_models.Document(docfile=File(f))
-            doc.save()
-        job = db_models.DocumentProcessingJob(document=doc)
-        job.save()
-        # Act
-        report = dummy_model.process_job(job)
-
-        # Cleanup
-        job.delete()
-        doc.delete()
-
-        # Assert
-        assert report.name is not None
-        assert report.text is not None
-        assert len(report.sentences) > 0
-
     def test_no_data_get_training_data_succeeds(self, dummy_model):
         # Act
         training_data = dummy_model.get_training_data()
@@ -240,21 +221,10 @@ class TestSkLearnModel:
         with pytest.raises(TypeError):
             NonSKLearnPipeline()
 
-    def test_get_mappings_returns_mappings(self):
-        # Arrange
-        dummy_model = base.DummyModel()
-
-        # Act
-        mappings = dummy_model.get_mappings('test sentence')
-
-        # Assert
-        for mapping in mappings:
-            assert isinstance(mapping, base.Mapping)
-
 
 @pytest.mark.django_db
 @pytest.mark.usefixtures('load_attack_data', 'load_training_data')
-class TestModelManager:
+class TestsThatNeedTrainingData:
     """
     Loading the training data is a large time cost, so this groups tests together that use
     the training data, even if it doesn't follow the class structure.
@@ -298,6 +268,40 @@ class TestModelManager:
     ----- End ModelManager Tests -----
     """
 
+    def test_get_mappings_returns_mappings(self):
+        # Arrange
+        dummy_model = base.DummyModel()
+        dummy_model.train()
+
+        # Act
+        mappings = dummy_model.get_mappings('test sentence')
+
+        # Assert
+        for mapping in mappings:
+            assert isinstance(mapping, base.Mapping)
+
+    def test_process_job_produces_valid_report(self):
+        # Arrange
+        with open('tests/data/AA20-302A.docx', 'rb') as f:
+            doc = db_models.Document(docfile=File(f))
+            doc.save()
+        job = db_models.DocumentProcessingJob(document=doc)
+        job.save()
+        dummy_model = base.DummyModel()
+        dummy_model.train()
+
+        # Act
+        report = dummy_model.process_job(job)
+
+        # Cleanup
+        job.delete()
+        doc.delete()
+
+        # Assert
+        assert report.name is not None
+        assert report.text is not None
+        assert len(report.sentences) > 0
+
     """
     ----- Begin DummyModel Tests -----
     """
@@ -305,7 +309,7 @@ class TestModelManager:
         # Act
         dummy_model.train()  # Has no effect
 
-    def test_dummymodel_test_passes(self, dummy_model, load_attack_data, load_training_data):
+    def test_dummymodel_test_passes(self, dummy_model):
         # Act
         dummy_model.test()  # Has no effect
     """
