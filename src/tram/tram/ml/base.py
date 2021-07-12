@@ -189,7 +189,7 @@ class SKLearnModel(ABC):
             raise ValueError('Zero techniques found. Maybe run `python manage.py attackdata load` ?')
         return techniques
 
-    def get_mappings(self, sentence):  # TODO: Move into base class
+    def get_mappings(self, sentence):
         """
         Use trained model to predict the technique for a given sentence.
         """
