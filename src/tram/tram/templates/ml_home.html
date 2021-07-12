@@ -35,25 +35,6 @@
   </div>
   <div class="col-sm">
     <div>
-      <h3>ML Settings <a class="btn btn-primary-outline" href="/admin/constance/config/">Manage</a></h3>
-
-      <table id="ml-settings-table" class="table table-striped">
-        <caption>ML Settings Table</caption>
-        <tbody>
-          <tr>
-            <th scope="col">Setting</th>
-            <th scope="col">Value</th>
-            <th scope="col">Note</th>
-          </tr>
-          <tr>
-            <td>ML_ACCEPT_THRESHOLD</td>
-            <td>{{ML_ACCEPT_THRESHOLD}}</td>
-            <td>Exclude Attack Techniques with less than the specified number of accepted sentences</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div>
       <h3>ML Models</h3>
       TODO: This is mocked up
       <table id="ml-models-table" class="table table-striped">
@@ -70,6 +51,24 @@
           <tr>
             <td>NaiveBayes</td>
             <td>60</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3>ML Settings <a class="btn btn-primary-outline" href="/admin/constance/config/">Manage</a></h3>
+      <table id="ml-settings-table" class="table table-striped">
+        <caption>ML Settings Table</caption>
+        <tbody>
+          <tr>
+            <th scope="col">Setting</th>
+            <th scope="col">Value</th>
+            <th scope="col">Note</th>
+          </tr>
+          <tr>
+            <td>ML_ACCEPT_THRESHOLD</td>
+            <td>{{ML_ACCEPT_THRESHOLD}}</td>
+            <td>Exclude Attack Techniques with less than the specified number of accepted sentences</td>
           </tr>
         </tbody>
       </table>

@@ -12,9 +12,9 @@ from django.db import transaction
 from django.conf import settings
 import docx
 import nltk
-import pandas as pd
 import pdfplumber
 import re
+from sklearn.dummy import DummyClassifier
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score
@@ -49,15 +49,15 @@ class Report(object):
         self.sentences = sentences  # Sentence objects
 
 
-class Model(ABC):
+class SKLearnModel(ABC):
     def __init__(self):
         self._technique_ids = None
         self.techniques_model = self.get_model()
-        if not hasattr(self.techniques_model, 'fit'):
-            raise TypeError('Object returned by get_model() must have a fit() method')
+        self.trained_techniques = None
+        self.f1_score = None
 
-        if not hasattr(self.techniques_model, 'predict'):
-            raise TypeError('Object returned by get_model() must have a predict() method')
+        if not isinstance(self.techniques_model, Pipeline):
+            raise TypeError('get_model() must return an sklearn.pipeline.Pipeline instance')
 
     @abstractmethod
     def get_model(self):
@@ -81,18 +81,26 @@ class Model(ABC):
         X = self._preprocess_text(X)
 
         # Create training set and test set
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
-                                                            shuffle=True, random_state=0, stratify=y)
+        y_counts = {}
+        for technique in y:
+            if technique not in y_counts:
+                y_counts[technique] = 0
+            y_counts[technique] += 1
+
+        X_train, X_test, y_train, y_test = \
+            train_test_split(X, y, test_size=0.5, shuffle=True, random_state=0, stratify=y)
 
         # Train model
-        self.techniques_model.fit(X_train, y_train)
+        test_model = self.get_model()
+        test_model.fit(X_train, y_train)
 
         # Generate predictions on test set
-        y_predicted = self.techniques_model.predict(X_test)
+        y_predicted = test_model.predict(X_test)
 
         # Average F1 score across techniques, weighted by the # of training examples per technique
         weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
-        return str(weighted_f1)  # TODO: Should this be a float?
+        self.trained_techniques = set(y)
+        self.f1_score = weighted_f1
 
     @property
     def technique_ids(self):
@@ -157,7 +165,6 @@ class Model(ABC):
         # TODO: Refactor for readability and performance
         # Get Attack techniques that have >= the required amount of positive examples
         attack_techniques = db_models.AttackTechnique.get_sentence_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
-
         # Get mappings for the attack techniques above threshold
         mappings = db_models.Mapping.objects.filter(attack_technique__in=attack_techniques)
 
@@ -191,6 +198,8 @@ class Model(ABC):
         # Output top 3 techniques based on prediction confidence
         techniques = self.techniques_model.classes_
         probs = self.techniques_model.predict_proba([sentence])[0]
+        # TODO: Consider a confidence threshold instead of Top-3
+        #       Could be implemented as an application setting.
         top_3_conf_techniques = sorted(zip(probs, techniques), reverse=True)[:3]
         for res in top_3_conf_techniques:
             conf = res[0] * 100
@@ -249,16 +258,12 @@ class Model(ABC):
         return model
 
 
-class DummyModel(Model):
+class DummyModel(SKLearnModel):
     def get_model(self):
-        return self
-
-    def fit(self, X, y):
-        return None
-
-    def predict(self, X):
-        y_predicted = ['dummy' for item in X]
-        return y_predicted
+        return Pipeline([
+            ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
+            ("clf", DummyClassifier(strategy='uniform'))
+        ])
 
     def _pick_random_techniques(self):
         """Returns a list of 0-4 randomly selected ATTACK Technique IDs"""
@@ -277,7 +282,7 @@ class DummyModel(Model):
         return mappings
 
 
-class NaiveBayesModel(Model):
+class NaiveBayesModel(SKLearnModel):
     def get_model(self):
         """
         Modeling pipeline:
@@ -290,7 +295,7 @@ class NaiveBayesModel(Model):
         ])
 
 
-class LogisticRegressionModel(Model):
+class LogisticRegressionModel(SKLearnModel):
     def get_model(self):
         """
         Modeling pipeline:

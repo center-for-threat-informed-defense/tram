@@ -116,9 +116,12 @@ def ml_home(request):
     techniques = AttackTechnique.get_sentence_counts()
 
     context = {
-               'techniques': techniques,
-               'ML_ACCEPT_THRESHOLD': config.ML_ACCEPT_THRESHOLD
-               }
+                'techniques': techniques,
+                'ML_ACCEPT_THRESHOLD': config.ML_ACCEPT_THRESHOLD,
+                'models': [  # model-name, trained-techniques, average-f1-score
+                    'Model #1', ''
+                ]
+              }
 
     return render(request, 'ml_home.html', context)
 
