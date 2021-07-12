@@ -8,7 +8,7 @@ $( document ).ready(function() {
 function loadSentences(active_sentence_id) {
     $.ajax({
         type: "GET",
-        url: `/api/sentences/?report-id=${REPORT_ID}`,
+        url: `/api/sentences/?attack-id=${ATTACK_ID}`,
         dataType: "json",
         success: function (sentences) {
             storeSentences(sentences)

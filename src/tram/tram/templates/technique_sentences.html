@@ -2,23 +2,26 @@
 
 {% load static %}
 
-{% block title %}TRAM - Analyze Report{% endblock %}
+{% block title %}TRAM - Technique Sentences{% endblock %}
 
 {% block head %}
-<script src="{% static 'js/analyze.js' %}"></script>
+<script src="{% static 'js/technique-sentences.js' %}"></script>
 <script type="text/javascript">
-    const REPORT_ID = parseInt({{ report_id }});
+    const ATTACK_ID = "{{ attack_id }}";
 </script>
 {% endblock %}
 
 {% block body %}
 
-<h3 class="display-4 text-center">{{ report_name }}</h3>
+<h3 class="display-4 text-center">Sentences Mapped to {{ attack_id }}</h3>
+Sentences may contain additional mappings.
 
 <div class="row">
     <div id="sentence-container" class="col overflow-scroll" style="max-height: 500px;">
-        <h4>Report Sentences</h4>
+        <h4>Sentences</h4>
         <table id="sentence-table" class="table table-striped table-hover">
+            <caption>Sentences</caption>
+            <th scope="col">This table should be re-rendered and this text should not be visible.</th>
             <!-- Contents rendered by JavaScript -->
         </table>
     </div>

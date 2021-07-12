@@ -1,4 +1,5 @@
 from django.core.files.base import File
+from constance import config
 import pytest
 
 from tram.ml import base
@@ -67,8 +68,18 @@ class TestReport:
 
 
 @pytest.mark.django_db
-class TestModel:
-    """Tests ml.base.Model via DummyModel"""
+class TestModelWithoutAttackData:
+    """Tests ml.base.Model via DummyModel, without the load_attack_data fixture"""
+    def test_get_attack_techniques_raises_if_not_initialized(self, dummy_model):
+        # Act / Assert
+        with pytest.raises(ValueError):
+            dummy_model.get_attack_technique_ids()
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures('load_attack_data')
+class TestSkLearnModel:
+    """Tests ml.base.SKLearnModel via DummyModel"""
 
     def test__sentence_tokenize_works_for_paragraph(self, dummy_model):
         # Arrange
@@ -137,12 +148,6 @@ class TestModel:
         # Assert
         assert report_name.startswith(expected)
 
-    def test_get_attack_techniques_raises_if_not_initialized(self, dummy_model):
-        # Act / Assert
-        with pytest.raises(ValueError):
-            dummy_model.get_attack_technique_ids()
-
-    @pytest.mark.usefixtures('load_attack_data')
     def test_get_attack_techniques_succeeds_after_initialization(self, dummy_model):
         # Act
         techniques = dummy_model.get_attack_technique_ids()
@@ -152,7 +157,6 @@ class TestModel:
         assert 'T1497.003' in techniques  # Ensures mitre-attack is available
         assert 'T1579' in techniques  # Ensures mitre-mobile-attack is available
 
-    @pytest.mark.usefixtures('load_attack_data')
     def test_disk_round_trip_succeeds(self, dummy_model, tmpdir):
         # Arrange
         filepath = (tmpdir + 'dummy_model.pkl').strpath
@@ -166,26 +170,6 @@ class TestModel:
         # Assert
         assert dummy_model.__class__ == dummy_model_2.__class__
         assert dummy_model.get_attack_technique_ids() == dummy_model_2.get_attack_technique_ids()
-
-    @pytest.mark.usefixtures('load_attack_data')
-    def test_process_job_produces_valid_report(self, dummy_model):
-        # Arrange
-        with open('tests/data/AA20-302A.docx', 'rb') as f:
-            doc = db_models.Document(docfile=File(f))
-            doc.save()
-        job = db_models.DocumentProcessingJob(document=doc)
-        job.save()
-        # Act
-        report = dummy_model.process_job(job)
-
-        # Cleanup
-        job.delete()
-        doc.delete()
-
-        # Assert
-        assert report.name is not None
-        assert report.text is not None
-        assert len(report.sentences) > 0
 
     def test_no_data_get_training_data_succeeds(self, dummy_model):
         # Act
@@ -210,20 +194,37 @@ class TestModel:
             report=report,
             disposition='accept'
         )
+        m1 = db_models.Mapping.objects.create(
+            report=report,
+            sentence=s2,
+            attack_technique=db_models.AttackTechnique.objects.get(attack_id='T1548'),
+            confidence=100.0,
+        )
+        config.ML_ACCEPT_THRESHOLD = 0  # Set the threshold to 0 for this test
 
         # Act
         training_data = dummy_model.get_training_data()
         s1.delete()
         s2.delete()
+        m1.delete()
 
         # Assert
         assert len(training_data) == 1
         assert training_data[0].__class__ == base.Sentence
 
+    def test_non_sklearn_pipeline_raises(self):
+        # Arrange
+        class NonSKLearnPipeline(base.SKLearnModel):
+            def get_model(self):
+                return "This is not an sklearn.pipeline.Pipeline instance"
+        # Act
+        with pytest.raises(TypeError):
+            NonSKLearnPipeline()
+
 
 @pytest.mark.django_db
 @pytest.mark.usefixtures('load_attack_data', 'load_training_data')
-class TestModelManager:
+class TestsThatNeedTrainingData:
     """
     Loading the training data is a large time cost, so this groups tests together that use
     the training data, even if it doesn't follow the class structure.
@@ -267,6 +268,40 @@ class TestModelManager:
     ----- End ModelManager Tests -----
     """
 
+    def test_get_mappings_returns_mappings(self):
+        # Arrange
+        dummy_model = base.DummyModel()
+        dummy_model.train()
+
+        # Act
+        mappings = dummy_model.get_mappings('test sentence')
+
+        # Assert
+        for mapping in mappings:
+            assert isinstance(mapping, base.Mapping)
+
+    def test_process_job_produces_valid_report(self):
+        # Arrange
+        with open('tests/data/AA20-302A.docx', 'rb') as f:
+            doc = db_models.Document(docfile=File(f))
+            doc.save()
+        job = db_models.DocumentProcessingJob(document=doc)
+        job.save()
+        dummy_model = base.DummyModel()
+        dummy_model.train()
+
+        # Act
+        report = dummy_model.process_job(job)
+
+        # Cleanup
+        job.delete()
+        doc.delete()
+
+        # Assert
+        assert report.name is not None
+        assert report.text is not None
+        assert len(report.sentences) > 0
+
     """
     ----- Begin DummyModel Tests -----
     """
@@ -274,7 +309,7 @@ class TestModelManager:
         # Act
         dummy_model.train()  # Has no effect
 
-    def test_dummymodel_test_passes(self, dummy_model, load_attack_data, load_training_data):
+    def test_dummymodel_test_passes(self, dummy_model):
         # Act
         dummy_model.test()  # Has no effect
     """

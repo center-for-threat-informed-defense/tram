@@ -8,7 +8,7 @@
 <h1>ML Admin</h1>
 <div class="container row">
   <div class="col-sm">
-    <h3>Accepted Sentences Per Technique</h3>
+    <h3>Sentences Per Technique</h3>
     <table id="technique-sentence-table" class="table table-striped table-hover">
       <caption>Technique Sentence Table</caption>
       <tbody>
@@ -17,38 +17,23 @@
           <th scope="col">Technique ID</th>
           <th scope="col">Technique Name</th>
           <th scope="col">Accepted Sentences</th>
+          <th scope="col">Pending Sentences</th>
+          <th scope="col">Total Sentences</th>
         </tr>
         {% for t in techniques %}
         <tr>
           <td>{{ forloop.counter }}</td>
           <td><a href="{{ t.attack_url }}">{{ t.attack_id }}</a></td>
           <td>{{ t.name }}</td>
-          <td>{{ t.sentence_count }}</td>
+          <td><a href="/ml/{{t.attack_id}}">{{ t.accepted_sentences }}</a></td>
+          <td><a href="/ml/{{t.attack_id}}">{{ t.pending_sentences }}</a></td>
+          <td><a href="/ml/{{t.attack_id}}">{{ t.total_sentences }}</a></td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
   <div class="col-sm">
-    <div>
-      <h3>ML Settings <a class="btn btn-primary-outline" href="/admin/constance/config/">Manage</a></h3>
-
-      <table id="ml-settings-table" class="table table-striped">
-        <caption>ML Settings Table</caption>
-        <tbody>
-          <tr>
-            <th scope="col">Setting</th>
-            <th scope="col">Value</th>
-            <th scope="col">Note</th>
-          </tr>
-          <tr>
-            <td>ML_ACCEPT_THRESHOLD</td>
-            <td>{{ML_ACCEPT_THRESHOLD}}</td>
-            <td>Exclude Attack Techniques with less than the specified number of accepted sentences</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
     <div>
       <h3>ML Models</h3>
       TODO: This is mocked up
@@ -66,6 +51,24 @@
           <tr>
             <td>NaiveBayes</td>
             <td>60</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3>ML Settings <a class="btn btn-primary-outline" href="/admin/constance/config/">Manage</a></h3>
+      <table id="ml-settings-table" class="table table-striped">
+        <caption>ML Settings Table</caption>
+        <tbody>
+          <tr>
+            <th scope="col">Setting</th>
+            <th scope="col">Value</th>
+            <th scope="col">Note</th>
+          </tr>
+          <tr>
+            <td>ML_ACCEPT_THRESHOLD</td>
+            <td>{{ML_ACCEPT_THRESHOLD}}</td>
+            <td>Exclude Attack Techniques with less than the specified number of accepted sentences</td>
           </tr>
         </tbody>
       </table>

@@ -3,18 +3,17 @@ from io import BytesIO
 from os import path
 import pathlib
 import pickle
-import random
 import time
 
 from bs4 import BeautifulSoup
+from constance import config
 from django.db import transaction
 from django.conf import settings
 import docx
 import nltk
-import numpy as np
-import pandas as pd
 import pdfplumber
 import re
+from sklearn.dummy import DummyClassifier
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score
@@ -49,19 +48,19 @@ class Report(object):
         self.sentences = sentences  # Sentence objects
 
 
-class Model(ABC):
+class SKLearnModel(ABC):
     def __init__(self):
         self._technique_ids = None
         self.techniques_model = self.get_model()
-        if not hasattr(self.techniques_model, 'fit'):
-            raise TypeError('Object returned by get_model() must have a fit() method')
+        self.trained_techniques = None
+        self.f1_score = None
 
-        if not hasattr(self.techniques_model, 'predict'):
-            raise TypeError('Object returned by get_model() must have a fit() method')
+        if not isinstance(self.techniques_model, Pipeline):
+            raise TypeError('get_model() must return an sklearn.pipeline.Pipeline instance')
 
     @abstractmethod
     def get_model(self):
-        """TBD
+        """Returns an sklearn.Pipeline that has fit() and predict() methods
         """
 
     def train(self):
@@ -69,7 +68,6 @@ class Model(ABC):
         Load and preprocess data. Train model pipeline
         """
         X, y = self._load_and_vectorize_data()
-        X, y = self._filter_low_data_classes(X, y)
         X = self._preprocess_text(X)
         self.techniques_model.fit(X, y)  # Train classification model
 
@@ -79,22 +77,29 @@ class Model(ABC):
         Note: potential extension is to use cross-validation rather than a single train/test split
         """
         X, y = self._load_and_vectorize_data()
-        X, y = self._filter_low_data_classes(X, y)
         X = self._preprocess_text(X)
 
         # Create training set and test set
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
-                                                            shuffle=True, random_state=0, stratify=y)
+        y_counts = {}
+        for technique in y:
+            if technique not in y_counts:
+                y_counts[technique] = 0
+            y_counts[technique] += 1
+
+        X_train, X_test, y_train, y_test = \
+            train_test_split(X, y, test_size=0.2, shuffle=True, random_state=0, stratify=y)
 
         # Train model
-        self.techniques_model.fit(X_train, y_train)
+        test_model = self.get_model()
+        test_model.fit(X_train, y_train)
 
         # Generate predictions on test set
-        y_predicted = self.techniques_model.predict(X_test)
+        y_predicted = test_model.predict(X_test)
 
         # Average F1 score across techniques, weighted by the # of training examples per technique
         weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
-        return str(weighted_f1)  # TODO: Should this be a float?
+        self.trained_techniques = set(y)
+        self.f1_score = weighted_f1
 
     @property
     def technique_ids(self):
@@ -152,30 +157,27 @@ class Model(ABC):
                 y.append(technique)
         return X, y
 
-    def _filter_low_data_classes(self, X, y, n_examples_threshold=5):
-        """
-        Only retain data for classes with at least examples above n_examples_threshold
-        Prevents predictions being made for classes without enough data to learn a
-        generalizable pattern (i.e., too much noise)
-
-        TODO: filter classes before data gets loaded
-        """
-        df = pd.DataFrame({'X': X, 'y': y})
-        classes_to_keep = df['y'].value_counts().index[df['y'].value_counts() >= n_examples_threshold]
-        df = df.loc[df['y'].isin(classes_to_keep)]
-        X = df['X']
-        y = df['y']
-        return X, y
-
     def get_training_data(self):
-        """Returns a list of base.Sentence objects where there is an accepted mapping"""
-        sentences = []
-        accepted_sentences = db_models.Sentence.objects.filter(disposition='accept')
+        """Returns a list of base.Sentence objects where there the number
+           of accepted mappings is above the configured threshold (ML_ACCEPT_THRESHOLD)
+        """
+        # TODO: Refactor for readability and performance
+        # Get Attack techniques that have >= the required amount of positive examples
+        attack_techniques = db_models.AttackTechnique.get_sentence_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
+        # Get mappings for the attack techniques above threshold
+        mappings = db_models.Mapping.objects.filter(attack_technique__in=attack_techniques)
 
-        for accepted_sentence in accepted_sentences:
-            mappings = db_models.Mapping.objects.filter(sentence=accepted_sentence)
+        # For the mappings that are above threshold, identify the sentences
+        training_sentence_ids = set()
+        for mapping in mappings:
+            training_sentence_ids.add(mapping.sentence.id)
+
+        sentences = []
+        for training_sentence_id in training_sentence_ids:
+            training_sentence = db_models.Sentence.objects.get(id=training_sentence_id)
+            mappings = db_models.Mapping.objects.filter(sentence=training_sentence)
             m = [Mapping(mapping.confidence, mapping.attack_technique.attack_id) for mapping in mappings]
-            sentence = Sentence(accepted_sentence.text, accepted_sentence.order, m)
+            sentence = Sentence(training_sentence.text, training_sentence.order, m)
             sentences.append(sentence)
 
         return sentences
@@ -186,12 +188,25 @@ class Model(ABC):
             raise ValueError('Zero techniques found. Maybe run `python manage.py attackdata load` ?')
         return techniques
 
-    @abstractmethod
     def get_mappings(self, sentence):
         """
-        Returns a list of Mapping objects for the sentence.
-        Returns an empty list if there are no Mappings
+        Use trained model to predict the technique for a given sentence.
         """
+        mappings = []
+
+        # Output top 3 techniques based on prediction confidence
+        techniques = self.techniques_model.classes_
+        probs = self.techniques_model.predict_proba([sentence])[0]
+        # TODO: Consider a confidence threshold instead of Top-3
+        #       Could be implemented as an application setting.
+        top_3_conf_techniques = sorted(zip(probs, techniques), reverse=True)[:3]
+        for res in top_3_conf_techniques:
+            conf = res[0] * 100
+            attack_technique = res[1]
+            mapping = Mapping(conf, attack_technique)
+            mappings.append(mapping)
+
+        return mappings
 
     def _sentence_tokenize(self, text):
         return nltk.sent_tokenize(text)
@@ -242,37 +257,15 @@ class Model(ABC):
         return model
 
 
-class DummyPipeline(object):
-    def fit(self, X, y):
-        return None
-
-    def predict(self, X):
-        y_predicted = ['dummy' for item in X]
-        return y_predicted
-
-
-class DummyModel(Model):
+class DummyModel(SKLearnModel):
     def get_model(self):
-        return DummyPipeline()
-
-    def _pick_random_techniques(self):
-        """Returns a list of 0-4 randomly selected ATTACK Technique IDs"""
-        num_techniques = random.randint(0, 4)
-        techniques = random.choices(self.technique_ids, k=num_techniques)
-        return techniques
-
-    def get_mappings(self, sentence):
-        mappings = []
-        attack_techniques = self._pick_random_techniques()
-        for attack_technique in attack_techniques:
-            confidence = random.uniform(0.0, 100.0)
-            mapping = Mapping(confidence, attack_technique)
-            mappings.append(mapping)
-
-        return mappings
+        return Pipeline([
+            ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
+            ("clf", DummyClassifier(strategy='uniform'))
+        ])
 
 
-class NaiveBayesModel(Model):
+class NaiveBayesModel(SKLearnModel):
     def get_model(self):
         """
         Modeling pipeline:
@@ -284,40 +277,8 @@ class NaiveBayesModel(Model):
             ("clf", MultinomialNB())
         ])
 
-    def _inspect_estimated_parameters(self):
-        """
-        For Naive Bayes, we can obtain the log probability of a term given a technique, P(term|y)
-        Here we print the top 5 terms by technique
-        """
-        classifier = self.techniques_model.named_steps['clf']
-        vocabulary = self.techniques_model.named_steps['features'].get_feature_names()
-        model_classes = self.techniques_model.classes_
-        for technique_idx in range(len(model_classes)):
-            technique = model_classes[technique_idx]
-            print(technique)
-            prob_sorted = classifier.feature_log_prob_[technique_idx, :].argsort()[::-1]
-            print(np.take(vocabulary, prob_sorted[:5]))
 
-    def get_mappings(self, sentence):
-        """
-        Use trained model to predict the technique for a given sentence.
-        """
-        mappings = []
-
-        # Output top 3 techniques based on prediction confidence
-        techniques = self.techniques_model.classes_
-        probs = self.techniques_model.predict_proba([sentence])[0]
-        top_3_conf_techniques = sorted(zip(probs, techniques), reverse=True)[:3]
-        for res in top_3_conf_techniques:
-            conf = res[0] * 100
-            attack_technique = res[1]
-            mapping = Mapping(conf, attack_technique)
-            mappings.append(mapping)
-
-        return mappings
-
-
-class LogisticRegressionModel(Model):
+class LogisticRegressionModel(SKLearnModel):
     def get_model(self):
         """
         Modeling pipeline:
@@ -329,45 +290,12 @@ class LogisticRegressionModel(Model):
             ("clf", LogisticRegression())
         ])
 
-    def _inspect_estimated_parameters(self):
-        """
-        For logistic regression, we can obtain the terms associated with the greatest-magnitude regression coefficients
-        Here we print the top 5 terms by technique
-        """
-        classifier = self.techniques_model.named_steps['clf']
-        vocabulary = self.techniques_model.named_steps['features'].get_feature_names()
-        model_classes = self.techniques_model.classes_
-        for technique_idx in range(len(model_classes)):
-            technique = model_classes[technique_idx]
-            print(technique)
-            prob_sorted = classifier.coef_[technique_idx, :].argsort()[::-1]
-            print(np.take(vocabulary, prob_sorted[:5]))
-
-    def get_mappings(self, sentence):
-        """
-        Use trained model to predict the technique for a given sentence.
-        """
-        mappings = []
-
-        # Output top 3 techniques based on prediction confidence
-        techniques = self.techniques_model.classes_
-        probs = self.techniques_model.predict_proba([sentence])[0]
-        top_3_conf_techniques = sorted(zip(probs, techniques), reverse=True)[:3]
-        for res in top_3_conf_techniques:
-            conf = res[0] * 100
-            attack_technique = res[1]
-            mapping = Mapping(conf, attack_technique)
-            mappings.append(mapping)
-
-        return mappings
-
 
 class ModelManager(object):
     model_registry = {  # TODO: Add a hook to register user-created models
         'dummy': DummyModel,
         'nb': NaiveBayesModel,
         'logreg': LogisticRegressionModel,
-
     }
 
     def __init__(self, model):
