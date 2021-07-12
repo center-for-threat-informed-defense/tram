@@ -78,8 +78,8 @@ class TestModelWithoutAttackData:
 
 @pytest.mark.django_db
 @pytest.mark.usefixtures('load_attack_data')
-class TestModel:
-    """Tests ml.base.Model via DummyModel"""
+class TestSkLearnModel:
+    """Tests ml.base.SKLearnModel via DummyModel"""
 
     def test__sentence_tokenize_works_for_paragraph(self, dummy_model):
         # Arrange
@@ -230,6 +230,26 @@ class TestModel:
         # Assert
         assert len(training_data) == 1
         assert training_data[0].__class__ == base.Sentence
+
+    def test_non_sklearn_pipeline_raises(self):
+        # Arrange
+        class NonSKLearnPipeline(base.SKLearnModel):
+            def get_model(self):
+                return "This is not an sklearn.pipeline.Pipeline instance"
+        # Act
+        with pytest.raises(TypeError):
+            NonSKLearnPipeline()
+
+    def test_get_mappings_returns_mappings(self):
+        # Arrange
+        dummy_model = base.DummyModel()
+
+        # Act
+        mappings = dummy_model.get_mappings('test sentence')
+
+        # Assert
+        for mapping in mappings:
+            assert isinstance(mapping, base.Mapping)
 
 
 @pytest.mark.django_db
