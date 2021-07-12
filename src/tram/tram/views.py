@@ -118,6 +118,7 @@ def ml_home(request):
     context = {
                 'techniques': techniques,
                 'ML_ACCEPT_THRESHOLD': config.ML_ACCEPT_THRESHOLD,
+                'ML_CONFIDENCE_THRESHOLD': config.ML_CONFIDENCE_THRESHOLD,
                 'models': [  # model-name, trained-techniques, average-f1-score
                     'Model #1', ''
                 ]

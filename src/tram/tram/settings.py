@@ -50,6 +50,7 @@ CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 
 CONSTANCE_CONFIG = {
     'ML_ACCEPT_THRESHOLD': (4, 'Exclude Attack Techniques with fewer than ML_ACCEPT_THRESHOLD accepted sentences', int),
+    'ML_CONFIDENCE_THRESHOLD': (25, 'Exclude proposed mappings below this confidence threshold', int),
 }
 
 MIDDLEWARE = [
