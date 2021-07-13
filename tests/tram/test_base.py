@@ -228,6 +228,8 @@ class TestsThatNeedTrainingData:
     """
     Loading the training data is a large time cost, so this groups tests together that use
     the training data, even if it doesn't follow the class structure.
+    TODO: Training data is loaded for every test in this class. This does
+          not provide the efficiency I had assumed.
     """
 
     """
@@ -272,6 +274,7 @@ class TestsThatNeedTrainingData:
         # Arrange
         dummy_model = base.DummyModel()
         dummy_model.train()
+        config.ML_CONFIDENCE_THRESHOLD = 0
 
         # Act
         mappings = dummy_model.get_mappings('test sentence')

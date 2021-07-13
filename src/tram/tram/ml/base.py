@@ -201,7 +201,6 @@ class SKLearnModel(ABC):
 
         # Create a list of tuples of (confidence, technique)
         confidences_and_techniques = zip(probs, techniques)
-
         for confidence_and_technique in confidences_and_techniques:
             confidence = confidence_and_technique[0] * 100
             attack_technique = confidence_and_technique[1]
