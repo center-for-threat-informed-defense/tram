@@ -256,16 +256,6 @@ class TestsThatNeedTrainingData:
 
         # Assert
         # TODO: Something meaningful
-
-    def test_modelmanager_test_model_doesnt_raise(self):
-        # Arrange
-        model_manager = base.ModelManager('dummy')
-
-        # Act
-        model_manager.test_model()
-
-        # Assert
-        # TODO: Something meaningful
     """
     ----- End ModelManager Tests -----
     """

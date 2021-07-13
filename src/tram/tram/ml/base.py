@@ -377,9 +377,6 @@ class ModelManager(object):
         print('Trained model saved to %s' % filepath)
         return
 
-    def x_test_model(self):
-        return self.model.test()
-
     @staticmethod
     def get_model_metadata():
         """
