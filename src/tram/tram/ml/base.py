@@ -152,6 +152,7 @@ class SKLearnModel(ABC):
             if sent_obj.mappings:  # Only store sentences with a labeled technique
                 sentence = sent_obj.text
                 technique_label = sent_obj.mappings[0].attack_technique
+                # TODO: Is the below statement a bug? What is the impact?
                 technique = technique_label[0:5]  # Cut string to technique level. leave out sub-technique
                 X.append(sentence)
                 y.append(technique)
@@ -196,14 +197,17 @@ class SKLearnModel(ABC):
 
         # Output top 3 techniques based on prediction confidence
         techniques = self.techniques_model.classes_
-        probs = self.techniques_model.predict_proba([sentence])[0]
-        # TODO: Consider a confidence threshold instead of Top-3
-        #       Could be implemented as an application setting.
-        top_3_conf_techniques = sorted(zip(probs, techniques), reverse=True)[:3]
-        for res in top_3_conf_techniques:
-            conf = res[0] * 100
-            attack_technique = res[1]
-            mapping = Mapping(conf, attack_technique)
+        probs = self.techniques_model.predict_proba([sentence])[0]  # Probability is a range between 0-1
+
+        # Create a list of tuples of (confidence, technique)
+        confidences_and_techniques = zip(probs, techniques)
+        for confidence_and_technique in confidences_and_techniques:
+            confidence = confidence_and_technique[0] * 100
+            attack_technique = confidence_and_technique[1]
+            if confidence < config.ML_CONFIDENCE_THRESHOLD:
+                # Ignore proposed mappings below the confidence threshold
+                continue
+            mapping = Mapping(confidence, attack_technique)
             mappings.append(mapping)
 
         return mappings
