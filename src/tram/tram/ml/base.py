@@ -79,13 +79,14 @@ class SKLearnModel(ABC):
         X, y = self._load_and_vectorize_data()
         X = self._preprocess_text(X)
 
-        # Create training set and test set
+        # Check number of sentences per technique
         y_counts = {}
         for technique in y:
             if technique not in y_counts:
                 y_counts[technique] = 0
             y_counts[technique] += 1
 
+        # Create training set and test set
         X_train, X_test, y_train, y_test = \
             train_test_split(X, y, test_size=0.2, shuffle=True, random_state=0, stratify=y)
 
@@ -152,7 +153,6 @@ class SKLearnModel(ABC):
             if sent_obj.mappings:  # Only store sentences with a labeled technique
                 sentence = sent_obj.text
                 technique_label = sent_obj.mappings[0].attack_technique
-                # TODO: Is the below statement a bug? What is the impact?
                 technique = technique_label[0:5]  # Cut string to technique level. leave out sub-technique
                 X.append(sentence)
                 y.append(technique)
@@ -195,7 +195,6 @@ class SKLearnModel(ABC):
         """
         mappings = []
 
-        # Output top 3 techniques based on prediction confidence
         techniques = self.techniques_model.classes_
         probs = self.techniques_model.predict_proba([sentence])[0]  # Probability is a range between 0-1
 
