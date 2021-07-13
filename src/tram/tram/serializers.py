@@ -44,12 +44,33 @@ class MappingSerializer(serializers.ModelSerializer):
     def get_name(self, obj):
         return obj.attack_technique.name
 
+    def to_internal_value(self, data):
+        """DRF's to_internal_value function only retains model fields from the input JSON. For Mappings,
+        attack_id is an important field that is not on the model (it is on a related model).
+
+        This function overrides DRF's base to_internal_value so that those mappings are retained and
+        available to the is_valid() and create() methods later on.
+        """
+        internal_value = super().to_internal_value(data)  # Keeps model fields
+
+        # Add necessary fields
+        attack_technique = db_models.AttackTechnique.objects.get(attack_id=data['attack_id'])
+        sentence = db_models.Sentence.objects.get(id=data['sentence'])
+        report = db_models.Report.objects.get(id=data['report'])
+
+        internal_value.update({
+            'report': report,
+            'sentence': sentence,
+            'attack_technique': attack_technique,
+        })
+
+        return internal_value
+
     def create(self, validated_data):
-        technique = db_models.AttackTechnique.objects.get(attack_id=validated_data['attack_id'])
         mapping = db_models.Mapping.objects.create(
             report=validated_data['report'],
             sentence=validated_data['sentence'],
-            attack_technique=technique,
+            attack_technique=validated_data['attack_technique'],
             confidence=validated_data['confidence']
         )
 
@@ -184,10 +205,9 @@ class SentenceSerializer(serializers.ModelSerializer):
             )
 
             for mapping in validated_data.get('mappings', []):
+                mapping.initial_data['sentence'] = sentence.id
+                mapping.initial_data['report'] = validated_data['report'].id
                 if mapping.is_valid():
-                    mapping.validated_data['attack_id'] = mapping.initial_data['attack_id']
-                    mapping.validated_data['report'] = validated_data['report']
-                    mapping.validated_data['sentence'] = sentence
                     mapping.save()
                 else:
                     # TODO: Handle this case better

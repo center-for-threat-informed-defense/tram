@@ -1,6 +1,5 @@
-import warnings
-
 from django.core.files.base import File
+from constance import config
 import pytest
 
 from tram.ml import base
@@ -15,19 +14,6 @@ def dummy_model():
 @pytest.fixture
 def tram_model():
     return base.TramModel()
-
-
-class TestIndicator:
-    def test_repr_is_correct(self):
-        # Arrange
-        expected = 'Indicator: MD5=54b0c58c7ce9f2a8b551351102ee0938'
-
-        # Act
-        ind = base.Indicator(type_='MD5',
-                             value='54b0c58c7ce9f2a8b551351102ee0938')
-
-        # Assert
-        assert str(ind) == expected
 
 
 class TestSentence:
@@ -67,28 +53,33 @@ class TestReport:
         sentences = [
             base.Sentence('test sentence text', 0, None)
         ]
-        indicators = [
-            base.Indicator('MD5', '54b0c58c7ce9f2a8b551351102ee0938')
-        ]
 
         # Act
         rpt = base.Report(
             name=name,
             text=text,
-            sentences=sentences,
-            indicators=indicators
+            sentences=sentences
         )
 
         # Assert
         assert rpt.name == name
         assert rpt.text == text
         assert rpt.sentences == sentences
-        assert rpt.indicators == indicators
 
 
 @pytest.mark.django_db
-class TestModel:
-    """Tests ml.base.Model via DummyModel"""
+class TestModelWithoutAttackData:
+    """Tests ml.base.Model via DummyModel, without the load_attack_data fixture"""
+    def test_get_attack_techniques_raises_if_not_initialized(self, dummy_model):
+        # Act / Assert
+        with pytest.raises(ValueError):
+            dummy_model.get_attack_technique_ids()
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures('load_attack_data')
+class TestSkLearnModel:
+    """Tests ml.base.SKLearnModel via DummyModel"""
 
     def test__sentence_tokenize_works_for_paragraph(self, dummy_model):
         # Arrange
@@ -157,12 +148,6 @@ class TestModel:
         # Assert
         assert report_name.startswith(expected)
 
-    def test_get_attack_techniques_raises_if_not_initialized(self, dummy_model):
-        # Act / Assert
-        with pytest.raises(ValueError):
-            dummy_model.get_attack_technique_ids()
-
-    @pytest.mark.usefixtures('load_attack_data')
     def test_get_attack_techniques_succeeds_after_initialization(self, dummy_model):
         # Act
         techniques = dummy_model.get_attack_technique_ids()
@@ -172,7 +157,6 @@ class TestModel:
         assert 'T1497.003' in techniques  # Ensures mitre-attack is available
         assert 'T1579' in techniques  # Ensures mitre-mobile-attack is available
 
-    @pytest.mark.usefixtures('load_attack_data')
     def test_disk_round_trip_succeeds(self, dummy_model, tmpdir):
         # Arrange
         filepath = (tmpdir + 'dummy_model.pkl').strpath
@@ -186,27 +170,6 @@ class TestModel:
         # Assert
         assert dummy_model.__class__ == dummy_model_2.__class__
         assert dummy_model.get_attack_technique_ids() == dummy_model_2.get_attack_technique_ids()
-
-    @pytest.mark.usefixtures('load_attack_data')
-    def test_process_job_produces_valid_report(self, dummy_model):
-        # Arrange
-        with open('tests/data/AA20-302A.docx', 'rb') as f:
-            doc = db_models.Document(docfile=File(f))
-            doc.save()
-        job = db_models.DocumentProcessingJob(document=doc)
-        job.save()
-        # Act
-        report = dummy_model.process_job(job)
-
-        # Cleanup
-        job.delete()
-        doc.delete()
-
-        # Assert
-        assert report.name is not None
-        assert report.text is not None
-        assert len(report.sentences) > 0
-        assert len(report.indicators) > 0
 
     def test_no_data_get_training_data_succeeds(self, dummy_model):
         # Act
@@ -231,52 +194,60 @@ class TestModel:
             report=report,
             disposition='accept'
         )
+        m1 = db_models.Mapping.objects.create(
+            report=report,
+            sentence=s2,
+            attack_technique=db_models.AttackTechnique.objects.get(attack_id='T1548'),
+            confidence=100.0,
+        )
+        config.ML_ACCEPT_THRESHOLD = 0  # Set the threshold to 0 for this test
 
         # Act
         training_data = dummy_model.get_training_data()
         s1.delete()
         s2.delete()
+        m1.delete()
 
         # Assert
         assert len(training_data) == 1
         assert training_data[0].__class__ == base.Sentence
 
-
-class TestDummyModel:
-    def test_train_passes(self, dummy_model):
+    def test_non_sklearn_pipeline_raises(self):
+        # Arrange
+        class NonSKLearnPipeline(base.SKLearnModel):
+            def get_model(self):
+                return "This is not an sklearn.pipeline.Pipeline instance"
         # Act
-        dummy_model.train()  # Has no effect
-
-    def test_test_passes(self, dummy_model):
-        # Act
-        dummy_model.test()  # Has no effect
-
-    # TODO: Test get_indicators, pick_random_techniques, get_mappings
+        with pytest.raises(TypeError):
+            NonSKLearnPipeline()
 
 
-class TestModelManager:
-    @pytest.mark.django_db
-    def test___init__loads_tram_model(self):
-        # Act
-        model_manager = base.ModelManager('tram')
+@pytest.mark.django_db
+@pytest.mark.usefixtures('load_attack_data', 'load_training_data')
+class TestsThatNeedTrainingData:
+    """
+    Loading the training data is a large time cost, so this groups tests together that use
+    the training data, even if it doesn't follow the class structure.
+    TODO: Training data is loaded for every test in this class. This does
+          not provide the efficiency I had assumed.
+    """
 
-        # Assert
-        assert model_manager.model.__class__ == base.TramModel
-
-    @pytest.mark.django_db
-    def test__init__loads_dummy_model(self):
+    """
+    ----- Begin ModelManager Tests -----
+    """
+    def test_modelmanager__init__loads_dummy_model(self):
         # Act
         model_manager = base.ModelManager('dummy')
 
         # Assert
         assert model_manager.model.__class__ == base.DummyModel
 
-    def test__init__raises_value_error_on_unknown_model(self):
+    def test_modelmanager__init__raises_value_error_on_unknown_model(self):
         # Act / Assert
         with pytest.raises(ValueError):
             base.ModelManager('this-should-raise')
 
-    def test_train_model_doesnt_raise(self):
+    def test_modelmanager_train_model_doesnt_raise(self):
         # Arrange
         model_manager = base.ModelManager('dummy')
 
@@ -286,7 +257,7 @@ class TestModelManager:
         # Assert
         # TODO: Something meaningful
 
-    def test_test_model_doesnt_raise(self):
+    def test_modelmanager_test_model_doesnt_raise(self):
         # Arrange
         model_manager = base.ModelManager('dummy')
 
@@ -295,34 +266,55 @@ class TestModelManager:
 
         # Assert
         # TODO: Something meaningful
+    """
+    ----- End ModelManager Tests -----
+    """
 
-
-@pytest.mark.django_db
-class TestTramModel:
-    def test_train_doesnt_raise(self, simple_training_data, tram_model):
-        # Act
-        with warnings.catch_warnings():
-            # TODO: This makes TONS of warnings that looks like this:
-            #       UserWarning: Label not 796 is present in all training examples.
-            warnings.simplefilter("ignore")
-            tram_model.train()
-
-        # Assert
-        # n/a - If .train() doesn't raise, test passes
-
-    def test_test_raises_notimplemented(self, tram_model):
-        # Act
-        with pytest.raises(NotImplementedError):
-            tram_model.test()
-
-    def test_get_mappings_returns_mappings(self, simple_training_data, tram_model):
+    def test_get_mappings_returns_mappings(self):
         # Arrange
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            tram_model.train()
+        dummy_model = base.DummyModel()
+        dummy_model.train()
+        config.ML_CONFIDENCE_THRESHOLD = 0
 
         # Act
-        mappings = tram_model.get_mappings('This is a test sentence')
+        mappings = dummy_model.get_mappings('test sentence')
 
         # Assert
-        assert mappings.__class__ == list
+        for mapping in mappings:
+            assert isinstance(mapping, base.Mapping)
+
+    def test_process_job_produces_valid_report(self):
+        # Arrange
+        with open('tests/data/AA20-302A.docx', 'rb') as f:
+            doc = db_models.Document(docfile=File(f))
+            doc.save()
+        job = db_models.DocumentProcessingJob(document=doc)
+        job.save()
+        dummy_model = base.DummyModel()
+        dummy_model.train()
+
+        # Act
+        report = dummy_model.process_job(job)
+
+        # Cleanup
+        job.delete()
+        doc.delete()
+
+        # Assert
+        assert report.name is not None
+        assert report.text is not None
+        assert len(report.sentences) > 0
+
+    """
+    ----- Begin DummyModel Tests -----
+    """
+    def test_dummymodel_train_passes(self, dummy_model):
+        # Act
+        dummy_model.train()  # Has no effect
+
+    def test_dummymodel_test_passes(self, dummy_model):
+        # Act
+        dummy_model.test()  # Has no effect
+    """
+    ----- End DummyModel Tests -----
+    """

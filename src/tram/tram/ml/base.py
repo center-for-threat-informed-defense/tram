@@ -3,52 +3,26 @@ from io import BytesIO
 from os import path
 import pathlib
 import pickle
-import random
 import time
 
 from bs4 import BeautifulSoup
+from constance import config
 from django.db import transaction
 from django.conf import settings
 import docx
-from sklearn.exceptions import NotFittedError
-from sklearn.pipeline import Pipeline
-from sklearn.linear_model import LogisticRegression
-from sklearn.multiclass import OneVsRestClassifier
-from sklearn.utils.validation import check_is_fitted
-import pdfplumber
 import nltk
-import numpy as np
-
-from typing import List
+import pdfplumber
+import re
+from sklearn.dummy import DummyClassifier
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import f1_score
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
 
 # The word model is overloaded in this scope, so a prefix is necessary
 from tram import models as db_models
-
-from sklearn.base import TransformerMixin
-from sentence_transformers import SentenceTransformer
-
-
-class SentenceEmbeddingTransformer(TransformerMixin):
-    """Use pretrained sentence-transformer architectures as features to downstream classification models.
-
-    """
-    def __init__(self, model_name):
-        self._model = SentenceTransformer(model_name)
-
-    def fit(self, X, y=None, **fit_params):
-        return self
-
-    def transform(self, X, y=None):
-        return self._model.encode(X)
-
-
-class Indicator(object):
-    def __init__(self, type_, value):
-        self.type_ = type_
-        self.value = value
-
-    def __repr__(self):
-        return 'Indicator: %s=%s' % (self.type_, self.value)
 
 
 class Sentence(object):
@@ -68,30 +42,65 @@ class Mapping(object):
 
 
 class Report(object):
-    def __init__(self, name, text, sentences, indicators=None):
+    def __init__(self, name, text, sentences):
         self.name = name
         self.text = text
         self.sentences = sentences  # Sentence objects
-        self.indicators = indicators or []
 
 
-class Model(ABC):
+class SKLearnModel(ABC):
     def __init__(self):
         self._technique_ids = None
+        self.techniques_model = self.get_model()
+        self.trained_techniques = None
+        self.f1_score = None
+
+        if not isinstance(self.techniques_model, Pipeline):
+            raise TypeError('get_model() must return an sklearn.pipeline.Pipeline instance')
 
     @abstractmethod
+    def get_model(self):
+        """Returns an sklearn.Pipeline that has fit() and predict() methods
+        """
+
     def train(self):
-        """Trains the model based on:
-           1. Source data (??)
-           2. Reports in the database
-
-        Returns ???
         """
+        Load and preprocess data. Train model pipeline
+        """
+        X, y = self._load_and_vectorize_data()
+        X = self._preprocess_text(X)
+        self.techniques_model.fit(X, y)  # Train classification model
 
-    @abstractmethod
     def test(self):
-        """Returns the f1 score as a float
         """
+        Return classification metrics based on train/test evaluation of the data
+        Note: potential extension is to use cross-validation rather than a single train/test split
+        """
+        X, y = self._load_and_vectorize_data()
+        X = self._preprocess_text(X)
+
+        # Check number of sentences per technique
+        y_counts = {}
+        for technique in y:
+            if technique not in y_counts:
+                y_counts[technique] = 0
+            y_counts[technique] += 1
+
+        # Create training set and test set
+        X_train, X_test, y_train, y_test = \
+            train_test_split(X, y, test_size=0.2, shuffle=True, random_state=0, stratify=y)
+
+        # Train model
+        test_model = self.get_model()
+        test_model.fit(X_train, y_train)
+
+        # Generate predictions on test set
+        y_predicted = test_model.predict(X_test)
+
+        # Average F1 score across techniques, weighted by the # of training examples per technique
+        weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
+        self.trained_techniques = set(y)
+        self.f1_score = weighted_f1
 
     @property
     def technique_ids(self):
@@ -116,15 +125,60 @@ class Model(ABC):
 
         return text
 
-    def get_training_data(self):
-        """Returns a list of base.Sentence objects where there is an accepted mapping"""
-        sentences = []
-        accepted_sentences = db_models.Sentence.objects.filter(disposition='accept')
+    def _preprocess_text(self, sentences):
+        """
+        Preprocess text by
+        1) Lemmatizing - reducing words to their root, as a way to eliminate noise in the text
+        2) Removing digits
+        """
+        lemma = nltk.stem.WordNetLemmatizer()
+        preprocessed_sentences = []
+        for sentence in sentences:
+            # Lemmatize each word in sentence
+            sentence = ' '.join([lemma.lemmatize(w) for w in sentence.rstrip().split()])
+            sentence = re.sub(r'\d+', '', sentence)  # Remove digits with regex
+            preprocessed_sentences.append(sentence)
+        return preprocessed_sentences
 
-        for accepted_sentence in accepted_sentences:
-            mappings = db_models.Mapping.objects.filter(sentence=accepted_sentence)
+    def _load_and_vectorize_data(self):
+        """
+        Load training data from database.
+        Store sentence text in vector X
+        Store attack technique in vector y
+        """
+        X = []
+        y = []
+        accepted_sents = self.get_training_data()
+        for sent_obj in accepted_sents:
+            if sent_obj.mappings:  # Only store sentences with a labeled technique
+                sentence = sent_obj.text
+                technique_label = sent_obj.mappings[0].attack_technique
+                technique = technique_label[0:5]  # Cut string to technique level. leave out sub-technique
+                X.append(sentence)
+                y.append(technique)
+        return X, y
+
+    def get_training_data(self):
+        """Returns a list of base.Sentence objects where there the number
+           of accepted mappings is above the configured threshold (ML_ACCEPT_THRESHOLD)
+        """
+        # TODO: Refactor for readability and performance
+        # Get Attack techniques that have >= the required amount of positive examples
+        attack_techniques = db_models.AttackTechnique.get_sentence_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
+        # Get mappings for the attack techniques above threshold
+        mappings = db_models.Mapping.objects.filter(attack_technique__in=attack_techniques)
+
+        # For the mappings that are above threshold, identify the sentences
+        training_sentence_ids = set()
+        for mapping in mappings:
+            training_sentence_ids.add(mapping.sentence.id)
+
+        sentences = []
+        for training_sentence_id in training_sentence_ids:
+            training_sentence = db_models.Sentence.objects.get(id=training_sentence_id)
+            mappings = db_models.Mapping.objects.filter(sentence=training_sentence)
             m = [Mapping(mapping.confidence, mapping.attack_technique.attack_id) for mapping in mappings]
-            sentence = Sentence(accepted_sentence.text, accepted_sentence.order, m)
+            sentence = Sentence(training_sentence.text, training_sentence.order, m)
             sentences.append(sentence)
 
         return sentences
@@ -135,18 +189,27 @@ class Model(ABC):
             raise ValueError('Zero techniques found. Maybe run `python manage.py attackdata load` ?')
         return techniques
 
-    @abstractmethod
-    def get_indicators(self, text):
-        """
-        Returns an array of indicator objects
-        """
-
-    @abstractmethod
     def get_mappings(self, sentence):
         """
-        Returns a list of Mapping objects for the sentence.
-        Returns an empty list if there are no Mappings
+        Use trained model to predict the technique for a given sentence.
         """
+        mappings = []
+
+        techniques = self.techniques_model.classes_
+        probs = self.techniques_model.predict_proba([sentence])[0]  # Probability is a range between 0-1
+
+        # Create a list of tuples of (confidence, technique)
+        confidences_and_techniques = zip(probs, techniques)
+        for confidence_and_technique in confidences_and_techniques:
+            confidence = confidence_and_technique[0] * 100
+            attack_technique = confidence_and_technique[1]
+            if confidence < config.ML_CONFIDENCE_THRESHOLD:
+                # Ignore proposed mappings below the confidence threshold
+                continue
+            mapping = Mapping(confidence, attack_technique)
+            mappings.append(mapping)
+
+        return mappings
 
     def _sentence_tokenize(self, text):
         return nltk.sent_tokenize(text)
@@ -172,7 +235,6 @@ class Model(ABC):
         name = self._get_report_name(job)
         text = self._extract_text(job.document)
         sentences = self._sentence_tokenize(text)
-        indicators = self.get_indicators(text)
 
         report_sentences = []
         order = 0
@@ -182,7 +244,7 @@ class Model(ABC):
             order += 1
             report_sentences.append(s)
 
-        report = Report(name, text, report_sentences, indicators)
+        report = Report(name, text, report_sentences)
         return report
 
     def save_to_file(self, filepath):
@@ -198,102 +260,45 @@ class Model(ABC):
         return model
 
 
-class DummyModel(Model):
-
-    def train(self):
-        return
-
-    def test(self):
-        return 0.0
-
-    def get_indicators(self, text):
-        import uuid
-        indicators = []
-        for i in range(3):
-            ind = Indicator(type_='MD5', value=uuid.uuid4().hex)
-            indicators.append(ind)
-        return indicators
-
-    def _pick_random_techniques(self):
-        """Returns a list of 0-4 randomly selected ATTACK Technique IDs"""
-        num_techniques = random.randint(0, 4)
-        techniques = random.choices(self.technique_ids, k=num_techniques)
-        return techniques
-
-    def get_mappings(self, sentence):
-        mappings = []
-        attack_techniques = self._pick_random_techniques()
-        for attack_technique in attack_techniques:
-            confidence = random.uniform(0.0, 100.0)
-            mapping = Mapping(confidence, attack_technique)
-            mappings.append(mapping)
-
-        return mappings
-
-
-class TramModel(Model):
-    def __init__(self, model_name: str = 'stsb-roberta-large', max_iter: int = 10_000):
-        self.techniques_model = Pipeline([
-            ("features", SentenceEmbeddingTransformer(model_name)),
-            ("clf", OneVsRestClassifier(LogisticRegression(max_iter=max_iter)))
+class DummyModel(SKLearnModel):
+    def get_model(self):
+        return Pipeline([
+            ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
+            ("clf", DummyClassifier(strategy='uniform'))
         ])
 
-        self._t2i = {
-            t.attack_id: i for i, t in enumerate(db_models.AttackTechnique.objects.all().order_by('attack_id'))
-        }
-        self._i2t = {v: k for k, v in self._t2i.items()}
 
-    def __vectorize(self, sents: List[Sentence]):
-        X = []
-        y = []
-        for sent in sents:
-            X.append(sent.text)
-            y_ = np.zeros(shape=(len(self._t2i)))
-            for mapping in sent.mappings:
-                y_[self._t2i[mapping.attack_technique]] = 1
-            y.append(y_)
-        return X, y
-
-    def train(self):
+class NaiveBayesModel(SKLearnModel):
+    def get_model(self):
         """
-        Trains the model based on:
-          1. ATT&CK data from disk
-          2. User-annotated reports from models.Report
+        Modeling pipeline:
+        1) Features = document-term matrix, with stop words removed from the term vocabulary.
+        2) Classifier (clf) = multinomial Naive Bayes
         """
-        accepted_sents = self.get_training_data()
-        X, y = self.__vectorize(accepted_sents)
-        self.techniques_model.fit(X, y)
+        return Pipeline([
+            ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
+            ("clf", MultinomialNB())
+        ])
 
-    def test(self):
-        """Returns the f1 score
+
+class LogisticRegressionModel(SKLearnModel):
+    def get_model(self):
         """
-        raise NotImplementedError()
-
-    def get_indicators(self, text):
-        return []
-
-    def get_mappings(self, sentence):
-        try:
-            check_is_fitted(self.techniques_model)
-        except NotFittedError:  # If the model is not fitted, propose zero mappings
-            print('Info: Model has not been fitted. Proposing zero mappings')
-            return []
-
-        mappings = []
-        # [0] because we're doing this one sentence at a time, but expected is batch in, batch out
-        technique_preds = self.techniques_model.predict_proba([sentence])[0].tolist()
-        for i, confidence in enumerate(technique_preds):
-            if confidence >= 0.5:
-                attack_technique = self._i2t[i]
-                mapping = Mapping(confidence, attack_technique)
-                mappings.append(mapping)
-        return mappings
+        Modeling pipeline:
+        1) Features = document-term matrix, with stop words removed from the term vocabulary.
+        2) Classifier (clf) = multinomial logistic regression
+        """
+        return Pipeline([
+            ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
+            ("clf", LogisticRegression())
+        ])
 
 
 class ModelManager(object):
     model_registry = {  # TODO: Add a hook to register user-created models
-        'tram': TramModel,
         'dummy': DummyModel,
+        'nb': NaiveBayesModel,
+        'logreg': LogisticRegressionModel,
     }
 
     def __init__(self, model):
@@ -317,14 +322,6 @@ class ModelManager(object):
             ml_model=self.model.__class__.__name__
         )
         rpt.save()
-
-        for indicator in report.indicators:
-            ind = db_models.Indicator(
-                report=rpt,
-                indicator_type=indicator.type_,
-                value=indicator.value
-            )
-            ind.save()
 
         for sentence in report.sentences:
             s = db_models.Sentence(

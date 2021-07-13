@@ -36,6 +36,48 @@ function uploadReport() {
     })
 }
 
+
+function addMapping(attack_id, sentence_id) {
+    var data = {report: REPORT_ID, sentence: sentence_id, attack_id: attack_id, confidence: 100.0};
+
+    $.ajax({
+        type: "POST",
+        url: `/api/mappings/`,
+        dataType: "json",
+        data: JSON.stringify(data),
+        contentType:"application/json; charset=utf-8",
+        headers: {
+            "X-CSRFToken": CSRF_TOKEN
+        },
+        success: function (data) {
+            loadSentences(sentence_id)
+        },
+        failure: function (data) {
+            console.log(`Failure: ${data}`);
+        }
+    });
+}
+
+
+function updateSentence(sentence_id, disposition) {
+    $.ajax({
+        type: "PATCH",
+        url: `/api/sentences/${sentence_id}/`,
+        dataType: "json",
+        contentType:"application/json; charset=utf-8",
+        data: JSON.stringify(disposition), // {disposition: "accept" | null}
+        headers: {
+            "X-CSRFToken": CSRF_TOKEN
+        },
+        success: function (data) {
+            loadSentences(sentence_id);
+        },
+        failure: function (data) {
+            console.log(`Failure: ${data}`);
+        }
+    });
+}
+
 function deleteJob(report_id) {
     $.ajax({
         type: 'DELETE',
@@ -46,6 +88,23 @@ function deleteJob(report_id) {
     }).done(function(){
         location.reload()
     })
+}
+
+function deleteMapping(sentence_id, mapping_id) {
+    $.ajax({
+        type: "DELETE",
+        url: `/api/mappings/${mapping_id}/`,
+        dataType: "json",
+        headers: {
+            "X-CSRFToken": CSRF_TOKEN,
+        },
+        success: function (data) {
+            loadSentences(sentence_id);
+        },
+        failure: function (data) {
+            console.log(`Failure: ${data}`);
+        }
+    });
 }
 
 function deleteReport(report_id) {
