@@ -6,7 +6,7 @@
 
 {% block body %}
 <h1>ML Admin</h1>
-<div class="container row">
+<div class="container row flex-nowrap">
   <div class="col-sm">
     <h3>Sentences Per Technique</h3>
     <table id="technique-sentence-table" class="table table-striped table-hover">
@@ -36,22 +36,23 @@
   <div class="col-sm">
     <div>
       <h3>ML Models</h3>
-      TODO: This is mocked up
       <table id="ml-models-table" class="table table-striped">
         <caption>ML Models Table</caption>
         <tbody>
           <tr>
             <th scope="col">Model Name</th>
+            <th scope="col">Last Trained</th>
+            <th scope="col">f1 Score</th>
             <th scope="col">Trained Techniques</th>
           </tr>
-          <tr>
-            <td>Dummy</td>
-            <td>797</td>
-          </tr>
-          <tr>
-            <td>NaiveBayes</td>
-            <td>60</td>
-          </tr>
+          {% for model in models %}
+            <tr>
+              <td>{{ model.name }}</td>
+              <td>{{ model.last_trained }}</td>
+              <td>{{ model.average_f1_score }}</td>
+              <td>{{model.trained_techniques_count}}</td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>

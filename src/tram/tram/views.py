@@ -7,8 +7,9 @@ from django.shortcuts import render
 from django.utils.text import slugify
 from rest_framework import viewsets
 
-from tram.models import AttackTechnique, DocumentProcessingJob, Mapping, Report, Sentence
 from tram import serializers
+from tram.ml import base
+from tram.models import AttackTechnique, DocumentProcessingJob, Mapping, Report, Sentence
 
 
 class AttackTechniqueViewSet(viewsets.ModelViewSet):
@@ -114,14 +115,13 @@ def upload(request):
 @login_required
 def ml_home(request):
     techniques = AttackTechnique.get_sentence_counts()
+    model_metadata = base.ModelManager.get_model_metadata()
 
     context = {
                 'techniques': techniques,
                 'ML_ACCEPT_THRESHOLD': config.ML_ACCEPT_THRESHOLD,
                 'ML_CONFIDENCE_THRESHOLD': config.ML_CONFIDENCE_THRESHOLD,
-                'models': [  # model-name, trained-techniques, average-f1-score
-                    'Model #1', ''
-                ]
+                'models': model_metadata
               }
 
     return render(request, 'ml_home.html', context)

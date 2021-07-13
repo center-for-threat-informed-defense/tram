@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import datetime, timezone
 from io import BytesIO
 from os import path
 import pathlib
@@ -52,8 +53,9 @@ class SKLearnModel(ABC):
     def __init__(self):
         self._technique_ids = None
         self.techniques_model = self.get_model()
+        self.last_trained = None
         self.trained_techniques = None
-        self.f1_score = None
+        self.average_f1_score = None
 
         if not isinstance(self.techniques_model, Pipeline):
             raise TypeError('get_model() must return an sklearn.pipeline.Pipeline instance')
@@ -70,6 +72,8 @@ class SKLearnModel(ABC):
         X, y = self._load_and_vectorize_data()
         X = self._preprocess_text(X)
         self.techniques_model.fit(X, y)  # Train classification model
+        self.trained_techniques = set(y)
+        self.last_trained = datetime.now(timezone.utc)
 
     def test(self):
         """
@@ -99,8 +103,7 @@ class SKLearnModel(ABC):
 
         # Average F1 score across techniques, weighted by the # of training examples per technique
         weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
-        self.trained_techniques = set(y)
-        self.f1_score = weighted_f1
+        self.average_f1_score = weighted_f1
 
     @property
     def technique_ids(self):
@@ -152,7 +155,10 @@ class SKLearnModel(ABC):
         for sent_obj in accepted_sents:
             if sent_obj.mappings:  # Only store sentences with a labeled technique
                 sentence = sent_obj.text
+                # TODO: The below line omits all but the first mapped attack technique
                 technique_label = sent_obj.mappings[0].attack_technique
+                # TODO: The below line causes a reduction in the number of unique techniques, which will be
+                #       surprising for an end user
                 technique = technique_label[0:5]  # Cut string to technique level. leave out sub-technique
                 X.append(sentence)
                 y.append(technique)
@@ -365,10 +371,43 @@ class ModelManager(object):
 
     def train_model(self):
         self.model.train()
+        self.model.test()
         filepath = self.get_model_filepath(self.model.__class__)
         self.model.save_to_file(filepath)
         print('Trained model saved to %s' % filepath)
         return
 
-    def test_model(self):
+    def x_test_model(self):
         return self.model.test()
+
+    @staticmethod
+    def get_model_metadata():
+        """
+
+        """
+        # 'model_key': {'name': <model-name>, 'techniques': [trained-techniques], 'average-f1': <average-f1-score>}
+        model_metadata = []
+        for model_key in ModelManager.model_registry.keys():
+            mm = ModelManager(model_key)
+            model_name = mm.model.__class__.__name__
+            if mm.model.last_trained is None:
+                last_trained = 'Never trained'
+            else:
+                last_trained = mm.model.last_trained.strftime('%m/%d/%Y %H:%M:%S UTC')
+            if mm.model.trained_techniques is None:
+                trained_techniques_count = 0
+                trained_techniques = ''
+            else:
+                trained_techniques_count = len(mm.model.trained_techniques)
+                trained_techniques = ', '.join(mm.model.trained_techniques)
+            average_f1_score = round(mm.model.average_f1_score or 0.0, 2)
+            model_metadata.append({
+                'model_key': model_key,
+                'name': model_name,
+                'last_trained': last_trained,
+                'trained_techniques_count': trained_techniques_count,
+                'trained_techniques': trained_techniques,
+                'average_f1_score': average_f1_score
+            })
+
+        return model_metadata
