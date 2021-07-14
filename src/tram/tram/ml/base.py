@@ -414,7 +414,7 @@ class ModelManager(object):
             trained_techniques_count = len(mm.model.trained_techniques)
             trained_techniques = ', '.join(mm.model.trained_techniques)
 
-        average_f1_score = round(mm.model.average_f1_score * 100 or 0.0, 2)
+        average_f1_score = round((mm.model.average_f1_score or 0.0) * 100, 2)
         stored_score = mm.model.detailed_f1_score or []
         detailed_f1_score = []
         for score in stored_score:
