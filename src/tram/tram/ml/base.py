@@ -155,9 +155,7 @@ class SKLearnModel(ABC):
         for sentence in accepted_sents:
             sentence_text = sentence.text
             for mapping in sentence.mappings:
-                technique_label = mapping.attack_technique
-                # TODO: The below line chomps the subtechnique
-                technique = technique_label[0:5]  # Cut string to technique level. leave out sub-technique
+                technique = mapping.attack_technique
                 X.append(sentence_text)
                 y.append(technique)
 
