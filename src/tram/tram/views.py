@@ -2,7 +2,7 @@ import json
 
 from constance import config
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, Http404
 from django.shortcuts import render
 from django.utils.text import slugify
 from rest_framework import viewsets
@@ -135,7 +135,10 @@ def ml_technique_sentences(request, attack_id):
 
 @login_required
 def ml_model_detail(request, model_key):
-    model_metadata = base.ModelManager.get_model_metadata(model_key)
+    try:
+        model_metadata = base.ModelManager.get_model_metadata(model_key)
+    except ValueError as ve:
+        raise Http404('Model does not exists')
     context = {'model': model_metadata}
     return render(request, 'model_detail.html', context)
 
