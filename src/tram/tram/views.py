@@ -137,7 +137,7 @@ def ml_technique_sentences(request, attack_id):
 def ml_model_detail(request, model_key):
     try:
         model_metadata = base.ModelManager.get_model_metadata(model_key)
-    except ValueError as ve:
+    except ValueError:
         raise Http404('Model does not exists')
     context = {'model': model_metadata}
     return render(request, 'model_detail.html', context)
