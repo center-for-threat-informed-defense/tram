@@ -394,7 +394,7 @@ class ModelManager(object):
             model_metadata = ModelManager.get_model_metadata(model_key)
             all_model_metadata.append(model_metadata)
 
-        all_model_metadata = sorted(all_model_metadata, key = lambda i: i['average_f1_score'], reverse=True)
+        all_model_metadata = sorted(all_model_metadata, key=lambda i: i['average_f1_score'], reverse=True)
 
         return all_model_metadata
 

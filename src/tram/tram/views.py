@@ -139,6 +139,7 @@ def ml_model_detail(request, model_key):
     context = {'model': model_metadata}
     return render(request, 'model_detail.html', context)
 
+
 @login_required
 def analyze(request, pk):
     report = Report.objects.get(id=pk)
