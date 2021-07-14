@@ -56,6 +56,7 @@ class SKLearnModel(ABC):
         self.last_trained = None
         self.trained_techniques = None
         self.average_f1_score = None
+        self.detailed_f1_score = None
 
         if not isinstance(self.techniques_model, Pipeline):
             raise TypeError('get_model() must return an sklearn.pipeline.Pipeline instance')
@@ -100,6 +101,12 @@ class SKLearnModel(ABC):
 
         # Generate predictions on test set
         y_predicted = test_model.predict(X_test)
+
+        # TODO: Does this put labels and scores in the correct order?
+        # Calculate an f1 score for each technique
+        labels = sorted(list(set(y)))
+        scores = f1_score(y_test, y_predicted, labels=list(set(y)), average=None)
+        self.detailed_f1_score = sorted(zip(labels, scores), key=lambda t: t[1], reverse=True)
 
         # Average F1 score across techniques, weighted by the # of training examples per technique
         weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
@@ -378,33 +385,47 @@ class ModelManager(object):
         return
 
     @staticmethod
-    def get_model_metadata():
+    def get_all_model_metadata():
         """
-
+        Returns a list of model metadata for all models
         """
-        # 'model_key': {'name': <model-name>, 'techniques': [trained-techniques], 'average-f1': <average-f1-score>}
-        model_metadata = []
+        all_model_metadata = []
         for model_key in ModelManager.model_registry.keys():
-            mm = ModelManager(model_key)
-            model_name = mm.model.__class__.__name__
-            if mm.model.last_trained is None:
-                last_trained = 'Never trained'
-            else:
-                last_trained = mm.model.last_trained.strftime('%m/%d/%Y %H:%M:%S UTC')
-            if mm.model.trained_techniques is None:
-                trained_techniques_count = 0
-                trained_techniques = ''
-            else:
-                trained_techniques_count = len(mm.model.trained_techniques)
-                trained_techniques = ', '.join(mm.model.trained_techniques)
-            average_f1_score = round(mm.model.average_f1_score or 0.0, 2)
-            model_metadata.append({
-                'model_key': model_key,
-                'name': model_name,
-                'last_trained': last_trained,
-                'trained_techniques_count': trained_techniques_count,
-                'trained_techniques': trained_techniques,
-                'average_f1_score': average_f1_score
-            })
+            model_metadata = ModelManager.get_model_metadata(model_key)
+            all_model_metadata.append(model_metadata)
 
+        all_model_metadata = sorted(all_model_metadata, key = lambda i: i['average_f1_score'], reverse=True)
+
+        return all_model_metadata
+
+    @staticmethod
+    def get_model_metadata(model_key):
+        """
+        Returns a dict of model metadata for a particular ML model, identified by it's key
+        """
+        mm = ModelManager(model_key)
+        model_name = mm.model.__class__.__name__
+        if mm.model.last_trained is None:
+            last_trained = 'Never trained'
+            trained_techniques_count = 0
+            trained_techniques = ''
+        else:
+            last_trained = mm.model.last_trained.strftime('%m/%d/%Y %H:%M:%S UTC')
+            trained_techniques_count = len(mm.model.trained_techniques)
+            trained_techniques = ', '.join(mm.model.trained_techniques)
+
+        average_f1_score = round(mm.model.average_f1_score * 100 or 0.0, 2)
+        stored_score = mm.model.detailed_f1_score or []
+        detailed_f1_score = []
+        for score in stored_score:
+            detailed_f1_score.append({'technique': score[0], 'score': round(score[1] * 100, 2)})
+        model_metadata = {
+            'model_key': model_key,
+            'name': model_name,
+            'last_trained': last_trained,
+            'trained_techniques_count': trained_techniques_count,
+            'trained_techniques': trained_techniques,
+            'average_f1_score': average_f1_score,
+            'detailed_f1_score': detailed_f1_score,
+        }
         return model_metadata

@@ -115,7 +115,7 @@ def upload(request):
 @login_required
 def ml_home(request):
     techniques = AttackTechnique.get_sentence_counts()
-    model_metadata = base.ModelManager.get_model_metadata()
+    model_metadata = base.ModelManager.get_all_model_metadata()
 
     context = {
                 'techniques': techniques,
@@ -132,6 +132,12 @@ def ml_technique_sentences(request, attack_id):
     context = {'attack_id': attack_id}
     return render(request, 'technique_sentences.html', context)
 
+
+@login_required
+def ml_model_detail(request, model_key):
+    model_metadata = base.ModelManager.get_model_metadata(model_key)
+    context = {'model': model_metadata}
+    return render(request, 'model_detail.html', context)
 
 @login_required
 def analyze(request, pk):

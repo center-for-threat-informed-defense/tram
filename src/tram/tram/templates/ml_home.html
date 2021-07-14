@@ -25,9 +25,9 @@
           <td>{{ forloop.counter }}</td>
           <td><a href="{{ t.attack_url }}">{{ t.attack_id }}</a></td>
           <td>{{ t.name }}</td>
-          <td><a href="/ml/{{t.attack_id}}">{{ t.accepted_sentences }}</a></td>
-          <td><a href="/ml/{{t.attack_id}}">{{ t.pending_sentences }}</a></td>
-          <td><a href="/ml/{{t.attack_id}}">{{ t.total_sentences }}</a></td>
+          <td><a href="/ml/techniques/{{t.attack_id}}">{{ t.accepted_sentences }}</a></td>
+          <td><a href="/ml/techniques/{{t.attack_id}}">{{ t.pending_sentences }}</a></td>
+          <td><a href="/ml/techniques/{{t.attack_id}}">{{ t.total_sentences }}</a></td>
         </tr>
         {% endfor %}
       </tbody>
@@ -42,14 +42,14 @@
           <tr>
             <th scope="col">Model Name</th>
             <th scope="col">Last Trained</th>
-            <th scope="col">f1 Score</th>
+            <th scope="col">Accuracy (f1&nbspScore)</th>
             <th scope="col">Trained Techniques</th>
           </tr>
           {% for model in models %}
             <tr>
-              <td>{{ model.name }}</td>
+              <td><a href="/ml/models/{{model.model_key}}">{{ model.name }}</a></td>
               <td>{{ model.last_trained }}</td>
-              <td>{{ model.average_f1_score }}</td>
+              <td>{{ model.average_f1_score }}%</td>
               <td>{{model.trained_techniques_count}}</td>
             </tr>
           {% endfor %}

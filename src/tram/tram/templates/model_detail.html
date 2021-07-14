@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}TRAM - {{ model.name }} Detail{% endblock %}
+
+{% block body %}
+<h1>{{ model.name }} Detail</h1>
+<div class="container row flex-nowrap">
+  <div class="col-sm">
+    <div>
+      <h3>{{ model.name }} Summary Statistics</h3>
+      <table id="ml-models-table" class="table table-striped">
+        <caption>{{ model.name }} Summary Statistics</caption>
+        <tbody>
+          <tr>
+            <th scope="col">Model Name</th>
+            <th scope="col">Last Trained</th>
+            <th scope="col">Accuracy (f1&nbspScore)</th>
+            <th scope="col">Trained Techniques</th>
+          </tr>
+          <tr>
+            <td>{{ model.name }}</td>
+            <td>{{ model.last_trained }}</td>
+            <td>{{ model.average_f1_score }}%</td>
+            <td>{{ model.trained_techniques_count }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-sm">
+    <h3>Detailed Scoring</h3>
+    <table id="technique-sentence-table" class="table table-striped table-hover">
+      <caption>Technique Sentence Table</caption>
+      <tbody>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Technique ID</th>
+          <th scope="col">Accuracy (f1&nbspScore)</th>
+        </tr>
+        {% for score in model.detailed_f1_score %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ score.technique }}</a></td>
+          <td>{{ score.score }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+{% endblock %}
