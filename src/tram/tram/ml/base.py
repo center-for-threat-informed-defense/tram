@@ -152,16 +152,15 @@ class SKLearnModel(ABC):
         X = []
         y = []
         accepted_sents = self.get_training_data()
-        for sent_obj in accepted_sents:
-            if sent_obj.mappings:  # Only store sentences with a labeled technique
-                sentence = sent_obj.text
-                # TODO: The below line omits all but the first mapped attack technique
-                technique_label = sent_obj.mappings[0].attack_technique
-                # TODO: The below line causes a reduction in the number of unique techniques, which will be
-                #       surprising for an end user
+        for sentence in accepted_sents:
+            sentence_text = sentence.text
+            for mapping in sentence.mappings:
+                technique_label = mapping.attack_technique
+                # TODO: The below line chomps the subtechnique
                 technique = technique_label[0:5]  # Cut string to technique level. leave out sub-technique
-                X.append(sentence)
+                X.append(sentence_text)
                 y.append(technique)
+
         return X, y
 
     def get_training_data(self):
