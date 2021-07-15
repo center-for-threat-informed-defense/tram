@@ -20,7 +20,7 @@ def load_attack_data():
     command.handle(subcommand=attackdata.LOAD)
 
 
-@pytest.fixture
+@pytest.fixture  # (scope='class')
 def load_training_data():
     options = {
         'file': 'data/training/bootstrap-training-data.json',

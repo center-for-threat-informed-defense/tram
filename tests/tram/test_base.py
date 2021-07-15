@@ -11,11 +11,6 @@ def dummy_model():
     return base.DummyModel()
 
 
-@pytest.fixture
-def tram_model():
-    return base.TramModel()
-
-
 class TestSentence:
     def test_sentence_stores_no_mapping(self):
         # Arrange
@@ -235,6 +230,7 @@ class TestsThatNeedTrainingData:
     """
     ----- Begin ModelManager Tests -----
     """
+
     def test_modelmanager__init__loads_dummy_model(self):
         # Act
         model_manager = base.ModelManager('dummy')
@@ -264,6 +260,7 @@ class TestsThatNeedTrainingData:
         # Arrange
         dummy_model = base.DummyModel()
         dummy_model.train()
+        dummy_model.test()
         config.ML_CONFIDENCE_THRESHOLD = 0
 
         # Act
@@ -282,6 +279,7 @@ class TestsThatNeedTrainingData:
         job.save()
         dummy_model = base.DummyModel()
         dummy_model.train()
+        dummy_model.test()
 
         # Act
         report = dummy_model.process_job(job)
@@ -298,13 +296,11 @@ class TestsThatNeedTrainingData:
     """
     ----- Begin DummyModel Tests -----
     """
-    def test_dummymodel_train_passes(self, dummy_model):
+    def test_dummymodel_train_and_test_passes(self, dummy_model):
         # Act
         dummy_model.train()  # Has no effect
-
-    def test_dummymodel_test_passes(self, dummy_model):
-        # Act
         dummy_model.test()  # Has no effect
+
     """
     ----- End DummyModel Tests -----
     """

@@ -54,7 +54,6 @@ class SKLearnModel(ABC):
         self._technique_ids = None
         self.techniques_model = self.get_model()
         self.last_trained = None
-        self.trained_techniques = None
         self.average_f1_score = None
         self.detailed_f1_score = None
 
@@ -409,7 +408,7 @@ class ModelManager(object):
             trained_techniques_count = 0
         else:
             last_trained = mm.model.last_trained.strftime('%m/%d/%Y %H:%M:%S UTC')
-            trained_techniques_count = len(mm.model.trained_techniques)
+            trained_techniques_count = len(mm.model.detailed_f1_score)
 
         average_f1_score = round((mm.model.average_f1_score or 0.0) * 100, 2)
         stored_scores = mm.model.detailed_f1_score or []
