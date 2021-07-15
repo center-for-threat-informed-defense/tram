@@ -73,7 +73,6 @@ class SKLearnModel(ABC):
         X, y = self._load_and_vectorize_data()
         X = self._preprocess_text(X)
         self.techniques_model.fit(X, y)  # Train classification model
-        self.trained_techniques = set(y)
         self.last_trained = datetime.now(timezone.utc)
 
     def test(self):
@@ -408,23 +407,31 @@ class ModelManager(object):
         if mm.model.last_trained is None:
             last_trained = 'Never trained'
             trained_techniques_count = 0
-            trained_techniques = ''
         else:
             last_trained = mm.model.last_trained.strftime('%m/%d/%Y %H:%M:%S UTC')
             trained_techniques_count = len(mm.model.trained_techniques)
-            trained_techniques = ', '.join(mm.model.trained_techniques)
 
         average_f1_score = round((mm.model.average_f1_score or 0.0) * 100, 2)
-        stored_score = mm.model.detailed_f1_score or []
+        stored_scores = mm.model.detailed_f1_score or []
+        attack_ids = set([score[0] for score in stored_scores])
+        attack_techniques = db_models.AttackTechnique.objects.filter(attack_id__in=attack_ids)
         detailed_f1_score = []
-        for score in stored_score:
-            detailed_f1_score.append({'technique': score[0], 'score': round(score[1] * 100, 2)})
+        for score in stored_scores:
+            score_id = score[0]
+            score_value = round(score[1] * 100, 2)
+
+            attack_technique = attack_techniques.get(attack_id=score_id)
+            detailed_f1_score.append({
+                'technique': score_id,
+                'technique_name': attack_technique.name,
+                'attack_url': attack_technique.attack_url,
+                'score': score_value
+            })
         model_metadata = {
             'model_key': model_key,
             'name': model_name,
             'last_trained': last_trained,
             'trained_techniques_count': trained_techniques_count,
-            'trained_techniques': trained_techniques,
             'average_f1_score': average_f1_score,
             'detailed_f1_score': detailed_f1_score,
         }

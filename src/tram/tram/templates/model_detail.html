@@ -36,13 +36,13 @@
       <tbody>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Technique ID</th>
+          <th scope="col">Technique</th>
           <th scope="col">Accuracy (f1&nbspScore)</th>
         </tr>
         {% for score in model.detailed_f1_score %}
         <tr>
           <td>{{ forloop.counter }}</td>
-          <td>{{ score.technique }}</a></td>
+          <td><a href="/ml/techniques/{{ score.technique }}">{{ score.technique }}</a> - {{ score.technique_name }}</td>
           <td>{{ score.score }}%</td>
         </tr>
         {% endfor %}
