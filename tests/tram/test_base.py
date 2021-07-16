@@ -218,7 +218,7 @@ class TestSkLearnModel:
 
 
 @pytest.mark.django_db
-@pytest.mark.usefixtures('load_attack_data', 'load_training_data')
+@pytest.mark.usefixtures('load_attack_data', 'load_small_training_data')
 class TestsThatNeedTrainingData:
     """
     Loading the training data is a large time cost, so this groups tests together that use
