@@ -19,7 +19,7 @@ PROJECT_ROOT = BASE_DIR.parent.parent
 
 # Read DATA_DIRECTORY from ENV unless blank
 if os.environ.get('DATA_DIRECTORY') != None:
-    DATA_DIRECTORY = os.environ.get('DATA_DIRECTORY')
+    DATA_DIRECTORY = Path(os.environ.get('DATA_DIRECTORY'))
 else:
     DATA_DIRECTORY = PROJECT_ROOT / 'data'
 
@@ -34,7 +34,7 @@ else:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('DEBUG') != None:
-    DEBUG = bool(os.environ.get('DEBUG').lower in ['true', '1', 't', 'yes', 'y'])
+    DEBUG = bool(os.environ.get('DEBUG').lower() in ['true', '1', 't', 'yes', 'y'])
 else:
     DEBUG = True
 
