@@ -1,0 +1,22 @@
+#
+# TRAM compose file. Note that you will only be able to work from localhost
+# unless you create a docker network to expose the container to the internet
+version: '3'
+services:
+  tram:
+    # Update the image with the correct image name or ID
+    image: 663e72a0e87d #tram:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - DATA_DIRECTORY=/data
+      - SECRET_KEY=f8_0r69gev@%%e1^)39mi6m%l&j-zj_-5co*ryz7iy2gqt_b#x
+      - DEBUG=True
+      - DJANGO_SUPERUSER_USERNAME=djangoSuperuser
+      - DJANGO_SUPERUSER_PASSWORD=legitamatepassword
+      - DJANGO_SUPERUSER_EMAIL=legitemailaddress@legitgmail.com
+    volumes:
+      - tram-data:/data
+      - /Users/bvohaska/tram/:/mnt/tram
+volumes:
+  tram-data:
