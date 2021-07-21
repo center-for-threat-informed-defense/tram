@@ -21,7 +21,6 @@ class TestPipeline:
 
     @pytest.mark.parametrize("subcommand,to_mock", [
         (pipeline.RUN, 'run_model'),
-        (pipeline.TEST, 'test_model'),
         (pipeline.TRAIN, 'train_model'),
     ])
     def test_subcommand_calls_correct_function(self, mocker, subcommand, to_mock):
