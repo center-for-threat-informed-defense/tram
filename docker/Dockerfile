@@ -1,16 +1,22 @@
 #
-# Docker Build File - TRAM
-#  docker build -t repo/tram:1.0
+# TRAM -Docker Build File 
+#  - This file assumes you have cloned the TRAM repo: 
+#        `git@github.com:center-for-threat-informed-defense/tram.git`
+#  - The working directory for this build is /path/to/tram/
+#
+#  Simple build command: `docker build -t [repo_name]/tram:[version] .`
 
 FROM ubuntu:20.04
 
+WORKDIR /tram
+ENV DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update
-RUN apt install -y python3.9
-RUN apt install -y python3-pip
+RUN apt-get install -y python3.9 python3-pip
 
-COPY ./requirements/requirements.txt requirements.txt
-
-RUN pip3 install -r requirements.txt
+COPY ./src src
+COPY ./requirements requirements
+RUN pip3 install -r requirements/requirements.txt
 
 COPY ./docker/entrypoint.sh entrypoint.sh
 

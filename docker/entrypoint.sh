@@ -1,12 +1,15 @@
 #!/bin/bash
 
-# Prepare the TRAM server by starting the DB
-python3  /mnt/tram/src/tram/manage.py makemigrations tram
-python3  /mnt/tram/src/tram/manage.py migrate
+# Run Django migrations scripts
+python3  /tram/src/tram/manage.py makemigrations tram
+python3  /tram/src/tram/manage.py migrate
 
 # Create a super user for the Django server
-# This can be set by ENV
-python3 /mnt/tram/src/tram/manage.py createsuperuser --noinput
+#   This should be set by ENV and must include:
+#      - DJANGO_SUPERUSER_USERNAME
+#      - DJANGO_SUPERUSER_PASSWORD
+#      - DJANGO_SUPERUSER_EMAIL
+python3 /tram/src/tram/manage.py createsuperuser --noinput
 
-# Run the server
-python3 /mnt/tram/src/tram/manage.py runserver 0.0.0.0:8000
+# Run the server on Loopback using port 8000
+python3 /tram/src/tram/manage.py runserver 0.0.0.0:8000
