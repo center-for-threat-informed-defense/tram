@@ -1,11 +1,14 @@
 #
-# TRAM compose file. Note that you will only be able to work from localhost
-# unless you create a docker network to expose the container to the internet
-version: '3'
+# TRAM compose file. 
+#  - TRAM is currently setup to use Django with SQLite DB
+#  - TRAM currently only works from localhost on port 8000 (or whatever port you select here)
+#  - Any ML data and DB data is stored at the path stored in the environment variable 
+#    `DATA_DIRECTORY`. This is internal to Django.
+version: '3.5'
 services:
   tram:
     # Update the image with the correct image name or ID
-    image: 663e72a0e87d #tram:latest
+    image: tram:latest
     ports:
       - "8000:8000"
     environment:
@@ -17,6 +20,5 @@ services:
       - DJANGO_SUPERUSER_EMAIL=legitemailaddress@legitgmail.com
     volumes:
       - tram-data:/data
-      - /Users/bvohaska/tram/:/mnt/tram
 volumes:
   tram-data:
