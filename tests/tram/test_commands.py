@@ -54,6 +54,7 @@ class TestPipeline:
         # Assert
         pass
 
+
 @pytest.mark.django_db
 class TestAttackData:
     def test_load_succeeds(self):
