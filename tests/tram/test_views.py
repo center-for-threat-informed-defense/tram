@@ -68,7 +68,7 @@ class TestLogin:
 class TestDocumentation:
     def test_documentation_loads(self, logged_in_client):
         # Act
-        response = client.get('/docs/')
+        response = logged_in_client.get('/docs/')
 
         # Assert
         assert response.status_code == 200
