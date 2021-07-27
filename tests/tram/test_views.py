@@ -64,6 +64,16 @@ class TestLogin:
         assert b'<title>Login</title>' in response.content
 
 
+class TestDocumentation:
+    def test_documentation_loads(self, logged_in_client):
+        # Act
+        response = client.get('/docs/')
+
+        # Assert
+        assert response.status_code == 200
+        assert b'<title>Documentation</title>' in response.content
+
+
 @pytest.mark.django_db
 class TestIndex:
     def test_index_loads_with_no_stored_data(self, logged_in_client):
