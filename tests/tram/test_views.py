@@ -64,6 +64,7 @@ class TestLogin:
         assert b'<title>Login</title>' in response.content
 
 
+@pytest.mark.django_db
 class TestDocumentation:
     def test_documentation_loads(self, logged_in_client):
         # Act
