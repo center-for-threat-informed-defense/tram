@@ -28,17 +28,15 @@
 <body>
     <header class="navbar  navbar-fixed-top navbar-expand-md">
         <nav class="container-xxl d-flex justify-content-between">
-            <a class="navbar-brand pt-0 pb-0" href="/">
-                <h1>
-                    <img src="{% static 'img/me_300x300.jpeg' %}" alt="TRAM - Threat Report ATT&amp;CK Mapper">
-                    TRAM
-                </h1>
-            </a>
+            <h1 style="color: white">
+                <img src="{% static 'img/me_300x300.jpeg' %}" alt="TRAM - Threat Report ATT&amp;CK Mapper">
+                TRAM
+            </h1>
             <ul class="navbar-nav d-flex m-0">
                 <li class="navbar-item me-1">
-                    <a class="btn btn btn-outline-light" href="/admin">Database Admin</a>
+                    <a class="btn btn btn-outline-light" href="/">Reports</a>
                 </li>
-                <li>
+                <li class="navbar-item me-1">
                     <a class="btn btn btn-outline-light" href="/ml">ML Admin</a>
                 </li>
                 <li class="navbar-item me-1">
@@ -56,10 +54,22 @@
             </ul>
         </nav>
     </header>
-    <div class="container-xxl text-center">
+    <div class="container-xxl text-center" style="margin-bottom: 60px">
         {% block body %}
         {% endblock %}
     </div>
+    <footer class="footer fixed-bottom bg-light container row">
+        <div class="container row text-muted">
+            <div class="col text-start">
+                <a href="/admin/">Admin</a> |
+                <a href="/docs/">Docs</a> |
+                <a href="https://github.com/center-for-threat-informed-defense/tram/">GitHub</a>
+            </div>
+            <div class="col text-end">
+                &copy; 2021 MITRE Engenuity. All rights reserved.
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>

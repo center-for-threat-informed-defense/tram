@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
+from django.views.generic.base import TemplateView
 from rest_framework.routers import DefaultRouter
 
 from tram import views
@@ -36,6 +37,7 @@ urlpatterns = [
     path('', views.index),
     path('analyze/<int:pk>/', views.analyze),
     path('api/', include(router.urls)),
+    path('docs/', TemplateView.as_view(template_name='tram-documentation.html')),
     path('login/', auth_views.LoginView.as_view()),
     path('logout/', auth_views.LogoutView.as_view()),
     path('upload/', views.upload),

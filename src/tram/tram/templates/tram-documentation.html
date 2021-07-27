@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Documentation{% endblock %}
+
+{% block body %}
+<div class="container flex-wrap row">
+  <div class="col-6">
+    <h1>TRAM - Threat Report ATT&CK Mapper</h1>
+    <div class="text-start">
+        TRAM is a software tool that uses Natural Language Processing (NLP) and Artificial Intelligence / Machine Learning
+        (AI/ML) to map Threat Reports to MITRE ATT&CK.
+
+        TRAM's workflow is:
+        <ol>
+            <li>A Threat Report is added to the job processing queue</li>
+            <li>TRAM breaks the Threat Report into Sentences</li>
+            <li>The AI/ML model proposes ATT&CK Techniques on a per-sentence basis</li>
+            <li>An analyst edits and confirms the mappings</li>
+            <li>(Optional) The mappings can be exported to support other workflows</li>
+            <li>(Optional) The AI/ML model can be retrained on confirmed mappings</li>
+        </ol>
+    </div>
+  </div>
+  <div class="col-6">
+    <h2>TRAM UI Components</h2>
+    <table class="table table-striped table-hover">
+      <tbody>
+        <tr>
+          <th scope="col">Component</th>
+          <th scope="col">Purpose</th>
+          <th scope="col">Link</th>
+        </tr>
+        <tr>
+          <td>Reports</td>
+          <td>Dashboard for managing reports</td>
+          <td>
+              <a href="/">
+                <i class="fas fa-external-link-square-alt"></i>
+              </a>
+          </td>
+        </tr>
+        <tr>
+          <td>ML Admin</td>
+          <td>Management UI For Machine Learning Models</td>
+            <td>
+              <a href="/ml/">
+                <i class="fas fa-external-link-square-alt"></i>
+              </a>
+          </td>
+        </tr>
+        <tr>
+          <td>Admin</td>
+          <td>Direct Database Interface</td>
+            <td>
+              <a href="/admin/">
+                <i class="fas fa-external-link-square-alt"></i>
+              </a>
+          </td>
+        </tr>
+        <tr>
+          <td>Docs</td>
+          <td>TRAM documentation</td>
+            <td>
+              <a href="/docs/">
+                <i class="fas fa-external-link-square-alt"></i>
+              </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-6">
+    <h2>Processing Pipeline</h2>
+    <table class="table table-striped table-hover">
+      <tbody>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Step</th>
+          <th scope="col">Details</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Add Report</td>
+          <td>
+              A report is added to the processing queue either manually through the
+              web interface or the command line interface.
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>ML Pipeline Processes Report</td>
+          <td>
+            The ML pipeline is run, and the specific ML model analyzes the report
+            sentence by sentence. THe ML model proposes zero or many ATT&CK Techniques
+            for each sentence along with the confidence that the mapping is correct.
+          </td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Analyst Reviews Report</td>
+          <td>
+              An analyst reviews each report and accepts or corrects the mappings
+              that have been proposed by the ML model.
+          </td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>(Optional) Retrain ML Model</td>
+          <td>
+              The model can be retrained with all accepted mappings contained within TRAM.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
