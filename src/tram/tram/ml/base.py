@@ -358,7 +358,7 @@ class ModelManager(object):
                 )
                 m.save()
 
-    def run_model(self):
+    def run_model(self, run_forever=False):
         while True:
             jobs = db_models.DocumentProcessingJob.objects.all().order_by('created_on')
             for job in jobs:
@@ -368,6 +368,8 @@ class ModelManager(object):
                     self._save_report(report, job.document)
                     job.delete()
                 print('Created report %s' % report.name)
+            if not run_forever:
+                return
             time.sleep(1)
 
     def get_model_filepath(self, model_class):
