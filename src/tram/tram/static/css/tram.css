@@ -10,8 +10,11 @@ body {
     color: white;
 }
 
-.btn-warning
+.footer {
+    width: 100%;
+    background-color: #f5f5f5;
+}
 
-a:hover {
-    color: #F0F1F2;
+.footer a {
+    color: gray;
 }

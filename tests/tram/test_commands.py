@@ -46,6 +46,14 @@ class TestPipeline:
         # Assert
         assert Sentence.objects.count() == 12588  # Count of sentences data/training/bootstrap-training-data.json
 
+    @pytest.mark.django_db
+    def test_run_succeeds(self, load_attack_data):
+        # Act
+        call_command('pipeline', pipeline.RUN)
+
+        # Assert
+        pass
+
 
 @pytest.mark.django_db
 class TestAttackData:
