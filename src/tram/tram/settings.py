@@ -165,3 +165,5 @@ REST_FRAMEWORK = {
 }
 
 ML_MODEL_DIR = os.path.join(DATA_DIRECTORY, 'ml-models')
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
