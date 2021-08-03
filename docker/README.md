@@ -19,11 +19,12 @@ Example `docker-compose.yml`,
 version: '3.5'
 services:
   tram:
-    image: tram
+    image: ctidorg/tram:latest
     ports:
       - "8000:8000"
     environment:
       - DATA_DIRECTORY=/data
+      - ALLOWED_HOSTS=["example_host1", "localhost"] 
       - SECRET_KEY=Ij0WGee73k9OESwqddmSKCx6SY9aJ_7bDojs485Z6ec # your secret key here
       - DEBUG=True
       - DJANGO_SUPERUSER_USERNAME=djangoSuperuser
@@ -41,6 +42,14 @@ By default, one can connect to the container running this image at `http://local
 
 ### Environment Variables
 
+`DATA_DIRECTORY`
+
+Any ML data and DB data is stored at the path indicated at this environment variable
+
+`ALLOWED_HOSTS`
+
+A list of hosts allowed to connect to the Django server (in Django settings.py)
+
 `SECRET_KEY`
 
 Is a cryptographic secrecy used by Django. This secret can be generated using the following command:
@@ -48,10 +57,6 @@ Is a cryptographic secrecy used by Django. This secret can be generated using th
 ```bash
 $: python3 -c "import secrets; print(secrets.token_urlsafe())"
 ```
-
-`DATA_DIRECTORY`
-
-Any ML data and DB data is stored at the path indicated at this environment variable
 
 `DEBUG`
 
