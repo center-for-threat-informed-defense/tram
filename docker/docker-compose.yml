@@ -3,15 +3,17 @@
 #  - TRAM currently only works from localhost on port 8000 (or whatever port you select here)
 #  - Any ML data and DB data is stored at the path stored in the environment variable 
 #    `DATA_DIRECTORY`. This is internal to Django.
-#  - SECRET_KEY is a URL Safe token and should be changed
+#  - ALLOWED_HOSTS is a lsit of hosts allowed to connect to the Django server (in settings.py)
+#  - SECRET_KEY is a URL Safe Token and should be changed
 version: '3.5'
 services:
   tram:
-    image: tram
+    image: tram:1.0.1
     ports:
       - "8000:8000"
     environment:
       - DATA_DIRECTORY=/data
+      - ALLOWED_HOSTS=["example_host1", "example_host2"] 
       - SECRET_KEY=Ij0WGee73k9OESwqddmSKCx6SY9aJ_7bDojs485Z6ec # your secret key here
       - DEBUG=True
       - DJANGO_SUPERUSER_USERNAME=djangoSuperuser

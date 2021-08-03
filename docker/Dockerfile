@@ -14,10 +14,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get install -y python3.9 python3-pip
 
-COPY ./src src
 COPY ./requirements requirements
 RUN pip3 install -r requirements/requirements.txt
 
+COPY ./src src
 COPY ./docker/entrypoint.sh entrypoint.sh
 
 EXPOSE 8000

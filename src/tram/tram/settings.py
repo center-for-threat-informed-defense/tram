@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
+from json import loads
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +39,10 @@ if os.environ.get('DEBUG') != None:
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = []
+if os.environ.get('ALLOWED_HOSTS') != None:
+    ALLOWED_HOSTS = loads(os.environ.get('ALLOWED_HOSTS'))
+else:
+    ALLOWED_HOSTS = []
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 
