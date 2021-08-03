@@ -25,8 +25,8 @@ class Command(BaseCommand):
                                    required=True)
         sp_run = sp.add_parser(RUN, help='Run the ML Pipeline')
         sp_run.add_argument('--model', default='logreg', help='Select the ML model.')
-        sp_run.add_argument('--run-forever', default=False, help='Specify whether to run forever, or quit when there '
-                                                                 'are no more jobs to process')
+        sp_run.add_argument('--run-forever', default=False, action='store_true',
+                            help='Specify whether to run forever, or quit when there are no more jobs to process')
         sp_train = sp.add_parser(TRAIN, help='Train the ML Pipeline')  # noqa: F841
         sp_train.add_argument('--model', default='logreg', help='Select the ML model.')
         sp_add = sp.add_parser(ADD, help='Add a document for processing by the ML pipeline')
