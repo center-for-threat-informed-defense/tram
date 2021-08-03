@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_ROOT = BASE_DIR.parent.parent
 
 # Read DATA_DIRECTORY from ENV unless blank
-if os.environ.get('DATA_DIRECTORY') != None:
+if os.environ.get('DATA_DIRECTORY') is not None:
     DATA_DIRECTORY = Path(os.environ.get('DATA_DIRECTORY'))
 else:
     DATA_DIRECTORY = PROJECT_ROOT / 'data'
@@ -28,18 +28,18 @@ else:
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if os.environ.get('SECRET_KEY') != None:
+if os.environ.get('SECRET_KEY') is not None:
     SECRET_KEY = os.environ.get('SECRET_KEY')
 else:
     SECRET_KEY = 'f8_0r69gev@%%e1^)39mi6m%l&j-zj_-5co*ryz7iy2gqt_b#x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('DEBUG') != None:
+if os.environ.get('DEBUG') is not None:
     DEBUG = bool(os.environ.get('DEBUG').lower() in ['true', '1', 't', 'yes', 'y'])
 else:
     DEBUG = True
 
-if os.environ.get('ALLOWED_HOSTS') != None:
+if os.environ.get('ALLOWED_HOSTS') is not None:
     ALLOWED_HOSTS = loads(os.environ.get('ALLOWED_HOSTS'))
 else:
     ALLOWED_HOSTS = []
