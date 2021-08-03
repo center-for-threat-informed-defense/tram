@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import datetime, timezone
 from io import BytesIO
 from os import path
 import pathlib
@@ -52,8 +53,9 @@ class SKLearnModel(ABC):
     def __init__(self):
         self._technique_ids = None
         self.techniques_model = self.get_model()
-        self.trained_techniques = None
-        self.f1_score = None
+        self.last_trained = None
+        self.average_f1_score = None
+        self.detailed_f1_score = None
 
         if not isinstance(self.techniques_model, Pipeline):
             raise TypeError('get_model() must return an sklearn.pipeline.Pipeline instance')
@@ -70,6 +72,7 @@ class SKLearnModel(ABC):
         X, y = self._load_and_vectorize_data()
         X = self._preprocess_text(X)
         self.techniques_model.fit(X, y)  # Train classification model
+        self.last_trained = datetime.now(timezone.utc)
 
     def test(self):
         """
@@ -97,10 +100,15 @@ class SKLearnModel(ABC):
         # Generate predictions on test set
         y_predicted = test_model.predict(X_test)
 
+        # TODO: Does this put labels and scores in the correct order?
+        # Calculate an f1 score for each technique
+        labels = sorted(list(set(y)))
+        scores = f1_score(y_test, y_predicted, labels=list(set(y)), average=None)
+        self.detailed_f1_score = sorted(zip(labels, scores), key=lambda t: t[1], reverse=True)
+
         # Average F1 score across techniques, weighted by the # of training examples per technique
         weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
-        self.trained_techniques = set(y)
-        self.f1_score = weighted_f1
+        self.average_f1_score = weighted_f1
 
     @property
     def technique_ids(self):
@@ -152,7 +160,10 @@ class SKLearnModel(ABC):
         for sent_obj in accepted_sents:
             if sent_obj.mappings:  # Only store sentences with a labeled technique
                 sentence = sent_obj.text
+                # TODO: The below line omits all but the first mapped attack technique
                 technique_label = sent_obj.mappings[0].attack_technique
+                # TODO: The below line causes a reduction in the number of unique techniques, which will be
+                #       surprising for an end user
                 technique = technique_label[0:5]  # Cut string to technique level. leave out sub-technique
                 X.append(sentence)
                 y.append(technique)
@@ -347,7 +358,7 @@ class ModelManager(object):
                 )
                 m.save()
 
-    def run_model(self):
+    def run_model(self, run_forever=False):
         while True:
             jobs = db_models.DocumentProcessingJob.objects.all().order_by('created_on')
             for job in jobs:
@@ -357,6 +368,8 @@ class ModelManager(object):
                     self._save_report(report, job.document)
                     job.delete()
                 print('Created report %s' % report.name)
+            if not run_forever:
+                return
             time.sleep(1)
 
     def get_model_filepath(self, model_class):
@@ -365,10 +378,62 @@ class ModelManager(object):
 
     def train_model(self):
         self.model.train()
+        self.model.test()
         filepath = self.get_model_filepath(self.model.__class__)
         self.model.save_to_file(filepath)
         print('Trained model saved to %s' % filepath)
         return
 
-    def test_model(self):
-        return self.model.test()
+    @staticmethod
+    def get_all_model_metadata():
+        """
+        Returns a list of model metadata for all models
+        """
+        all_model_metadata = []
+        for model_key in ModelManager.model_registry.keys():
+            model_metadata = ModelManager.get_model_metadata(model_key)
+            all_model_metadata.append(model_metadata)
+
+        all_model_metadata = sorted(all_model_metadata, key=lambda i: i['average_f1_score'], reverse=True)
+
+        return all_model_metadata
+
+    @staticmethod
+    def get_model_metadata(model_key):
+        """
+        Returns a dict of model metadata for a particular ML model, identified by it's key
+        """
+        mm = ModelManager(model_key)
+        model_name = mm.model.__class__.__name__
+        if mm.model.last_trained is None:
+            last_trained = 'Never trained'
+            trained_techniques_count = 0
+        else:
+            last_trained = mm.model.last_trained.strftime('%m/%d/%Y %H:%M:%S UTC')
+            trained_techniques_count = len(mm.model.detailed_f1_score)
+
+        average_f1_score = round((mm.model.average_f1_score or 0.0) * 100, 2)
+        stored_scores = mm.model.detailed_f1_score or []
+        attack_ids = set([score[0] for score in stored_scores])
+        attack_techniques = db_models.AttackTechnique.objects.filter(attack_id__in=attack_ids)
+        detailed_f1_score = []
+        for score in stored_scores:
+            score_id = score[0]
+            score_value = round(score[1] * 100, 2)
+
+            attack_technique = attack_techniques.get(attack_id=score_id)
+            detailed_f1_score.append({
+                'technique': score_id,
+                'technique_name': attack_technique.name,
+                'attack_url': attack_technique.attack_url,
+                'score': score_value
+            })
+        model_metadata = {
+            'model_key': model_key,
+            'name': model_name,
+            'last_trained': last_trained,
+            'trained_techniques_count': trained_techniques_count,
+            'average_f1_score': average_f1_score,
+            'detailed_f1_score': detailed_f1_score,
+        }
+        return model_metadata

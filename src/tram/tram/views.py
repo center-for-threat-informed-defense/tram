@@ -2,13 +2,14 @@ import json
 
 from constance import config
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, Http404
 from django.shortcuts import render
 from django.utils.text import slugify
 from rest_framework import viewsets
 
-from tram.models import AttackTechnique, DocumentProcessingJob, Mapping, Report, Sentence
 from tram import serializers
+from tram.ml import base
+from tram.models import AttackTechnique, DocumentProcessingJob, Mapping, Report, Sentence
 
 
 class AttackTechniqueViewSet(viewsets.ModelViewSet):
@@ -114,14 +115,13 @@ def upload(request):
 @login_required
 def ml_home(request):
     techniques = AttackTechnique.get_sentence_counts()
+    model_metadata = base.ModelManager.get_all_model_metadata()
 
     context = {
                 'techniques': techniques,
                 'ML_ACCEPT_THRESHOLD': config.ML_ACCEPT_THRESHOLD,
                 'ML_CONFIDENCE_THRESHOLD': config.ML_CONFIDENCE_THRESHOLD,
-                'models': [  # model-name, trained-techniques, average-f1-score
-                    'Model #1', ''
-                ]
+                'models': model_metadata
               }
 
     return render(request, 'ml_home.html', context)
@@ -131,6 +131,16 @@ def ml_home(request):
 def ml_technique_sentences(request, attack_id):
     context = {'attack_id': attack_id}
     return render(request, 'technique_sentences.html', context)
+
+
+@login_required
+def ml_model_detail(request, model_key):
+    try:
+        model_metadata = base.ModelManager.get_model_metadata(model_key)
+    except ValueError:
+        raise Http404('Model does not exists')
+    context = {'model': model_metadata}
+    return render(request, 'model_detail.html', context)
 
 
 @login_required

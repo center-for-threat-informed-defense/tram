@@ -1,0 +1,1802 @@
+{
+    "name": "Bootstrap Training Data",
+    "text": "There is no text for this report. These sentences were mapped by human analysts.",
+    "ml_model": "humans",
+    "created_on": "2021-05-04T13:02:42.004809Z",
+    "updated_on": "2021-05-04T13:02:42.004827Z",
+    "sentences": [
+        {
+            "text": "From these reports, we know that the group uses an abundance of tools and tactics, ranging across zero-day exploits targeting common applications such as Java or Microsoft Office, heavy use of spear-phishing attacks, compromising legitimate websites to stage watering-hole attacks, and targeting over a variety of operating systems \u2013 Windows, OSX, Linux, even mobile iOS",
+            "order": 0,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1189",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "We believe this access was abused, for example, by inserting malicious scripts in the country\u2019s official websites in order to conduct watering hole attacks",
+            "order": 1,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1189",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "What does the resulting watering hole look like? The websites were compromised to redirect visitors to instances of both ScanBox and BEeF",
+            "order": 2,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1189",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "This targeting of third party organizations to attack further targets is a risky move on the attackers\u2019 part, as it potentially reveals their activity within the compromised third party organizations to the new target (those receiving the malicious documents  Making sense of MuddyWater When we looked at the cluster of activity which consisted of what appeared to be espionage-focused attacks in the Middle East, we were somewhat confused as the previous public reporting had attributed these attacks to FIN7",
+            "order": 3,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1189",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Online news outlets and general websites were breached and weaponized as a vehicle for watering hole attacks",
+            "order": 4,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1189",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Malefactors used watering hole attacks to compromise legitimate and trusted websites frequently visited by their targets",
+            "order": 5,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1189",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The payload delivered in these November 2017 attacks using DDE enabled documents was SofacyCarberp, which differs from the Zebrocy downloader delivered in the February 2018 attacks",
+            "order": 6,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1189",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Like many threat groups, TG-3390 conducts strategic web compromises (SWCs), also known as watering hole attacks, on websites associated with the target organization's vertical or demographic to increase the likelihood of finding victims with relevant information",
+            "order": 7,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1189",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "[2] Threat groups use strategic web compromises (SWCs), also known as watering hole attacks, to target a wide array of potential victims",
+            "order": 8,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1189",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Threat actors compromise a website used by their target demographic (e.g., compromising a website specializing in oil and gas industry news when targeting the energy vertical)",
+            "order": 9,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1189",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "This is followed by a number of Linux shell command style commands related to the malware establishing persistence",
+            "order": 10,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The malware\u2019s capabilities include taking a system survey, access to the filesystem, executing commands and a reverse shell",
+            "order": 11,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "This indicates that a human operative was executing commands on a command line style interface, rather than an automated or GUI process",
+            "order": 12,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Although MURKYTOP is primarily a command-line reconnaissance tool, it can also be used for lateral movement",
+            "order": 13,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The majority of ActiveX Objects created with Wscript.Shell and Shell.Application are used to run programs, create shortcuts, manipulate the contents of the registry, or access system folders",
+            "order": 14,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Tracked Commands During observation of the described above \u201crouter-PC\u201d CnC we tracked the following commands delivered in the config file before the server went offline",
+            "order": 15,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "After decryption, these 34 commands are plain text with parameters that are space delimited much like a command line",
+            "order": 16,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The command and parameter names are hashed before being compared by the binary, making it difficult to recover the original names of commands and parameters",
+            "order": 17,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "These commands are also executed when the loadconfig command is issued",
+            "order": 18,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The loadconfig and state commands are executed during initialization, effectively creating the configuration file if it does not exist and writing the state command to it",
+            "order": 19,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The command tab will show previously issued commands, when they were issued, and their status, as seen in Figure 4",
+            "order": 20,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Glimpse\u2019s Agent Control Panel showing the interface actors would use to send commands The actor clicks the command to view the results in a popup window named \u201cResult Viewer\u201d",
+            "order": 21,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Figure 7 shows just how similar these two batch scripts are with several of the headers being exactly the same and a majority of the commands being the same with the Helminth commands having the 2>&1 suffix to include command errors with the output",
+            "order": 22,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "This script relays commands and output between the controller and the system",
+            "order": 23,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The threat actors used the appcmd command-line tool to unlock and disable the default logging component on the server (systsm.webServer/httplogging) and then delete existing logs from the system (see Figure 4)",
+            "order": 24,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "RemoteCMD: This tool executes commands on remote computers, similar to the PsExec tool",
+            "order": 25,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "These are in-line with the targeting of the victims witnessed by the attackers using Conmie",
+            "order": 26,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Intrusions and campaigns conducted by this group are in-line with PRC goals and self-interest in Taiwan",
+            "order": 27,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Gather network addresses and operating system version Execute arbitrary commands using \u201ccmd.exe /c\u201d  The capability to execute system commands",
+            "order": 28,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Figure 3: ALFA TEaM Shell v2-Fake Mail (Default) Figure 4 shows an example email containing the default values the shell",
+            "order": 29,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Remexi is a basic back door Trojan that allows attackers to open a remote shell on the computer and execute commands",
+            "order": 30,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Though this is unsophisticated, a remote shell does provide a highly flexible and powerful means of remote access in the hands of a skilled attacker",
+            "order": 31,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "!CMD  Trojan executes a command prompt command",
+            "order": 32,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The Trojan will save the output of the command to %TEMP%\\win<random number>.txt and send the contents to the C2 server or \u201cThe length of Cmd result file is ziro!\u201d if the command was unsuccessful",
+            "order": 33,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Both variants need to be executed with the command line argument \u201c[2]\u201d to avoid continually attempting to copy and execute the Trojan using the \u201ctmp.vbs\u201d and \u201ctmp1.vbs\u201d files",
+            "order": 34,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The Visual Basic macro uses the following command line:  cmd /c expand %TEMP%\\setup.cab -F:* %TEMP% && cd /d %TEMP% && del /f /q setup.cab && uacme.exe  The control server credential information contained in the CAB files is different:   Decoded credential data contained in another ipnet.ini",
+            "order": 35,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "/user <parameters>: Executes downloaded file with parameters specified using CreateProcessAsUser cmd /c <command>: Executes command on infected endpoint\u00a0  Conclusion\u00a0 The actor behind Honeybee has been operating with new implants since at least November 2017 with the first known version of NTWDBLIB installer",
+            "order": 36,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Remote Shell:  The function above is seen throughout many of the binaries in the Mirage family and is executed when a command is sent from the C&C",
+            "order": 37,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "It is responsible for executing commands in cmd.exe (later down in the functions, not seen in the screenshot, it looks for cmd.exe and executes it using CreateProcessA)",
+            "order": 38,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "This ID is sent to the CnC with each request for commands to execute",
+            "order": 39,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Supported commands \u201cupload\u201c, \u201cscreenshot\u201c, \u201cExcel\u201c, \u201cOutlook\u201c, \u201crisk\u201c, \u201creboot\u201c, \u201cshutdown\u201c, \u201cclean\u201c",
+            "order": 40,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Both create one thread, and each thread is responsible for either downloading and executing the file or running a command line program in the terminal:   Figure 28.\u00a0Commands used for downloading and executing, and running a command in terminal   Figure 29.\u00a0Commands used in uploading and downloading file Figure 30",
+            "order": 41,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Traps provides endpoint protection, as it can block Excel from creating a command prompt process",
+            "order": 42,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "For instance, this Trojan uses the InternetExplorer application object much like the previous OopsIE Trojan and a very similar sequence of requests to obtain commands",
+            "order": 43,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "cmd.exe /C choice /C Y /N /D Y /T 2 & Del After sleeping, the Trojan will create a GUID and write it to %APPDATA%\\Windows\\GDI.bin",
+            "order": 44,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Otherwise, the Trojan will attempt to parse the response for a command, specifically by splitting the decode response on <> and treating the text to the left of the <> string as the command the text to the right as the command arguments",
+            "order": 45,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The run command (1) creates the process cmd.exe /c with the command parameters appended and will write the output of the command in hexadecimal format to the file %APPDATA%\\tmpCa.vbs",
+            "order": 46,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The malware basically provides a remote CMD/PowerShell terminal for the attackers, enabling them to execute any scripts/commands and receive the result via HTTP requests",
+            "order": 47,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The malware basically provides a remote CMD/PowerShell terminal for the attackers, enabling them to execute scripts/commands and receive the results via HTTP requests",
+            "order": 48,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "<?XML version=\u201d1.0\u2033?> <scriptlet> <registration description=\u201dfjzmpcjvqp\u201d progid=\u201dfjzmpcjvqp\u201d version=\u201d1.00\u2033 classid=\u201d{204774CF-D251-4F02-855B-2BE70585184B}\u201d remotable=\u201dtrue\u201d > </registration> <script language=\u201dJScript\u201d> <![CDATA[ var r = new ActiveXObject(\u201cWScript.Shell\u201d).Run(\u201ccmd /c %tmp%\\\\qrat.exe\u201d,0,false); exit(); ]]> </script> </scriptlet> After the initial dropper (qrat.exe) has been executed by the embedded scriptlet, it creates a directory in C:\\Users\\%username%\\AppData\\Roaming\\Microsoft Network\\microsoft_network\\1.0.0.0 and unpacks/drops the final QuasarRAT binary named microsoft_network.exe",
+            "order": 49,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "C2 communication is also updated from prior versions, with the following commands now supported by BADNEWS:    Command Description   0 Kill BADNEWS",
+            "order": 50,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Access remote objects interactively from the pupy shell and get auto-completion of remote attributes",
+            "order": 51,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Execute noninteractive commands on multiple hosts at once",
+            "order": 52,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Open interactive python shells with auto-completion on the all-in-memory remote python interpreter",
+            "order": 53,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Interactive shells (cmd.exe, /bin/bash, etc) can be opened remotely",
+            "order": 54,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Remote shells on Unix & Windows clients have a real tty with all keyboard signals working just like an SSH shell",
+            "order": 55,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Figure 1: SpeakUp\u2019s Victim Distribution  Figure 2: SpeakUp\u2019s propagation rate per day Infection Vector The initial infection vector is targeting the recently reported vulnerability in ThinkPHP and uses command injection techniques for uploading a PHP shell that serves and executes a Perl backdoor",
+            "order": 56,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Figure 6: SpeakUp receives additional commands to execute, this time in plain text",
+            "order": 57,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Command\u00a0execution Command execution can create havoc for victim if the malware developer decides to execute commands in the victim\u2019s device",
+            "order": 58,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "BADFLICK: a backdoor that is capable of modifying the file system, generating a reverse shell, and modifying its command and control (C2) configuration",
+            "order": 59,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "MURKYTOP: a command-line reconnaissance tool",
+            "order": 60,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The malware supports several capabilities, such as injecting and executing arbitrary code, uploading and downloading files, and executing shell commands",
+            "order": 61,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The summit is the latest in a line of signs of diplomatic outreach from North Korea, following the Panmunjom Declaration for Peace, Prosperity and Unification of the Korean Peninsula between South Korea and North Korea on April 27, 2018",
+            "order": 62,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "It is used to create new processes, perform as a command line shell, and several other tasks",
+            "order": 63,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The starred commands are undocumented commands",
+            "order": 64,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Its presence on a compromised system allows a threat actor to execute a wide variety of commands, including uploading and downloading files, and spawning a reverse shell",
+            "order": 65,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "UserInstall.exe will abuse the BITSadmin command-line tool to create a job and launch sidebar.exe",
+            "order": 66,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "This parameter transmits the agent_id to the C2 server to obtain commands the actor wishes to execute on the compromised system",
+            "order": 67,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "We analyzed the command handler and found that it provided the necessary commands for a fully functional backdoor, as seen in Table 1",
+            "order": 68,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1059",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Figure 2: Sofacy Fysbis capability related leakage through strings Figure 2 shows interactive status / feedback strings that can give a defender an initial profile of capabilities",
+            "order": 69,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "For comparison, if we were to inspect Fysbis \u201cRemoteShell\u201d associated strings in one of the stripped variants, we would only see the following:  Figure 3: Sofacy Fysbis stripped binary string references to RemoteShell capability Compare this with what is available from the non-stripped variant:  Figure 4: Sofacy Fysbis non-stripped binary strings referenes to RemoteShell capability Little static analysis gifts like these can help to speed defender enumeration of capabilities and \u2013 more importantly \u2013 further contribute to correlation and detection across related samples",
+            "order": 70,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "That malicious dll then loads encrypted shellcode from the binary, which is decrypted and runs the final BUGJUICE payload",
+            "order": 71,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Messages are encrypted using AES with a static key",
+            "order": 72,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The 2.0 versions require a dropper to decipher and launch the AES encrypted QUASARRAT payload",
+            "order": 73,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "After the payload is launched, the shellcode runs the following commands to prevent Microsoft Word from showing a recovery dialog:   Lastly, the shellcode overwrites the malicious file with a decoy document related to the Indian defense forces\u2019 pay scale / matrix (Figure 3), displays it to the user and terminates the exploited instance of Microsoft Word",
+            "order": 74,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The code is obfuscated in order to hide any malicious activity on the remote server",
+            "order": 75,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Bxaki obfuscated function",
+            "order": 76,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "This strangeness\u00a0was related to values listed in newer\u00a0BlackEnergy configuration files",
+            "order": 77,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Evidence also supports the hypothesis that there is a encryption plugin for victim files (see below)",
+            "order": 78,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Destructive dstr command in BE2 config file Also, on some machines, documents were encrypted, but no related\u00a0plugin could be\u00a0found",
+            "order": 79,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "It is prepended to the encrypted and encoded message",
+            "order": 80,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The headers are XOR encrypted with <hdrXORKey1> and <hdrXORKey2> combined and reversed",
+            "order": 81,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Build Tool Most of CARBANAK\u2019s strings are encrypted in order to make analysis more difficult",
+            "order": 82,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "This build tool encrypts the binary\u2019s strings with a fresh key for each build",
+            "order": 83,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Tool Type Internal Name Industry Name   Backdoor Poison Frog BONDUPDATER   Backdoor Glimpse Updated BONDUPDATER   Webshell HyperShell TwoFace loader   Webshell HighShell TwoFace payload   Webshell Minion TwoFace payload variant   DNS Hijacking Toolkit webmask Related to DNSpionage     Table 1",
+            "order": 84,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The HyperShell and HighShell webshells are variants of what we track as TwoFace, with HyperShell being related to the TwoFace loader and HighShell being related to the TwoFace payload, as we reported in July 2017",
+            "order": 85,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Encryption consists of XOR with a hardcoded key for its configuration and RC4 with a predefined password for encrypting the victim\u2019s data",
+            "order": 86,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Configuration Config.ini is the file where the malware stores its encrypted configuration data",
+            "order": 87,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "These requests are encrypted using the RC4 algorithm",
+            "order": 88,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "While performing the analysis on the delivery documents using the .sct file AppLocker bypass, we noticed the C# payload was functionally similar to the original RogueRobin payload",
+            "order": 89,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Figure 3 Targeted lure content In one of the documents, the victim is presented with what appears to be an obfuscated document with the NATO EOD seal and text alluding to the targeted nation state",
+            "order": 90,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The group clearly shows a preference for using a simple downloader like Zebrocy as first-stage payloads in these attacks",
+            "order": 91,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "APT29 wrote the encrypted and base64-encoded PowerShell backdoor code into that property",
+            "order": 92,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "When we converted the dates in the file strings from the Solar Hijri calendar to the Gregorian one, we found that they were close to the compilation times of the executables and also close to when Cadelle\u2019s targets were initially compromised",
+            "order": 93,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "WindowsDefender.ini \u2013 The Base64 encoded and obfuscated PowerShell script",
+            "order": 94,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Some of the key obfuscation techniques used are:   Character Replacement: Several instances of character replacement and string reversing techniques (Figure 10) make analysis difficult",
+            "order": 95,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Figure 3: The first step of decryption will perform XOR on one byte using the previous adjacent byte, starting from the last byte and excluding the first byte  Figure 4: The second step uses RC4, using the first 0x20 bytes from the result of the first step as the RC4 key  Figure 5: Encrypted (Top) and decrypted (bottom) configuration file It is also important to note that while the loader component and the configuration file are located in the same directory (%windows%\\system32), the encrypted backdoor is located in a different directory (%Program Files%\\Common Files\\System\\ado)",
+            "order": 96,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "All strings used by the Trojan are encrypted with the XOR algorithm",
+            "order": 97,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Next, the buffer is encrypted using the RC4 algorithm with the 50-byte key (also stored in the backdoor\u2019s body)",
+            "order": 98,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "11 bytes of this buffer are encrypted with the XOR algorithm as follows: i = 0 while ( 1 ) {   crypted_buffer = (_BYTE *)this_->crypted_buffer;   if ( i gt;= this-gt;crypted_buffer_size - 4 ) // this-gt;crypted_buffer_size == 15     break;   ++i;   crypted_buffer[i + 4] ^= crypted_buffer[i & 3];  The generated buffer in encoded using the BASE64 alphabet, where the last two characters are replaced with \u201c-\u201d and \u201c_\u201d",
+            "order": 99,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Next, to the beginning of the BASE64 string a random BASE64 string with the length of 5 characters is added",
+            "order": 100,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The first 11 bytes of the received buffer are encrypted with the XOR algorithm",
+            "order": 101,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Once it is encrypted using the XOR algorithm, the buffer is encoded with BASE64",
+            "order": 102,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The launcher module, obfuscated with the notorious Metasploit\u2019s shikata_ga_nai encoder, is the same for all the droppers",
+            "order": 103,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "These redirects were implemented by adding two malicious scripts obfuscated by a tool similar to the Dean Edwards packer",
+            "order": 104,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Many of the Fetch samples we analyzed attempted to obfuscate their functionality by encrypting their embedded strings using AES",
+            "order": 105,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Although the activity was previously linked by others to the FIN7 threat actor group, our research suggests the activity is in fact espionage related and unlikely to be FIN7 related",
+            "order": 106,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Specifically, the following GitHub repositories appear to be controlled by the MuddyWater threat actor(s):  [unknown SHA256]  Downloads payload from: hxxps://raw.githubusercontent[.]com/F0R3X/BrowserFontArabic/master/ArabicBrowserFont.exe   [unknown SHA256]  Downloads payload from: hxxps://raw.githubusercontent[.]com/F0R3X/BrowserFontArabic/master/FontArabic.exe     9b5e36bb7518a9e333c31d09b589102f89e3425571dd434820ab3c437dc4e0d9 (and several others)  Downloads payload from: hxxps://raw.githubusercontent[.]com/ReactDeveloper2017/react/master/src/test/test.js    Interestingly, both profiles were populated with forked repositories to give them an air of legitimacy as shown in figure 2",
+            "order": 107,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The domain names differed but the script adheres to the same logic (including the logic function).\u201d The DNSMessenger malware is an obfuscated and customized version of the popular DNS_TXT_PWNAGE.ps1 script available on GitHub and is also referred to by FireEye as POWERSOURCE",
+            "order": 108,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Malicious obfuscated VBA code is executed when the macro is first enabled",
+            "order": 109,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The current version, HawkEye Reborn v9 has been modified from earlier versions and heavily obfuscated to make analysis more difficult.The email campaigns that have been observed feature characteristics that are consistent with what is commonly seen with malspam campaigns, with the emails purporting to be associated with various documents such as invoices, bills of materials, order confirmations, and other corporate functions",
+            "order": 110,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "After decompiling it from the PE file, it is heavily obfuscated and still almost unreadable.We deobfuscated the script to understand how the infection process works",
+            "order": 111,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The AutoIT script is offering a lot of other functions which are not used in this campaign, like anti-virtual machine detection, USB drive infection and others.The final payload \u2014 which we found in the AutoIT PE file resource section and was started by the process-hollowing shellcode \u2014 is a .NET PE file that's obfuscated with ConfuserEx",
+            "order": 112,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "In our analysis, the macro is obfuscated, character by character, using the decimal ASCII code",
+            "order": 113,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Code snippet of the obfuscated document After deobfuscation, we can see that the payload is written in the Perl programming language",
+            "order": 114,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "There are two forms of encrypted strings: an RSA256-encrypted string, and custom base64-encoded and RSA256-encrypted string",
+            "order": 115,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "All strings below are encrypted via AES256 and base64 encoding",
+            "order": 116,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Its developer used the open source Invoke-Obfuscation tool to obfuscate this PowerShell script, specifically using the COMPRESS technique offered by Invoke-Obfuscation",
+            "order": 117,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "At face value, this current variant of OopsIE has a vast majority of its strings obfuscated, which can be deobfuscated by splitting the strings using the hyphen as a delimiter, treating each split value as an integer, subtracting one from each integer and converting each into a character",
+            "order": 118,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The Trojan accesses two resources, named Sch and VBS that contains obfuscated strings that contain the command to create the scheduled task and the VBScript to run",
+            "order": 119,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "A closer examination revealed the obfuscation used by the OilRig group in these QUADAGENT samples were likely the result of using an open-source toolkit called Invoke-Obfuscation",
+            "order": 120,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "This tool was originally intended to aid defenders in simulating obfuscated PowerShell commands to better their defenses",
+            "order": 121,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Invoke-Obfuscation calls the variable obfuscation technique used by the actors to obfuscate this script Random Case + {} + Ticks, which changes all variables in the script to have randomly cased characters, to be surrounded in curly braces and to include the tick (`) character, which is ignored in by PowerShell",
+            "order": 122,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Invoke-Obfuscation calls the string obfuscation used by the actors to further obfuscate this script Reorder, which uses the string formatting functionality within PowerShell to reconstruct strings from out of order substrings (ex",
+            "order": 123,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "By applying two specific obfuscation techniques within Invoke-Obfuscation, we were able to create an obfuscated PowerShell script that was very similar to the QUADAGENT payloads delivered in the attacks discussed in this blog",
+            "order": 124,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "All the strings and settings were encrypted and obfuscated",
+            "order": 125,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The configuration and strings are encrypted using 3DES and Base64 encoding",
+            "order": 126,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The C&C server then replies with the encrypted serialized configuration",
+            "order": 127,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The shellcode is not encrypted but is obfuscated",
+            "order": 128,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Decrypting the Configuration As previously mentioned, the real configuration data is stored in the first stage shellcode but it is not stored in cleartext, but encrypted and compressed",
+            "order": 129,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The configuration data is encrypted with the same algorithm described previously by JPCert but using a different XOR value",
+            "order": 130,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The configuration blob is encoded using a simple single-byte XOR scheme",
+            "order": 131,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "KopiLuwak In November 2016, Kaspersky Lab observed a new round of weaponized macro documents that dropped a new, heavily obfuscated Javascript payload that we named KopiLuwak (one of the rarest and most expensive types of coffee in the world)",
+            "order": 132,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The payload (abbad7acd\u2026) is an executable that appears to have been created by a VBScript to Executable tool and further obfuscated with a cryptor",
+            "order": 133,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Figure 3: no detections for SpeakUp in Virus Total In an attempt to endure the investigation process by security researchers, the second stage payload was encoded with salted base64",
+            "order": 134,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Some strings are obfuscated with XOR x56",
+            "order": 135,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "These files are stored within an 217kb encrypted cab file in the dropper\u2019s resources under the name \u201cA\u201d",
+            "order": 136,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The cab file was encrypted and decrypted using a simple xor cipher with a rotating 16 byte key: \\x36\\x11\\xdd\\x08\\xac\\x4b\\x72\\xf8\\x51\\x04\\x68\\x2e\\x3e\\x38\\x64\\x32",
+            "order": 137,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "This is encrypted by RC4, using the key {0xb5, 0x78, 0x62, 0x52, 0x98, 0x3e, 0x24, 0xd7, 0x3b, 0xc6, 0xee, 0x7c, 0xb9, 0xed, 0x91, 0x62}",
+            "order": 138,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "We\u2019ve identified two such files: settings.db sdfg3d.db Here\u2019s how such a database file appears:  These are BASE64 encoded and use the same RC4 encryption key as the malware configuration",
+            "order": 139,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The CARROTBAT malware family is a somewhat unique dropper and while it supports various types of decoy documents, and employs rudimentary command obfuscation, it should be made clear that it is not sophisticated",
+            "order": 140,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Embedded Trojan This Trojan loaded by the first payload contains several embedded executables that it uses to ultimately download and execute a secondary payload, as well as downloading and opening a decoy document",
+            "order": 141,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "HttpBrowser's executable code may be obfuscated through structured exception handling and return-oriented programming",
+            "order": 142,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Navigating to the web page manually to view:source reveals the code, which at the time of writing happened to not be obfuscated in any significant way",
+            "order": 143,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "All third-party trademarks referenced by Cofense whether in logo form, name form or product form, or otherwise, remain the property of their respective holders, and use of these trademarks in no way indicates any relationship between Cofense and the holders of the trademarks",
+            "order": 144,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Figure 7: The same de-obfuscated code as Figure 2 The only other script content of the blog-page[.]html is an empty script section",
+            "order": 145,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "PlayList.vbs contains the obfuscated codes, which it executes after decrypting the obfuscations.",
+            "order": 146,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Once executed, Vcrodat loads an encrypted payload on to the victim\u2019s computer.",
+            "order": 147,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Figure 3\u00a0shows this webshell\u2019s code that will run supplied JScript provided in base64 encoded format within the URL within a parameter",
+            "order": 148,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The file uses a character insertion obfuscation technique, making it appear to contain Chinese characters.",
+            "order": 149,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The JavaScript is heavily obfuscated. The first variable\u2014a\u2014is an array of obfuscated values",
+            "order": 150,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "This shellcode is decrypted in memory through EQENDT32.EXE",
+            "order": 151,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The encrypted file contains a config file of 0x78 bytes. The data is decrypted with an 0xD9 XOR operation.",
+            "order": 152,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The \"Blackwater.bas\" macro was obfuscated using a substitution cipher whereby the characters are replaced with their corresponding integer.",
+            "order": 153,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The actors have made some small changes, such as altering the variable names to avoid Yara detection",
+            "order": 154,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "To operate and evade standard analysis tools, most of the functions are hashed",
+            "order": 155,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Note that every string is decrypted with different XOR parameter which may fail some of the automatic analyzers.",
+            "order": 156,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1027",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Figure 6: Assembly view of Sample 3 root installation related byte arrays As it turns out, the referenced byte mask is applied to the other byte arrays using a rolling double-XOR algorithm to construct malware installation paths, filenames, and descriptions for a Linux root account",
+            "order": 157,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1573",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The encryption/decryption routine (refer to Figure 5) can be summarized as follows:      Figure 5: Encryption/ Decryption Function  Generate an array of integers from 0x00 to 0xff Scrambles the state of the table using the given key Encrypts or decrypts a string using the scrambled table from (b)",
+            "order": 158,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1573",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "Version 2 Rather than using the host ID as the key, this version uses a random XOR key between 32 and 64 bytes in length that is generated for each session",
+            "order": 159,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1573",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "A build tool is likely being used by these attackers that allows the operator to configure details such as C2 addresses, C2 encryption keys, and a campaign code",
+            "order": 160,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1573",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "After applying this decryption algorithm, we are presented with the following data: h=HOSTNAME-PC&f=mission.ini&c=& The response made by the C2 server uses the same RC4 key for encryption",
+            "order": 161,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1573",
+                    "confidence": "100.0"
+                }
+            ]
+        },
+        {
+            "text": "The BONDUPDATER script, which was named based on the hard-coded string \u201cB007\u201d, uses a custom DGA algorithm to generate subdomains for communication with the C2 server",
+            "order": 162,
+            "disposition": "accept",
+            "mappings": [
+                {
+                    "attack_id": "T1573",
+                    "confidence": "100.0"
+                }
+            ]
+        }
+    ]
+}

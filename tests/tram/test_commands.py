@@ -21,7 +21,6 @@ class TestPipeline:
 
     @pytest.mark.parametrize("subcommand,to_mock", [
         (pipeline.RUN, 'run_model'),
-        (pipeline.TEST, 'test_model'),
         (pipeline.TRAIN, 'train_model'),
     ])
     def test_subcommand_calls_correct_function(self, mocker, subcommand, to_mock):
@@ -46,6 +45,14 @@ class TestPipeline:
 
         # Assert
         assert Sentence.objects.count() == 12588  # Count of sentences data/training/bootstrap-training-data.json
+
+    @pytest.mark.django_db
+    def test_run_succeeds(self, load_attack_data):
+        # Act
+        call_command('pipeline', pipeline.RUN)
+
+        # Assert
+        pass
 
 
 @pytest.mark.django_db

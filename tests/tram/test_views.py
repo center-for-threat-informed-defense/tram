@@ -65,6 +65,17 @@ class TestLogin:
 
 
 @pytest.mark.django_db
+class TestDocumentation:
+    def test_documentation_loads(self, logged_in_client):
+        # Act
+        response = logged_in_client.get('/docs/')
+
+        # Assert
+        assert response.status_code == 200
+        assert b'<title>Documentation</title>' in response.content
+
+
+@pytest.mark.django_db
 class TestIndex:
     def test_index_loads_with_no_stored_data(self, logged_in_client):
         # Act
@@ -244,10 +255,25 @@ class TestReportExport:
 
 
 @pytest.mark.django_db
-class TestMlHome:
+@pytest.mark.usefixtures('load_attack_data', )
+class TestMl:
     def test_ml_home_returns_http_200_ok(self, logged_in_client):
         # Act
         response = logged_in_client.get('/ml/')
 
         # Assert
         assert response.status_code == 200  # HTTP 200 Ok
+
+    def test_ml_model_detail_returns_http_200_ok(self, logged_in_client):
+        # Act
+        response = logged_in_client.get('/ml/models/dummy')
+
+        # Assert
+        assert response.status_code == 200  # HTTP 200 Ok
+
+    def test_ml_model_detail_returns_http_404_for_invalid_model(self, logged_in_client):
+        # Act
+        response = logged_in_client.get('/ml/models/this-should-not-work')
+
+        # Assert
+        assert response.status_code == 404  # HTTP 200 Ok

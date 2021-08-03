@@ -12,6 +12,7 @@
 
     <!-- JS, Popper.js, and jQuery -->
     <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <link rel="icon" href="{% static 'img/favicon-32x32.png' %}">
 </head>
@@ -35,7 +36,7 @@
     }
 </style>
 
-<main class="form-signin">
+<main class="form-signin" align="center">
     <form method="POST">
         {% csrf_token %}
         <label for="id_username" class="visually-hidden">Username</label>
@@ -45,7 +46,23 @@
         <hr>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Sign In</button>
     </form>
+    <button class="btn btn-sm" data-toggle="modal" data-target="#loginHelpModal">Login Help</button>
 </main>
+<div id="loginHelpModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Login Help</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <ol>
+                    <li>TBD</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>

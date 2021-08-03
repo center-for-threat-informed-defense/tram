@@ -21,9 +21,9 @@ def load_attack_data():
 
 
 @pytest.fixture
-def load_training_data():
+def load_small_training_data():
     options = {
-        'file': 'data/training/bootstrap-training-data.json',
+        'file': 'data/training/bootstrap-training-data-small.json',
     }
     command = pipeline.Command()
     command.handle(subcommand=pipeline.LOAD_TRAINING_DATA, **options)

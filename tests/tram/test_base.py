@@ -11,11 +11,6 @@ def dummy_model():
     return base.DummyModel()
 
 
-@pytest.fixture
-def tram_model():
-    return base.TramModel()
-
-
 class TestSentence:
     def test_sentence_stores_no_mapping(self):
         # Arrange
@@ -223,7 +218,7 @@ class TestSkLearnModel:
 
 
 @pytest.mark.django_db
-@pytest.mark.usefixtures('load_attack_data', 'load_training_data')
+@pytest.mark.usefixtures('load_attack_data', 'load_small_training_data')
 class TestsThatNeedTrainingData:
     """
     Loading the training data is a large time cost, so this groups tests together that use
@@ -235,6 +230,7 @@ class TestsThatNeedTrainingData:
     """
     ----- Begin ModelManager Tests -----
     """
+
     def test_modelmanager__init__loads_dummy_model(self):
         # Act
         model_manager = base.ModelManager('dummy')
@@ -256,16 +252,6 @@ class TestsThatNeedTrainingData:
 
         # Assert
         # TODO: Something meaningful
-
-    def test_modelmanager_test_model_doesnt_raise(self):
-        # Arrange
-        model_manager = base.ModelManager('dummy')
-
-        # Act
-        model_manager.test_model()
-
-        # Assert
-        # TODO: Something meaningful
     """
     ----- End ModelManager Tests -----
     """
@@ -274,6 +260,7 @@ class TestsThatNeedTrainingData:
         # Arrange
         dummy_model = base.DummyModel()
         dummy_model.train()
+        dummy_model.test()
         config.ML_CONFIDENCE_THRESHOLD = 0
 
         # Act
@@ -292,6 +279,7 @@ class TestsThatNeedTrainingData:
         job.save()
         dummy_model = base.DummyModel()
         dummy_model.train()
+        dummy_model.test()
 
         # Act
         report = dummy_model.process_job(job)
@@ -308,13 +296,11 @@ class TestsThatNeedTrainingData:
     """
     ----- Begin DummyModel Tests -----
     """
-    def test_dummymodel_train_passes(self, dummy_model):
+    def test_dummymodel_train_and_test_passes(self, dummy_model):
         # Act
         dummy_model.train()  # Has no effect
-
-    def test_dummymodel_test_passes(self, dummy_model):
-        # Act
         dummy_model.test()  # Has no effect
+
     """
     ----- End DummyModel Tests -----
     """

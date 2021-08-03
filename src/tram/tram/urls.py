@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
+from django.views.generic.base import TemplateView
 from rest_framework.routers import DefaultRouter
 
 from tram import views
@@ -36,10 +37,12 @@ urlpatterns = [
     path('', views.index),
     path('analyze/<int:pk>/', views.analyze),
     path('api/', include(router.urls)),
+    path('docs/', TemplateView.as_view(template_name='tram_documentation.html')),
     path('login/', auth_views.LoginView.as_view()),
     path('logout/', auth_views.LogoutView.as_view()),
     path('upload/', views.upload),
     path('admin/', admin.site.urls),
     path('ml/', views.ml_home),
-    path('ml/<str:attack_id>', views.ml_technique_sentences),
+    path('ml/techniques/<str:attack_id>', views.ml_technique_sentences),
+    path('ml/models/<str:model_key>', views.ml_model_detail),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

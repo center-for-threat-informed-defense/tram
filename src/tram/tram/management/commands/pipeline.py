@@ -12,7 +12,6 @@ from tram import serializers
 
 ADD = 'add'
 RUN = 'run'
-TEST = 'test'
 TRAIN = 'train'
 LOAD_TRAINING_DATA = 'load-training-data'
 
@@ -25,11 +24,11 @@ class Command(BaseCommand):
                                    dest='subcommand',
                                    required=True)
         sp_run = sp.add_parser(RUN, help='Run the ML Pipeline')
-        sp_run.add_argument('--model', default='tram', help='Select the ML model.')
-        sp_test = sp.add_parser(TEST, help='Test the ML pipeline')  # noqa: F841
-        sp_test.add_argument('--model', default='tram', help='Select the ML model.')
+        sp_run.add_argument('--model', default='logreg', help='Select the ML model.')
+        sp_run.add_argument('--run-forever', default=False, action='store_true',
+                            help='Specify whether to run forever, or quit when there are no more jobs to process')
         sp_train = sp.add_parser(TRAIN, help='Train the ML Pipeline')  # noqa: F841
-        sp_train.add_argument('--model', default='tram', help='Select the ML model.')
+        sp_train.add_argument('--model', default='logreg', help='Select the ML model.')
         sp_add = sp.add_parser(ADD, help='Add a document for processing by the ML pipeline')
         sp_add.add_argument('--file', required=True, help='Specify the file to be added')
         sp_load = sp.add_parser(LOAD_TRAINING_DATA, help='Load training data. Must be formatted as a Report Export.')
@@ -61,10 +60,7 @@ class Command(BaseCommand):
 
         if subcommand == RUN:
             self.stdout.write(f'Running ML Pipeline with Model: {model}')
-            return model_manager.run_model()
-        elif subcommand == TEST:
-            self.stdout.write(f'Testing ML Model: {model}')
-            return model_manager.test_model()
+            return model_manager.run_model(options['run_forever'])
         elif subcommand == TRAIN:
             self.stdout.write(f'Training ML Model: {model}')
             start = time.time()

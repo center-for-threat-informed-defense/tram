@@ -41,7 +41,6 @@ class AttackTechnique(models.Model):
             pending_sentences=Count('sentences', filter=Q(sentences__disposition=None)),
             total_sentences=Count('sentences')
         ).order_by('-accepted_sentences', 'attack_id').filter(accepted_sentences__gte=accept_threshold)
-
         return sentence_counts
 
     def __str__(self):
