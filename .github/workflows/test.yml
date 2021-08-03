@@ -6,25 +6,25 @@ on:
   pull_request:
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     name: TRAM GitHub Action Tests
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
-      - name: Install and update essential dependencies
-        run: |
-          pip install -U pip setuptools
-          pip install tox-gh-actions
-      - name: Run tests
-        run: |
-          tox
-      - name: Upload Coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_SECRET }}
-          files: coverage.xml
-          verbose: true
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+    - name: Install and update essential dependencies
+      run: |
+        pip install -U pip setuptools
+        pip install tox-gh-actions
+    - name: Run tests
+      run: |
+        tox
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_SECRET }}
+        files: coverage.xml
+        verbose: true
