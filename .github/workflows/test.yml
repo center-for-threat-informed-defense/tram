@@ -11,9 +11,6 @@ jobs:
     name: TRAM GitHub Action Tests
     steps:
     - uses: actions/checkout@v2
-      with:
-        # Disabling shallow clone is recommended for improving relevancy of reporting
-        fetch-depth: 0
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
