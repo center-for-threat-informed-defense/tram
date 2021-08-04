@@ -11,19 +11,35 @@ TRAM seeks to help analysts by automatically extracting adversary behaviors, whi
 TRAM uses natural language processing and classification techniques to extract adversary behaviors (ATT&CK techniques) from raw text which comes in the form of published threat reports. The current practice to extract these techniques relies entirely on manual analysis performed by human analysts. This introduces problems like human error, dependence on physical availability, and demand for an extensive understanding of ATT&CK. With automation, this project will increase the quality and completeness of the ATT&CK knowledge base while reducing demand on human analysts. 
 
 ## Table of contents
-* [Requirements](#requirements)
 * [Installation](#installation)
+* [Requirements](#requirements)
+* [Installation](#developer-setup)
 * [Documentation](#documentation)
 * [Machine Learning](ML.md)
 * [Contribute](#how-do-i-contribute)
 * [Notice](#notice)
 
+## Installation
+1. Get Docker: https://docs.docker.com/get-docker/
+2. Clone this repository
+```
+git clone git@github.com:center-for-threat-informed-defense/tram.git
+```
+3. CD into tram
+```
+cd tram
+```
+4. Run TRAM using docker
+```
+docker compose -f docker/docker-compose.yml up
+```
+5. If desired, edit the settings in docker/docker-compose.yml to change settings.
 
 ## Requirements
 - [python3](https://www.python.org/) (3.7+)
 - Google Chrome is our only supported/tested browser
 
-## Installation
+## Developer Setup
 Start by cloning this repository.
 ```
 git clone git@github.com:center-for-threat-informed-defense/tram.git

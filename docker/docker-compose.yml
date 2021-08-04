@@ -8,7 +8,7 @@
 version: '3.5'
 services:
   tram:
-    image: tram:1.0.2
+    image: ctidorg/tram:latest
     ports:
       - "8000:8000"
     environment:
@@ -18,7 +18,7 @@ services:
       - DEBUG=True
       - DJANGO_SUPERUSER_USERNAME=djangoSuperuser
       - DJANGO_SUPERUSER_PASSWORD=LEGITPassword1234 # your password here
-      - DJANGO_SUPERUSER_EMAIL=LEGITSuperUser1234 # your email address here
+      - DJANGO_SUPERUSER_EMAIL=test@example.com # your email address here
     volumes:
       - tram-data:/data
 volumes:
