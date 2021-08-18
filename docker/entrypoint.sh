@@ -18,4 +18,4 @@ python3 /tram/src/tram/manage.py pipeline train --model logreg
 nohup python3 /tram/src/tram/manage.py pipeline run --model logreg &
 
 # Run the server on Loopback using port 8000
-python3 /tram/src/tram/manage.py runserver 0.0.0.0:8000
+python3 /tram/src/tram/manage.py runserver 0.0.0.0:80
