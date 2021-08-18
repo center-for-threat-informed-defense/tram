@@ -21,19 +21,20 @@ TRAM uses natural language processing and classification techniques to extract a
 
 ## Installation
 1. Get Docker: https://docs.docker.com/get-docker/
-2. Download docker-compose.yml or use wget (below)
+2. Download docker-compose.yml (view raw, save as) OR
+```
+https://github.com/center-for-threat-informed-defense/tram/blob/master/docker/docker-compose.yml
+```
+use wget
 ```
 wget https://github.com/center-for-threat-informed-defense/tram/blob/master/docker/docker-compose.yml
 ```
-3. CD into tram
-```
-cd tram
-```
+3. If desired, edit the settings in docker/docker-compose.yml
+
 4. Run TRAM using docker
 ```
 docker compose -f docker/docker-compose.yml up
 ```
-5. If desired, edit the settings in docker/docker-compose.yml to change settings.
 
 ## Requirements
 - [python3](https://www.python.org/) (3.7+)
