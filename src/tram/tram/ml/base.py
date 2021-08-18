@@ -378,7 +378,6 @@ class ModelManager(object):
                     print(f'Failed to create report for {filename}.')
                     print(traceback.format_exc())
 
-
             if not run_forever:
                 return
             time.sleep(1)
