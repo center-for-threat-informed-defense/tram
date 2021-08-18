@@ -1,4 +1,4 @@
-from django.core.files.base import File
+from django.core.files import File
 from constance import config
 import pytest
 
@@ -292,6 +292,29 @@ class TestsThatNeedTrainingData:
         assert report.name is not None
         assert report.text is not None
         assert len(report.sentences) > 0
+
+    def test_process_job_handles_image_based_pdf(self):
+        """
+        Some PDFs can be saved such that the text is stored as images and therefore
+        cannot be extracted from the PDF. Windows PDF Printer behaves this way.
+
+        Image-based PDFs cause the processing pipeline to fail. The expected behavior
+        is that the job is logged as "status: error".
+        """
+        # Arrange
+        image_pdf = 'tests/data/GroupIB_Big_Airline_Heist_APT41.pdf'
+        with open(image_pdf, 'rb') as f:
+            processing_job = db_models.DocumentProcessingJob.create_from_file(File(f))
+        job_id = processing_job.id
+        model_manager = base.ModelManager('dummy')
+
+        # Act
+        model_manager.run_model()
+        job_result = db_models.DocumentProcessingJob.objects.get(id=job_id)
+
+        # Assert
+        assert job_result.status == 'error'
+        assert len(job_result.message) > 0
 
     """
     ----- Begin DummyModel Tests -----
