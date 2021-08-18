@@ -21,9 +21,9 @@ TRAM uses natural language processing and classification techniques to extract a
 
 ## Installation
 1. Get Docker: https://docs.docker.com/get-docker/
-2. Clone this repository
+2. Download docker-compose.yml or use wget (below)
 ```
-git clone git@github.com:center-for-threat-informed-defense/tram.git
+wget https://github.com/center-for-threat-informed-defense/tram/blob/master/docker/docker-compose.yml
 ```
 3. CD into tram
 ```
