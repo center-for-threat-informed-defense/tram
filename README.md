@@ -28,12 +28,12 @@ https://github.com/center-for-threat-informed-defense/tram/blob/master/docker/do
 3. If desired, edit the settings in docker-compose.yml
 4. Navigate to the directory where you saved docker-compose.yml
 
-4. Run TRAM using docker
+5. Run TRAM using docker
 ```
 docker compose -f docker/docker-compose.yml up
 ```
 
-5. Login using the username and password specified in docker-compose.yml
+6. Navigate to http://localhost:8000/ and login using the username and password specified in docker-compose.yml
 ![image](https://user-images.githubusercontent.com/2951827/129959436-d36e8d1f-fe74-497e-b549-a74be8d140ca.png)
 
 
