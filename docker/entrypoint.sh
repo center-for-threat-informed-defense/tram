@@ -9,7 +9,7 @@ python3  /tram/src/tram/manage.py migrate
 #      - DJANGO_SUPERUSER_USERNAME
 #      - DJANGO_SUPERUSER_PASSWORD
 #      - DJANGO_SUPERUSER_EMAIL
-python3 /tram/src/tram/manage.py createsuperuser --noinput --username admin
+python3 /tram/src/tram/manage.py createsuperuser --noinput
 python3 -c "import nltk; nltk.download('punkt'); nltk.download('wordnet')"
 python3 /tram/src/tram/manage.py attackdata load
 python3 /tram/src/tram/manage.py pipeline load-training-data
