@@ -14,10 +14,11 @@ class DocumentProcessingJobSerializer(serializers.ModelSerializer):
     """Needs to be kept in sync with ReportSerializer for display purposes"""
     name = serializers.SerializerMethodField()
     byline = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = db_models.DocumentProcessingJob
-        fields = ['id', 'name', 'byline', 'created_by', 'created_on', 'updated_on']
+        fields = ['id', 'name', 'byline', 'status', 'message', 'created_by', 'created_on', 'updated_on']
         order = ['-created_on']
 
     def get_name(self, obj):
@@ -27,6 +28,14 @@ class DocumentProcessingJobSerializer(serializers.ModelSerializer):
     def get_byline(self, obj):
         byline = '%s on %s' % (obj.created_by, obj.created_on.strftime('%Y-%M-%d %H:%M:%S UTC'))
         return byline
+
+    def get_status(self, obj):
+        if obj.status == 'queued':
+            return 'Queued'
+        elif obj.status == 'error':
+            return 'Error'
+        else:
+            return 'Unknown'
 
 
 class MappingSerializer(serializers.ModelSerializer):

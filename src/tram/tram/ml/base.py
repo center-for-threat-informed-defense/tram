@@ -5,6 +5,7 @@ from os import path
 import pathlib
 import pickle
 import time
+import traceback
 
 from bs4 import BeautifulSoup
 from constance import config
@@ -360,14 +361,24 @@ class ModelManager(object):
 
     def run_model(self, run_forever=False):
         while True:
-            jobs = db_models.DocumentProcessingJob.objects.all().order_by('created_on')
+            jobs = db_models.DocumentProcessingJob.objects.filter(status='queued').order_by('created_on')
             for job in jobs:
-                print('Processing Job #%d: %s' % (job.id, job.document.docfile.name))
-                report = self.model.process_job(job)
-                with transaction.atomic():
-                    self._save_report(report, job.document)
-                    job.delete()
-                print('Created report %s' % report.name)
+                filename = job.document.docfile.name
+                print('Processing Job #%d: %s' % (job.id, filename))
+                try:
+                    report = self.model.process_job(job)
+                    with transaction.atomic():
+                        self._save_report(report, job.document)
+                        job.delete()
+                    print('Created report %s' % report.name)
+                except Exception as ex:
+                    job.status = 'error'
+                    job.message = str(ex)
+                    job.save()
+                    print(f'Failed to create report for {filename}.')
+                    print(traceback.format_exc())
+
+
             if not run_forever:
                 return
             time.sleep(1)

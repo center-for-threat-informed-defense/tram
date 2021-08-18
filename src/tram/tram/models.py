@@ -13,6 +13,11 @@ DISPOSITION_CHOICES = (
     (None, 'No Disposition'),
 )
 
+JOB_STATUS_CHOICES = (
+    ('queued', 'Queued'),
+    ('error', 'Error'),
+)
+
 SENTENCE_PREVIEW_CHARS = 40
 
 
@@ -63,6 +68,8 @@ class DocumentProcessingJob(models.Model):
     """Queue of document processing jobs
     """
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
+    status = models.CharField(max_length=255, default='queued', choices=JOB_STATUS_CHOICES)
+    message = models.CharField(max_length=16384, default='')
     created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)

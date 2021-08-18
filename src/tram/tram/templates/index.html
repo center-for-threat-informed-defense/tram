@@ -29,9 +29,15 @@
       </td>
       <td><!-- No Actions --></td>
       <td>
-        <button type="button" class="btn btn-secondary" disabled>Queued</button>
+        {% if job.status == "Queued" %}
+          <button type="button" class="btn btn-secondary" disabled>Queued</button>
+        {% elif job.status == "Error" %}
+          <button type="button" class="btn btn-danger" disabled>Error</button>
+        {% else %}
+          Unknown Status: {{ job.status }}
+        {% endif %}
       </td>
-      <td><!-- No Sentence Info --> </td>
+      <td><!-- No Sentence Info --></td>
       <td>
         <a class="btn btn-danger btn-sm" onclick="deleteJob({{ job.id }})"><i class="fas fa-trash"></i></a>
       </td>
