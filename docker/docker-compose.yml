@@ -19,4 +19,7 @@ services:
       - DJANGO_SUPERUSER_USERNAME=djangoSuperuser
       - DJANGO_SUPERUSER_PASSWORD=LEGITPassword1234 # your password here
       - DJANGO_SUPERUSER_EMAIL=test@example.com # your email address here
-    
+    volumes:
+      - tram:/tram/data
+volumes:
+  tram:    
