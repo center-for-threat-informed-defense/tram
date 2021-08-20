@@ -3,7 +3,7 @@ import time
 
 from django.core.files import File
 from django.core.management.base import BaseCommand
-
+import rest_framework
 
 from tram.ml import base
 import tram.models as db_models
@@ -49,10 +49,18 @@ class Command(BaseCommand):
         if subcommand == LOAD_TRAINING_DATA:
             filepath = options['file']
             self.stdout.write(f'Loading training data from {filepath}')
-            with open(filepath, 'r') as f:
-                res = serializers.ReportExportSerializer(data=json.load(f))
-                res.is_valid(raise_exception=True)
-                res.save()
+            try:
+                with open(filepath, 'r') as f:
+                    res = serializers.ReportExportSerializer(data=json.load(f))
+                    res.is_valid(raise_exception=True)
+                    res.save()
+            except rest_framework.exceptions.ValidationError as ex:
+                if 'report with this name already exists' in str(ex):
+                    # The training data has already been loaded
+                    print(f'The report {filepath} has already been loaded')
+                else:
+                    raise ex
+
             return
 
         model = options['model']

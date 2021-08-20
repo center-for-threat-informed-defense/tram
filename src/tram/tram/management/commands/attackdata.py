@@ -2,6 +2,7 @@ import json
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.db.utils import IntegrityError
 
 from tram.models import AttackTechnique
 
@@ -40,6 +41,8 @@ class Command(BaseCommand):
             if obj['type'] != 'attack-pattern':  # Skip non-attack patterns
                 continue
 
+
+
             t = AttackTechnique()
             t.name = obj['name']
             t.stix_id = obj['id']
@@ -55,8 +58,16 @@ class Command(BaseCommand):
             assert t.attack_url is not None
             assert t.matrix is not None
 
-            t.save()
-            num_saved += 1
+            try:
+                t.save()
+                num_saved += 1
+            except IntegrityError as ex:
+                if str(ex) == 'UNIQUE constraint failed: tram_attacktechnique.attack_id':
+                    # This attack data has already been loaded; stop processing
+                    print(f'The file {filepath} has already been loaded')
+                    return
+                else:
+                    raise ex
 
     def handle(self, *args, **options):
         subcommand = options['subcommand']
