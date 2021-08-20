@@ -9,15 +9,13 @@ python3  /tram/src/tram/manage.py migrate
 #      - DJANGO_SUPERUSER_USERNAME
 #      - DJANGO_SUPERUSER_PASSWORD
 #      - DJANGO_SUPERUSER_EMAIL
-if [ -f /tram/data/db.sqlite3 ]
-then
-	python3 /tram/src/tram/manage.py createsuperuser --noinput
-	python3 -c "import nltk; nltk.download('punkt'); nltk.download('wordnet')"
-	python3 /tram/src/tram/manage.py attackdata load
-	python3 /tram/src/tram/manage.py pipeline load-training-data
-	python3 /tram/src/tram/manage.py pipeline train --model nb
-	python3 /tram/src/tram/manage.py pipeline train --model logreg
-fi
+
+python3 /tram/src/tram/manage.py createsuperuser --noinput
+python3 -c "import nltk; nltk.download('punkt'); nltk.download('wordnet')"
+python3 /tram/src/tram/manage.py attackdata load
+python3 /tram/src/tram/manage.py pipeline load-training-data
+python3 /tram/src/tram/manage.py pipeline train --model nb
+python3 /tram/src/tram/manage.py pipeline train --model logreg
 nohup python3 /tram/src/tram/manage.py pipeline run --model logreg &
 
 # Run the server on Loopback using port 8000
