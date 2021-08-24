@@ -41,8 +41,6 @@ class Command(BaseCommand):
             if obj['type'] != 'attack-pattern':  # Skip non-attack patterns
                 continue
 
-
-
             t = AttackTechnique()
             t.name = obj['name']
             t.stix_id = obj['id']
