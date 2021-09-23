@@ -2,20 +2,16 @@
 
 # TRAM
 
-Threat Report ATT&CK<sup>®</sup> Mapping (TRAM) is a tool that leverages Natural Language Processing to aid analysts in mapping finished reports to ATT&CK. 
+Threat Report ATT&CK Mapping (TRAM) is an open-source platform designed to advance research into automating the mapping of cyber threat intelligence reports to MITRE ATT&CK®.
 
-There is no shortage of cyber threat intelligence (CTI) reporting, and analysts often find themselves overburdened by the constant stream of reports. Analyzing these reports can be strenuous and tedious for analysts, often taking up large amounts of their time. Automating CTI mapping to ATT&CK will reduce analyst fatigue and improve consistency of threat intelligence mappings. 
+TRAM enables researchers to test and refine Machine Learning (ML) models for identifying ATT&CK techniques in prose-based cyber threat intel reports and allows threat intel analysts to train ML models and validate ML results. 
 
-TRAM seeks to help analysts by automatically extracting adversary behaviors, which can help with the acceleration of the analysis process to prevent a backlog.  With faster analysis, CTI teams can more easily operationalize their intel. While TRAM cannot replace a human analyst, it certainly can help by providing analysts with some starting data about the report.
-
-TRAM uses natural language processing and classification techniques to extract adversary behaviors (ATT&CK techniques) from raw text which comes in the form of published threat reports. The current practice to extract these techniques relies entirely on manual analysis performed by human analysts. This introduces problems like human error, dependence on physical availability, and demand for an extensive understanding of ATT&CK. With automation, this project will increase the quality and completeness of the ATT&CK knowledge base while reducing demand on human analysts. 
+Through research into automating the mapping of cyber threat intel reports to ATT&CK, TRAM aims to reduce the cost and increase the effectiveness of integrating ATT&CK into cyber threat intelligence across the community. Threat intel providers, threat intel platforms, and analysts should be able to use TRAM to integrate ATT&CK more easily and consistently into their products.
 
 ## Table of contents
 * [Installation](#installation)
 * [Requirements](#requirements)
-* [Installation](#developer-setup)
-* [Documentation](#documentation)
-* [Machine Learning](ML.md)
+* [Developer Setup](#developer-setup)
 * [Contribute](#how-do-i-contribute)
 * [Notice](#notice)
 
@@ -89,33 +85,19 @@ python src/tram/manage.py pipeline run
 ```
 
 ## How do I contribute?
+We welcome your feedback and contributions to help advance TRAM. Please see the guidance for contributors if are you interested in [contributing or simply reporting issues.](/CONTRIBUTING.md)
 
-We welcome all the help we can get in making TRAM a more useful tool for the community. 
-We have made a working prototype and acknowledge that there will need to be increased efforts in the future to maintain 
-and improve it.
-If you have any issues with TRAM, you can create an issue in the issues tab, we'll try to respond as soon as possible.
+Please submit [issues](https://github.com/center-for-threat-informed-defense/tram/issues) for any technical questions/concerns or contact ctid@mitre-engenuity.org directly for more general inquiries.
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) to better understand what we're looking for. 
-There's also a Developer Certificate of Origin that you'll need to sign off on.
-​
 ## Notice
+Copyright 2021 MITRE Engenuity. Approved for public release. Document number CT0035
 
-Copyright 2021 The MITRE Corporation
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
-Approved for Public Release; Distribution Unlimited. Case Number 19-3429.
+http://www.apache.org/licenses/LICENSE-2.0
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-   http://www.apache.org/licenses/LICENSE-2.0
-   
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+This project makes use of MITRE ATT&CK®
 
-This project makes use of ATT&CK®
-
-ATT&CK® Terms of Use - https://attack.mitre.org/resources/terms-of-use/
+[ATT&CK Terms of Use](https://attack.mitre.org/resources/terms-of-use/)

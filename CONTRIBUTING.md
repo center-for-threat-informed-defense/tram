@@ -1,6 +1,20 @@
 # Contribute
 
-You can help contribute to TRAM! We hope the community can help us improve our NLP models, by contributing to ATT&CK (https://attack.mitre.org/resources/contribute/). Additionally, we are looking for contributions to find techniques in reporting that currently do not have enough data to have NLP models built (ie. techniques with less than 10 Procedure Examples).
+## How to contribute
+
+Thanks for contributing to TRAM!
+
+You are welcome to comment on issues, open new issues, and open pull requests.
+
+Pull requests should target the **develop** branch of the repository.
+
+Also, if you contribute any source code, we need you to agree to the following Developer's Certificate of Origin below.
+
+## Reporting Issues
+  
+* Describe (in detail) what should have happened. Include any supporting information that may be helpful in resolving the issue.
+  
+* Be sure to include any steps to replicate the issue.
 
 ## Submission Guidelines
 
