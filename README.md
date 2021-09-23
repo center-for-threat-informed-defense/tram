@@ -13,9 +13,7 @@ TRAM uses natural language processing and classification techniques to extract a
 ## Table of contents
 * [Installation](#installation)
 * [Requirements](#requirements)
-* [Installation](#developer-setup)
-* [Documentation](#documentation)
-* [Machine Learning](ML.md)
+* [Developer Setup](#developer-setup)
 * [Contribute](#how-do-i-contribute)
 * [Notice](#notice)
 
