@@ -97,7 +97,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) to better understand what we're looking 
 There's also a Developer Certificate of Origin that you'll need to sign off on.
 
 ## Notice
-Copyright 2021 MITRE Engenuity. Approved for public release. Document number 
+Copyright 2021 MITRE Engenuity. Approved for public release. Document number CT0035
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
