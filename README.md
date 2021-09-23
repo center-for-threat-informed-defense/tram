@@ -4,7 +4,7 @@
 
 Threat Report ATT&CK Mapping (TRAM) is an open-source platform designed to advance research into automating the mapping of cyber threat intelligence reports to MITRE ATT&CK®.
 
-This project aims to accelerate research into automated TTP identification in threat intel reports to greatly reduce the time and effort required to integrate new intelligence into cyber operations. TRAM enables researchers to test and refine Machine Learning (ML) models for identifying ATT&CK techniques in prose-based threat intel reports and allows threat intel analysts to train ML models and validate ML results. 
+TRAM enables researchers to test and refine Machine Learning (ML) models for identifying ATT&CK techniques in prose-based cyber threat intel reports and allows threat intel analysts to train ML models and validate ML results. 
 
 Through research into automating the mapping of cyber threat intel reports to ATT&CK, TRAM aims to reduce the cost and increase the effectiveness of integrating ATT&CK into cyber threat intelligence across the community. Threat intel providers, threat intel platforms, and analysts should be able to use TRAM to integrate ATT&CK more easily and consistently into their products.
 
