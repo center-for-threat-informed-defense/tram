@@ -12,6 +12,7 @@ Through research into automating the mapping of cyber threat intel reports to AT
 * [Installation](#installation)
 * [Requirements](#requirements)
 * [Developer Setup](#developer-setup)
+* [Machine Learning Development](#machine-learning-development)
 * [Contribute](#how-do-i-contribute)
 * [Notice](#notice)
 
@@ -83,11 +84,60 @@ cd tram/
 source venv/bin/activate
 python src/tram/manage.py pipeline run
 ```
+## Machine Learning Development
+All source code related to machine learning is located in TRAM
+[src/tram/tram/ml](https://github.com/center-for-threat-informed-defense/tram/tree/master/src/tram/tram/ml).
+
+### Existing ML Models
+TRAM has three machine learning models that can be used out-of-the-box:
+1. LogisticRegressionModel - Uses SKLearn's [Logistic Regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html). [[source code](https://github.com/center-for-threat-informed-defense/tram/blob/master/src/tram/tram/ml/base.py#L296)]
+2. NaiveBayesModel - Uses SKLearn's [Multinomial NB](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB). [[source code](https://github.com/center-for-threat-informed-defense/tram/blob/master/src/tram/tram/ml/base.py#L283)]
+3. DummyModel - Uses SKLearn's [Dummy Classifier](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html#sklearn.dummy.DummyClassifier) for testing purposes. [[source code](https://github.com/center-for-threat-informed-defense/tram/blob/master/src/tram/tram/ml/base.py#L275)]
+
+All ML models are implemented as an SKLearn Pipeline. Other types of models can be added in the future if there is a need.
+
+### Creating Your Own Model
+In order to write your own model, take the following steps:
+
+1. Create a subclass of `tram.ml.base.SKLearnModel` that implements the `get_model` function. See existing ML Models for examples that can be copied.
+```python
+class DummyModel(SKLearnModel):
+    def get_model(self):
+        # Your model goes here
+        return Pipeline([
+            ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
+            ("clf", DummyClassifier(strategy='uniform'))
+        ])
+```
+2. Add your model to the `ModelManager` [registry](https://github.com/center-for-threat-informed-defense/tram/blob/a4d874c66efc11559a3faeced4130f153fa12dca/src/tram/tram/ml/base.py#L309)
+   1. Note: This method can be improved. Pull requests welcome!
+```python
+class ModelManager(object):
+    model_registry = {
+        'dummy': DummyModel,
+        'nb': NaiveBayesModel,
+        'logreg': LogisticRegressionModel,
+        # Your model on the line below
+        'your-model': python.path.to.your.model
+    }
+```
+3. You can now train your model and it will appear in the application
+   1. `python src/tram/manage.py pipeline train --model your-model`
+
+4. If you like, open a pull request with your model. Please include performance statistics.
 
 ## How do I contribute?
 We welcome your feedback and contributions to help advance TRAM. Please see the guidance for contributors if are you interested in [contributing or simply reporting issues.](/CONTRIBUTING.md)
 
 Please submit [issues](https://github.com/center-for-threat-informed-defense/tram/issues) for any technical questions/concerns or contact ctid@mitre-engenuity.org directly for more general inquiries.
+
+### Contribute Training Data
+All training data is formatted as a report export. 
+
+To contribute training data, please:
+1. Use TRAM to perform the mapping, and ensure that all mappings are accepted
+2. Use the report export feature to export the report as JSON
+3. Open a pull request where the training data is added to data/training/contrib
 
 ## Notice
 Copyright 2021 MITRE Engenuity. Approved for public release. Document number CT0035
