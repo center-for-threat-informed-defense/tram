@@ -132,7 +132,7 @@ We welcome your feedback and contributions to help advance TRAM. Please see the 
 Please submit [issues](https://github.com/center-for-threat-informed-defense/tram/issues) for any technical questions/concerns or contact ctid@mitre-engenuity.org directly for more general inquiries.
 
 ### Contribute Training Data
-All training data is formatted as a report export. 
+All training data is formatted as a report export. If you are contributing training data, please ensure that you have the right to publicly share the threat report. Do not contribute reports that are proprietary material of others.
 
 To contribute training data, please:
 1. Use TRAM to perform the mapping, and ensure that all mappings are accepted
