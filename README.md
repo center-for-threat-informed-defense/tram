@@ -18,16 +18,17 @@ Through research into automating the mapping of cyber threat intel reports to AT
 
 ## Installation
 1. Get Docker: https://docs.docker.com/get-docker/
-2. Download docker-compose.yml (view raw, save as)
+2. Get Docker Compose:  https://docs.docker.com/compose/install/
+3. Download docker-compose.yml (view raw, save as)
 ```
 https://github.com/center-for-threat-informed-defense/tram/blob/master/docker/docker-compose.yml
 ```
-3. If desired, edit the settings in docker-compose.yml
-4. Navigate to the directory where you saved docker-compose.yml
+3. If desired, edit the settings in `docker-compose.yml`
+4. Navigate to the directory where you saved `docker-compose.yml`
 
 5. Run TRAM using docker
 ```
-docker compose -f docker/docker-compose.yml up
+docker-compose -f docker-compose.yml up
 ```
 
 6. Navigate to http://localhost:8000/ and login using the username and password specified in docker-compose.yml
