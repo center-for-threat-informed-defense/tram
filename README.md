@@ -19,7 +19,8 @@ Through research into automating the mapping of cyber threat intel reports to AT
 ## Installation
 1. Get Docker: https://docs.docker.com/get-docker/
 2. Get Docker Compose:  https://docs.docker.com/compose/install/
-3. Download docker-compose.yml (view raw, save as)
+3. Ensure Docker is running. On some operating systems (e.g., MacOS), you will need to provide Docker with permissions before proceeding.
+4. Download docker-compose.yml (view raw, save as)
 ```
 https://github.com/center-for-threat-informed-defense/tram/blob/master/docker/docker-compose.yml
 ```
