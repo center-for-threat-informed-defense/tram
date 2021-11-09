@@ -10,6 +10,7 @@ Through research into automating the mapping of cyber threat intel reports to AT
 
 ## Table of contents
 * [Installation](#installation)
+* [Installation Troubleshooting](#installation-troubleshooting)
 * [Requirements](#requirements)
 * [Developer Setup](#developer-setup)
 * [Machine Learning Development](#machine-learning-development)
@@ -35,6 +36,26 @@ docker-compose -f docker-compose.yml up
 6. Navigate to http://localhost:8000/ and login using the username and password specified in docker-compose.yml
 ![image](https://user-images.githubusercontent.com/2951827/129959436-d36e8d1f-fe74-497e-b549-a74be8d140ca.png)
 
+
+## Installation Troubleshooting
+### [97438] Failed to execute script docker-compose
+If you see this stack trace:
+```shell
+Traceback (most recent call last):
+  File "docker-compose", line 3, in <module>
+  File "compose/cli/main.py", line 81, in main
+  File "compose/cli/main.py", line 200, in perform_command
+  File "compose/cli/command.py", line 60, in project_from_options
+  File "compose/cli/command.py", line 152, in get_project
+  File "compose/cli/docker_client.py", line 41, in get_client
+  File "compose/cli/docker_client.py", line 170, in docker_client
+  File "docker/api/client.py", line 197, in __init__
+  File "docker/api/client.py", line 221, in _retrieve_server_version
+docker.errors.DockerException: Error while fetching server API version: ('Connection aborted.', ConnectionRefusedError(61, 'Connection refused'))
+[97438] Failed to execute script docker-compose
+```
+
+Then most likely Docker is not running and you need to start Docker.
 
 ## Requirements
 - [python3](https://www.python.org/) (3.7+)
