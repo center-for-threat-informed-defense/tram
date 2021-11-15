@@ -32,6 +32,9 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import LinearSVC
 from nltk import word_tokenize
 from sklearn.feature_extraction import text as tsk
+from sklearn.preprocessing import MultiLabelBinarizer
+
+import numpy as np
 
 # The word model is overloaded in this scope, so a prefix is necessary
 from tram import models as db_models
@@ -315,13 +318,83 @@ class LogisticRegressionModel(SKLearnModel):
             ("clf", LogisticRegression())
         ])
 
+
 class FullReportModel(SKLearnModel):
-    
+
+    def _load_and_vectorize_data(self):
+        """
+        Load training data from database.
+        Store sentence text in vector X
+        Store attack technique in vector y
+        """
+        X = []
+        y = []
+
+        # accepted_sents = self.get_training_data()
+        # reports = db_models.Report.objects.filter(ml_model='fullreport')
+        accepted_sents = db_models.Sentence.objects.filter(report__ml_model='fullreport')
+
+        for sent_obj in accepted_sents:  # Only store sentences with a labeled technique
+            sentence = sent_obj.text
+            # TODO: The below line omits all but the first mapped attack technique
+            temp = []
+            mappings = db_models.Mapping.objects.filter(sentence=sent_obj)
+            for mapping in mappings:
+                technique_label = mapping.attack_technique.attack_id
+                technique = technique_label[0:5]  # Cut string to technique level. leave out sub-technique
+                temp.append(technique)
+            X.append(sentence)
+            y.append(temp)
+        return X, y
+
+    def train(self):
+        """
+        Load and preprocess data. Train model pipeline
+        """
+        X, y = self._load_and_vectorize_data()
+        # print(X)
+        vals = np.array([np.array(i, dtype="object") for i in y])
+        label_encoder = MultiLabelBinarizer()
+        y_vec = label_encoder.fit_transform(vals)
+        X = [self.clean_text(x) for x in X]
+        self.techniques_model.fit(X, y_vec)  # Train classification model
+        self.last_trained = datetime.now(timezone.utc)
+
+    def test(self):
+        """
+        Return classification metrics based on train/test evaluation of the data
+        Note: potential extension is to use cross-validation rather than a single train/test split
+        """
+        X, y = self._load_and_vectorize_data()
+
+        # Create training set and test set
+        X_train, X_test, y_train, y_test = \
+            train_test_split(X, y, test_size=0.2, shuffle=True, random_state=0)
+
+        vals = np.array([np.array(i, dtype="object") for i in y_train])
+        label_encoder = MultiLabelBinarizer()
+        y_vec = label_encoder.fit_transform(vals)
+        X_train = [self.clean_text(x) for x in X_train]
+
+        self.techniques_model.fit(X_train, y_vec)  # Train classification model
+
+        X_test = [self.clean_text(x) for x in X_test]
+
+        y_predicted = self.techniques_model.predict(X_test)
+
+        # # Average F1 score across techniques, weighted by the # of training examples per technique
+        # vals = np.array([np.array(i, dtype="object") for i in y_test])
+        # label_encoder = MultiLabelBinarizer()
+        # y_vec = label_encoder.fit_transform(vals)
+        # # weighted_f1 = f1_score(y_vec, y_predicted, average='weighted')
+        # self.average_f1_score = self.techniques_model.score(X_test,y_vec)
+
     class TextSelector(BaseEstimator, TransformerMixin):
         """
         Transformer to select a single column from the data frame to perform additional transformations on
         Use on text columns in the data
         """
+
         def __init__(self, key):
             self.key = key
 
@@ -331,8 +404,7 @@ class FullReportModel(SKLearnModel):
         def transform(self, X):
             return X
 
-    
-    def clean_text(text):
+    def clean_text(self, text):
         """
         Cleaning up the words contractions, unusual spacing, non-word characters and any computer science
         related terms that hinder the classification.
@@ -350,7 +422,8 @@ class FullReportModel(SKLearnModel):
         text = re.sub(r"\'d", " would ", text)
         text = re.sub(r"\'ll", " will ", text)
         text = re.sub(r"\'scuse", " excuse ", text)
-        text = re.sub('(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.)\{3\}(?:25[0-5] |2[0-4][0-9]|[01]?[0-9][0-9]?)(/([0-2][0-9]|3[0-2]|[0-9]))?', 'IPv4', text)
+        text = re.sub(
+            '(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.)\{3\}(?:25[0-5] |2[0-4][0-9]|[01]?[0-9][0-9]?)(/([0-2][0-9]|3[0-2]|[0-9]))?', 'IPv4', text)
         text = re.sub('\b(CVE\-[0-9]{4}\-[0-9]{4,6})\b', 'CVE', text)
         text = re.sub('\b([a-z][_a-z0-9-.]+@[a-z0-9-]+\.[a-z]+)\b', 'email', text)
         text = re.sub('\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b', 'IP', text)
@@ -367,15 +440,13 @@ class FullReportModel(SKLearnModel):
         text = re.sub('\s+', ' ', text)
         text = text.strip(' ')
         return text
-    
-    
+
     class StemTokenizer(object):
         def __init__(self):
             self.st = EnglishStemmer()
-            
+
         def __call__(self, doc):
             return [self.st.stem(t) for t in word_tokenize(doc)]
-    
 
     def _preprocess_text(self, sentences):
         lemma = nltk.stem.WordNetLemmatizer()
@@ -392,13 +463,15 @@ class FullReportModel(SKLearnModel):
 
     def get_model(self):
         stop_words = stopwords.words('english')
-        new_stop_words = ["'ll", "'re", "'ve", 'ha', 'wa',"'d", "'s", 'abov', 'ani', 'becaus', 'befor', 'could', 'doe', 'dure', 'might', 'must', "n't", 'need', 'onc', 'onli', 'ourselv', 'sha', 'themselv', 'veri', 'whi', 'wo', 'would', 'yourselv']
+        new_stop_words = ["'ll", "'re", "'ve", 'ha', 'wa', "'d", "'s", 'abov', 'ani', 'becaus', 'befor', 'could', 'doe', 'dure',
+                          'might', 'must', "n't", 'need', 'onc', 'onli', 'ourselv', 'sha', 'themselv', 'veri', 'whi', 'wo', 'would', 'yourselv']
         stop_words.extend(new_stop_words)
         return Pipeline([
-            ('columnselector', self.TextSelector(key = 'processed')),
-            ('tfidf', tsk.TfidfVectorizer(tokenizer = self.StemTokenizer(), stop_words = stop_words)),
-            ('selection', SelectPercentile(chi2, percentile = 50)),
-            ('classifier', OneVsRestClassifier(LinearSVC(penalty = 'l2', loss = 'squared_hinge', dual = False, max_iter = 1000, class_weight = 'balanced'), n_jobs = -1))
+            # ('columnselector', self.TextSelector(key = 'processed')),
+            ('tfidf', tsk.TfidfVectorizer(tokenizer=self.StemTokenizer(), stop_words=stop_words)),
+            ('selection', SelectPercentile(chi2, percentile=50)),
+            ('classifier', OneVsRestClassifier(LinearSVC(penalty='l2', loss='squared_hinge',
+             dual=False, max_iter=1000, class_weight='balanced'), n_jobs=-1))
         ])
 
 
