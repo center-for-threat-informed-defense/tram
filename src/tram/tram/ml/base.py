@@ -321,6 +321,24 @@ class LogisticRegressionModel(SKLearnModel):
 
 class FullReportModel(SKLearnModel):
 
+    def get_mappings(self, sentence):
+        """
+        Use trained model to predict the technique for a given sentence.
+        """
+        mappings = []
+
+        techniques = self.techniques_model.classes_
+        output = self.techniques_model.predict([sentence])
+
+        print(output)
+        # Create a list of tuples of (confidence, technique)
+        for i in range(len(output[0])):
+            if output[0][i] > 0:
+                mapping = Mapping(1, techniques[i])
+                mappings.append(mapping)
+
+        return mappings
+
     def _load_and_vectorize_data(self):
         """
         Load training data from database.
