@@ -59,7 +59,7 @@ class TestLoadData:
 
     def test_load_otx_data_succeeds(self,load_attack_data):
         # Act
-        call_command('loaddata', loaddata.OTX_DATA,file='tests/data/otx-test-data.json')
+        call_command('loaddata', loaddata.LOAD_OTXDATA,file='tests/data/otx-test-data.json')
 
         # Assert
         assert Sentence.objects.count() == 2
