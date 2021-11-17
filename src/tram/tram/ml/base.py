@@ -446,7 +446,7 @@ class FullReportModel(SKLearnModel):
         text = re.sub('\b([a-z][_a-z0-9-.]+@[a-z0-9-]+\.[a-z]+)\b', 'email', text)
         text = re.sub('\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b', 'IP', text)
         text = re.sub('\b([a-f0-9]{32}|[A-F0-9]{32})\b', 'MD5', text)
-        text = re.sub('\b((HKLM|HKCU)\\[\\A-Za-z0-9-_]+)\b', 'registry', text)
+        text = re.sub('\b((HKLM|HKCU)\\[\A-Za-z0-9-_]+)\b', 'registry', text)
         text = re.sub('\b([a-f0-9]{40}|[A-F0-9]{40})\b', 'SHA1', text)
         text = re.sub('\b([a-f0-9]{64}|[A-F0-9]{64})\b', 'SHA250', text)
         text = re.sub('http(s)?:\\[0-9a-zA-Z_\.\-\\]+.', 'URL', text)
