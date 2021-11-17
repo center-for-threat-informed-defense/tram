@@ -24,7 +24,6 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.pipeline import Pipeline
 from sklearn.feature_selection import chi2, SelectPercentile
 from nltk.stem.snowball import EnglishStemmer
 from nltk.corpus import stopwords
@@ -398,7 +397,7 @@ class FullReportModel(SKLearnModel):
 
         X_test = [self.clean_text(x) for x in X_test]
 
-        y_predicted = self.techniques_model.predict(X_test)
+        # y_predicted = self.techniques_model.predict(X_test)
 
         # # Average F1 score across techniques, weighted by the # of training examples per technique
         # vals = np.array([np.array(i, dtype="object") for i in y_test])
@@ -441,21 +440,22 @@ class FullReportModel(SKLearnModel):
         text = re.sub(r"\'ll", " will ", text)
         text = re.sub(r"\'scuse", " excuse ", text)
         text = re.sub(
-            '(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.)\{3\}(?:25[0-5] |2[0-4][0-9]|[01]?[0-9][0-9]?)(/([0-2][0-9]|3[0-2]|[0-9]))?', 'IPv4', text)
-        text = re.sub('\b(CVE\-[0-9]{4}\-[0-9]{4,6})\b', 'CVE', text)
-        text = re.sub('\b([a-z][_a-z0-9-.]+@[a-z0-9-]+\.[a-z]+)\b', 'email', text)
-        text = re.sub('\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b', 'IP', text)
-        text = re.sub('\b([a-f0-9]{32}|[A-F0-9]{32})\b', 'MD5', text)
-        text = re.sub('\b((HKLM|HKCU)\\[A-Za-z0-9-_]+)\b', 'registry', text)
-        text = re.sub('\b([a-f0-9]{40}|[A-F0-9]{40})\b', 'SHA1', text)
-        text = re.sub('\b([a-f0-9]{64}|[A-F0-9]{64})\b', 'SHA250', text)
-        text = re.sub('http(s)?:\\[0-9a-zA-Z_\.\-\\]+.', 'URL', text)
-        text = re.sub('CVE-[0-9]{4}-[0-9]{4,6}', 'vulnerability', text)
-        text = re.sub('[a-zA-Z]{1}:\\[0-9a-zA-Z_\.\-\\]+', 'file', text)
-        text = re.sub('\b[a-fA-F\d]{32}\b|\b[a-fA-F\d]{40}\b|\b[a-fA-F\d]{64}\b', 'hash', text)
-        text = re.sub('x[A-Fa-f0-9]{2}', ' ', text)
-        text = re.sub('\W', ' ', text)
-        text = re.sub('\s+', ' ', text)
+        r'(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.)\{3\}(?:25[0-5] |2[0-4][0-9]|[01]?[0-9][0-9]?)(/([0-2][0-9]|3[0-2]|[0-9]))?',
+        'IPv4', text)
+        text = re.sub(r'\b(CVE\-[0-9]{4}\-[0-9]{4,6})\b', 'CVE', text)
+        text = re.sub(r'\b([a-z][_a-z0-9-.]+@[a-z0-9-]+\.[a-z]+)\b', 'email', text)
+        text = re.sub(r'\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b', 'IP', text)
+        text = re.sub(r'\b([a-f0-9]{32}|[A-F0-9]{32})\b', 'MD5', text)
+        text = re.sub(r'\b((HKLM|HKCU)\\[A-Za-z0-9-_]+)\b', 'registry', text)
+        text = re.sub(r'\b([a-f0-9]{40}|[A-F0-9]{40})\b', 'SHA1', text)
+        text = re.sub(r'\b([a-f0-9]{64}|[A-F0-9]{64})\b', 'SHA250', text)
+        text = re.sub(r'http(s)?:\\[0-9a-zA-Z_\.\-\\]+.', 'URL', text)
+        text = re.sub(r'CVE-[0-9]{4}-[0-9]{4,6}', 'vulnerability', text)
+        text = re.sub(r'[a-zA-Z]{1}:\\[0-9a-zA-Z_\.\-\\]+', 'file', text)
+        text = re.sub(r'\b[a-fA-F\d]{32}\b|\b[a-fA-F\d]{40}\b|\b[a-fA-F\d]{64}\b', 'hash', text)
+        text = re.sub(r'x[A-Fa-f0-9]{2}', ' ', text)
+        text = re.sub(r'\W', ' ', text)
+        text = re.sub(r'\s+', ' ', text)
         text = text.strip(' ')
         return text
 
@@ -481,8 +481,9 @@ class FullReportModel(SKLearnModel):
 
     def get_model(self):
         stop_words = stopwords.words('english')
-        new_stop_words = ["'ll", "'re", "'ve", 'ha', 'wa', "'d", "'s", 'abov', 'ani', 'becaus', 'befor', 'could', 'doe', 'dure',
-                          'might', 'must', "n't", 'need', 'onc', 'onli', 'ourselv', 'sha', 'themselv', 'veri', 'whi', 'wo', 'would', 'yourselv']
+        new_stop_words = ["'ll", "'re", "'ve", 'ha', 'wa', "'d", "'s", 'abov', 'ani', 'becaus', 'befor',
+                          'could', 'doe', 'dure', 'might', 'must', "n't", 'need', 'onc', 'onli', 'ourselv',
+                          'sha', 'themselv', 'veri', 'whi', 'wo', 'would', 'yourselv']
         stop_words.extend(new_stop_words)
         return Pipeline([
             # ('columnselector', self.TextSelector(key = 'processed')),

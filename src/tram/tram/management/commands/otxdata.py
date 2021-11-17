@@ -21,7 +21,7 @@ class Command(BaseCommand):
         sp = parser.add_subparsers(title='subcommands',
                                    dest='subcommand',
                                    required=True)
-        sp_load = sp.add_parser(LOAD, help='Load OTX Data into the Database')
+        # sp_load = sp.add_parser(LOAD, help='Load OTX Data into the Database')
 
     def load_otx_data(self, filepath):
         with open(filepath, 'r') as f:
@@ -31,7 +31,8 @@ class Command(BaseCommand):
             if(len(i['references']) == 0 or len(i['attack_ids']) == 0):
                 continue
             url = i["references"][0]
-            if(url == '' or 'http' not in url or url == 'https://blog.netlab.360.com/blackrota-an-obfuscated-backdoor-written-in-go-en/'):
+            if(url == '' or 'http' not in url or 
+                url == 'https://blog.netlab.360.com/blackrota-an-obfuscated-backdoor-written-in-go-en/'):
                 continue
             try:
                 print("Getting url: {}".format(url))
@@ -91,7 +92,7 @@ class Command(BaseCommand):
                     technique = AttackTechnique.objects.get(attack_id=id)
                     m = Mapping(attack_technique=technique, report=r, sentence=s, confidence=99.9)
                     m.save()
-                except:
+                except Exception as e:
                     print("Technique non existent, adding")
                     technique = AttackTechnique(name=id, attack_id=id, stix_id=id)
                     technique.save()
