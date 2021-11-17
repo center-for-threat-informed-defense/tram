@@ -1,12 +1,7 @@
 import json
-import time
 
-from django.core.files import File
 from django.core.management.base import BaseCommand
 
-
-from tram.ml import base
-import tram.models as db_models
 from tram import serializers
 from tram.management.commands.otxdata import Otxdata
 
@@ -27,7 +22,7 @@ class Command(BaseCommand):
                              help='Training data file to load. Defaults: data/training/bootstrap-training-data.json')
         sp_otx = sp.add_parser(LOAD_OTXDATA, help='Load otx data for full report model.')
         sp_otx.add_argument('--file', default='data/training/otx-training-data.json',
-                             help='Otx data file to load. Defaults: data/training/otx-training-data.json')
+                            help='Otx data file to load. Defaults: data/training/otx-training-data.json')
 
     def handle(self, *args, **options):
         subcommand = options['subcommand']
@@ -45,4 +40,4 @@ class Command(BaseCommand):
             print(options)
             filepath = options['file']
             otx = Otxdata()
-            otx.load_otx_data(filepath=filepath)        
+            otx.load_otx_data(filepath=filepath)
