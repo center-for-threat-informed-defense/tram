@@ -28,7 +28,7 @@ class Command(BaseCommand):
             OTX = json.load(f)
 
         for i in OTX:
-            if(len(i['references']) == 0):
+            if(len(i['references']) == 0 or len(i['attack_ids']) == 0):
                 continue
             url = i["references"][0]
             if(url == '' or 'http' not in url or url == 'https://blog.netlab.360.com/blackrota-an-obfuscated-backdoor-written-in-go-en/'):
@@ -41,8 +41,8 @@ class Command(BaseCommand):
                 print(pdf)
                 for page in pdf.pages:
                     text += page.extract_text()
-                # X.append(text)
-                # y.append(i['attack_ids'])
+                if len(text) < 500:
+                    continue
             except Exception as e:
                 print(e)
                 try:
@@ -68,36 +68,36 @@ class Command(BaseCommand):
                     # there may be more elements you don't want, such as "style", etc.
                 ]
 
+                if len(text) < 500:
+                    continue
+
                 for t in text:
                     if t.parent.name not in blacklist and t != '\n' and '<' not in t and '>' not in t:
                         output += '{} '.format(t)
 
-                r = Report()
-                s = Sentence()
+            r = Report()
+            s = Sentence()
 
-                r.ml_model = 'fullreport'
-                s.text = output
-                r.text = output
-                s.report = r
-                r.save()
-                s.save()
-                for id in i['attack_ids']:
-                    try:
-                        technique = AttackTechnique.objects.get(attack_id=id)
-                        m = Mapping()
-                        m.attack_technique = technique
-                        m.report = r
-                        m.sentence = s
-                        m.confidence = 100
-                        m.save()
-                    except:
-                        print("Technique non existent, passing")
-                        continue
+            r.ml_model = 'fullreport'
+            s.text = output
+            s.disposition = 'Accepted'
+            r.text = output
+            s.report = r
+            r.save()
+            s.save()
+
+            for id in i['attack_ids']:
+                try:
+                    technique = AttackTechnique.objects.get(attack_id=id)
+                    m = Mapping(attack_technique=technique,report=r,sentence=s,confidence=99.9)
+                    m.save()
+                except:
+                    print("Technique non existent, adding")
+                    technique = AttackTechnique(name=id,attack_id=id,stix_id=id)
+                    technique.save()
 
     def handle(self, *args, **options):
         subcommand = options['subcommand']
 
         if subcommand == LOAD:
             self.load_otx_data(settings.DATA_DIRECTORY / 'training/otx-training-data.json')
-        elif subcommand == CLEAR:
-            self.clear_otx_data()
