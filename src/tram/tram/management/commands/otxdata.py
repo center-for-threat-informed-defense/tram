@@ -89,11 +89,11 @@ class Command(BaseCommand):
             for id in i['attack_ids']:
                 try:
                     technique = AttackTechnique.objects.get(attack_id=id)
-                    m = Mapping(attack_technique=technique,report=r,sentence=s,confidence=99.9)
+                    m = Mapping(attack_technique=technique, report=r, sentence=s, confidence=99.9)
                     m.save()
                 except:
                     print("Technique non existent, adding")
-                    technique = AttackTechnique(name=id,attack_id=id,stix_id=id)
+                    technique = AttackTechnique(name=id, attack_id=id, stix_id=id)
                     technique.save()
 
     def handle(self, *args, **options):
