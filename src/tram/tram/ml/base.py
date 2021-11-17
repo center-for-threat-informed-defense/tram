@@ -324,6 +324,7 @@ class FullReportModel(SKLearnModel):
     predicts on full report instead of per sentence
     requires otx data to be loaded
     """
+
     def get_mappings(self, sentence):
         """
         Use trained model to predict the technique for a given sentence.
@@ -444,8 +445,9 @@ class FullReportModel(SKLearnModel):
         text = re.sub(r"\'ll", " will ", text)
         text = re.sub(r"\'scuse", " excuse ", text)
         text = re.sub(
-        r'(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.)\{3\}(?:25[0-5] |2[0-4][0-9]|[01]?[0-9][0-9]?)(/([0-2][0-9]|3[0-2]|[0-9]))?',
-        'IPv4', text)
+            r'''(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.)\{3\}
+            (?:25[0-5] |2[0-4][0-9]|[01]?[0-9][0-9]?)(/([0-2][0-9]|3[0-2]|[0-9]))?''',
+            'IPv4', text)
         text = re.sub(r'\b(CVE\-[0-9]{4}\-[0-9]{4,6})\b', 'CVE', text)
         text = re.sub(r'\b([a-z][_a-z0-9-.]+@[a-z0-9-]+\.[a-z]+)\b', 'email', text)
         text = re.sub(r'\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b', 'IP', text)
