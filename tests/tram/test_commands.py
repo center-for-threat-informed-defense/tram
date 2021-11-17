@@ -52,14 +52,14 @@ class TestLoadData:
     @pytest.mark.django_db
     def test_load_training_data_succeeds(self, load_attack_data):
         # Act
-        call_command('loaddata', loaddata.LOAD_TRAINING_DATA,file='tests/data/otx-test-data.json')
+        call_command('loaddata', loaddata.LOAD_TRAINING_DATA)
 
         # Assert
         assert Sentence.objects.count() == 12588  # Count of sentences data/training/bootstrap-training-data.json
 
     def test_load_otx_data_succeeds(self,load_attack_data):
         # Act
-        call_command('loaddata', loaddata.OTX_DATA)
+        call_command('loaddata', loaddata.OTX_DATA,file='tests/data/otx-test-data.json')
 
         # Assert
         assert Sentence.objects.count() == 2
