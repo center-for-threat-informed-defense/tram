@@ -2,9 +2,9 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 import pytest
 
-from tram.management.commands import pipeline, attackdata
+from tram.management.commands import pipeline, attackdata, loaddata
 from tram.ml import base
-from tram.models import AttackTechnique, Sentence
+from tram.models import AttackTechnique, Sentence, Report, Mapping
 
 
 class TestPipeline:
@@ -38,13 +38,6 @@ class TestPipeline:
         with pytest.raises(CommandError):
             call_command('pipeline', 'incorrect-subcommand')
 
-    @pytest.mark.django_db
-    def test_load_training_data_succeeds(self, load_attack_data):
-        # Act
-        call_command('pipeline', pipeline.LOAD_TRAINING_DATA)
-
-        # Assert
-        assert Sentence.objects.count() == 12588  # Count of sentences data/training/bootstrap-training-data.json
 
     @pytest.mark.django_db
     def test_run_succeeds(self, load_attack_data):
@@ -54,6 +47,24 @@ class TestPipeline:
         # Assert
         pass
 
+@pytest.mark.django_db
+class TestLoadData:
+    @pytest.mark.django_db
+    def test_load_training_data_succeeds(self, load_attack_data):
+        # Act
+        call_command('loaddata', loaddata.LOAD_TRAINING_DATA,file='tests/data/otx-test-data.json')
+
+        # Assert
+        assert Sentence.objects.count() == 12588  # Count of sentences data/training/bootstrap-training-data.json
+
+    def test_load_otx_data_succeeds(self,load_attack_data):
+        # Act
+        call_command('loaddata', loaddata.OTX_DATA)
+
+        # Assert
+        assert Sentence.objects.count() == 2
+        assert Report.objects.filter(ml_model='fullreport').count() == 2
+        assert Mapping.objects.count() == 15
 
 @pytest.mark.django_db
 class TestAttackData:

@@ -1,0 +1,38 @@
+[
+    {
+        
+    "id": "6035392eab4d19d868aff18b",
+    "name": "MassLogger v3: a .NET stealer with serious obfuscation",
+    "created": "2021-02-23T17:19:41.900000",
+    "references": [
+      "https://decoded.avast.io/anhho/masslogger-v3-a-net-stealer-with-serious-obfuscation/",
+      "https://github.com/avast/ioc/tree/master/MassLogger"
+    ],
+    "attack_ids": [
+      "T1027",
+      "T1056",
+      "T1134",
+      "T1140",
+      "T1547",
+      "T1555.003",
+      "T1115"
+    ]
+  },
+  {
+    "id": "602fe5ca7a06b19f5d3bcdeb",
+    "name": "IronNetInjector: Turla’s New Malware Loading Tool",
+    "created": "2021-02-19T16:22:34.577000",
+    "references": [
+      "https://unit42.paloaltonetworks.com/ironnetinjector/"
+    ],
+    "attack_ids": [
+      "T1057",
+      "T1059",
+      "T1036",
+      "T1053",
+      "T1027",
+      "T1055",
+      "T1127"
+    ]
+    }
+]
