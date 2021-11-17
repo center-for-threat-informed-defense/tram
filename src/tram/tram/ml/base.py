@@ -319,7 +319,11 @@ class LogisticRegressionModel(SKLearnModel):
 
 
 class FullReportModel(SKLearnModel):
-
+    """
+    Full report model:
+    predicts on full report instead of per sentence
+    requires otx data to be loaded
+    """
     def get_mappings(self, sentence):
         """
         Use trained model to predict the technique for a given sentence.

@@ -1,7 +1,6 @@
 import json
 
 from django.conf import settings
-from django.core.management.base import BaseCommand
 
 from bs4 import BeautifulSoup
 
@@ -11,18 +10,9 @@ from io import BytesIO
 
 from tram.models import AttackTechnique, Mapping, Sentence, Report
 
-LOAD = 'load'
 
-
-class Command(BaseCommand):
-    help = 'Machine learning pipeline commands'
-
-    def add_arguments(self, parser):
-        sp = parser.add_subparsers(title='subcommands',
-                                   dest='subcommand',
-                                   required=True)
-        # sp_load = sp.add_parser(LOAD, help='Load OTX Data into the Database')
-
+class Otxdata():
+   
     def load_otx_data(self, filepath):
         with open(filepath, 'r') as f:
             OTX = json.load(f)
@@ -96,9 +86,3 @@ class Command(BaseCommand):
                     print("Technique non existent, adding")
                     technique = AttackTechnique(name=id, attack_id=id, stix_id=id)
                     technique.save()
-
-    def handle(self, *args, **options):
-        subcommand = options['subcommand']
-
-        if subcommand == LOAD:
-            self.load_otx_data(settings.DATA_DIRECTORY / 'training/otx-training-data.json')
