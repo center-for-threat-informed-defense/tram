@@ -298,8 +298,8 @@ class TestsThatNeedTrainingData:
         Some PDFs can be saved such that the text is stored as images and therefore
         cannot be extracted from the PDF. Windows PDF Printer behaves this way.
 
-        Image-based PDFs cause the processing pipeline to fail. The expected behavior
-        is that the job is logged as "status: error".
+        Image-based PDFs are skipped by the processing pipeline. The expected behavior
+        is that the document processing job completes without logging "status: error".
         """
         # Arrange
         image_pdf = 'tests/data/GroupIB_Big_Airline_Heist_APT41.pdf'
@@ -310,11 +310,10 @@ class TestsThatNeedTrainingData:
 
         # Act
         model_manager.run_model()
-        job_result = db_models.DocumentProcessingJob.objects.get(id=job_id)
+        is_processed = not db_models.DocumentProcessingJob.objects.filter(id=job_id).exists()
 
         # Assert
-        assert job_result.status == 'error'
-        assert len(job_result.message) > 0
+        assert is_processed
 
     """
     ----- Begin DummyModel Tests -----

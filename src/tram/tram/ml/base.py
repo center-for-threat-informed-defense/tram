@@ -228,7 +228,12 @@ class SKLearnModel(ABC):
 
     def _extract_pdf_text(self, document):
         with pdfplumber.open(BytesIO(document.docfile.read())) as pdf:
-            text = ''.join(page.extract_text() for page in pdf.pages)
+            page_texts = []
+            for page in pdf.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    page_texts.append(page_text)
+            text = ''.join(page_texts)
 
         return text
 
