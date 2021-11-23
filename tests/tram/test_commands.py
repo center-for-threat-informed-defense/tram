@@ -62,7 +62,7 @@ class TestLoadData:
         call_command('loaddata', loaddata.LOAD_OTXDATA, file='tests/data/otx-test-data.json')
 
         # Assert
-        assert Sentence.objects.count() == 2
+        assert Sentence.objects.count() == 1
         assert Report.objects.filter(ml_model='fullreport').count() == 2
         assert Mapping.objects.count() == 15
 
