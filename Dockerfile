@@ -18,7 +18,9 @@ RUN pip3 install -r ./requirements/requirements.txt
 
 #COPY ./src src
 #COPY ./data data
+COPY ./docker/build.sh build.sh
 COPY ./docker/entrypoint.sh entrypoint.sh
+RUN chmod +x ./build.sh && ./build.sh
 
 EXPOSE 8000
 
