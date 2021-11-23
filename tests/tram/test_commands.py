@@ -63,7 +63,7 @@ class TestLoadData:
 
         # Assert
         assert Sentence.objects.count() == 1
-        assert Report.objects.filter(ml_model='fullreport').count() == 2
+        assert Report.objects.filter(ml_model='fullreport').count() == 1
         assert Mapping.objects.count() == 15
 
 
