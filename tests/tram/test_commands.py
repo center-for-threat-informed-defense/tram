@@ -38,7 +38,6 @@ class TestPipeline:
         with pytest.raises(CommandError):
             call_command('pipeline', 'incorrect-subcommand')
 
-
     @pytest.mark.django_db
     def test_run_succeeds(self, load_attack_data):
         # Act
@@ -46,6 +45,7 @@ class TestPipeline:
 
         # Assert
         pass
+
 
 @pytest.mark.django_db
 class TestLoadData:
@@ -57,14 +57,15 @@ class TestLoadData:
         # Assert
         assert Sentence.objects.count() == 12588  # Count of sentences data/training/bootstrap-training-data.json
 
-    def test_load_otx_data_succeeds(self,load_attack_data):
+    def test_load_otx_data_succeeds(self, load_attack_data):
         # Act
-        call_command('loaddata', loaddata.LOAD_OTXDATA,file='tests/data/otx-test-data.json')
+        call_command('loaddata', loaddata.LOAD_OTXDATA, file='tests/data/otx-test-data.json')
 
         # Assert
         assert Sentence.objects.count() == 2
         assert Report.objects.filter(ml_model='fullreport').count() == 2
         assert Mapping.objects.count() == 15
+
 
 @pytest.mark.django_db
 class TestAttackData:
