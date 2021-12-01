@@ -52,10 +52,8 @@ class Report(object):
 
 class SKLearnModel(ABC):
     """
-    Mark D TODO:
+    TODO:
     1. Move text extraction and tokenization out of the SKLearnModel
-    2. Combine _laod_and_vectorize, _preprocess_text, and get_training_data into a single
-       get_training_data that returns a lemmatized X, y tuple
     """
     def __init__(self):
         self._technique_ids = None
