@@ -113,23 +113,6 @@ class SKLearnModel(ABC):
             self._technique_ids = self.get_attack_technique_ids()
         return self._technique_ids
 
-    def _get_report_name(self, job):
-        name = pathlib.Path(job.document.docfile.path).name
-        return 'Report for %s' % name
-
-    def _extract_text(self, document):
-        suffix = pathlib.Path(document.docfile.path).suffix
-        if suffix == '.pdf':
-            text = self._extract_pdf_text(document)
-        elif suffix == '.docx':
-            text = self._extract_docx_text(document)
-        elif suffix == '.html':
-            text = self._extract_html_text(document)
-        else:
-            raise ValueError('Unknown file suffix: %s' % suffix)
-
-        return text
-
     def lemmatize(self, sentence):
         """
         Preprocess text by
@@ -187,41 +170,9 @@ class SKLearnModel(ABC):
 
         return mappings
 
-    def _sentence_tokenize(self, text):
-        return nltk.sent_tokenize(text)
-
-    def _extract_pdf_text(self, document):
-        with pdfplumber.open(BytesIO(document.docfile.read())) as pdf:
-            text = ''.join(page.extract_text() for page in pdf.pages)
-
-        return text
-
-    def _extract_html_text(self, document):
-        html = document.docfile.read()
-        soup = BeautifulSoup(html, features="html.parser")
-        text = soup.get_text()
-        return text
-
-    def _extract_docx_text(self, document):
-        parsed_docx = docx.Document(BytesIO(document.docfile.read()))
-        text = ' '.join([paragraph.text for paragraph in parsed_docx.paragraphs])
-        return text
-
-    def process_job(self, job):
-        name = self._get_report_name(job)
-        text = self._extract_text(job.document)
-        sentences = self._sentence_tokenize(text)
-
-        report_sentences = []
-        order = 0
-        for sentence in sentences:
-            mappings = self.get_mappings(sentence)
-            s = Sentence(text=sentence, order=order, mappings=mappings)
-            order += 1
-            report_sentences.append(s)
-
-        report = Report(name, text, report_sentences)
-        return report
+    def process_report(self, report):
+        # TODO: Get report sentences, iterate for mappings, save mapping
+        raise NotImplementedError()
 
     def save_to_file(self, filepath):
         with open(filepath, 'wb') as f:
@@ -277,19 +228,6 @@ class ModelManager(object):
         'logreg': LogisticRegressionModel,
     }
 
-    def __init__(self, model):
-        model_class = self.model_registry.get(model)
-        if not model_class:
-            raise ValueError('Unrecognized model: %s' % model)
-
-        model_filepath = self.get_model_filepath(model_class)
-        if path.exists(model_filepath):
-            self.model = model_class.load_from_file(model_filepath)
-            print('%s loaded from %s' % (model_class.__name__, model_filepath))
-        else:
-            self.model = model_class()
-            print('%s loaded from __init__' % model_class.__name__)
-
     def _save_report(self, report, document):
         rpt = db_models.Report(
             name=report.name,
@@ -323,13 +261,99 @@ class ModelManager(object):
                 )
                 m.save()
 
-    def run_model(self, run_forever=False):
+    def _sentence_tokenize(self, text):
+        return nltk.sent_tokenize(text)
+
+    def create_report(self, document):
+        """
+        Takes a document and performs the following:
+            1. Creates a report in the database from the document
+            2. Extracts sentences from the document and creates them in the database
+            3. DOES NOT perform any mappings or machine learning
+
+        Returns the saved Report object.
+        """
+        name = 'Report for %s' % pathlib.Path(document.docfile.path).name
+        text = self._extract_text(document)
+        report = db_models.Report(name=name, document=document, text=text)
+        report.save()
+
+        sentences = self._sentence_tokenize(text)
+        order = 0
+        for sentence in sentences:
+            s = db_models.Sentence(text=sentence, document=document, order=order,
+                                   report=report, disposition=None)
+            s.save()
+
+        return report
+
+    @staticmethod
+    def _extract_text(document):
+        suffix = pathlib.Path(document.docfile.path).suffix
+        if suffix == '.pdf':
+            text = ModelManager._extract_pdf_text(document)
+        elif suffix == '.docx':
+            text = ModelManager._extract_docx_text(document)
+        elif suffix == '.html':
+            text = ModelManager._extract_html_text(document)
+        else:
+            raise ValueError('Unknown file suffix: %s' % suffix)
+
+        return text
+
+    @staticmethod
+    def _extract_pdf_text(document):
+        with pdfplumber.open(BytesIO(document.docfile.read())) as pdf:
+            text = ''.join(page.extract_text() for page in pdf.pages)
+
+        return text
+
+    @staticmethod
+    def _extract_html_text(document):
+        html = document.docfile.read()
+        soup = BeautifulSoup(html, features="html.parser")
+        text = soup.get_text()
+        return text
+
+    @staticmethod
+    def _extract_docx_text(document):
+        parsed_docx = docx.Document(BytesIO(document.docfile.read()))
+        text = ' '.join([paragraph.text for paragraph in parsed_docx.paragraphs])
+        return text
+
+    @staticmethod
+    def get_model_instance(model_name):
+        model_class = ModelManager.model_registry.get(model_name)
+        if not model_class:
+            raise ValueError('Unrecognized model: %s' % model_name)
+
+        model_filepath = ModelManager.get_model_filepath(model_class)
+        if path.exists(model_filepath):
+            model_instance = model_class.load_from_file(model_filepath)
+            print('%s loaded from %s' % (model_class.__name__, model_filepath))
+        else:
+            model_instance = model_class()
+            print('%s loaded from __init__' % model_class.__name__)
+
+        return model_instance
+
+    def run_pipeline(self, model_names, run_forever=False):
+        if len(model_names) == 0:
+            raise ValueError('At least one ml_model must be specified')
+
+        if len(model_names) > 10:
+            raise ValueError('At most 10 ml_models can be specified')
+
+        #
+        ml_models = [self.get_model_instance(model_name) for model_name in model_names]
+
         while True:
             jobs = db_models.DocumentProcessingJob.objects.filter(status='queued').order_by('created_on')
             for job in jobs:
-                filename = job.document.docfile.name
-                print('Processing Job #%d: %s' % (job.id, filename))
                 try:
+                    filename = job.document.docfile.name
+                    print('Processing Job #%d: %s' % (job.id, filename))
+                    report = self.create_report()
                     report = self.model.process_job(job)
                     with transaction.atomic():
                         self._save_report(report, job.document)
@@ -346,15 +370,18 @@ class ModelManager(object):
                 return
             time.sleep(1)
 
-    def get_model_filepath(self, model_class):
+    @staticmethod
+    def get_model_filepath(model_class):
         filepath = settings.ML_MODEL_DIR + '/' + model_class.__name__ + '.pkl'
         return filepath
 
-    def train_model(self):
-        self.model.train()
-        self.model.test()
-        filepath = self.get_model_filepath(self.model.__class__)
-        self.model.save_to_file(filepath)
+    @staticmethod
+    def train_model(model_key):
+        model = ModelManager.get_model_instance(model_key)
+        model.train()
+        model.test()
+        filepath = ModelManager.get_model_filepath(model.__class__)
+        model.save_to_file(filepath)
         print('Trained model saved to %s' % filepath)
         return
 
@@ -377,17 +404,17 @@ class ModelManager(object):
         """
         Returns a dict of model metadata for a particular ML model, identified by it's key
         """
-        mm = ModelManager(model_key)
-        model_name = mm.model.__class__.__name__
-        if mm.model.last_trained is None:
+        model = ModelManager.get_model_instance(model_key)
+        model_name = model.__class__.__name__
+        if model.last_trained is None:
             last_trained = 'Never trained'
             trained_techniques_count = 0
         else:
-            last_trained = mm.model.last_trained.strftime('%m/%d/%Y %H:%M:%S UTC')
-            trained_techniques_count = len(mm.model.detailed_f1_score)
+            last_trained = model.last_trained.strftime('%m/%d/%Y %H:%M:%S UTC')
+            trained_techniques_count = len(model.detailed_f1_score)
 
-        average_f1_score = round((mm.model.average_f1_score or 0.0) * 100, 2)
-        stored_scores = mm.model.detailed_f1_score or []
+        average_f1_score = round((model.average_f1_score or 0.0) * 100, 2)
+        stored_scores = model.detailed_f1_score or []
         attack_ids = set([score[0] for score in stored_scores])
         attack_techniques = db_models.AttackTechnique.objects.filter(attack_id__in=attack_ids)
         detailed_f1_score = []

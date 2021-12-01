@@ -11,6 +11,11 @@ def dummy_model():
     return base.DummyModel()
 
 
+@pytest.fixture
+def model_manager():
+    return base.ModelManager()
+
+
 class TestSentence:
     def test_sentence_stores_no_mapping(self):
         # Arrange
@@ -76,7 +81,7 @@ class TestModelWithoutAttackData:
 class TestSkLearnModel:
     """Tests ml.base.SKLearnModel via DummyModel"""
 
-    def test__sentence_tokenize_works_for_paragraph(self, dummy_model):
+    def test__sentence_tokenize_works_for_paragraph(self, model_manager):
         # Arrange
         paragraph = """Hello. My name is test. I write sentences. Tokenize, tokenize, tokenize!
                     When will this entralling text stop, praytell? Nobody knows; the author can't stop.
@@ -86,7 +91,7 @@ class TestSkLearnModel:
                     'Nobody knows; the author can\'t stop.']
 
         # Act
-        sentences = dummy_model._sentence_tokenize(paragraph)
+        sentences = model_manager._sentence_tokenize(paragraph)
 
         # Assert
         assert expected == sentences
@@ -96,14 +101,14 @@ class TestSkLearnModel:
         ('tests/data/AA20-302A.docx', 'Page 22 of 22 | Product ID: AA20-302A  TLP:WHITE'),
         ('tests/data/AA20-302A.html', 'CISA is part of the Department of Homeland Security'),
     ])
-    def test__extract_text_succeeds(self, dummy_model, filepath, expected):
+    def test__extract_text_succeeds(self, model_manager, filepath, expected):
         # Arrange
         with open(filepath, 'rb') as f:
             doc = db_models.Document(docfile=File(f))
             doc.save()
 
         # Act
-        text = dummy_model._extract_text(doc)
+        text = model_manager._extract_text(doc)
 
         # Cleanup
         doc.delete()
@@ -111,7 +116,7 @@ class TestSkLearnModel:
         # Assert
         assert expected in text
 
-    def test__extract_text_unknown_extension_raises_value_error(self, dummy_model):
+    def test__extract_text_unknown_extension_raises_value_error(self, model_manager):
         # Arrange
         with open('tests/data/unknown-extension.fizzbuzz', 'rb') as f:
             doc = db_models.Document(docfile=File(f))
@@ -119,29 +124,10 @@ class TestSkLearnModel:
 
         # Act / Assert
         with pytest.raises(ValueError):
-            dummy_model._extract_text(doc)
+            model_manager._extract_text(doc)
 
         # Cleanup
         doc.delete()
-
-    def test_get_report_name_succeeds(self, dummy_model):
-        # Arrange
-        expected = 'Report for AA20-302A'
-        with open('tests/data/AA20-302A.docx', 'rb') as f:
-            doc = db_models.Document(docfile=File(f))
-            doc.save()
-        job = db_models.DocumentProcessingJob(document=doc)
-        job.save()
-
-        # Act
-        report_name = dummy_model._get_report_name(job)
-
-        # Cleanup
-        job.delete()
-        doc.delete()
-
-        # Assert
-        assert report_name.startswith(expected)
 
     def test_get_attack_techniques_succeeds_after_initialization(self, dummy_model):
         # Act
@@ -232,24 +218,12 @@ class TestsThatNeedTrainingData:
     ----- Begin ModelManager Tests -----
     """
 
-    def test_modelmanager__init__loads_dummy_model(self):
-        # Act
-        model_manager = base.ModelManager('dummy')
-
-        # Assert
-        assert model_manager.model.__class__ == base.DummyModel
-
-    def test_modelmanager__init__raises_value_error_on_unknown_model(self):
-        # Act / Assert
-        with pytest.raises(ValueError):
-            base.ModelManager('this-should-raise')
-
     def test_modelmanager_train_model_doesnt_raise(self):
         # Arrange
-        model_manager = base.ModelManager('dummy')
+        model_manager = base.ModelManager()
 
         # Act
-        model_manager.train_model()
+        model_manager.train_model('dummy')
 
         # Assert
         # TODO: Something meaningful
@@ -271,28 +245,25 @@ class TestsThatNeedTrainingData:
         for mapping in mappings:
             assert isinstance(mapping, base.Mapping)
 
-    def test_process_job_produces_valid_report(self):
+    def test_create_report_produces_valid_report(self):
         # Arrange
         with open('tests/data/AA20-302A.docx', 'rb') as f:
             doc = db_models.Document(docfile=File(f))
             doc.save()
-        job = db_models.DocumentProcessingJob(document=doc)
-        job.save()
-        dummy_model = base.DummyModel()
-        dummy_model.train()
-        dummy_model.test()
+
+        model_manager = base.ModelManager()
 
         # Act
-        report = dummy_model.process_job(job)
+        report = model_manager.create_report(document=doc)
+        report_sentences_count = len(db_models.Sentence.objects.filter(report=report))
 
         # Cleanup
-        job.delete()
         doc.delete()
 
         # Assert
         assert report.name is not None
         assert report.text is not None
-        assert len(report.sentences) > 0
+        assert report_sentences_count > 0
 
     def test_process_job_handles_image_based_pdf(self):
         """
@@ -307,10 +278,10 @@ class TestsThatNeedTrainingData:
         with open(image_pdf, 'rb') as f:
             processing_job = db_models.DocumentProcessingJob.create_from_file(File(f))
         job_id = processing_job.id
-        model_manager = base.ModelManager('dummy')
+        model_manager = base.ModelManager()
 
         # Act
-        model_manager.run_model()
+        model_manager.run_pipeline(['dummy', ])
         job_result = db_models.DocumentProcessingJob.objects.get(id=job_id)
 
         # Assert

@@ -24,7 +24,11 @@ class Command(BaseCommand):
                                    dest='subcommand',
                                    required=True)
         sp_run = sp.add_parser(RUN, help='Run the ML Pipeline')
-        sp_run.add_argument('--model', default='logreg', help='Select the ML model.')
+        sp_run.add_argument('--model', default='logreg', help='Specify the sentence-technique model. Must be a <superclass-name>')
+        sp_run.add_argument('--sentence-technique-model', default=None, help='Specify the sentence-technique model. Must be a <superclass-name>. Overrides --model if both are specified')
+        sp_run.add_argument('--sentence-group-model', default=None, help='Specify the sentence-group model. Must be a <superclass-name>')
+        sp_run.add_argument('--fulltext-technique-model', default=None, help='Specify the fulltext-technique model. Must be a <superclass-name>')
+        sp_run.add_argument('--fulltext-group-model', default=None, help='Specify the fulltext-group model. Must be a <superclass-name>')
         sp_run.add_argument('--run-forever', default=False, action='store_true',
                             help='Specify whether to run forever, or quit when there are no more jobs to process')
         sp_train = sp.add_parser(TRAIN, help='Train the ML Pipeline')  # noqa: F841
@@ -56,15 +60,22 @@ class Command(BaseCommand):
             return
 
         model = options['model']
-        model_manager = base.ModelManager(model)
+        model_manager = base.ModelManager()
 
         if subcommand == RUN:
-            self.stdout.write(f'Running ML Pipeline with Model: {model}')
-            return model_manager.run_model(options['run_forever'])
+            models = [
+                        options['sentence_technique_model'] or options['model'],
+                        options['sentence_group_model'],
+                        options['fulltext_technique_model'],
+                        options['fulltext_group_model']
+                    ]
+            models = [model for model in models if model is not None]  # Filter out nones
+            self.stdout.write(f'Running ML Pipeline with Modesl: {models}')
+            return model_manager.run_pipeline(models, options['run_forever'])
         elif subcommand == TRAIN:
             self.stdout.write(f'Training ML Model: {model}')
             start = time.time()
-            return_value = model_manager.train_model()
+            return_value = model_manager.train_model(model)
             end = time.time()
             elapsed = end - start
             self.stdout.write(f'Trained ML model in {elapsed} seconds')

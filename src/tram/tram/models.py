@@ -121,6 +121,7 @@ class Sentence(models.Model):
     document = models.ForeignKey(Document, null=True, on_delete=models.CASCADE)
     order = models.IntegerField(default=1000)  # Sentences with lower numbers are displayed first
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    # TODO: Disposition should be on the mapping
     disposition = models.CharField(max_length=200, default=None, null=True, blank=True, choices=DISPOSITION_CHOICES)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -152,11 +153,6 @@ class Mapping(models.Model):
         # Get mappings for the attack techniques above threshold
         mappings = Mapping.objects.filter(attack_technique__in=attack_techniques)
         return mappings
-
-
-class MLSettings(models.Model):
-    """Settings for Machine Learning models
-    """
 
 
 def _delete_file(path):
