@@ -168,10 +168,11 @@ class TestSkLearnModel:
 
     def test_no_data_get_training_data_succeeds(self, dummy_model):
         # Act
-        training_data = dummy_model.get_training_data()
+        X, y = dummy_model.get_training_data()
 
         # Assert
-        assert len(training_data) == 0
+        assert len(X) == 0
+        assert len(y) == 0
 
     def test_get_training_data_returns_only_accepted_sentences(self, dummy_model, report):
         # Arrange
@@ -198,14 +199,14 @@ class TestSkLearnModel:
         config.ML_ACCEPT_THRESHOLD = 0  # Set the threshold to 0 for this test
 
         # Act
-        training_data = dummy_model.get_training_data()
+        X, y = dummy_model.get_training_data()
         s1.delete()
         s2.delete()
         m1.delete()
 
         # Assert
-        assert len(training_data) == 1
-        assert training_data[0].__class__ == base.Sentence
+        assert len(X) == 1
+        assert len(y) == 1
 
     def test_non_sklearn_pipeline_raises(self):
         # Arrange

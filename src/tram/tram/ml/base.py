@@ -51,6 +51,12 @@ class Report(object):
 
 
 class SKLearnModel(ABC):
+    """
+    Mark D TODO:
+    1. Move text extraction and tokenization out of the SKLearnModel
+    2. Combine _laod_and_vectorize, _preprocess_text, and get_training_data into a single
+       get_training_data that returns a lemmatized X, y tuple
+    """
     def __init__(self):
         self._technique_ids = None
         self.techniques_model = self.get_model()
@@ -70,8 +76,8 @@ class SKLearnModel(ABC):
         """
         Load and preprocess data. Train model pipeline
         """
-        X, y = self._load_and_vectorize_data()
-        X = self._preprocess_text(X)
+        X, y = self.get_training_data()
+
         self.techniques_model.fit(X, y)  # Train classification model
         self.last_trained = datetime.now(timezone.utc)
 
@@ -80,15 +86,7 @@ class SKLearnModel(ABC):
         Return classification metrics based on train/test evaluation of the data
         Note: potential extension is to use cross-validation rather than a single train/test split
         """
-        X, y = self._load_and_vectorize_data()
-        X = self._preprocess_text(X)
-
-        # Check number of sentences per technique
-        y_counts = {}
-        for technique in y:
-            if technique not in y_counts:
-                y_counts[technique] = 0
-            y_counts[technique] += 1
+        X, y = self.get_training_data()
 
         # Create training set and test set
         X_train, X_test, y_train, y_test = \
@@ -134,66 +132,34 @@ class SKLearnModel(ABC):
 
         return text
 
-    def _preprocess_text(self, sentences):
+    def lemmatize(self, sentence):
         """
         Preprocess text by
         1) Lemmatizing - reducing words to their root, as a way to eliminate noise in the text
         2) Removing digits
         """
         lemma = nltk.stem.WordNetLemmatizer()
-        preprocessed_sentences = []
-        for sentence in sentences:
-            # Lemmatize each word in sentence
-            sentence = ' '.join([lemma.lemmatize(w) for w in sentence.rstrip().split()])
-            sentence = re.sub(r'\d+', '', sentence)  # Remove digits with regex
-            preprocessed_sentences.append(sentence)
-        return preprocessed_sentences
 
-    def _load_and_vectorize_data(self):
+        # Lemmatize each word in sentence
+        lemmatized_sentence = ' '.join([lemma.lemmatize(w) for w in sentence.rstrip().split()])
+        lemmatized_sentence = re.sub(r'\d+', '', lemmatized_sentence)  # Remove digits with regex
+
+        return lemmatized_sentence
+
+    def get_training_data(self):
         """
-        Load training data from database.
-        Store sentence text in vector X
-        Store attack technique in vector y
+        returns a tuple of lists, X, y.
+        X is a list of lemmatized sentences; y is a list of Attack Techniques
         """
         X = []
         y = []
-        accepted_sents = self.get_training_data()
-        for sent_obj in accepted_sents:
-            if sent_obj.mappings:  # Only store sentences with a labeled technique
-                sentence = sent_obj.text
-                # TODO: The below line omits all but the first mapped attack technique
-                technique_label = sent_obj.mappings[0].attack_technique
-                # TODO: The below line causes a reduction in the number of unique techniques, which will be
-                #       surprising for an end user
-                technique = technique_label[0:5]  # Cut string to technique level. leave out sub-technique
-                X.append(sentence)
-                y.append(technique)
-        return X, y
-
-    def get_training_data(self):
-        """Returns a list of base.Sentence objects where there the number
-           of accepted mappings is above the configured threshold (ML_ACCEPT_THRESHOLD)
-        """
-        # TODO: Refactor for readability and performance
-        # Get Attack techniques that have >= the required amount of positive examples
-        attack_techniques = db_models.AttackTechnique.get_sentence_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
-        # Get mappings for the attack techniques above threshold
-        mappings = db_models.Mapping.objects.filter(attack_technique__in=attack_techniques)
-
-        # For the mappings that are above threshold, identify the sentences
-        training_sentence_ids = set()
+        mappings = db_models.Mapping.get_accepted_mappings()
         for mapping in mappings:
-            training_sentence_ids.add(mapping.sentence.id)
+            lemmatized_sentence = self.lemmatize(mapping.sentence.text)
+            X.append(lemmatized_sentence)
+            y.append(mapping.attack_technique.attack_id)
 
-        sentences = []
-        for training_sentence_id in training_sentence_ids:
-            training_sentence = db_models.Sentence.objects.get(id=training_sentence_id)
-            mappings = db_models.Mapping.objects.filter(sentence=training_sentence)
-            m = [Mapping(mapping.confidence, mapping.attack_technique.attack_id) for mapping in mappings]
-            sentence = Sentence(training_sentence.text, training_sentence.order, m)
-            sentences.append(sentence)
-
-        return sentences
+        return X, y
 
     def get_attack_technique_ids(self):
         techniques = [t.attack_id for t in db_models.AttackTechnique.objects.all().order_by('attack_id')]

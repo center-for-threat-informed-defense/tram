@@ -1,5 +1,6 @@
 import os
 
+from constance import config
 from django.contrib.auth.models import User
 from django.core.files import File
 from django.db import models
@@ -143,6 +144,14 @@ class Mapping(models.Model):
 
     def __str__(self):
         return 'Sentence "%s" to %s' % (self.sentence, self.attack_technique)
+
+    @classmethod
+    def get_accepted_mappings(cls):
+        # Get Attack techniques that have the required amount of positive examples
+        attack_techniques = AttackTechnique.get_sentence_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
+        # Get mappings for the attack techniques above threshold
+        mappings = Mapping.objects.filter(attack_technique__in=attack_techniques)
+        return mappings
 
 
 class MLSettings(models.Model):
