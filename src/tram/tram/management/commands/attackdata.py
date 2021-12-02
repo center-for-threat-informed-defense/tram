@@ -25,7 +25,15 @@ class Command(BaseCommand):
             deleted = model.objects.all().delete()
             print(f'Deleted {deleted[0]} {model.__name__} objects')
 
-    def create_attack_technique(self, obj):
+    def create_attack_object(self, obj):
+        obj_type = obj_type = obj['type']
+        if obj_type == 'attack-pattern':
+            model_class = AttackTechnique
+        elif obj_type == 'intrusion-set':
+            model_class = AttackGroup
+        else:
+            raise ValueError(f'Unsupported ATT&CK object type: {obj_type}')
+
         for external_reference in obj['external_references']:
             if external_reference['source_name'] not in ('mitre-attack', 'mitre-pre-attack', 'mitre-mobile-attack'):
                 continue
@@ -38,32 +46,7 @@ class Command(BaseCommand):
         assert attack_url is not None
         assert matrix is not None
 
-        obj, created = AttackTechnique.objects.get_or_create(
-            name=obj['name'],
-            stix_id=obj['id'],
-            attack_id=attack_id,
-            attack_url=attack_url,
-            matrix=matrix
-        )
-
-        return obj, created
-
-    def create_attack_group(self, obj):
-        for external_reference in obj['external_references']:
-            if external_reference['source_name'] not in ('mitre-attack', 'mitre-pre-attack', 'mitre-mobile-attack'):
-                continue
-
-            attack_id = external_reference['external_id']
-            attack_url = external_reference['url']
-            matrix = external_reference['source_name']
-
-        # TODO: Aliases are not saved
-
-        assert attack_id is not None
-        assert attack_url is not None
-        assert matrix is not None
-
-        obj, created = AttackGroup.objects.get_or_create(
+        obj, created = model_class.objects.get_or_create(
             name=obj['name'],
             stix_id=obj['id'],
             attack_id=attack_id,
@@ -76,7 +59,6 @@ class Command(BaseCommand):
     def load_attack_data(self, filepath):
         created_stats = {}
         skipped_stats = {}
-        integrity_error_stats = {}
 
         with open(filepath, 'r') as f:
             attack_json = json.load(f)
@@ -91,19 +73,13 @@ class Command(BaseCommand):
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
                 continue
 
-            if obj_type == 'attack-pattern':
-                db_obj, created = self.create_attack_technique(obj)
+            try:
+                db_obj, created = self.create_attack_object(obj)
                 if created:
                     created_stats[obj_type] = created_stats.get(obj_type, 0) + 1
                 else:
                     skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
-            elif obj_type == 'intrusion-set':
-                db_obj, created = self.create_attack_group(obj)
-                if created:
-                    created_stats[obj_type] = created_stats.get(obj_type, 0) + 1
-                else:
-                    skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
-            else:
+            except ValueError:  # Value error means unsupported object type
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
 
         print('Load stats for {filepath}:')
@@ -111,8 +87,6 @@ class Command(BaseCommand):
             print(f'\tCreated {v} {k} objects')
         for k, v in skipped_stats.items():
             print(f'\tSkipped {v} {k} objects')
-        for k, v in integrity_error_stats.items():
-            print(f'\tIntegrity Error for {v} {k} objects')
 
     def handle(self, *args, **options):
         subcommand = options['subcommand']
