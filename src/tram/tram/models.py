@@ -134,7 +134,7 @@ class Sentence(models.Model):
 
 
 class Mapping(models.Model):
-    """Maps sentences to Attack TTPs
+    """Maps sentences to ATT&CK TTPs
     """
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
     sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE)
@@ -152,6 +152,72 @@ class Mapping(models.Model):
         attack_techniques = AttackTechnique.get_sentence_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
         # Get mappings for the attack techniques above threshold
         mappings = Mapping.objects.filter(attack_technique__in=attack_techniques)
+        return mappings
+
+
+class SentenceGroupMapping(models.Model):
+    """Maps sentences to ATT&CK Groups
+    """
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE)
+    attack_group = models.ForeignKey(AttackGroup, on_delete=models.CASCADE, blank=True, null=True)
+    confidence = models.FloatField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'Sentence "%s" to %s' % (self.sentence, self.attack_group)
+
+    @classmethod
+    def get_accepted_mappings(cls):
+        # Get Attack groups that have the required amount of positive examples
+        attack_groups = AttackGroup.get_sentence_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
+        # Get mappings for the attack techniques above threshold
+        mappings = cls.objects.filter(attack_group__in=attack_groups)
+        return mappings
+
+
+class ReportTechniqueMapping(models.Model):
+    """
+    Maps full reports to ATT&CK TTPs
+    """
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    attack_technique = models.ForeignKey(AttackTechnique, on_delete=models.CASCADE)
+    confidence = models.FloatField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'Report "%s" to %s' % (self.report, self.attack_technique)
+
+    @classmethod
+    def get_accepted_mappings(cls):
+        # Get Attack techniques that have the required amount of positive examples
+        attack_techniques = AttackTechnique.get_report_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
+        # Get mappings for the attack techniques above threshold
+        mappings = cls.objects.filter(attack_technique__in=attack_techniques)
+        return mappings
+
+
+class ReportGroupMapping(models.Model):
+    """
+    Maps full reports to ATT&CK Groups
+    """
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    attack_group = models.ForeignKey(AttackGroup, on_delete=models.CASCADE)
+    confidence = models.FloatField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'Report "%s" to %s' % (self.report, self.attack_group)
+
+    @classmethod
+    def get_accepted_mappings(cls):
+        # Get Attack groups that have the required amount of positive examples
+        attack_groups = AttackGroup.get_report_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
+        # Get mappings for the attack techniques above threshold
+        mappings = cls.objects.filter(attack_group__in=attack_groups)
         return mappings
 
 
