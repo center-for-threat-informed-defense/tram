@@ -53,6 +53,21 @@ class AttackTechnique(models.Model):
         return '(%s) %s' % (self.attack_id, self.name)
 
 
+class AttackGroup(models.Model):
+    """Attack Groups
+    """
+    name = models.CharField(max_length=200)
+    stix_id = models.CharField(max_length=128, unique=True)
+    attack_id = models.CharField(max_length=128, unique=True)
+    attack_url = models.CharField(max_length=512)
+    matrix = models.CharField(max_length=200)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '(%s) %s' % (self.attack_id, self.name)
+
+
 class Document(models.Model):
     """Store all documents that can be analyzed to create reports
     """
