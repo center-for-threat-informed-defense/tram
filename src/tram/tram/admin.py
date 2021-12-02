@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from tram.models import AttackTechnique, AttackGroup, Document, DocumentProcessingJob, Indicator, Mapping, Report, Sentence
+from tram.models import AttackTechnique, AttackGroup, Document, DocumentProcessingJob, \
+    Indicator, Mapping, Report, Sentence
 
 
 class IndicatorInline(admin.TabularInline):

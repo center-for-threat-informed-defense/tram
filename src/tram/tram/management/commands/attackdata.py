@@ -2,7 +2,6 @@ import json
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.db import IntegrityError
 
 from tram.models import AttackTechnique, AttackGroup
 
@@ -27,42 +26,52 @@ class Command(BaseCommand):
             print(f'Deleted {deleted[0]} {model.__name__} objects')
 
     def create_attack_technique(self, obj):
-        t = AttackTechnique()
-        t.name = obj['name']
-        t.stix_id = obj['id']
         for external_reference in obj['external_references']:
             if external_reference['source_name'] not in ('mitre-attack', 'mitre-pre-attack', 'mitre-mobile-attack'):
                 continue
 
-            t.attack_id = external_reference['external_id']
-            t.attack_url = external_reference['url']
-            t.matrix = external_reference['source_name']
+            attack_id = external_reference['external_id']
+            attack_url = external_reference['url']
+            matrix = external_reference['source_name']
 
-        assert t.attack_id is not None
-        assert t.attack_url is not None
-        assert t.matrix is not None
+        assert attack_id is not None
+        assert attack_url is not None
+        assert matrix is not None
 
-        t.save()
+        obj, created = AttackTechnique.objects.get_or_create(
+            name=obj['name'],
+            stix_id=obj['id'],
+            attack_id=attack_id,
+            attack_url=attack_url,
+            matrix=matrix
+        )
+
+        return obj, created
 
     def create_attack_group(self, obj):
-        g = AttackGroup()
-        g.name = obj['name']
-        g.stix_id = obj['id']
         for external_reference in obj['external_references']:
             if external_reference['source_name'] not in ('mitre-attack', 'mitre-pre-attack', 'mitre-mobile-attack'):
                 continue
 
-            g.attack_id = external_reference['external_id']
-            g.attack_url = external_reference['url']
-            g.matrix = external_reference['source_name']
+            attack_id = external_reference['external_id']
+            attack_url = external_reference['url']
+            matrix = external_reference['source_name']
 
         # TODO: Aliases are not saved
 
-        assert g.attack_id is not None
-        assert g.attack_url is not None
-        assert g.matrix is not None
+        assert attack_id is not None
+        assert attack_url is not None
+        assert matrix is not None
 
-        g.save()
+        obj, created = AttackGroup.objects.get_or_create(
+            name=obj['name'],
+            stix_id=obj['id'],
+            attack_id=attack_id,
+            attack_url=attack_url,
+            matrix=matrix
+        )
+
+        return obj, created
 
     def load_attack_data(self, filepath):
         created_stats = {}
@@ -83,17 +92,17 @@ class Command(BaseCommand):
                 continue
 
             if obj_type == 'attack-pattern':
-                try:
-                    self.create_attack_technique(obj)
+                db_obj, created = self.create_attack_technique(obj)
+                if created:
                     created_stats[obj_type] = created_stats.get(obj_type, 0) + 1
-                except IntegrityError as e:
-                    integrity_error_stats[obj_type] = integrity_error_stats.get(obj_type, 0) + 1
+                else:
+                    skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
             elif obj_type == 'intrusion-set':
-                try:
-                    self.create_attack_group(obj)
+                db_obj, created = self.create_attack_group(obj)
+                if created:
                     created_stats[obj_type] = created_stats.get(obj_type, 0) + 1
-                except IntegrityError as e:
-                    integrity_error_stats[obj_type] = integrity_error_stats.get(obj_type, 0) + 1
+                else:
+                    skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
             else:
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
 
@@ -109,6 +118,9 @@ class Command(BaseCommand):
         subcommand = options['subcommand']
 
         if subcommand == LOAD:
+            # Note - as of ATT&CK v8.2
+            #   Techniques are unique among files, but
+            #   Groups are not unique among files
             self.load_attack_data(settings.DATA_DIRECTORY / 'attack/enterprise-attack.json')
             self.load_attack_data(settings.DATA_DIRECTORY / 'attack/mobile-attack.json')
             self.load_attack_data(settings.DATA_DIRECTORY / 'attack/pre-attack.json')
