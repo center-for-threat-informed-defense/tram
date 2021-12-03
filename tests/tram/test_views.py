@@ -266,7 +266,7 @@ class TestMl:
 
     def test_ml_model_detail_returns_http_200_ok(self, logged_in_client):
         # Act
-        response = logged_in_client.get('/ml/models/dummy')
+        response = logged_in_client.get('/ml/models/dummy-sentence-technique')
 
         # Assert
         assert response.status_code == 200  # HTTP 200 Ok

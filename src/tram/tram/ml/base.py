@@ -50,14 +50,22 @@ class Report(object):
         self.sentences = sentences  # Sentence objects
 
 
-class SKLearnModel(ABC):
-    """
-    TODO:
-    1. Move text extraction and tokenization out of the SKLearnModel
-    """
+class FulltextGroupModel(object):
+    pass
+
+
+class FulltextTechniqueModel(object):
+    pass
+
+
+class SentenceGroupModel(object):
+    pass
+
+
+class SentenceTechniqueModel(ABC):
     def __init__(self):
         self._technique_ids = None
-        self.techniques_model = self.get_model()
+        self.techniques_model = self.get_sklearn_pipeline()
         self.last_trained = None
         self.average_f1_score = None
         self.detailed_f1_score = None
@@ -66,7 +74,7 @@ class SKLearnModel(ABC):
             raise TypeError('get_model() must return an sklearn.pipeline.Pipeline instance')
 
     @abstractmethod
-    def get_model(self):
+    def get_sklearn_pipeline(self):
         """Returns an sklearn.Pipeline that has fit() and predict() methods
         """
 
@@ -91,7 +99,7 @@ class SKLearnModel(ABC):
             train_test_split(X, y, test_size=0.2, shuffle=True, random_state=0, stratify=y)
 
         # Train model
-        test_model = self.get_model()
+        test_model = self.get_sklearn_pipeline()
         test_model.fit(X_train, y_train)
 
         # Generate predictions on test set
@@ -134,7 +142,7 @@ class SKLearnModel(ABC):
         """
         X = []
         y = []
-        mappings = db_models.Mapping.get_accepted_mappings()
+        mappings = db_models.SentenceTechniqueMapping.get_accepted_mappings()
         for mapping in mappings:
             lemmatized_sentence = self.lemmatize(mapping.sentence.text)
             X.append(lemmatized_sentence)
@@ -187,16 +195,40 @@ class SKLearnModel(ABC):
         return model
 
 
-class DummyModel(SKLearnModel):
-    def get_model(self):
+class DummySentenceTechniqueModel(SentenceTechniqueModel):
+    def get_sklearn_pipeline(self):
         return Pipeline([
             ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
             ("clf", DummyClassifier(strategy='uniform'))
         ])
 
 
-class NaiveBayesModel(SKLearnModel):
-    def get_model(self):
+class DummySentenceGroupModel(SentenceGroupModel):
+    def get_sklearn_pipeline(self):
+        return Pipeline([
+            ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
+            ("clf", DummyClassifier(strategy='uniform'))
+        ])
+
+
+class DummyFulltextTechniqueModel(FulltextTechniqueModel):
+    def get_sklearn_pipeline(self):
+        return Pipeline([
+            ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
+            ("clf", DummyClassifier(strategy='uniform'))
+        ])
+
+
+class DummyFulltextGroupModel(FulltextGroupModel):
+    def get_sklearn_pipeline(self):
+        return Pipeline([
+            ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
+            ("clf", DummyClassifier(strategy='uniform'))
+        ])
+
+
+class NaiveBayesModel(SentenceTechniqueModel):
+    def get_sklearn_pipeline(self):
         """
         Modeling pipeline:
         1) Features = document-term matrix, with stop words removed from the term vocabulary.
@@ -208,8 +240,8 @@ class NaiveBayesModel(SKLearnModel):
         ])
 
 
-class LogisticRegressionModel(SKLearnModel):
-    def get_model(self):
+class LogisticRegressionModel(SentenceTechniqueModel):
+    def get_sklearn_pipeline(self):
         """
         Modeling pipeline:
         1) Features = document-term matrix, with stop words removed from the term vocabulary.
@@ -223,7 +255,7 @@ class LogisticRegressionModel(SKLearnModel):
 
 class ModelManager(object):
     model_registry = {  # TODO: Add a hook to register user-created models
-        'dummy': DummyModel,
+        'dummy-sentence-technique': DummySentenceTechniqueModel,
         'nb': NaiveBayesModel,
         'logreg': LogisticRegressionModel,
     }

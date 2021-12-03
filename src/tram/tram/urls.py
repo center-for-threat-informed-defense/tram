@@ -27,7 +27,7 @@ from tram import views
 router = DefaultRouter()
 router.register(r'attack', views.AttackTechniqueViewSet)
 router.register(r'jobs', views.DocumentProcessingJobViewSet)
-router.register(r'mappings', views.MappingViewSet)
+router.register(r'mappings', views.SentenceTechniqueMappingViewSet)
 router.register(r'reports', views.ReportViewSet)
 router.register(r'report-export', views.ReportExportViewSet)
 router.register(r'sentences', views.SentenceViewSet)

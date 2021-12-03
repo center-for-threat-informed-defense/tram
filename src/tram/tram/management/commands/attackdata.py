@@ -82,11 +82,11 @@ class Command(BaseCommand):
             except ValueError:  # Value error means unsupported object type
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
 
-        print('Load stats for {filepath}:')
-        for k, v in created_stats.items():
-            print(f'\tCreated {v} {k} objects')
-        for k, v in skipped_stats.items():
-            print(f'\tSkipped {v} {k} objects')
+        # print('Load stats for {filepath}:')
+        # for k, v in created_stats.items():
+        #     print(f'\tCreated {v} {k} objects')
+        # for k, v in skipped_stats.items():
+        #     print(f'\tSkipped {v} {k} objects')
 
     def handle(self, *args, **options):
         subcommand = options['subcommand']

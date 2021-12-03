@@ -9,7 +9,7 @@ from rest_framework import viewsets
 
 from tram import serializers
 from tram.ml import base
-from tram.models import AttackTechnique, DocumentProcessingJob, Mapping, Report, Sentence
+from tram.models import AttackTechnique, DocumentProcessingJob, SentenceTechniqueMapping, Report, Sentence
 
 
 class AttackTechniqueViewSet(viewsets.ModelViewSet):
@@ -22,12 +22,12 @@ class DocumentProcessingJobViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.DocumentProcessingJobSerializer
 
 
-class MappingViewSet(viewsets.ModelViewSet):
-    queryset = Mapping.objects.all()
-    serializer_class = serializers.MappingSerializer
+class SentenceTechniqueMappingViewSet(viewsets.ModelViewSet):
+    queryset = SentenceTechniqueMapping.objects.all()
+    serializer_class = serializers.SentenceTechniqueMappingSerializer
 
     def get_queryset(self):
-        queryset = MappingViewSet.queryset
+        queryset = SentenceTechniqueMappingViewSet.queryset
         sentence_id = self.request.query_params.get('sentence-id', None)
         if sentence_id:
             queryset = queryset.filter(sentence__id=sentence_id)

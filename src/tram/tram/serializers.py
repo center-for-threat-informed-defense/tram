@@ -38,13 +38,13 @@ class DocumentProcessingJobSerializer(serializers.ModelSerializer):
             return 'Unknown'
 
 
-class MappingSerializer(serializers.ModelSerializer):
+class SentenceTechniqueMappingSerializer(serializers.ModelSerializer):
     attack_id = serializers.SerializerMethodField()
     name = serializers.SerializerMethodField()
     confidence = serializers.DecimalField(max_digits=100, decimal_places=1)
 
     class Meta:
-        model = db_models.Mapping
+        model = db_models.SentenceTechniqueMapping
         fields = ['id', 'attack_id', 'name', 'confidence']
 
     def get_attack_id(self, obj):
@@ -76,7 +76,7 @@ class MappingSerializer(serializers.ModelSerializer):
         return internal_value
 
     def create(self, validated_data):
-        mapping = db_models.Mapping.objects.create(
+        mapping = db_models.SentenceTechniqueMapping.objects.create(
             report=validated_data['report'],
             sentence=validated_data['sentence'],
             attack_technique=validated_data['attack_technique'],
@@ -185,8 +185,8 @@ class SentenceSerializer(serializers.ModelSerializer):
         fields = ['id', 'text', 'order', 'disposition', 'mappings']
 
     def get_mappings(self, obj):
-        mappings = db_models.Mapping.objects.filter(sentence=obj)
-        mappings_serializer = MappingSerializer(mappings, many=True)
+        mappings = db_models.SentenceTechniqueMapping.objects.filter(sentence=obj)
+        mappings_serializer = SentenceTechniqueMappingSerializer(mappings, many=True)
         return mappings_serializer.data
 
     def to_internal_value(self, data):
@@ -199,7 +199,7 @@ class SentenceSerializer(serializers.ModelSerializer):
         internal_value = super().to_internal_value(data)  # Keeps model fields
 
         # Add mappings
-        mapping_serializers = [MappingSerializer(data=mapping) for mapping in data.get('mappings', [])]
+        mapping_serializers = [SentenceTechniqueMappingSerializer(data=mapping) for mapping in data.get('mappings', [])]
 
         internal_value.update({'mappings': mapping_serializers})
         return internal_value

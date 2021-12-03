@@ -7,8 +7,8 @@ import tram.models as db_models
 
 
 @pytest.fixture
-def dummy_model():
-    return base.DummyModel()
+def dummy_st_model():
+    return base.DummySentenceTechniqueModel()
 
 
 @pytest.fixture
@@ -70,17 +70,14 @@ class TestReport:
 @pytest.mark.django_db
 class TestModelWithoutAttackData:
     """Tests ml.base.Model via DummyModel, without the load_attack_data fixture"""
-    def test_get_attack_techniques_raises_if_not_initialized(self, dummy_model):
+    def test_get_attack_techniques_raises_if_not_initialized(self, dummy_st_model):
         # Act / Assert
         with pytest.raises(ValueError):
-            dummy_model.get_attack_technique_ids()
-
+            dummy_st_model.get_attack_technique_ids()
 
 @pytest.mark.django_db
 @pytest.mark.usefixtures('load_attack_data')
-class TestSkLearnModel:
-    """Tests ml.base.SKLearnModel via DummyModel"""
-
+class TestModelManager:
     def test__sentence_tokenize_works_for_paragraph(self, model_manager):
         # Arrange
         paragraph = """Hello. My name is test. I write sentences. Tokenize, tokenize, tokenize!
@@ -115,7 +112,6 @@ class TestSkLearnModel:
 
         # Assert
         assert expected in text
-
     def test__extract_text_unknown_extension_raises_value_error(self, model_manager):
         # Arrange
         with open('tests/data/unknown-extension.fizzbuzz', 'rb') as f:
@@ -129,38 +125,44 @@ class TestSkLearnModel:
         # Cleanup
         doc.delete()
 
-    def test_get_attack_techniques_succeeds_after_initialization(self, dummy_model):
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures('load_attack_data')
+class TestSkLearnModel:
+    """Tests ml.base.SKLearnModel via DummyModel"""
+
+    def test_get_attack_techniques_succeeds_after_initialization(self, dummy_st_model):
         # Act
-        techniques = dummy_model.get_attack_technique_ids()
+        techniques = dummy_st_model.get_attack_technique_ids()
 
         # Assert
         assert 'T1327' in techniques  # Ensures mitre-pre-attack is available
         assert 'T1497.003' in techniques  # Ensures mitre-attack is available
         assert 'T1579' in techniques  # Ensures mitre-mobile-attack is available
 
-    def test_disk_round_trip_succeeds(self, dummy_model, tmpdir):
+    def test_disk_round_trip_succeeds(self, dummy_st_model, tmpdir):
         # Arrange
         filepath = (tmpdir + 'dummy_model.pkl').strpath
 
         # Act
-        dummy_model.get_attack_technique_ids()  # Change the state of the DummyModel
-        dummy_model.save_to_file(filepath)
+        dummy_st_model.get_attack_technique_ids()  # Change the state of the DummyModel
+        dummy_st_model.save_to_file(filepath)
 
-        dummy_model_2 = base.DummyModel.load_from_file(filepath)
+        dummy_model_2 = base.DummySentenceTechniqueModel.load_from_file(filepath)
 
         # Assert
-        assert dummy_model.__class__ == dummy_model_2.__class__
-        assert dummy_model.get_attack_technique_ids() == dummy_model_2.get_attack_technique_ids()
+        assert dummy_st_model.__class__ == dummy_model_2.__class__
+        assert dummy_st_model.get_attack_technique_ids() == dummy_model_2.get_attack_technique_ids()
 
-    def test_no_data_get_training_data_succeeds(self, dummy_model):
+    def test_no_data_get_training_data_succeeds(self, dummy_st_model):
         # Act
-        X, y = dummy_model.get_training_data()
+        X, y = dummy_st_model.get_training_data()
 
         # Assert
         assert len(X) == 0
         assert len(y) == 0
 
-    def test_get_training_data_returns_only_accepted_sentences(self, dummy_model, report):
+    def test_get_training_data_returns_only_accepted_sentences(self, dummy_st_model, report):
         # Arrange
         s1 = db_models.Sentence.objects.create(
             text='sentence1',
@@ -176,7 +178,7 @@ class TestSkLearnModel:
             report=report,
             disposition='accept'
         )
-        m1 = db_models.Mapping.objects.create(
+        m1 = db_models.SentenceTechniqueMapping.objects.create(
             report=report,
             sentence=s2,
             attack_technique=db_models.AttackTechnique.objects.get(attack_id='T1548'),
@@ -185,7 +187,7 @@ class TestSkLearnModel:
         config.ML_ACCEPT_THRESHOLD = 0  # Set the threshold to 0 for this test
 
         # Act
-        X, y = dummy_model.get_training_data()
+        X, y = dummy_st_model.get_training_data()
         s1.delete()
         s2.delete()
         m1.delete()
@@ -196,8 +198,8 @@ class TestSkLearnModel:
 
     def test_non_sklearn_pipeline_raises(self):
         # Arrange
-        class NonSKLearnPipeline(base.SKLearnModel):
-            def get_model(self):
+        class NonSKLearnPipeline(base.SentenceTechniqueModel):
+            def get_sklearn_pipeline(self):
                 return "This is not an sklearn.pipeline.Pipeline instance"
         # Act
         with pytest.raises(TypeError):
@@ -223,7 +225,7 @@ class TestsThatNeedTrainingData:
         model_manager = base.ModelManager()
 
         # Act
-        model_manager.train_model('dummy')
+        model_manager.train_model('dummy-sentence-technique')
 
         # Assert
         # TODO: Something meaningful
@@ -233,7 +235,7 @@ class TestsThatNeedTrainingData:
 
     def test_get_mappings_returns_mappings(self):
         # Arrange
-        dummy_model = base.DummyModel()
+        dummy_model = base.DummySentenceTechniqueModel()
         dummy_model.train()
         dummy_model.test()
         config.ML_CONFIDENCE_THRESHOLD = 0
@@ -281,7 +283,7 @@ class TestsThatNeedTrainingData:
         model_manager = base.ModelManager()
 
         # Act
-        model_manager.run_pipeline(['dummy', ])
+        model_manager.run_pipeline(['dummy-sentence-technique', ])
         job_result = db_models.DocumentProcessingJob.objects.get(id=job_id)
 
         # Assert
@@ -289,12 +291,12 @@ class TestsThatNeedTrainingData:
         assert len(job_result.message) > 0
 
     """
-    ----- Begin DummyModel Tests -----
+    ----- Begin DummySentenceTechniqueModel Tests -----
     """
-    def test_dummymodel_train_and_test_passes(self, dummy_model):
+    def test_dummymodel_train_and_test_passes(self, dummy_st_model):
         # Act
-        dummy_model.train()  # Has no effect
-        dummy_model.test()  # Has no effect
+        dummy_st_model.train()  # Has no effect
+        dummy_st_model.test()  # Has no effect
 
     """
     ----- End DummyModel Tests -----

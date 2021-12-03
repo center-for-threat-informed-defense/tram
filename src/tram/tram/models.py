@@ -33,7 +33,7 @@ class AttackTechnique(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    sentences = models.ManyToManyField('Sentence', through='Mapping')
+    sentences = models.ManyToManyField('Sentence', through='SentenceTechniqueMapping')
 
     @classmethod
     def get_sentence_counts(cls, accept_threshold=0):
@@ -148,10 +148,10 @@ class Sentence(models.Model):
         return self.text[:SENTENCE_PREVIEW_CHARS] + append
 
 
-class Mapping(models.Model):
+class SentenceTechniqueMapping(models.Model):
     """Maps sentences to ATT&CK TTPs
     """
-    report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)  # TODO: Is this field redundant?
     sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE)
     attack_technique = models.ForeignKey(AttackTechnique, on_delete=models.CASCADE, blank=True, null=True)
     confidence = models.FloatField()
@@ -166,14 +166,14 @@ class Mapping(models.Model):
         # Get Attack techniques that have the required amount of positive examples
         attack_techniques = AttackTechnique.get_sentence_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
         # Get mappings for the attack techniques above threshold
-        mappings = Mapping.objects.filter(attack_technique__in=attack_techniques)
+        mappings = cls.objects.filter(attack_technique__in=attack_techniques)
         return mappings
 
 
 class SentenceGroupMapping(models.Model):
     """Maps sentences to ATT&CK Groups
     """
-    report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)  # TODO: Is this field redundant?
     sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE)
     attack_group = models.ForeignKey(AttackGroup, on_delete=models.CASCADE, blank=True, null=True)
     confidence = models.FloatField()
