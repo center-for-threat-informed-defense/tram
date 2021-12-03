@@ -35,7 +35,7 @@ class DocumentAdmin(admin.ModelAdmin):
 
 class ReportAdmin(admin.ModelAdmin):
     inlines = [IndicatorInline, SentenceTechniqueMappingInline]
-    readonly_fields = ('document', 'text', 'ml_model')
+    readonly_fields = ('document', 'text')
 
 
 class SentenceAdmin(admin.ModelAdmin):

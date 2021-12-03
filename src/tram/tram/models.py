@@ -109,7 +109,6 @@ class Report(models.Model):
     name = models.CharField(max_length=200)
     document = models.ForeignKey(Document, null=True, on_delete=models.CASCADE)
     text = models.TextField()
-    ml_model = models.CharField(max_length=200)
     created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)

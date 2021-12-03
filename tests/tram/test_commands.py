@@ -47,12 +47,25 @@ class TestPipeline:
         assert Sentence.objects.count() == 12588  # Count of sentences data/training/bootstrap-training-data.json
 
     @pytest.mark.django_db
-    def test_run_succeeds(self, load_attack_data):
+    def test_run_succeeds_with_no_args(self, load_attack_data):
         # Act
         call_command('pipeline', pipeline.RUN)
 
         # Assert
         pass
+
+    @pytest.mark.django_db
+    def test_run_succeeds_with_all_models_specified(self, load_attack_data, document_processing_job):
+        # Arrange
+        options = {
+            'sentence_technique_model': 'dummy-st',
+            'sentence_group_model': 'dummy-sg',
+            'fulltext_technique_model': 'dummy-ft',
+            'fulltext_group_model': 'dummy-fg'
+        }
+
+        # Act
+        call_command('pipeline', pipeline.RUN, **options)
 
 
 @pytest.mark.django_db

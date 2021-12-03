@@ -135,7 +135,7 @@ def long_sentence(report):
 
 
 @pytest.fixture
-def mapping(report, sentence, attack_technique):
+def sentence_technique_mapping(report, sentence, attack_technique):
     m = models.SentenceTechniqueMapping(
         report=report,
         sentence=sentence,
