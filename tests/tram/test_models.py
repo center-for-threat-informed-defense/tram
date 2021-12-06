@@ -70,9 +70,9 @@ class TestSentence:
 
 @pytest.mark.django_db
 class TestMapping:
-    def test__str__renders_correctly(self, mapping):
+    def test__str__renders_correctly(self, sentence_technique_mapping):
         # Arrange
         expected = 'Sentence "test-text" to (T1327) Use multiple DNS infrastructures'
 
         # Assert
-        assert str(mapping) == expected
+        assert str(sentence_technique_mapping) == expected

@@ -89,11 +89,15 @@ class TramModel(ABC):
             raise TypeError('get_model() must return an sklearn.pipeline.Pipeline instance')
 
     @staticmethod
-    def _get_mapping_texts(report, mapping_from):
+    def _get_mapping_inputs(report, mapping_from):
+        """
+        TODO: Should the name stay?
+        TODO: Sentence and Report probably need to have the same superclass or implement the same interface
+        """
         if mapping_from == FROM_SENTENCE:
-            return [s.text for s in db_models.Sentence.objects.filter(report=report)]
+            return db_models.Sentence.objects.filter(report=report)
         elif mapping_from == FROM_REPORT:
-            return [report.text, ]
+            return [report, ]
         else:
             raise ValueError(f'Invalid mapping_from: {mapping_from}')
 
@@ -122,11 +126,6 @@ class TramModel(ABC):
     @abstractmethod
     def get_sklearn_pipeline(self):
         """Returns an sklearn.Pipeline that has fit() and predict() methods
-        """
-
-    @abstractmethod
-    def process_report(self, report):
-        """Takes a database Report and creates mappings
         """
 
     def lemmatize(self, sentence):
@@ -197,13 +196,15 @@ class TramModel(ABC):
         self.average_f1_score = weighted_f1
 
     def process_report(self, report):
-        mapping_input_texts = TramModel._get_mapping_texts(report)
-        for text in mapping_input_texts:
-            mappings = self.get_mappings(text)
+        # Input can be a report or a sentence
+        mapping_inputs = TramModel._get_mapping_inputs(report, mapping_from=self.MAPPING_FROM)
+        for mapping_input in mapping_inputs:
+            mappings = self.get_mappings(mapping_input.text)
             for mapping in mappings:
                 if not isinstance(mapping, self.mapping_class):
                     raise TypeError(f'Mapping is not of type {self.mapping_class}')
-            db_mapping = self.mapping_database_model.from_mapping(mapping)
+
+            db_mapping = self.mapping_database_model.from_mapping(mapping_input, mapping)
             db_mapping.save()
 
     def get_mappings(self, text):
@@ -407,6 +408,9 @@ class ModelManager(object):
         with pdfplumber.open(BytesIO(document.docfile.read())) as pdf:
             text = ''.join(page.extract_text() for page in pdf.pages if page.extract_text())
 
+        if len(text) == 0:
+            raise EOFError('No text was extracted from PDF')
+
         return text
 
     @staticmethod
@@ -450,19 +454,23 @@ class ModelManager(object):
         while True:
             jobs = db_models.DocumentProcessingJob.objects.filter(status='queued').order_by('created_on')
             for job in jobs:
-                with transaction.atomic():
-                    filename = job.document.docfile.name
-                    print('Processing Job #%d: %s' % (job.id, filename))
-                    report = self.create_report(job.document)
-                    print('Created report %s' % report.name)
-                    for ml_model in ml_models:
-                        ml_model.process_report(report)
-                    job.delete()
-                # TODO: Add exception handling back in so that failed processing
-                # is bubbled up to the end user in a reasonable way.
-                #
-                # There was a try/catch block here, but it was too broad
-                # and was squelching the wrong type of errors
+                try:
+                    with transaction.atomic():
+                        filename = job.document.docfile.name
+                        print('Processing Job #%d: %s' % (job.id, filename))
+                        report = self.create_report(job.document)
+                        print('Created report %s' % report.name)
+                        import pdb
+                        pdb.set_trace()
+                        for ml_model in ml_models:
+                            ml_model.process_report(report)
+                        job.delete()
+                except EOFError as e:
+                    job.status = 'error'
+                    job.message = str(e)
+                    job.save()
+                    print(f'Failed to create report for {filename}.')
+                    print(traceback.format_exc())
 
             if not run_forever:
                 return

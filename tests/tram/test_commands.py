@@ -54,6 +54,7 @@ class TestPipeline:
         # Assert
         pass
 
+    @pytest.mark.skip('No training data for dummy-sg, dummy-ft, or dummy-fg')
     @pytest.mark.django_db
     def test_run_succeeds_with_all_models_specified(self, load_attack_data, document_processing_job):
         # Arrange

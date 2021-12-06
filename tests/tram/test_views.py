@@ -168,7 +168,7 @@ class TestUpload:
 
 @pytest.mark.django_db
 class TestMappingViewSet:
-    def test_get_mappings(self, logged_in_client, mapping):
+    def test_get_mappings(self, logged_in_client, sentence_technique_mapping):
         # Act
         response = logged_in_client.get('/api/mappings/')
         json_response = json.loads(response.content)
@@ -177,7 +177,7 @@ class TestMappingViewSet:
         assert len(json_response) == 1
         assert json_response[0]['attack_id'] == 'T1327'
 
-    def test_get_mapping(self, logged_in_client, mapping):
+    def test_get_mapping(self, logged_in_client, sentence_technique_mapping):
         # Act
         response = logged_in_client.get('/api/mappings/1/')
         json_response = json.loads(response.content)
@@ -185,7 +185,7 @@ class TestMappingViewSet:
         # Assert
         assert json_response['attack_id'] == 'T1327'
 
-    def test_get_mappings_by_sentence(self, logged_in_client, mapping):
+    def test_get_mappings_by_sentence(self, logged_in_client, sentence_technique_mapping):
         # Act
         response = logged_in_client.get('/api/mappings/?sentence-id=1')
         json_response = json.loads(response.content)
@@ -226,7 +226,7 @@ class TestSentenceViewSet:
 
 @pytest.mark.django_db
 class TestReportExport:
-    def test_get_report_export_succeeds(self, logged_in_client, mapping):
+    def test_get_report_export_succeeds(self, logged_in_client, sentence_technique_mapping):
         # Act
         response = logged_in_client.get('/api/report-export/1/')
         json_response = json.loads(response.content)
@@ -266,7 +266,7 @@ class TestMl:
 
     def test_ml_model_detail_returns_http_200_ok(self, logged_in_client):
         # Act
-        response = logged_in_client.get('/ml/models/dummy-sentence-technique')
+        response = logged_in_client.get('/ml/models/dummy-st')
 
         # Assert
         assert response.status_code == 200  # HTTP 200 Ok

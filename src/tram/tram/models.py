@@ -168,6 +168,17 @@ class SentenceTechniqueMapping(models.Model):
         mappings = cls.objects.filter(attack_technique__in=attack_techniques)
         return mappings
 
+    @staticmethod
+    def from_mapping(mapping_input, mapping):
+        # Mapping input is a Sentence
+        m = SentenceTechniqueMapping()
+        m.report = mapping_input.report
+        m.sentence = mapping_input
+        at = AttackTechnique.objects.get(attack_id=mapping.attack_technique)
+        m.attack_technique = at
+        m.confidence = mapping.confidence
+        return m
+
 
 class SentenceGroupMapping(models.Model):
     """Maps sentences to ATT&CK Groups
