@@ -27,6 +27,12 @@ from sklearn.pipeline import Pipeline
 from tram import models as db_models
 
 
+FROM_REPORT = 'from_report'
+FROM_SENTENCE = 'from_sentence'
+TO_TECHNIQUE = 'to_technique'
+TO_GROUP = 'to_group'
+
+
 class Sentence(object):
     def __init__(self, text, order, mappings):
         self.text = text
@@ -40,13 +46,16 @@ class TechniqueMapping(object):
         self.attack_technique = attack_technique
 
     def __repr__(self):
-        return 'Confidence=%f; Technique=%s' % (self.confidence, self.attack_technique)
+        return f'Confidence={self.confidence}; Technique={self.attack_technique}'
 
 
 class GroupMapping(object):
     def __init__(self, confidence=0.0, attack_group=None):
         self.confidence = confidence
         self.attack_group = attack_group
+
+    def __repr__(self):
+        return f'Confidence={self.confidence}; Group={self.attack_group}'
 
 
 class Report(object):
@@ -57,30 +66,20 @@ class Report(object):
 
 
 class TramModel(ABC):
-    REPORT = 'report'
-    SENTENCE = 'sentence'
-    TECHNIQUE = 'technique'
-    GROUP = 'group'
 
     MAPPING_FROM = None
     MAPPING_TO = None
 
     def __init__(self):
-        if self.MAPPING_FROM not in (TramModel.REPORT, TramModel.SENTENCE):
-            raise ValueError('self.MAPPING_FROM is None. MUST be one of report or sentence')
+        if self.MAPPING_FROM not in (FROM_REPORT, FROM_SENTENCE):
+            raise ValueError('Invalid self.MAPPING_FROM. Must be one of FROM_REPORT or FROM_SENTENCE')
 
-        if self.MAPPING_TO not in (TramModel.TECHNIQUE, TramModel.GROUP):
-            raise ValueError('self.MAPPING_FROM is None. MUST be one of technique or group')
+        if self.MAPPING_TO not in (TO_TECHNIQUE, TO_GROUP):
+            raise ValueError('Invalid self.MAPPING_FROM. Must be one of TO_TECHNIQUE or TO_GROUP')
 
         self.sklearn_pipeline = self.get_sklearn_pipeline()
-
-        # Need to define:
-        # 1. Method for getting list of FROM (report.text or report.sentences).
-        # 2. Intermediate mapping class (GroupMapping or TechniqueMapping)
-        # 3. Target database object (SentenceGroupMapping, etc)
-        self.mapping_input = self.get_mapping_input(self.MAPPING_FROM)
-        self.mapping_class = self._get_mapping_class(self.MAPPING_TO)
-        self.mapping_database_model = self._get_mapping_database_model(self.MAPPING_FROM, self.MAPPING_TO)
+        self.mapping_class = TramModel._get_mapping_class(self.MAPPING_TO)
+        self.mapping_database_model = TramModel._get_mapping_database_model(self.MAPPING_FROM, self.MAPPING_TO)
 
         self.last_trained = None
         self.average_f1_score = None
@@ -88,6 +87,37 @@ class TramModel(ABC):
 
         if not isinstance(self.sklearn_pipeline, Pipeline):
             raise TypeError('get_model() must return an sklearn.pipeline.Pipeline instance')
+
+    @staticmethod
+    def _get_mapping_texts(report, mapping_from):
+        if mapping_from == FROM_SENTENCE:
+            return [s.text for s in db_models.Sentence.objects.filter(report=report)]
+        elif mapping_from == FROM_REPORT:
+            return [report.text, ]
+        else:
+            raise ValueError(f'Invalid mapping_from: {mapping_from}')
+
+    @staticmethod
+    def _get_mapping_class(mapping_to):
+        if mapping_to == TO_TECHNIQUE:
+            return TechniqueMapping
+        elif mapping_to == TO_GROUP:
+            return GroupMapping
+        else:
+            raise ValueError(f'Invalid mapping_to: {mapping_to}')
+
+    @staticmethod
+    def _get_mapping_database_model(mapping_from, mapping_to):
+        if mapping_from == FROM_SENTENCE and mapping_to == TO_TECHNIQUE:
+            return db_models.SentenceTechniqueMapping
+        elif mapping_from == FROM_SENTENCE and mapping_to == TO_GROUP:
+            return db_models.SentenceGroupMapping
+        elif mapping_from == FROM_REPORT and mapping_to == TO_TECHNIQUE:
+            return db_models.ReportTechniqueMapping
+        elif mapping_from == FROM_REPORT and mapping_to == TO_GROUP:
+            return db_models.ReportGroupMapping
+        else:
+            raise ValueError(f'Invalid mapping combination: from {mapping_from} to {mapping_to}')
 
     @abstractmethod
     def get_sklearn_pipeline(self):
@@ -120,6 +150,7 @@ class TramModel(ABC):
         """
         X = []
         y = []
+
         mappings = self.mapping_database_model.get_accepted_mappings()
         for mapping in mappings:
             lemmatized_text = self.lemmatize(mapping.sentence.text)
@@ -166,7 +197,7 @@ class TramModel(ABC):
         self.average_f1_score = weighted_f1
 
     def process_report(self, report):
-        mapping_input_texts = self.get_mapping_inputs(report)
+        mapping_input_texts = TramModel._get_mapping_texts(report)
         for text in mapping_input_texts:
             mappings = self.get_mappings(text)
             for mapping in mappings:
@@ -211,23 +242,23 @@ class TramModel(ABC):
 
 
 class ReportGroupModel(TramModel, ABC):
-    MAPPING_FROM = TramModel.REPORT
-    MAPPING_TO = TramModel.GROUP
+    MAPPING_FROM = FROM_REPORT
+    MAPPING_TO = TO_GROUP
 
 
 class ReportTechniqueModel(TramModel, ABC):
-    MAPPING_FROM = TramModel.REPORT
-    MAPPING_TO = TramModel.TECHNIQUE
+    MAPPING_FROM = FROM_REPORT
+    MAPPING_TO = TO_TECHNIQUE
 
 
 class SentenceGroupModel(TramModel, ABC):
-    MAPPING_FROM = TramModel.SENTENCE
-    MAPPING_TO = TramModel.GROUP
+    MAPPING_FROM = FROM_SENTENCE
+    MAPPING_TO = TO_GROUP
 
 
 class SentenceTechniqueModel(TramModel, ABC):
-    MAPPING_FROM = TramModel.SENTENCE
-    MAPPING_TO = TramModel.TECHNIQUE
+    MAPPING_FROM = FROM_SENTENCE
+    MAPPING_TO = TO_TECHNIQUE
 
 
 class DummySentenceTechniqueModel(SentenceTechniqueModel):

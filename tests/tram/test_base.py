@@ -32,15 +32,28 @@ class TestSentence:
         assert s.mappings == mappings
 
 
-class TestMapping:
-    def test_mapping_repr_is_correct(self):
+class TestTechniqueMapping:
+    def test_technique_mapping_repr_is_correct(self):
         # Arrange
         confidence = 95.342000
         attack_technique = 'T1327'
-        expected = 'Confidence=95.342000; Technique=T1327'
+        expected = 'Confidence=95.342; Technique=T1327'
 
         # Act
-        m = base.Mapping(confidence, attack_technique)
+        m = base.TechniqueMapping(confidence, attack_technique)
+
+        assert str(m) == expected
+
+
+class TestGroupMapping:
+    def test_group_mapping_repr_is_correct(self):
+        # Arrange
+        confidence = 95.342000
+        attack_group = 'G0018'
+        expected = 'Confidence=95.342; Group=G0018'
+
+        # Act
+        m = base.GroupMapping(confidence, attack_group)
 
         assert str(m) == expected
 
@@ -66,14 +79,6 @@ class TestReport:
         assert rpt.text == text
         assert rpt.sentences == sentences
 
-
-@pytest.mark.django_db
-class TestModelWithoutAttackData:
-    """Tests ml.base.Model via DummyModel, without the load_attack_data fixture"""
-    def test_get_attack_techniques_raises_if_not_initialized(self, dummy_st_model):
-        # Act / Assert
-        with pytest.raises(ValueError):
-            dummy_st_model.get_attack_technique_ids()
 
 @pytest.mark.django_db
 @pytest.mark.usefixtures('load_attack_data')
@@ -131,28 +136,17 @@ class TestModelManager:
 class TestSkLearnModel:
     """Tests ml.base.SKLearnModel via DummyModel"""
 
-    def test_get_attack_techniques_succeeds_after_initialization(self, dummy_st_model):
-        # Act
-        techniques = dummy_st_model.get_attack_technique_ids()
-
-        # Assert
-        assert 'T1327' in techniques  # Ensures mitre-pre-attack is available
-        assert 'T1497.003' in techniques  # Ensures mitre-attack is available
-        assert 'T1579' in techniques  # Ensures mitre-mobile-attack is available
-
     def test_disk_round_trip_succeeds(self, dummy_st_model, tmpdir):
         # Arrange
         filepath = (tmpdir + 'dummy_model.pkl').strpath
 
         # Act
-        dummy_st_model.get_attack_technique_ids()  # Change the state of the DummyModel
         dummy_st_model.save_to_file(filepath)
 
         dummy_model_2 = base.DummySentenceTechniqueModel.load_from_file(filepath)
 
         # Assert
         assert dummy_st_model.__class__ == dummy_model_2.__class__
-        assert dummy_st_model.get_attack_technique_ids() == dummy_model_2.get_attack_technique_ids()
 
     def test_no_data_get_training_data_succeeds(self, dummy_st_model):
         # Act
@@ -225,7 +219,7 @@ class TestsThatNeedTrainingData:
         model_manager = base.ModelManager()
 
         # Act
-        model_manager.train_model('dummy-sentence-technique')
+        model_manager.train_model('dummy-st')
 
         # Assert
         # TODO: Something meaningful
@@ -233,7 +227,7 @@ class TestsThatNeedTrainingData:
     ----- End ModelManager Tests -----
     """
 
-    def test_get_mappings_returns_mappings(self):
+    def test_dummy_st_get_mappings_returns_technique_mappings(self):
         # Arrange
         dummy_model = base.DummySentenceTechniqueModel()
         dummy_model.train()
@@ -245,7 +239,7 @@ class TestsThatNeedTrainingData:
 
         # Assert
         for mapping in mappings:
-            assert isinstance(mapping, base.Mapping)
+            assert isinstance(mapping, base.TechniqueMapping)
 
     def test_create_report_produces_valid_report(self):
         # Arrange
@@ -283,7 +277,7 @@ class TestsThatNeedTrainingData:
         model_manager = base.ModelManager()
 
         # Act
-        model_manager.run_pipeline(['dummy-sentence-technique', ])
+        model_manager.run_pipeline(['dummy-st', ])
         job_result = db_models.DocumentProcessingJob.objects.get(id=job_id)
 
         # Assert
