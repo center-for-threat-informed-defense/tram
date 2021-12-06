@@ -405,7 +405,7 @@ class ModelManager(object):
     @staticmethod
     def _extract_pdf_text(document):
         with pdfplumber.open(BytesIO(document.docfile.read())) as pdf:
-            text = ''.join(page.extract_text() for page in pdf.pages)
+            text = ''.join(page.extract_text() for page in pdf.pages if page.extract_text())
 
         return text
 
