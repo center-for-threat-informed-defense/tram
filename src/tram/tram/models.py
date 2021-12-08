@@ -147,7 +147,6 @@ class Sentence(models.Model):
         return self.text[:SENTENCE_PREVIEW_CHARS] + append
 
 class Adversary(models.Model):
-    report = models.ForeignKey(Report, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)

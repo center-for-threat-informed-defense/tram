@@ -94,13 +94,10 @@ class Otxdata():
             if i['adversary'] == None or i['adversary'] == '':
                 continue
             else:
-                a = Adversary(name=i['adversary'])
-                r = Report(text=i['description'],ml_model='adversary')
-                a.report = r
-                r.save()
-                a.save()
+                a = Adversary.objects.get_or_create(name=i['adversary'])
+                r = Report.objects.get_or_create(text=i['description'],ml_model='adversary')
 
-                m = AdversaryMapping(report=r,adversary=a)
+                m = AdversaryMapping(report=r[0],adversary=a[0])
                 m.save()
 
         

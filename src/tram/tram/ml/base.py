@@ -32,6 +32,7 @@ from sklearn.svm import LinearSVC
 from nltk import word_tokenize
 from sklearn.feature_extraction import text as tsk
 from sklearn.preprocessing import MultiLabelBinarizer
+from sklearn.preprocessing import LabelEncoder
 
 import numpy as np
 
@@ -282,6 +283,45 @@ class LogisticRegressionModel(SKLearnModel):
         ])
 
 class AdversaryModel(SKLearnModel):
+    def train(self):
+        """
+        Load and preprocess data. Train model pipeline
+        """
+        X, y = self._load_and_vectorize_data()
+        
+        ohe = LabelEncoder()
+        y = [i for i in y]
+        y_vec = ohe.fit_transform(y)
+
+        self.techniques_model.fit(X, y_vec)
+        self.last_trained = datetime.now(timezone.utc)
+
+
+    def _load_and_vectorize_data(self):
+        """
+        Load training data from database.
+        Store sentence text in vector X
+        Store attack technique in vector y
+        """
+        X = []
+        y = []
+
+        # accepted_sents = self.get_training_data()
+        # reports = db_models.Report.objects.filter(ml_model='fullreport')
+        reports = db_models.Report.objects.filter(ml_model='adversary')
+
+        for report_obj in reports:  # Only store sentences with a labeled technique
+            text = report_obj.text
+            label = ''
+            # temp = []
+            mappings = db_models.AdversaryMapping.objects.filter(report=report_obj)
+            for mapping in mappings:
+                label = mapping.adversary.name
+            X.append(text)
+            y.append(label)
+        return X, y
+
+
     def get_model(self):
         return Pipeline([
             ("features", tsk.TfidfVectorizer()),
@@ -468,6 +508,7 @@ class ModelManager(object):
         'nb': NaiveBayesModel,
         'logreg': LogisticRegressionModel,
         'fullreport': FullReportModel,
+        'adversary': AdversaryModel,
     }
 
     def __init__(self, model):
