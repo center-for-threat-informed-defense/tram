@@ -8,6 +8,7 @@ from tram.management.commands.otxdata import Otxdata
 
 LOAD_TRAINING_DATA = 'load-training-data'
 LOAD_OTXDATA = 'otxdata'
+LOAD_ADVERSARY = 'adversary'
 
 
 class Command(BaseCommand):
@@ -23,6 +24,9 @@ class Command(BaseCommand):
         sp_otx = sp.add_parser(LOAD_OTXDATA, help='Load otx data for full report model.')
         sp_otx.add_argument('--file', default='data/training/otx-training-data.json',
                             help='Otx data file to load. Defaults: data/training/otx-training-data.json')
+        sp_group = sp.add_parser(LOAD_ADVERSARY, help='Load otx data for full report model.')
+        sp_group.add_argument('--file', default='data/training/otx-adversary-data.json',
+                            help='Otx data file to load. Defaults: data/training/otx-adversary-data.json')
 
     def handle(self, *args, **options):
         subcommand = options['subcommand']
@@ -41,3 +45,9 @@ class Command(BaseCommand):
             filepath = options['file']
             otx = Otxdata()
             otx.load_otx_data(filepath=filepath)
+
+        if subcommand == LOAD_ADVERSARY:
+            print(options)
+            filepath = options['file']
+            otx = Otxdata()
+            otx.load_otx_groups(filepath=filepath)

@@ -146,6 +146,20 @@ class Sentence(models.Model):
             append = '...'
         return self.text[:SENTENCE_PREVIEW_CHARS] + append
 
+class Adversary(models.Model):
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+class AdversaryMapping(models.Model):
+    """Maps adversarys to reports
+    """
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    adversary = models.ForeignKey(Adversary, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
 
 class Mapping(models.Model):
     """Maps sentences to Attack TTPs

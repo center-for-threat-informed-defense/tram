@@ -7,6 +7,7 @@ import pdfplumber
 from io import BytesIO
 
 from tram.models import AttackTechnique, Mapping, Sentence, Report
+from tram.models import Adversary, AdversaryMapping
 
 
 class Otxdata():
@@ -84,3 +85,22 @@ class Otxdata():
                     print("Technique non existent, adding")
                     technique = AttackTechnique(name=id, attack_id=id, stix_id=id)
                     technique.save()
+
+    def load_otx_groups(self, filepath):
+        with open(filepath, 'r') as f:
+            OTX = json.load(f)
+
+        for i in OTX['results']:
+            if i['adversary'] == None or i['adversary'] == '':
+                continue
+            else:
+                a = Adversary(name=i['adversary'])
+                r = Report(text=i['description'],ml_model='adversary')
+                a.report = r
+                r.save()
+                a.save()
+
+                m = AdversaryMapping(report=r,adversary=a)
+                m.save()
+
+        

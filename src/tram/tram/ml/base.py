@@ -281,6 +281,13 @@ class LogisticRegressionModel(SKLearnModel):
             ("clf", LogisticRegression())
         ])
 
+class AdversaryModel(SKLearnModel):
+    def get_model(self):
+        return Pipeline([
+            ("features", tsk.TfidfVectorizer()),
+            ("clf", LinearSVC())
+        ])
+
 
 class FullReportModel(SKLearnModel):
     """
@@ -366,15 +373,6 @@ class FullReportModel(SKLearnModel):
 
         X_test = [self.clean_text(x) for x in X_test]
 
-        # y_predicted = self.techniques_model.predict(X_test)
-
-        # # Average F1 score across techniques, weighted by the # of training examples per technique
-        # vals = np.array([np.array(i, dtype="object") for i in y_test])
-        # label_encoder = MultiLabelBinarizer()
-        # y_vec = label_encoder.fit_transform(vals)
-        # # weighted_f1 = f1_score(y_vec, y_predicted, average='weighted')
-        # self.average_f1_score = self.techniques_model.score(X_test,y_vec)
-
     class TextSelector(BaseEstimator, TransformerMixin):
         """
         Transformer to select a single column from the data frame to perform additional transformations on
@@ -436,7 +434,7 @@ class FullReportModel(SKLearnModel):
         def __call__(self, doc):
             return [self.st.stem(t) for t in word_tokenize(doc)]
 
-    def _preprocess_text(self, sentences):
+    def lemmatize(self, sentences):
         lemma = nltk.stem.WordNetLemmatizer()
         preprocessed_sentences = ""
         for sentence in sentences:
