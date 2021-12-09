@@ -34,10 +34,6 @@ class Command(BaseCommand):
         print(f'Deleted {deleted[0]} Attack objects')
 
     def create_attack_object(self, obj):
-        if 'external_references' not in obj:
-            import pdb
-            pdb.set_trace()
-
         for external_reference in obj['external_references']:
             if external_reference['source_name'] not in ('mitre-attack', 'mitre-pre-attack', 'mitre-mobile-attack'):
                 continue
