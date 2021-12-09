@@ -4,9 +4,9 @@ from rest_framework import serializers
 from tram import models as db_models
 
 
-class AttackTechniqueSerializer(serializers.ModelSerializer):
+class AttackObjectSerializer(serializers.ModelSerializer):
     class Meta:
-        model = db_models.AttackTechnique
+        model = db_models.AttackObject
         fields = ['id', 'attack_id', 'name']
 
 

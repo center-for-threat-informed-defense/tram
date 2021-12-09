@@ -3,10 +3,20 @@ import json
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from tram.models import AttackTechnique, AttackGroup
+from tram.models import AttackObject
 
 LOAD = 'load'
 CLEAR = 'clear'
+
+
+STIX_TYPE_TO_ATTACK_TYPE = {
+    'attack-pattern': 'technique',
+    'course-of-action': 'mitigation',
+    'intrusion-set': 'group',
+    'malware': 'software',
+    'tool': 'software',
+    'x-mitre-tactic': 'tactic',
+}
 
 
 class Command(BaseCommand):
@@ -20,19 +30,13 @@ class Command(BaseCommand):
         sp_clear = sp.add_parser(CLEAR, help='Clear ATT&CK Data from the Database')  # noqa: F841
 
     def clear_attack_data(self):
-        models = [AttackTechnique, AttackGroup]
-        for model in models:
-            deleted = model.objects.all().delete()
-            print(f'Deleted {deleted[0]} {model.__name__} objects')
+        deleted = AttackObject.objects.all().delete()
+        print(f'Deleted {deleted[0]} Attack objects')
 
     def create_attack_object(self, obj):
-        obj_type = obj_type = obj['type']
-        if obj_type == 'attack-pattern':
-            model_class = AttackTechnique
-        elif obj_type == 'intrusion-set':
-            model_class = AttackGroup
-        else:
-            raise ValueError(f'Unsupported ATT&CK object type: {obj_type}')
+        if 'external_references' not in obj:
+            import pdb
+            pdb.set_trace()
 
         for external_reference in obj['external_references']:
             if external_reference['source_name'] not in ('mitre-attack', 'mitre-pre-attack', 'mitre-mobile-attack'):
@@ -46,10 +50,15 @@ class Command(BaseCommand):
         assert attack_url is not None
         assert matrix is not None
 
-        obj, created = model_class.objects.get_or_create(
+        stix_type = obj_type = obj['type']
+        attack_type = STIX_TYPE_TO_ATTACK_TYPE[stix_type]
+
+        obj, created = AttackObject.objects.get_or_create(
             name=obj['name'],
             stix_id=obj['id'],
+            stix_type=stix_type,
             attack_id=attack_id,
+            attack_type=attack_type,
             attack_url=attack_url,
             matrix=matrix
         )
@@ -69,7 +78,11 @@ class Command(BaseCommand):
         for obj in attack_json['objects']:
             obj_type = obj['type']
 
-            if obj.get('revoked', False):  # Skip revoked objects
+            if obj.get('revoked', False) or obj.get('x_mitre_deprecated', False):  # Skip revoked/deprecated objects
+                skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
+                continue
+
+            if obj_type in ('relationship', 'course-of-action', 'identity', 'x-mitre-matrix', 'marking-definition'):
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
                 continue
 
@@ -82,7 +95,7 @@ class Command(BaseCommand):
             except ValueError:  # Value error means unsupported object type
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
 
-        print('Load stats for {filepath}:')
+        print(f'Load stats for {filepath}:')
         for k, v in created_stats.items():
             print(f'\tCreated {v} {k} objects')
         for k, v in skipped_stats.items():
