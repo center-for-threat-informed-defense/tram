@@ -12,6 +12,7 @@ Through research into automating the mapping of cyber threat intel reports to AT
 
 * [Installation](#installation)
 * [Installation Troubleshooting](#installation-troubleshooting)
+* [Report Troubleshooting](#report-troubleshooting)
 * [Requirements](#requirements)
 * [Developer Setup](#developer-setup)
 * [Machine Learning Development](#machine-learning-development)
@@ -62,6 +63,20 @@ docker.errors.DockerException: Error while fetching server API version: ('Connec
 ```
 
 Then most likely Docker is not running and you need to start Docker.
+
+## Report Troubleshooting
+
+### How long until my queued report is complete?
+
+A queued report should only take about a minute to complete.
+
+### Why is my report stuck in queued?
+
+This is likely a problem with the processing pipeline. If the pipeline is not working when you are running TRAM via docker, then this might be a TRAM-level bug. If you think this is the case, then please file an issue and we can tell you how to get logs off the system to troubleshoot.
+
+### Do I have to manually accept all of the parsed sentences in the report?
+
+Yes. The workflow of TRAM is that the AI/ML process will propose mappings, but a human analyst needs to validate/accept the proposed mappings.
 
 ## Requirements
 
