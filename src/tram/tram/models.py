@@ -152,7 +152,7 @@ class Mapping(models.Model):
         # Get Attack techniques that have the required amount of positive examples
         attack_objects = AttackObject.get_sentence_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
         # Get mappings for the attack techniques above threshold
-        mappings = Mapping.objects.filter(attack_technique__in=attack_objects)
+        mappings = Mapping.objects.filter(attack_object__in=attack_objects)
         return mappings
 
 

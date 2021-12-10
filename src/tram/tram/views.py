@@ -12,7 +12,7 @@ from tram.ml import base
 from tram.models import AttackObject, DocumentProcessingJob, Mapping, Report, Sentence
 
 
-class AttackTechniqueViewSet(viewsets.ModelViewSet):
+class AttackObjectViewSet(viewsets.ModelViewSet):
     queryset = AttackObject.objects.all()
     serializer_class = serializers.AttackObjectSerializer
 
@@ -114,7 +114,7 @@ def upload(request):
 
 @login_required
 def ml_home(request):
-    techniques = AttackTechnique.get_sentence_counts()
+    techniques = AttackObject.get_sentence_counts()
     model_metadata = base.ModelManager.get_all_model_metadata()
 
     context = {
@@ -147,7 +147,7 @@ def ml_model_detail(request, model_key):
 def analyze(request, pk):
     report = Report.objects.get(id=pk)
     techniques = AttackObject.objects.all().order_by('attack_id')
-    tecniques_serializer = serializers.AttackTechniqueSerializer(techniques, many=True)
+    tecniques_serializer = serializers.AttackObjectSerializer(techniques, many=True)
 
     context = {
         'report_id': report.id,

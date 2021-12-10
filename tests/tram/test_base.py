@@ -31,11 +31,11 @@ class TestMapping:
     def test_mapping_repr_is_correct(self):
         # Arrange
         confidence = 95.342000
-        attack_technique = 'T1327'
-        expected = 'Confidence=95.342000; Technique=T1327'
+        attack_id = 'T1327'
+        expected = 'Confidence=95.342000; Attack ID=T1327'
 
         # Act
-        m = base.Mapping(confidence, attack_technique)
+        m = base.Mapping(confidence, attack_id)
 
         assert str(m) == expected
 
@@ -143,14 +143,14 @@ class TestSkLearnModel:
         # Assert
         assert report_name.startswith(expected)
 
-    def test_get_attack_techniques_succeeds_after_initialization(self, dummy_model):
+    def test_get_attack_objects_succeeds_after_initialization(self, dummy_model):
         # Act
-        techniques = dummy_model.get_attack_technique_ids()
+        objects = dummy_model.get_attack_object_ids()
 
         # Assert
-        assert 'T1327' in techniques  # Ensures mitre-pre-attack is available
-        assert 'T1497.003' in techniques  # Ensures mitre-attack is available
-        assert 'T1579' in techniques  # Ensures mitre-mobile-attack is available
+        assert 'T1327' in objects  # Ensures mitre-pre-attack is available
+        assert 'T1497.003' in objects  # Ensures mitre-attack is available
+        assert 'T1579' in objects  # Ensures mitre-mobile-attack is available
 
     def test_disk_round_trip_succeeds(self, dummy_model, tmpdir):
         # Arrange
@@ -193,7 +193,7 @@ class TestSkLearnModel:
         m1 = db_models.Mapping.objects.create(
             report=report,
             sentence=s2,
-            attack_technique=db_models.AttackTechnique.objects.get(attack_id='T1548'),
+            attack_object=db_models.AttackObject.objects.get(attack_id='T1548'),
             confidence=100.0,
         )
         config.ML_ACCEPT_THRESHOLD = 0  # Set the threshold to 0 for this test
