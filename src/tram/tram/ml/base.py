@@ -303,15 +303,15 @@ class ModelManager(object):
             s.save()
 
             for mapping in sentence.mappings:
-                if mapping.attack_technique:
-                    technique = db_models.AttackObject.objects.get(attack_id=mapping.attack_technique)
+                if mapping.attack_id:
+                    obj = db_models.AttackObject.objects.get(attack_id=mapping.attack_id)
                 else:
-                    technique = None
+                    obj = None
 
                 m = db_models.Mapping(
                     report=rpt,
                     sentence=s,
-                    attack_technique=technique,
+                    attack_object=obj,
                     confidence=mapping.confidence,
                 )
                 m.save()
