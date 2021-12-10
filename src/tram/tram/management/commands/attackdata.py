@@ -74,7 +74,8 @@ class Command(BaseCommand):
         for obj in attack_json['objects']:
             obj_type = obj['type']
 
-            if obj.get('revoked', False) or obj.get('x_mitre_deprecated', False):  # Skip revoked/deprecated objects
+            # TODO: Skip deprecated objects
+            if obj.get('revoked', False):  # Skip revoked objects
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
                 continue
 
@@ -91,11 +92,11 @@ class Command(BaseCommand):
             except ValueError:  # Value error means unsupported object type
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
 
-        print(f'Load stats for {filepath}:')
-        for k, v in created_stats.items():
-            print(f'\tCreated {v} {k} objects')
-        for k, v in skipped_stats.items():
-            print(f'\tSkipped {v} {k} objects')
+        # print(f'Load stats for {filepath}:')
+        # for k, v in created_stats.items():
+        #     print(f'\tCreated {v} {k} objects')
+        # for k, v in skipped_stats.items():
+        #     print(f'\tSkipped {v} {k} objects')
 
     def handle(self, *args, **options):
         subcommand = options['subcommand']
@@ -104,8 +105,8 @@ class Command(BaseCommand):
             # Note - as of ATT&CK v8.2
             #   Techniques are unique among files, but
             #   Groups are not unique among files
+            self.load_attack_data(settings.DATA_DIRECTORY / 'attack/pre-attack.json')
             self.load_attack_data(settings.DATA_DIRECTORY / 'attack/enterprise-attack.json')
             self.load_attack_data(settings.DATA_DIRECTORY / 'attack/mobile-attack.json')
-            self.load_attack_data(settings.DATA_DIRECTORY / 'attack/pre-attack.json')
         elif subcommand == CLEAR:
             self.clear_attack_data()

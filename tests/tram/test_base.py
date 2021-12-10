@@ -68,7 +68,7 @@ class TestModelWithoutAttackData:
     def test_get_attack_techniques_raises_if_not_initialized(self, dummy_model):
         # Act / Assert
         with pytest.raises(ValueError):
-            dummy_model.get_attack_technique_ids()
+            dummy_model.get_attack_object_ids()
 
 
 @pytest.mark.django_db
@@ -157,14 +157,14 @@ class TestSkLearnModel:
         filepath = (tmpdir + 'dummy_model.pkl').strpath
 
         # Act
-        dummy_model.get_attack_technique_ids()  # Change the state of the DummyModel
+        dummy_model.get_attack_object_ids()  # Change the state of the DummyModel
         dummy_model.save_to_file(filepath)
 
         dummy_model_2 = base.DummyModel.load_from_file(filepath)
 
         # Assert
         assert dummy_model.__class__ == dummy_model_2.__class__
-        assert dummy_model.get_attack_technique_ids() == dummy_model_2.get_attack_technique_ids()
+        assert dummy_model.get_attack_object_ids() == dummy_model_2.get_attack_object_ids()
 
     def test_no_data_get_training_data_succeeds(self, dummy_model):
         # Act

@@ -39,7 +39,7 @@ def document():
 
 
 @pytest.fixture
-def attack_technique():
+def attack_object():
     at = models.AttackObject(
         name='Use multiple DNS infrastructures',
         stix_id='attack-pattern--616238cb-990b-4c71-8f50-d8b10ed8ce6b',
@@ -137,11 +137,11 @@ def long_sentence(report):
 
 
 @pytest.fixture
-def mapping(report, sentence, attack_technique):
+def mapping(report, sentence, attack_object):
     m = models.Mapping(
         report=report,
         sentence=sentence,
-        attack_technique=attack_technique,
+        attack_object=attack_object,
         confidence=55.67,
     )
     m.save()

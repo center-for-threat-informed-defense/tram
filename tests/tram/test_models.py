@@ -3,12 +3,12 @@ import pytest
 
 @pytest.mark.django_db
 class TestAttackTechnique:
-    def test___str__renders_correctly(self, attack_technique):
+    def test___str__renders_correctly(self, attack_object):
         # Arrange
         expected = '(T1327) Use multiple DNS infrastructures'
 
         # Assert
-        assert str(attack_technique) == expected
+        assert str(attack_object) == expected
 
 
 @pytest.mark.django_db

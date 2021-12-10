@@ -59,7 +59,7 @@ class TestPipeline:
 class TestAttackData:
     def test_load_succeeds(self):
         # Arrange
-        expected_object_count = 1260
+        expected_object_count = 1461
 
         # Act
         call_command('attackdata', attackdata.LOAD)
