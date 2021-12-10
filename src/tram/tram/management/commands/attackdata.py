@@ -46,7 +46,7 @@ class Command(BaseCommand):
         assert attack_url is not None
         assert matrix is not None
 
-        stix_type = obj_type = obj['type']
+        stix_type = obj['type']
         attack_type = STIX_TYPE_TO_ATTACK_TYPE[stix_type]
 
         obj, created = AttackObject.objects.get_or_create(
