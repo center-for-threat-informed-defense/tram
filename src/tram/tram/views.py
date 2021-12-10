@@ -9,12 +9,12 @@ from rest_framework import viewsets
 
 from tram import serializers
 from tram.ml import base
-from tram.models import AttackTechnique, DocumentProcessingJob, Mapping, Report, Sentence
+from tram.models import AttackObject, DocumentProcessingJob, Mapping, Report, Sentence
 
 
-class AttackTechniqueViewSet(viewsets.ModelViewSet):
-    queryset = AttackTechnique.objects.all()
-    serializer_class = serializers.AttackTechniqueSerializer
+class AttackObjectViewSet(viewsets.ModelViewSet):
+    queryset = AttackObject.objects.all()
+    serializer_class = serializers.AttackObjectSerializer
 
 
 class DocumentProcessingJobViewSet(viewsets.ModelViewSet):
@@ -114,7 +114,7 @@ def upload(request):
 
 @login_required
 def ml_home(request):
-    techniques = AttackTechnique.get_sentence_counts()
+    techniques = AttackObject.get_sentence_counts()
     model_metadata = base.ModelManager.get_all_model_metadata()
 
     context = {
@@ -146,8 +146,8 @@ def ml_model_detail(request, model_key):
 @login_required
 def analyze(request, pk):
     report = Report.objects.get(id=pk)
-    techniques = AttackTechnique.objects.all().order_by('attack_id')
-    tecniques_serializer = serializers.AttackTechniqueSerializer(techniques, many=True)
+    techniques = AttackObject.objects.all().order_by('attack_id')
+    tecniques_serializer = serializers.AttackObjectSerializer(techniques, many=True)
 
     context = {
         'report_id': report.id,

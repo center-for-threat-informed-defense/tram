@@ -22,12 +22,14 @@ JOB_STATUS_CHOICES = (
 SENTENCE_PREVIEW_CHARS = 40
 
 
-class AttackTechnique(models.Model):
+class AttackObject(models.Model):
     """Attack Techniques
     """
     name = models.CharField(max_length=200)
     stix_id = models.CharField(max_length=128, unique=True)
+    stix_type = models.CharField(max_length=128)
     attack_id = models.CharField(max_length=128, unique=True)
+    attack_type = models.CharField(max_length=128)
     attack_url = models.CharField(max_length=512)
     matrix = models.CharField(max_length=200)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -48,21 +50,6 @@ class AttackTechnique(models.Model):
             total_sentences=Count('sentences')
         ).order_by('-accepted_sentences', 'attack_id').filter(accepted_sentences__gte=accept_threshold)
         return sentence_counts
-
-    def __str__(self):
-        return '(%s) %s' % (self.attack_id, self.name)
-
-
-class AttackGroup(models.Model):
-    """Attack Groups
-    """
-    name = models.CharField(max_length=200)
-    stix_id = models.CharField(max_length=128, unique=True)
-    attack_id = models.CharField(max_length=128, unique=True)
-    attack_url = models.CharField(max_length=512)
-    matrix = models.CharField(max_length=200)
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return '(%s) %s' % (self.attack_id, self.name)
@@ -152,20 +139,20 @@ class Mapping(models.Model):
     """
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
     sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE)
-    attack_technique = models.ForeignKey(AttackTechnique, on_delete=models.CASCADE, blank=True, null=True)
+    attack_object = models.ForeignKey(AttackObject, on_delete=models.CASCADE, blank=True, null=True)
     confidence = models.FloatField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return 'Sentence "%s" to %s' % (self.sentence, self.attack_technique)
+        return 'Sentence "%s" to %s' % (self.sentence, self.attack_object)
 
     @classmethod
     def get_accepted_mappings(cls):
         # Get Attack techniques that have the required amount of positive examples
-        attack_techniques = AttackTechnique.get_sentence_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
+        attack_objects = AttackObject.get_sentence_counts(accept_threshold=config.ML_ACCEPT_THRESHOLD)
         # Get mappings for the attack techniques above threshold
-        mappings = Mapping.objects.filter(attack_technique__in=attack_techniques)
+        mappings = Mapping.objects.filter(attack_object__in=attack_objects)
         return mappings
 
 

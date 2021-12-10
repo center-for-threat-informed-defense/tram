@@ -4,9 +4,9 @@ from rest_framework import serializers
 from tram import models as db_models
 
 
-class AttackTechniqueSerializer(serializers.ModelSerializer):
+class AttackObjectSerializer(serializers.ModelSerializer):
     class Meta:
-        model = db_models.AttackTechnique
+        model = db_models.AttackObject
         fields = ['id', 'attack_id', 'name']
 
 
@@ -48,10 +48,10 @@ class MappingSerializer(serializers.ModelSerializer):
         fields = ['id', 'attack_id', 'name', 'confidence']
 
     def get_attack_id(self, obj):
-        return obj.attack_technique.attack_id
+        return obj.attack_object.attack_id
 
     def get_name(self, obj):
-        return obj.attack_technique.name
+        return obj.attack_object.name
 
     def to_internal_value(self, data):
         """DRF's to_internal_value function only retains model fields from the input JSON. For Mappings,
@@ -63,14 +63,14 @@ class MappingSerializer(serializers.ModelSerializer):
         internal_value = super().to_internal_value(data)  # Keeps model fields
 
         # Add necessary fields
-        attack_technique = db_models.AttackTechnique.objects.get(attack_id=data['attack_id'])
+        attack_object = db_models.AttackObject.objects.get(attack_id=data['attack_id'])
         sentence = db_models.Sentence.objects.get(id=data['sentence'])
         report = db_models.Report.objects.get(id=data['report'])
 
         internal_value.update({
             'report': report,
             'sentence': sentence,
-            'attack_technique': attack_technique,
+            'attack_object': attack_object,
         })
 
         return internal_value
@@ -79,7 +79,7 @@ class MappingSerializer(serializers.ModelSerializer):
         mapping = db_models.Mapping.objects.create(
             report=validated_data['report'],
             sentence=validated_data['sentence'],
-            attack_technique=validated_data['attack_technique'],
+            attack_object=validated_data['attack_object'],
             confidence=validated_data['confidence']
         )
 

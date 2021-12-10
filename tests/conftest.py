@@ -39,11 +39,13 @@ def document():
 
 
 @pytest.fixture
-def attack_technique():
-    at = models.AttackTechnique(
+def attack_object():
+    at = models.AttackObject(
         name='Use multiple DNS infrastructures',
         stix_id='attack-pattern--616238cb-990b-4c71-8f50-d8b10ed8ce6b',
+        stix_type='attack-pattern',
         attack_id='T1327',
+        attack_type='technique',
         attack_url='https://attack.mitre.org/techniques/T1327',
         matrix='mitre-pre-attack',
     )
@@ -135,11 +137,11 @@ def long_sentence(report):
 
 
 @pytest.fixture
-def mapping(report, sentence, attack_technique):
+def mapping(report, sentence, attack_object):
     m = models.Mapping(
         report=report,
         sentence=sentence,
-        attack_technique=attack_technique,
+        attack_object=attack_object,
         confidence=55.67,
     )
     m.save()

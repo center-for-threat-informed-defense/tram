@@ -4,7 +4,7 @@ import pytest
 
 from tram.management.commands import pipeline, attackdata
 from tram.ml import base
-from tram.models import AttackTechnique, Sentence
+from tram.models import AttackObject, Sentence
 
 
 class TestPipeline:
@@ -59,14 +59,14 @@ class TestPipeline:
 class TestAttackData:
     def test_load_succeeds(self):
         # Arrange
-        expected_techniques = 797
+        expected_object_count = 1461
 
         # Act
         call_command('attackdata', attackdata.LOAD)
-        techniques = AttackTechnique.objects.all().count()
+        object_count = AttackObject.objects.all().count()
 
         # Assert
-        assert techniques == expected_techniques
+        assert object_count == expected_object_count
 
     def test_clear_succeeds(self):
         # Arrange
@@ -75,7 +75,7 @@ class TestAttackData:
         # Act
         call_command('attackdata', attackdata.LOAD)
         call_command('attackdata', attackdata.CLEAR)
-        techniques = AttackTechnique.objects.all().count()
+        techniques = AttackObject.objects.all().count()
 
         # Assert
         assert techniques == expected_techniques

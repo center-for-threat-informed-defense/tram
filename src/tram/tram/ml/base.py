@@ -35,12 +35,12 @@ class Sentence(object):
 
 
 class Mapping(object):
-    def __init__(self, confidence=0.0, attack_technique=None):
+    def __init__(self, confidence=0.0, attack_id=None):
         self.confidence = confidence
-        self.attack_technique = attack_technique
+        self.attack_id = attack_id
 
     def __repr__(self):
-        return 'Confidence=%f; Technique=%s' % (self.confidence, self.attack_technique)
+        return 'Confidence=%f; Attack ID=%s' % (self.confidence, self.attack_id)
 
 
 class Report(object):
@@ -56,7 +56,6 @@ class SKLearnModel(ABC):
     1. Move text extraction and tokenization out of the SKLearnModel
     """
     def __init__(self):
-        self._technique_ids = None
         self.techniques_model = self.get_model()
         self.last_trained = None
         self.average_f1_score = None
@@ -107,12 +106,6 @@ class SKLearnModel(ABC):
         weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
         self.average_f1_score = weighted_f1
 
-    @property
-    def technique_ids(self):
-        if not self._technique_ids:
-            self._technique_ids = self.get_attack_technique_ids()
-        return self._technique_ids
-
     def _get_report_name(self, job):
         name = pathlib.Path(job.document.docfile.path).name
         return 'Report for %s' % name
@@ -155,15 +148,15 @@ class SKLearnModel(ABC):
         for mapping in mappings:
             lemmatized_sentence = self.lemmatize(mapping.sentence.text)
             X.append(lemmatized_sentence)
-            y.append(mapping.attack_technique.attack_id)
+            y.append(mapping.attack_object.attack_id)
 
         return X, y
 
-    def get_attack_technique_ids(self):
-        techniques = [t.attack_id for t in db_models.AttackTechnique.objects.all().order_by('attack_id')]
-        if len(techniques) == 0:
+    def get_attack_object_ids(self):
+        objects = [obj.attack_id for obj in db_models.AttackObject.objects.all().order_by('attack_id')]
+        if len(objects) == 0:
             raise ValueError('Zero techniques found. Maybe run `python manage.py attackdata load` ?')
-        return techniques
+        return objects
 
     def get_mappings(self, sentence):
         """
@@ -310,15 +303,15 @@ class ModelManager(object):
             s.save()
 
             for mapping in sentence.mappings:
-                if mapping.attack_technique:
-                    technique = db_models.AttackTechnique.objects.get(attack_id=mapping.attack_technique)
+                if mapping.attack_id:
+                    obj = db_models.AttackObject.objects.get(attack_id=mapping.attack_id)
                 else:
-                    technique = None
+                    obj = None
 
                 m = db_models.Mapping(
                     report=rpt,
                     sentence=s,
-                    attack_technique=technique,
+                    attack_object=obj,
                     confidence=mapping.confidence,
                 )
                 m.save()
@@ -389,7 +382,7 @@ class ModelManager(object):
         average_f1_score = round((mm.model.average_f1_score or 0.0) * 100, 2)
         stored_scores = mm.model.detailed_f1_score or []
         attack_ids = set([score[0] for score in stored_scores])
-        attack_techniques = db_models.AttackTechnique.objects.filter(attack_id__in=attack_ids)
+        attack_techniques = db_models.AttackObject.objects.filter(attack_id__in=attack_ids)
         detailed_f1_score = []
         for score in stored_scores:
             score_id = score[0]

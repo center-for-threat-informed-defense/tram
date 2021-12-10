@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from tram.models import AttackTechnique, AttackGroup, Document, DocumentProcessingJob, \
+from tram.models import AttackObject, Document, DocumentProcessingJob, \
     Indicator, Mapping, Report, Sentence
 
 
@@ -20,11 +20,7 @@ class SentenceInline(admin.TabularInline):
     readonly_fields = ('text', 'document', 'order')
 
 
-class AttackTechniqueAdmin(admin.ModelAdmin):
-    readonly_fields = ('name', 'stix_id', 'attack_id', 'attack_url', 'matrix')
-
-
-class AttackGroupAdmin(admin.ModelAdmin):
+class AttackObjectAdmin(admin.ModelAdmin):
     readonly_fields = ('name', 'stix_id', 'attack_id', 'attack_url', 'matrix')
 
 
@@ -41,8 +37,7 @@ class SentenceAdmin(admin.ModelAdmin):
     readonly_fields = ('text', 'document', 'order')
 
 
-admin.site.register(AttackTechnique, AttackTechniqueAdmin)
-admin.site.register(AttackGroup, AttackGroupAdmin)
+admin.site.register(AttackObject, AttackObjectAdmin)
 admin.site.register(Document, DocumentAdmin)
 admin.site.register(DocumentProcessingJob)
 admin.site.register(Mapping)
