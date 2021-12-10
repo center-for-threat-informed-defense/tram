@@ -107,12 +107,6 @@ class SKLearnModel(ABC):
         weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
         self.average_f1_score = weighted_f1
 
-    @property
-    def object_ids(self):
-        if not self._object_ids:
-            self._object_ids = self.get_attack_object_ids()
-        return self._object_ids
-
     def _get_report_name(self, job):
         name = pathlib.Path(job.document.docfile.path).name
         return 'Report for %s' % name
