@@ -56,7 +56,6 @@ class SKLearnModel(ABC):
     1. Move text extraction and tokenization out of the SKLearnModel
     """
     def __init__(self):
-        self._object_ids = None
         self.techniques_model = self.get_model()
         self.last_trained = None
         self.average_f1_score = None
