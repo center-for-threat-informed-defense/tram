@@ -96,10 +96,13 @@ class Report(models.Model):
     name = models.CharField(max_length=200)
     document = models.ForeignKey(Document, null=True, on_delete=models.CASCADE)
     text = models.TextField()
-    ml_model = models.CharField(max_length=200)
     created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+
+    @property
+    def sentences(self):
+        return Sentence.objects.filter(report=self)
 
     def __str__(self):
         return self.name
@@ -139,6 +142,7 @@ class Mapping(models.Model):
     """
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
     sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE)
+    ml_model = models.CharField(max_length=200)
     attack_object = models.ForeignKey(AttackObject, on_delete=models.CASCADE, blank=True, null=True)
     confidence = models.FloatField()
     created_on = models.DateTimeField(auto_now_add=True)

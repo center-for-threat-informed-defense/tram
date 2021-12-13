@@ -50,6 +50,77 @@ class Report(object):
         self.sentences = sentences  # Sentence objects
 
 
+class TextUtils(object):
+    @classmethod
+    def extract_text_from_file(cls, f):
+        suffix = pathlib.Path(f.path).suffix
+        if suffix == '.pdf':
+            text = cls._extract_pdf_text(f)
+        elif suffix == '.docx':
+            text = cls._extract_docx_text(f)
+        elif suffix == '.html':
+            text = cls._extract_html_text(f)
+        else:
+            raise ValueError('Unknown file suffix: %s' % suffix)
+
+        return text
+
+    @classmethod
+    def _extract_pdf_text(cls, f):
+        with pdfplumber.open(BytesIO(f.read())) as pdf:
+            text = ''.join(page.extract_text() for page in pdf.pages)
+
+        return text
+
+    @classmethod
+    def _extract_html_text(cls, f):
+        html = f.read()
+        soup = BeautifulSoup(html, features="html.parser")
+        text = soup.get_text()
+        return text
+
+    @classmethod
+    def _extract_docx_text(cls, f):
+        parsed_docx = docx.Document(BytesIO(f.read()))
+        text = ' '.join([paragraph.text for paragraph in parsed_docx.paragraphs])
+        return text
+
+    @classmethod
+    def sentence_tokenize(cls, text):
+        return nltk.sent_tokenize(text)
+
+
+class DbUtils(object):
+    @classmethod
+    def create_report_from_document(cls, document):
+        filename = pathlib.Path(document.docfile.path).name
+        name = f'Report for {filename}'
+        text = TextUtils.extract_text_from_file(document.docfile)
+
+        report, created = db_models.Report.objects.get_or_create(
+            name=name,
+            document=document,
+            text=text
+        )
+
+        sentences = nltk.sent_tokenize(report.text)
+
+        if len(sentences) == 0:
+            raise ValueError(f'Could not extract any sentences from {report.name}')
+
+        order = 0
+        for sentence in sentences:
+            db_models.Sentence.create(
+                text=sentence,
+                order=order,
+                document=report.document,
+                report=report,
+            )
+            order += 1
+
+        return report
+
+
 class SKLearnModel(ABC):
     """
     TODO:
@@ -105,10 +176,6 @@ class SKLearnModel(ABC):
         # Average F1 score across techniques, weighted by the # of training examples per technique
         weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
         self.average_f1_score = weighted_f1
-
-    def _get_report_name(self, job):
-        name = pathlib.Path(job.document.docfile.path).name
-        return 'Report for %s' % name
 
     def lemmatize(self, sentence):
         """
@@ -234,95 +301,6 @@ class ModelManager(object):
             self.model = model_class()
             print('%s loaded from __init__' % model_class.__name__)
 
-    def _save_report_xxx(self, report, document):
-        rpt = db_models.Report(
-            name=report.name,
-            document=document,
-            text=report.text,
-            ml_model=self.model.__class__.__name__
-        )
-        rpt.save()
-
-        for sentence in report.sentences:
-            s = db_models.Sentence(
-                text=sentence.text,
-                order=sentence.order,
-                document=document,
-                report=rpt,
-                disposition=None,
-            )
-            s.save()
-
-            for mapping in sentence.mappings:
-                if mapping.attack_id:
-                    obj = db_models.AttackObject.objects.get(attack_id=mapping.attack_id)
-                else:
-                    obj = None
-
-                m = db_models.Mapping(
-                    report=rpt,
-                    sentence=s,
-                    attack_object=obj,
-                    confidence=mapping.confidence,
-                )
-                m.save()
-
-    def _extract_text(self, document):
-        suffix = pathlib.Path(document.docfile.path).suffix
-        if suffix == '.pdf':
-            text = self._extract_pdf_text(document)
-        elif suffix == '.docx':
-            text = self._extract_docx_text(document)
-        elif suffix == '.html':
-            text = self._extract_html_text(document)
-        else:
-            raise ValueError('Unknown file suffix: %s' % suffix)
-
-        return text
-
-    def _extract_pdf_text(self, document):
-        with pdfplumber.open(BytesIO(document.docfile.read())) as pdf:
-            text = ''.join(page.extract_text() for page in pdf.pages)
-
-        return text
-
-    def _extract_html_text(self, document):
-        html = document.docfile.read()
-        soup = BeautifulSoup(html, features="html.parser")
-        text = soup.get_text()
-        return text
-
-    def _extract_docx_text(self, document):
-        parsed_docx = docx.Document(BytesIO(document.docfile.read()))
-        text = ' '.join([paragraph.text for paragraph in parsed_docx.paragraphs])
-        return text
-
-    def create_report(self, job):
-        name = self._get_report_name(job)
-        text = self._extract_text(job.document)
-
-        return db_models.Report.objects.get_or_create(
-            name=name,
-            document=job.document,
-            text=text
-        )
-
-    def create_sentences(self, report):
-        sentences = nltk.sent_tokenize(report.text)
-        if len(sentences) == 0:
-            raise ValueError(f'Could not extract any sentences from {report.name}')
-
-        order = 0
-        for sentence in sentences:
-            db_models.Sentence.create(
-                text=sentence,
-                order=order,
-                document=report.document,
-                report=report,
-            )
-            order += 1
-        return db_models.Sentence.objects.filter(report=report)
-
     def run_model(self, run_forever=False):
         while True:
             jobs = db_models.DocumentProcessingJob.objects.filter(status='queued').order_by('created_on')
@@ -330,13 +308,8 @@ class ModelManager(object):
                 filename = job.document.docfile.name
                 print(f'Processing Job #{job.id}: {filename}')
                 try:
-                    # 1. Create the report (text extraction) and save it
-                    # 2. Create the sentences and save them
-                    # 2. Create mappings and save them
                     with transaction.atomic():
-                        # TODO: This could be report.from_processing_job or similar
-                        report, created = self.create_report(job)
-                        sentences = self.create_sentences(report)
+                        report = DbUtils.create_report_from_document(job.document)
                         mappings = self.model.create_mappings(report)
                         job.delete()
                     print(f'Created report {report.name}')
