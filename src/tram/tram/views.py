@@ -114,6 +114,10 @@ def upload(request):
 
 @login_required
 def ml_home(request):
+    # Note: This was only observed in testing:
+    #     If one or more ML Models have been trained but ATT&CK data has not been loaded,
+    #     then this function will error out and the user will see an HTTP 500
+    #     Unclear whether this could practically occur in production
     techniques = AttackObject.get_sentence_counts()
     model_metadata = base.ModelManager.get_all_model_metadata()
 

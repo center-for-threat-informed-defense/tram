@@ -110,7 +110,7 @@ class DbUtils(object):
 
         order = 0
         for sentence in sentences:
-            db_models.Sentence.create(
+            db_models.Sentence.objects.create(
                 text=sentence,
                 order=order,
                 document=report.document,
@@ -367,17 +367,17 @@ class ModelManager(object):
         average_f1_score = round((mm.model.average_f1_score or 0.0) * 100, 2)
         stored_scores = mm.model.detailed_f1_score or []
         attack_ids = set([score[0] for score in stored_scores])
-        attack_techniques = db_models.AttackObject.objects.filter(attack_id__in=attack_ids)
+        attack_objects = db_models.AttackObject.objects.filter(attack_id__in=attack_ids)
         detailed_f1_score = []
         for score in stored_scores:
             score_id = score[0]
             score_value = round(score[1] * 100, 2)
 
-            attack_technique = attack_techniques.get(attack_id=score_id)
+            attack_object = attack_objects.get(attack_id=score_id)
             detailed_f1_score.append({
-                'technique': score_id,
-                'technique_name': attack_technique.name,
-                'attack_url': attack_technique.attack_url,
+                'attack_object': score_id,
+                'attack_name': attack_object.name,
+                'attack_url': attack_object.attack_url,
                 'score': score_value
             })
         model_metadata = {

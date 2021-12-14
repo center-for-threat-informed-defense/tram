@@ -63,6 +63,23 @@ class TestReport:
 
 
 @pytest.mark.django_db
+class TestDbUtils:
+    def test_create_report_from_document_succeeds(self, load_attack_data):
+        # Arrange
+        with open('tests/data/AA20-302A.docx', 'rb') as f:
+            doc = db_models.Document(docfile=File(f))
+            doc.save()
+
+        # Act
+        report = base.DbUtils.create_report_from_document(doc)
+
+        # Assert
+        assert 'Report for AA20-302A.docx' == report.name
+        assert 'JOINT CYBERSECURITY  ADVISORY' in report.text
+        assert len(report.sentences) == 272
+
+
+@pytest.mark.django_db
 class TestModelWithoutAttackData:
     """Tests ml.base.Model via DummyModel, without the load_attack_data fixture"""
     def test_get_attack_techniques_raises_if_not_initialized(self, dummy_model):

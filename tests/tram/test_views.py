@@ -255,7 +255,7 @@ class TestReportExport:
 
 
 @pytest.mark.django_db
-@pytest.mark.usefixtures('load_attack_data', )
+@pytest.mark.usefixtures('load_attack_data')
 class TestMl:
     def test_ml_home_returns_http_200_ok(self, logged_in_client):
         # Act
