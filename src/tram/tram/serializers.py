@@ -96,7 +96,7 @@ class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = db_models.Report
         fields = ['id', 'name', 'byline', 'accepted_sentences', 'reviewing_sentences', 'total_sentences',
-                  'text', 'ml_model', 'created_by', 'created_on', 'updated_on', 'status']
+                  'text', 'created_by', 'created_on', 'updated_on', 'status']
         order = ['-created_on']
 
     def get_accepted_sentences(self, obj):
@@ -159,7 +159,6 @@ class ReportExportSerializer(ReportSerializer):
                             name=validated_data['name'],
                             document=None,
                             text=validated_data['text'],
-                            ml_model=validated_data['ml_model'],
                             created_by=None,  # TODO: Get user from session
                         )
 

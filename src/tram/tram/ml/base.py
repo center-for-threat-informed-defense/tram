@@ -291,15 +291,15 @@ class ModelManager(object):
     def __init__(self, model):
         model_class = self.model_registry.get(model)
         if not model_class:
-            raise ValueError('Unrecognized model: %s' % model)
+            raise ValueError(f'Unrecognized model: {model}')
 
         model_filepath = self.get_model_filepath(model_class)
         if path.exists(model_filepath):
             self.model = model_class.load_from_file(model_filepath)
-            print('%s loaded from %s' % (model_class.__name__, model_filepath))
+            print(f'{model_class.__name__} loaded from {model_filepath}')
         else:
             self.model = model_class()
-            print('%s loaded from __init__' % model_class.__name__)
+            print(f'{model_class.__name__} loaded from __init__')
 
     def run_model(self, run_forever=False):
         while True:
@@ -310,7 +310,7 @@ class ModelManager(object):
                 try:
                     with transaction.atomic():
                         report = DbUtils.create_report_from_document(job.document)
-                        mappings = self.model.create_mappings(report)
+                        self.model.create_mappings(report)
                         job.delete()
                     print(f'Created report {report.name}')
                 except Exception as ex:
