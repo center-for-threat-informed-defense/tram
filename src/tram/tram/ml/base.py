@@ -311,7 +311,6 @@ class ModelManager(object):
                     with transaction.atomic():
                         report = DbUtils.create_report_from_document(job.document)
                         for sentence in report.sentences:
-                            # TODO: This
                             mappings = self.model.get_mappings(sentence.text)
                             for mapping in mappings:
                                 attack_object = db_models.AttackObject.objects.get(attack_id=mapping.attack_id)
