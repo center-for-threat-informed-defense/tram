@@ -39,6 +39,15 @@ def simple_test_document():
 
 
 @pytest.fixture
+def aa20_302a_docx_document():
+    with open('tests/data/AA20-302A.docx', 'rb') as f:
+        d = models.Document(docfile=File(f))
+        d.save()
+    yield d
+    d.delete()
+
+
+@pytest.fixture
 def attack_object():
     at = models.AttackObject(
         name='Use multiple DNS infrastructures',
@@ -69,6 +78,14 @@ def report(simple_test_document):
 @pytest.fixture
 def simple_document_processing_job(simple_test_document):
     job = models.DocumentProcessingJob(document=simple_test_document)
+    job.save()
+    yield job
+    job.delete()
+
+
+@pytest.fixture
+def aa20_302a_docx_document_processing_job(aa20_302a_docx_document):
+    job = models.DocumentProcessingJob(document=aa20_302a_docx_document)
     job.save()
     yield job
     job.delete()

@@ -310,11 +310,19 @@ class ModelManager(object):
                 try:
                     with transaction.atomic():
                         report = DbUtils.create_report_from_document(job.document)
-                        sentences = [s for s in report.sentences]
-                        for sentence in sentences:
+                        for sentence in report.sentences:
                             # TODO: This
                             mappings = self.model.get_mappings(sentence.text)
-                            DbUtils.save_mappings(mappings)
+                            for mapping in mappings:
+                                attack_object = db_models.AttackObject.objects.get(attack_id=mapping.attack_id)
+                                m = db_models.Mapping(
+                                    report=report,
+                                    sentence=sentence,
+                                    ml_model=self.model.__class__.__name__,
+                                    attack_object=attack_object,
+                                    confidence=mapping.confidence
+                                )
+                                m.save()
                         job.delete()
                     print(f'Created report {report.name}')
                 except Exception as ex:

@@ -272,8 +272,17 @@ class TestsThatNeedTrainingData:
         for mapping in mappings:
             assert isinstance(mapping, base.Mapping)
 
-    def test_run_model_creates_mappings(self):
-        pass
+    def test_run_model_creates_mappings(self, aa20_302a_docx_document_processing_job):
+        # Arrange
+        model_manager = base.ModelManager('dummy')
+        mapping_count_pre = len(db_models.Mapping.objects.all())
+
+        # Act
+        model_manager.run_model()
+        mapping_count_post = len(db_models.Mapping.objects.all())
+
+        # Assert
+        assert mapping_count_post > mapping_count_pre
 
     def test_run_model_handles_image_based_pdf(self):
         """
