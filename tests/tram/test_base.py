@@ -272,7 +272,10 @@ class TestsThatNeedTrainingData:
         for mapping in mappings:
             assert isinstance(mapping, base.Mapping)
 
-    def test_process_job_handles_image_based_pdf(self):
+    def test_run_model_creates_mappings(self):
+        pass
+
+    def test_run_model_handles_image_based_pdf(self):
         """
         Some PDFs can be saved such that the text is stored as images and therefore
         cannot be extracted from the PDF. Windows PDF Printer behaves this way.

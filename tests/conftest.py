@@ -30,7 +30,7 @@ def load_small_training_data():
 
 
 @pytest.fixture
-def document():
+def simple_test_document():
     with open('tests/data/simple-test.docx', 'rb') as f:
         d = models.Document(docfile=File(f))
         d.save()
@@ -55,10 +55,10 @@ def attack_object():
 
 
 @pytest.fixture
-def report(document):
+def report(simple_test_document):
     rpt = models.Report(
         name='Test report name',
-        document=document,
+        document=simple_test_document,
         text='test-document-text',
     )
     rpt.save()
@@ -67,8 +67,8 @@ def report(document):
 
 
 @pytest.fixture
-def document_processing_job(document):
-    job = models.DocumentProcessingJob(document=document)
+def simple_document_processing_job(simple_test_document):
+    job = models.DocumentProcessingJob(document=simple_test_document)
     job.save()
     yield job
     job.delete()

@@ -93,7 +93,7 @@ class TestIndex:
         assert response.status_code == 200
         assert b'<title>TRAM - Threat Report ATT&CK Mapper</title>' in response.content
 
-    def test_index_loads_with_one_job_queued(self, logged_in_client, document_processing_job):
+    def test_index_loads_with_one_job_queued(self, logged_in_client, simple_document_processing_job):
         # Act
         response = logged_in_client.get('/')
 

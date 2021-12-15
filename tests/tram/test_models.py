@@ -13,22 +13,22 @@ class TestAttackTechnique:
 
 @pytest.mark.django_db
 class TestDocument:
-    def test__str__renders_correctly(self, document):
+    def test__str__renders_correctly(self, simple_test_document):
         # Arrange
         expected = 'tests/data/simple-test.docx'
 
         # Assert
-        assert str(document) == expected
+        assert str(simple_test_document) == expected
 
 
 @pytest.mark.django_db
 class TestDocumentProcessingJob:
-    def test__str__renders_correctly(self, document_processing_job):
+    def test__str__renders_correctly(self, simple_document_processing_job):
         # Arrange
         expected = 'Process tests/data/simple-test.docx'
 
         # Assert
-        assert str(document_processing_job) == expected
+        assert str(simple_document_processing_job) == expected
 
 
 @pytest.mark.django_db
