@@ -14,6 +14,7 @@ ADD = 'add'
 RUN = 'run'
 TRAIN = 'train'
 LOAD_TRAINING_DATA = 'load-training-data'
+EXPORT = 'export'
 
 
 class Command(BaseCommand):
@@ -34,6 +35,9 @@ class Command(BaseCommand):
         sp_load = sp.add_parser(LOAD_TRAINING_DATA, help='Load training data. Must be formatted as a Report Export.')
         sp_load.add_argument('--file', default='data/training/bootstrap-training-data.json',
                              help='Training data file to load. Defaults: data/training/bootstrap-training-data.json')
+        sp_export = sp.add_parser(EXPORT,help='export model data to json file or screen')
+        sp_export.add_argument('--file', action="store_true",
+                             help='If flag is specific will output data to data/model-output.json')
 
     def handle(self, *args, **options):
         subcommand = options['subcommand']
@@ -69,3 +73,24 @@ class Command(BaseCommand):
             elapsed = end - start
             self.stdout.write(f'Trained ML model in {elapsed} seconds')
             return return_value
+        elif subcommand == EXPORT:
+            adv_reports = db_models.Report.objects.filter(ml_model='adversary')
+            full_reports = db_models.Report.objects.filter(ml_model='fullreport')
+            for report_obj in adv_reports:  # Only store sentences with a labeled technique
+                adv_mappings = db_models.AdversaryMapping.objects.filter(report=report_obj)
+            
+            for report_obj in full_reports:
+                full_mappings = db_models.Mapping.objects.filter(report=report_obj)
+
+            adv_json = serializers.serialize("json",adv_mappings)
+            full_json = serializers.serialize("json",full_mappings)
+            output_json = {
+                "Adversary": adv_json,
+                "Full Report": full_json
+            }
+            if options['file']:
+                with open('data/model-output.json','w') as f:
+                    f.write(output_json)
+            else:
+                print(output_json)
+
