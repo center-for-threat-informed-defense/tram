@@ -1,11 +1,11 @@
 beautifulsoup4==4.9.3
-django==3.2.6
 django-constance==2.8.0
 django-picklefield==3.0.1
-django-rest-framework
+django-rest-framework==0.1.0
+django==3.2.6
 faker==6.5.0
-pdfplumber==0.5.27
-python-docx==0.8.10
 nltk==3.6.5
 pandas==1.2.3
+pdfplumber==0.5.27
+python-docx==0.8.10
 scikit-learn==0.24.1

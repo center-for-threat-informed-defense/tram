@@ -16,6 +16,7 @@ Through research into automating the mapping of cyber threat intel reports to AT
     - [[97438] Failed to execute script docker-compose](#97438-failed-to-execute-script-docker-compose)
   - [Requirements](#requirements)
   - [Developer Setup](#developer-setup)
+    - [Makefile Version](#makefile-version)
   - [Machine Learning Development](#machine-learning-development)
     - [Existing ML Models](#existing-ml-models)
     - [Creating Your Own Model](#creating-your-own-model)
@@ -113,6 +114,26 @@ cd tram/
 source venv/bin/activate
 python src/tram/manage.py pipeline run
 ```
+
+### Makefile Version
+
+* Build Python virtualenv
+  * `make venv`
+* Install all development dependencies
+  * `make install-dev`
+* Activate newly created virtualenv
+  * `source .venv/bin/activate`
+* Setup pre-commit (required one-time process per local `git clone` repository)
+  * `pre-commit install`
+* Manually run pre-commit hooks without performing a commit
+  * `make pre-commit-run`
+* Build container image (By default, container is tagged with timestamp and git hash of codebase)
+  * `make build-container`
+* Run linting locally
+  * `make lint`
+* Run unit tests, safety, and bandit locally
+  * `make test`
+
 ## Machine Learning Development
 All source code related to machine learning is located in TRAM
 [src/tram/tram/ml](https://github.com/center-for-threat-informed-defense/tram/tree/master/src/tram/tram/ml).

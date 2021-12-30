@@ -76,5 +76,5 @@ venv-deactivate: ## Deactivate venv
 lint: pre-commit-run ## Lint code
 
 .PHONY: test
-test: venv ## Run tests
+test: venv install-dev ## Run tests
 	./$(BIN)/python -m tox
