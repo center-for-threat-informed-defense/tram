@@ -17,6 +17,8 @@ Through research into automating the mapping of cyber threat intel reports to AT
   - [Requirements](#requirements)
   - [Developer Setup](#developer-setup)
     - [Makefile Version](#makefile-version)
+      - [Useful User Commands](#useful-user-commands)
+      - [Useful Dev Commands](#useful-dev-commands)
   - [Machine Learning Development](#machine-learning-development)
     - [Existing ML Models](#existing-ml-models)
     - [Creating Your Own Model](#creating-your-own-model)
@@ -116,6 +118,18 @@ python src/tram/manage.py pipeline run
 ```
 
 ### Makefile Version
+
+#### Useful User Commands
+
+* Run TRAM application
+  * `make start-container`
+* Stop TRAM application
+  * `make stop-container`
+* View TRAM logs
+  * `make container-logs`
+
+
+#### Useful Dev Commands
 
 * Build Python virtualenv
   * `make venv`

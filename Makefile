@@ -51,6 +51,21 @@ pre-commit-run-all: venv .git/hooks/pre-commit ## Run pre-commit manually on all
 build-container: venv ## Build container image
 	docker build -t $(APP_NAME):dev -t $(APP_NAME):$(TIMESTAMP)_$(GIT_HASH) -f Dockerfile . --label "org.opencontainers.image.revision=$(GIT_HASH)"
 
+.PHONY: start-container
+start-container: ## Start container via docker-compose, runs ctidorg/tram:latest image by default
+	docker-compose -f docker/docker-compose.yml up -d
+	@echo "Waiting for container to start..."
+	@echo "To stop the container, run: make stop-container, or, docker-compose -f docker/docker-compose.yml down"
+	@echo "To view container logs, run make container-logs, or, docker-compose -f docker/docker-compose.yml logs -f"
+
+.PHONY: stop-container
+stop-container: ## Stop container via docker-compose
+	docker-compose -f docker/docker-compose.yml down
+
+.PHONY: container-logs
+container-logs: ## Print container logs
+	docker-compose -f docker/docker-compose.yml logs -f
+
 .PHONY: clean
 clean: ## Clean up pycache files
 	find . -name '*.pyc' -delete
