@@ -4,18 +4,24 @@
 
 Threat Report ATT&CK Mapping (TRAM) is an open-source platform designed to advance research into automating the mapping of cyber threat intelligence reports to MITRE ATT&CK®.
 
-TRAM enables researchers to test and refine Machine Learning (ML) models for identifying ATT&CK techniques in prose-based cyber threat intel reports and allows threat intel analysts to train ML models and validate ML results. 
+TRAM enables researchers to test and refine Machine Learning (ML) models for identifying ATT&CK techniques in prose-based cyber threat intel reports and allows threat intel analysts to train ML models and validate ML results.
 
 Through research into automating the mapping of cyber threat intel reports to ATT&CK, TRAM aims to reduce the cost and increase the effectiveness of integrating ATT&CK into cyber threat intelligence across the community. Threat intel providers, threat intel platforms, and analysts should be able to use TRAM to integrate ATT&CK more easily and consistently into their products.
 
 ## Table of contents
-* [Installation](#installation)
-* [Installation Troubleshooting](#installation-troubleshooting)
-* [Requirements](#requirements)
-* [Developer Setup](#developer-setup)
-* [Machine Learning Development](#machine-learning-development)
-* [Contribute](#how-do-i-contribute)
-* [Notice](#notice)
+- [TRAM](#tram)
+  - [Table of contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Installation Troubleshooting](#installation-troubleshooting)
+    - [[97438] Failed to execute script docker-compose](#97438-failed-to-execute-script-docker-compose)
+  - [Requirements](#requirements)
+  - [Developer Setup](#developer-setup)
+  - [Machine Learning Development](#machine-learning-development)
+    - [Existing ML Models](#existing-ml-models)
+    - [Creating Your Own Model](#creating-your-own-model)
+  - [How do I contribute?](#how-do-i-contribute)
+    - [Contribute Training Data](#contribute-training-data)
+  - [Notice](#notice)
 
 ## Installation
 1. Get Docker: https://docs.docker.com/get-docker/
@@ -23,7 +29,7 @@ Through research into automating the mapping of cyber threat intel reports to AT
 3. Ensure Docker is running. On some operating systems (e.g., MacOS), you will need to provide Docker with permissions before proceeding.
 4. Download docker-compose.yml (view raw, save as)
 ```
-https://github.com/center-for-threat-informed-defense/tram/blob/master/docker/docker-compose.yml
+https://github.com/center-for-threat-informed-defense/tram/releases/download/v1.0.0/docker-compose.yml
 ```
 3. If desired, edit the settings in `docker-compose.yml`
 4. Navigate to the directory where you saved `docker-compose.yml`
@@ -97,7 +103,7 @@ python src/tram/manage.py createsuperuser
 ```
 Run the webserver
 ```
-python src/tram/manage.py runserver 
+python src/tram/manage.py runserver
 ```
 Then you can navigate to http://localhost:8000 and use the superuser to log in
 

@@ -10,8 +10,6 @@ name: Lint Code Base
 # Start the job on all push #
 #############################
 on:
-  push:
-    # branches-ignore: [main]
   pull_request:
     branches: [develop, master]
 
@@ -38,7 +36,7 @@ jobs:
         env:
           LINTER_RULES_PATH: /
           VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: develop
+          DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PYTHON_BLACK_CONFIG_FILE: "pyproject.toml"
           PYTHON_ISORT_CONFIG_FILE: "pyproject.toml"
