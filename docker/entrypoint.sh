@@ -50,10 +50,6 @@ else:
     printf "%s" "${PY_CREATE_SU_SCRIPT}" | python3 /tram/src/tram/manage.py shell
 fi
 
-# Download NLTK data
-python3 -m nltk.downloader punkt
-python3 -m nltk.downloader wordnet
-
 # Run ML processes
 python3 /tram/src/tram/manage.py attackdata load
 python3 /tram/src/tram/manage.py pipeline load-training-data

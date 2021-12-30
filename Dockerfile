@@ -48,8 +48,11 @@ COPY ./ .
 # install app dependencies
 RUN  --mount=type=cache,target=/root/.cache \
     python3 -m pip install -r ./requirements/requirements.txt && \
-    cp -f ./docker/entrypoint.sh entrypoint.sh
+    cp -f ./docker/entrypoint.sh entrypoint.sh && \
+    # Download NLTK data
+    python3 -m nltk.downloader punkt && \
+    python3 -m nltk.downloader wordnet
 
 EXPOSE 8000
 
-ENTRYPOINT [ "entrypoint.sh" ]
+ENTRYPOINT [ "/tram/entrypoint.sh" ]
