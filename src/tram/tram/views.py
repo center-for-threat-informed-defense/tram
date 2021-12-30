@@ -64,7 +64,7 @@ class SentenceViewSet(viewsets.ModelViewSet):
         attack_id = self.request.query_params.get("attack-id", None)
         if attack_id:
             sentences = Mapping.objects.filter(
-                attack_technique__attack_id=attack_id
+                attack_object__attack_id=attack_id
             ).values("sentence")
             queryset = queryset.filter(id__in=sentences)
 
