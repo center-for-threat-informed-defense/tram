@@ -32,7 +32,7 @@ python3 /tram/src/tram/manage.py makemigrations tram
 python3 /tram/src/tram/manage.py migrate
 
 # Used provided superuser credentials to create a superuser
-if [[ "${SKIP_CREATE_SUPERUSER}" -ne 0 ]]; then
+if [[ "${SKIP_CREATE_SUPERUSER}" -eq 0 ]]; then
 
     PY_CREATE_SU_SCRIPT="
 from django.contrib.auth.models import User;
