@@ -2,6 +2,7 @@
 .idea
 __pycache__
 *env
+.venv
 *.pkl
 /data/object_store
 /data/models/*

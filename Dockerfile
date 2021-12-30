@@ -1,6 +1,8 @@
+# syntax=docker/dockerfile:1
+
 #
-# TRAM -Docker Build File 
-#  - This file assumes you have cloned the TRAM repo: 
+# TRAM -Docker Build File
+#  - This file assumes you have cloned the TRAM repo:
 #        `git@github.com:center-for-threat-informed-defense/tram.git`
 #  - The working directory for this build is /path/to/tram/
 #
@@ -8,19 +10,46 @@
 
 FROM ubuntu:20.04
 
-WORKDIR /tram
+# OCI labels
+LABEL "org.opencontainers.image.title"="TRAM"
+LABEL "org.opencontainers.image.url"="https://ctid.mitre-engenuity.org/our-work/tram/"
+LABEL "org.opencontainers.image.source"="https://github.com/center-for-threat-informed-defense/tram"
+LABEL "org.opencontainers.image.description"="Threat Report ATT&CK Mapper"
+LABEL "org.opencontainers.image.license"="Apache-2.0"
+
+# Install and update apt dependencies
 ENV DEBIAN_FRONTEND=noninteractive
+RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt \
+    apt-get update && \
+    apt-get -y upgrade && \
+    apt-get -y install --no-install-recommends \
+        ca-certificates \
+        curl \
+        python3 \
+        python3-pip \
+        python3-setuptools \
+        python3-venv \
+        python3-wheel
 
-RUN apt-get update && apt-get install -y python3 python3-pip wget
+RUN mkdir /tram && \
+    python -m venv /tram/.venv && \
+    /tram/.venv/bin/python -m pip install -U pip wheel setuptools
 
-COPY ./ .
-RUN pip3 install -r ./requirements/requirements.txt
+ENV LC_ALL=C.UTF-8 LANG=C.UTF-8 \
+    PATH=/tram/.venv/bin:${PATH}
+
+WORKDIR /tram
 
 #COPY ./src src
 #COPY ./data data
-COPY ./docker/entrypoint.sh entrypoint.sh
+COPY ./ .
+
+# install app dependencies
+RUN  --mount=type=cache,target=/root/.cache \
+    python -m pip install -r ./requirements/requirements.txt && \
+    cp -f ./docker/entrypoint.sh entrypoint.sh
 
 EXPOSE 8000
 
-ENTRYPOINT [ "bash", "entrypoint.sh" ]
-
+ENTRYPOINT [ "entrypoint.sh" ]
