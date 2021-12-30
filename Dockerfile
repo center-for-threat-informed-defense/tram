@@ -33,8 +33,8 @@ RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/
         python3-wheel
 
 RUN mkdir /tram && \
-    python -m venv /tram/.venv && \
-    /tram/.venv/bin/python -m pip install -U pip wheel setuptools
+    python3 -m venv /tram/.venv && \
+    /tram/.venv/bin/python3 -m pip install -U pip wheel setuptools
 
 ENV LC_ALL=C.UTF-8 LANG=C.UTF-8 \
     PATH=/tram/.venv/bin:${PATH}
@@ -47,7 +47,7 @@ COPY ./ .
 
 # install app dependencies
 RUN  --mount=type=cache,target=/root/.cache \
-    python -m pip install -r ./requirements/requirements.txt && \
+    python3 -m pip install -r ./requirements/requirements.txt && \
     cp -f ./docker/entrypoint.sh entrypoint.sh
 
 EXPOSE 8000

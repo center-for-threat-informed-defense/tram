@@ -3,9 +3,9 @@
 #
 
 APP_NAME := tram
-VENV := venv
+VENV := .venv
 BIN := $(VENV)/bin
-PY_VERSION := python3.9
+PY_VERSION := python3
 TIMESTAMP := $(shell date -u +"%Y%m%d_%H%M%S")
 GIT_HASH := $(shell git rev-parse --short HEAD)
 
@@ -24,7 +24,7 @@ $(BIN)/activate:
 	$(PY_VERSION) -m venv --prompt $(APP_NAME) $(VENV)
 
 .PHONY: install
-install: venv  upgrade-pip ## Install Python dependencies
+install: venv upgrade-pip ## Install Python dependencies
 	./$(BIN)/python -m pip install -r requirements/requirements.txt
 
 .PHONY: install-dev
