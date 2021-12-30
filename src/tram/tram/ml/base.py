@@ -118,6 +118,8 @@ class SKLearnModel(ABC):
             text = self._extract_docx_text(document)
         elif suffix == '.html':
             text = self._extract_html_text(document)
+        elif suffix == '.txt':
+            text = self._extract_plain_text(document)
         else:
             raise ValueError('Unknown file suffix: %s' % suffix)
 
@@ -198,6 +200,10 @@ class SKLearnModel(ABC):
     def _extract_docx_text(self, document):
         parsed_docx = docx.Document(BytesIO(document.docfile.read()))
         text = ' '.join([paragraph.text for paragraph in parsed_docx.paragraphs])
+        return text
+    
+    def _extract_plain_text(self, document):
+        text = document.docfile.read().decode('UTF-8')
         return text
 
     def process_job(self, job):
