@@ -36,8 +36,12 @@ RUN mkdir /tram && \
     python3 -m venv /tram/.venv && \
     /tram/.venv/bin/python3 -m pip install -U pip wheel setuptools
 
+# add venv to path
 ENV LC_ALL=C.UTF-8 LANG=C.UTF-8 \
     PATH=/tram/.venv/bin:${PATH}
+
+# flush all output immediately
+ENV PYTHONUNBUFFERED 1
 
 WORKDIR /tram
 
