@@ -1,4 +1,5 @@
 import json
+import time
 
 from constance import config
 from django.contrib.auth.decorators import login_required
@@ -54,7 +55,7 @@ class ReportExportViewSet(viewsets.ModelViewSet):
 class SentenceViewSet(viewsets.ModelViewSet):
     queryset = Sentence.objects.all()
     serializer_class = serializers.SentenceSerializer
-
+  
     def get_queryset(self):
         queryset = SentenceViewSet.queryset
         report_id = self.request.query_params.get('report-id', None)
@@ -156,3 +157,22 @@ def analyze(request, pk):
         'attack_techniques': tecniques_serializer.data,
         }
     return render(request, 'analyze.html', context)
+    
+@login_required
+def ml_model_retrain(request, model_key):
+    if request.method != 'POST':
+        return HttpResponse('Request method must be POST', status=405)
+
+    try:
+        model = base.ModelManager(model_key)
+    except ValueError:
+        raise Http404('Model does not exist')
+
+    print(f'Training ML Model: {model}')
+    start = time.time()
+    return_value = model.train_model()
+    end = time.time()
+    elapsed = end - start
+    print(f'Trained ML model in {elapsed} seconds')
+
+    return HttpResponse('Model successfully trained', status=200)

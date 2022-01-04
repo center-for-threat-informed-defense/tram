@@ -45,4 +45,5 @@ urlpatterns = [
     path('ml/', views.ml_home),
     path('ml/techniques/<str:attack_id>', views.ml_technique_sentences),
     path('ml/models/<str:model_key>', views.ml_model_detail),
+    path('ml/retrain/<str:model_key>', views.ml_model_retrain)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

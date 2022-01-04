@@ -4,6 +4,11 @@
 
 {% block title %}TRAM - Threat Report ATT&CK Mapper{% endblock %}
 
+{% block head %}
+<script src="{% static 'js/ml_home.js' %}"></script>
+</script>
+{% endblock %}
+
 {% block body %}
 <h1>ML Admin</h1>
 <div class="container row flex-nowrap">
@@ -42,6 +47,7 @@
             <th scope="col">Last Trained</th>
             <th scope="col">Accuracy (f1&nbspScore)</th>
             <th scope="col">Trained Techniques</th>
+            <th scope="col">Retrain Model</th>
           </tr>
           {% for model in models %}
             <tr>
@@ -49,6 +55,7 @@
               <td>{{ model.last_trained }}</td>
               <td>{{ model.average_f1_score }}%</td>
               <td>{{model.trained_techniques_count}}</td>
+              <td><a href="#" onclick="retrainModel('{{model.model_key}}'); return false;">Retrain </a></td>
             </tr>
           {% endfor %}
         </tbody>
