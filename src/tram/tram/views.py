@@ -104,48 +104,81 @@ class ReportExportViewSet(viewsets.ModelViewSet):
         total = str(data["total_sentences"])
         text = data["text"]
         sentences = data["sentences"]
+        accepted_sentences = [s for s in sentences if s["mappings"]]
 
+        # Display header with basic stats
         document.add_heading("TRAM " + name)
-        document.add_paragraph("Accepted Sentences: " + accepted)
-        document.add_paragraph("Reviewing Sentences: " + reviewing)
-        document.add_paragraph("Total Sentences: " + total)
+        paragraph = document.add_paragraph("")
+        paragraph.add_run("Accepted Sentences: ").bold = True
+        paragraph.add_run(accepted + "\n")
+        paragraph.add_run("Reviewing Sentences: ").bold = True
+        paragraph.add_run(reviewing + "\n")
+        paragraph.add_run("Total Sentences: ").bold = True
+        paragraph.add_run(total)
 
+        # Display all attack techniques found in the text
+        document.add_heading("Techniques Found")
+        techniques = set()
+
+        # Find all attack techniques in the report
+        for sentence in accepted_sentences:
+            for mapping in sentence["mappings"]:
+                curMapping = (mapping["attack_id"], mapping["name"])
+                if not curMapping in techniques:
+                    techniques.add(curMapping)
+
+        # Sort attack techniques by integer part
+        techniques = sorted(techniques, key=lambda x: float(x[0][1:]))
+        num_techniques = len(techniques)
+
+        # Display all attack techniques
+        paragraph = document.add_paragraph("")
+        paragraph.add_run("Total Techniques: ").bold = True
+        paragraph.add_run(str(num_techniques) + "\n")
+        for technique in techniques:
+            paragraph.add_run("Attack Id: ").bold = True
+            paragraph.add_run(technique[0])
+            paragraph.add_run(", Name: ").bold = True
+            paragraph.add_run(technique[1] + "\n")
+
+        # Display matched sentences in a table
+        document.add_page_break()
         document.add_heading("Matched Sentences", level=1)
-        table = document.add_table(rows=1, cols=3)
+        table = document.add_table(rows=1, cols=2)
         table.style = "TableGrid"
         table.autofit = False
         table.allow_autofit = False
 
         # This resizing format is strange, works for now
-        table.columns[0].width = Inches(1)
-        table.columns[1].width = Inches(4.0)
-        table.columns[2].width = Inches(2.0)
+        table.columns[0].width = Inches(4.0)
+        table.columns[1].width = Inches(3.0)
 
         hdr_cells = table.rows[0].cells
-        hdr_cells[0].text = "Id"
-        hdr_cells[1].text = "Text"
-        hdr_cells[2].text = "Mappings"
-
-        accepted_sentences = [s for s in sentences if s["mappings"]]
+        hdr_cells[0].text = "Text"
+        hdr_cells[0].paragraphs[0].runs[0].font.bold = True
+        hdr_cells[1].text = "Mappings"
+        hdr_cells[1].paragraphs[0].runs[0].font.bold = True
 
         for sentence in accepted_sentences:
             row_cells = table.add_row().cells
-            row_cells[0].text = str(sentence["id"])
-            row_cells[1].text = re.sub(r"[\n\r]*", "", sentence["text"])
-            mappings = ""
+            row_cells[0].text = re.sub(r"[\n\r]*", "", sentence["text"])
+            row_cells[1].text = ""
+            map_paragraph = row_cells[1].paragraphs[0]
+
             for mapping in sentence["mappings"]:
-                mappings += (
-                    "Attack Id: "
-                    + mapping["attack_id"]
-                    + ", Name: "
-                    + mapping["name"]
-                    + ", Confidence: "
-                    + mapping["confidence"]
-                    + "\n"
-                )
+                if sentence["disposition"] == "accept":
+                    confidence = "Manually Accepted"
+                else:
+                    confidence = mapping["confidence"] + "%"
 
-            row_cells[2].text = mappings
+                map_paragraph.add_run("Attack Id: ").bold = True
+                map_paragraph.add_run(mapping["attack_id"] + ", ")
+                map_paragraph.add_run("Name: ").bold = True
+                map_paragraph.add_run(mapping["name"] + ", ")
+                map_paragraph.add_run("Confidence: ").bold = True
+                map_paragraph.add_run(confidence + "\n")
 
+        # Display full text, remove extra white space to increase readability
         document.add_page_break()
         document.add_heading("Full Document", level=1)
         document.add_paragraph(re.sub(r"[\r]*", "", text))
