@@ -1,8 +1,16 @@
+import io
 import json
+import re
+import time
 
 from constance import config
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse, HttpResponseBadRequest
+from django.http import (
+    Http404,
+    HttpResponse,
+    HttpResponseBadRequest,
+    StreamingHttpResponse,
+)
 from django.shortcuts import render
 from django.utils.text import slugify
 from rest_framework import viewsets
@@ -10,6 +18,9 @@ from rest_framework import viewsets
 from tram import serializers
 from tram.ml import base
 from tram.models import AttackObject, DocumentProcessingJob, Mapping, Report, Sentence
+
+from docx import Document
+from docx.shared import Inches
 
 
 class AttackObjectViewSet(viewsets.ModelViewSet):
@@ -45,10 +56,99 @@ class ReportExportViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReportExportSerializer
 
     def retrieve(self, request, *args, **kwargs):
+
+        format = request.GET.get("type", "")
+
+        # If an invalid format is given, just default to json
+        if format not in ["json", "docx"]:
+            format = "json"
+            print("Invalid File Type. Defaulting to JSON.")
+
+        # Retrieve report data as json
         response = super().retrieve(request, *args, **kwargs)
-        filename = slugify(self.get_object().name) + ".json"
-        response["Content-Disposition"] = 'attachment; filename="%s"' % filename
-        return response
+
+        if format == "json":
+            filename = slugify(self.get_object().name) + ".json"
+            response["Content-Disposition"] = 'attachment; filename="%s"' % filename
+            return response
+
+        elif format == "docx":
+            # Uses json dictionary to create formatted document
+            document = self.build_document(response.data)
+
+            # save document info
+            buffer = io.BytesIO()
+            document.save(buffer)  # save your memory stream
+            buffer.seek(0)  # rewind the stream
+
+            # put them to streaming content response
+            # within docx content_type
+            response = StreamingHttpResponse(
+                streaming_content=buffer,  # use the stream's content
+                content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            )
+
+            filename = slugify(self.get_object().name) + ".docx"
+            response["Content-Disposition"] = 'attachment; filename="%s"' % filename
+            response["Content-Encoding"] = "UTF-8"
+            return response
+
+    # Uses json dictionary of the report to build a formatted document
+    def build_document(self, data):
+        document = Document()
+        name = data["name"]
+        accepted = str(data["accepted_sentences"])
+        reviewing = str(data["reviewing_sentences"])
+        total = str(data["total_sentences"])
+        text = data["text"]
+        sentences = data["sentences"]
+
+        document.add_heading("TRAM " + name)
+        document.add_paragraph("Accepted Sentences: " + accepted)
+        document.add_paragraph("Reviewing Sentences: " + reviewing)
+        document.add_paragraph("Total Sentences: " + total)
+
+        document.add_heading("Matched Sentences", level=1)
+        table = document.add_table(rows=1, cols=3)
+        table.style = "TableGrid"
+        table.autofit = False
+        table.allow_autofit = False
+
+        # This resizing format is strange, works for now
+        table.columns[0].width = Inches(1)
+        table.columns[1].width = Inches(4.0)
+        table.columns[2].width = Inches(2.0)
+
+        hdr_cells = table.rows[0].cells
+        hdr_cells[0].text = "Id"
+        hdr_cells[1].text = "Text"
+        hdr_cells[2].text = "Mappings"
+
+        accepted_sentences = [s for s in sentences if s["mappings"]]
+
+        for sentence in accepted_sentences:
+            row_cells = table.add_row().cells
+            row_cells[0].text = str(sentence["id"])
+            row_cells[1].text = re.sub(r"[\n\r]*", "", sentence["text"])
+            mappings = ""
+            for mapping in sentence["mappings"]:
+                mappings += (
+                    "Attack Id: "
+                    + mapping["attack_id"]
+                    + ", Name: "
+                    + mapping["name"]
+                    + ", Confidence: "
+                    + mapping["confidence"]
+                    + "\n"
+                )
+
+            row_cells[2].text = mappings
+
+        document.add_page_break()
+        document.add_heading("Full Document", level=1)
+        document.add_paragraph(re.sub(r"[\r]*", "", text))
+
+        return document
 
 
 class SentenceViewSet(viewsets.ModelViewSet):
