@@ -25,7 +25,7 @@ from sklearn.pipeline import Pipeline
 
 # The word model is overloaded in this scope, so a prefix is necessary
 from tram import models as db_models
-
+from tram.scrubber import scrub
 
 class Sentence(object):
     def __init__(self, text, order, mappings):
@@ -208,8 +208,10 @@ class SKLearnModel(ABC):
 
     def process_job(self, job):
         name = self._get_report_name(job)
-        text = self._extract_text(job.document)
-        sentences = self._sentence_tokenize(text)
+        text = self._extract_text(job.document) #extract text
+        scrubbedText, _ = scrub(text) #pre-processing, remove ips/urls, etc
+        sentences = self._sentence_tokenize(scrubbedText)
+        sentences = [s for s in sentences if s != '??'] # remove invalid sentences
 
         report_sentences = []
         order = 0
@@ -219,7 +221,7 @@ class SKLearnModel(ABC):
             order += 1
             report_sentences.append(s)
 
-        report = Report(name, text, report_sentences)
+        report = Report(name, text, report_sentences) # Use original uprocessed text for storage
         return report
 
     def save_to_file(self, filepath):

@@ -16,6 +16,7 @@ from tram.models import AttackObject, DocumentProcessingJob, Mapping, Report, Se
 
 from docx import Document
 from docx.shared import Inches
+from tram.scrubber import scrub
 
 class AttackObjectViewSet(viewsets.ModelViewSet):
     queryset = AttackObject.objects.all()
@@ -63,6 +64,8 @@ class ReportExportViewSet(viewsets.ModelViewSet):
 
         if format == 'json':
             filename = slugify(self.get_object().name) + '.json'
+            _, extractedData = scrub(response.data['text'])
+            response.data['objects'] = extractedData
             response['Content-Disposition'] = 'attachment; filename="%s"' % filename
             return response
 
@@ -88,7 +91,7 @@ class ReportExportViewSet(viewsets.ModelViewSet):
             return response
 
     # Uses json dictionary of the report to build a formatted document
-    def build_document(self, data):
+    def build_document(self, data, extractedData):
         document = Document()
         name = data['name']
         accepted = str(data['accepted_sentences'])
@@ -132,6 +135,35 @@ class ReportExportViewSet(viewsets.ModelViewSet):
             paragraph.add_run(technique[0])
             paragraph.add_run(", Name: ").bold = True
             paragraph.add_run(technique[1] + "\n")
+
+        # Display all extracted information from the text
+        document.add_heading("Extracted Data")
+        paragraph = document.add_paragraph("")
+        
+        # Ipv4
+        paragraph.add_run("Ipv4:\n").bold = True
+        for ipv4 in extractedData['ipv4']:
+            paragraph.add_run(ipv4 + "\n")
+
+        paragraph.add_run("MAC:\n").bold = True
+        for mac in extractedData['mac']:
+            paragraph.add_run(mac + "\n")
+
+        paragraph.add_run("Ipv6:\n").bold = True
+        for ipv6 in extractedData['ipv6']:
+            paragraph.add_run(ipv6 + "\n")
+
+        paragraph.add_run("URLs:\n").bold = True
+        for url in extractedData['urls']:
+            paragraph.add_run(url + "\n")
+        
+        paragraph.add_run("Emails:\n").bold = True
+        for email in extractedData['emails']:
+            paragraph.add_run(email + "\n")
+
+        paragraph.add_run("Files:\n").bold = True
+        for file in extractedData['files']:
+            paragraph.add_run(file + "\n")
 
         # Display matched sentences in a table
         document.add_page_break()
