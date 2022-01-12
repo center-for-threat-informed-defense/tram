@@ -3,21 +3,12 @@
 name: Publish Docker image on publish of release
 
 on:
-  push:
-    branches:
-      - master
-      - refactor/docker_tweaks
-  pull_request:
-    branches:
-      - master
-      - refactor/docker_tweaks
-  workflow_dispatch:
   release:
     types: [published]
 
 jobs:
   push_to_registries:
-    name: Push Docker image to multiple registries
+    name: Push Docker image to multiple registries if necessary
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -39,11 +30,13 @@ jobs:
         with:
           images: |
             ghcr.io/${{ github.repository }}
+          labels: |
+            org.opencontainers.image.url=https://ctid.mitre-engenuity.org/our-work/tram/
 
-#      - name: Build and push Docker images
-#        uses: docker/build-push-action@@v2
-#        with:
-#          context: .
-#          push: true
-#          tags: ${{ steps.meta.outputs.tags }}
-#          labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and push Docker images
+        uses: docker/build-push-action@@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
