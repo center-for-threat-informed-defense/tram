@@ -27,8 +27,6 @@ db.sqlite3
 __pypackages__/
 
 # Environments
-.env
-ENV/
 env.bak/
 venv.bak/
 
