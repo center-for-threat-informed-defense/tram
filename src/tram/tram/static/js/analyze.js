@@ -1,8 +1,38 @@
 
 var stored_sentences = {}; // stores `GET /api/sentences/` as a dict where {"sentence_id": {sentence}}
+var first_sentence_id = -1;
+var last_sentence_id = -1;
+var active_sentence_id_glob = -1;
 
 $( document ).ready(function() {
+    active_sentence_id_glob = 0
     loadSentences();
+});
+
+var lastClick = null;
+$(document).keydown(function(e){
+
+    var now = Date.now();
+    // Only trigger event if a sentence has been selected, add .4 sentence cooldown
+    if ((!lastClick || now - lastClick > 400) && active_sentence_id_glob != -1) {
+        lastClick = now;
+
+        // On up arrow, go to prev sentence
+        if (e.which == 38 && !e.repeat) { 
+            if (active_sentence_id_glob != first_sentence_id){
+                loadSentences(String(parseInt(active_sentence_id_glob) - 1));
+            }
+            return false;
+        }
+        // On down arrow, go to next sentence
+        else if (e.which == 40 && !e.repeat) { 
+            if (active_sentence_id_glob != last_sentence_id) {
+                loadSentences(String(parseInt(active_sentence_id_glob) + 1));
+            }
+            return false;
+        }
+    }
+    return false
 });
 
 function loadSentences(active_sentence_id) {
@@ -11,7 +41,8 @@ function loadSentences(active_sentence_id) {
         url: `/api/sentences/?report-id=${REPORT_ID}`,
         dataType: "json",
         success: function (sentences) {
-            storeSentences(sentences)
+            active_sentence_id_glob = active_sentence_id;
+            storeSentences(sentences);
             renderSentences(active_sentence_id);
             renderMappings(active_sentence_id);
         },
@@ -27,6 +58,12 @@ function storeSentences(sentences) {
     for (i = 0; i < sentences.length; i++) {
         sentence = sentences[i];
         stored_sentences[sentence.id] = sentence;
+        if (i == 0) {
+            first_sentence_id = sentence.id
+        }
+        else if (i == sentences.length - 1) {
+            last_sentence_id = sentence.id
+        }
     }
 }
 
@@ -55,6 +92,7 @@ function renderSentences(active_sentence_id) {
 }
 
 function renderMappings(sentence_id) {
+    active_sentence_id_glob = sentence_id;
     $mappingContainer = $(`<div class="col" id="mapping-container"><h4>Mappings</h4></div>`);
 
     $("#sentence-table > tbody > tr").removeClass('bg-info')
@@ -71,15 +109,16 @@ function renderMappings(sentence_id) {
     var addButton = `<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addMappingModal">Add...</button>`;
 
     $mappingTable.append(`<tr><th>Technique ${addButton}</th><th>Confidence</th><th></th></tr>`);
-    for (i = 0; i < sentence.mappings.length; i++) {
+    for (let i = 0; i < sentence.mappings.length; i++) {
         var mapping = sentence.mappings[i];
         var $row = $(`<tr></tr>`);
         $row.append(`<td>${mapping.attack_id} - ${mapping.name}</td>`);
         $row.append(`<td>${mapping.confidence}%</td>`);
         $removeButton = $(`<button type="button" class="btn btn-sm btn-danger"><i class="fas fa-minus-circle"></i><`);
-        $removeButton.click( function() {
-            deleteMapping(sentence.id, mapping.id);
-        });
+        $removeButton.click(
+            // Need this callback to avoid closure issues when assigning onClick event
+            createCallback(sentence.id, mapping.id)
+        );
         $row.append($(`<td></td>`).append($removeButton));
         $mappingTable.append($row);
     }
@@ -97,7 +136,6 @@ function renderMappings(sentence_id) {
     }
     var accept_onclick = `updateSentence(${sentence.id}, {disposition: 'accept'})`;
     $accept = $(`<button type="button" class="${accept_class}" onclick="${accept_onclick}">Accepted</button>`);
-
     var review_onclick = `updateSentence(${sentence.id}, {disposition: null})`;
     $review = $(`<button type="button" class="${review_class}" onclick="${review_onclick}">Reviewing</button>`);
 
@@ -108,3 +146,9 @@ function renderMappings(sentence_id) {
 
     $("#mapping-container").replaceWith($mappingContainer);
 }
+
+function createCallback(sentence_id, mapping_id){
+    return function(){
+      deleteMapping(sentence_id, mapping_id)
+    }
+  }
