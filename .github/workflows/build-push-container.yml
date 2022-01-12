@@ -3,7 +3,15 @@
 name: Publish Docker image on publish of release
 
 on:
-  workflow_dispatch:  
+  push:
+    branches:
+      - master
+      - refactor/docker_tweaks
+  pull_request:
+    branches:
+      - master
+      - refactor/docker_tweaks
+  workflow_dispatch:
   release:
     types: [published]
 
