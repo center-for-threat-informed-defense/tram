@@ -1,0 +1,4 @@
+
+ignored:
+  - DL3008 # disable apt package pinning check
+  - DL3042 # disable no-cache-dir pip check as cache is used with docker cache volume

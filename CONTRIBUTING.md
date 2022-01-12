@@ -6,21 +6,21 @@ Thanks for contributing to TRAM!
 
 You are welcome to comment on issues, open new issues, and open pull requests.
 
-Pull requests should target the **develop** branch of the repository.
+Pull requests should target the **master** branch of the repository.
 
 Also, if you contribute any source code, we need you to agree to the following Developer's Certificate of Origin below.
 
 ## Reporting Issues
-  
+
 * Describe (in detail) what should have happened. Include any supporting information that may be helpful in resolving the issue.
-  
+
 * Be sure to include any steps to replicate the issue.
 
 ## Submission Guidelines
 
 You are welcome to comment on issues, open new issues, and open pull requests.
 
-Pull requests should target the **develop** branch of the repository.
+Pull requests should target the **master** branch of the repository.
 
 Also, if you contribute any source code, we need you to agree to the following Developer's Certificate of Origin below.
 
