@@ -1,8 +1,16 @@
+import io
 import json
+import mimetypes
+import os
 
 from constance import config
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse, HttpResponseBadRequest
+from django.http import (
+    Http404,
+    HttpResponse,
+    HttpResponseBadRequest,
+    StreamingHttpResponse,
+)
 from django.shortcuts import render
 from django.utils.text import slugify
 from rest_framework import viewsets
@@ -158,3 +166,19 @@ def analyze(request, pk):
         "attack_techniques": tecniques_serializer.data,
     }
     return render(request, "analyze.html", context)
+
+
+# download original report
+@login_required
+def download_report(request, report_name):
+    try:
+        print(report_name)
+        print(os.getcwd())
+        file = open("data/media/" + report_name, "rb")
+        print("here")
+        mime_type_guess = mimetypes.guess_type(report_name)
+        response = HttpResponse(file, content_type=mime_type_guess[0])
+        response["Content-Disposition"] = "attachment; filename=" + report_name
+        return response
+    except IOError:
+        raise Http404("File does not exist")

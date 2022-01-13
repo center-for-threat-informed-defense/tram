@@ -62,7 +62,7 @@
               <a class="dropdown-item btn btn-sm btn-outline-secondary" href="/api/report-export/{{ report.id }}/?format=json">JSON</a>
             </div>
           </div>
-          <!-- <a href="#" class="btn btn-sm btn-outline-secondary">Download</a> -->
+          <a href="/api/download/{{ report.name | cut:'Report for ' }}" class="btn btn-sm btn-outline-secondary">Download</a>
         </div>
       </td>
       <td>

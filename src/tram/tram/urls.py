@@ -36,6 +36,7 @@ urlpatterns = [
     path("", views.index),
     path("analyze/<int:pk>/", views.analyze),
     path("api/", include(router.urls)),
+    path("api/download/<str:report_name>", views.download_report),
     path("docs/", TemplateView.as_view(template_name="tram_documentation.html")),
     path("login/", auth_views.LoginView.as_view()),
     path("logout/", auth_views.LogoutView.as_view()),
