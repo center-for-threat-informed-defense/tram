@@ -1,6 +1,6 @@
 import json
 import time
-import io
+import io, os
 import re
 
 from constance import config
@@ -13,7 +13,9 @@ from rest_framework import viewsets
 from tram import serializers
 from tram.ml import base
 from tram.models import AttackObject, DocumentProcessingJob, Mapping, Report, Sentence
+from tram.settings import BASE_DIR
 
+import mimetypes
 from docx import Document
 from docx.shared import Inches
 from tram.scrubber import scrub
@@ -55,7 +57,7 @@ class ReportExportViewSet(viewsets.ModelViewSet):
         format = request.GET.get('type','')
 
         # If an invalid format is given, just default to json
-        if format not in ['json','docx']:
+        if format not in ['json','docx','pdf']:
             format = 'json'
             print("Invalid File Type-- defaulting to json")
         
@@ -84,6 +86,7 @@ class ReportExportViewSet(viewsets.ModelViewSet):
                 streaming_content=buffer,  # use the stream's content
                 content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
             )
+
 
             filename = slugify(self.get_object().name) + '.docx'
             response['Content-Disposition'] = 'attachment; filename="%s"' % filename
@@ -316,6 +319,21 @@ def analyze(request, pk):
         'attack_techniques': tecniques_serializer.data,
         }
     return render(request, 'analyze.html', context)
+
+# download original report
+@login_required
+def download_report(request, report_name):
+    try:
+        print(report_name)
+        print(os.getcwd())
+        file = open('data/media/' + report_name,"rb")
+        print("here")
+        mime_type_guess = mimetypes.guess_type(report_name)
+        response = HttpResponse(file, content_type=mime_type_guess[0])
+        response['Content-Disposition'] = 'attachment; filename=' + report_name
+        return response
+    except IOError:
+        raise Http404('File does not exist')
 
 @login_required
 def ml_model_retrain(request, model_key):
