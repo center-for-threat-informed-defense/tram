@@ -324,13 +324,21 @@ def analyze(request, pk):
 @login_required
 def download_report(request, report_name):
     try:
-        print(report_name)
-        print(os.getcwd())
-        file = open('data/media/' + report_name,"rb")
-        print("here")
+        file_path = 'data/media/' + report_name
+
+        # Handle edge case for training data (in different directory)
+        if report_name == 'Bootstrap Training Data':
+            file_path = 'data/media/data/training/bootstrap-training-data.json'
+
+        # Open file
+        file = open(file_path,"rb")
+
+        # Find filetype and create response to pass file
         mime_type_guess = mimetypes.guess_type(report_name)
         response = HttpResponse(file, content_type=mime_type_guess[0])
         response['Content-Disposition'] = 'attachment; filename=' + report_name
+
+        file.close()
         return response
     except IOError:
         raise Http404('File does not exist')
