@@ -13,7 +13,6 @@ from rest_framework import viewsets
 from tram import serializers
 from tram.ml import base
 from tram.models import AttackObject, DocumentProcessingJob, Mapping, Report, Sentence
-from tram.settings import BASE_DIR
 
 import mimetypes
 from docx import Document
@@ -293,7 +292,11 @@ def ml_home(request):
 
 @login_required
 def ml_technique_sentences(request, attack_id):
-    context = {'attack_id': attack_id}
+    techniques = AttackObject.objects.all().order_by('attack_id')
+    techniques_serializer = serializers.AttackObjectSerializer(techniques, many=True)
+    
+    context = {'attack_id': attack_id,
+               'attack_techniques': techniques_serializer.data}
     return render(request, 'technique_sentences.html', context)
 
 
@@ -311,12 +314,12 @@ def ml_model_detail(request, model_key):
 def analyze(request, pk):
     report = Report.objects.get(id=pk)
     techniques = AttackObject.objects.all().order_by('attack_id')
-    tecniques_serializer = serializers.AttackObjectSerializer(techniques, many=True)
+    techniques_serializer = serializers.AttackObjectSerializer(techniques, many=True)
 
     context = {
         'report_id': report.id,
         'report_name': report.name,
-        'attack_techniques': tecniques_serializer.data,
+        'attack_techniques': techniques_serializer.data,
         }
     return render(request, 'analyze.html', context)
 

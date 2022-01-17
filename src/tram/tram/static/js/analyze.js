@@ -138,9 +138,18 @@ function renderMappings(sentence_id) {
         accept_class = "btn btn-outline-success";
         review_class = "btn btn-warning";
     }
-    var accept_onclick = `updateSentence(${sentence.id}, {disposition: 'accept'})`;
+
+    // Used to determine to go to next sentence on accept click
+    // Needed for last sentence edge case
+    var next_sentence_id = false;
+    if (active_sentence_id_glob == last_sentence_id) {
+        next_sentence_id = active_sentence_id_glob;
+    }
+
+    var accept_onclick = `updateSentence(${sentence.id}, {disposition: 'accept'}, ${next_sentence_id})`;
     $accept = $(`<button type="button" class="${accept_class}" onclick="${accept_onclick}">Accepted</button>`);
-    var review_onclick = `updateSentence(${sentence.id}, {disposition: null})`;
+
+    var review_onclick = `updateSentence(${sentence.id}, {disposition: null}, ${next_sentence_id})`;
     $review = $(`<button type="button" class="${review_class}" onclick="${review_onclick}">Reviewing</button>`);
 
     $dispositionGroup.append($accept).append($review);
