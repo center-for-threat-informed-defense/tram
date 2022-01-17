@@ -58,8 +58,8 @@ function addMapping(attack_id, sentence_id) {
     });
 }
 
-
-function updateSentence(sentence_id, disposition) {
+// Updates sentence and redisplays sentences, loads next sentence if applicable
+function updateSentence(sentence_id, disposition, next_sentence) {
     $.ajax({
         type: "PATCH",
         url: `/api/sentences/${sentence_id}/`,
@@ -72,6 +72,9 @@ function updateSentence(sentence_id, disposition) {
         success: function (data) {
             if (disposition.disposition == "accept"){
                 new_sentence_id = String(parseInt(sentence_id) + 1)
+                if (next_sentence) {
+                    new_sentence_id = next_sentence;
+                }
                 loadSentences(new_sentence_id);
             }
             else {

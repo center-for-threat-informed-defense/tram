@@ -1,11 +1,11 @@
 
+var stored_sentence_indices = []; // Use to increment sentences as a list on keyDown
 var stored_sentences = {}; // stores `GET /api/sentences/` as a dict where {"sentence_id": {sentence}}
 var last_sentence_index = -1
 var active_sentence_index_glob = -1
-var lastClick = null;
-var modalOpen = false;
 
-$( document ).ready(function() {
+$(document).ready(function() {
+    active_sentence_index_glob = 0
     loadSentences();
 
     // Avoid keyDown events if modal open
@@ -25,11 +25,12 @@ $( document ).ready(function() {
     }); 
 });
 
+var lastClick = null;
 $(document).keydown(function(e) {
 
     var now = Date.now();
-    // Only trigger event if a sentence has been selected and modal is closed, add .4 sentence cooldown
-    if ((!lastClick || now - lastClick > 400) && active_sentence_index_glob != -1 && !modalOpen) {
+    // Only trigger event if a sentence has been selected, add .4 sentence cooldown
+    if ((!lastClick || now - lastClick > 400) && active_sentence_index_glob != -1) {
         lastClick = now;
 
         // On up arrow, go to prev sentence
@@ -47,7 +48,7 @@ $(document).keydown(function(e) {
             return false;
         }
     }
-    return true;
+    return false;
 });
 
 function loadSentences(active_sentence_id) {
@@ -59,6 +60,9 @@ function loadSentences(active_sentence_id) {
             storeSentences(sentences)
             renderSentences(active_sentence_id);
             renderMappings(active_sentence_id);
+            
+            // If active_sentence_id passed in, update global active sentence index
+            active_sentence_index_glob = active_sentence_id ? stored_sentence_indices.indexOf(active_sentence_id) : 0;
         },
         failure: function (data) {
             console.log(`Failure: ${data}`);
@@ -71,7 +75,14 @@ function storeSentences(sentences) {
     var i;
     for (i = 0; i < sentences.length; i++) {
         sentence = sentences[i];
+        stored_sentence_indices[i] = sentence.id;
         stored_sentences[sentence.id] = sentence;
+        if (i == 0) {
+            first_sentence_index = 0;
+        }
+        else if (i == sentences.length - 1) {
+            last_sentence_index = i;
+        }
     }
 }
 
@@ -100,6 +111,7 @@ function renderSentences(active_sentence_id) {
 }
 
 function renderMappings(sentence_id) {
+    active_sentence_index_glob = sentence_id ? stored_sentence_indices.indexOf(sentence_id) : 0;
     $mappingContainer = $(`<div class="col" id="mapping-container"><h4>Mappings</h4></div>`);
 
     $("#sentence-table > tbody > tr").removeClass('bg-info')
@@ -140,10 +152,21 @@ function renderMappings(sentence_id) {
         accept_class = "btn btn-outline-success";
         review_class = "btn btn-warning";
     }
-    var accept_onclick = `updateSentence(${sentence.id}, {disposition: 'accept'})`;
+
+    var next_sentence_id = false;
+    if (active_sentence_index_glob == last_sentence_index) {
+        // Next sentence is last sentence if current sentence is last sentence
+        next_sentence_id = stored_sentence_indices[active_sentence_index_glob];
+    }
+    else {
+        // Otherwise, pass in next sentence
+        next_sentence_id = stored_sentence_indices[active_sentence_index_glob + 1];
+    }
+
+    var accept_onclick = `updateSentence(${sentence.id}, {disposition: 'accept'}, ${next_sentence_id})`;
     $accept = $(`<button type="button" class="${accept_class}" onclick="${accept_onclick}">Accepted</button>`);
 
-    var review_onclick = `updateSentence(${sentence.id}, {disposition: null})`;
+    var review_onclick = `updateSentence(${sentence.id}, {disposition: null}, ${next_sentence_id})`;
     $review = $(`<button type="button" class="${review_class}" onclick="${review_onclick}">Reviewing</button>`);
 
     $dispositionGroup.append($accept).append($review);
