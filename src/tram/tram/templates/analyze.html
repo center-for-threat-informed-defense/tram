@@ -9,9 +9,6 @@
 <script type="text/javascript">
     const REPORT_ID = parseInt({{ report_id }});
 </script>
-<style type="text/css"> span.select2-container {
-    z-index:10050;
-} </style>
 {% endblock %}
 
 {% block body %}
@@ -39,7 +36,6 @@
             </div>
             <div class="modal-body" id='modal-body'>
                 <form id="add-technique-form">
-                    <input type="text" placeholder="Search.." id="myInput">
                     <select id="technique-select" class="form-select select2-use">
                         {% for technique in attack_techniques %}
                         <option value="{{technique.attack_id}}">{{technique.attack_id}} - {{technique.name}}</option>
