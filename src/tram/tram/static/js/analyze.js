@@ -7,7 +7,20 @@ var lastClick = null;
 var modalOpen = false;
 
 $( document ).ready(function() {
-    active_sentence_id_glob = 0
+    active_sentence_id_glob = 0;
+
+    //$('.select2-use').select2({
+    //    placeholder: "Search...",
+    //    width: "100%",
+    //    tabindex: 1
+    //});
+    /* var myModal = document.getElementById('addMappingModal')
+    var myInput = document.getElementById('myInput')
+
+    myModal.addEventListener('shown.bs.modal', function () {
+        myInput.focus()
+    }); */
+
     loadSentences();
 
     // Avoid keyDown events if modal open
@@ -122,7 +135,7 @@ function renderMappings(sentence_id) {
     mappings = sentence.mappings;
 
     $mappingTable = $(`<table id="mapping-table" class="table table-striped table-hover"><tbody></tbody></table>`);
-    var addButton = `<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addMappingModal">Add...</button>`;
+    var addButton = `<button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addMappingModal">Add...</button>`;
 
     $mappingTable.append(`<tr><th>Technique ${addButton}</th><th>Confidence</th><th></th></tr>`);
     for (let i = 0; i < sentence.mappings.length; i++) {
@@ -174,6 +187,6 @@ function renderMappings(sentence_id) {
 
 function createCallback(sentence_id, mapping_id){
     return function(){
-      deleteMapping(sentence_id, mapping_id)
+      deleteMapping(sentence_id, mapping_id, false)
     }
   }
