@@ -3,23 +3,39 @@ var stored_sentences = {}; // stores `GET /api/sentences/` as a dict where {"sen
 var first_sentence_id = -1;
 var last_sentence_id = -1;
 var active_sentence_id_glob = -1;
+var lastClick = null;
+var modalOpen = false;
 
 $( document ).ready(function() {
     active_sentence_id_glob = 0
     loadSentences();
+
+    // Avoid keyDown events if modal open
+    $('#addMappingModal').on('shown.bs.modal', function () {
+        modalOpen = true;
+    });
+
+    $('#addMappingModal').on('hidden.bs.modal', function (e) {
+        modalOpen = false;
+    });
+
+/*  Select2 should work (search box for mappings), but something with the z-index or active focus
+    of the modal doesn't work. Should be a quick fix, but couldn't figure it out. 
+    $('.select2-use').select2({
+        placeholder: "Search...",
+        width: "100%",
+    }); */
 });
 
-var lastClick = null;
-$(document).keydown(function(e){
-
+$(document).keydown(function(e) {
     var now = Date.now();
-    // Only trigger event if a sentence has been selected, add .4 sentence cooldown
-    if ((!lastClick || now - lastClick > 400) && active_sentence_id_glob != -1) {
+    // Only trigger event if a sentence has been selected and modal is closed, add .4 sentence cooldown
+    if ((!lastClick || now - lastClick > 400) && active_sentence_id_glob != -1 && !modalOpen) {
         lastClick = now;
 
         // On up arrow, go to prev sentence
         if (e.which == 38 && !e.repeat) { 
-            if (active_sentence_id_glob != first_sentence_id){
+            if (active_sentence_id_glob != first_sentence_id) {
                 loadSentences(String(parseInt(active_sentence_id_glob) - 1));
             }
             return false;
