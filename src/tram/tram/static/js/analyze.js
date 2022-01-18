@@ -8,36 +8,14 @@ var modalOpen = false;
 
 $( document ).ready(function() {
     active_sentence_id_glob = 0;
-
-    //$('.select2-use').select2({
-    //    placeholder: "Search...",
-    //    width: "100%",
-    //    tabindex: 1
-    //});
-    /* var myModal = document.getElementById('addMappingModal')
-    var myInput = document.getElementById('myInput')
-
-    myModal.addEventListener('shown.bs.modal', function () {
-        myInput.focus()
-    }); */
-
     loadSentences();
-
-    // Avoid keyDown events if modal open
-    $('#addMappingModal').on('shown.bs.modal', function () {
-        modalOpen = true;
-    });
-
-    $('#addMappingModal').on('hidden.bs.modal', function (e) {
-        modalOpen = false;
-    });
-
-    // Add search bar for mapping dropdowns
+    
+/*  Select2 is part of the project, but something with the z-index or active focus of the modal 
+    doesn't work. Should be a quick fix, but couldn't figure it out.
     $('.select2-use').select2({
         placeholder: "Search...",
         width: "100%",
-        dropdownParent: $("#addMappingModal")
-    }); 
+    }); */
 });
 
 $(document).keydown(function(e) {
