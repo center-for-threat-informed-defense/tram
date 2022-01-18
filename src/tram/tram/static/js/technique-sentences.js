@@ -3,18 +3,28 @@ var stored_sentence_indices = []; // Use to increment sentences as a list on key
 var stored_sentences = {}; // stores `GET /api/sentences/` as a dict where {"sentence_id": {sentence}}
 var last_sentence_index = -1
 var active_sentence_index_glob = -1
+var lastClick = null;
+var modalOpen = false;
 
 $( document ).ready(function() {
     active_sentence_index_glob = 0
     loadSentences();
+
+    // Avoid keyDown events if modal open
+    $('#addMappingModal').on('shown.bs.modal', function () {
+        modalOpen = true;
+    });
+
+    $('#addMappingModal').on('hidden.bs.modal', function (e) {
+        modalOpen = false;
+    });
 });
 
-var lastClick = null;
 $(document).keydown(function(e){
 
     var now = Date.now();
-    // Only trigger event if a sentence has been selected, add .4 sentence cooldown
-    if ((!lastClick || now - lastClick > 400) && active_sentence_index_glob != -1) {
+    // Only trigger event if a sentence has been selected and modal is closed, add .4 sentence cooldown
+    if ((!lastClick || now - lastClick > 400) && active_sentence_index_glob != -1 && !modalOpen) {
         lastClick = now;
 
         // On up arrow, go to prev sentence
