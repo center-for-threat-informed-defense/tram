@@ -38,6 +38,7 @@ function uploadReport() {
 
 
 function addMapping(attack_id, sentence_id) {
+    // Need to refactor so you can extract REPORT_ID from sentence_id so adding mappings works for technique_sentences
     var data = {report: REPORT_ID, sentence: sentence_id, attack_id: attack_id, confidence: 100.0};
 
     $.ajax({
@@ -99,7 +100,7 @@ function deleteJob(report_id) {
     })
 }
 
-function deleteMapping(sentence_id, mapping_id) {
+function deleteMapping(sentence_id, mapping_id, refreshSentences) {
     $.ajax({
         type: "DELETE",
         url: `/api/mappings/${mapping_id}/`,
@@ -108,7 +109,13 @@ function deleteMapping(sentence_id, mapping_id) {
             "X-CSRFToken": CSRF_TOKEN,
         },
         success: function (data) {
-            loadSentences(sentence_id);
+            // For technique_sentences, reload page with first sentence
+            if (refreshSentences) {
+                loadSentences();
+            }
+            else {
+                loadSentences(sentence_id);
+            }
         },
         failure: function (data) {
             console.log(`Failure: ${data}`);

@@ -109,7 +109,7 @@ function renderMappings(sentence_id) {
     mappings = sentence.mappings;
 
     $mappingTable = $(`<table id="mapping-table" class="table table-striped table-hover"><tbody></tbody></table>`);
-    var addButton = `<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addMappingModal">Add...</button>`;
+    var addButton = `<button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addMappingModal">Add...</button>`;
 
     $mappingTable.append(`<tr><th>Technique ${addButton}</th><th>Confidence</th><th></th></tr>`);
     for (i = 0; i < sentence.mappings.length; i++) {
@@ -118,9 +118,9 @@ function renderMappings(sentence_id) {
         $row.append(`<td>${mapping.attack_id} - ${mapping.name}</td>`);
         $row.append(`<td>${mapping.confidence}%</td>`);
         $removeButton = $(`<button type="button" class="btn btn-sm btn-danger"><i class="fas fa-minus-circle"></i><`);
-        $removeButton.click( function() {
-            deleteMapping(sentence.id, mapping.id);
-        });
+        $removeButton.click( 
+            createCallback(sentence.id, mapping.id)
+        );
         $row.append($(`<td></td>`).append($removeButton));
         $mappingTable.append($row);
     }
@@ -160,3 +160,9 @@ function renderMappings(sentence_id) {
 
     $("#mapping-container").replaceWith($mappingContainer);
 }
+
+function createCallback(sentence_id, mapping_id){
+    return function(){
+      deleteMapping(sentence_id, mapping_id, true)
+    }
+  }

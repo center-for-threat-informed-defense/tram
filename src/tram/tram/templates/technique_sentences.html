@@ -35,7 +35,7 @@ Sentences may contain additional mappings.
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Add Mapping</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="add-technique-form">
@@ -48,8 +48,8 @@ Sentences may contain additional mappings.
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button id="add-mapping-button" type="button" class="btn btn-primary" data-dismiss="modal"
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="add-mapping-button" type="button" class="btn btn-primary" data-bs-dismiss="modal"
                         onclick="addMapping($('#technique-select').val(), parseInt($('#sentence-id').val()))">Add</button>
             </div>
         </div>
