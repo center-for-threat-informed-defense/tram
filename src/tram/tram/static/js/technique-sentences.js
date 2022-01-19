@@ -186,7 +186,20 @@ function renderMappings(sentence_id) {
     $(`#sentence-row-${sentence.id}`).addClass('bg-info');
     $('#sentence-id').val(sentence.id);
 
-    $("#mapping-container").replaceWith($mappingContainer);
+    // Get report id 
+    $.ajax({
+        type: "GET",
+        url: `/api/reportId/${sentence.id}`,
+        dataType: "json",
+        success: function (report_id) {
+            $('#report-id').val(report_id)
+            $("#mapping-container").replaceWith($mappingContainer);
+        },
+        failure: function (data) {
+            console.log(`Failure: ${data}`);
+        }
+    });
+    
 }
 
 function createCallback(sentence_id, mapping_id){

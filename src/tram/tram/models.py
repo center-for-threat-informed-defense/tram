@@ -126,7 +126,7 @@ class Sentence(models.Model):
     disposition = models.CharField(max_length=200, default=None, null=True, blank=True, choices=DISPOSITION_CHOICES)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-
+ 
     def __str__(self):
         append = ''
         if len(self.text) > SENTENCE_PREVIEW_CHARS:

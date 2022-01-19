@@ -363,3 +363,11 @@ def ml_model_retrain(request, model_key):
     elapsed = end - start
 
     return HttpResponse(f'Trained {model} model in {elapsed} seconds', status=200)
+
+# Get report_id from sentence_id
+@login_required
+def get_report_id(request, sentence_id):
+    queryset = SentenceViewSet.queryset
+    queryset = queryset.filter(id__exact=sentence_id)
+    report_id = ((list(queryset)[0]).__dict__)['report_id']
+    return HttpResponse(report_id, content_type="text/plain")

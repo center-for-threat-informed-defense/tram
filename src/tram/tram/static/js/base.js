@@ -35,9 +35,14 @@ function uploadReport() {
 }
 
 
-function addMapping(attack_id, sentence_id) {
-    // Need to refactor so you can extract REPORT_ID from sentence_id so adding mappings works for technique_sentences
-    var data = {report: REPORT_ID, sentence: sentence_id, attack_id: attack_id, confidence: 100.0};
+function addMapping(attack_id, sentence_id, report_id) {
+
+    // If report id is passed in, use that. If not use constant provided.
+    if (report_id == false) {
+        report_id = REPORT_ID
+    }
+    
+    var data = {report: report_id, sentence: sentence_id, attack_id: attack_id, confidence: 100.0};
 
     $.ajax({
         type: "POST",
