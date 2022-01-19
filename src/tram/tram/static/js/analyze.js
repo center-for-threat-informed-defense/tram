@@ -2,9 +2,9 @@
 var stored_sentences = {}; // stores `GET /api/sentences/` as a dict where {"sentence_id": {sentence}}
 var first_sentence_id = -1;
 var last_sentence_id = -1;
-var active_sentence_id_glob = -1;
-var lastClick = null;
-var modalOpen = false;
+var active_sentence_id_glob = -1; // Used to track current sentence for keydown events
+var lastClick = null; // Used to provide cooldown on keydown events
+var modalOpen = false; // Used to avoid keydown events when in modal
 
 $( document ).ready(function() {
     active_sentence_id_glob = 0;
@@ -24,8 +24,10 @@ $(document).keydown(function(e) {
     if ((!lastClick || now - lastClick > 400) && active_sentence_id_glob != -1 && !modalOpen) {
         lastClick = now;
 
-        // On up arrow, go to prev sentence
+        // On up arrow, go to previous sentence
         if (e.which == 38 && !e.repeat) { 
+
+            // If active sentence is first sentence, don't progress
             if (active_sentence_id_glob != first_sentence_id) {
                 loadSentences(String(parseInt(active_sentence_id_glob) - 1));
             }
@@ -33,6 +35,8 @@ $(document).keydown(function(e) {
         }
         // On down arrow, go to next sentence
         else if (e.which == 40 && !e.repeat) { 
+
+            // If active sentence is last sentence, don't progress
             if (active_sentence_id_glob != last_sentence_id) {
                 loadSentences(String(parseInt(active_sentence_id_glob) + 1));
             }
@@ -167,4 +171,4 @@ function createCallback(sentence_id, mapping_id){
     return function(){
       deleteMapping(sentence_id, mapping_id, false)
     }
-  }
+}
