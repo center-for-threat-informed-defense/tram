@@ -36,7 +36,7 @@
             </div>
             <div class="modal-body">
                 <form id="add-technique-form">
-                    <select id="technique-select" class="form-select select2-use">
+                    <select id="technique-select" class="form-select select2-use" multiple='multiple'>
                         {% for technique in attack_techniques %}
                         <option value="{{technique.attack_id}}">{{technique.attack_id}} - {{technique.name}}</option>
                         {% endfor %}

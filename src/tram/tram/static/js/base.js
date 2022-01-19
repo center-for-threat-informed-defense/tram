@@ -35,31 +35,34 @@ function uploadReport() {
 }
 
 
-function addMapping(attack_id, sentence_id, report_id) {
+function addMapping(attack_ids, sentence_id, report_id) {
 
     // If report id is passed in, use that. If not use constant provided.
     if (report_id == false) {
         report_id = REPORT_ID
     }
-    
-    var data = {report: report_id, sentence: sentence_id, attack_id: attack_id, confidence: 100.0};
 
-    $.ajax({
-        type: "POST",
-        url: `/api/mappings/`,
-        dataType: "json",
-        data: JSON.stringify(data),
-        contentType:"application/json; charset=utf-8",
-        headers: {
-            "X-CSRFToken": CSRF_TOKEN
-        },
-        success: function (data) {
-            loadSentences(sentence_id)
-        },
-        failure: function (data) {
-            console.log(`Failure: ${data}`);
-        }
-    });
+    attack_ids.forEach((attack_id) => {
+        var data = {report: report_id, sentence: sentence_id, attack_id: attack_id, confidence: 100.0};
+
+        $.ajax({
+            type: "POST",
+            url: `/api/mappings/`,
+            dataType: "json",
+            data: JSON.stringify(data),
+            contentType:"application/json; charset=utf-8",
+            headers: {
+                "X-CSRFToken": CSRF_TOKEN
+            },
+            success: function (data) {
+                // Clear select cache
+                $('.select2-use').val(null).trigger('change');
+                loadSentences(sentence_id);
+            },
+            failure: function (data) {
+                console.log(`Failure: ${data}`);
+            }
+    })});
 }
 
 // Updates sentence and redisplays sentences, loads next sentence if applicable
