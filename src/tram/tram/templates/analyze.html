@@ -29,19 +29,19 @@
 
 <div id="addMappingModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-md">
-        <div class="modal-content" id="modal-content">
+        <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Add Mapping</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
-            <div class="modal-body" id='modal-body'>
+            <div class="modal-body">
                 <form id="add-technique-form">
                     <select id="technique-select" class="form-select select2-use">
                         {% for technique in attack_techniques %}
                         <option value="{{technique.attack_id}}">{{technique.attack_id}} - {{technique.name}}</option>
                         {% endfor %}
                     </select>
-                    <input id="sentence-id" type="hidden" value="TBD">
+                    <input id="sentence-id" type="hidden" value="TBD"> 
                 </form>
             </div>
             <div class="modal-footer">

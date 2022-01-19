@@ -23,6 +23,13 @@ $( document ).ready(function() {
     $('#addMappingModal').on('hidden.bs.modal', function (e) {
         modalOpen = false;
     });
+
+    // Add search bar for mapping dropdowns
+    $('.select2-use').select2({
+        placeholder: "Search...",
+        width: "100%",
+        dropdownParent: $("#addMappingModal")
+    }); 
 });
 
 $(document).keydown(function(e){
@@ -51,7 +58,7 @@ $(document).keydown(function(e){
             return false;
         }
     }
-    return false
+    return true;
 });
 
 function loadSentences(active_sentence_id) {

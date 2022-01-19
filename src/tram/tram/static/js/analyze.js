@@ -19,12 +19,12 @@ $( document ).ready(function() {
         modalOpen = false;
     });
 
-/*  Select2 should work (search box for mappings), but something with the z-index or active focus
-    of the modal doesn't work. Should be a quick fix, but couldn't figure it out. 
+    // Add search bar for mapping dropdowns
     $('.select2-use').select2({
         placeholder: "Search...",
         width: "100%",
-    }); */
+        dropdownParent: $("#addMappingModal")
+    }); 
 });
 
 $(document).keydown(function(e){
@@ -52,8 +52,8 @@ $(document).keydown(function(e){
             return false;
         }
     }
-    return false
-});
+    return true;
+}); 
 
 function loadSentences(active_sentence_id) {
     $.ajax({
