@@ -15,11 +15,9 @@ $(document).on('change', '#id-upload',function (event){
 
 //POST the report to the endpoint
 function uploadReport() {
-    console.log('in uploadreport')
     let file = document.getElementById('id-upload').files[0];
     let csrf_token = document.getElementById('id-upload-form').querySelector('[name="csrfmiddlewaretoken"]').value;
     let fd = new FormData();
-    console.log(csrf_token)
     fd.append('csrfmiddlewaretoken', csrf_token);
     fd.append('file', file);
     $.ajax({
@@ -71,8 +69,11 @@ function updateSentence(sentence_id, disposition, next_sentence) {
             "X-CSRFToken": CSRF_TOKEN
         },
         success: function (data) {
+            // If disposition is "accept", load the next sentence
             if (disposition.disposition == "accept"){
                 new_sentence_id = String(parseInt(sentence_id) + 1)
+
+                // If there is a provided next sentence, use that instead
                 if (next_sentence) {
                     new_sentence_id = next_sentence;
                 }
@@ -109,7 +110,8 @@ function deleteMapping(sentence_id, mapping_id, refreshSentences) {
             "X-CSRFToken": CSRF_TOKEN,
         },
         success: function (data) {
-            // For technique_sentences, reload page with first sentence
+            // For technique_sentences, we want to refresh the page instead 
+            // of reloading same sentence
             if (refreshSentences) {
                 loadSentences();
             }

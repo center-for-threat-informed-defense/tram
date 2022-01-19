@@ -1,10 +1,15 @@
 
+/* Note on storage of indices: since the sentences are not stored in sequential order for 
+   technique-sentences, we track the ids of the sentences in a list and keep track of the index
+   of that active sentence using the active_sentence_index_glob variable.
+*/
+
 var stored_sentence_indices = []; // Use to increment sentences as a list on keyDown
 var stored_sentences = {}; // stores `GET /api/sentences/` as a dict where {"sentence_id": {sentence}}
-var last_sentence_index = -1
-var active_sentence_index_glob = -1
-var lastClick = null;
-var modalOpen = false;
+var last_sentence_index = -1;
+var active_sentence_index_glob = -1; // Used to track current sentence for keydown events
+var lastClick = null; // Used to provide cooldown on keydown events
+var modalOpen = false; // Used to avoid keydown events when in modal
 
 $( document ).ready(function() {
     active_sentence_index_glob = 0
@@ -29,6 +34,8 @@ $(document).keydown(function(e){
 
         // On up arrow, go to prev sentence
         if (e.which == 38 && !e.repeat) { 
+
+            // If active sentence is first sentence, don't progress
             if (active_sentence_index_glob != 0){
                 loadSentences(stored_sentence_indices[active_sentence_index_glob - 1]);
             }
@@ -36,6 +43,8 @@ $(document).keydown(function(e){
         }
         // On down arrow, go to next sentence
         else if (e.which == 40 && !e.repeat) { 
+
+            // If active sentence is last sentence, don't progress
             if (active_sentence_index_glob != last_sentence_index) {
                 loadSentences(stored_sentence_indices[active_sentence_index_glob + 1]);
             }
@@ -55,7 +64,7 @@ function loadSentences(active_sentence_id) {
             renderSentences(active_sentence_id);
             renderMappings(active_sentence_id);
             
-            // If active_sentence_id passed in, update global active sentence index
+            // If active_sentence_id is passed in, update global active sentence index, otherwise start at first sentence
             active_sentence_index_glob = active_sentence_id ? stored_sentence_indices.indexOf(active_sentence_id) : 0;
         },
         failure: function (data) {
@@ -129,6 +138,7 @@ function renderMappings(sentence_id) {
         $row.append(`<td>${mapping.confidence}%</td>`);
         $removeButton = $(`<button type="button" class="btn btn-sm btn-danger"><i class="fas fa-minus-circle"></i><`);
         $removeButton.click( 
+            // Need this callback to avoid closure issues when assigning onClick event
             createCallback(sentence.id, mapping.id)
         );
         $row.append($(`<td></td>`).append($removeButton));
@@ -147,9 +157,10 @@ function renderMappings(sentence_id) {
         review_class = "btn btn-warning";
     }
 
+    // Pass in id of the next sentence for use on auto advancing on clicking accept
     var next_sentence_id = false;
     if (active_sentence_index_glob == last_sentence_index) {
-        // Next sentence is last sentence if current sentence is last sentence
+        // If active sentence is last sentence, pass in active sentence
         next_sentence_id = stored_sentence_indices[active_sentence_index_glob];
     }
     else {

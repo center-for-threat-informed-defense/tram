@@ -1,5 +1,4 @@
 import re
-import os
 
 # Replace files with their respective token
 def replace_extension(text):
@@ -148,11 +147,15 @@ def replace_extension(text):
                 "WSF",
                 "Z",
                 "ZIP"]
+
     separator = "|"
     extensionRegex = separator.join(extensionList)
     pattern = "(?P<filename>[\w-]+)?\.(?P<extension>(" + extensionRegex + "))(?P<endchar>(\W|$))";
     regexPattern = re.compile(pattern, re.IGNORECASE)
+
+    # Extracts scrubbed files
     files = [m.group().strip() for m in regexPattern.finditer(text)]
+
     final = regexPattern.sub(r'[FILE]\g<endchar>', text)
 
     return final, files
@@ -160,6 +163,7 @@ def replace_extension(text):
 # Removes various forms of markup
 def replace_markup(text):
 
+    # Examples of markup commonly in reports-- add more to list if needed
     markupStaticList = ["\(A\)",
                     "\(B\)",
                     "\(C\)",
@@ -204,49 +208,60 @@ def replace_ip(text):
     final = regexPattern.sub("\g<start>[IPv6]", textmac)
 
     ips = {'ipv4': ipv4list, 'mac': maclist, 'ipv6': ipv6list}
+
     return final, ips
 
-# replace urls with their respective token
+# Replace urls with their respective token
 def replace_url(text):
+
     regexPattern = re.compile("(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,7}(:[0-9]{1,5})?(\/[^\s]*)?")
+    
+    # Extracts scrubbed urls
     urls = [m.group() for m in regexPattern.finditer(text)]
+
     final = regexPattern.sub("[URL]", text)
     
     return final, urls
 
 def replace_email(text):
      regexPattern = re.compile("[\w\.]+@[a-z]+\.[a-z]+", re.IGNORECASE)
+
+     # Extracts scrubbed emails
      emails = [m.group() for m in regexPattern.finditer(text)]
+
      final = regexPattern.sub("[EMAIL]", text)
 
      return final, emails
 
-# handles various other common sources of periods
+# Handles various other common sources of periods
 def replace_other(text):
 
-    # localhost
+    # Localhost
     regexPattern = re.compile("localhost\.localdomain", re.IGNORECASE)
     final = regexPattern.sub("[LOCALHOST]",text)
 
-    # chinese chars
+    # Chinese chars
     regexPattern = re.compile("[\u4e00-\u9fa5]+")
     final = regexPattern.sub("[CHINESE]", final)
 
-    # numbers, useful if dealing with line by line but maybe unneccessary 
+    # Numbers, useful if dealing with line by line but maybe unneccessary 
     #regexPattern = re.compile("[\d,]+\.[\d]*")
     #final = regexPattern.sub("[NUMBER]", final)
 
-    # common periods in reports for urls
+    # Common periods in reports for urls
     regexPattern = re.compile("(\[\.\])|(\[ \. \])")
     final = regexPattern.sub(".", final)
 
-    # change hxxp to http for url extraction
+    # Change hxxp to http for url extraction
     regexPattern = re.compile("hxxp", re.IGNORECASE)
     final = regexPattern.sub("http", final)
 
     return final
 
 def scrub(text):
+
+    # This order of replacing is important: url extraction is much more aggressive,
+    # so start with more specific sources of periods and then slowly get more general
     scrubbedText = replace_other(text)
     scrubbedText, emails = replace_email(scrubbedText)
     scrubbedText, ips = replace_ip(scrubbedText)

@@ -56,36 +56,35 @@ class ReportExportViewSet(viewsets.ModelViewSet):
         format = request.GET.get('type','')
 
         # If an invalid format is given, just default to json
-        if format not in ['json','docx','pdf']:
+        if format not in ['json','docx']:
             format = 'json'
-            print("Invalid File Type-- defaulting to json")
         
         # Retrieve report data as json
         response = super().retrieve(request, *args, **kwargs)
 
+        # Extract objects from the document
+        _, extractedData = scrub(response.data['text'])
+
         if format == 'json':
             filename = slugify(self.get_object().name) + '.json'
-            _, extractedData = scrub(response.data['text'])
             response.data['objects'] = extractedData
             response['Content-Disposition'] = 'attachment; filename="%s"' % filename
             return response
 
         elif format == 'docx':
             # Uses json dictionary to create formatted document
-            document = self.build_document(response.data)
+            document = self.build_document(response.data, extractedData)
 
-            # save document info
+            # Save document info
             buffer = io.BytesIO()
-            document.save(buffer)  # save your memory stream
-            buffer.seek(0)  # rewind the stream
+            document.save(buffer) 
+            buffer.seek(0)  
 
-            # put them to streaming content response 
-            # within docx content_type
+            # Put them to streaming content response within docx content_type
             response = StreamingHttpResponse(
-                streaming_content=buffer,  # use the stream's content
+                streaming_content=buffer,  # Use the stream's content
                 content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
             )
-
 
             filename = slugify(self.get_object().name) + '.docx'
             response['Content-Disposition'] = 'attachment; filename="%s"' % filename
@@ -142,7 +141,7 @@ class ReportExportViewSet(viewsets.ModelViewSet):
         document.add_heading("Extracted Data")
         paragraph = document.add_paragraph("")
         
-        # Ipv4
+        # Display objects
         paragraph.add_run("Ipv4:\n").bold = True
         for ipv4 in extractedData['ipv4']:
             paragraph.add_run(ipv4 + "\n")
@@ -185,6 +184,7 @@ class ReportExportViewSet(viewsets.ModelViewSet):
         hdr_cells[1].text = 'Mappings'
         hdr_cells[1].paragraphs[0].runs[0].font.bold = True
 
+        # Create table of sentences and their mappings
         for sentence in accepted_sentences:
             row_cells = table.add_row().cells
             row_cells[0].text = re.sub(r"[\n\r]*", "", sentence['text'])
@@ -323,7 +323,7 @@ def analyze(request, pk):
         }
     return render(request, 'analyze.html', context)
 
-# download original report
+# Download original report
 @login_required
 def download_report(request, report_name):
     try:
@@ -346,6 +346,7 @@ def download_report(request, report_name):
     except IOError:
         raise Http404('File does not exist')
 
+# Retrain model with model_key
 @login_required
 def ml_model_retrain(request, model_key):
     if request.method != 'POST':
