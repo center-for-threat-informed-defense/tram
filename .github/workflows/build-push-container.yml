@@ -3,8 +3,11 @@
 name: Publish Docker image on publish of release
 
 on:
-  release:
-    types: [published]
+  pull_request:
+    branches:
+      - master
+#  release:
+#    types: [published]
 
 jobs:
   push_to_registries:
