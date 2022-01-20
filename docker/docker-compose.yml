@@ -9,8 +9,6 @@ version: '3.5'
 services:
   tram:
     image: ghcr.io/center-for-threat-informed-defense/tram:latest
-    ports:
-      - "8000:8000"
     environment:
       - DATA_DIRECTORY=/tram/data
       - ALLOWED_HOSTS=["example_host1", "localhost"]
@@ -21,5 +19,16 @@ services:
       - DJANGO_SUPERUSER_EMAIL=test@example.com # your email address here
     volumes:
       - tram:/tram/data
+      - tram_static:/tram/src/tram/staticfiles
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8000:80"
+    volumes:
+      - ./tram.conf:/etc/nginx/conf.d/default.conf
+      - tram:/tram/data:ro
+      - tram_static:/tram/src/tram/staticfiles:ro
+
 volumes:
   tram:
+  tram_static:
