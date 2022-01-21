@@ -1,11 +1,11 @@
 import json
 import time
-import io, os
+import io
 import re
 
 from constance import config
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseBadRequest, Http404, HttpResponseNotFound, StreamingHttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest, Http404, StreamingHttpResponse
 from django.shortcuts import render
 from django.utils.text import slugify
 from rest_framework import viewsets
@@ -18,6 +18,7 @@ import mimetypes
 from docx import Document
 from docx.shared import Inches
 from tram.scrubber import scrub
+
 
 class AttackObjectViewSet(viewsets.ModelViewSet):
     queryset = AttackObject.objects.all()
@@ -53,12 +54,12 @@ class ReportExportViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
 
-        format = request.GET.get('type','')
+        format = request.GET.get('type', '')
 
         # If an invalid format is given, just default to json
-        if format not in ['json','docx']:
+        if format not in ['json', 'docx']:
             format = 'json'
-        
+
         # Retrieve report data as json
         response = super().retrieve(request, *args, **kwargs)
 
@@ -120,7 +121,7 @@ class ReportExportViewSet(viewsets.ModelViewSet):
         for sentence in accepted_sentences:
             for mapping in sentence['mappings']:
                 curMapping = (mapping['attack_id'],mapping['name'])
-                if not curMapping in techniques:
+                if curMapping not in techniques:
                     techniques.add(curMapping)
 
         # Sort attack techniques by integer part
@@ -169,9 +170,9 @@ class ReportExportViewSet(viewsets.ModelViewSet):
         # Display matched sentences in a table
         document.add_page_break()
         document.add_heading("Matched Sentences", level=1)
-        table = document.add_table(rows = 1, cols = 2)
+        table = document.add_table(rows=1, cols=2)
         table.style = 'TableGrid'
-        table.autofit = False 
+        table.autofit = False
         table.allow_autofit = False
 
         # This resizing format is strange, works for now 
@@ -207,7 +208,7 @@ class ReportExportViewSet(viewsets.ModelViewSet):
         # Display full text, remove extra white space to increase readability
         document.add_page_break()
         document.add_heading("Full Document", level=1)
-        document.add_paragraph(re.sub(r"[\r]*","",text))
+        document.add_paragraph(re.sub(r"[\r]*", "", text))
 
         return document
 

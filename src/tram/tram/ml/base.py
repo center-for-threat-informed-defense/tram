@@ -27,6 +27,7 @@ from sklearn.pipeline import Pipeline
 from tram import models as db_models
 from tram.scrubber import scrub
 
+
 class Sentence(object):
     def __init__(self, text, order, mappings):
         self.text = text
@@ -201,17 +202,17 @@ class SKLearnModel(ABC):
         parsed_docx = docx.Document(BytesIO(document.docfile.read()))
         text = ' '.join([paragraph.text for paragraph in parsed_docx.paragraphs])
         return text
-    
+
     def _extract_plain_text(self, document):
         text = document.docfile.read().decode('UTF-8')
         return text
 
     def process_job(self, job):
         name = self._get_report_name(job)
-        text = self._extract_text(job.document) #extract text
-        scrubbedText, _ = scrub(text) #pre-processing, remove ips/urls, etc
+        text = self._extract_text(job.document)  # Extract text
+        scrubbedText, _ = scrub(text)  # Pre-processing, remove ips/urls, etc
         sentences = self._sentence_tokenize(scrubbedText)
-        sentences = [s for s in sentences if s != '??'] # remove invalid sentences
+        sentences = [s for s in sentences if s != '??']  # Remove invalid sentences
 
         report_sentences = []
         order = 0
@@ -221,7 +222,7 @@ class SKLearnModel(ABC):
             order += 1
             report_sentences.append(s)
 
-        report = Report(name, text, report_sentences) # Use original uprocessed text for storage
+        report = Report(name, text, report_sentences)  # Use original uprocessed text for storage
         return report
 
     def save_to_file(self, filepath):
