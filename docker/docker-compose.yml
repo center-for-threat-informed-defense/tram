@@ -4,15 +4,18 @@
 #  - Any ML data and DB data is stored at the path stored in the environment variable
 #    `DATA_DIRECTORY`. This is internal to Django.
 #  - ALLOWED_HOSTS is a list of hosts allowed to connect to the Django server (in settings.py)
-#  - SECRET_KEY is a URL Safe Token and should be changed
+#  - SECRET_KEY is generated at startup to a random value. Set SECRET_KEY env variable for tram service below
+#               to use a static value.
 version: '3.5'
 services:
   tram:
     image: ghcr.io/center-for-threat-informed-defense/tram:latest
+    build:
+      context: ..
+      dockerfile: Dockerfile
     environment:
       - DATA_DIRECTORY=/tram/data
       - ALLOWED_HOSTS=["example_host1", "localhost"]
-      - SECRET_KEY=Ij0WGee73k9OESwqddmSKCx6SY9aJ_7bDojs485Z6ec # your secret key here
       - DEBUG=True
       - DJANGO_SUPERUSER_USERNAME=djangoSuperuser
       - DJANGO_SUPERUSER_PASSWORD=LEGITPassword1234 # your password here
@@ -21,11 +24,13 @@ services:
       - tram:/tram/data
       - tram_static:/tram/src/tram/staticfiles
   nginx:
-    image: nginx:latest
+    image: ghcr.io/center-for-threat-informed-defense/tram-nginx:latest
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.nginx
     ports:
       - "8000:80"
     volumes:
-      - ./tram.conf:/etc/nginx/conf.d/default.conf
       - tram:/tram/data:ro
       - tram_static:/tram/src/tram/staticfiles:ro
 
