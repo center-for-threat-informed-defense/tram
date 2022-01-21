@@ -14,6 +14,8 @@ import os
 from json import loads
 from pathlib import Path
 
+from django.core.management.utils import get_random_secret_key
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_ROOT = BASE_DIR.parent.parent
@@ -30,10 +32,9 @@ else:
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if os.environ.get("SECRET_KEY") is not None:
-    SECRET_KEY = os.environ.get("SECRET_KEY")
-else:
-    SECRET_KEY = "f8_0r69gev@%%e1^)39mi6m%l&j-zj_-5co*ryz7iy2gqt_b#x"
+# Default will regenerate secret key on every startup. To use a static secret key,
+# set the SECRET_KEY env variable.
+SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get("DEBUG") is not None:
