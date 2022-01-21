@@ -49,7 +49,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            ghcr.io/${{ github.repository }}-tram
+            ghcr.io/${{ github.repository }}-nginx
           labels: |
             org.opencontainers.image.url=https://ctid.mitre-engenuity.org/our-work/tram/
 
