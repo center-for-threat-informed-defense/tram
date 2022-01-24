@@ -3,8 +3,8 @@
 name: Publish Docker image on publish of release
 
 on:
- release:
-   types: [published]
+  release:
+    types: [published]
 
 jobs:
   push_to_registries:
