@@ -43,6 +43,9 @@ ENV LC_ALL=C.UTF-8 LANG=C.UTF-8 \
 # flush all output immediately
 ENV PYTHONUNBUFFERED 1
 
+# extend python path to tram import path
+ENV PYTHONPATH=/tram/src/tram:${PYTHONPATH}
+
 WORKDIR /tram
 
 #COPY ./src src
@@ -56,6 +59,17 @@ RUN  --mount=type=cache,target=/root/.cache \
     # Download NLTK data
     python3 -m nltk.downloader punkt && \
     python3 -m nltk.downloader wordnet
+
+# Generate and Run Django migrations scripts, collectstatic app files
+RUN python3 /tram/src/tram/manage.py makemigrations tram && \
+    python3 /tram/src/tram/manage.py migrate && \
+    python3 /tram/src/tram/manage.py collectstatic
+
+# run ml training
+RUN python3 /tram/src/tram/manage.py attackdata load && \
+    python3 /tram/src/tram/manage.py pipeline load-training-data && \
+    python3 /tram/src/tram/manage.py pipeline train --model nb && \
+    python3 /tram/src/tram/manage.py pipeline train --model logreg
 
 EXPOSE 8000
 

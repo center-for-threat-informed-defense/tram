@@ -50,12 +50,9 @@ else:
     printf "%s" "${PY_CREATE_SU_SCRIPT}" | python3 /tram/src/tram/manage.py shell
 fi
 
-# Run ML processes
-python3 /tram/src/tram/manage.py attackdata load
-python3 /tram/src/tram/manage.py pipeline load-training-data
-python3 /tram/src/tram/manage.py pipeline train --model nb
-python3 /tram/src/tram/manage.py pipeline train --model logreg
 nohup python3 /tram/src/tram/manage.py pipeline run --model logreg &
 
 # Run Django on port 8000
-python3 /tram/src/tram/manage.py runserver 0.0.0.0:8000
+# python3 /tram/src/tram/manage.py runserver 0.0.0.0:8000
+
+gunicorn tram.wsgi:application -b 0.0.0.0:8000

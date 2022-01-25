@@ -50,6 +50,8 @@ pre-commit-run-all: venv .git/hooks/pre-commit ## Run pre-commit manually on all
 .PHONY: build-container
 build-container: venv ## Build container image
 	docker build -t $(APP_NAME):dev -t $(APP_NAME):$(TIMESTAMP)_$(GIT_HASH) -f Dockerfile . --label "org.opencontainers.image.revision=$(GIT_HASH)"
+	docker build -t $(APP_NAME)-nginx:dev -t $(APP_NAME)-nginx:$(TIMESTAMP)_$(GIT_HASH) -f docker/Dockerfile.nginx . --label "org.opencontainers.image.revision=$(GIT_HASH)"
+
 
 .PHONY: start-container
 start-container: ## Start container via docker-compose, runs ctidorg/tram:latest image by default

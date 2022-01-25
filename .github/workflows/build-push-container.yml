@@ -24,8 +24,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
+      - name: Extract metadata (tags, labels) - TRAM image
+        id: meta_tram
         uses: docker/metadata-action@v3
         with:
           images: |
@@ -33,10 +33,28 @@ jobs:
           labels: |
             org.opencontainers.image.url=https://ctid.mitre-engenuity.org/our-work/tram/
 
-      - name: Build and push Docker images
+      - name: Build and push TRAM application container image
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta_tram.outputs.tags }}
+          labels: ${{ steps.meta_tram.outputs.labels }}
+
+      - name: Extract metadata (tags, labels) - nginx image
+        id: meta_nginx
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            ghcr.io/${{ github.repository }}-nginx
+          labels: |
+            org.opencontainers.image.url=https://ctid.mitre-engenuity.org/our-work/tram/
+
+      - name: Build and push Nginx TRAM container image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: docker/Dockerfile.nginx
+          push: true
+          tags: ${{ steps.meta_nginx.outputs.tags }}
+          labels: ${{ steps.meta_nginx.outputs.labels }}
