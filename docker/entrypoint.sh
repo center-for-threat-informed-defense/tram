@@ -55,4 +55,4 @@ nohup python3 /tram/src/tram/manage.py pipeline run --model logreg &
 # Run Django on port 8000
 # python3 /tram/src/tram/manage.py runserver 0.0.0.0:8000
 
-gunicorn tram.asgi:application -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000
+gunicorn tram.wsgi:application -b 0.0.0.0:8000
