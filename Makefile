@@ -74,10 +74,15 @@ clean: ## Clean up pycache files
 	find . -name '__pycache__' -type d -delete
 
 .PHONY: clean-all
-clean-all: clean ## Clean up venv and tox if necessary, in addition to standard clean
+clean-all: clean-tox clean ## Clean up venv and tox if necessary, in addition to standard clean
 	find . \( -name ".tox" -o -name "$(VENV)" -o -name "*.egg-info"  \) -type d -prune -exec rm -rf {} +
 	find ./src -name '*.egg' -delete
 	rm -f coverage.xml
+	rm -rf data/media
+
+.PHONY: clean-tox
+clean-tox: # Clean up tox if necessary
+	find . -name ".tox" -type d -prune -exec rm -rf {} +
 
 .PHONY: venv-activate
 venv-activate: venv ## Activate venv

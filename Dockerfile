@@ -58,7 +58,8 @@ RUN  --mount=type=cache,target=/root/.cache \
     cp -f ./docker/entrypoint.sh entrypoint.sh && \
     # Download NLTK data
     python3 -m nltk.downloader punkt && \
-    python3 -m nltk.downloader wordnet
+    python3 -m nltk.downloader wordnet && \
+    python3 -m nltk.downloader omw-1.4
 
 # Generate and Run Django migrations scripts, collectstatic app files
 RUN python3 /tram/src/tram/manage.py makemigrations tram && \
