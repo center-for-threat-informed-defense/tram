@@ -1,27 +1,27 @@
+import pathlib
+import pickle
+import re
+import time
+import traceback
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from io import BytesIO
 from os import path
-import pathlib
-import pickle
-import time
-import traceback
 
-from bs4 import BeautifulSoup
-from constance import config
-from django.db import transaction
-from django.conf import settings
 import docx
 import nltk
 import pdfplumber
-import re
+from bs4 import BeautifulSoup
+from constance import config
+from django.conf import settings
+from django.db import transaction
 from sklearn.dummy import DummyClassifier
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 
 # The word model is overloaded in this scope, so a prefix is necessary
