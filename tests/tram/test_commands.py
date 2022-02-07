@@ -1,8 +1,8 @@
+import pytest
 from django.core.management import call_command
 from django.core.management.base import CommandError
-import pytest
 
-from tram.management.commands import pipeline, attackdata
+from tram.management.commands import attackdata, pipeline
 from tram.ml import base
 from tram.models import AttackObject, Sentence
 
@@ -10,25 +10,28 @@ from tram.models import AttackObject, Sentence
 class TestPipeline:
     def test_add_calls_create_from_file(self, mocker):
         # Arrange
-        mock_create = mocker.patch('tram.models.DocumentProcessingJob.create_from_file')
-        filepath = 'tests/data/simple-test.docx'
+        mock_create = mocker.patch("tram.models.DocumentProcessingJob.create_from_file")
+        filepath = "tests/data/simple-test.docx"
 
         # Act
-        call_command('pipeline', pipeline.ADD, file=filepath)
+        call_command("pipeline", pipeline.ADD, file=filepath)
 
         # Assert
         assert mock_create.called_once()
 
-    @pytest.mark.parametrize("subcommand,to_mock", [
-        (pipeline.RUN, 'run_model'),
-        (pipeline.TRAIN, 'train_model'),
-    ])
+    @pytest.mark.parametrize(
+        "subcommand,to_mock",
+        [
+            (pipeline.RUN, "run_model"),
+            (pipeline.TRAIN, "train_model"),
+        ],
+    )
     def test_subcommand_calls_correct_function(self, mocker, subcommand, to_mock):
         # Arrange
         mocked_func = mocker.patch.object(base.ModelManager, to_mock, return_value=None)
 
         # Act
-        call_command('pipeline', subcommand, model='dummy')
+        call_command("pipeline", subcommand, model="dummy")
 
         # Assert
         assert mocked_func.called_once()
@@ -36,20 +39,22 @@ class TestPipeline:
     def test_incorrect_subcommand_raises_commanderror(self):
         # Act / Assert
         with pytest.raises(CommandError):
-            call_command('pipeline', 'incorrect-subcommand')
+            call_command("pipeline", "incorrect-subcommand")
 
     @pytest.mark.django_db
     def test_load_training_data_succeeds(self, load_attack_data):
         # Act
-        call_command('pipeline', pipeline.LOAD_TRAINING_DATA)
+        call_command("pipeline", pipeline.LOAD_TRAINING_DATA)
 
         # Assert
-        assert Sentence.objects.count() == 12588  # Count of sentences data/training/bootstrap-training-data.json
+        assert (
+            Sentence.objects.count() == 12588
+        )  # Count of sentences data/training/bootstrap-training-data.json
 
     @pytest.mark.django_db
     def test_run_succeeds(self, load_attack_data):
         # Act
-        call_command('pipeline', pipeline.RUN)
+        call_command("pipeline", pipeline.RUN)
 
         # Assert
         pass
@@ -62,7 +67,7 @@ class TestAttackData:
         expected_object_count = 1461
 
         # Act
-        call_command('attackdata', attackdata.LOAD)
+        call_command("attackdata", attackdata.LOAD)
         object_count = AttackObject.objects.all().count()
 
         # Assert
@@ -73,8 +78,8 @@ class TestAttackData:
         expected_techniques = 0
 
         # Act
-        call_command('attackdata', attackdata.LOAD)
-        call_command('attackdata', attackdata.CLEAR)
+        call_command("attackdata", attackdata.LOAD)
+        call_command("attackdata", attackdata.CLEAR)
         techniques = AttackObject.objects.all().count()
 
         # Assert
@@ -83,4 +88,4 @@ class TestAttackData:
     def test_incorrect_subcommand_raises_commanderror(self):
         # Act / Assert
         with pytest.raises(CommandError):
-            call_command('attackdata', 'incorrect-subcommand')
+            call_command("attackdata", "incorrect-subcommand")

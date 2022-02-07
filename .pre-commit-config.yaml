@@ -1,3 +1,5 @@
+exclude: '^.*\b(migrations)\b.*$|\.min\.js$|\.min\.css$|\.min\.*\b|\.svg|^tests/data|^data/|static/js'
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
