@@ -26,12 +26,12 @@ class Command(BaseCommand):
         sp = parser.add_subparsers(
             title="subcommands", dest="subcommand", required=True
         )
-        sp_load = sp.add_parser(
+        sp_load = sp.add_parser(  # noqa: F841
             LOAD, help="Load ATT&CK Data into the Database"
-        )  # noqa: F841
-        sp_clear = sp.add_parser(
+        )
+        sp_clear = sp.add_parser(  # noqa: F841
             CLEAR, help="Clear ATT&CK Data from the Database"
-        )  # noqa: F841
+        )
 
     def clear_attack_data(self):
         deleted = AttackObject.objects.all().delete()
