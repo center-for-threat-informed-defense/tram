@@ -263,7 +263,8 @@ class LogisticRegressionModel(SKLearnModel):
             ("clf", LogisticRegression())
         ])
 
-class MPLClassifierModel(SKLearnModel):
+
+class MLPClassifierModel(SKLearnModel):
     def get_model(self):
         """
         Modeling pipeline:
@@ -272,7 +273,7 @@ class MPLClassifierModel(SKLearnModel):
         """
         return Pipeline([
             ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
-            ("clf", MPLClassifier(max_iter=1000))
+            ("clf", MLPClassifier(max_iter=1000))
         ])
 
 
@@ -281,7 +282,7 @@ class ModelManager(object):
         'dummy': DummyModel,
         'nb': NaiveBayesModel,
         'logreg': LogisticRegressionModel,
-        'nn_cls': MPLClassifierModel,
+        'nn_cls': MLPClassifierModel,
     }
 
     def __init__(self, model):
