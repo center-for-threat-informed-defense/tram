@@ -51,6 +51,10 @@ class Report(object):
         self.sentences = sentences  # Sentence objects
 
 
+class ExtractionError(Exception):
+    """An error that happens while extracting text from a source."""
+
+
 class SKLearnModel(ABC):
     """
     TODO:
@@ -206,7 +210,7 @@ class SKLearnModel(ABC):
 
         # If no text was extracted, then something went wrong.
         if not text:
-            raise Exception(
+            raise ExtractionError(
                 "Could not extract text from PDF. Check that the"
                 " PDF contains selectable text."
             )
