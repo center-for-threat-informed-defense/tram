@@ -51,6 +51,10 @@ class Report(object):
         self.sentences = sentences  # Sentence objects
 
 
+class ExtractionError(Exception):
+    """An error that happens while extracting text from a source."""
+
+
 class SKLearnModel(ABC):
     """
     TODO:
@@ -203,6 +207,13 @@ class SKLearnModel(ABC):
     def _extract_pdf_text(self, document):
         with pdfplumber.open(BytesIO(document.docfile.read())) as pdf:
             text = "".join(page.extract_text() for page in pdf.pages)
+
+        # If no text was extracted, then something went wrong.
+        if not text:
+            raise ExtractionError(
+                "Could not extract text from PDF. Check that the"
+                " PDF contains selectable text."
+            )
 
         return text
 
