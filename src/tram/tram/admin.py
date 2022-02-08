@@ -1,7 +1,14 @@
 from django.contrib import admin
 
-from tram.models import AttackObject, Document, DocumentProcessingJob, \
-    Indicator, Mapping, Report, Sentence
+from tram.models import (
+    AttackObject,
+    Document,
+    DocumentProcessingJob,
+    Indicator,
+    Mapping,
+    Report,
+    Sentence,
+)
 
 
 class IndicatorInline(admin.TabularInline):
@@ -17,11 +24,11 @@ class MappingInline(admin.TabularInline):
 class SentenceInline(admin.TabularInline):
     extra = 0
     model = Sentence
-    readonly_fields = ('text', 'document', 'order')
+    readonly_fields = ("text", "document", "order")
 
 
 class AttackObjectAdmin(admin.ModelAdmin):
-    readonly_fields = ('name', 'stix_id', 'attack_id', 'attack_url', 'matrix')
+    readonly_fields = ("name", "stix_id", "attack_id", "attack_url", "matrix")
 
 
 class DocumentAdmin(admin.ModelAdmin):
@@ -30,11 +37,11 @@ class DocumentAdmin(admin.ModelAdmin):
 
 class ReportAdmin(admin.ModelAdmin):
     inlines = [IndicatorInline, MappingInline]
-    readonly_fields = ('document', 'text', 'ml_model')
+    readonly_fields = ("document", "text", "ml_model")
 
 
 class SentenceAdmin(admin.ModelAdmin):
-    readonly_fields = ('text', 'document', 'order')
+    readonly_fields = ("text", "document", "order")
 
 
 admin.site.register(AttackObject, AttackObjectAdmin)

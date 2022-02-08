@@ -240,10 +240,8 @@ class SKLearnModel(ABC):
     @classmethod
     def load_from_file(cls, filepath):
         with open(filepath, "rb") as f:
-            model = pickle.load(  # nosec - Accept the risk until a better design is implemented
-                f
-            )
-
+            model = pickle.load(f)  # nosec
+            # accept risk until better design implemented
         assert cls == model.__class__
         return model
 
