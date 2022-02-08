@@ -146,27 +146,37 @@ The following steps are only required for local development and testing. The con
     python src/tram/manage.py migrate
     ```
 
-6. Create a superuser (web login)
+6. Run the Machine learning training.
 
-      ```sh
-      python src/tram/manage.py createsuperuser
-      ```
+    ```sh
+    python src/tram/manage.py attackdata load
+    python src/tram/manage.py pipeline load-training-data
+    python src/tram/manage.py pipeline train --model nb
+    python src/tram/manage.py pipeline train --model logreg
+    #  python src/tram/manage.py pipeline train --model <replace-with-registered-model-name>
+    ```
 
-7. Run the application server
+7. Create a superuser (web login)
+
+    ```sh
+    python src/tram/manage.py createsuperuser
+    ```
+
+8. Run the application server
 
     ```sh
     python src/tram/manage.py runserver
     ```
 
-8. Open the application in your web browser.
-   1. Navigate to <http://localhost:8000> and use the superuser to log in
-9. In a separate terminal window, run the ML pipeline
+9. Open the application in your web browser.
+    1. Navigate to <http://localhost:8000> and use the superuser to log in
+10. In a separate terminal window, run the ML pipeline
 
-    ```sh
-    cd tram/
-    source venv/bin/activate
-    python src/tram/manage.py pipeline run
-    ```
+     ```sh
+     cd tram/
+     source venv/bin/activate
+     python src/tram/manage.py pipeline run
+     ```
 
 ## Machine Learning Development
 
