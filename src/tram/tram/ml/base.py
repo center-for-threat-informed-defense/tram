@@ -204,6 +204,13 @@ class SKLearnModel(ABC):
         with pdfplumber.open(BytesIO(document.docfile.read())) as pdf:
             text = "".join(page.extract_text() for page in pdf.pages)
 
+        # If no text was extracted, then something went wrong.
+        if not text:
+            raise Exception(
+                "Could not extract text from PDF. Check that the"
+                " PDF contains selectable text."
+            )
+
         return text
 
     def _extract_html_text(self, document):
