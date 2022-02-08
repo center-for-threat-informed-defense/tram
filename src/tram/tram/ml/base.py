@@ -21,6 +21,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 
 # The word model is overloaded in this scope, so a prefix is necessary
@@ -294,11 +295,30 @@ class LogisticRegressionModel(SKLearnModel):
         )
 
 
+class MLPClassifierModel(SKLearnModel):
+    def get_model(self):
+        """
+        Modeling pipeline:
+        1) Features = document-term matrix, with stop words removed from the term vocabulary.
+        2) Classifier (clf) = multi-layer perceptron classifier
+        """
+        return Pipeline(
+            [
+                (
+                    "features",
+                    CountVectorizer(lowercase=True, stop_words="english", min_df=3),
+                ),
+                ("clf", MLPClassifier(max_iter=1000)),
+            ]
+        )
+
+
 class ModelManager(object):
     model_registry = {  # TODO: Add a hook to register user-created models
         "dummy": DummyModel,
         "nb": NaiveBayesModel,
         "logreg": LogisticRegressionModel,
+        "nn_cls": MLPClassifierModel,
     }
 
     def __init__(self, model):
