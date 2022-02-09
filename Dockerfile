@@ -45,7 +45,7 @@ RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/
 #ENV HTTP_PROXY=${http_proxy} \
 #    HTTPS_PROXY=${https_proxy} \
 #    NO_PROXY=${no_proxy}
-#COPY MY_ORG_ROOT /usr/local/share/ca-certificates
+#COPY MY_ORG_ROOT.crt /usr/local/share/ca-certificates
 #RUN cd /usr/local/share/ca-certificates && \
 #    wget http://pki.my-organization.local/MY%20ORG%20ROOT.crt && \
 #    update-ca-certificates
