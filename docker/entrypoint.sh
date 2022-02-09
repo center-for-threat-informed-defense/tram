@@ -50,7 +50,7 @@ else:
     printf "%s" "${PY_CREATE_SU_SCRIPT}" | python3 /tram/src/tram/manage.py shell
 fi
 
-nohup python3 /tram/src/tram/manage.py pipeline run --model logreg &
+nohup python3 /tram/src/tram/manage.py pipeline run --model logreg --run-forever &
 
 # Run Django on port 8000
 # python3 /tram/src/tram/manage.py runserver 0.0.0.0:8000
