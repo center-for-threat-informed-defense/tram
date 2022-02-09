@@ -32,6 +32,24 @@ RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/
         python3-venv \
         python3-wheel
 
+# Add proxy settings, enterprise certs to prevent SSL issues.
+# Uncomment and update these lines as needed. There is an example
+# with a wget if you can/want to download the cert directly from your
+# organization, otherwise use the COPY command to move it into the
+# docker build, and call run the `update-ca-certificates` command.
+#ENV proxy_host=${proxy_host:-proxy-server.my-organization.local} \
+#    proxy_port=${proxy_port:-80}
+#ENV http_proxy=http://${proxy_host}:${proxy_port} \
+#    https_proxy=http://${proxy_host}:${proxy_port} \
+#    no_proxy=localhost,127.0.0.1
+#ENV HTTP_PROXY=${http_proxy} \
+#    HTTPS_PROXY=${https_proxy} \
+#    NO_PROXY=${no_proxy}
+#COPY MY_ORG_ROOT /usr/local/share/ca-certificates
+#RUN cd /usr/local/share/ca-certificates && \
+#    wget http://pki.my-organization.local/MY%20ORG%20ROOT.crt && \
+#    update-ca-certificates
+
 RUN mkdir /tram && \
     python3 -m venv /tram/.venv && \
     /tram/.venv/bin/python3 -m pip install -U pip wheel setuptools
