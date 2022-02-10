@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
     <title>{% block title %}Default Title{% endblock %}</title>
 
@@ -25,6 +26,7 @@
     <meta charset="utf-8">
     {% block head %} {% endblock %}
 </head>
+
 <body>
     <header class="navbar  navbar-fixed-top navbar-expand-md">
         <nav class="container-xxl d-flex justify-content-between">
@@ -41,11 +43,13 @@
                 </li>
                 <li class="navbar-item me-1">
                     <form id="id-upload-form">
-                    {% csrf_token %}
-                    <label for="id-upload" class="btn btn btn-outline-light" title="Upload File">
-                        <i class="fas fa-upload"></i>
-                    </label>
-                    <input type="file" id="id-upload" style="display: none; height: max-content;" accept=".pdf,.docx,.html,.json">
+                        {% csrf_token %}
+                        <label for="id-upload" class="btn btn btn-outline-light"
+                            title="Upload File (valid: .pdf, .docx, .html, .json, .txt)">
+                            <i class=" fas fa-upload"></i>
+                        </label>
+                        <input type="file" id="id-upload" style="display: none; height: max-content;"
+                            accept=".pdf,.docx,.html,.json">
                     </form>
                 </li>
                 <li class="navbar-item me-1">
