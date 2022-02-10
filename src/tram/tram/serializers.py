@@ -197,7 +197,7 @@ class ReportExportSerializer(ReportSerializer):
                 document=None,
                 text=validated_data["text"],
                 ml_model=validated_data["ml_model"],
-                created_by=None,  # TODO: Get user from session
+                created_by=validated_data["created_by"],
             )
 
             for sentence in validated_data["sentences"]:

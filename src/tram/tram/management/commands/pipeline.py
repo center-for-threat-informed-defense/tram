@@ -1,6 +1,7 @@
 import json
 import time
 
+from django.contrib.auth.models import User
 from django.core.files import File
 from django.core.management.base import BaseCommand
 
@@ -50,11 +51,15 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         subcommand = options["subcommand"]
 
+        user, created = User.objects.get_or_create(username="pipeline (manual)")
+        if created:
+            self.stdout.write(f"Created User '{user.username}' to handle manual submissions")
+
         if subcommand == ADD:
             filepath = options["file"]
             with open(filepath, "rb") as f:
                 django_file = File(f)
-                db_models.DocumentProcessingJob.create_from_file(django_file)
+                db_models.DocumentProcessingJob.create_from_file(django_file, user)
             self.stdout.write(f"Added file to ML Pipeline: {filepath}")
             return
 
@@ -64,7 +69,7 @@ class Command(BaseCommand):
             with open(filepath, "r") as f:
                 res = serializers.ReportExportSerializer(data=json.load(f))
                 res.is_valid(raise_exception=True)
-                res.save()
+                res.save(created_by=user)
             return
 
         model = options["model"]

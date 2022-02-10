@@ -351,6 +351,7 @@ class ModelManager(object):
             document=document,
             text=report.text,
             ml_model=self.model.__class__.__name__,
+            created_by=document.created_by,
         )
         rpt.save()
 

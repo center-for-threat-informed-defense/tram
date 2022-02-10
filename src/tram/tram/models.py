@@ -88,11 +88,12 @@ class DocumentProcessingJob(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     @classmethod
-    def create_from_file(cls, f):
+    def create_from_file(cls, f, u):
         assert isinstance(f, File)
-        doc = Document(docfile=f)
+        assert isinstance(u, User)
+        doc = Document(docfile=f, created_by=u)
         doc.save()
-        dpj = DocumentProcessingJob(document=doc)
+        dpj = DocumentProcessingJob(document=doc, created_by=u)
         dpj.save()
         return dpj
 
