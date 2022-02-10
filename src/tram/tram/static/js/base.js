@@ -70,7 +70,13 @@ function updateSentence(sentence_id, disposition) {
             "X-CSRFToken": CSRF_TOKEN
         },
         success: function (data) {
-            loadSentences(sentence_id);
+            if (disposition.disposition == "accept"){
+                new_sentence_id = String(parseInt(sentence_id) + 1)
+                loadSentences(new_sentence_id);
+            }
+            else {
+                loadSentences(sentence_id);
+            }
         },
         failure: function (data) {
             console.log(`Failure: ${data}`);
