@@ -1,7 +1,6 @@
 import io
 import json
 import re
-import time
 
 from constance import config
 from django.contrib.auth.decorators import login_required
@@ -70,31 +69,34 @@ class ReportExportViewSet(viewsets.ModelViewSet):
         if format == "json":
             filename = slugify(self.get_object().name) + ".json"
             response["Content-Disposition"] = 'attachment; filename="%s"' % filename
-            return response
 
         elif format == "docx":
             # Uses json dictionary to create formatted document
-            document = self.build_document(response.data)
+            document = self.build_docx(response.data)
 
             # save document info
             buffer = io.BytesIO()
             document.save(buffer)  # save your memory stream
             buffer.seek(0)  # rewind the stream
 
-            # put them to streaming content response
-            # within docx content_type
+            # put them to streaming content response within docx content_type
+            content_type = (
+                "application/"
+                "vnd.openxmlformats-officedocument.wordprocessingml.document"
+            )
             response = StreamingHttpResponse(
                 streaming_content=buffer,  # use the stream's content
-                content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                content_type=content_type,
             )
 
             filename = slugify(self.get_object().name) + ".docx"
             response["Content-Disposition"] = 'attachment; filename="%s"' % filename
             response["Content-Encoding"] = "UTF-8"
-            return response
+
+        return response
 
     # Uses json dictionary of the report to build a formatted document
-    def build_document(self, data):
+    def build_docx(self, data):
         document = Document()
         name = data["name"]
         accepted = str(data["accepted_sentences"])
