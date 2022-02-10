@@ -12,6 +12,15 @@ def dummy_model():
     return base.DummyModel()
 
 
+@pytest.fixture
+def user():
+    user = User.objects.create_superuser(username="testuser")
+    user.set_password("12345")
+    user.save()
+    yield user
+    user.delete()
+
+
 class TestSentence:
     def test_sentence_stores_no_mapping(self):
         # Arrange
@@ -310,7 +319,7 @@ class TestsThatNeedTrainingData:
         assert report.text is not None
         assert len(report.sentences) > 0
 
-    def test_process_job_handles_image_based_pdf(self):
+    def test_process_job_handles_image_based_pdf(self, user):
         """
         Some PDFs can be saved such that the text is stored as images and therefore
         cannot be extracted from the PDF. Windows PDF Printer behaves this way.
@@ -320,9 +329,8 @@ class TestsThatNeedTrainingData:
         """
         # Arrange
         image_pdf = "tests/data/GroupIB_Big_Airline_Heist_APT41.pdf"
-        dummy_user = User.objects.get_or_create(username="dummy-user")[0]
         with open(image_pdf, "rb") as f:
-            processing_job = db_models.DocumentProcessingJob.create_from_file(File(f), dummy_user)
+            processing_job = db_models.DocumentProcessingJob.create_from_file(File(f), user)
         job_id = processing_job.id
         model_manager = base.ModelManager("dummy")
 
