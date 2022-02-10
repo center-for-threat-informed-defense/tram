@@ -1,5 +1,6 @@
 import pytest
 from constance import config
+from django.contrib.auth.models import User
 from django.core.files import File
 
 import tram.models as db_models
@@ -319,8 +320,9 @@ class TestsThatNeedTrainingData:
         """
         # Arrange
         image_pdf = "tests/data/GroupIB_Big_Airline_Heist_APT41.pdf"
+        dummy_user = User.objects.get_or_create(username="dummy-user")[0]
         with open(image_pdf, "rb") as f:
-            processing_job = db_models.DocumentProcessingJob.create_from_file(File(f))
+            processing_job = db_models.DocumentProcessingJob.create_from_file(File(f), dummy_user)
         job_id = processing_job.id
         model_manager = base.ModelManager("dummy")
 
