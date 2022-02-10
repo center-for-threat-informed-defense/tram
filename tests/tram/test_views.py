@@ -236,6 +236,19 @@ class TestReportExport:
         assert "sentences" in json_response
         assert len(json_response["sentences"][0]["mappings"]) == 1
 
+    def test_export_docx_report(self, logged_in_client, mapping):
+        """
+        Check that something that looks like a Word doc was returned.
+
+        There are separate unit tests for the doc's content.
+        """
+        # Act
+        response = logged_in_client.get("/api/report-export/1/?type=docx")
+        data = list(response.streaming_content)
+
+        # Assert
+        assert data[0].startswith(b"PK\x03\x04")
+
     def test_bootstrap_training_data_can_be_posted_as_json_report(
         self, logged_in_client, load_attack_data
     ):

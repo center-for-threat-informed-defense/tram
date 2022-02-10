@@ -1,6 +1,6 @@
-from urllib.parse import quote
 import io
 import json
+from urllib.parse import quote
 
 from constance import config
 from django.contrib.auth.decorators import login_required
@@ -13,10 +13,10 @@ from django.http import (
 from django.shortcuts import render
 from rest_framework import viewsets
 
+import tram.report.docx
 from tram import serializers
 from tram.ml import base
 from tram.models import AttackObject, DocumentProcessingJob, Mapping, Report, Sentence
-import tram.report.docx
 
 
 class AttackObjectViewSet(viewsets.ModelViewSet):
