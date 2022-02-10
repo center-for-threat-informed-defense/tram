@@ -330,7 +330,9 @@ class TestsThatNeedTrainingData:
         # Arrange
         image_pdf = "tests/data/GroupIB_Big_Airline_Heist_APT41.pdf"
         with open(image_pdf, "rb") as f:
-            processing_job = db_models.DocumentProcessingJob.create_from_file(File(f), user)
+            processing_job = db_models.DocumentProcessingJob.create_from_file(
+                File(f), user
+            )
         job_id = processing_job.id
         model_manager = base.ModelManager("dummy")
 
