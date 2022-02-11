@@ -1,7 +1,6 @@
 import io
 import json
-import mimetypes
-import os
+import urllib.parse
 
 from constance import config
 from django.contrib.auth.decorators import login_required
@@ -17,7 +16,14 @@ from rest_framework import viewsets
 
 from tram import serializers
 from tram.ml import base
-from tram.models import AttackObject, DocumentProcessingJob, Mapping, Report, Sentence
+from tram.models import (
+    AttackObject,
+    Document,
+    DocumentProcessingJob,
+    Mapping,
+    Report,
+    Sentence,
+)
 
 
 class AttackObjectViewSet(viewsets.ModelViewSet):
@@ -170,23 +176,18 @@ def analyze(request, pk):
 
 # download original report
 @login_required
-def download_report(request, report_name):
+def download_report(request, doc_id):
+    doc = Document.objects.get(id=doc_id)
+    docfile = doc.docfile
+
     try:
-        file_path = "data/media/" + report_name
-
-        # Handle edge case for training data (in different directory)
-        if report_name == "Bootstrap Training Data":
-            file_path = "data/media/data/training/bootstrap-training-data.json"
-
-        # Open file
-        file = open(file_path, "rb")
-
-        # Find filetype and create response to pass file
-        mime_type_guess = mimetypes.guess_type(report_name)
-        response = HttpResponse(file, content_type=mime_type_guess[0])
-        response["Content-Disposition"] = "attachment; filename=" + report_name
-
-        file.close()
-        return response
+        with docfile.open("rb") as report_file:
+            response = HttpResponse(
+                report_file, content_type="application/octet-stream"
+            )
+            filename = urllib.parse.quote(docfile.name)
+            response["Content-Disposition"] = f"attachment; filename={filename}"
     except IOError:
         raise Http404("File does not exist")
+
+    return response
