@@ -3,11 +3,7 @@ import urllib.parse
 
 from constance import config
 from django.contrib.auth.decorators import login_required
-from django.http import (
-    Http404,
-    HttpResponse,
-    HttpResponseBadRequest,
-)
+from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.utils.text import slugify
 from rest_framework import viewsets
