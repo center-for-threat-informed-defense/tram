@@ -4,38 +4,51 @@ from rest_framework import serializers
 from tram import models as db_models
 
 
-class AttackTechniqueSerializer(serializers.ModelSerializer):
+class AttackObjectSerializer(serializers.ModelSerializer):
     class Meta:
-        model = db_models.AttackTechnique
-        fields = ['id', 'attack_id', 'name']
+        model = db_models.AttackObject
+        fields = ["id", "attack_id", "name"]
 
 
 class DocumentProcessingJobSerializer(serializers.ModelSerializer):
     """Needs to be kept in sync with ReportSerializer for display purposes"""
+
     name = serializers.SerializerMethodField()
     byline = serializers.SerializerMethodField()
     status = serializers.SerializerMethodField()
 
     class Meta:
         model = db_models.DocumentProcessingJob
-        fields = ['id', 'name', 'byline', 'status', 'message', 'created_by', 'created_on', 'updated_on']
-        order = ['-created_on']
+        fields = [
+            "id",
+            "name",
+            "byline",
+            "status",
+            "message",
+            "created_by",
+            "created_on",
+            "updated_on",
+        ]
+        order = ["-created_on"]
 
     def get_name(self, obj):
         name = obj.document.docfile.name
         return name
 
     def get_byline(self, obj):
-        byline = '%s on %s' % (obj.created_by, obj.created_on.strftime('%Y-%M-%d %H:%M:%S UTC'))
+        byline = "%s on %s" % (
+            obj.created_by,
+            obj.created_on.strftime("%Y-%M-%d %H:%M:%S UTC"),
+        )
         return byline
 
     def get_status(self, obj):
-        if obj.status == 'queued':
-            return 'Queued'
-        elif obj.status == 'error':
-            return 'Error'
+        if obj.status == "queued":
+            return "Queued"
+        elif obj.status == "error":
+            return "Error"
         else:
-            return 'Unknown'
+            return "Unknown"
 
 
 class MappingSerializer(serializers.ModelSerializer):
@@ -45,13 +58,13 @@ class MappingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = db_models.Mapping
-        fields = ['id', 'attack_id', 'name', 'confidence']
+        fields = ["id", "attack_id", "name", "confidence"]
 
     def get_attack_id(self, obj):
-        return obj.attack_technique.attack_id
+        return obj.attack_object.attack_id
 
     def get_name(self, obj):
-        return obj.attack_technique.name
+        return obj.attack_object.name
 
     def to_internal_value(self, data):
         """DRF's to_internal_value function only retains model fields from the input JSON. For Mappings,
@@ -63,24 +76,26 @@ class MappingSerializer(serializers.ModelSerializer):
         internal_value = super().to_internal_value(data)  # Keeps model fields
 
         # Add necessary fields
-        attack_technique = db_models.AttackTechnique.objects.get(attack_id=data['attack_id'])
-        sentence = db_models.Sentence.objects.get(id=data['sentence'])
-        report = db_models.Report.objects.get(id=data['report'])
+        attack_object = db_models.AttackObject.objects.get(attack_id=data["attack_id"])
+        sentence = db_models.Sentence.objects.get(id=data["sentence"])
+        report = db_models.Report.objects.get(id=data["report"])
 
-        internal_value.update({
-            'report': report,
-            'sentence': sentence,
-            'attack_technique': attack_technique,
-        })
+        internal_value.update(
+            {
+                "report": report,
+                "sentence": sentence,
+                "attack_object": attack_object,
+            }
+        )
 
         return internal_value
 
     def create(self, validated_data):
         mapping = db_models.Mapping.objects.create(
-            report=validated_data['report'],
-            sentence=validated_data['sentence'],
-            attack_technique=validated_data['attack_technique'],
-            confidence=validated_data['confidence']
+            report=validated_data["report"],
+            sentence=validated_data["sentence"],
+            attack_object=validated_data["attack_object"],
+            confidence=validated_data["confidence"],
         )
 
         return mapping
@@ -95,12 +110,26 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = db_models.Report
-        fields = ['id', 'name', 'byline', 'accepted_sentences', 'reviewing_sentences', 'total_sentences',
-                  'text', 'ml_model', 'created_by', 'created_on', 'updated_on', 'status']
-        order = ['-created_on']
+        fields = [
+            "id",
+            "name",
+            "byline",
+            "accepted_sentences",
+            "reviewing_sentences",
+            "total_sentences",
+            "text",
+            "ml_model",
+            "created_by",
+            "created_on",
+            "updated_on",
+            "status",
+        ]
+        order = ["-created_on"]
 
     def get_accepted_sentences(self, obj):
-        count = db_models.Sentence.objects.filter(disposition='accept', report=obj).count()
+        count = db_models.Sentence.objects.filter(
+            disposition="accept", report=obj
+        ).count()
         return count
 
     def get_reviewing_sentences(self, obj):
@@ -112,26 +141,32 @@ class ReportSerializer(serializers.ModelSerializer):
         return count
 
     def get_byline(self, obj):
-        byline = '%s on %s' % (obj.created_by, obj.created_on.strftime('%Y-%m-%d %H:%M:%S UTC'))
+        byline = "%s on %s" % (
+            obj.created_by,
+            obj.created_on.strftime("%Y-%m-%d %H:%M:%S UTC"),
+        )
         return byline
 
     def get_status(self, obj):
         reviewing_sentences = self.get_reviewing_sentences(obj)
-        status = 'Reviewing'
+        status = "Reviewing"
         if reviewing_sentences == 0:
-            status = 'Accepted'
+            status = "Accepted"
         return status
 
 
 class ReportExportSerializer(ReportSerializer):
     """Defines the export format for reports. Defined separately from ReportSerializer so that:
-        1. ReportSerializer and ReportExportSerializer can evolve independently
-        2. The export is larger than what the REST API needs
+    1. ReportSerializer and ReportExportSerializer can evolve independently
+    2. The export is larger than what the REST API needs
     """
+
     sentences = serializers.SerializerMethodField()
 
     class Meta(ReportSerializer.Meta):
-        fields = ReportSerializer.Meta.fields + ['sentences', ]
+        fields = ReportSerializer.Meta.fields + [
+            "sentences",
+        ]
 
     def get_sentences(self, obj):
         sentences = db_models.Sentence.objects.filter(report=obj)
@@ -148,28 +183,30 @@ class ReportExportSerializer(ReportSerializer):
         internal_value = super().to_internal_value(data)  # Keeps model fields
 
         # Add sentences
-        sentence_serializers = [SentenceSerializer(data=sentence) for sentence in data.get('sentences', [])]
+        sentence_serializers = [
+            SentenceSerializer(data=sentence) for sentence in data.get("sentences", [])
+        ]
 
-        internal_value.update({'sentences': sentence_serializers})
+        internal_value.update({"sentences": sentence_serializers})
         return internal_value
 
     def create(self, validated_data):
         with transaction.atomic():
             report = db_models.Report.objects.create(
-                            name=validated_data['name'],
-                            document=None,
-                            text=validated_data['text'],
-                            ml_model=validated_data['ml_model'],
-                            created_by=None,  # TODO: Get user from session
-                        )
+                name=validated_data["name"],
+                document=None,
+                text=validated_data["text"],
+                ml_model=validated_data["ml_model"],
+                created_by=None,  # TODO: Get user from session
+            )
 
-            for sentence in validated_data['sentences']:
+            for sentence in validated_data["sentences"]:
                 if sentence.is_valid():
-                    sentence.validated_data['report'] = report
+                    sentence.validated_data["report"] = report
                     sentence.save()
                 else:
                     # TODO: Handle this case better
-                    raise Exception('Sentence validation needs to be handled better')
+                    raise Exception("Sentence validation needs to be handled better")
 
         return report
 
@@ -182,7 +219,7 @@ class SentenceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = db_models.Sentence
-        fields = ['id', 'text', 'order', 'disposition', 'mappings']
+        fields = ["id", "text", "order", "disposition", "mappings"]
 
     def get_mappings(self, obj):
         mappings = db_models.Mapping.objects.filter(sentence=obj)
@@ -199,27 +236,29 @@ class SentenceSerializer(serializers.ModelSerializer):
         internal_value = super().to_internal_value(data)  # Keeps model fields
 
         # Add mappings
-        mapping_serializers = [MappingSerializer(data=mapping) for mapping in data.get('mappings', [])]
+        mapping_serializers = [
+            MappingSerializer(data=mapping) for mapping in data.get("mappings", [])
+        ]
 
-        internal_value.update({'mappings': mapping_serializers})
+        internal_value.update({"mappings": mapping_serializers})
         return internal_value
 
     def create(self, validated_data):
         with transaction.atomic():
             sentence = db_models.Sentence.objects.create(
-                text=validated_data['text'],
+                text=validated_data["text"],
                 document=None,
-                report=validated_data['report'],
-                disposition=validated_data['disposition']
+                report=validated_data["report"],
+                disposition=validated_data["disposition"],
             )
 
-            for mapping in validated_data.get('mappings', []):
-                mapping.initial_data['sentence'] = sentence.id
-                mapping.initial_data['report'] = validated_data['report'].id
+            for mapping in validated_data.get("mappings", []):
+                mapping.initial_data["sentence"] = sentence.id
+                mapping.initial_data["report"] = validated_data["report"].id
                 if mapping.is_valid():
                     mapping.save()
                 else:
                     # TODO: Handle this case better
-                    raise Exception('Mapping validation needs to be handled better')
+                    raise Exception("Mapping validation needs to be handled better")
 
         return sentence

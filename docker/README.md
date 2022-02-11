@@ -24,7 +24,7 @@ services:
       - "8000:8000"
     environment:
       - DATA_DIRECTORY=/data
-      - ALLOWED_HOSTS=["example_host1", "localhost"] 
+      - ALLOWED_HOSTS=["example_host1", "localhost"]
       - SECRET_KEY=Ij0WGee73k9OESwqddmSKCx6SY9aJ_7bDojs485Z6ec # your secret key here
       - DEBUG=True
       - DJANGO_SUPERUSER_USERNAME=djangoSuperuser

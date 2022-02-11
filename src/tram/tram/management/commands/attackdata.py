@@ -3,55 +3,68 @@ import json
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from tram.models import AttackTechnique, AttackGroup
+from tram.models import AttackObject
 
-LOAD = 'load'
-CLEAR = 'clear'
+LOAD = "load"
+CLEAR = "clear"
+
+
+STIX_TYPE_TO_ATTACK_TYPE = {
+    "attack-pattern": "technique",
+    "course-of-action": "mitigation",
+    "intrusion-set": "group",
+    "malware": "software",
+    "tool": "software",
+    "x-mitre-tactic": "tactic",
+}
 
 
 class Command(BaseCommand):
-    help = 'Machine learning pipeline commands'
+    help = "Machine learning pipeline commands"
 
     def add_arguments(self, parser):
-        sp = parser.add_subparsers(title='subcommands',
-                                   dest='subcommand',
-                                   required=True)
-        sp_load = sp.add_parser(LOAD, help='Load ATT&CK Data into the Database')  # noqa: F841
-        sp_clear = sp.add_parser(CLEAR, help='Clear ATT&CK Data from the Database')  # noqa: F841
+        sp = parser.add_subparsers(
+            title="subcommands", dest="subcommand", required=True
+        )
+        sp_load = sp.add_parser(  # noqa: F841
+            LOAD, help="Load ATT&CK Data into the Database"
+        )
+        sp_clear = sp.add_parser(  # noqa: F841
+            CLEAR, help="Clear ATT&CK Data from the Database"
+        )
 
     def clear_attack_data(self):
-        models = [AttackTechnique, AttackGroup]
-        for model in models:
-            deleted = model.objects.all().delete()
-            print(f'Deleted {deleted[0]} {model.__name__} objects')
+        deleted = AttackObject.objects.all().delete()
+        print(f"Deleted {deleted[0]} Attack objects")
 
     def create_attack_object(self, obj):
-        obj_type = obj_type = obj['type']
-        if obj_type == 'attack-pattern':
-            model_class = AttackTechnique
-        elif obj_type == 'intrusion-set':
-            model_class = AttackGroup
-        else:
-            raise ValueError(f'Unsupported ATT&CK object type: {obj_type}')
-
-        for external_reference in obj['external_references']:
-            if external_reference['source_name'] not in ('mitre-attack', 'mitre-pre-attack', 'mitre-mobile-attack'):
+        for external_reference in obj["external_references"]:
+            if external_reference["source_name"] not in (
+                "mitre-attack",
+                "mitre-pre-attack",
+                "mitre-mobile-attack",
+            ):
                 continue
 
-            attack_id = external_reference['external_id']
-            attack_url = external_reference['url']
-            matrix = external_reference['source_name']
+            attack_id = external_reference["external_id"]
+            attack_url = external_reference["url"]
+            matrix = external_reference["source_name"]
 
         assert attack_id is not None
         assert attack_url is not None
         assert matrix is not None
 
-        obj, created = model_class.objects.get_or_create(
-            name=obj['name'],
-            stix_id=obj['id'],
+        stix_type = obj["type"]
+        attack_type = STIX_TYPE_TO_ATTACK_TYPE[stix_type]
+
+        obj, created = AttackObject.objects.get_or_create(
+            name=obj["name"],
+            stix_id=obj["id"],
+            stix_type=stix_type,
             attack_id=attack_id,
+            attack_type=attack_type,
             attack_url=attack_url,
-            matrix=matrix
+            matrix=matrix,
         )
 
         return obj, created
@@ -60,16 +73,27 @@ class Command(BaseCommand):
         created_stats = {}
         skipped_stats = {}
 
-        with open(filepath, 'r') as f:
+        with open(filepath, "r") as f:
             attack_json = json.load(f)
 
-        assert attack_json['spec_version'] == '2.0'
-        assert attack_json['type'] == 'bundle'
+        assert attack_json["spec_version"] == "2.0"
+        assert attack_json["type"] == "bundle"
 
-        for obj in attack_json['objects']:
-            obj_type = obj['type']
+        for obj in attack_json["objects"]:
+            obj_type = obj["type"]
 
-            if obj.get('revoked', False):  # Skip revoked objects
+            # TODO: Skip deprecated objects
+            if obj.get("revoked", False):  # Skip revoked objects
+                skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
+                continue
+
+            if obj_type in (
+                "relationship",
+                "course-of-action",
+                "identity",
+                "x-mitre-matrix",
+                "marking-definition",
+            ):
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
                 continue
 
@@ -82,21 +106,23 @@ class Command(BaseCommand):
             except ValueError:  # Value error means unsupported object type
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
 
-        print('Load stats for {filepath}:')
+        print(f"Load stats for {filepath}:")
         for k, v in created_stats.items():
-            print(f'\tCreated {v} {k} objects')
+            print(f"\tCreated {v} {k} objects")
         for k, v in skipped_stats.items():
-            print(f'\tSkipped {v} {k} objects')
+            print(f"\tSkipped {v} {k} objects")
 
     def handle(self, *args, **options):
-        subcommand = options['subcommand']
+        subcommand = options["subcommand"]
 
         if subcommand == LOAD:
             # Note - as of ATT&CK v8.2
             #   Techniques are unique among files, but
             #   Groups are not unique among files
-            self.load_attack_data(settings.DATA_DIRECTORY / 'attack/enterprise-attack.json')
-            self.load_attack_data(settings.DATA_DIRECTORY / 'attack/mobile-attack.json')
-            self.load_attack_data(settings.DATA_DIRECTORY / 'attack/pre-attack.json')
+            self.load_attack_data(
+                settings.DATA_DIRECTORY / "attack/enterprise-attack.json"
+            )
+            self.load_attack_data(settings.DATA_DIRECTORY / "attack/mobile-attack.json")
+            self.load_attack_data(settings.DATA_DIRECTORY / "attack/pre-attack.json")
         elif subcommand == CLEAR:
             self.clear_attack_data()

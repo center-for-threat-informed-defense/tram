@@ -1,26 +1,27 @@
+import pathlib
+import pickle
+import re
+import time
+import traceback
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from io import BytesIO
 from os import path
-import pathlib
-import pickle
-import time
-import traceback
 
-from bs4 import BeautifulSoup
-from constance import config
-from django.db import transaction
-from django.conf import settings
 import docx
 import nltk
 import pdfplumber
-import re
+from bs4 import BeautifulSoup
+from constance import config
+from django.conf import settings
+from django.db import transaction
 from sklearn.dummy import DummyClassifier
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 
 # The word model is overloaded in this scope, so a prefix is necessary
@@ -35,12 +36,12 @@ class Sentence(object):
 
 
 class Mapping(object):
-    def __init__(self, confidence=0.0, attack_technique=None):
+    def __init__(self, confidence=0.0, attack_id=None):
         self.confidence = confidence
-        self.attack_technique = attack_technique
+        self.attack_id = attack_id
 
     def __repr__(self):
-        return 'Confidence=%f; Technique=%s' % (self.confidence, self.attack_technique)
+        return "Confidence=%f; Attack ID=%s" % (self.confidence, self.attack_id)
 
 
 class Report(object):
@@ -50,25 +51,30 @@ class Report(object):
         self.sentences = sentences  # Sentence objects
 
 
+class ExtractionError(Exception):
+    """An error that happens while extracting text from a source."""
+
+
 class SKLearnModel(ABC):
     """
     TODO:
     1. Move text extraction and tokenization out of the SKLearnModel
     """
+
     def __init__(self):
-        self._technique_ids = None
         self.techniques_model = self.get_model()
         self.last_trained = None
         self.average_f1_score = None
         self.detailed_f1_score = None
 
         if not isinstance(self.techniques_model, Pipeline):
-            raise TypeError('get_model() must return an sklearn.pipeline.Pipeline instance')
+            raise TypeError(
+                "get_model() must return an sklearn.pipeline.Pipeline instance"
+            )
 
     @abstractmethod
     def get_model(self):
-        """Returns an sklearn.Pipeline that has fit() and predict() methods
-        """
+        """Returns an sklearn.Pipeline that has fit() and predict() methods"""
 
     def train(self):
         """
@@ -87,8 +93,9 @@ class SKLearnModel(ABC):
         X, y = self.get_training_data()
 
         # Create training set and test set
-        X_train, X_test, y_train, y_test = \
-            train_test_split(X, y, test_size=0.2, shuffle=True, random_state=0, stratify=y)
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=0.2, shuffle=True, random_state=0, stratify=y
+        )
 
         # Train model
         test_model = self.get_model()
@@ -101,32 +108,30 @@ class SKLearnModel(ABC):
         # Calculate an f1 score for each technique
         labels = sorted(list(set(y)))
         scores = f1_score(y_test, y_predicted, labels=list(set(y)), average=None)
-        self.detailed_f1_score = sorted(zip(labels, scores), key=lambda t: t[1], reverse=True)
+        self.detailed_f1_score = sorted(
+            zip(labels, scores), key=lambda t: t[1], reverse=True
+        )
 
         # Average F1 score across techniques, weighted by the # of training examples per technique
-        weighted_f1 = f1_score(y_test, y_predicted, average='weighted')
+        weighted_f1 = f1_score(y_test, y_predicted, average="weighted")
         self.average_f1_score = weighted_f1
-
-    @property
-    def technique_ids(self):
-        if not self._technique_ids:
-            self._technique_ids = self.get_attack_technique_ids()
-        return self._technique_ids
 
     def _get_report_name(self, job):
         name = pathlib.Path(job.document.docfile.path).name
-        return 'Report for %s' % name
+        return "Report for %s" % name
 
     def _extract_text(self, document):
         suffix = pathlib.Path(document.docfile.path).suffix
-        if suffix == '.pdf':
+        if suffix == ".pdf":
             text = self._extract_pdf_text(document)
-        elif suffix == '.docx':
+        elif suffix == ".docx":
             text = self._extract_docx_text(document)
-        elif suffix == '.html':
+        elif suffix == ".html":
             text = self._extract_html_text(document)
+        elif suffix == ".txt":
+            text = self._extract_plain_text(document)
         else:
-            raise ValueError('Unknown file suffix: %s' % suffix)
+            raise ValueError("Unknown file suffix: %s" % suffix)
 
         return text
 
@@ -139,8 +144,12 @@ class SKLearnModel(ABC):
         lemma = nltk.stem.WordNetLemmatizer()
 
         # Lemmatize each word in sentence
-        lemmatized_sentence = ' '.join([lemma.lemmatize(w) for w in sentence.rstrip().split()])
-        lemmatized_sentence = re.sub(r'\d+', '', lemmatized_sentence)  # Remove digits with regex
+        lemmatized_sentence = " ".join(
+            [lemma.lemmatize(w) for w in sentence.rstrip().split()]
+        )
+        lemmatized_sentence = re.sub(
+            r"\d+", "", lemmatized_sentence
+        )  # Remove digits with regex
 
         return lemmatized_sentence
 
@@ -155,15 +164,20 @@ class SKLearnModel(ABC):
         for mapping in mappings:
             lemmatized_sentence = self.lemmatize(mapping.sentence.text)
             X.append(lemmatized_sentence)
-            y.append(mapping.attack_technique.attack_id)
+            y.append(mapping.attack_object.attack_id)
 
         return X, y
 
-    def get_attack_technique_ids(self):
-        techniques = [t.attack_id for t in db_models.AttackTechnique.objects.all().order_by('attack_id')]
-        if len(techniques) == 0:
-            raise ValueError('Zero techniques found. Maybe run `python manage.py attackdata load` ?')
-        return techniques
+    def get_attack_object_ids(self):
+        objects = [
+            obj.attack_id
+            for obj in db_models.AttackObject.objects.all().order_by("attack_id")
+        ]
+        if len(objects) == 0:
+            raise ValueError(
+                "Zero techniques found. Maybe run `python manage.py attackdata load` ?"
+            )
+        return objects
 
     def get_mappings(self, sentence):
         """
@@ -172,7 +186,9 @@ class SKLearnModel(ABC):
         mappings = []
 
         techniques = self.techniques_model.classes_
-        probs = self.techniques_model.predict_proba([sentence])[0]  # Probability is a range between 0-1
+        probs = self.techniques_model.predict_proba([sentence])[
+            0
+        ]  # Probability is a range between 0-1
 
         # Create a list of tuples of (confidence, technique)
         confidences_and_techniques = zip(probs, techniques)
@@ -192,7 +208,14 @@ class SKLearnModel(ABC):
 
     def _extract_pdf_text(self, document):
         with pdfplumber.open(BytesIO(document.docfile.read())) as pdf:
-            text = ''.join(page.extract_text() for page in pdf.pages)
+            text = "".join(page.extract_text() for page in pdf.pages)
+
+        # If no text was extracted, then something went wrong.
+        if not text:
+            raise ExtractionError(
+                "Could not extract text from PDF. Check that the"
+                " PDF contains selectable text."
+            )
 
         return text
 
@@ -204,7 +227,11 @@ class SKLearnModel(ABC):
 
     def _extract_docx_text(self, document):
         parsed_docx = docx.Document(BytesIO(document.docfile.read()))
-        text = ' '.join([paragraph.text for paragraph in parsed_docx.paragraphs])
+        text = " ".join([paragraph.text for paragraph in parsed_docx.paragraphs])
+        return text
+
+    def _extract_plain_text(self, document):
+        text = document.docfile.read().decode("UTF-8")
         return text
 
     def process_job(self, job):
@@ -224,24 +251,29 @@ class SKLearnModel(ABC):
         return report
 
     def save_to_file(self, filepath):
-        with open(filepath, 'wb') as f:
+        with open(filepath, "wb") as f:
             pickle.dump(self, f)
 
     @classmethod
     def load_from_file(cls, filepath):
-        with open(filepath, 'rb') as f:
-            model = pickle.load(f)  # nosec - Accept the risk until a better design is implemented
-
+        with open(filepath, "rb") as f:
+            model = pickle.load(f)  # nosec
+            # accept risk until better design implemented
         assert cls == model.__class__
         return model
 
 
 class DummyModel(SKLearnModel):
     def get_model(self):
-        return Pipeline([
-            ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
-            ("clf", DummyClassifier(strategy='uniform'))
-        ])
+        return Pipeline(
+            [
+                (
+                    "features",
+                    CountVectorizer(lowercase=True, stop_words="english", min_df=3),
+                ),
+                ("clf", DummyClassifier(strategy="uniform")),
+            ]
+        )
 
 
 class NaiveBayesModel(SKLearnModel):
@@ -251,10 +283,15 @@ class NaiveBayesModel(SKLearnModel):
         1) Features = document-term matrix, with stop words removed from the term vocabulary.
         2) Classifier (clf) = multinomial Naive Bayes
         """
-        return Pipeline([
-            ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
-            ("clf", MultinomialNB())
-        ])
+        return Pipeline(
+            [
+                (
+                    "features",
+                    CountVectorizer(lowercase=True, stop_words="english", min_df=3),
+                ),
+                ("clf", MultinomialNB()),
+            ]
+        )
 
 
 class LogisticRegressionModel(SKLearnModel):
@@ -264,38 +301,62 @@ class LogisticRegressionModel(SKLearnModel):
         1) Features = document-term matrix, with stop words removed from the term vocabulary.
         2) Classifier (clf) = multinomial logistic regression
         """
-        return Pipeline([
-            ("features", CountVectorizer(lowercase=True, stop_words='english', min_df=3)),
-            ("clf", LogisticRegression())
-        ])
+        return Pipeline(
+            [
+                (
+                    "features",
+                    CountVectorizer(lowercase=True, stop_words="english", min_df=3),
+                ),
+                ("clf", LogisticRegression()),
+            ]
+        )
+
+
+class MLPClassifierModel(SKLearnModel):
+    def get_model(self):
+        """
+        Modeling pipeline:
+        1) Features = document-term matrix, with stop words removed from the term vocabulary.
+        2) Classifier (clf) = multi-layer perceptron classifier
+        """
+        return Pipeline(
+            [
+                (
+                    "features",
+                    CountVectorizer(lowercase=True, stop_words="english", min_df=3),
+                ),
+                ("clf", MLPClassifier(max_iter=1000)),
+            ]
+        )
 
 
 class ModelManager(object):
     model_registry = {  # TODO: Add a hook to register user-created models
-        'dummy': DummyModel,
-        'nb': NaiveBayesModel,
-        'logreg': LogisticRegressionModel,
+        "dummy": DummyModel,
+        "nb": NaiveBayesModel,
+        "logreg": LogisticRegressionModel,
+        "nn_cls": MLPClassifierModel,
     }
 
     def __init__(self, model):
         model_class = self.model_registry.get(model)
         if not model_class:
-            raise ValueError('Unrecognized model: %s' % model)
+            raise ValueError("Unrecognized model: %s" % model)
 
         model_filepath = self.get_model_filepath(model_class)
         if path.exists(model_filepath):
             self.model = model_class.load_from_file(model_filepath)
-            print('%s loaded from %s' % (model_class.__name__, model_filepath))
+            print("%s loaded from %s" % (model_class.__name__, model_filepath))
         else:
             self.model = model_class()
-            print('%s loaded from __init__' % model_class.__name__)
+            print("%s loaded from __init__" % model_class.__name__)
 
     def _save_report(self, report, document):
         rpt = db_models.Report(
             name=report.name,
             document=document,
             text=report.text,
-            ml_model=self.model.__class__.__name__
+            ml_model=self.model.__class__.__name__,
         )
         rpt.save()
 
@@ -310,36 +371,40 @@ class ModelManager(object):
             s.save()
 
             for mapping in sentence.mappings:
-                if mapping.attack_technique:
-                    technique = db_models.AttackTechnique.objects.get(attack_id=mapping.attack_technique)
+                if mapping.attack_id:
+                    obj = db_models.AttackObject.objects.get(
+                        attack_id=mapping.attack_id
+                    )
                 else:
-                    technique = None
+                    obj = None
 
                 m = db_models.Mapping(
                     report=rpt,
                     sentence=s,
-                    attack_technique=technique,
+                    attack_object=obj,
                     confidence=mapping.confidence,
                 )
                 m.save()
 
     def run_model(self, run_forever=False):
         while True:
-            jobs = db_models.DocumentProcessingJob.objects.filter(status='queued').order_by('created_on')
+            jobs = db_models.DocumentProcessingJob.objects.filter(
+                status="queued"
+            ).order_by("created_on")
             for job in jobs:
                 filename = job.document.docfile.name
-                print('Processing Job #%d: %s' % (job.id, filename))
+                print("Processing Job #%d: %s" % (job.id, filename))
                 try:
                     report = self.model.process_job(job)
                     with transaction.atomic():
                         self._save_report(report, job.document)
                         job.delete()
-                    print('Created report %s' % report.name)
+                    print("Created report %s" % report.name)
                 except Exception as ex:
-                    job.status = 'error'
+                    job.status = "error"
                     job.message = str(ex)
                     job.save()
-                    print(f'Failed to create report for {filename}.')
+                    print(f"Failed to create report for {filename}.")
                     print(traceback.format_exc())
 
             if not run_forever:
@@ -347,7 +412,7 @@ class ModelManager(object):
             time.sleep(1)
 
     def get_model_filepath(self, model_class):
-        filepath = settings.ML_MODEL_DIR + '/' + model_class.__name__ + '.pkl'
+        filepath = settings.ML_MODEL_DIR + "/" + model_class.__name__ + ".pkl"
         return filepath
 
     def train_model(self):
@@ -355,7 +420,7 @@ class ModelManager(object):
         self.model.test()
         filepath = self.get_model_filepath(self.model.__class__)
         self.model.save_to_file(filepath)
-        print('Trained model saved to %s' % filepath)
+        print("Trained model saved to %s" % filepath)
         return
 
     @staticmethod
@@ -368,7 +433,9 @@ class ModelManager(object):
             model_metadata = ModelManager.get_model_metadata(model_key)
             all_model_metadata.append(model_metadata)
 
-        all_model_metadata = sorted(all_model_metadata, key=lambda i: i['average_f1_score'], reverse=True)
+        all_model_metadata = sorted(
+            all_model_metadata, key=lambda i: i["average_f1_score"], reverse=True
+        )
 
         return all_model_metadata
 
@@ -380,34 +447,38 @@ class ModelManager(object):
         mm = ModelManager(model_key)
         model_name = mm.model.__class__.__name__
         if mm.model.last_trained is None:
-            last_trained = 'Never trained'
+            last_trained = "Never trained"
             trained_techniques_count = 0
         else:
-            last_trained = mm.model.last_trained.strftime('%m/%d/%Y %H:%M:%S UTC')
+            last_trained = mm.model.last_trained.strftime("%m/%d/%Y %H:%M:%S UTC")
             trained_techniques_count = len(mm.model.detailed_f1_score)
 
         average_f1_score = round((mm.model.average_f1_score or 0.0) * 100, 2)
         stored_scores = mm.model.detailed_f1_score or []
         attack_ids = set([score[0] for score in stored_scores])
-        attack_techniques = db_models.AttackTechnique.objects.filter(attack_id__in=attack_ids)
+        attack_techniques = db_models.AttackObject.objects.filter(
+            attack_id__in=attack_ids
+        )
         detailed_f1_score = []
         for score in stored_scores:
             score_id = score[0]
             score_value = round(score[1] * 100, 2)
 
             attack_technique = attack_techniques.get(attack_id=score_id)
-            detailed_f1_score.append({
-                'technique': score_id,
-                'technique_name': attack_technique.name,
-                'attack_url': attack_technique.attack_url,
-                'score': score_value
-            })
+            detailed_f1_score.append(
+                {
+                    "technique": score_id,
+                    "technique_name": attack_technique.name,
+                    "attack_url": attack_technique.attack_url,
+                    "score": score_value,
+                }
+            )
         model_metadata = {
-            'model_key': model_key,
-            'name': model_name,
-            'last_trained': last_trained,
-            'trained_techniques_count': trained_techniques_count,
-            'average_f1_score': average_f1_score,
-            'detailed_f1_score': detailed_f1_score,
+            "model_key": model_key,
+            "name": model_name,
+            "last_trained": last_trained,
+            "trained_techniques_count": trained_techniques_count,
+            "average_f1_score": average_f1_score,
+            "detailed_f1_score": detailed_f1_score,
         }
         return model_metadata

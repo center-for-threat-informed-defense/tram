@@ -3,19 +3,19 @@ import pytest
 
 @pytest.mark.django_db
 class TestAttackTechnique:
-    def test___str__renders_correctly(self, attack_technique):
+    def test___str__renders_correctly(self, attack_object):
         # Arrange
-        expected = '(T1327) Use multiple DNS infrastructures'
+        expected = "(T1327) Use multiple DNS infrastructures"
 
         # Assert
-        assert str(attack_technique) == expected
+        assert str(attack_object) == expected
 
 
 @pytest.mark.django_db
 class TestDocument:
     def test__str__renders_correctly(self, document):
         # Arrange
-        expected = 'tests/data/simple-test.docx'
+        expected = "tests/data/simple-test.docx"
 
         # Assert
         assert str(document) == expected
@@ -25,7 +25,7 @@ class TestDocument:
 class TestDocumentProcessingJob:
     def test__str__renders_correctly(self, document_processing_job):
         # Arrange
-        expected = 'Process tests/data/simple-test.docx'
+        expected = "Process tests/data/simple-test.docx"
 
         # Assert
         assert str(document_processing_job) == expected
@@ -35,7 +35,7 @@ class TestDocumentProcessingJob:
 class TestReport:
     def test__str__renders_correctly(self, report):
         # Arrange
-        expected = 'Test report name'
+        expected = "Test report name"
 
         # Assert
         assert str(report) == expected
@@ -45,7 +45,7 @@ class TestReport:
 class TestIndicator:
     def test__str__renders_correctly(self, indicator):
         # Arrange
-        expected = 'MD5: 54b0c58c7ce9f2a8b551351102ee0938'
+        expected = "MD5: 54b0c58c7ce9f2a8b551351102ee0938"
 
         # Assert
         assert str(indicator) == expected
@@ -55,14 +55,14 @@ class TestIndicator:
 class TestSentence:
     def test__str__renders_correctly(self, sentence):
         # Arrange
-        expected = 'test-text'
+        expected = "test-text"
 
         # Assert
         assert str(sentence) == expected
 
     def test__str__renders_long_sentence_correctly(self, long_sentence):
         # Arrange
-        expected = 'this sentence is long and should trigger...'
+        expected = "this sentence is long and should trigger..."
 
         # Assert
         assert str(long_sentence) == expected

@@ -1,0 +1,60 @@
+# Will automatically build and push new docker image on release
+
+name: Publish Docker image on publish of release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  push_to_registries:
+    name: Push Docker image to multiple registries if necessary
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) - TRAM image
+        id: meta_tram
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            ghcr.io/${{ github.repository }}
+          labels: |
+            org.opencontainers.image.url=https://ctid.mitre-engenuity.org/our-work/tram/
+
+      - name: Build and push TRAM application container image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta_tram.outputs.tags }}
+          labels: ${{ steps.meta_tram.outputs.labels }}
+
+      - name: Extract metadata (tags, labels) - nginx image
+        id: meta_nginx
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            ghcr.io/${{ github.repository }}-nginx
+          labels: |
+            org.opencontainers.image.url=https://ctid.mitre-engenuity.org/our-work/tram/
+
+      - name: Build and push Nginx TRAM container image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: docker/Dockerfile.nginx
+          push: true
+          tags: ${{ steps.meta_nginx.outputs.tags }}
+          labels: ${{ steps.meta_nginx.outputs.labels }}

@@ -1,0 +1,16 @@
+[tool.black]
+exclude = '''
+/(
+  \.mypy_cache
+  | \.venv
+  | venv
+  | migrations
+  | node_modules
+  | .tox
+  | .git
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
