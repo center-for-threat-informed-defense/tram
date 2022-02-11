@@ -1,12 +1,15 @@
 import json
+import logging
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from tram.models import AttackObject
 
+
 LOAD = "load"
 CLEAR = "clear"
+logger = logging.getLogger(__name__)
 
 
 STIX_TYPE_TO_ATTACK_TYPE = {
@@ -35,7 +38,7 @@ class Command(BaseCommand):
 
     def clear_attack_data(self):
         deleted = AttackObject.objects.all().delete()
-        print(f"Deleted {deleted[0]} Attack objects")
+        logger.info("Deleted %d Attack objects", deleted[0])
 
     def create_attack_object(self, obj):
         for external_reference in obj["external_references"]:
@@ -106,11 +109,11 @@ class Command(BaseCommand):
             except ValueError:  # Value error means unsupported object type
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
 
-        print(f"Load stats for {filepath}:")
+        logger.info("Load stats for %s:", filepath)
         for k, v in created_stats.items():
-            print(f"\tCreated {v} {k} objects")
+            logger.info("Created %s %s objects", v, k)
         for k, v in skipped_stats.items():
-            print(f"\tSkipped {v} {k} objects")
+            logger.info("Skipped %s %s objects", v, k)
 
     def handle(self, *args, **options):
         subcommand = options["subcommand"]
