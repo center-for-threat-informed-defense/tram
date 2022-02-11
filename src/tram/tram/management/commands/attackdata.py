@@ -6,7 +6,6 @@ from django.core.management.base import BaseCommand
 
 from tram.models import AttackObject
 
-
 LOAD = "load"
 CLEAR = "clear"
 logger = logging.getLogger(__name__)

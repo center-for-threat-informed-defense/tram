@@ -27,7 +27,6 @@ from sklearn.pipeline import Pipeline
 # The word model is overloaded in this scope, so a prefix is necessary
 from tram import models as db_models
 
-
 logger = logging.getLogger(__name__)
 
 

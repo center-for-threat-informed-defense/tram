@@ -1,5 +1,5 @@
-import logging
 import json
+import logging
 import time
 
 from django.core.files import File
@@ -8,7 +8,6 @@ from django.core.management.base import BaseCommand
 import tram.models as db_models
 from tram import serializers
 from tram.ml import base
-
 
 ADD = "add"
 RUN = "run"

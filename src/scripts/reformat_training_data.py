@@ -43,7 +43,6 @@ django.setup()
 
 from tram.serializers import ReportExportSerializer  # noqa: E402
 
-
 outfile = "data/training/bootstrap-training-data.json"
 logger = logging.getLogger(__name__)
 
