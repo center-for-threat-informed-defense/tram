@@ -1,4 +1,3 @@
-import io
 import json
 import urllib.parse
 
@@ -8,7 +7,6 @@ from django.http import (
     Http404,
     HttpResponse,
     HttpResponseBadRequest,
-    StreamingHttpResponse,
 )
 from django.shortcuts import render
 from django.utils.text import slugify
