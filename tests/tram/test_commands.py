@@ -7,6 +7,7 @@ from tram.ml import base
 from tram.models import AttackObject, Sentence
 
 
+@pytest.mark.django_db
 class TestPipeline:
     def test_add_calls_create_from_file(self, mocker):
         # Arrange
