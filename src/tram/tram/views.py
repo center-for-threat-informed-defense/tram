@@ -98,6 +98,7 @@ def upload(request):
         "application/pdf",  # .pdf files
         "text/html",  # .html files
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",  # .docx files
+        "text/plain",  # .txt files
     ):
         DocumentProcessingJob.create_from_file(request.FILES["file"], request.user)
     elif file_content_type in ("application/json",):  # .json files
