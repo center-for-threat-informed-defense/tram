@@ -60,6 +60,40 @@ else:
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "tram_formatter": {
+            "format": "[{asctime}] {levelname} [{name}] {message}",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "tram_handler": {
+            "class": "logging.StreamHandler",
+            "formatter": "tram_formatter",
+        },
+    },
+    "loggers": {
+        "root": {
+            "handlers": ["tram_handler"],
+            "level": "WARNING",
+        },
+        "django": {
+            "handlers": ["tram_handler"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "tram": {
+            "handlers": ["tram_handler"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
+}
+
 # Application definition
 
 INSTALLED_APPS = [

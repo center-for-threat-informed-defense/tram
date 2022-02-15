@@ -1,6 +1,8 @@
 import json
+import logging
 import time
 
+from django.contrib.auth.models import User
 from django.core.files import File
 from django.core.management.base import BaseCommand
 
@@ -12,6 +14,7 @@ ADD = "add"
 RUN = "run"
 TRAIN = "train"
 LOAD_TRAINING_DATA = "load-training-data"
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -50,34 +53,38 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         subcommand = options["subcommand"]
 
+        user, created = User.objects.get_or_create(username="pipeline (manual)")
+        if created:
+            logger.info(f"Created User '{user.username}' to handle manual submissions")
+
         if subcommand == ADD:
             filepath = options["file"]
             with open(filepath, "rb") as f:
                 django_file = File(f)
-                db_models.DocumentProcessingJob.create_from_file(django_file)
-            self.stdout.write(f"Added file to ML Pipeline: {filepath}")
+                db_models.DocumentProcessingJob.create_from_file(django_file, user)
+            logger.info("Added file to ML Pipeline: %s", filepath)
             return
 
         if subcommand == LOAD_TRAINING_DATA:
             filepath = options["file"]
-            self.stdout.write(f"Loading training data from {filepath}")
+            logger.info("Loading training data from %s", filepath)
             with open(filepath, "r") as f:
                 res = serializers.ReportExportSerializer(data=json.load(f))
                 res.is_valid(raise_exception=True)
-                res.save()
+                res.save(created_by=user)
             return
 
         model = options["model"]
         model_manager = base.ModelManager(model)
 
         if subcommand == RUN:
-            self.stdout.write(f"Running ML Pipeline with Model: {model}")
+            logger.info("Running ML Pipeline with Model: %s", model)
             return model_manager.run_model(options["run_forever"])
         elif subcommand == TRAIN:
-            self.stdout.write(f"Training ML Model: {model}")
+            logger.info("Training ML Model: %s", model)
             start = time.time()
             return_value = model_manager.train_model()
             end = time.time()
             elapsed = end - start
-            self.stdout.write(f"Trained ML model in {elapsed} seconds")
+            logger.info("Trained ML model in %0.3f seconds", elapsed)
             return return_value
