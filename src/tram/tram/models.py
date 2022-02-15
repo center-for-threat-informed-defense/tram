@@ -88,11 +88,20 @@ class DocumentProcessingJob(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     @classmethod
-    def create_from_file(cls, f):
+    def create_from_file(cls, f, u):
+        """
+        Creates a document processing job for the ML pipeline based on a file
+        submission by an authenticated user.
+
+        :param f: An instance of django.core.files.File
+        :param u: An instance of django.contrib.auth.models.User
+        :return: An instance of tram.models.DocumentProcessingJob
+        """
         assert isinstance(f, File)
-        doc = Document(docfile=f)
+        assert isinstance(u, User)
+        doc = Document(docfile=f, created_by=u)
         doc.save()
-        dpj = DocumentProcessingJob(document=doc)
+        dpj = DocumentProcessingJob(document=doc, created_by=u)
         dpj.save()
         return dpj
 
