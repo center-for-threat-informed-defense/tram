@@ -29,6 +29,19 @@ def logged_in_client(client):
     return client
 
 
+@pytest.fixture
+def document(logged_in_client):
+    """Upload a document"""
+    f = SimpleUploadedFile(
+        "sample-document.txt", b"test file content", content_type="text/plain"
+    )
+    data = {"file": f}
+    logged_in_client.post("/upload/", data)
+    doc = Document.objects.get(docfile="sample-document.txt")
+    yield doc
+    doc.delete()
+
+
 @pytest.mark.django_db
 class TestLogin:
     def test_get_login_loads_login_form(self, client):
@@ -134,7 +147,7 @@ class TestUpload:
         response = logged_in_client.post("/upload/", data)
         doc_count_post = Document.objects.all().count()
         job_count_post = DocumentProcessingJob.objects.all().count()
-        Document.objects.get(docfile="test-report.pdf").delete()
+        Document.objects.get(docfile__icontains="test-report").delete()
 
         # Assert
         assert response.status_code == 200
@@ -259,6 +272,13 @@ class TestReportExport:
 
         # Assert
         assert response.status_code == 405  # Method not allowed
+
+    def test_download_original_report(self, logged_in_client, document):
+        # Act
+        response = logged_in_client.get(f"/api/download/{document.id}")
+
+        # Assert
+        assert response.content == b"test file content"
 
 
 @pytest.mark.django_db

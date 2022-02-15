@@ -168,9 +168,9 @@ def analyze(request, pk):
     return render(request, "analyze.html", context)
 
 
-# download original report
 @login_required
-def download_report(request, doc_id):
+def download_document(request, doc_id):
+    """Download a verbatim copy of a previously uploaded document."""
     doc = Document.objects.get(id=doc_id)
     docfile = doc.docfile
 
