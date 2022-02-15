@@ -145,7 +145,10 @@ function renderMappings(sentence_id) {
         $row.append(`<td>${mapping.attack_id} - ${mapping.name}</td>`);
         $row.append(`<td>${mapping.confidence}%</td>`);
         $removeButton = $(`<button type="button" class="btn btn-sm btn-danger"><i class="fas fa-minus-circle"></i><`);
-        $removeButton.click(() => deleteMapping(sentence.id, mapping.id, true))
+        $removeButton.click(
+            // Need this callback to avoid closure issues when assigning onClick event
+            createCallback(sentence.id, mapping.id, true)
+        );
         $row.append($(`<td></td>`).append($removeButton));
         $mappingTable.append($row);
     }
@@ -185,4 +188,10 @@ function renderMappings(sentence_id) {
     $('#sentence-id').val(sentence.id);
 
     $("#mapping-container").replaceWith($mappingContainer);
+}
+
+function createCallback(sentence_id, mapping_id, refresh_sentences) {
+    return function() {
+        deleteMapping(sentence_id, mapping_id, refresh_sentences)
+    }
 }

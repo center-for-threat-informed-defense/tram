@@ -10,12 +10,21 @@ $( document ).ready(function() {
     active_sentence_id_glob = 0;
     loadSentences();
     
-/*  Select2 is part of the project, but something with the z-index or active focus of the modal 
-    doesn't work. Should be a quick fix, but couldn't figure it out.
+    // Avoid keyDown events if modal open
+    $('#addMappingModal').on('shown.bs.modal', function () {
+        modalOpen = true;
+    });
+
+    $('#addMappingModal').on('hidden.bs.modal', function (e) {
+        modalOpen = false;
+    });
+
+    // Add search bar for mapping dropdowns
     $('.select2-use').select2({
         placeholder: "Search...",
         width: "100%",
-    }); */
+        dropdownParent: $("#addMappingModal")
+    });
 });
 
 $(document).keydown(function(e) {
@@ -25,7 +34,7 @@ $(document).keydown(function(e) {
         lastClick = now;
 
         // On up arrow, go to previous sentence
-        if (e.which == 38 && !e.repeat) { 
+        if (e.which == 38 && !e.repeat) {
 
             // If active sentence is first sentence, don't progress
             if (active_sentence_id_glob != first_sentence_id) {
@@ -34,7 +43,7 @@ $(document).keydown(function(e) {
             return false;
         }
         // On down arrow, go to next sentence
-        else if (e.which == 40 && !e.repeat) { 
+        else if (e.which == 40 && !e.repeat) {
 
             // If active sentence is last sentence, don't progress
             if (active_sentence_id_glob != last_sentence_id) {
@@ -44,7 +53,7 @@ $(document).keydown(function(e) {
         }
     }
     return true;
-}); 
+});
 
 function loadSentences(active_sentence_id) {
     $.ajax({
@@ -114,7 +123,6 @@ function renderMappings(sentence_id) {
     }
 
     sentence = stored_sentences[sentence_id];
-    mappings = sentence.mappings;
 
     $mappingTable = $(`<table id="mapping-table" class="table table-striped table-hover"><tbody></tbody></table>`);
     var addButton = `<button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addMappingModal">Add...</button>`;
@@ -126,7 +134,10 @@ function renderMappings(sentence_id) {
         $row.append(`<td>${mapping.attack_id} - ${mapping.name}</td>`);
         $row.append(`<td>${mapping.confidence}%</td>`);
         $removeButton = $(`<button type="button" class="btn btn-sm btn-danger"><i class="fas fa-minus-circle"></i><`);
-        $removeButton.click(() => deleteMapping(sentence.id, mapping.id, false))
+        $removeButton.click(
+            // Need this callback to avoid closure issues when assigning onClick event
+            createCallback(sentence.id, mapping.id, false)
+        );
         $row.append($(`<td></td>`).append($removeButton));
         $mappingTable.append($row);
     }
@@ -162,4 +173,10 @@ function renderMappings(sentence_id) {
     $('#sentence-id').val(sentence.id);
 
     $("#mapping-container").replaceWith($mappingContainer);
+}
+
+function createCallback(sentence_id, mapping_id, refresh_sentences) {
+    return function() {
+        deleteMapping(sentence_id, mapping_id, refresh_sentences)
+    }
 }
