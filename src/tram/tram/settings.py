@@ -31,10 +31,21 @@ else:
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# Default will regenerate secret key on every startup. To use a static secret key,
-# set the SECRET_KEY env variable.
-SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
+# SECURITY WARNING: keep the secret key used in production secret! The secret
+# key can be provided in the SECRET_KEY environment variable. Otherwise, the key
+# is generated on first run and saved in the data directory.
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+if SECRET_KEY is None:
+    SECRET_KEY_PATH = DATA_DIRECTORY / "django.key"
+    try:
+        with SECRET_KEY_PATH.open() as secret_key_file:
+            SECRET_KEY = secret_key_file.read()
+    except FileNotFoundError:
+        SECRET_KEY = get_random_secret_key()
+        with SECRET_KEY_PATH.open("w") as secret_key_file:
+            secret_key_file.write(SECRET_KEY)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get("DEBUG") is not None:
