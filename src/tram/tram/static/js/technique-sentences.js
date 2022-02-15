@@ -145,7 +145,7 @@ function renderMappings(sentence_id) {
         $row.append(`<td>${mapping.attack_id} - ${mapping.name}</td>`);
         $row.append(`<td>${mapping.confidence}%</td>`);
         $removeButton = $(`<button type="button" class="btn btn-sm btn-danger"><i class="fas fa-minus-circle"></i><`);
-        $removeButton.click(() => deleteMapping(sentence_id, mapping_id, true))
+        $removeButton.click(() => deleteMapping(sentence.id, mapping.id, true))
         $row.append($(`<td></td>`).append($removeButton));
         $mappingTable.append($row);
     }
