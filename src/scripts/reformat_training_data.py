@@ -29,6 +29,7 @@ The target format is defined by tram.serializers.ReportExportSerializer
 """
 
 import json
+import logging
 import os
 import sys
 from datetime import datetime
@@ -43,6 +44,8 @@ django.setup()
 from tram.serializers import ReportExportSerializer  # noqa: E402
 
 outfile = "data/training/bootstrap-training-data.json"
+logger = logging.getLogger(__name__)
+
 
 ATTACK_LOOKUP = {  # A mapping of attack descriptions to technique IDs
     "drive-by compromise": "T1189",
@@ -289,7 +292,7 @@ def main():
     with open(outfile, "w") as f:
         json.dump(res.initial_data, f, indent=4)
 
-    print("Wrote data to %s" % outfile)
+    logger.info("Wrote data to %s" % outfile)
 
 
 if __name__ == "__main__":
