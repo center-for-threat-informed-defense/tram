@@ -135,10 +135,7 @@ def ml_technique_sentences(request, attack_id):
     techniques = AttackObject.objects.all().order_by("attack_id")
     techniques_serializer = serializers.AttackObjectSerializer(techniques, many=True)
 
-    context = {
-        "attack_id": attack_id,
-        "attack_techniques": techniques_serializer.data
-    }
+    context = {"attack_id": attack_id, "attack_techniques": techniques_serializer.data}
     return render(request, "technique_sentences.html", context)
 
 
