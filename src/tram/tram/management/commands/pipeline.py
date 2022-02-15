@@ -55,9 +55,7 @@ class Command(BaseCommand):
 
         user, created = User.objects.get_or_create(username="pipeline (manual)")
         if created:
-            self.stdout.write(
-                f"Created User '{user.username}' to handle manual submissions"
-            )
+            logger.info(f"Created User '{user.username}' to handle manual submissions")
 
         if subcommand == ADD:
             filepath = options["file"]
