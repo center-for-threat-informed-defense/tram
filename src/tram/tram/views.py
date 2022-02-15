@@ -19,7 +19,6 @@ from tram import serializers
 from tram.ml import base
 from tram.models import AttackObject, DocumentProcessingJob, Mapping, Report, Sentence
 
-
 logger = logging.getLogger(__name__)
 
 
