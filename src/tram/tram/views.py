@@ -1,5 +1,6 @@
 import io
 import json
+import logging
 from urllib.parse import quote
 
 from constance import config
@@ -17,6 +18,9 @@ import tram.report.docx
 from tram import serializers
 from tram.ml import base
 from tram.models import AttackObject, DocumentProcessingJob, Mapping, Report, Sentence
+
+
+logger = logging.getLogger(__name__)
 
 
 class AttackObjectViewSet(viewsets.ModelViewSet):
@@ -58,7 +62,7 @@ class ReportExportViewSet(viewsets.ModelViewSet):
         # If an invalid format is given, just default to json
         if format not in ["json", "docx"]:
             format = "json"
-            print("Invalid File Type. Defaulting to JSON.")
+            logger.warning("Invalid File Type. Defaulting to JSON.")
 
         # Retrieve report data as json
         response = super().retrieve(request, *args, **kwargs)
