@@ -32,12 +32,10 @@ def build(data):
     # Find all attack techniques in the report
     for sentence in accepted_sentences:
         for mapping in sentence["mappings"]:
-            curMapping = (mapping["attack_id"], mapping["name"])
-            if curMapping not in techniques:
-                techniques.add(curMapping)
+            techniques.add((mapping["attack_id"], mapping["name"]))
 
-    # Sort attack techniques by integer part
-    techniques = sorted(techniques, key=lambda x: float(x[0][1:]))
+    # Sort attack content by id
+    techniques = sorted(techniques)
     num_techniques = len(techniques)
 
     # Display all attack techniques
