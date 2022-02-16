@@ -17,7 +17,14 @@ from rest_framework import viewsets
 import tram.report.docx
 from tram import serializers
 from tram.ml import base
-from tram.models import AttackObject, DocumentProcessingJob, Mapping, Report, Sentence
+from tram.models import (
+    AttackObject,
+    Document,
+    DocumentProcessingJob,
+    Mapping,
+    Report,
+    Sentence,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -205,3 +212,22 @@ def analyze(request, pk):
         "attack_techniques": techniques_serializer.data,
     }
     return render(request, "analyze.html", context)
+
+
+@login_required
+def download_document(request, doc_id):
+    """Download a verbatim copy of a previously uploaded document."""
+    doc = Document.objects.get(id=doc_id)
+    docfile = doc.docfile
+
+    try:
+        with docfile.open("rb") as report_file:
+            response = HttpResponse(
+                report_file, content_type="application/octet-stream"
+            )
+            filename = quote(docfile.name)
+            response["Content-Disposition"] = f"attachment; filename={filename}"
+    except IOError:
+        raise Http404("File does not exist")
+
+    return response

@@ -112,6 +112,7 @@ class ReportSerializer(serializers.ModelSerializer):
         model = db_models.Report
         fields = [
             "id",
+            "document_id",
             "name",
             "byline",
             "accepted_sentences",

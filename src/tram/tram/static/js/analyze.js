@@ -96,12 +96,16 @@ function renderSentences(active_sentence_id) {
         } else if (sentence.disposition == 'accept') {
             flag_class = "bg-success"; // Indicates the sentence is confirmed
         }
+        var numMappings = "";
+        if (sentence.mappings.length != 0) {
+            numMappings = sentence.mappings.length;
+        }
 
         $row = $(`<tr id="sentence-row-${sentence.id}" style="cursor: pointer;" onclick="renderMappings(${sentence.id})"></tr>`)
         if (sentence.id == active_sentence_id) {
             $row.addClass("bg-info");
         }
-        $flag = $(`<td style="width: 1%"></td>`).addClass(flag_class);
+        $flag = $("<td style='width: 1%''>"+numMappings+"</td>").addClass(flag_class);
         $text = $(`<td style="word-wrap: break-word;min-width: 160px;max-width: 160px;"></td>`).text(sentence.text);
         $row.append($flag).append($text);
         $sentenceTable.append($row);
