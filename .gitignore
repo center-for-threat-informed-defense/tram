@@ -3,6 +3,7 @@
 __pycache__
 *env
 *.pkl
+/data/django.key
 /data/object_store
 /data/models/*
 /data/ml-source
@@ -12,6 +13,7 @@ __pycache__
 !.gitkeep
 db.sqlite3
 *.pem
+.vscode/
 
 # pyenv
 .python-version

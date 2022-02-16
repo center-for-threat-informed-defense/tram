@@ -1,8 +1,8 @@
+import logging
 import pathlib
 import pickle
 import re
 import time
-import traceback
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from io import BytesIO
@@ -26,6 +26,8 @@ from sklearn.pipeline import Pipeline
 
 # The word model is overloaded in this scope, so a prefix is necessary
 from tram import models as db_models
+
+logger = logging.getLogger(__name__)
 
 
 class Sentence(object):
@@ -128,6 +130,8 @@ class SKLearnModel(ABC):
             text = self._extract_docx_text(document)
         elif suffix == ".html":
             text = self._extract_html_text(document)
+        elif suffix == ".txt":
+            text = self._extract_plain_text(document)
         else:
             raise ValueError("Unknown file suffix: %s" % suffix)
 
@@ -226,6 +230,10 @@ class SKLearnModel(ABC):
     def _extract_docx_text(self, document):
         parsed_docx = docx.Document(BytesIO(document.docfile.read()))
         text = " ".join([paragraph.text for paragraph in parsed_docx.paragraphs])
+        return text
+
+    def _extract_plain_text(self, document):
+        text = document.docfile.read().decode("UTF-8")
         return text
 
     def process_job(self, job):
@@ -340,10 +348,10 @@ class ModelManager(object):
         model_filepath = self.get_model_filepath(model_class)
         if path.exists(model_filepath):
             self.model = model_class.load_from_file(model_filepath)
-            print("%s loaded from %s" % (model_class.__name__, model_filepath))
+            logger.info("%s loaded from %s", model_class.__name__, model_filepath)
         else:
             self.model = model_class()
-            print("%s loaded from __init__" % model_class.__name__)
+            logger.info("%s loaded from __init__", model_class.__name__)
 
     def _save_report(self, report, document):
         rpt = db_models.Report(
@@ -351,6 +359,7 @@ class ModelManager(object):
             document=document,
             text=report.text,
             ml_model=self.model.__class__.__name__,
+            created_by=document.created_by,
         )
         rpt.save()
 
@@ -387,19 +396,18 @@ class ModelManager(object):
             ).order_by("created_on")
             for job in jobs:
                 filename = job.document.docfile.name
-                print("Processing Job #%d: %s" % (job.id, filename))
+                logger.info("Processing Job #%d: %s", job.id, filename)
                 try:
                     report = self.model.process_job(job)
                     with transaction.atomic():
                         self._save_report(report, job.document)
                         job.delete()
-                    print("Created report %s" % report.name)
+                    logger.info("Created report %s", report.name)
                 except Exception as ex:
                     job.status = "error"
                     job.message = str(ex)
                     job.save()
-                    print(f"Failed to create report for {filename}.")
-                    print(traceback.format_exc())
+                    logger.exception("Failed to create report for %s.", filename)
 
             if not run_forever:
                 return
@@ -414,7 +422,7 @@ class ModelManager(object):
         self.model.test()
         filepath = self.get_model_filepath(self.model.__class__)
         self.model.save_to_file(filepath)
-        print("Trained model saved to %s" % filepath)
+        logger.info("Trained model saved to %s" % filepath)
         return
 
     @staticmethod

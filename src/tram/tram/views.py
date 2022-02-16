@@ -142,14 +142,15 @@ def upload(request):
         "application/pdf",  # .pdf files
         "text/html",  # .html files
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",  # .docx files
+        "text/plain",  # .txt files
     ):
-        DocumentProcessingJob.create_from_file(request.FILES["file"])
+        DocumentProcessingJob.create_from_file(request.FILES["file"], request.user)
     elif file_content_type in ("application/json",):  # .json files
         json_data = json.loads(request.FILES["file"].read())
         res = serializers.ReportExportSerializer(data=json_data)
 
         if res.is_valid():
-            res.save()
+            res.save(created_by=request.user)
         else:
             return HttpResponseBadRequest(res.errors)
     else:
