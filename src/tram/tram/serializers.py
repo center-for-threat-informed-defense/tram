@@ -195,10 +195,10 @@ class ReportExportSerializer(ReportSerializer):
         with transaction.atomic():
             report = db_models.Report.objects.create(
                 name=validated_data["name"],
-                document=None,
+                document=validated_data.get("document"),
                 text=validated_data["text"],
                 ml_model=validated_data["ml_model"],
-                created_by=None,  # TODO: Get user from session
+                created_by=validated_data.get("created_by"),
             )
 
             for sentence in validated_data["sentences"]:

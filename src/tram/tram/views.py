@@ -1,13 +1,20 @@
+import io
 import json
-import urllib.parse
+import logging
+from urllib.parse import quote
 
 from constance import config
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse, HttpResponseBadRequest
+from django.http import (
+    Http404,
+    HttpResponse,
+    HttpResponseBadRequest,
+    StreamingHttpResponse,
+)
 from django.shortcuts import render
-from django.utils.text import slugify
 from rest_framework import viewsets
 
+import tram.report.docx
 from tram import serializers
 from tram.ml import base
 from tram.models import (
@@ -18,6 +25,8 @@ from tram.models import (
     Report,
     Sentence,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class AttackObjectViewSet(viewsets.ModelViewSet):
@@ -53,9 +62,43 @@ class ReportExportViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReportExportSerializer
 
     def retrieve(self, request, *args, **kwargs):
+
+        format = request.GET.get("type", "")
+
+        # If an invalid format is given, just default to json
+        if format not in ["json", "docx"]:
+            format = "json"
+            logger.warning("Invalid File Type. Defaulting to JSON.")
+
+        # Retrieve report data as json
         response = super().retrieve(request, *args, **kwargs)
-        filename = slugify(self.get_object().name) + ".json"
-        response["Content-Disposition"] = 'attachment; filename="%s"' % filename
+        basename = quote(self.get_object().name, safe="")
+
+        if format == "json":
+            response["Content-Disposition"] = f'attachment; filename="{basename}.json"'
+
+        elif format == "docx":
+            # Uses json dictionary to create formatted document
+            document = tram.report.docx.build(response.data)
+
+            # save document info
+            buffer = io.BytesIO()
+            document.save(buffer)  # save your memory stream
+            buffer.seek(0)  # rewind the stream
+
+            # put them to streaming content response within docx content_type
+            content_type = (
+                "application/"
+                "vnd.openxmlformats-officedocument.wordprocessingml.document"
+            )
+            response = StreamingHttpResponse(
+                streaming_content=buffer,  # use the stream's content
+                content_type=content_type,
+            )
+
+            response["Content-Disposition"] = f'attachment; filename="{basename}.docx"'
+            response["Content-Encoding"] = "UTF-8"
+
         return response
 
 
@@ -108,13 +151,13 @@ def upload(request):
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",  # .docx files
         "text/plain",  # .txt files
     ):
-        DocumentProcessingJob.create_from_file(request.FILES["file"])
+        DocumentProcessingJob.create_from_file(request.FILES["file"], request.user)
     elif file_content_type in ("application/json",):  # .json files
         json_data = json.loads(request.FILES["file"].read())
         res = serializers.ReportExportSerializer(data=json_data)
 
         if res.is_valid():
-            res.save()
+            res.save(created_by=request.user)
         else:
             return HttpResponseBadRequest(res.errors)
     else:
@@ -140,7 +183,10 @@ def ml_home(request):
 
 @login_required
 def ml_technique_sentences(request, attack_id):
-    context = {"attack_id": attack_id}
+    techniques = AttackObject.objects.all().order_by("attack_id")
+    techniques_serializer = serializers.AttackObjectSerializer(techniques, many=True)
+
+    context = {"attack_id": attack_id, "attack_techniques": techniques_serializer.data}
     return render(request, "technique_sentences.html", context)
 
 
@@ -158,12 +204,12 @@ def ml_model_detail(request, model_key):
 def analyze(request, pk):
     report = Report.objects.get(id=pk)
     techniques = AttackObject.objects.all().order_by("attack_id")
-    tecniques_serializer = serializers.AttackObjectSerializer(techniques, many=True)
+    techniques_serializer = serializers.AttackObjectSerializer(techniques, many=True)
 
     context = {
         "report_id": report.id,
         "report_name": report.name,
-        "attack_techniques": tecniques_serializer.data,
+        "attack_techniques": techniques_serializer.data,
     }
     return render(request, "analyze.html", context)
 
@@ -179,7 +225,7 @@ def download_document(request, doc_id):
             response = HttpResponse(
                 report_file, content_type="application/octet-stream"
             )
-            filename = urllib.parse.quote(docfile.name)
+            filename = quote(docfile.name)
             response["Content-Disposition"] = f"attachment; filename={filename}"
     except IOError:
         raise Http404("File does not exist")
