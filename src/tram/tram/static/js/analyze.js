@@ -29,7 +29,7 @@ $( document ).ready(function() {
 
 $(document).keydown(function(e) {
     var now = Date.now();
-    // Only trigger event if a sentence has been selected and modal is closed, add .4 sentence cooldown
+    // Only trigger event if a sentence has been selected and modal is closed, add .4 second cooldown
     if ((!lastClick || now - lastClick > 400) && active_sentence_id_glob != -1 && !modalOpen) {
         lastClick = now;
 
@@ -74,8 +74,7 @@ function loadSentences(active_sentence_id) {
 
 function storeSentences(sentences) {
     stored_sentences = {};
-    var i;
-    for (i = 0; i < sentences.length; i++) {
+    for (var i = 0; i < sentences.length; i++) {
         sentence = sentences[i];
         stored_sentences[sentence.id] = sentence;
         if (i == 0) {
@@ -122,22 +121,19 @@ function renderMappings(sentence_id) {
         return;
     }
 
-    sentence = stored_sentences[sentence_id];
+    let sentence = stored_sentences[sentence_id];
 
     $mappingTable = $(`<table id="mapping-table" class="table table-striped table-hover"><tbody></tbody></table>`);
     var addButton = `<button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addMappingModal">Add...</button>`;
 
     $mappingTable.append(`<tr><th>Technique ${addButton}</th><th>Confidence</th><th></th></tr>`);
-    for (let i = 0; i < sentence.mappings.length; i++) {
-        var mapping = sentence.mappings[i];
+    for (var i = 0; i < sentence.mappings.length; i++) {
+        let mapping = sentence.mappings[i];
         var $row = $(`<tr></tr>`);
         $row.append(`<td>${mapping.attack_id} - ${mapping.name}</td>`);
         $row.append(`<td>${mapping.confidence}%</td>`);
         $removeButton = $(`<button type="button" class="btn btn-sm btn-danger"><i class="fas fa-minus-circle"></i><`);
-        $removeButton.click(
-            // Need this callback to avoid closure issues when assigning onClick event
-            createCallback(sentence.id, mapping.id, false)
-        );
+        $removeButton.click(() => deleteMapping(sentence.id, mapping.id, false));
         $row.append($(`<td></td>`).append($removeButton));
         $mappingTable.append($row);
     }
@@ -173,10 +169,4 @@ function renderMappings(sentence_id) {
     $('#sentence-id').val(sentence.id);
 
     $("#mapping-container").replaceWith($mappingContainer);
-}
-
-function createCallback(sentence_id, mapping_id, refresh_sentences) {
-    return function() {
-        deleteMapping(sentence_id, mapping_id, refresh_sentences)
-    }
 }
