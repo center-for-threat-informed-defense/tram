@@ -59,7 +59,8 @@
               Export
             </button>
             <div class="dropdown-menu" aria-labelledby="export-dropdown">
-              <a class="dropdown-item btn btn-sm btn-outline-secondary" href="/api/report-export/{{ report.id }}/?format=json">JSON</a>
+              <a class="dropdown-item btn btn-sm btn-outline-secondary" href="/api/report-export/{{ report.id }}/?format=json&?type=json">JSON</a>
+              <a class="dropdown-item btn btn-sm btn-outline-secondary" href="/api/report-export/{{ report.id }}/?type=docx">DOCX</a>
             </div>
           </div>
           <!-- <a href="#" class="btn btn-sm btn-outline-secondary">Download</a> -->
