@@ -20,8 +20,7 @@ LABEL "org.opencontainers.image.license"="Apache-2.0"
 # Install and update apt dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
-RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt \
-    apt-get update && \
+RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -y install --no-install-recommends \
     ca-certificates \
@@ -45,10 +44,8 @@ RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/
 #ENV HTTP_PROXY=${http_proxy} \
 #    HTTPS_PROXY=${https_proxy} \
 #    NO_PROXY=${no_proxy}
-#COPY MY_ORG_ROOT.crt /usr/local/share/ca-certificates
-#RUN cd /usr/local/share/ca-certificates && \
-#    wget http://pki.my-organization.local/MY%20ORG%20ROOT.crt && \
-#    update-ca-certificates
+COPY ZScaler_Root.crt /usr/local/share/ca-certificates
+RUN update-ca-certificates
 
 RUN mkdir /tram && \
     python3 -m venv /tram/.venv && \
@@ -61,18 +58,12 @@ ENV LC_ALL=C.UTF-8 LANG=C.UTF-8 \
 # flush all output immediately
 ENV PYTHONUNBUFFERED 1
 
-# extend python path to tram import path
-ENV PYTHONPATH=/tram/src/tram:${PYTHONPATH}
-
 WORKDIR /tram
 
-#COPY ./src src
-#COPY ./data data
 COPY ./ .
 
 # install app dependencies
-RUN  --mount=type=cache,target=/root/.cache \
-    python3 -m pip install -r ./requirements/requirements.txt && \
+RUN python3 -m pip install -r ./requirements/requirements.txt && \
     python3 -m pip install --editable . && \
     cp -f ./docker/entrypoint.sh entrypoint.sh && \
     # Download NLTK data

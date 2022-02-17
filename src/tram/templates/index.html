@@ -11,6 +11,7 @@
 {% block body %}
 <h1>Reports</h1>
 <table id="report-table" class="table table-striped table-hover">
+  <caption>Reports that have been uploaded by users.</caption>
   <tbody>
     <tr>
       <th>Report</th>
@@ -23,21 +24,25 @@
     <tr>
       <td>
         <div>
-          <b>Job: Analyze {{job.name}}</b><br>
+          <strong>Job: Analyze {{job.name}}</strong><br>
           <small>By: {{job.byline}}</small>
         </div>
       </td>
-      <td><!-- No Actions --></td>
+      <td>
+        <!-- No Actions -->
+      </td>
       <td>
         {% if job.status == "Queued" %}
-          <button type="button" class="btn btn-secondary" disabled>Queued</button>
+        <button type="button" class="btn btn-secondary" disabled>Queued</button>
         {% elif job.status == "Error" %}
-          <button type="button" class="btn btn-danger" disabled>Error</button>
+        <button type="button" class="btn btn-danger" disabled>Error</button>
         {% else %}
-          Unknown Status: {{ job.status }}
+        Unknown Status: {{ job.status }}
         {% endif %}
       </td>
-      <td><!-- No Sentence Info --></td>
+      <td>
+        <!-- No Sentence Info -->
+      </td>
       <td>
         <a class="btn btn-danger btn-sm" onclick="deleteJob({{ job.id }})"><i class="fas fa-trash"></i></a>
       </td>
@@ -47,7 +52,7 @@
     <tr>
       <td>
         <div>
-          <b>{{report.name}}</b><br>
+          <strong>{{report.name}}</strong><br>
           <small>By: {{report.byline}}</small>
         </div>
       </td>
@@ -55,12 +60,15 @@
         <div class="btn-group">
           <a href="/analyze/{{ report.id }}" class="btn btn-sm btn-outline-secondary">Analyze</a>
           <div class="dropdown btn-group">
-            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="export-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="export-dropdown"
+              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Export
             </button>
             <div class="dropdown-menu" aria-labelledby="export-dropdown">
-              <a class="dropdown-item btn btn-sm btn-outline-secondary" href="/api/report-export/{{ report.id }}/?type=json">JSON</a>
-              <a class="dropdown-item btn btn-sm btn-outline-secondary" href="/api/report-export/{{ report.id }}/?type=docx">DOCX</a>
+              <a class="dropdown-item btn btn-sm btn-outline-secondary"
+                href="/api/report-export/{{ report.id }}/?type=json">JSON</a>
+              <a class="dropdown-item btn btn-sm btn-outline-secondary"
+                href="/api/report-export/{{ report.id }}/?type=docx">DOCX</a>
             </div>
           </div>
           {% if report.document_id is not None %}
@@ -70,11 +78,11 @@
       </td>
       <td>
         {% if report.status == "Reviewing" %}
-          <button type="button" class="btn btn-warning" disabled>Reviewing</button>
+        <button type="button" class="btn btn-warning" disabled>Reviewing</button>
         {% elif report.status == "Accepted" %}
-          <button type="button" class="btn btn-success" disabled>Accepted</button>
+        <button type="button" class="btn btn-success" disabled>Accepted</button>
         {% else %}
-          Unknown Status: {{report.status}}
+        Unknown Status: {{report.status}}
         {% endif %}
       </td>
       <td>
