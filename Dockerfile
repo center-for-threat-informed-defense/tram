@@ -24,13 +24,13 @@ RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/
     apt-get update && \
     apt-get -y upgrade && \
     apt-get -y install --no-install-recommends \
-        ca-certificates \
-        curl \
-        python3 \
-        python3-pip \
-        python3-setuptools \
-        python3-venv \
-        python3-wheel
+    ca-certificates \
+    curl \
+    python3 \
+    python3-pip \
+    python3-setuptools \
+    python3-venv \
+    python3-wheel
 
 # Add proxy settings, enterprise certs to prevent SSL issues.
 # Uncomment and update these lines as needed. There is an example
@@ -73,6 +73,7 @@ COPY ./ .
 # install app dependencies
 RUN  --mount=type=cache,target=/root/.cache \
     python3 -m pip install -r ./requirements/requirements.txt && \
+    python3 -m pip install --editable . && \
     cp -f ./docker/entrypoint.sh entrypoint.sh && \
     # Download NLTK data
     python3 -m nltk.downloader punkt && \
@@ -80,15 +81,15 @@ RUN  --mount=type=cache,target=/root/.cache \
     python3 -m nltk.downloader omw-1.4
 
 # Generate and Run Django migrations scripts, collectstatic app files
-RUN python3 /tram/src/tram/manage.py makemigrations tram && \
-    python3 /tram/src/tram/manage.py migrate && \
-    python3 /tram/src/tram/manage.py collectstatic
+RUN tram makemigrations tram && \
+    tram migrate && \
+    tram collectstatic
 
 # run ml training
-RUN python3 /tram/src/tram/manage.py attackdata load && \
-    python3 /tram/src/tram/manage.py pipeline load-training-data && \
-    python3 /tram/src/tram/manage.py pipeline train --model nb && \
-    python3 /tram/src/tram/manage.py pipeline train --model logreg
+RUN tram attackdata load && \
+    tram pipeline load-training-data && \
+    tram pipeline train --model nb && \
+    tram pipeline train --model logreg
 
 EXPOSE 8000
 

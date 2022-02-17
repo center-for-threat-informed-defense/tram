@@ -28,8 +28,8 @@ if [ "${SKIP_CREATE_SUPERUSER}" -eq 0 ]; then
 fi
 
 # Generate and Run Django migrations scripts
-python3 /tram/src/tram/manage.py makemigrations tram
-python3 /tram/src/tram/manage.py migrate
+tram makemigrations tram
+tram migrate
 
 # Used provided superuser credentials to create a superuser
 if [[ "${SKIP_CREATE_SUPERUSER}" -eq 0 ]]; then
@@ -47,12 +47,12 @@ if not User.objects.filter(username = username).exists():
 else:
     print('Superuser creation skipped, user already exists.');
 "
-    printf "%s" "${PY_CREATE_SU_SCRIPT}" | python3 /tram/src/tram/manage.py shell
+    printf "%s" "${PY_CREATE_SU_SCRIPT}" | tram shell
 fi
 
-nohup python3 /tram/src/tram/manage.py pipeline run --model logreg --run-forever &
+nohup tram pipeline run --model logreg --run-forever &
 
 # Run Django on port 8000
-# python3 /tram/src/tram/manage.py runserver 0.0.0.0:8000
+# tram runserver 0.0.0.0:8000
 
 gunicorn tram.wsgi:application -b 0.0.0.0:8000
