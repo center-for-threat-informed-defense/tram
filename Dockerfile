@@ -19,7 +19,6 @@ LABEL "org.opencontainers.image.license"="Apache-2.0"
 
 # Install and update apt dependencies
 ENV DEBIAN_FRONTEND=noninteractive
-RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -y install --no-install-recommends \
@@ -29,7 +28,8 @@ RUN apt-get update && \
     python3-pip \
     python3-setuptools \
     python3-venv \
-    python3-wheel
+    python3-wheel && \
+    rm -fr /var/lib/apt/lists/*
 
 # Add proxy settings, enterprise certs to prevent SSL issues.
 # Uncomment and update these lines as needed. There is an example
@@ -44,8 +44,10 @@ RUN apt-get update && \
 #ENV HTTP_PROXY=${http_proxy} \
 #    HTTPS_PROXY=${https_proxy} \
 #    NO_PROXY=${no_proxy}
-COPY ZScaler_Root.crt /usr/local/share/ca-certificates
-RUN update-ca-certificates
+#COPY MY_ORG_ROOT.crt /usr/local/share/ca-certificates
+#RUN cd /usr/local/share/ca-certificates && \
+#    wget http://pki.my-organization.local/MY%20ORG%20ROOT.crt && \
+#    update-ca-certificates
 
 RUN mkdir /tram && \
     python3 -m venv /tram/.venv && \

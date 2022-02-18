@@ -38,6 +38,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PYTHON_FLAKE8_CONFIG_FILE: "tox.ini"
           PYTHON_BLACK_CONFIG_FILE: "pyproject.toml"
           PYTHON_ISORT_CONFIG_FILE: "pyproject.toml"
           SHELLCHECK_OPTS: "-e SC2016 -e SC2086 -e SC2129"
