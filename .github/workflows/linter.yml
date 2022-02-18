@@ -36,6 +36,7 @@ jobs:
         env:
           LINTER_RULES_PATH: /
           VALIDATE_ALL_CODEBASE: false
+          FILTER_REGEX_EXCLUDE: "src/tram/migrations/.*"
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PYTHON_FLAKE8_CONFIG_FILE: "tox.ini"
