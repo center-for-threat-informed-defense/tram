@@ -75,7 +75,7 @@ function loadSentences(active_sentence_id) {
 function storeSentences(sentences) {
     stored_sentences = {};
     for (var i = 0; i < sentences.length; i++) {
-        sentence = sentences[i];
+        var sentence = sentences[i];
         stored_sentences[sentence.id] = sentence;
         if (i == 0) {
             first_sentence_id = sentence.id
@@ -88,8 +88,8 @@ function storeSentences(sentences) {
 
 function renderSentences(active_sentence_id) {
     var $sentenceTable = $(`<table id="sentence-table" class="table table-striped table-hover text-start"><tbody></tbody></table>`)
-    for (sentence_id in stored_sentences) {
-        sentence = stored_sentences[sentence_id];
+    for (var sentence_id in stored_sentences) {
+        var sentence = stored_sentences[sentence_id];
         var flag_class = "";
         if (sentence.disposition == null) {
             flag_class = "bg-warning"; // Indicates the sentence is in review
@@ -101,12 +101,12 @@ function renderSentences(active_sentence_id) {
             numMappings = sentence.mappings.length;
         }
 
-        $row = $(`<tr id="sentence-row-${sentence.id}" style="cursor: pointer;" onclick="renderMappings(${sentence.id})"></tr>`)
+        var $row = $(`<tr id="sentence-row-${sentence.id}" style="cursor: pointer;" onclick="renderMappings(${sentence.id})"></tr>`)
         if (sentence.id == active_sentence_id) {
             $row.addClass("bg-info");
         }
-        $flag = $("<td style='width: 1%''>"+numMappings+"</td>").addClass(flag_class);
-        $text = $(`<td style="word-wrap: break-word;min-width: 160px;max-width: 160px;"></td>`).text(sentence.text);
+        var $flag = $("<td style='width: 1%''>"+numMappings+"</td>").addClass(flag_class);
+        var $text = $(`<td style="word-wrap: break-word;min-width: 160px;max-width: 160px;"></td>`).text(sentence.text);
         $row.append($flag).append($text);
         $sentenceTable.append($row);
     }
@@ -116,7 +116,7 @@ function renderSentences(active_sentence_id) {
 
 function renderMappings(sentence_id) {
     active_sentence_id_glob = sentence_id;
-    $mappingContainer = $(`<div class="col" id="mapping-container"><h4>Mappings</h4></div>`);
+    var $mappingContainer = $(`<div class="col" id="mapping-container"><h4>Mappings</h4></div>`);
 
     $("#sentence-table > tbody > tr").removeClass('bg-info')
     if (sentence_id == null) {
@@ -127,24 +127,24 @@ function renderMappings(sentence_id) {
 
     let sentence = stored_sentences[sentence_id];
 
-    $mappingTable = $(`<table id="mapping-table" class="table table-striped table-hover"><tbody></tbody></table>`);
+    var $mappingTable = $(`<table id="mapping-table" class="table table-striped table-hover"><tbody></tbody></table>`);
     var addButton = `<button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addMappingModal">Add...</button>`;
 
-    $mappingTable.append(`<tr><th>Technique ${addButton}</th><th>Confidence</th><th></th></tr>`);
-    for (var i = 0; i < sentence.mappings.length; i++) {
-        let mapping = sentence.mappings[i];
+    $mappingTable.append(`<tr><th scope="col">Technique ${addButton}</th><th scope="col">Confidence</th><th scope="col"></th></tr>`);
+    for (let mapping of sentence.mappings) {
         var $row = $(`<tr></tr>`);
         $row.append(`<td>${mapping.attack_id} - ${mapping.name}</td>`);
         $row.append(`<td>${mapping.confidence}%</td>`);
-        $removeButton = $(`<button type="button" class="btn btn-sm btn-danger"><i class="fas fa-minus-circle"></i><`);
+        var $removeButton = $(`<button type="button" class="btn btn-sm btn-danger"><em class="fas fa-minus-circle"></em><`);
         $removeButton.click(() => deleteMapping(sentence.id, mapping.id, false));
         $row.append($(`<td></td>`).append($removeButton));
         $mappingTable.append($row);
     }
     $mappingContainer.append($mappingTable);
-    $dispositionGroup = $(`<div class="btn-group"></div>`);
+    var $dispositionGroup = $(`<div class="btn-group"></div>`);
 
-    var accept_class = accept_text = pending_class = pending_text = "";
+    var accept_class, accept_text, pending_text, review_class;
+    accept_text = pending_text = "";
 
     if (sentence.disposition == "accept") {
         accept_class = "btn btn-success";
@@ -162,10 +162,10 @@ function renderMappings(sentence_id) {
     }
 
     var accept_onclick = `updateSentence(${sentence.id}, {disposition: 'accept'}, ${next_sentence_id})`;
-    $accept = $(`<button type="button" class="${accept_class}" onclick="${accept_onclick}">Accepted</button>`);
+    var $accept = $(`<button type="button" class="${accept_class}" onclick="${accept_onclick}">Accepted</button>`);
 
     var review_onclick = `updateSentence(${sentence.id}, {disposition: null}, ${next_sentence_id})`;
-    $review = $(`<button type="button" class="${review_class}" onclick="${review_onclick}">Reviewing</button>`);
+    var $review = $(`<button type="button" class="${review_class}" onclick="${review_onclick}">Reviewing</button>`);
 
     $dispositionGroup.append($accept).append($review);
     $mappingContainer.append($dispositionGroup);

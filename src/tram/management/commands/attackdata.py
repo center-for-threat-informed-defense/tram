@@ -28,10 +28,10 @@ class Command(BaseCommand):
         sp = parser.add_subparsers(
             title="subcommands", dest="subcommand", required=True
         )
-        sp_load = sp.add_parser(  # noqa: F841
+        sp.add_parser(
             LOAD, help="Load ATT&CK Data into the Database"
         )
-        sp_clear = sp.add_parser(  # noqa: F841
+        sp.add_parser(
             CLEAR, help="Clear ATT&CK Data from the Database"
         )
 

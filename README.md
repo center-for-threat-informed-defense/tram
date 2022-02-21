@@ -186,7 +186,7 @@ containerized version is recommended for non-developers.
 10. Run the application server
 
     ```sh
-    tram runserver
+    DEBUG=1 tram runserver
     ```
 
 11. Open the application in your web browser.

@@ -92,19 +92,19 @@ class SKLearnModel(ABC):
         Return classification metrics based on train/test evaluation of the data
         Note: potential extension is to use cross-validation rather than a single train/test split
         """
-        X, y = self.get_training_data()
+        x, y = self.get_training_data()
 
         # Create training set and test set
-        X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.2, shuffle=True, random_state=0, stratify=y
+        x_train, x_test, y_train, y_test = train_test_split(
+            x, y, test_size=0.2, shuffle=True, random_state=0, stratify=y
         )
 
         # Train model
         test_model = self.get_model()
-        test_model.fit(X_train, y_train)
+        test_model.fit(x_train, y_train)
 
         # Generate predictions on test set
-        y_predicted = test_model.predict(X_test)
+        y_predicted = test_model.predict(x_test)
 
         # TODO: Does this put labels and scores in the correct order?
         # Calculate an f1 score for each technique
@@ -423,7 +423,6 @@ class ModelManager(object):
         filepath = self.get_model_filepath(self.model.__class__)
         self.model.save_to_file(filepath)
         logger.info("Trained model saved to %s" % filepath)
-        return
 
     @staticmethod
     def get_all_model_metadata():

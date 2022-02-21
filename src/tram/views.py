@@ -63,21 +63,21 @@ class ReportExportViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
 
-        format = request.GET.get("type", "")
+        report_format = request.GET.get("type", "")
 
-        # If an invalid format is given, just default to json
-        if format not in ["json", "docx"]:
-            format = "json"
+        # If an invalid report_format is given, just default to json
+        if report_format not in ["json", "docx"]:
+            report_format = "json"
             logger.warning("Invalid File Type. Defaulting to JSON.")
 
         # Retrieve report data as json
         response = super().retrieve(request, *args, **kwargs)
         basename = quote(self.get_object().name, safe="")
 
-        if format == "json":
+        if report_format == "json":
             response["Content-Disposition"] = f'attachment; filename="{basename}.json"'
 
-        elif format == "docx":
+        elif report_format == "docx":
             # Uses json dictionary to create formatted document
             document = tram.report.docx.build(response.data)
 

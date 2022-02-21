@@ -5,7 +5,13 @@
 {% block title %}TRAM - Threat Report ATT&CK Mapper{% endblock %}
 
 {% block head %}
-<meta http-equiv="refresh" content="30" />
+    <script type="text/javascript">
+        $(document).ready(function() {
+            setInterval(function() {
+                window.location.reload();
+            }, 30000);
+        });
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -14,13 +20,13 @@
   <caption>Reports that have been uploaded by users.</caption>
   <tbody>
     <tr>
-      <th>Report</th>
-      <th>Actions</th> <!-- Actions 1 -->
-      <th>Status</th>
-      <th>Sentences</th>
-      <th></th> <!-- Actions 2 - Delete -->
+      <th scope="col">Report</th>
+      <th scope="col">Actions</th> <!-- Actions 1 -->
+      <th scope="col">Status</th>
+      <th scope="col">Sentences</th>
+      <th scope="col"></th> <!-- Actions 2 - Delete -->
     </tr>
-    {% for job in job_queue%}
+    {% for job in job_queue %}
     <tr>
       <td>
         <div>
@@ -44,7 +50,7 @@
         <!-- No Sentence Info -->
       </td>
       <td>
-        <a class="btn btn-danger btn-sm" onclick="deleteJob({{ job.id }})"><i class="fas fa-trash"></i></a>
+        <a class="btn btn-danger btn-sm" onclick="deleteJob({{ job.id }})"><em class="fas fa-trash"></em></a>
       </td>
     </tr>
     {% endfor %}
@@ -91,7 +97,7 @@
         Total: {{report.total_sentences}}<br>
       </td>
       <td>
-        <a class="btn btn-danger btn-sm" onclick="deleteReport({{ report.id }})"><i class="fas fa-trash"></i></a>
+        <a class="btn btn-danger btn-sm" onclick="deleteReport({{ report.id }})"><em class="fas fa-trash"></em></a>
       </td>
     </tr>
     {% endfor %}

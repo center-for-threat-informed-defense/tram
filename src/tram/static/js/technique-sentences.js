@@ -32,7 +32,6 @@ $(document).ready(function() {
     }); 
 });
 
-var lastClick = null;
 $(document).keydown(function(e) {
 
     var now = Date.now();
@@ -47,7 +46,6 @@ $(document).keydown(function(e) {
             if (active_sentence_index_glob != 0) {
                 loadSentences(stored_sentence_indices[active_sentence_index_glob - 1]);
             }
-            return false;
         }
         // On down arrow, go to next sentence
         else if (e.which == 40 && !e.repeat) { 
@@ -56,10 +54,8 @@ $(document).keydown(function(e) {
             if (active_sentence_index_glob != last_sentence_index) {
                 loadSentences(stored_sentence_indices[active_sentence_index_glob + 1]);
             }
-            return false;
         }
     }
-    return false;
 });
 
 function loadSentences(active_sentence_id) {
