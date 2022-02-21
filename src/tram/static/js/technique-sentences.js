@@ -146,7 +146,7 @@ function renderMappings(sentence_id) {
     $mappingContainer.append($mappingTable);
     $dispositionGroup = $(`<div class="btn-group"></div>`);
 
-    var accept_class, pending_class;
+    var accept_class, review_class;
 
     if (sentence.disposition == "accept") {
         accept_class = "btn btn-success";
