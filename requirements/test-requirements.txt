@@ -8,3 +8,6 @@ pytest-mock==3.5.1
 pytest-pythonpath
 safety==1.10.3
 tox==3.24.5
+
+# Install tram in editable mode:
+-e .

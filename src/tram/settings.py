@@ -17,7 +17,7 @@ from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = BASE_DIR.parent.parent
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -51,7 +51,7 @@ if SECRET_KEY is None:
 if os.environ.get("DEBUG") is not None:
     DEBUG = bool(os.environ.get("DEBUG").lower() in ["true", "1", "t", "yes", "y"])
 else:
-    DEBUG = True
+    DEBUG = False
 
 if os.environ.get("ALLOWED_HOSTS") is not None:
     ALLOWED_HOSTS = loads(os.environ.get("ALLOWED_HOSTS"))
@@ -202,7 +202,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "tram", "static"),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_ROOT = os.path.join(DATA_DIRECTORY, "media")

@@ -36,8 +36,10 @@ jobs:
         env:
           LINTER_RULES_PATH: /
           VALIDATE_ALL_CODEBASE: false
+          FILTER_REGEX_EXCLUDE: "src/tram/migrations/.*"
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PYTHON_FLAKE8_CONFIG_FILE: "tox.ini"
           PYTHON_BLACK_CONFIG_FILE: "pyproject.toml"
           PYTHON_ISORT_CONFIG_FILE: "pyproject.toml"
           SHELLCHECK_OPTS: "-e SC2016 -e SC2086 -e SC2129"

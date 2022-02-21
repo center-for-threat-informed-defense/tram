@@ -1,10 +1,16 @@
+[build-system]
+requires = [
+  "setuptools>=42",
+  "wheel"
+]
+
 [tool.black]
 exclude = '''
 /(
   \.mypy_cache
   | \.venv
   | venv
-  | migrations
+  | src/tram/migrations
   | node_modules
   | .tox
   | .git

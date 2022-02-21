@@ -29,10 +29,8 @@ to integrate ATT&CK more easily and consistently into their products.
     - [Do I have to manually accept all of the parsed sentences in the report?](#do-i-have-to-manually-accept-all-of-the-parsed-sentences-in-the-report)
   - [Requirements](#requirements)
   - [For Developers](#for-developers)
-    - [Makefile Version](#makefile-version)
-      - [Useful User Commands](#useful-user-commands)
-      - [Useful Dev Commands](#useful-dev-commands)
     - [Developer Setup](#developer-setup)
+    - [Makefile Targets](#makefile-targets)
   - [Machine Learning Development](#machine-learning-development)
     - [Existing ML Models](#existing-ml-models)
     - [Creating Your Own ML Model](#creating-your-own-ml-model)
@@ -112,58 +110,33 @@ human analyst needs to validate/accept the proposed mappings.
 
 ## For Developers
 
-### Makefile Version
-
-#### Useful User Commands
-
-- Run TRAM application
-  - `make start-container`
-- Stop TRAM application
-  - `make stop-container`
-- View TRAM logs
-  - `make container-logs`
-
-#### Useful Dev Commands
-
-- Build Python virtualenv
-  - `make venv`
-- Install all development dependencies
-  - `make install-dev`
-- Activate newly created virtualenv
-  - `source .venv/bin/activate`
-- Setup pre-commit (required one-time process per local `git clone` repository)
-  - `pre-commit install`
-- Manually run pre-commit hooks without performing a commit
-  - `make pre-commit-run`
-- Build container image (By default, container is tagged with timestamp and git hash of codebase)
-  - `make build-container`
-- Run linting locally
-  - `make lint`
-- Run unit tests, safety, and bandit locally
-  - `make test`
-
 ### Developer Setup
 
 The following steps are only required for local development and testing. The
 containerized version is recommended for non-developers.
 
-1. Start by cloning this repository.
+1. Install the following packages using your OS package manager (apt, yum, homebrew, etc.):
+   1. make
+   2. shellcheck
+   3. shfmt
+
+2. Start by cloning this repository.
 
     ```sh
     git clone git@github.com:center-for-threat-informed-defense/tram.git
     ```
 
-2. Change to the TRAM directory.
+3. Change to the TRAM directory.
 
     ```sh
     cd tram/
     ```
 
-3. Create a virtual environment and activate the new virtual environment.
+4. Create a virtual environment and activate the new virtual environment.
    1. Mac and Linux
 
       ```sh
-      python -m venv venv
+      python3 -m venv venv
       source venv/bin/activate
       ```
 
@@ -173,72 +146,101 @@ containerized version is recommended for non-developers.
       venv\Scripts\activate.bat
       ```
 
-4. Install Python application requirements.
+5. Install Python application requirements.
 
     ```sh
     pip install -r requirements/requirements.txt
+    pip install -r requirements/test-requirements.txt
+    pip install pre-commit
     ```
 
-5. Set up the application database.
+6. Install pre-commit hooks
 
     ```sh
-    python src/tram/manage.py makemigrations tram
-    python src/tram/manage.py migrate
+    pre-commit install
     ```
 
-6. Run the Machine learning training.
+7. Set up the application database.
 
     ```sh
-    python src/tram/manage.py attackdata load
-    python src/tram/manage.py pipeline load-training-data
-    python src/tram/manage.py pipeline train --model nb
-    python src/tram/manage.py pipeline train --model logreg
-    #  python src/tram/manage.py pipeline train --model <replace-with-registered-model-name>
+    tram makemigrations tram
+    tram migrate
     ```
 
-7. Create a superuser (web login)
+8. Run the Machine learning training.
 
     ```sh
-    python src/tram/manage.py createsuperuser
+    tram attackdata load
+    tram pipeline load-training-data
+    tram pipeline train --model nb
+    tram pipeline train --model logreg
+    tram pipeline train --model nn_cls
     ```
 
-8. Run the application server
+9.  Create a superuser (web login)
 
     ```sh
-    python src/tram/manage.py runserver
+    tram createsuperuser
     ```
 
-9. Open the application in your web browser.
+10. Run the application server
+
+    ```sh
+    tram runserver
+    ```
+
+11. Open the application in your web browser.
     1. Navigate to <http://localhost:8000> and use the superuser to log in
-10. In a separate terminal window, run the ML pipeline
+12. In a separate terminal window, run the ML pipeline
 
      ```sh
      cd tram/
      source venv/bin/activate
-     python src/tram/manage.py pipeline run
+     tram pipeline run
      ```
+
+### Makefile Targets
+
+- Run TRAM application
+  - `make start-container`
+- Stop TRAM application
+  - `make stop-container`
+- View TRAM logs
+  - `make container-logs`
+- Build Python virtualenv
+  - `make venv`
+- Install production Python dependencies
+  - `make install`
+- Install prod and dev Python dependencies
+  - `make install-dev`
+- Manually run pre-commit hooks without performing a commit
+  - `make pre-commit-run`
+- Build container image (By default, container is tagged with timestamp and git hash of codebase)
+  - `make build-container`
+- Run linting locally
+  - `make lint`
+- Run unit tests, safety, and bandit locally
+  - `make test`
+
 
 ## Machine Learning Development
 
 All source code related to machine learning is located in TRAM
-[src/tram/tram/ml](https://github.com/center-for-threat-informed-defense/tram/tree/master/src/tram/tram/ml).
+[src/tram/ml](https://github.com/center-for-threat-informed-defense/tram/tree/master/src/tram/ml).
 
 ### Existing ML Models
 
-TRAM has three machine learning models that can be used out-of-the-box:
+TRAM has four machine learning models that can be used out-of-the-box:
 
 1. LogisticRegressionModel - Uses SKLearn's [Logistic
    Regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html).
-   [[source
-   code](https://github.com/center-for-threat-informed-defense/tram/blob/master/src/tram/tram/ml/base.py#L296)]
 2. NaiveBayesModel - Uses SKLearn's [Multinomial
    NB](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB).
-   [[source
-   code](https://github.com/center-for-threat-informed-defense/tram/blob/master/src/tram/tram/ml/base.py#L283)]
-3. DummyModel - Uses SKLearn's [Dummy
+3. Multilayer Perception - Uses SKLearn's
+   [MLPClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html).
+4. DummyModel - Uses SKLearn's [Dummy
    Classifier](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html#sklearn.dummy.DummyClassifier)
-   for testing purposes. [[source
-   code](https://github.com/center-for-threat-informed-defense/tram/blob/master/src/tram/tram/ml/base.py#L275)]
+   for testing purposes.
 
 All ML models are implemented as an SKLearn Pipeline. Other types of models can be added in the future if there is a need.
 
@@ -278,7 +280,7 @@ In order to write your own model, take the following steps:
    interface.
 
    ```sh
-   python src/tram/manage.py pipeline train --model your-model
+   tram pipeline train --model your-model
    ```
 
 4. If you are interested in sharing your model with the community, thank you!
