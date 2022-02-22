@@ -32,7 +32,6 @@ $(document).ready(function() {
     }); 
 });
 
-var lastClick = null;
 $(document).keydown(function(e) {
 
     var now = Date.now();
@@ -47,7 +46,6 @@ $(document).keydown(function(e) {
             if (active_sentence_index_glob != 0) {
                 loadSentences(stored_sentence_indices[active_sentence_index_glob - 1]);
             }
-            return false;
         }
         // On down arrow, go to next sentence
         else if (e.which == 40 && !e.repeat) { 
@@ -56,10 +54,8 @@ $(document).keydown(function(e) {
             if (active_sentence_index_glob != last_sentence_index) {
                 loadSentences(stored_sentence_indices[active_sentence_index_glob + 1]);
             }
-            return false;
         }
     }
-    return false;
 });
 
 function loadSentences(active_sentence_id) {
@@ -142,7 +138,7 @@ function renderMappings(sentence_id) {
         var $row = $(`<tr></tr>`);
         $row.append(`<td>${mapping.attack_id} - ${mapping.name}</td>`);
         $row.append(`<td>${mapping.confidence}%</td>`);
-        $removeButton = $(`<button type="button" class="btn btn-sm btn-danger"><i class="fas fa-minus-circle"></i><`);
+        var $removeButton = $(`<button type="button" class="btn btn-sm btn-danger"><em class="fas fa-minus-circle"></em>`);
         $removeButton.click(() => deleteMapping(sentence.id, mapping.id, true));
         $row.append($(`<td></td>`).append($removeButton));
         $mappingTable.append($row);
@@ -150,7 +146,7 @@ function renderMappings(sentence_id) {
     $mappingContainer.append($mappingTable);
     $dispositionGroup = $(`<div class="btn-group"></div>`);
 
-    var accept_class = accept_text = pending_class = pending_text = "";
+    var accept_class, review_class;
 
     if (sentence.disposition == "accept") {
         accept_class = "btn btn-success";

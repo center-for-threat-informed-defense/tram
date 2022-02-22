@@ -3,10 +3,10 @@
 *-------------------------------------*/
 
 //When the Upload button is clicked, call the function to upload a report
-$(document).on('change', '#id-upload',function (event){
-    if(event.currentTarget) {
+$(document).on('change', '#id-upload', function (event) {
+    if (event.currentTarget) {
         let filename = event.currentTarget.files[0].name;
-        if(filename){
+        if (filename) {
             uploadReport();
         }
     }
@@ -29,7 +29,7 @@ function uploadReport() {
          success: function(response) {
             console.log(response)
          },
-    }).done(function (){
+    }).done(function () {
         location.reload();
     })
 }
@@ -38,7 +38,7 @@ function uploadReport() {
 function addMapping(attack_ids, sentence_id, report_id) {
 
     // If report id is passed in, use that. If not use constant provided.
-    if (report_id == false) {
+    if (!report_id) {
         report_id = REPORT_ID
     }
 
@@ -54,13 +54,13 @@ function addMapping(attack_ids, sentence_id, report_id) {
             headers: {
                 "X-CSRFToken": CSRF_TOKEN
             },
-            success: function (data) {
+            success: function (response) {
                 // Clear select cache
                 $('.select2-use').val(null).trigger('change');
                 loadSentences(sentence_id);
             },
-            failure: function (data) {
-                console.log(`Failure: ${data}`);
+            failure: function (response) {
+                console.log(`Failure: ${response}`);
             }
     })});
 }
@@ -72,14 +72,14 @@ function updateSentence(sentence_id, disposition, next_sentence) {
         url: `/api/sentences/${sentence_id}/`,
         dataType: "json",
         contentType:"application/json; charset=utf-8",
-        data: JSON.stringify(disposition), // {disposition: "accept" | null}
+        data: JSON.stringify(disposition),
         headers: {
             "X-CSRFToken": CSRF_TOKEN
         },
-        success: function (data) {
+        success: function (response) {
             // If disposition is "accept", load the next sentence
             if (disposition.disposition == "accept"){
-                new_sentence_id = String(parseInt(sentence_id) + 1)
+                var new_sentence_id = String(parseInt(sentence_id) + 1)
 
                 // If there is a provided next sentence, use that instead
                 if (next_sentence) {
@@ -91,8 +91,8 @@ function updateSentence(sentence_id, disposition, next_sentence) {
                 loadSentences(sentence_id);
             }
         },
-        failure: function (data) {
-            console.log(`Failure: ${data}`);
+        failure: function (response) {
+            console.log(`Failure: ${response}`);
         }
     });
 }
