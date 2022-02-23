@@ -39,7 +39,9 @@
             </h1>
             <ul class="navbar-nav d-flex m-0">
                 <li class="navbar-item me-1">
+                    {% block back-to-index-link %}
                     <a class="btn btn btn-outline-light" href="/">Reports</a>
+                    {% endblock %}
                 </li>
                 <li class="navbar-item me-1">
                     <a class="btn btn btn-outline-light" href="/ml">ML Admin</a>
