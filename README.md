@@ -21,8 +21,9 @@ to integrate ATT&CK more easily and consistently into their products.
 - [TRAM](#tram)
   - [Table of contents](#table-of-contents)
   - [Installation](#installation)
+    - [Air Gap Installation](#air-gap-installation)
   - [Installation Troubleshooting](#installation-troubleshooting)
-    - [[97438] Failed to execute script docker-compose](#97438-failed-to-execute-script-docker-compose)
+    - [\[97438\] Failed to execute script docker-compose](#97438-failed-to-execute-script-docker-compose)
   - [Report Troubleshooting](#report-troubleshooting)
     - [How long until my queued report is complete?](#how-long-until-my-queued-report-is-complete)
     - [Why is my report stuck in queued?](#why-is-my-report-stuck-in-queued)
@@ -31,6 +32,7 @@ to integrate ATT&CK more easily and consistently into their products.
   - [For Developers](#for-developers)
     - [Developer Setup](#developer-setup)
     - [Makefile Targets](#makefile-targets)
+    - [Custom CA Certificate](#custom-ca-certificate)
   - [Machine Learning Development](#machine-learning-development)
     - [Existing ML Models](#existing-ml-models)
     - [Creating Your Own ML Model](#creating-your-own-ml-model)
@@ -62,9 +64,58 @@ to integrate ATT&CK more easily and consistently into their products.
 password specified in docker-compose.yml
 ![image](https://user-images.githubusercontent.com/2951827/129959436-d36e8d1f-fe74-497e-b549-a74be8d140ca.png)
 
+### Air Gap Installation
+
+If you are unable to pull images from Docker Hub (i.e. due to corporate
+firewall, airgap, etc.), it is possible to download the images and move them
+onto the Docker host manually:
+
+1. Pull the images onto a machine that is able to access Docker Hub:
+
+    ```shell
+    $ docker pull ghcr.io/center-for-threat-informed-defense/tram:latest
+    $ docker pull ghcr.io/center-for-threat-informed-defense/tram-nginx:latest
+    ```
+
+2. Export the Docker images to compressed archive (`.tgz`) format:
+
+    ```shell
+    $ docker save ghcr.io/center-for-threat-informed-defense/tram:latest \
+        | gzip > tram-latest.tgz
+    $ docker save ghcr.io/center-for-threat-informed-defense/tram-nginx:latest \
+        | gzip > tram-nginx-latest.tgz
+    ```
+3. Confirm that the images were exported correctly.
+
+    ```shell
+    ls -lah tram*.tgz
+    -rw-r--r--  1 johndoe  wheel   345M Feb 24 12:56 tram-latest.tgz
+    -rw-r--r--  1 johndoe  wheel   9.4M Feb 24 12:57 tram-nginx-latest.tgz
+    ```
+
+4. Copy the images across the airgap.
+   - _This step will depend on your deployment environment, of course._
+
+5. Import the Docker images on the Docker host.
+
+    ```shell
+    $ docker load < tram-latest.tgz
+    $ docker load < tram-nginx-latest.tar.gz
+    ```
+
+6. Confirm that the images were loaded on the Docker host.
+
+    ```shell
+    $ docker images | grep tram
+    ghcr.io/center-for-threat-informed-defense/tram-nginx   latest    8fa8fb7801b9   2 weeks ago    23.5MB
+    ghcr.io/center-for-threat-informed-defense/tram         latest    d19b35523098   2 weeks ago    938MB
+    ```
+
+7. From this point, you can follow the main installation instructions above.
+
 ## Installation Troubleshooting
 
-### [97438] Failed to execute script docker-compose
+### \[97438\] Failed to execute script docker-compose
 
 If you see this stack trace:
 
@@ -215,13 +266,40 @@ containerized version is recommended for non-developers.
   - `make install-dev`
 - Manually run pre-commit hooks without performing a commit
   - `make pre-commit-run`
-- Build container image (By default, container is tagged with timestamp and git hash of codebase)
+- Build container image (By default, container is tagged with timestamp and git hash of codebase) _See note below about custom CA certificates in the Docker build.)_
   - `make build-container`
 - Run linting locally
   - `make lint`
 - Run unit tests, safety, and bandit locally
   - `make test`
 
+### Custom CA Certificate
+
+If you are building the container in an environment that intercepts SSL
+connections, you can specify a root CA certificate to inject into the container
+at build time. (This is only necessary for the TRAM application container. The
+TRAM Nginx container does not make outbound connections.)
+
+Export the following two variables in your environment.
+
+```shell
+$ export TRAM_CA_URL="http://your.domain.com/root.crt"
+$ export TRAM_CA_THUMBPRINT="C7:E0:F9:69:09:A4:A3:E7:A9:76:32:5F:68:79:9A:85:FD:F9:B3:BD"
+```
+
+The first variable is a URL to a PEM certificate containing a root certificate
+that you want to inject into the container. (If you use an `https` URL, then
+certificate checking is disabled.) The second variable is a SHA-1 certificate
+thumbprint that is used to verify that the correct certificate was downloaded.
+You can obtain the thumbprint with the following OpenSSL command:
+
+```shell
+$ openssl x509 -in <your-cert.crt> -fingerprint -noout
+SHA1 Fingerprint=C7:E0:F9:69:09:A4:A3:E7:A9:76:32:5F:68:79:9A:85:FD:F9:B3:BD
+```
+
+After exporting these two variables, you can run `make build-container` as usual
+and the TRAM container will contain your specified root certificate.
 
 ## Machine Learning Development
 

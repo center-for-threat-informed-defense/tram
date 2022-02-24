@@ -17,6 +17,10 @@ LABEL "org.opencontainers.image.source"="https://github.com/center-for-threat-in
 LABEL "org.opencontainers.image.description"="Threat Report ATT&CK Mapper"
 LABEL "org.opencontainers.image.license"="Apache-2.0"
 
+# Arguments
+ARG TRAM_CA_URL
+ARG TRAM_CA_THUMBPRINT
+
 # Install and update apt dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
@@ -31,11 +35,7 @@ RUN apt-get update && \
     python3-wheel && \
     rm -fr /var/lib/apt/lists/*
 
-# Add proxy settings, enterprise certs to prevent SSL issues.
-# Uncomment and update these lines as needed. There is an example
-# with a wget if you can/want to download the cert directly from your
-# organization, otherwise use the COPY command to move it into the
-# docker build, and call run the `update-ca-certificates` command.
+# Add proxy settings. Uncomment and update these lines as needed.
 #ENV proxy_host=${proxy_host:-proxy-server.my-organization.local} \
 #    proxy_port=${proxy_port:-80}
 #ENV http_proxy=http://${proxy_host}:${proxy_port} \
@@ -44,10 +44,19 @@ RUN apt-get update && \
 #ENV HTTP_PROXY=${http_proxy} \
 #    HTTPS_PROXY=${https_proxy} \
 #    NO_PROXY=${no_proxy}
-#COPY MY_ORG_ROOT.crt /usr/local/share/ca-certificates
-#RUN cd /usr/local/share/ca-certificates && \
-#    wget http://pki.my-organization.local/MY%20ORG%20ROOT.crt && \
-#    update-ca-certificates
+
+# Handle custom CA certificate, if specified.
+RUN if test -n "${TRAM_CA_URL}" -a -n "${TRAM_CA_THUMBPRINT}" ; then \
+        echo "Installing certificate authority from ${TRAM_CA_URL}" && \
+        curl -sk "${TRAM_CA_URL}" -o /usr/local/share/ca-certificates/tram_ca.crt && \
+        DOWNLOAD_CA_THUMBPRINT=$(openssl x509 -in /usr/local/share/ca-certificates/tram_ca.crt -fingerprint -noout | cut -d= -f2) && \
+        if test "${DOWNLOAD_CA_THUMBPRINT}" = "${TRAM_CA_THUMBPRINT}"; then \
+            update-ca-certificates; \
+        else \
+            echo "\n=====\nERROR\nExpected thumbprint: ${TRAM_CA_THUMBPRINT}\nActual thumbprint:   ${DOWNLOAD_CA_THUMBPRINT}\n=====\n"; \
+            exit 1; \
+        fi; \
+    fi
 
 RUN mkdir /tram && \
     python3 -m venv /tram/.venv && \
