@@ -21,6 +21,10 @@ LABEL "org.opencontainers.image.license"="Apache-2.0"
 ARG TRAM_CA_URL
 ARG TRAM_CA_THUMBPRINT
 
+# Change default shell to bash so that we can use pipes (|) safely. See:
+# https://github.com/hadolint/hadolint/wiki/DL4006
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 # Install and update apt dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
@@ -53,7 +57,7 @@ RUN if test -n "${TRAM_CA_URL}" -a -n "${TRAM_CA_THUMBPRINT}" ; then \
         if test "${DOWNLOAD_CA_THUMBPRINT}" = "${TRAM_CA_THUMBPRINT}"; then \
             update-ca-certificates; \
         else \
-            echo "\n=====\nERROR\nExpected thumbprint: ${TRAM_CA_THUMBPRINT}\nActual thumbprint:   ${DOWNLOAD_CA_THUMBPRINT}\n=====\n"; \
+            printf "\n=====\nERROR\nExpected thumbprint: %s\nActual thumbprint:   %s\n=====\n" "${TRAM_CA_THUMBPRINT}" "${DOWNLOAD_CA_THUMBPRINT}"; \
             exit 1; \
         fi; \
     fi
