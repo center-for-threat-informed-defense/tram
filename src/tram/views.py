@@ -118,7 +118,6 @@ class SentenceViewSet(viewsets.ModelViewSet):
                 attack_object__attack_id=attack_id
             ).values("sentence")
             queryset = queryset.filter(id__in=sentences)
-
         return queryset
 
 

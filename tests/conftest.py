@@ -1,34 +1,43 @@
-import glob
+import tempfile
+from pathlib import Path
 
 import pytest
 from django.core.files.base import File
 
+import tram.settings
 from tram import models
 from tram.management.commands import attackdata, pipeline
 
 
-@pytest.fixture(scope="session", autouse=True)
-def verify_test_data_directory_is_empty(request):
-    files = glob.glob("data/media/tests/data/*")
-    if len(files) > 0:
-        raise ValueError(
-            "data/media/tests/data/ is not empty! Remove contents to run tests."
-        )
+@pytest.fixture(scope="session")
+def django_db_setup(django_db_setup, django_db_blocker):
+    """
+    This fixture overrides key Django settings with values suitable for tests.
 
+    It also loads database fixtures one time so that it doesn't need to be done
+    separately for each test. This dramatically improves test execution time.
 
-@pytest.fixture
-def load_attack_data():
-    command = attackdata.Command()
-    command.handle(subcommand=attackdata.LOAD)
-
-
-@pytest.fixture
-def load_small_training_data():
-    options = {
-        "file": "data/training/bootstrap-training-data-small.json",
-    }
-    command = pipeline.Command()
-    command.handle(subcommand=pipeline.LOAD_TRAINING_DATA, **options)
+    This monkey-patching approach is hacky but Django's override_settings() API
+    doesn't seem to work for DATA_DIRECTORY or DATABASES.
+    """
+    with tempfile.TemporaryDirectory() as temp_path:
+        tram.settings.DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": ":memory:",
+            }
+        }
+        tram.settings.SECRET_KEY = "UNITTEST"
+        temp_dir = Path(tempfile.mkdtemp())
+        MEDIA_ROOT = temp_dir / "media"
+        MEDIA_ROOT.mkdir(parents=True)
+        with django_db_blocker.unblock():
+            attackdata.Command().handle(subcommand=attackdata.LOAD)
+            pipeline.Command().handle(
+                subcommand=pipeline.LOAD_TRAINING_DATA,
+                file="tests/data/test-training-data.json",
+            )
+        yield
 
 
 @pytest.fixture
@@ -41,31 +50,37 @@ def document():
 
 
 @pytest.fixture
-def attack_object():
-    at = models.AttackObject(
-        name="Use multiple DNS infrastructures",
-        stix_id="attack-pattern--616238cb-990b-4c71-8f50-d8b10ed8ce6b",
-        stix_type="attack-pattern",
-        attack_id="T1327",
-        attack_type="technique",
-        attack_url="https://attack.mitre.org/techniques/T1327",
-        matrix="mitre-pre-attack",
-    )
-    at.save()
-    yield at
-    at.delete()
+def attack_object(db):
+    """
+    $ sqlite3 -line db.sqlite3 "SELECT * FROM tram_attackobject WHERE id=72"
+             id = 72
+           name = Command and Scripting Interpreter
+        stix_id = attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830
+      attack_id = T1059
+     attack_url = https://attack.mitre.org/techniques/T1059
+         matrix = mitre-attack
+     created_on = 2022-03-01 20:06:53.717154
+     updated_on = 2022-03-01 20:06:53.717172
+    attack_type = technique
+      stix_type = attack-pattern
+    """
+    yield models.AttackObject.objects.get(id=72)
 
 
 @pytest.fixture
 def report(document):
-    rpt = models.Report(
-        name="Test report name",
-        document=document,
-        text="test-document-text",
-    )
-    rpt.save()
-    yield rpt
-    rpt.delete()
+    """
+    $ sqlite3 -line db.sqlite3 "SELECT * FROM tram_report WHERE id=1"
+               id = 1
+             name = Bootstrap Training Data
+             text = There is no text for this report. These sentences were mapped by human analysts.
+         ml_model = humans
+       created_on = 2022-03-01 20:07:05.511904
+       updated_on = 2022-03-01 20:07:05.511939
+    created_by_id = 1
+      document_id =
+    """
+    yield models.Report.objects.get(id=1)
 
 
 @pytest.fixture
@@ -87,7 +102,24 @@ def indicator(report):
 
 
 @pytest.fixture
-def sentence(report):
+def sentence():
+    """
+    $ sqlite3 -line db.sqlite3 "SELECT * FROM tram_sentence WHERE id=33"
+
+             id = 33
+           text = !CMD  Trojan executes a command prompt command
+          order = 1000
+     created_on = 2022-03-01 20:07:05.600772
+     updated_on = 2022-03-01 20:07:05.600789
+      report_id = 1
+    disposition = accept
+    document_id =
+    """
+    yield models.Sentence.objects.get(id=33)
+
+
+@pytest.fixture()
+def short_sentence(report):
     s = models.Sentence(
         text="test-text",
         document=report.document,
@@ -97,28 +129,6 @@ def sentence(report):
     )
     s.save()
     yield s
-    s.delete()
-
-
-@pytest.fixture
-def simple_training_data(report, load_attack_data):
-    s = models.Sentence(
-        text="test-text",
-        report=report,
-        document=report.document,
-        disposition="accept",
-    )
-    s.save()
-    at = models.AttackTechnique.objects.get(attack_id="T1327")
-    m = models.Mapping(
-        report=report,
-        sentence=s,
-        attack_technique=at,
-        confidence=55.55,
-    )
-    m.save()
-    yield
-    m.delete()
     s.delete()
 
 
@@ -137,13 +147,15 @@ def long_sentence(report):
 
 
 @pytest.fixture
-def mapping(report, sentence, attack_object):
-    m = models.Mapping(
-        report=report,
-        sentence=sentence,
-        attack_object=attack_object,
-        confidence=55.67,
-    )
-    m.save()
-    yield m
-    m.delete()
+def mapping():
+    """
+    $ sqlite3 -line db.sqlite3 "SELECT * FROM tram_mapping WHERE id=33"
+                  id = 33
+          confidence = 100.0
+          created_on = 2022-03-01 20:07:05.602368
+          updated_on = 2022-03-01 20:07:05.602386
+           report_id = 1
+         sentence_id = 33
+    attack_object_id = 72
+    """
+    yield models.Mapping.objects.get(id=33)

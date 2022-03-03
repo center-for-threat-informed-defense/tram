@@ -5,7 +5,7 @@ import pytest
 class TestAttackTechnique:
     def test___str__renders_correctly(self, attack_object):
         # Arrange
-        expected = "(T1327) Use multiple DNS infrastructures"
+        expected = "(T1059) Command and Scripting Interpreter"
 
         # Assert
         assert str(attack_object) == expected
@@ -35,7 +35,7 @@ class TestDocumentProcessingJob:
 class TestReport:
     def test__str__renders_correctly(self, report):
         # Arrange
-        expected = "Test report name"
+        expected = "Bootstrap Training Data"
 
         # Assert
         assert str(report) == expected
@@ -53,12 +53,12 @@ class TestIndicator:
 
 @pytest.mark.django_db
 class TestSentence:
-    def test__str__renders_correctly(self, sentence):
+    def test__str__renders_correctly(self, short_sentence):
         # Arrange
         expected = "test-text"
 
         # Assert
-        assert str(sentence) == expected
+        assert str(short_sentence) == expected
 
     def test__str__renders_long_sentence_correctly(self, long_sentence):
         # Arrange
@@ -72,7 +72,7 @@ class TestSentence:
 class TestMapping:
     def test__str__renders_correctly(self, mapping):
         # Arrange
-        expected = 'Sentence "test-text" to (T1327) Use multiple DNS infrastructures'
+        expected = 'Sentence "!CMD  Trojan executes a command prompt c..." to (T1059) Command and Scripting Interpreter'
 
         # Assert
         assert str(mapping) == expected

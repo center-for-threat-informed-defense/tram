@@ -155,9 +155,7 @@ class TestUpload:
         assert doc_count_pre + 1 == doc_count_post
         assert job_count_pre + 1 == job_count_post
 
-    def test_report_export_upload_creates_report(
-        self, logged_in_client, load_attack_data
-    ):
+    def test_report_export_upload_creates_report(self, logged_in_client):
         # Act
         with open("tests/data/report-for-simple-testdocx.json") as f:
             response = logged_in_client.post("/upload/", {"file": f})
@@ -182,60 +180,75 @@ class TestUpload:
 
 @pytest.mark.django_db
 class TestMappingViewSet:
-    def test_get_mappings(self, logged_in_client, mapping):
+    def test_get_mappings(self, logged_in_client):
         # Act
         response = logged_in_client.get("/api/mappings/")
         json_response = json.loads(response.content)
 
         # Assert
-        assert len(json_response) == 1
-        assert json_response[0]["attack_id"] == "T1327"
+        # Number of mappings in ATT&CK data fixture:
+        assert len(json_response) == 163
 
     def test_get_mapping(self, logged_in_client, mapping):
         # Act
-        response = logged_in_client.get("/api/mappings/1/")
+        response = logged_in_client.get(f"/api/mappings/{mapping.id}/")
         json_response = json.loads(response.content)
 
         # Assert
-        assert json_response["attack_id"] == "T1327"
+        assert json_response["attack_id"] == "T1059"
 
     def test_get_mappings_by_sentence(self, logged_in_client, mapping):
         # Act
-        response = logged_in_client.get("/api/mappings/?sentence-id=1")
+        response = logged_in_client.get(
+            f"/api/mappings/?sentence-id={mapping.sentence.id}"
+        )
         json_response = json.loads(response.content)
 
         # Assert
         assert len(json_response) == 1
-        assert json_response[0]["attack_id"] == "T1327"
+        assert json_response[0]["attack_id"] == "T1059"
 
 
 @pytest.mark.django_db
 class TestSentenceViewSet:
-    def test_get_sentences(self, logged_in_client, sentence):
+    def test_get_sentences(self, logged_in_client):
         # Act
         response = logged_in_client.get("/api/sentences/")
         json_response = json.loads(response.content)
 
         # Assert
-        assert len(json_response) == 1
-        assert json_response[0]["order"] == 0
+        # The number of sentences in test-training-data.json:
+        assert len(json_response) == 163
+        assert json_response[0]["order"] == 1000
 
     def test_get_sentence(self, logged_in_client, sentence):
         # Act
-        response = logged_in_client.get("/api/sentences/1/")
+        response = logged_in_client.get(f"/api/sentences/{sentence.id}/")
         json_response = json.loads(response.content)
 
         # Assert
-        assert json_response["order"] == 0
+        assert json_response["order"] == 1000
 
     def test_get_sentences_by_report(self, logged_in_client, sentence):
         # Act
-        response = logged_in_client.get("/api/sentences/?report-id=1")
+        response = logged_in_client.get(
+            f"/api/sentences/?report-id={sentence.report.id}"
+        )
         json_response = json.loads(response.content)
 
         # Assert
-        assert len(json_response) == 1
-        assert json_response[0]["order"] == 0
+        # The number of sentences in test-training-data.json:
+        assert len(json_response) == 163
+        assert json_response[0]["order"] == 1000
+
+    def test_get_sentences_by_technique(self, logged_in_client):
+        # Act
+        response = logged_in_client.get(f"/api/sentences/?attack-id=T1189")
+        json_response = json.loads(response.content)
+
+        # Assert
+        assert len(json_response) == 10
+        assert json_response[0]["order"] == 1000
 
 
 @pytest.mark.django_db
@@ -263,7 +276,7 @@ class TestReportExport:
         assert data[0].startswith(b"PK\x03\x04")
 
     def test_bootstrap_training_data_can_be_posted_as_json_report(
-        self, logged_in_client, load_attack_data
+        self, logged_in_client
     ):
         # Arrange
         with open("data/training/bootstrap-training-data.json") as f:
@@ -295,9 +308,6 @@ class TestReportExport:
 
 
 @pytest.mark.django_db
-@pytest.mark.usefixtures(
-    "load_attack_data",
-)
 class TestMl:
     def test_ml_home_returns_http_200_ok(self, logged_in_client):
         # Act
