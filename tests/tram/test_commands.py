@@ -4,7 +4,7 @@ from django.core.management.base import CommandError
 
 from tram.management.commands import attackdata, pipeline
 from tram.ml import base
-from tram.models import AttackObject, Sentence
+from tram.models import AttackObject
 
 
 @pytest.mark.django_db

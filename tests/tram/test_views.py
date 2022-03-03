@@ -245,7 +245,7 @@ class TestSentenceViewSet:
 
     def test_get_sentences_by_technique(self, logged_in_client):
         # Act
-        response = logged_in_client.get(f"/api/sentences/?attack-id=T1189")
+        response = logged_in_client.get("/api/sentences/?attack-id=T1189")
         json_response = json.loads(response.content)
 
         # Assert
