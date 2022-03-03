@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 from django.core.files.base import File
+from django.test import override_settings
 
 import tram.settings
 from tram import models
@@ -28,16 +29,22 @@ def django_db_setup(django_db_setup, django_db_blocker):
             }
         }
         tram.settings.SECRET_KEY = "UNITTEST"
-        temp_dir = Path(tempfile.mkdtemp())
-        MEDIA_ROOT = temp_dir / "media"
-        MEDIA_ROOT.mkdir(parents=True)
+        data_directory = Path(temp_path)
+        tram.settings.DATA_DIRECTORY = str(data_directory)
+        media_root = data_directory / "media"
+        media_root.mkdir(parents=True)
+
         with django_db_blocker.unblock():
             attackdata.Command().handle(subcommand=attackdata.LOAD)
             pipeline.Command().handle(
                 subcommand=pipeline.LOAD_TRAINING_DATA,
                 file="tests/data/test-training-data.json",
             )
-        yield
+
+        settings = {"MEDIA_ROOT": str(media_root), "SECRET_KEY": "UNITTEST"}
+
+        with override_settings(**settings):
+            yield
 
 
 @pytest.fixture

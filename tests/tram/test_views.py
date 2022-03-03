@@ -11,7 +11,9 @@ from tram.models import Document, DocumentProcessingJob
 @pytest.fixture
 def user():
     user = User.objects.create_superuser(username="testuser")
-    user.set_password("12345")
+    # This password hash is generated for testing purposes only. The plaintext
+    # is "12345". Note: iterations is set to 1 for efficiency in unit tests.
+    user.password = "pbkdf2_sha256$1$SALT$r7FG7eWxROmt3/JEaZcAklA5VT9Vu8SnG9d9yeiJ72w="
     user.save()
     yield user
     user.delete()
@@ -279,7 +281,7 @@ class TestReportExport:
         self, logged_in_client
     ):
         # Arrange
-        with open("data/training/bootstrap-training-data.json") as f:
+        with open("tests/data/test-training-data.json") as f:
             json_string = f.read()
 
         # Act
