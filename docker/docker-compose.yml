@@ -17,8 +17,8 @@ services:
       - DATA_DIRECTORY=/tram/data
       - ALLOWED_HOSTS=["example_host1", "localhost"]
       - DEBUG=True
-      - DJANGO_SUPERUSER_USERNAME=djangoSuperuser
-      - DJANGO_SUPERUSER_PASSWORD=LEGITPassword1234 # your password here
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=admin123 # your password here
       - DJANGO_SUPERUSER_EMAIL=test@example.com # your email address here
     volumes:
       - tram:/tram/data
