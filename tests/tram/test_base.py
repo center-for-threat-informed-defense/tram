@@ -67,17 +67,6 @@ class TestReport:
 
 
 @pytest.mark.django_db
-class TestModelWithoutAttackData:
-    """Tests ml.base.Model via DummyModel, without the load_attack_data fixture"""
-
-    def test_get_attack_techniques_raises_if_not_initialized(self, dummy_model):
-        # Act / Assert
-        with pytest.raises(ValueError):
-            dummy_model.get_attack_object_ids()
-
-
-@pytest.mark.django_db
-@pytest.mark.usefixtures("load_attack_data")
 class TestSkLearnModel:
     """Tests ml.base.SKLearnModel via DummyModel"""
 
@@ -187,49 +176,13 @@ class TestSkLearnModel:
             dummy_model.get_attack_object_ids() == dummy_model_2.get_attack_object_ids()
         )
 
-    def test_no_data_get_training_data_succeeds(self, dummy_model):
+    def test_get_training_data(self, dummy_model):
         # Act
         X, y = dummy_model.get_training_data()
 
-        # Assert
-        assert len(X) == 0
-        assert len(y) == 0
-
-    def test_get_training_data_returns_only_accepted_sentences(
-        self, dummy_model, report
-    ):
-        # Arrange
-        s1 = db_models.Sentence.objects.create(
-            text="sentence1",
-            order=0,
-            document=report.document,
-            report=report,
-            disposition=None,
-        )
-        s2 = db_models.Sentence.objects.create(
-            text="sentence 2",
-            order=1,
-            document=report.document,
-            report=report,
-            disposition="accept",
-        )
-        m1 = db_models.Mapping.objects.create(
-            report=report,
-            sentence=s2,
-            attack_object=db_models.AttackObject.objects.get(attack_id="T1548"),
-            confidence=100.0,
-        )
-        config.ML_ACCEPT_THRESHOLD = 0  # Set the threshold to 0 for this test
-
-        # Act
-        X, y = dummy_model.get_training_data()
-        s1.delete()
-        s2.delete()
-        m1.delete()
-
-        # Assert
-        assert len(X) == 1
-        assert len(y) == 1
+        # Assert that the fixtures have 163 accepted mappings.
+        assert len(X) == 163
+        assert len(y) == 163
 
     def test_non_sklearn_pipeline_raises(self):
         # Arrange
@@ -243,15 +196,7 @@ class TestSkLearnModel:
 
 
 @pytest.mark.django_db
-@pytest.mark.usefixtures("load_attack_data", "load_small_training_data")
 class TestsThatNeedTrainingData:
-    """
-    Loading the training data is a large time cost, so this groups tests together that use
-    the training data, even if it doesn't follow the class structure.
-    TODO: Training data is loaded for every test in this class. This does
-          not provide the efficiency I had assumed.
-    """
-
     """
     ----- Begin ModelManager Tests -----
     """

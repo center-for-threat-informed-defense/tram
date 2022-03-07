@@ -273,6 +273,25 @@ containerized version is recommended for non-developers.
 - Run unit tests, safety, and bandit locally
   - `make test`
 
+The automated test suite runs inside `tox`, which guarantees a consistent testing
+environment, but also has considerable overhead. When writing code, it may be
+useful to run `pytest` directly, which is considerably faster and can also be
+used to run a specific test. Here are some useful pytest commands:
+
+```shell
+# Run the entire test suite:
+$ pytest tests/
+
+# Run tests in a specific file:
+$ pytest tests/tram/test_models.py
+
+# Run a test by name:
+$ pytest tests/ -k test_mapping_repr_is_correct
+
+# Run tests with code coverage tracking, and show which lines are missing coverage:
+$ pytest --cov=tram --cov-report=term-missing tests/
+```
+
 ### Custom CA Certificate
 
 If you are building the container in an environment that intercepts SSL

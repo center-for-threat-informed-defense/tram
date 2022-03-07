@@ -4,7 +4,7 @@ from django.core.management.base import CommandError
 
 from tram.management.commands import attackdata, pipeline
 from tram.ml import base
-from tram.models import AttackObject, Sentence
+from tram.models import AttackObject
 
 
 @pytest.mark.django_db
@@ -43,17 +43,7 @@ class TestPipeline:
             call_command("pipeline", "incorrect-subcommand")
 
     @pytest.mark.django_db
-    def test_load_training_data_succeeds(self, load_attack_data):
-        # Act
-        call_command("pipeline", pipeline.LOAD_TRAINING_DATA)
-
-        # Assert
-        assert (
-            Sentence.objects.count() == 12588
-        )  # Count of sentences data/training/bootstrap-training-data.json
-
-    @pytest.mark.django_db
-    def test_run_succeeds(self, load_attack_data):
+    def test_run_succeeds(self):
         # Act
         call_command("pipeline", pipeline.RUN)
 

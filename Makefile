@@ -101,5 +101,4 @@ lint: pre-commit-run ## Lint code
 
 .PHONY: test
 test: venv install-dev ## Run tests
-	rm -fr data/media/tests/data/
 	./$(BIN)/python -m tox
