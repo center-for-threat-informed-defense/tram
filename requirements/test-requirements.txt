@@ -1,9 +1,13 @@
 bandit==1.7.0
-pytest
+flake8>=3.5
+pytest<7.0.0
 pytest-cov==2.11.1
 pytest-django==4.1.0
 pytest-flake8==1.0.7
-flake8>=3.5
-pytest-pythonpath
 pytest-mock==3.5.1
+pytest-pythonpath
 safety==1.10.3
+tox==3.24.5
+
+# Install tram in editable mode:
+-e .

@@ -1,0 +1,6 @@
+# exclude items not needed/conflict on docker image
+
+.github
+venv
+.venv
+.tox

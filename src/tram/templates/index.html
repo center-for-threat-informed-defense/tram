@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}TRAM - Threat Report ATT&CK Mapper{% endblock %}
+
+{% block head %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            setInterval(function() {
+                window.location.reload();
+            }, 30000);
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+<h1>Reports</h1>
+<table id="report-table" class="table table-striped table-hover">
+  <caption>Reports that have been uploaded by users.</caption>
+  <tbody>
+    <tr>
+      <th scope="col">Report</th>
+      <th scope="col">Actions</th> <!-- Actions 1 -->
+      <th scope="col">Status</th>
+      <th scope="col">Sentences</th>
+      <th scope="col"></th> <!-- Actions 2 - Delete -->
+    </tr>
+    {% for job in job_queue %}
+    <tr>
+      <td>
+        <div>
+          <strong>Job: Analyze {{job.name}}</strong><br>
+          <small>By: {{job.byline}}</small>
+        </div>
+      </td>
+      <td>
+        <!-- No Actions -->
+      </td>
+      <td>
+        {% if job.status == "Queued" %}
+        <button type="button" class="btn btn-secondary" disabled>Queued</button>
+        {% elif job.status == "Error" %}
+        <button type="button" class="btn btn-danger" disabled>Error</button>
+        {% else %}
+        Unknown Status: {{ job.status }}
+        {% endif %}
+      </td>
+      <td>
+        <!-- No Sentence Info -->
+      </td>
+      <td>
+        <a class="btn btn-danger btn-sm" onclick="deleteJob({{ job.id }})"><em class="fas fa-trash"></em></a>
+      </td>
+    </tr>
+    {% endfor %}
+    {% for report in reports %}
+    <tr>
+      <td>
+        <div>
+          <strong>{{report.name}}</strong><br>
+          <small>By: {{report.byline}}</small>
+        </div>
+      </td>
+      <td>
+        <div class="btn-group">
+          <a href="/analyze/{{ report.id }}" class="btn btn-sm btn-outline-secondary">Analyze</a>
+          <div class="dropdown btn-group">
+            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="export-dropdown"
+              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Export
+            </button>
+            <div class="dropdown-menu" aria-labelledby="export-dropdown">
+              <a class="dropdown-item btn btn-sm btn-outline-secondary"
+                href="/api/report-export/{{ report.id }}/?type=json">JSON</a>
+              <a class="dropdown-item btn btn-sm btn-outline-secondary"
+                href="/api/report-export/{{ report.id }}/?type=docx">DOCX</a>
+            </div>
+          </div>
+          {% if report.document_id is not None %}
+          <a href="/api/download/{{ report.document_id }}" class="btn btn-sm btn-outline-secondary">Download</a>
+          {% endif %}
+        </div>
+      </td>
+      <td>
+        {% if report.status == "Reviewing" %}
+        <button type="button" class="btn btn-warning" disabled>Reviewing</button>
+        {% elif report.status == "Accepted" %}
+        <button type="button" class="btn btn-success" disabled>Accepted</button>
+        {% else %}
+        Unknown Status: {{report.status}}
+        {% endif %}
+      </td>
+      <td>
+        Accepted: {{report.accepted_sentences}}<br>
+        Reviewing: {{report.reviewing_sentences}}<br>
+        Total: {{report.total_sentences}}<br>
+      </td>
+      <td>
+        <a class="btn btn-danger btn-sm" onclick="deleteReport({{ report.id }})"><em class="fas fa-trash"></em></a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

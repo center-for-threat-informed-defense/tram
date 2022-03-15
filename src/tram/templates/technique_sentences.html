@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}TRAM - Technique Sentences{% endblock %}
+
+{% block head %}
+<script src="{% static 'js/technique-sentences.js' %}"></script>
+<script type="text/javascript">
+    const ATTACK_ID = "{{ attack_id }}";
+</script>
+{% endblock %}
+
+{% block body %}
+
+<h3 class="display-4 text-center">Sentences Mapped to {{ attack_id }}</h3>
+Sentences may contain additional mappings.
+
+<div class="row">
+    <div id="sentence-container" class="col overflow-scroll" style="max-height: 500px;">
+        <h4>Sentences</h4>
+        <table id="sentence-table" class="table table-striped table-hover">
+            <caption>Sentences</caption>
+                <tbody>
+                    <tr>
+                        <th scope="col">This table should be re-rendered and this text should not be visible.</th>
+                    </tr>
+                </tbody>
+            <!-- Contents rendered by JavaScript -->
+        </table>
+    </div>
+    <div class="col" id="mapping-container">
+        <!-- Contents rendered by JavaScript -->
+    </div>
+</div>
+
+<div id="addMappingModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Mapping</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add-technique-form">
+                    <select id="technique-select" class="form-select select2-use" multiple='multiple'>
+                        {% for technique in attack_techniques %}
+                        <option value="{{technique.attack_id}}">{{technique.attack_id}} - {{technique.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <input id="sentence-id" type="hidden" value="TBD">
+                    <input id="report-id" type="hidden" value="TBD">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="add-mapping-button" type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        onclick="addMapping($('#technique-select').val(), parseInt($('#sentence-id').val()), parseInt($('#report-id').val()))">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

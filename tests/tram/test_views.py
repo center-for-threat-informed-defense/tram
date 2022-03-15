@@ -1,17 +1,19 @@
 import json
 
+import pytest
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client
-import pytest
 
 from tram.models import Document, DocumentProcessingJob
 
 
 @pytest.fixture
 def user():
-    user = User.objects.create_superuser(username='testuser')
-    user.set_password('12345')
+    user = User.objects.create_superuser(username="testuser")
+    # This password hash is generated for testing purposes only. The plaintext
+    # is "12345". Note: iterations is set to 1 for efficiency in unit tests.
+    user.password = "pbkdf2_sha256$1$SALT$r7FG7eWxROmt3/JEaZcAklA5VT9Vu8SnG9d9yeiJ72w="
     user.save()
     yield user
     user.delete()
@@ -25,255 +27,307 @@ def client(user):
 
 @pytest.fixture
 def logged_in_client(client):
-    client.login(username='testuser', password='12345')
+    client.login(username="testuser", password="12345")
     return client
+
+
+@pytest.fixture
+def document(logged_in_client):
+    """Upload a document"""
+    f = SimpleUploadedFile(
+        "sample-document.txt", b"test file content", content_type="text/plain"
+    )
+    data = {"file": f}
+    logged_in_client.post("/upload/", data)
+    doc = Document.objects.get(docfile="sample-document.txt")
+    yield doc
+    doc.delete()
 
 
 @pytest.mark.django_db
 class TestLogin:
-
     def test_get_login_loads_login_form(self, client):
         # Act
-        response = client.get('/login/')
+        response = client.get("/login/")
 
         # Assert
-        assert b'<title>Login</title>' in response.content
+        assert b"<title>Login</title>" in response.content
 
     def test_valid_login_redirects(self, client):
         # Arrange
-        data = {'username': 'testuser',
-                'password': '12345'}
+        data = {"username": "testuser", "password": "12345"}
 
         # Act
-        response = client.post('/login/', data)
+        response = client.post("/login/", data)
 
         # Assert
         assert response.status_code == 302
-        assert response.url == '/'
+        assert response.url == "/"
 
     def test_invalid_login_rerenders_login(self, client):
         # Arrange
-        data = {'username': 'not-a-real-user',
-                'password': 'password'}
+        data = {"username": "not-a-real-user", "password": "password"}
 
         # Act
-        response = client.post('/login/', data)
+        response = client.post("/login/", data)
 
         # Assert
         assert response.status_code == 200
-        assert b'<title>Login</title>' in response.content
+        assert b"<title>Login</title>" in response.content
 
 
 @pytest.mark.django_db
 class TestDocumentation:
     def test_documentation_loads(self, logged_in_client):
         # Act
-        response = logged_in_client.get('/docs/')
+        response = logged_in_client.get("/docs/")
 
         # Assert
         assert response.status_code == 200
-        assert b'<title>Documentation</title>' in response.content
+        assert b"<title>Documentation</title>" in response.content
 
 
 @pytest.mark.django_db
 class TestIndex:
     def test_index_loads_with_no_stored_data(self, logged_in_client):
         # Act
-        response = logged_in_client.get('/')
+        response = logged_in_client.get("/")
 
         # Assert
         assert response.status_code == 200
-        assert b'<title>TRAM - Threat Report ATT&CK Mapper</title>' in response.content
+        assert b"<title>TRAM - Threat Report ATT&CK Mapper</title>" in response.content
 
     def test_index_loads_with_one_stored_report(self, logged_in_client, report):
         # Act
-        response = logged_in_client.get('/')
+        response = logged_in_client.get("/")
 
         # Assert
         assert response.status_code == 200
-        assert b'<title>TRAM - Threat Report ATT&CK Mapper</title>' in response.content
+        assert b"<title>TRAM - Threat Report ATT&CK Mapper</title>" in response.content
 
-    def test_index_loads_with_one_job_queued(self, logged_in_client, document_processing_job):
+    def test_index_loads_with_one_job_queued(
+        self, logged_in_client, document_processing_job
+    ):
         # Act
-        response = logged_in_client.get('/')
+        response = logged_in_client.get("/")
 
         # Assert
         assert response.status_code == 200
-        assert b'<title>TRAM - Threat Report ATT&CK Mapper</title>' in response.content
+        assert b"<title>TRAM - Threat Report ATT&CK Mapper</title>" in response.content
 
 
 @pytest.mark.django_db
 class TestAnalyze:
     def test_analyze_loads(self, logged_in_client, report):
         # Act
-        response = logged_in_client.get('/analyze/1/')
+        response = logged_in_client.get("/analyze/1/")
 
         # Assert
         assert response.status_code == 200
-        assert b'<title>TRAM - Analyze Report</title>' in response.content
+        assert b"<title>TRAM - Analyze Report</title>" in response.content
 
 
 @pytest.mark.django_db
 class TestUpload:
     def test_get_upload_returns_405(self, logged_in_client):
         # Act
-        response = logged_in_client.get('/upload/')
+        response = logged_in_client.get("/upload/")
 
         # Assert
         assert response.status_code == 405
 
     def test_file_upload_succeeds_and_creates_job(self, logged_in_client):
         # Arrange
-        f = SimpleUploadedFile('test-report.pdf',
-                               b'test file content',
-                               content_type='application/pdf')
-        data = {'file': f}
+        f = SimpleUploadedFile(
+            "test-report.pdf", b"test file content", content_type="application/pdf"
+        )
+        data = {"file": f}
         doc_count_pre = Document.objects.all().count()
         job_count_pre = DocumentProcessingJob.objects.all().count()
 
         # Act
-        response = logged_in_client.post('/upload/', data)
+        response = logged_in_client.post("/upload/", data)
         doc_count_post = Document.objects.all().count()
         job_count_post = DocumentProcessingJob.objects.all().count()
-        Document.objects.get(docfile='test-report.pdf').delete()
+        Document.objects.get(docfile__icontains="test-report").delete()
 
         # Assert
         assert response.status_code == 200
-        assert b'File saved for processing' in response.content
+        assert b"File saved for processing" in response.content
         assert doc_count_pre + 1 == doc_count_post
         assert job_count_pre + 1 == job_count_post
 
-    def test_report_export_upload_creates_report(self, logged_in_client, load_attack_data):
+    def test_report_export_upload_creates_report(self, logged_in_client):
         # Act
-        with open('tests/data/report-for-simple-testdocx.json') as f:
-            response = logged_in_client.post('/upload/', {'file': f})
+        with open("tests/data/report-for-simple-testdocx.json") as f:
+            response = logged_in_client.post("/upload/", {"file": f})
 
         # Assert
         assert response.status_code == 200
 
     def test_upload_unsupported_file_type_causes_bad_request(self, logged_in_client):
         # Arrange
-        f = SimpleUploadedFile('test-document.zip',
-                               b'test file content',
-                               content_type='application/zip')
-        data = {'file': f}
+        f = SimpleUploadedFile(
+            "test-document.zip", b"test file content", content_type="application/zip"
+        )
+        data = {"file": f}
 
         # Act
-        response = logged_in_client.post('/upload/', data)
+        response = logged_in_client.post("/upload/", data)
 
         # Assert
         assert response.status_code == 400
-        assert response.content == b'Unsupported file type'
+        assert response.content == b"Unsupported file type"
 
 
 @pytest.mark.django_db
 class TestMappingViewSet:
-    def test_get_mappings(self, logged_in_client, mapping):
+    def test_get_mappings(self, logged_in_client):
         # Act
-        response = logged_in_client.get('/api/mappings/')
+        response = logged_in_client.get("/api/mappings/")
         json_response = json.loads(response.content)
 
         # Assert
-        assert len(json_response) == 1
-        assert json_response[0]['attack_id'] == 'T1327'
+        # Number of mappings in ATT&CK data fixture:
+        assert len(json_response) == 163
 
     def test_get_mapping(self, logged_in_client, mapping):
         # Act
-        response = logged_in_client.get('/api/mappings/1/')
+        response = logged_in_client.get(f"/api/mappings/{mapping.id}/")
         json_response = json.loads(response.content)
 
         # Assert
-        assert json_response['attack_id'] == 'T1327'
+        assert json_response["attack_id"] == "T1059"
 
     def test_get_mappings_by_sentence(self, logged_in_client, mapping):
         # Act
-        response = logged_in_client.get('/api/mappings/?sentence-id=1')
+        response = logged_in_client.get(
+            f"/api/mappings/?sentence-id={mapping.sentence.id}"
+        )
         json_response = json.loads(response.content)
 
         # Assert
         assert len(json_response) == 1
-        assert json_response[0]['attack_id'] == 'T1327'
+        assert json_response[0]["attack_id"] == "T1059"
 
 
 @pytest.mark.django_db
 class TestSentenceViewSet:
-    def test_get_sentences(self, logged_in_client, sentence):
+    def test_get_sentences(self, logged_in_client):
         # Act
-        response = logged_in_client.get('/api/sentences/')
+        response = logged_in_client.get("/api/sentences/")
         json_response = json.loads(response.content)
 
         # Assert
-        assert len(json_response) == 1
-        assert json_response[0]['order'] == 0
+        # The number of sentences in test-training-data.json:
+        assert len(json_response) == 163
+        assert json_response[0]["order"] == 1000
 
     def test_get_sentence(self, logged_in_client, sentence):
         # Act
-        response = logged_in_client.get('/api/sentences/1/')
+        response = logged_in_client.get(f"/api/sentences/{sentence.id}/")
         json_response = json.loads(response.content)
 
         # Assert
-        assert json_response['order'] == 0
+        assert json_response["order"] == 1000
 
     def test_get_sentences_by_report(self, logged_in_client, sentence):
         # Act
-        response = logged_in_client.get('/api/sentences/?report-id=1')
+        response = logged_in_client.get(
+            f"/api/sentences/?report-id={sentence.report.id}"
+        )
         json_response = json.loads(response.content)
 
         # Assert
-        assert len(json_response) == 1
-        assert json_response[0]['order'] == 0
+        # The number of sentences in test-training-data.json:
+        assert len(json_response) == 163
+        assert json_response[0]["order"] == 1000
+
+    def test_get_sentences_by_technique(self, logged_in_client):
+        # Act
+        response = logged_in_client.get("/api/sentences/?attack-id=T1189")
+        json_response = json.loads(response.content)
+
+        # Assert
+        assert len(json_response) == 10
+        assert json_response[0]["order"] == 1000
 
 
 @pytest.mark.django_db
 class TestReportExport:
     def test_get_report_export_succeeds(self, logged_in_client, mapping):
         # Act
-        response = logged_in_client.get('/api/report-export/1/')
+        response = logged_in_client.get("/api/report-export/1/")
         json_response = json.loads(response.content)
 
         # Assert
-        assert 'sentences' in json_response
-        assert len(json_response['sentences'][0]['mappings']) == 1
+        assert "sentences" in json_response
+        assert len(json_response["sentences"][0]["mappings"]) == 1
 
-    def test_bootstrap_training_data_can_be_posted_as_json_report(self, logged_in_client, load_attack_data):
+    def test_export_docx_report(self, logged_in_client, mapping):
+        """
+        Check that something that looks like a Word doc was returned.
+
+        There are separate unit tests for the doc's content.
+        """
+        # Act
+        response = logged_in_client.get("/api/report-export/1/?type=docx")
+        data = list(response.streaming_content)
+
+        # Assert
+        assert data[0].startswith(b"PK\x03\x04")
+
+    def test_bootstrap_training_data_can_be_posted_as_json_report(
+        self, logged_in_client
+    ):
         # Arrange
-        with open('data/training/bootstrap-training-data.json') as f:
+        with open("tests/data/test-training-data.json") as f:
             json_string = f.read()
 
         # Act
-        response = logged_in_client.post('/api/report-export/', json_string, content_type='application/json')
+        response = logged_in_client.post(
+            "/api/report-export/", json_string, content_type="application/json"
+        )
 
         # Assert
         assert response.status_code == 201  # HTTP 201 Created
 
     def test_report_export_update_not_implemented(self, logged_in_client):
         # Act
-        response = logged_in_client.post('/api/report-export/1/', '{}', content_type='application/json')
+        response = logged_in_client.post(
+            "/api/report-export/1/", "{}", content_type="application/json"
+        )
 
         # Assert
         assert response.status_code == 405  # Method not allowed
 
+    def test_download_original_report(self, logged_in_client, document):
+        # Act
+        response = logged_in_client.get(f"/api/download/{document.id}")
+
+        # Assert
+        assert response.content == b"test file content"
+
 
 @pytest.mark.django_db
-@pytest.mark.usefixtures('load_attack_data', )
 class TestMl:
     def test_ml_home_returns_http_200_ok(self, logged_in_client):
         # Act
-        response = logged_in_client.get('/ml/')
+        response = logged_in_client.get("/ml/")
 
         # Assert
         assert response.status_code == 200  # HTTP 200 Ok
 
     def test_ml_model_detail_returns_http_200_ok(self, logged_in_client):
         # Act
-        response = logged_in_client.get('/ml/models/dummy')
+        response = logged_in_client.get("/ml/models/dummy")
 
         # Assert
         assert response.status_code == 200  # HTTP 200 Ok
 
     def test_ml_model_detail_returns_http_404_for_invalid_model(self, logged_in_client):
         # Act
-        response = logged_in_client.get('/ml/models/this-should-not-work')
+        response = logged_in_client.get("/ml/models/this-should-not-work")
 
         # Assert
         assert response.status_code == 404  # HTTP 200 Ok
