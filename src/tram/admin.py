@@ -28,7 +28,7 @@ class SentenceInline(admin.TabularInline):
 
 
 class AttackObjectAdmin(admin.ModelAdmin):
-    readonly_fields = ("name", "stix_id", "attack_id", "attack_url", "matrix")
+    pass
 
 
 class DocumentAdmin(admin.ModelAdmin):
