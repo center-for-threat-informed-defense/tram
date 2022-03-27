@@ -6,6 +6,7 @@ from urllib.parse import quote
 from constance import config
 from django.contrib.auth.decorators import login_required
 from django.http import (
+    JsonResponse,
     Http404,
     HttpResponse,
     HttpResponseBadRequest,
@@ -154,8 +155,8 @@ def upload(request):
     # Initialize the processing job.
     dpj = None
 
-    # Initialize headers.
-    headers = {}
+    # Initialize response.
+    response = {'message': 'File saved for processing.'}
 
     file_content_type = request.FILES["file"].content_type
     if file_content_type in (
@@ -177,9 +178,10 @@ def upload(request):
         return HttpResponseBadRequest("Unsupported file type")
 
     if dpj:
-        headers.update({'job-id': dpj.pk, 'doc-id': dpj.document.pk})
+        response['job-id'] = dpj.pk
+        response['doc-id'] = dpj.document.pk
 
-    return HttpResponse("File saved for processing", headers=headers, status=200)
+    return JsonResponse(response)
 
 
 @login_required
