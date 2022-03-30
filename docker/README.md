@@ -1,75 +1,60 @@
-## What is TRAM?
+# TRAM Docker Images
 
-Threat Report ATT&CK® Mapping (TRAM) is a tool that leverages Natural Language Processing to aid analysts in mapping finished reports to ATT&CK.
+## Overview
 
-There is no shortage of cyber threat intelligence (CTI) reporting, and analysts often find themselves overburdened by the constant stream of reports. Analyzing these reports can be strenuous and tedious for analysts, often taking up large amounts of their time. Automating CTI mapping to ATT&CK will reduce analyst fatigue and improve consistency of threat intelligence mappings.
+See the [main README](../README.md) for an overview of installing TRAM via
+Docker. This document contains some additional detail that may be useful for
+customizing your TRAM instance.
 
-TRAM seeks to help analysts by automatically extracting adversary behaviors, which can help with the acceleration of the analysis process to prevent a backlog. With faster analysis, CTI teams can more easily operationalize their intel. While TRAM cannot replace a human analyst, it certainly can help by providing analysts with some starting data about the report.
+## Environment Variables
 
-TRAM uses natural language processing and classification techniques to extract adversary behaviors (ATT&CK techniques) from raw text which comes in the form of published threat reports. The current practice to extract these techniques relies entirely on manual analysis performed by human analysts.
-This introduces problems like human error, dependence on physical availability, and demand for an extensive understanding of ATT&CK. With automation, this project will increase the quality and completeness of the ATT&CK knowledge base while reducing demand on human analysts.
-
-## How to use this image
-
-### Starting an instance of TRAM
-
-Example `docker-compose.yml`,
-
-```yaml
-version: '3.5'
-services:
-  tram:
-    image: ctidorg/tram:latest
-    ports:
-      - "8000:8000"
-    environment:
-      - DATA_DIRECTORY=/data
-      - ALLOWED_HOSTS=["example_host1", "localhost"]
-      - SECRET_KEY=Ij0WGee73k9OESwqddmSKCx6SY9aJ_7bDojs485Z6ec # your secret key here
-      - DEBUG=True
-      - DJANGO_SUPERUSER_USERNAME=djangoSuperuser
-      - DJANGO_SUPERUSER_PASSWORD=LEGITPassword1234 # your password here
-      - DJANGO_SUPERUSER_EMAIL=LEGITSuperUser1234 # your email address here
-    volumes:
-      - tram-data:/data
-volumes:
-  tram-data:
-```
-
-### Connecting to TRAM from a browser
-
-By default, one can connect to the container running this image at `http://localhost:8000`
-
-### Environment Variables
-
-`DATA_DIRECTORY`
-
-Any ML data and DB data is stored at the path indicated at this environment variable
-
-`ALLOWED_HOSTS`
-
-A list of hosts allowed to connect to the Django server (in Django settings.py)
-
-`SECRET_KEY`
-
-Is a cryptographic secrecy used by Django. This secret can be generated using the following command:
-
-```bash
-$: python3 -c "import secrets; print(secrets.token_urlsafe())"
-```
-
-`DEBUG`
-
-This is the debug setting for Django and is either `True` or `False`
-
-`DJANGO_SUPERUSER_USERNAME`
-
-Sets the Django super user
-
-`DJANGO_SUPERUSER_PASSWORD`
-
-Sets the password for the Django super user
-
-`DJANGO_SUPERUSER_EMAIL`
-
-Sets the email address for the Django super user
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Required<th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ALLOWED_HOSTS</code></td>
+      <td>Yes<td>
+      <td>A list of hostnames that TRAM can be served from.</td>
+    </tr>
+    <tr>
+      <td><code>DJANGO_SUPERUSER_USERNAME</code></td>
+      <td>Yes<td>
+      <td>The username for the TRAM super user (the default account you sign in with).</td>
+    </tr>
+    <tr>
+      <td><code>DJANGO_SUPERUSER_PASSWORD</code></td>
+      <td>Yes<td>
+      <td>The password for the TRAM super user.</td>
+    </tr>
+    <tr>
+      <td><code>DJANGO_SUPERUSER_EMAIL</code></td>
+      <td>Yes<td>
+      <td>The email address for the TRAM super user. (Not used in pratice, doesn't need to be a real address.)</td>
+    </tr>
+    <tr>
+      <td><code>DATA_DIRECTORY</code></td>
+      <td>No<td>
+      <td>Any ML data and DB data is stored at the path indicated at this environment variable. Defaults to <code>./data</code>.</td>
+    </tr>
+    <tr>
+      <td><code>SECRET_KEY</code></td>
+      <td>No<td>
+      <td>
+        A cryptographic secret used by Django. This secret can be generated using this command:
+        <code>$ python3 -c "import secrets; print(secrets.token_urlsafe())"</code>
+        If not provided, then a random secret is created at startup.
+      </td>
+    </tr>
+    <tr>
+      <td><code>DEBUG</code></td>
+      <td>No<td>
+      <td>Set to `true` or `yes` to enable Django debug mode, otherwise debug mode is disabled.</td>
+    </tr>
+  </tbody>
+</table>

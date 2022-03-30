@@ -42,27 +42,46 @@ to integrate ATT&CK more easily and consistently into their products.
 
 ## Installation
 
-1. Get Docker: <https://docs.docker.com/get-docker/>
-2. Get Docker Compose:  <https://docs.docker.com/compose/install/>
-3. Ensure Docker is running. On some operating systems (e.g., MacOS), you will
-   need to provide Docker with permissions before proceeding.
-4. Download docker-compose.yml (view raw, save as)
-
-    ```url
-    https://github.com/center-for-threat-informed-defense/tram/blob/master/docker/docker-compose.yml
-    ```
-
-5. If desired, edit the settings in `docker-compose.yml`
-6. Navigate to the directory where you saved `docker-compose.yml`
-7. Run TRAM using docker
+1. Install Docker tools:
+    * Docker: <https://docs.docker.com/get-docker/>
+    * Docker Compose: <https://docs.docker.com/compose/install/>
+    * Verify that Docker is running by running `docker ps` from a shell. If it
+      shows, "CONTAINER ID   IMAGE     COMMAND" on the first line, then it is
+      running. If it says, "cannot connect to Docker daemon," then Docker is not
+      running.
+2. Download docker-compose.yml for TRAM, using [this
+   link](https://raw.githubusercontent.com/center-for-threat-informed-defense/tram/master/docker/docker-compose.yml)
+   or using curl:
 
     ```shell
-    docker-compose -f docker-compose.yml up
+    $ curl -O https://raw.githubusercontent.com/center-for-threat-informed-defense/tram/master/docker/docker-compose.yml
     ```
 
-8. Navigate to <http://localhost:8000/> and login using the username and
-password specified in docker-compose.yml
-![image](https://user-images.githubusercontent.com/2951827/129959436-d36e8d1f-fe74-497e-b549-a74be8d140ca.png)
+3. If desired, edit the settings in `docker-compose.yml`. See
+   [docker/README.md](docker/README.md) for more information.
+4. Use Docker Compose to start the TRAM containers.
+    * Run this command from the same directory where you downloaded
+      `docker-compose.yml`.
+        ```shell
+        $ docker-compose up
+        ```
+    * The first time you run this command, it will download about 1GB of Docker
+      images. This requires a connection to the internet. If your environment
+      does not have a connection to the internet, refer to [Air Gap
+      Installation](#air-gap-installation).
+    * Once the images are downloaded, TRAM will do a bit of initialization. The following output lines indicate that TRAM is ready to use:
+        ```
+        tram_1   | [2022-03-30 16:18:44 +0000] [29] [INFO] Starting gunicorn 20.1.0
+        tram_1   | [2022-03-30 16:18:44 +0000] [29] [INFO] Listening at: http://0.0.0.0:8000 (29)
+        ```
+    * _Note: the log shows the IP address 0.0.0.0, but TRAM requires connections to use one of the hostnames defined in the `ALLOWED_HOSTS` environment variable._
+
+5. Navigate to <http://localhost:8000/> and login using the username and
+   password specified in `docker-compose.yml`.
+   ![image](https://user-images.githubusercontent.com/2951827/129959436-d36e8d1f-fe74-497e-b549-a74be8d140ca.png)
+
+6. To shut down TRAM, type <kbd>Ctrl+C</kbd> in the shell where `docker-compose
+   up` is running.
 
 ### Air Gap Installation
 
