@@ -10,9 +10,6 @@ version: '3.5'
 services:
   tram:
     image: ghcr.io/center-for-threat-informed-defense/tram:latest
-    build:
-      context: ..
-      dockerfile: Dockerfile
     environment:
       - DATA_DIRECTORY=/tram/data
       - ALLOWED_HOSTS=["example_host1", "localhost"]
@@ -24,9 +21,6 @@ services:
       - tram_static:/tram/src/tram/staticfiles
   nginx:
     image: ghcr.io/center-for-threat-informed-defense/tram-nginx:latest
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile.nginx
     ports:
       - "8000:80"
     volumes:
