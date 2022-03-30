@@ -221,7 +221,6 @@ containerized version is recommended for non-developers.
     ```sh
     pip install -r requirements/requirements.txt
     pip install -r requirements/test-requirements.txt
-    pip install pre-commit
     ```
 
 6. Install pre-commit hooks
