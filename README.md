@@ -50,11 +50,11 @@ to integrate ATT&CK more easily and consistently into their products.
       running. If it says, "cannot connect to Docker daemon," then Docker is not
       running.
 2. Download docker-compose.yml for TRAM, using [this
-   link](https://raw.githubusercontent.com/center-for-threat-informed-defense/tram/v1.1.3/docker/docker-compose.yml)
+   link](https://raw.githubusercontent.com/center-for-threat-informed-defense/tram/787143e4f41f40e4aeb72d811a9d4297c03364d9/docker/docker-compose.yml)
    or using curl:
 
     ```shell
-    $ curl -O https://raw.githubusercontent.com/center-for-threat-informed-defense/tram/v1.1.3/docker/docker-compose.yml
+    $ curl -O https://raw.githubusercontent.com/center-for-threat-informed-defense/tram/787143e4f41f40e4aeb72d811a9d4297c03364d9/docker/docker-compose.yml
     ```
 
 3. If desired, edit the settings in `docker-compose.yml`. See
