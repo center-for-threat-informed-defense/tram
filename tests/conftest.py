@@ -102,16 +102,18 @@ def report_with_document(document):
     with open("tests/data/report-for-simple-testdocx.json", "rb") as f:
         j = json.loads(f.read())
         r = models.Report(
-            name=j['name'],
+            name=j["name"],
             document=d,
-            text=j['text'],
-            ml_model=j['ml_model'],
-            created_on=j['created_on'],
-            updated_on=j['updated_on'])
+            text=j["text"],
+            ml_model=j["ml_model"],
+            created_on=j["created_on"],
+            updated_on=j["updated_on"],
+        )
         r.save()
     yield r
     r.delete()
     d.delete()
+
 
 @pytest.fixture
 def document_processing_job(document):

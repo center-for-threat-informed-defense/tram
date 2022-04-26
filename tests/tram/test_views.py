@@ -311,9 +311,7 @@ class TestReportExport:
     def test_get_reports_by_doc_id(self, logged_in_client, report_with_document):
         # Act
         doc_id = report_with_document.document.id
-        response = logged_in_client.get(
-            f"/api/report-export/?doc-id={doc_id}"
-        )
+        response = logged_in_client.get(f"/api/report-export/?doc-id={doc_id}")
         json_response = json.loads(response.content)
 
         # Assert
