@@ -48,8 +48,9 @@ if SECRET_KEY is None:
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get("DEBUG") is not None:
-    DEBUG = bool(os.environ.get("DEBUG").lower() in ["true", "1", "t", "yes", "y"])
+_django_debug_env = os.environ.get("DJANGO_DEBUG")
+if _django_debug_env is not None:
+    DEBUG = _django_debug_env.lower() in ["true", "1", "t", "yes", "y"]
 else:
     DEBUG = False
 
