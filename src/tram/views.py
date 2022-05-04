@@ -9,6 +9,7 @@ from django.http import (
     Http404,
     HttpResponse,
     HttpResponseBadRequest,
+    JsonResponse,
     StreamingHttpResponse,
 )
 from django.shortcuts import render
@@ -60,6 +61,14 @@ class ReportViewSet(viewsets.ModelViewSet):
 class ReportExportViewSet(viewsets.ModelViewSet):
     queryset = Report.objects.all()
     serializer_class = serializers.ReportExportSerializer
+
+    def get_queryset(self):
+        queryset = ReportViewSet.queryset
+        document_id = self.request.query_params.get("doc-id", None)
+        if document_id:
+            queryset = queryset.filter(document__id=document_id)
+
+        return queryset
 
     def retrieve(self, request, *args, **kwargs):
 
@@ -143,6 +152,12 @@ def upload(request):
     if request.method != "POST":
         return HttpResponse("Request method must be POST", status=405)
 
+    # Initialize the processing job.
+    dpj = None
+
+    # Initialize response.
+    response = {"message": "File saved for processing."}
+
     file_content_type = request.FILES["file"].content_type
     if file_content_type in (
         "application/pdf",  # .pdf files
@@ -150,7 +165,9 @@ def upload(request):
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",  # .docx files
         "text/plain",  # .txt files
     ):
-        DocumentProcessingJob.create_from_file(request.FILES["file"], request.user)
+        dpj = DocumentProcessingJob.create_from_file(
+            request.FILES["file"], request.user
+        )
     elif file_content_type in ("application/json",):  # .json files
         json_data = json.loads(request.FILES["file"].read())
         res = serializers.ReportExportSerializer(data=json_data)
@@ -162,7 +179,11 @@ def upload(request):
     else:
         return HttpResponseBadRequest("Unsupported file type")
 
-    return HttpResponse("File saved for processing", status=200)
+    if dpj:
+        response["job-id"] = dpj.pk
+        response["doc-id"] = dpj.document.pk
+
+    return JsonResponse(response)
 
 
 @login_required

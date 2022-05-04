@@ -308,6 +308,15 @@ class TestReportExport:
         # Assert
         assert response.content == b"test file content"
 
+    def test_get_reports_by_doc_id(self, logged_in_client, report_with_document):
+        # Act
+        doc_id = report_with_document.document.id
+        response = logged_in_client.get(f"/api/report-export/?doc-id={doc_id}")
+        json_response = json.loads(response.content)
+
+        # Assert
+        assert json_response[0]["document_id"] == doc_id
+
 
 @pytest.mark.django_db
 class TestMl:
