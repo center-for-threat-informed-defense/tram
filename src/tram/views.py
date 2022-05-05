@@ -1,6 +1,7 @@
 import io
 import json
 import logging
+import time
 from urllib.parse import quote
 
 from constance import config
@@ -13,7 +14,10 @@ from django.http import (
     StreamingHttpResponse,
 )
 from django.shortcuts import render
+from django.views.decorators.http import require_POST
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 import tram.report.docx
 from tram import serializers
@@ -147,11 +151,9 @@ def index(request):
 
 
 @login_required
+@require_POST
 def upload(request):
     """Places a file into ml-pipeline for analysis"""
-    if request.method != "POST":
-        return HttpResponse("Request method must be POST", status=405)
-
     # Initialize the processing job.
     dpj = None
 
@@ -251,3 +253,32 @@ def download_document(request, doc_id):
         raise Http404("File does not exist")
 
     return response
+
+
+@api_view(["POST"])
+def train_model(request, name):
+    """
+    Train the specified model.
+
+    Runs training synchronously and returns a response when the training is
+    complete.
+
+    :param name: the name of the model
+    """
+    try:
+        model = base.ModelManager(name)
+    except ValueError:
+        raise Http404("Model does not exist")
+
+    logger.info(f"Training ML Model: {name}")
+    start = time.time()
+    model.train_model()
+    elapsed = time.time() - start
+    logger.info("Trained ML model in %0.3f seconds", elapsed)
+
+    return Response(
+        {
+            "message": "Model successfully trained.",
+            "elapsed_sec": elapsed,
+        }
+    )

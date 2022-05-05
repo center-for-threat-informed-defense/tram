@@ -33,6 +33,7 @@ to integrate ATT&CK more easily and consistently into their products.
     - [Developer Setup](#developer-setup)
     - [Makefile Targets](#makefile-targets)
     - [Custom CA Certificate](#custom-ca-certificate)
+    - [Making API Calls](#making-api-calls)
   - [Machine Learning Development](#machine-learning-development)
     - [Existing ML Models](#existing-ml-models)
     - [Creating Your Own ML Model](#creating-your-own-ml-model)
@@ -337,6 +338,48 @@ SHA1 Fingerprint=C7:E0:F9:69:09:A4:A3:E7:A9:76:32:5F:68:79:9A:85:FD:F9:B3:BD
 
 After exporting these two variables, you can run `make build-container` as usual
 and the TRAM container will contain your specified root certificate.
+
+### Making API Calls
+
+To make API calls, you first need to use a valid username and password to obtain
+an API token by calling the `/api/token/` endpoint.
+
+```shell
+$ curl -X POST -H "Content-type: application/json" \
+       -d '{"username": "admin", "password": "(your password goes here)"}' \
+       http://localhost:8000/api/token/
+{
+    "refresh":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY1MTg0MjAxMCwiaWF0IjoxNjUxNzU1NjEwLCJqdGkiOiI4NjYyNmJhZDZhM2U0ZjRmYjY5MWIwOTY5ZjIxYTliYiIsInVzZXJfaWQiOjR9.(REDACTED)",
+    "access":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUxNzU1OTEwLCJpYXQiOjE2NTE3NTU2MTAsImp0aSI6IjUwMzAzYWI1MDliNTRmY2RiMThhYzMyNWM0NTU2Yjg5IiwidXNlcl9pZCI6NH0.(REDACTED)"
+}
+```
+
+This call returns two tokens. The **access token** can be used to make
+authenticated API calls (no session cookie or CSRF token is needed). This token
+is valid for 1 hour from its issuance.
+
+```shell
+$ curl -X POST \
+       -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUxNzYzNDIxLCJpYXQiOjE2NTE3NTU2MTAsImp0aSI6ImMxNDVhZWVlNmNkZTRkNTA5ZjNmOGVhMjJjMjI1NDZlIiwidXNlcl9pZCI6NH0.(REDACTED)" \
+       http://localhost:8000/api/train-model/logreg
+{
+    "message": "Model successfully trained.",
+    "elapsed_sec": 6.13424277305603
+}
+```
+
+The other token is the **refresh token**. When your access token expires, you
+can use the refresh token (which is valid for 24 hours) to obtain a new access
+token without needing to provide the username and password again.
+
+```shell
+curl -X POST -H "Content-type: application/json" \
+     -d '{"refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY1MTg0MjAxMCwiaWF0IjoxNjUxNzU1NjEwLCJqdGkiOiI4NjYyNmJhZDZhM2U0ZjRmYjY5MWIwOTY5ZjIxYTliYiIsInVzZXJfaWQiOjR9.YlkrG6AbL8YEoTtg4yU-N-4AGN0KgCBKXq64nY9msWI"}' \
+     http://localhost:8000/api/token/refresh/
+{
+    "access":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUxNzU5OTYwLCJpYXQiOjE2NTE3NTU2MTAsImp0aSI6ImY5NzZmNzg1ZGFmYzRhZjk4Yzc3MTQ4M2VjYTI0MzJhIiwidXNlcl9pZCI6NH0.hH4qsVMIgZx8A0aVVMuUf-H0aYz9bKULo6XPufrRcZw"
+}
+```
 
 ## Machine Learning Development
 
