@@ -15,8 +15,8 @@ from django.http import (
 )
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
-from rest_framework import viewsets
-from rest_framework.decorators import api_view
+from rest_framework import renderers, viewsets
+from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 
 import tram.report.docx
