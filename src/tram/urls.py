@@ -20,6 +20,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import include, path
 from django.views.generic.base import TemplateView
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from tram import views
 
@@ -36,7 +37,10 @@ urlpatterns = [
     path("", views.index),
     path("analyze/<int:pk>/", views.analyze),
     path("api/", include(router.urls)),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/download/<int:doc_id>", views.download_document),
+    path("api/train-model/<name>", views.train_model),
     path("docs/", TemplateView.as_view(template_name="tram_documentation.html")),
     path("login/", auth_views.LoginView.as_view()),
     path("logout/", auth_views.LogoutView.as_view()),
