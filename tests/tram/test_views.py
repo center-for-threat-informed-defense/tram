@@ -340,3 +340,17 @@ class TestMl:
 
         # Assert
         assert response.status_code == 404  # HTTP 200 Ok
+
+    def test_train_model(self, logged_in_client):
+        # Act
+        response = logged_in_client.post("/api/train-model/dummy")
+
+        # Assert
+        assert response.status_code == 200  # HTTP 200 Ok
+
+    def test_train_model_404(self, logged_in_client):
+        # Act
+        response = logged_in_client.post("/api/train-model/doesnt-exist")
+
+        # Assert
+        assert response.status_code == 404  # HTTP 404 Not Found
