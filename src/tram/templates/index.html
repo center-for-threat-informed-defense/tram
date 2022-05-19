@@ -71,10 +71,8 @@
               Export
             </button>
             <div class="dropdown-menu" aria-labelledby="export-dropdown">
-              <a class="dropdown-item btn btn-sm btn-outline-secondary"
-                href="/api/report-export/{{ report.id }}/?type=json">JSON</a>
-              <a class="dropdown-item btn btn-sm btn-outline-secondary"
-                href="/api/report-export/{{ report.id }}/?type=docx">DOCX</a>
+              <a class="dropdown-item btn btn-sm btn-outline-secondary" href="{% url 'report-mapping-detail' report.id %}?format=json">JSON</a>
+              <a class="dropdown-item btn btn-sm btn-outline-secondary" href="{% url 'report-mapping-detail' report.id %}?format=docx">DOCX</a>
             </div>
           </div>
           {% if report.document_id is not None %}

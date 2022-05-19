@@ -29,7 +29,9 @@ router.register(r"attack", views.AttackObjectViewSet)
 router.register(r"jobs", views.DocumentProcessingJobViewSet)
 router.register(r"mappings", views.MappingViewSet)
 router.register(r"reports", views.ReportViewSet)
-router.register(r"report-export", views.ReportExportViewSet)
+router.register(
+    r"report-mappings", views.ReportMappingViewSet, basename="report-mapping"
+)
 router.register(r"sentences", views.SentenceViewSet)
 
 

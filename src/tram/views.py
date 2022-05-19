@@ -1,4 +1,3 @@
-import io
 import json
 import logging
 import time
@@ -6,20 +5,13 @@ from urllib.parse import quote
 
 from constance import config
 from django.contrib.auth.decorators import login_required
-from django.http import (
-    Http404,
-    HttpResponse,
-    HttpResponseBadRequest,
-    JsonResponse,
-    StreamingHttpResponse,
-)
+from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from rest_framework import renderers, viewsets
-from rest_framework.decorators import action, api_view
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-import tram.report.docx
 from tram import serializers
 from tram.ml import base
 from tram.models import (
@@ -30,6 +22,7 @@ from tram.models import (
     Report,
     Sentence,
 )
+from tram.renderers import DocxReportRenderer
 
 logger = logging.getLogger(__name__)
 
@@ -62,56 +55,41 @@ class ReportViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReportSerializer
 
 
-class ReportExportViewSet(viewsets.ModelViewSet):
-    queryset = Report.objects.all()
+class ReportMappingViewSet(viewsets.ModelViewSet):
+    """
+    This viewset provides access to report mappings.
+    """
+
     serializer_class = serializers.ReportExportSerializer
+    renderer_classes = [renderers.JSONRenderer, DocxReportRenderer]
 
     def get_queryset(self):
-        queryset = ReportViewSet.queryset
+        """
+        Override parent implementation to support lookup by document ID.
+        """
+        queryset = Report.objects.all()
         document_id = self.request.query_params.get("doc-id", None)
         if document_id:
             queryset = queryset.filter(document__id=document_id)
 
         return queryset
 
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request, pk=None):
+        """
+        Get the mappings for a report.
 
-        report_format = request.GET.get("type", "")
+        Overrides the parent implementation to add a Content-Disposition header
+        so that the browser will download instead of displaying inline.
 
-        # If an invalid report_format is given, just default to json
-        if report_format not in ["json", "docx"]:
-            report_format = "json"
-            logger.warning("Invalid File Type. Defaulting to JSON.")
-
-        # Retrieve report data as json
-        response = super().retrieve(request, *args, **kwargs)
-        basename = quote(self.get_object().name, safe="")
-
-        if report_format == "json":
-            response["Content-Disposition"] = f'attachment; filename="{basename}.json"'
-
-        elif report_format == "docx":
-            # Uses json dictionary to create formatted document
-            document = tram.report.docx.build(response.data)
-
-            # save document info
-            buffer = io.BytesIO()
-            document.save(buffer)  # save your memory stream
-            buffer.seek(0)  # rewind the stream
-
-            # put them to streaming content response within docx content_type
-            content_type = (
-                "application/"
-                "vnd.openxmlformats-officedocument.wordprocessingml.document"
-            )
-            response = StreamingHttpResponse(
-                streaming_content=buffer,  # use the stream's content
-                content_type=content_type,
-            )
-
-            response["Content-Disposition"] = f'attachment; filename="{basename}.docx"'
-            response["Content-Encoding"] = "UTF-8"
-
+        :param request: HTTP request
+        :param pk: primary key of a report
+        """
+        response = super().retrieve(request, request, pk)
+        report = self.get_object()
+        filename = "{}.{}".format(
+            quote(report.name, safe=""), request.accepted_renderer.format
+        )
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
         return response
 
 
