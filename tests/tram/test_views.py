@@ -254,28 +254,28 @@ class TestSentenceViewSet:
 
 
 @pytest.mark.django_db
-class TestReportExport:
-    def test_get_report_export_succeeds(self, logged_in_client, mapping):
+class TestReportMappings:
+    def test_get_json(self, logged_in_client, mapping):
         # Act
-        response = logged_in_client.get("/api/report-export/1/")
+        response = logged_in_client.get("/api/report-mappings/1/?format=json")
         json_response = json.loads(response.content)
 
         # Assert
-        assert "sentences" in json_response
+        assert json_response["id"] == 1
         assert len(json_response["sentences"][0]["mappings"]) == 1
 
-    def test_export_docx_report(self, logged_in_client, mapping):
+    def test_get_docx(self, logged_in_client, mapping):
         """
         Check that something that looks like a Word doc was returned.
 
         There are separate unit tests for the doc's content.
         """
         # Act
-        response = logged_in_client.get("/api/report-export/1/?type=docx")
-        data = list(response.streaming_content)
+        response = logged_in_client.get("/api/report-mappings/1/?format=docx")
+        data = response.content
 
         # Assert
-        assert data[0].startswith(b"PK\x03\x04")
+        assert data.startswith(b"PK\x03\x04")
 
     def test_bootstrap_training_data_can_be_posted_as_json_report(
         self, logged_in_client
@@ -286,7 +286,7 @@ class TestReportExport:
 
         # Act
         response = logged_in_client.post(
-            "/api/report-export/", json_string, content_type="application/json"
+            "/api/report-mappings/", json_string, content_type="application/json"
         )
 
         # Assert
@@ -295,7 +295,7 @@ class TestReportExport:
     def test_report_export_update_not_implemented(self, logged_in_client):
         # Act
         response = logged_in_client.post(
-            "/api/report-export/1/", "{}", content_type="application/json"
+            "/api/report-mappings/1/", "{}", content_type="application/json"
         )
 
         # Assert
@@ -311,7 +311,7 @@ class TestReportExport:
     def test_get_reports_by_doc_id(self, logged_in_client, report_with_document):
         # Act
         doc_id = report_with_document.document.id
-        response = logged_in_client.get(f"/api/report-export/?doc-id={doc_id}")
+        response = logged_in_client.get(f"/api/report-mappings/?doc-id={doc_id}")
         json_response = json.loads(response.content)
 
         # Assert

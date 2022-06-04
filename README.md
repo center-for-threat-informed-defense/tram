@@ -154,7 +154,7 @@ docker.errors.DockerException: Error while fetching server API version: ('Connec
 [97438] Failed to execute script docker-compose
 ```
 
-Then most likely Docker is not running and you need to start Docker.
+Then most likely reason is that Docker is not running and you need to start it.
 
 ## Report Troubleshooting
 
