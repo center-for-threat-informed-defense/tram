@@ -1,8 +1,19 @@
 [build-system]
 requires = [
-  "setuptools>=42",
+  "setuptools>=61",
   "wheel"
 ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tram"
+version = "1.2.0"
+description = "Threat Report ATT&CK Mapping (TRAM) is an open-source platform designed to advance research into automating the mapping of cyber threat intelligence reports to MITRE ATT&CK®."
+readme = "README.md"
+requires-python = ">=3.8"
+
+[project.scripts]
+tram = "tram.manage:main"
 
 [tool.black]
 exclude = '''
