@@ -76,15 +76,13 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /tram
 
 COPY ./ .
-
+COPY download_nltk.py .
 # install app dependencies
 RUN python3 -m pip install -r ./requirements/requirements.txt && \
     python3 -m pip install --editable . && \
     cp -f ./docker/entrypoint.sh entrypoint.sh && \
     # Download NLTK data
-    python3 -m nltk.downloader punkt && \
-    python3 -m nltk.downloader wordnet && \
-    python3 -m nltk.downloader omw-1.4
+    python3 download_nltk.py
 
 # Generate and Run Django migrations scripts, collectstatic app files
 RUN tram makemigrations tram && \
