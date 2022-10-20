@@ -18,7 +18,10 @@ STIX_TYPE_TO_ATTACK_TYPE = {
     "malware": "software",
     "tool": "software",
     "x-mitre-tactic": "tactic",
+    "x-mitre-data-source": "data_source",
 }
+
+inserted_ids = set()
 
 
 class Command(BaseCommand):
@@ -35,37 +38,97 @@ class Command(BaseCommand):
         deleted = AttackObject.objects.all().delete()
         logger.info("Deleted %d Attack objects", deleted[0])
 
+    # def create_attack_object(self, obj):
+
+    #     if "external_references" in obj.keys():
+    #         for external_reference in obj["external_references"]:
+    #             if external_reference["source_name"] not in (
+    #                 "mitre-attack",
+    #                 "mitre-pre-attack",
+    #                 "mitre-mobile-attack",
+    #             ):
+    #                 continue
+
+    #             attack_id = external_reference["external_id"]
+    #             attack_url = external_reference["url"]
+    #             matrix = external_reference["source_name"]
+
+    #         assert attack_id is not None
+    #         assert attack_url is not None
+    #         assert matrix is not None
+
+    #         print(attack_id, attack_url, matrix)
+
+    #         stix_type = obj["type"]
+    #         attack_type = STIX_TYPE_TO_ATTACK_TYPE[stix_type]
+
+    #         obj1 = AttackObject.objects.get(
+    #             name=obj["name"],
+    #             stix_id=obj["id"],
+    #             stix_type=stix_type,
+    #             attack_id=attack_id,
+    #             attack_type=attack_type,
+    #             attack_url=attack_url,
+    #             matrix=matrix,
+    #         )
+    #         if not obj1:
+    #             if attack_id not in inserted_ids:
+    #                 inserted_ids.add(attack_id)
+    #                 obj = AttackObject.objects.create(
+    #                     name=obj["name"],
+    #                     stix_id=obj["id"],
+    #                     stix_type=stix_type,
+    #                     attack_id=attack_id,
+    #                     attack_type=attack_type,
+    #                     attack_url=attack_url,
+    #                     matrix=matrix,
+    #                 )
+
+    #                 return obj, True
+
+    #         return obj, False
+    #     else:
+    #         print(obj["id"])
+    #         return obj, False
+
     def create_attack_object(self, obj):
-        for external_reference in obj["external_references"]:
-            if external_reference["source_name"] not in (
-                "mitre-attack",
-                "mitre-pre-attack",
-                "mitre-mobile-attack",
-            ):
-                continue
 
-            attack_id = external_reference["external_id"]
-            attack_url = external_reference["url"]
-            matrix = external_reference["source_name"]
+        if "external_references" in obj.keys():
+            for external_reference in obj["external_references"]:
+                if external_reference["source_name"] not in (
+                    "mitre-attack",
+                    "mitre-pre-attack",
+                    "mitre-mobile-attack",
+                ):
+                    continue
 
-        assert attack_id is not None
-        assert attack_url is not None
-        assert matrix is not None
+                attack_id = external_reference["external_id"]
+                attack_url = external_reference["url"]
+                matrix = external_reference["source_name"]
 
-        stix_type = obj["type"]
-        attack_type = STIX_TYPE_TO_ATTACK_TYPE[stix_type]
+            assert attack_id is not None
+            assert attack_url is not None
+            assert matrix is not None
 
-        obj, created = AttackObject.objects.get_or_create(
-            name=obj["name"],
-            stix_id=obj["id"],
-            stix_type=stix_type,
-            attack_id=attack_id,
-            attack_type=attack_type,
-            attack_url=attack_url,
-            matrix=matrix,
-        )
+            print(attack_id, attack_url, matrix)
 
-        return obj, created
+            stix_type = obj["type"]
+            attack_type = STIX_TYPE_TO_ATTACK_TYPE[stix_type]
+            status = ""
+            if attack_id not in inserted_ids:
+                inserted_ids.add(attack_id)
+                obj, status = AttackObject.objects.get_or_create(
+                    name=obj["name"],
+                    stix_id=obj["id"],
+                    stix_type=stix_type,
+                    attack_id=attack_id,
+                    attack_type=attack_type,
+                    attack_url=attack_url,
+                    matrix=matrix,
+                )
+
+            return obj, status
+        return False, False
 
     def load_attack_data(self, filepath):
         created_stats = {}
@@ -74,7 +137,7 @@ class Command(BaseCommand):
         with open(filepath, "r") as f:
             attack_json = json.load(f)
 
-        assert attack_json["spec_version"] == "2.0"
+        assert attack_json["spec_version"] == "2.1"
         assert attack_json["type"] == "bundle"
 
         for obj in attack_json["objects"]:
@@ -97,10 +160,14 @@ class Command(BaseCommand):
 
             try:
                 db_obj, created = self.create_attack_object(obj)
-                if created:
-                    created_stats[obj_type] = created_stats.get(obj_type, 0) + 1
+
+                if type(db_obj) == bool:
+                    pass
                 else:
-                    skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
+                    if created:
+                        created_stats[obj_type] = created_stats.get(obj_type, 0) + 1
+                    else:
+                        skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
             except ValueError:  # Value error means unsupported object type
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
 
