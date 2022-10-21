@@ -1,7 +1,7 @@
 {
     "type": "bundle",
     "id": "bundle--58c38583-fcc5-49ed-8a05-0dfe305e0c41",
-    "spec_version": "2.0",
+    "spec_version": "2.1",
     "objects": [
         {
             "id": "attack-pattern--2b9a666e-bd59-4f67-9031-ed41b428e04a",
