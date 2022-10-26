@@ -9,7 +9,7 @@
 version: '3.5'
 services:
   tram:
-    image: ghcr.io/ankit-safe/tram_linux:latest
+    image: ghcr.io/ankit-safe/tram_linux_1:latest
     environment:
       - DATA_DIRECTORY=/tram/data
       - ALLOWED_HOSTS=["*"]
