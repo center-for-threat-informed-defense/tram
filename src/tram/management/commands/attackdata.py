@@ -38,59 +38,6 @@ class Command(BaseCommand):
         deleted = AttackObject.objects.all().delete()
         logger.info("Deleted %d Attack objects", deleted[0])
 
-    # def create_attack_object(self, obj):
-
-    #     if "external_references" in obj.keys():
-    #         for external_reference in obj["external_references"]:
-    #             if external_reference["source_name"] not in (
-    #                 "mitre-attack",
-    #                 "mitre-pre-attack",
-    #                 "mitre-mobile-attack",
-    #             ):
-    #                 continue
-
-    #             attack_id = external_reference["external_id"]
-    #             attack_url = external_reference["url"]
-    #             matrix = external_reference["source_name"]
-
-    #         assert attack_id is not None
-    #         assert attack_url is not None
-    #         assert matrix is not None
-
-    #         print(attack_id, attack_url, matrix)
-
-    #         stix_type = obj["type"]
-    #         attack_type = STIX_TYPE_TO_ATTACK_TYPE[stix_type]
-
-    #         obj1 = AttackObject.objects.get(
-    #             name=obj["name"],
-    #             stix_id=obj["id"],
-    #             stix_type=stix_type,
-    #             attack_id=attack_id,
-    #             attack_type=attack_type,
-    #             attack_url=attack_url,
-    #             matrix=matrix,
-    #         )
-    #         if not obj1:
-    #             if attack_id not in inserted_ids:
-    #                 inserted_ids.add(attack_id)
-    #                 obj = AttackObject.objects.create(
-    #                     name=obj["name"],
-    #                     stix_id=obj["id"],
-    #                     stix_type=stix_type,
-    #                     attack_id=attack_id,
-    #                     attack_type=attack_type,
-    #                     attack_url=attack_url,
-    #                     matrix=matrix,
-    #                 )
-
-    #                 return obj, True
-
-    #         return obj, False
-    #     else:
-    #         print(obj["id"])
-    #         return obj, False
-
     def create_attack_object(self, obj):
 
         if "external_references" in obj.keys():
