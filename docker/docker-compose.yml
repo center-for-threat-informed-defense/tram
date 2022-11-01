@@ -9,18 +9,19 @@
 version: '3.5'
 services:
   tram:
-    image: ghcr.io/ankit-safe/tram:latest
+    image: ghcr.io/ankit-safe/tram_linux_11:latest
     environment:
       - DATA_DIRECTORY=/tram/data
-      - ALLOWED_HOSTS=["*"]
+      - ALLOWED_HOSTS=["127.0.0.1", "localhost","0.0.0.0"]
       - DJANGO_SUPERUSER_USERNAME=djangoSuperuser
       - DJANGO_SUPERUSER_PASSWORD=LEGITPassword1234 # your password here
       - DJANGO_SUPERUSER_EMAIL=test@example.com # your email address here
+      - DEBUG=true
     volumes:
       - tram:/tram/data
       - tram_static:/tram/src/tram/staticfiles
   nginx:
-    image: ghcr.io/center-for-threat-informed-defense/tram-nginx:latest
+    image: ghcr.io/ankit-safe/nginx_13:latest
     ports:
       - "8000:80"
     volumes:
