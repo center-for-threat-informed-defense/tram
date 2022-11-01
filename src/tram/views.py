@@ -346,14 +346,11 @@ def techniques(request):
             mm = base.ModelManager("nn_cls")  # nn_cls MLPClassifierModel
             mm.run_model()
 
-            ress = extract_report(session_token)
-            ress = json.loads(ress.decode("utf-8"))
             generated_report = {}
-            for single_report in ress:
-                document_id = single_report.get("document_id", None)
-                if document_id == generated_doc_id:
-                    generated_report = single_report
             final_report = {}
+            generated_report = extract_report(session_token, generated_doc_id)
+            generated_report = json.loads(generated_report.decode("utf-8"))
+
             if generated_report != {}:
                 final_report = parse_generated_report(control_id, generated_report)
 
@@ -367,11 +364,27 @@ def techniques(request):
     return JsonResponse(response, safe=False)
 
 
-def extract_report(session_token):
+def extract_report(session_token, generated_doc_id):
 
-    url = "http://localhost:8000/api/report-mappings/"
+    url = "http://localhost:8000/api/reports/"
 
     payload = {}
+    headers = {"Authorization": "Bearer " + session_token}
+
+    response = requests.request("GET", url, headers=headers, data=payload, timeout=1000)
+
+    response = response.content
+
+    response = json.loads(response.decode("utf-8"))
+
+    report_id = ""
+    for single_report in response:
+        document_id = single_report.get("document_id", None)
+        if document_id == generated_doc_id:
+            report_id = str(single_report.get("id", None))
+
+    url = "http://localhost:8000/api/report-mappings/" + report_id + "/"
+
     headers = {"Authorization": "Bearer " + session_token}
 
     response = requests.request("GET", url, headers=headers, data=payload, timeout=1000)
