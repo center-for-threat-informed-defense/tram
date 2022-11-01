@@ -1,8 +1,11 @@
 import json
 import logging
+import os
+import tempfile
 import time
 from urllib.parse import quote
 
+import requests
 from constance import config
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
@@ -163,6 +166,11 @@ def upload(request):
         response["job-id"] = dpj.pk
         response["doc-id"] = dpj.document.pk
 
+    # mm = base.ModelManager("logreg") //LogisticRegressionModel
+    # mm = base.ModelManager("nb") #NaiveBayesModel
+    # mm = base.ModelManager("nn_cls")    # nn_cls MLPClassifierModel
+    # mm.run_model()
+
     return JsonResponse(response)
 
 
@@ -260,3 +268,190 @@ def train_model(request, name):
             "elapsed_sec": elapsed,
         }
     )
+
+
+def parse_generated_report(unique_identifier, report_json):
+    technique_list = []
+    temp = {}
+    final_json = {}
+
+    for single_sentence in report_json["sentences"]:
+        for mapping_object in single_sentence["mappings"]:
+            temp["technique_id"] = mapping_object["attack_id"]
+            temp["confidence"] = mapping_object["confidence"]
+            technique_list.append(temp)
+            temp = {}
+
+    final_json["unique_identifier"] = unique_identifier
+    final_json["technique_list"] = technique_list
+
+    return final_json
+
+
+################
+
+
+def filter_description(description_list):
+    filter_desc = []
+    for single_object in description_list:
+        field_data = str(single_object["field_data"])
+        if field_data[-1] != ".":
+            field_data += "."
+        filter_desc.append(field_data)
+    return filter_desc
+
+
+def create_temporary_file(description):
+    tempfile.tempdir = os.getcwd() + "/data/media"
+    with tempfile.NamedTemporaryFile() as fp:
+        fp.write(str.encode(description))
+        fp.seek(0)
+        data = fp.read()
+        print(data)
+
+        b = open(fp.name + ".txt", "wb")
+        b.write(str.encode(description))
+        b.close()
+        filePath = fp.name + ".txt"
+        fileName = str(fp.name).split("/")[-1] + ".txt"
+
+    return fileName, filePath
+
+
+@api_view(["POST"])
+def techniques(request):
+
+    session_token = request.auth.token.decode("utf-8")
+    response = []
+
+    file_content_type = request.content_type
+    if file_content_type in ("application/json",):  # .json files
+        json_data = request.data
+
+        for single_object in json_data:
+            control_id = single_object["unique_identifier"]
+
+            description = " ".join(filter_description(single_object["description"]))
+
+            filePath = ""
+            fileName, filePath = create_temporary_file(description)
+            uploaded_report_status = upload_text(filePath, fileName, session_token)
+            uploaded_report_status = json.loads(
+                uploaded_report_status.content.decode("utf-8")
+            )
+            generated_doc_id = uploaded_report_status["doc-id"]
+
+            # mm = base.ModelManager("logreg") //LogisticRegressionModel
+            # mm = base.ModelManager("nb") #NaiveBayesModel
+            mm = base.ModelManager("nn_cls")  # nn_cls MLPClassifierModel
+            mm.run_model()
+
+            ress = extract_report(session_token)
+            ress = json.loads(ress.decode("utf-8"))
+            generated_report = {}
+            for single_report in ress:
+                document_id = single_report.get("document_id", None)
+                if document_id == generated_doc_id:
+                    generated_report = single_report
+            final_report = {}
+            if generated_report != {}:
+                final_report = parse_generated_report(control_id, generated_report)
+
+            response.append(final_report)
+    else:
+        return HttpResponseBadRequest("Unsupported file type")
+    os.remove(filePath)
+    write_logs(
+        control_id, description, fileName, filePath, final_report, generated_doc_id
+    )
+    return JsonResponse(response, safe=False)
+
+
+def extract_report(session_token):
+
+    url = "http://localhost:8000/api/report-mappings/"
+
+    payload = {}
+    headers = {"Authorization": "Bearer " + session_token}
+
+    response = requests.request("GET", url, headers=headers, data=payload, timeout=1000)
+
+    return response.content
+
+
+@api_view(["POST"])
+def modified_upload(request):
+    """Places a file into ml-pipeline for analysis"""
+    # Initialize the processing job.
+    dpj = None
+
+    # Initialize response.
+    response = {"message": "File saved for processing."}
+
+    file_content_type = request.FILES["file"].content_type
+    if file_content_type in (
+        "application/pdf",  # .pdf files
+        "text/html",  # .html files
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",  # .docx files
+        "text/plain",  # .txt files
+    ):
+        dpj = DocumentProcessingJob.create_from_file(
+            request.FILES["file"], request.user
+        )
+    elif file_content_type in ("application/json",):  # .json files
+        json_data = json.loads(request.FILES["file"].read())
+        res = serializers.ReportExportSerializer(data=json_data)
+
+        if res.is_valid():
+            res.save(created_by=request.user)
+        else:
+            return HttpResponseBadRequest(res.errors)
+    else:
+        return HttpResponseBadRequest("Unsupported file type")
+
+    if dpj:
+        response["job-id"] = dpj.pk
+        response["doc-id"] = dpj.document.pk
+    return JsonResponse(response)
+
+
+def upload_text(filePath, fileName, session_token):
+    url = "http://localhost:8000/modified_upload/"
+
+    payload = {}
+    files = [
+        (
+            "file",
+            (
+                fileName,
+                open(filePath, "rb"),
+                "text/plain",
+            ),
+        )
+    ]
+    headers = {"Authorization": "Bearer " + session_token}
+    response = requests.request(
+        "POST", url, headers=headers, data=payload, files=files, timeout=1000
+    )
+    return response
+
+
+def write_logs(
+    unique_identifier,
+    description,
+    file_name,
+    file_path,
+    processed_data,
+    generated_doc_id,
+):
+    _log = {}
+    _log["unique_identifier"] = unique_identifier
+    _log["description"] = description
+    _log["temporary_file_name"] = file_name
+    _log["temporary_file_path"] = file_path
+    _log["processed_data"] = processed_data
+    _log["document_id"] = generated_doc_id
+
+    print("----------------------------------------------------------------")
+    print(_log)
+    print("*****************************************************************")
