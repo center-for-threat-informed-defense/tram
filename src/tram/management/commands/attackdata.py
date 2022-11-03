@@ -52,29 +52,34 @@ class Command(BaseCommand):
                 attack_id = external_reference["external_id"]
                 attack_url = external_reference["url"]
                 matrix = external_reference["source_name"]
+            if (
+                "S" not in attack_id
+                and "G" not in attack_id
+                and "DS" not in attack_id
+                and "TA" not in attack_id
+            ):
+                assert attack_id is not None
+                assert attack_url is not None
+                assert matrix is not None
 
-            assert attack_id is not None
-            assert attack_url is not None
-            assert matrix is not None
+                print(attack_id, attack_url, matrix)
 
-            print(attack_id, attack_url, matrix)
+                stix_type = obj["type"]
+                attack_type = STIX_TYPE_TO_ATTACK_TYPE[stix_type]
+                status = ""
+                if attack_id not in inserted_ids:
+                    inserted_ids.add(attack_id)
+                    obj, status = AttackObject.objects.get_or_create(
+                        name=obj["name"],
+                        stix_id=obj["id"],
+                        stix_type=stix_type,
+                        attack_id=attack_id,
+                        attack_type=attack_type,
+                        attack_url=attack_url,
+                        matrix=matrix,
+                    )
 
-            stix_type = obj["type"]
-            attack_type = STIX_TYPE_TO_ATTACK_TYPE[stix_type]
-            status = ""
-            if attack_id not in inserted_ids:
-                inserted_ids.add(attack_id)
-                obj, status = AttackObject.objects.get_or_create(
-                    name=obj["name"],
-                    stix_id=obj["id"],
-                    stix_type=stix_type,
-                    attack_id=attack_id,
-                    attack_type=attack_type,
-                    attack_url=attack_url,
-                    matrix=matrix,
-                )
-
-            return obj, status
+                return obj, status
         return False, False
 
     def load_attack_data(self, filepath):
