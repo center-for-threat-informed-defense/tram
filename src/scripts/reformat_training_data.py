@@ -44,7 +44,11 @@ django.setup()
 
 from tram.serializers import ReportExportSerializer  # noqa: E402
 
-outfile = "/Users/ankitchauhan/Drive/tram/data/training/bootstrap-training-data.json"
+parent_directory = os.getcwd()
+file_path = (
+    parent_directory + "/data/training/training-dataset/tram_existing_dataset_.txt"
+)
+outfile = parent_directory + "/data/training/bootstrap-training-data.json"
 logger = logging.getLogger(__name__)
 
 
@@ -845,8 +849,13 @@ def get_attack_id(description):
 
 
 def is_present_in_existing_database(line):
+    parent_directory = os.getcwd()
+    file_path = (
+        parent_directory + "/data/training/training-dataset/tram_existing_dataset_.txt"
+    )
+
     f = open(
-        "/Users/ankitchauhan/Drive/tram/data/training/archive/tram_existing_dataset_.txt",
+        file_path,
         "r",
     )
     existing_data = f.readlines()
@@ -858,15 +867,18 @@ def is_present_in_existing_database(line):
 
 
 def main():
+
+    parent_directory = os.getcwd()
+
+    file_path = parent_directory + "/data/training/archive/all_analyzed_reports.json"
+
     with open(
-        "/Users/ankitchauhan/Drive/tram/data/training/archive/all_analyzed_reports.json",
+        file_path,
         encoding="utf-8-sig",
     ) as f:
         all_analyzed_reports = json.load(f)
 
-    with open(
-        "/Users/ankitchauhan/Drive/tram/data/training/archive/negative_data.json"
-    ) as f:
+    with open(parent_directory + "/data/training/archive/negative_data.json") as f:
         negative_data = json.load(f)
 
     training_data = TrainingData()
