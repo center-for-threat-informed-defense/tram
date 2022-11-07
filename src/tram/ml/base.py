@@ -96,7 +96,7 @@ class SKLearnModel(ABC):
 
         # Create training set and test set
         x_train, x_test, y_train, y_test = train_test_split(
-            x, y, test_size=0.2, shuffle=True, random_state=0, stratify=y
+            x, y, test_size=0.2, shuffle=True, random_state=0
         )
 
         # Train model

@@ -50,6 +50,8 @@ def get_technique_name(technqiue_id):
 
 year = 2022
 
+count = 0
+
 path = os.getcwd() + "/va_parser/year-wise-cves/"
 
 filename = "CVE_" + str(year) + ".json"
@@ -60,6 +62,7 @@ with open(file_path, "r") as f:
     cve_data = json.load(f)
 
 url = "http://localhost:8000/techniques/"
+
 
 for single_cve in cve_data:
 
@@ -117,7 +120,6 @@ for single_cve in cve_data:
             "w",
         ) as json_file:
             json.dump(final_json, json_file, indent=4)
-
+        count += 1
+        print(". . . . . ", count, " . . . . . ")
         print("Successfully wrote data for. . . ", cve_id)
-
-        input()
