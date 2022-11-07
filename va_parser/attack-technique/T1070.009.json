@@ -1,0 +1,85 @@
+﻿{
+    "id": "T1070.009",
+    "name": "Clear Persistence",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may clear artifacts associated with previously established persistence on a host system to remove evidence of their activity. This may involve various actions, such as removing services, deleting executables, [Modify Registry](https://attack.mitre.org/techniques/T1112), [Plist File Modification](https://attack.mitre.org/techniques/T1647), or other methods of cleanup to prevent defenders from collecting evidence of their persistent presence.(Citation: Cylance Dust Storm)\n\nIn some instances, artifacts of persistence may also be removed once an adversary's persistence is executed in order to prevent errors with the new instance of the malware.(Citation: NCC Group Team9 June 2020)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1070/009",
+            "external_id": "T1070.009"
+        },
+        {
+            "source_name": "Cylance Dust Storm",
+            "description": "Gross, J. (2016, February 23). Operation Dust Storm. Retrieved December 22, 2021.",
+            "url": "https://s7d2.scene7.com/is/content/cylance/prod/cylance-web/en-us/resources/knowledge-center/resource-library/reports/Op_Dust_Storm_Report.pdf"
+        },
+        {
+            "source_name": "NCC Group Team9 June 2020",
+            "description": "Pantazopoulos, N. (2020, June 2). In-depth analysis of the new Team9 malware family. Retrieved December 1, 2020.",
+            "url": "https://research.nccgroup.com/2020/06/02/in-depth-analysis-of-the-new-team9-malware-family/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "",
+    "x_mitre_data_sources": [
+        "Windows Registry: Windows Registry Key Deletion",
+        "File: File Modification",
+        "Windows Registry: Windows Registry Key Modification",
+        "Scheduled Job: Scheduled Job Modification",
+        "File: File Deletion",
+        "Process: Process Creation",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Remote Data Storage",
+                "description": "Use remote security log and sensitive file storage where access can be controlled better to prevent exposure of intrusion detection log data or sensitive information.",
+                "type": "course-of-action",
+                "id": "M1029"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

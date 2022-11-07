@@ -1,0 +1,121 @@
+{
+    "id": "T1608.002",
+    "name": "Upload Tool",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may upload tools to third-party or adversary controlled infrastructure to make it accessible during targeting. Tools can be open or closed source, free or commercial. Tools can be used for malicious purposes by an adversary, but (unlike malware) were not intended to be used for those purposes (ex: [PsExec](https://attack.mitre.org/software/S0029)). Adversaries may upload tools to support their operations, such as making a tool available to a victim network to enable [Ingress Tool Transfer](https://attack.mitre.org/techniques/T1105) by placing it on an Internet accessible web server.\n\nTools may be placed on infrastructure that was previously purchased/rented by the adversary ([Acquire Infrastructure](https://attack.mitre.org/techniques/T1583)) or was otherwise compromised by them ([Compromise Infrastructure](https://attack.mitre.org/techniques/T1584)).(Citation: Dell TG-3390) Tools can also be staged on web services, such as an adversary controlled GitHub repo, or on Platform-as-a-Service offerings that enable users to easily provision applications.(Citation: Dragos Heroku Watering Hole)(Citation: Malwarebytes Heroku Skimmers)(Citation: Intezer App Service Phishing)\n\nAdversaries can avoid the need to upload a tool by having compromised victim machines download the tool directly from a third-party hosting location (ex: a non-adversary controlled GitHub repo), including the original hosting site of the tool.",
+    "x_mitre_platforms": [
+        "PRE"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1608/002",
+            "external_id": "T1608.002"
+        },
+        {
+            "source_name": "Dell TG-3390",
+            "description": "Dell SecureWorks Counter Threat Unit Threat Intelligence. (2015, August 5). Threat Group-3390 Targets Organizations for Cyberespionage. Retrieved August 18, 2018.",
+            "url": "https://www.secureworks.com/research/threat-group-3390-targets-organizations-for-cyberespionage"
+        },
+        {
+            "source_name": "Malwarebytes Heroku Skimmers",
+            "description": "J\u00e9r\u00f4me Segura. (2019, December 4). There's an app for that: web skimmers found on PaaS Heroku. Retrieved August 18, 2022.",
+            "url": "https://www.malwarebytes.com/blog/news/2019/12/theres-an-app-for-that-web-skimmers-found-on-paas-heroku"
+        },
+        {
+            "source_name": "Dragos Heroku Watering Hole",
+            "description": "Kent Backman. (2021, May 18). When Intrusions Don\u2019t Align: A New Water Watering Hole and Oldsmar. Retrieved August 18, 2022.",
+            "url": "https://www.dragos.com/blog/industry-news/a-new-water-watering-hole/"
+        },
+        {
+            "source_name": "Intezer App Service Phishing",
+            "description": "Paul Litvak. (2020, October 8). Kud I Enter Your Server? New Vulnerabilities in Microsoft Azure. Retrieved August 18, 2022.",
+            "url": "https://www.intezer.com/blog/malware-analysis/kud-i-enter-your-server-new-vulnerabilities-in-microsoft-azure/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "resource-development"
+        }
+    ],
+    "tactic": [
+        "resource-development"
+    ],
+    "x_mitre_detection": "If infrastructure or patterns in tooling have been previously identified, internet scanning may uncover when an adversary has staged tools to make them accessible for targeting.\n\nMuch of this activity will take place outside the visibility of the target organization, making detection of this behavior difficult. Detection efforts may be focused on post-compromise phases of the adversary lifecycle, such as [Ingress Tool Transfer](https://attack.mitre.org/techniques/T1105).",
+    "x_mitre_data_sources": [
+        "Internet Scan: Response Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Pre-compromise",
+                "description": "This category is used for any applicable mitigation activities that apply to techniques occurring before an adversary gains Initial Access, such as Reconnaissance and Resource Development techniques.",
+                "type": "course-of-action",
+                "id": "M1056"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [
+        "CVE-2017-12629",
+        "CVE-2017-12929",
+        "CVE-2017-17976",
+        "CVE-2017-5638",
+        "CVE-2017-7494",
+        "CVE-2017-9080",
+        "CVE-2018-1000094",
+        "CVE-2018-1000811",
+        "CVE-2018-13981",
+        "CVE-2018-15137",
+        "CVE-2018-17553",
+        "CVE-2018-20159",
+        "CVE-2018-5997",
+        "CVE-2019-11445",
+        "CVE-2019-12185",
+        "CVE-2019-12744",
+        "CVE-2019-16113",
+        "CVE-2019-6714",
+        "CVE-2019-8942",
+        "CVE-2020-10963",
+        "CVE-2020-11108",
+        "CVE-2020-14008",
+        "CVE-2020-1745",
+        "CVE-2020-1938",
+        "CVE-2020-24186",
+        "CVE-2020-28337",
+        "CVE-2020-29607",
+        "CVE-2020-35314",
+        "CVE-2020-7246",
+        "CVE-2021-22205",
+        "CVE-2021-24155",
+        "CVE-2021-31933",
+        "CVE-2021-36711",
+        "CVE-2021-39608",
+        "CVE-2021-42362",
+        "CVE-2021-42580",
+        "CVE-2021-44664",
+        "CVE-2021-44673",
+        "CVE-2022-26965"
+    ]
+}

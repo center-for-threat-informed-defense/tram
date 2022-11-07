@@ -1,0 +1,218 @@
+﻿{
+    "id": "T1222",
+    "name": "File and Directory Permissions Modification",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may modify file or directory permissions/attributes to evade access control lists (ACLs) and access protected files.(Citation: Hybrid Analysis Icacls1 June 2018)(Citation: Hybrid Analysis Icacls2 May 2018) File and directory permissions are commonly managed by ACLs configured by the file or directory owner, or users with the appropriate permissions. File and directory ACL implementations vary by platform, but generally explicitly designate which users or groups can perform which actions (read, write, execute, etc.).\n\nModifications may include changing specific access rights, which may require taking ownership of a file or directory and/or elevated permissions depending on the file or directory's existing permissions. This may enable malicious activity such as modifying, replacing, or deleting specific files or directories. Specific file and directory modifications may be a required step for many techniques, such as establishing Persistence via [Accessibility Features](https://attack.mitre.org/techniques/T1546/008), [Boot or Logon Initialization Scripts](https://attack.mitre.org/techniques/T1037), [Unix Shell Configuration Modification](https://attack.mitre.org/techniques/T1546/004), or tainting/hijacking other instrumental binary/configuration files via [Hijack Execution Flow](https://attack.mitre.org/techniques/T1574).\n\nAdversaries may also change permissions of symbolic links. For example, malware (particularly ransomware) may modify symbolic links and associated settings to enable access to files from local shortcuts with remote paths.(Citation: new_rust_based_ransomware)(Citation: bad_luck_blackcat)(Citation: falconoverwatch_blackcat_attack)(Citation: blackmatter_blackcat)(Citation: fsutil_behavior) ",
+    "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "File system access controls"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1222",
+            "external_id": "T1222"
+        },
+        {
+            "source_name": "falconoverwatch_blackcat_attack",
+            "description": "Falcon OverWatch Team. (2022, March 23). Falcon OverWatch Threat Hunting Contributes to Seamless Protection Against Novel BlackCat Attack. Retrieved May 5, 2022.",
+            "url": "https://www.crowdstrike.com/blog/falcon-overwatch-contributes-to-blackcat-protection/"
+        },
+        {
+            "source_name": "Hybrid Analysis Icacls1 June 2018",
+            "description": "Hybrid Analysis. (2018, June 12). c9b65b764985dfd7a11d3faf599c56b8.exe. Retrieved August 19, 2018.",
+            "url": "https://www.hybrid-analysis.com/sample/ef0d2628823e8e0a0de3b08b8eacaf41cf284c086a948bdfd67f4e4373c14e4d?environmentId=100"
+        },
+        {
+            "source_name": "Hybrid Analysis Icacls2 May 2018",
+            "description": "Hybrid Analysis. (2018, May 30). 2a8efbfadd798f6111340f7c1c956bee.dll. Retrieved August 19, 2018.",
+            "url": "https://www.hybrid-analysis.com/sample/22dab012c3e20e3d9291bce14a2bfc448036d3b966c6e78167f4626f5f9e38d6?environmentId=110"
+        },
+        {
+            "source_name": "bad_luck_blackcat",
+            "description": "Kaspersky Global Research & Analysis Team (GReAT). (2022). A Bad Luck BlackCat. Retrieved May 5, 2022.",
+            "url": "https://go.kaspersky.com/rs/802-IJN-240/images/TR_BlackCat_Report.pdf"
+        },
+        {
+            "source_name": "fsutil_behavior",
+            "description": "Microsoft. (2021, September 27). fsutil behavior. Retrieved January 14, 2022.",
+            "url": "https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-behavior"
+        },
+        {
+            "source_name": "EventTracker File Permissions Feb 2014",
+            "description": "Netsurion. (2014, February 19). Monitoring File Permission Changes with the Windows Security Log. Retrieved August 19, 2018.",
+            "url": "https://www.eventtracker.com/tech-articles/monitoring-file-permission-changes-windows-security-log/"
+        },
+        {
+            "source_name": "blackmatter_blackcat",
+            "description": "Pereira, T. Huey, C. (2022, March 17). From BlackMatter to BlackCat: Analyzing two attacks from one affiliate. Retrieved May 5, 2022.",
+            "url": "https://blog.talosintelligence.com/2022/03/from-blackmatter-to-blackcat-analyzing.html"
+        },
+        {
+            "source_name": "new_rust_based_ransomware",
+            "description": "Symantec Threat Hunter Team. (2021, December 16). Noberus: Technical Analysis Shows Sophistication of New Rust-based Ransomware. Retrieved January 14, 2022.",
+            "url": "https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/noberus-blackcat-alphv-rust-ransomware"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor and investigate attempts to modify ACLs and file/directory ownership. Many of the commands used to modify ACLs and file/directory ownership are built-in system utilities and may generate a high false positive alert rate, so compare against baseline knowledge for how systems are typically used and correlate modification events with other indications of malicious activity where possible.\n\nConsider enabling file/directory permission change auditing on folders containing key binary/configuration files. For example, Windows Security Log events (Event ID 4670) are created when DACLs are modified.(Citation: EventTracker File Permissions Feb 2014)",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "Active Directory: Active Directory Object Modification",
+        "File: File Metadata"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that restrictive permissions are applied for critical system files.",
+                "acid": "98581189"
+            },
+            {
+                "description": "Ensure that only a privileged user account has access to the critical system files.",
+                "acid": "98581190"
+            },
+            {
+                "description": "Ensure that access permissions to the critical system files are removed for other users (who are not required).",
+                "acid": "98581191"
+            },
+            {
+                "description": "Ensure that restrictive permissions are applied for files and directories to prevent modifying the access control lists.",
+                "acid": "98581192"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that ACLs are monitored (for any attempts to modify).",
+                "acid": "98581183"
+            },
+            {
+                "description": "Ensure that file/directory ownership permissions are monitored (for any attempts to modify)",
+                "acid": "98581184"
+            },
+            {
+                "description": "Ensure that Built-in system utilities are compared against baseline knowledge to check typical system use (to reduce false-positive alerts).",
+                "acid": "98581185"
+            },
+            {
+                "description": "Ensure that modification events are correlated with other indications of malicious activity to reduce false-positive alerts.",
+                "acid": "98581186"
+            },
+            {
+                "description": "Ensure that in file/directory permission on folders containing key binary/configuration files are audited for changes.",
+                "acid": "98581187"
+            },
+            {
+                "description": "Ensure that Windows Security Log events (Event ID 4670) generated due to DACLs modification are monitored.",
+                "acid": "98581188"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106001",
+        "50106009"
+    ],
+    "technologycontrolIds": [
+        "14010005",
+        "14010014",
+        "14010030",
+        "14020023",
+        "14020049",
+        "14020086",
+        "14030051",
+        "14030113",
+        "14040051",
+        "14040075",
+        "14040076",
+        "14040113",
+        "14080034",
+        "14080037",
+        "14080055",
+        "15040011",
+        "16130083",
+        "16130084",
+        "16130085",
+        "16130113",
+        "16130114",
+        "16130117",
+        "16130133",
+        "16130137",
+        "16130138",
+        "16130144",
+        "16130145",
+        "16130147",
+        "16130169",
+        "16130170",
+        "16130171",
+        "16130172",
+        "16130173",
+        "16130174",
+        "16130175",
+        "16130176",
+        "16130177",
+        "16130178",
+        "16130179",
+        "16130180",
+        "16130181",
+        "16130182",
+        "16130183",
+        "16130184",
+        "16130185",
+        "16130187",
+        "16130197",
+        "16130204",
+        "16130205"
+    ],
+    "cveIds": [
+        "CVE-2010-1225"
+    ],
+    "subTechniques": [
+        "T1222.001",
+        "T1222.002"
+    ]
+}

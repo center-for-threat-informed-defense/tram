@@ -1,0 +1,137 @@
+﻿{
+    "id": "T1200",
+    "name": "Hardware Additions",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may introduce computer accessories, networking hardware, or other computing devices into a system or network that can be used as a vector to gain access. Rather than just connecting and distributing payloads via removable storage (i.e. [Replication Through Removable Media](https://attack.mitre.org/techniques/T1091)), more robust hardware additions can be used to introduce new functionalities and/or features into a system that can then be abused.\n\nWhile public references of usage by threat actors are scarce, many red teams/penetration testers leverage hardware additions for initial access. Commercial and open source products can be leveraged with capabilities such as passive network tapping, network traffic modification (i.e. [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557)), keystroke injection, kernel memory reading via DMA, addition of new wireless access to an existing network, and others.(Citation: Ossmann Star Feb 2011)(Citation: Aleks Weapons Nov 2015)(Citation: Frisk DMA August 2016)(Citation: McMillan Pwn March 2012)",
+    "x_mitre_platforms": [
+        "Windows",
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1200",
+            "external_id": "T1200"
+        },
+        {
+            "source_name": "Ossmann Star Feb 2011",
+            "description": "Michael Ossmann. (2011, February 17). Throwing Star LAN Tap. Retrieved March 30, 2018.",
+            "url": "https://ossmann.blogspot.com/2011/02/throwing-star-lan-tap.html"
+        },
+        {
+            "source_name": "Aleks Weapons Nov 2015",
+            "description": "Nick Aleks. (2015, November 7). Weapons of a Pentester - Understanding the virtual & physical tools used by white/black hat hackers. Retrieved March 30, 2018.",
+            "url": "https://www.youtube.com/watch?v=lDvf4ScWbcQ"
+        },
+        {
+            "source_name": "McMillan Pwn March 2012",
+            "description": "Robert McMillan. (2012, March 3). The Pwn Plug is a little white box that can hack your network. Retrieved March 30, 2018.",
+            "url": "https://arstechnica.com/information-technology/2012/03/the-pwn-plug-is-a-little-white-box-that-can-hack-your-network/"
+        },
+        {
+            "source_name": "Frisk DMA August 2016",
+            "description": "Ulf Frisk. (2016, August 5). Direct Memory Attack the Kernel. Retrieved March 30, 2018.",
+            "url": "https://www.youtube.com/watch?v=fXthwl6ShOg"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/440.html",
+            "external_id": "CAPEC-440"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "initial-access"
+        }
+    ],
+    "tactic": [
+        "initial-access"
+    ],
+    "x_mitre_detection": "Asset management systems may help with the detection of computer systems or network devices that should not exist on a network. \n\nEndpoint sensors may be able to detect the addition of hardware via USB, Thunderbolt, and other external device communication ports.",
+    "x_mitre_data_sources": [
+        "Application Log: Application Log Content",
+        "Drive: Drive Creation",
+        "Network Traffic: Network Traffic Flow"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Limit Access to Resource Over Network",
+                "description": "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+                "type": "course-of-action",
+                "id": "M1035"
+            },
+            {
+                "name": "Hardware Additions Mitigation",
+                "description": "Establish network access control policies, such as using device certificates and the 802.1x standard. (Citation: Wikipedia 802.1x) Restrict use of DHCP to registered devices to prevent unregistered devices from communicating with trusted systems. \n\nBlock unknown devices and accessories by endpoint security configuration and monitoring agent.",
+                "type": "course-of-action",
+                "id": "T1200"
+            },
+            {
+                "name": "Limit Hardware Installation",
+                "description": "Block users or groups from installing or using unapproved hardware on systems, including USB devices.",
+                "type": "course-of-action",
+                "id": "M1034"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that network access control policies are defined to limit access to resources over a network",
+                "acid": "98580033"
+            },
+            {
+                "description": "Ensure that DHCP is configured only to registered devices to prevent communication with untrusted systems",
+                "acid": "98580034"
+            },
+            {
+                "description": "Ensure that Endpoint Security solutions and monitoring agents are configured to monitor and block unknown devices and accessories installations",
+                "acid": "98580035"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Asset management solutions are implemented to detect the computer systems/ network devices that should not exist on a network. (Asset discovery tools)",
+                "acid": "98580031"
+            },
+            {
+                "description": "Ensure that endpoint security solutions are implemented to detect the addition of hardware (USB, Thunderbolt, etc.)",
+                "acid": "98580032"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000194"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106114"
+    ],
+    "technologycontrolIds": [
+        "101020020",
+        "10110020",
+        "16130107",
+        "18350003"
+    ],
+    "cveIds": [
+        "CVE-2019-3717",
+        "CVE-2019-9019"
+    ],
+    "subTechniques": []
+}

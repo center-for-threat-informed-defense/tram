@@ -1,0 +1,181 @@
+{
+    "id": "T1498.002",
+    "name": "Reflection Amplification",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to cause a denial of service (DoS) by reflecting a high-volume of network traffic to a target. This type of Network DoS takes advantage of a third-party server intermediary that hosts and will respond to a given spoofed source IP address. This third-party server is commonly termed a reflector. An adversary accomplishes a reflection attack by sending packets to reflectors with the spoofed address of the victim. Similar to Direct Network Floods, more than one system may be used to conduct the attack, or a botnet may be used. Likewise, one or more reflectors may be used to focus traffic on the target.(Citation: Cloudflare ReflectionDoS May 2017) This Network DoS attack may also reduce the availability and functionality of the targeted system(s) and network.\n\nReflection attacks often take advantage of protocols with larger responses than requests in order to amplify their traffic, commonly known as a Reflection Amplification attack. Adversaries may be able to generate an increase in volume of attack traffic that is several orders of magnitude greater than the requests sent to the amplifiers. The extent of this increase will depending upon many variables, such as the protocol in question, the technique used, and the amplifying servers that actually produce the amplification in attack volume. Two prominent protocols that have enabled Reflection Amplification Floods are DNS(Citation: Cloudflare DNSamplficationDoS) and NTP(Citation: Cloudflare NTPamplifciationDoS), though the use of several others in the wild have been documented.(Citation: Arbor AnnualDoSreport Jan 2018)  In particular, the memcache protocol showed itself to be a powerful protocol, with amplification sizes up to 51,200 times the requesting packet.(Citation: Cloudflare Memcrashed Feb 2018)",
+    "x_mitre_platforms": [
+        "Windows",
+        "Azure AD",
+        "Office 365",
+        "SaaS",
+        "IaaS",
+        "Linux",
+        "macOS",
+        "Google Workspace"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1498/002",
+            "external_id": "T1498.002"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/490.html",
+            "external_id": "CAPEC-490"
+        },
+        {
+            "source_name": "Cloudflare ReflectionDoS May 2017",
+            "description": "Marek Majkowsk, Cloudflare. (2017, May 24). Reflections on reflection (attacks). Retrieved April 23, 2019.",
+            "url": "https://blog.cloudflare.com/reflections-on-reflections/"
+        },
+        {
+            "source_name": "Cloudflare DNSamplficationDoS",
+            "description": "Cloudflare. (n.d.). What is a DNS amplification attack?. Retrieved April 23, 2019.",
+            "url": "https://www.cloudflare.com/learning/ddos/dns-amplification-ddos-attack/"
+        },
+        {
+            "source_name": "Cloudflare NTPamplifciationDoS",
+            "description": "Cloudflare. (n.d.). What is a NTP amplificaiton attack?. Retrieved April 23, 2019.",
+            "url": "https://www.cloudflare.com/learning/ddos/ntp-amplification-ddos-attack/"
+        },
+        {
+            "source_name": "Arbor AnnualDoSreport Jan 2018",
+            "description": "Philippe Alcoy, Steinthor Bjarnason, Paul Bowen, C.F. Chui, Kirill Kasavchnko, and Gary Sockrider of Netscout Arbor. (2018, January). Insight into the Global Threat Landscape - Netscout Arbor's 13th Annual Worldwide Infrastructure Security Report. Retrieved April 22, 2019.",
+            "url": "https://pages.arbornetworks.com/rs/082-KNA-087/images/13th_Worldwide_Infrastructure_Security_Report.pdf"
+        },
+        {
+            "source_name": "Cloudflare Memcrashed Feb 2018",
+            "description": "Marek Majkowski of Cloudflare. (2018, February 27). Memcrashed - Major amplification attacks from UDP port 11211. Retrieved April 18, 2019.",
+            "url": "https://blog.cloudflare.com/memcrashed-major-amplification-attacks-from-port-11211/"
+        },
+        {
+            "source_name": "Cisco DoSdetectNetflow",
+            "description": "Cisco. (n.d.). Detecting and Analyzing Network Threats With NetFlow. Retrieved April 25, 2019.",
+            "url": "https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/netflow/configuration/15-mt/nf-15-mt-book/nf-detct-analy-thrts.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "impact"
+        }
+    ],
+    "tactic": [
+        "impact"
+    ],
+    "x_mitre_detection": "Detection of reflection amplification can sometimes be achieved before the traffic volume is sufficient to cause impact to the availability of the service, but such response time typically requires very aggressive monitoring and responsiveness or services provided by an upstream network service provider. Typical network throughput monitoring tools such as netflow(Citation: Cisco DoSdetectNetflow), SNMP, and custom scripts can be used to detect sudden increases in network or service utilization. Real-time, automated, and qualitative study of the network traffic can identify a sudden surge in one type of protocol can be used to detect a reflection amplification DoS event as it starts. Often, the lead time may be small and the indicator of an event availability of the network or service drops. The analysis tools mentioned can then be used to determine the type of DoS causing the outage and help with remediation.",
+    "x_mitre_data_sources": [
+        "Sensor Health: Host Status",
+        "Network Traffic: Network Traffic Flow"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that upstream incoming traffic is blocked (when flood volumes exceed the capacity of the targeted network connection) to filter out the attack traffic from the legitimate traffic.",
+                "acid": "98582922"
+            },
+            {
+                "description": "Ensure that hosting Internet Service Provider (ISP) or Content Delivery Network (CDN) or providers intercept the incoming traffic upstream to filter out the attack traffic from the legitimate traffic.",
+                "acid": "98582923"
+            },
+            {
+                "description": "Ensure that on-premises filtering is implemented by blocking source addresses sourcing the attack.",
+                "acid": "98582924"
+            },
+            {
+                "description": "Ensure that on-premises filtering is implemented by blocking ports that are being targeted in the attack.",
+                "acid": "98582925"
+            },
+            {
+                "description": "Ensure that on-premises filtering is implemented by blocking protocols being used for transport.",
+                "acid": "98582926"
+            },
+            {
+                "description": "Ensure that 3rd parties are hired to analyze the risk associated with critical resources (affected by Network DoS attacks).",
+                "acid": "98582927"
+            },
+            {
+                "description": "Ensure that a disaster recovery plan/business continuity plan is implemented to take immediate action to incidents (e.g. Network DoS attacks).",
+                "acid": "98582928"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the monitoring tool is configured (with aggressive response time) to detect Network DoS.",
+                "acid": "98582919"
+            },
+            {
+                "description": "Ensure that monitoring tools e.g. netflow, SNMP, and custom scripts are used to detect sudden increases in-network or service utilization.",
+                "acid": "98582920"
+            },
+            {
+                "description": "Ensure that real-time, automated, and qualitative study of network traffic is analyzed to identify a sudden surge in one type of protocol (can be used to detect Network DoS in the initial stage).",
+                "acid": "98582921"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000020",
+        "40000513",
+        "40000523"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "101540010",
+        "101540016",
+        "101540039",
+        "101540040",
+        "101550010",
+        "101550016",
+        "101550040",
+        "101550041",
+        "101560010",
+        "101560011",
+        "101560015",
+        "101560016",
+        "101570010",
+        "101570011",
+        "101570015",
+        "101570016",
+        "101600010",
+        "101600011",
+        "101600015",
+        "101600016",
+        "103900010",
+        "103900011",
+        "103900015",
+        "103900016",
+        "10460015",
+        "10460016",
+        "11010015",
+        "11010016",
+        "16390020",
+        "19920479"
+    ],
+    "cveIds": []
+}

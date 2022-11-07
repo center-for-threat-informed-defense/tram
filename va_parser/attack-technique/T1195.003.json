@@ -1,0 +1,118 @@
+{
+    "id": "T1195.003",
+    "name": "Compromise Hardware Supply Chain",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may manipulate hardware components in products prior to receipt by a final consumer for the purpose of data or system compromise. By modifying hardware or firmware in the supply chain, adversaries can insert a backdoor into consumer networks that may be difficult to detect and give the adversary a high degree of control over the system. Hardware backdoors may be inserted into various devices, such as servers, workstations, network infrastructure, or peripherals.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1195/003",
+            "external_id": "T1195.003"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "initial-access"
+        }
+    ],
+    "tactic": [
+        "initial-access"
+    ],
+    "x_mitre_detection": "Perform physical inspection of hardware to look for potential tampering. Perform integrity checking on pre-OS boot mechanisms that can be manipulated for malicious purposes.",
+    "x_mitre_data_sources": [
+        "Sensor Health: Host Status"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Boot Integrity",
+                "description": "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms.",
+                "type": "course-of-action",
+                "id": "M1046"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Integrity checking tools are configured to validate the integrity of BIOS or EFI",
+                "acid": "98580091"
+            },
+            {
+                "description": "Ensure that a secure boot process (Trusted Platform Module) is configured to prevent system integrity compromise",
+                "acid": "98580092"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that physical inspection is performed on hardware to check for potential tampering",
+                "acid": "98580089"
+            },
+            {
+                "description": "Ensure that integrity checking is configured to detect malicious activity on pre-OS boot mechanisms",
+                "acid": "98580090"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50102092",
+        "50102288",
+        "50102372",
+        "50103219"
+    ],
+    "technologycontrolIds": [
+        "15010252",
+        "15010253",
+        "15010254",
+        "15010255",
+        "15010256",
+        "15010257",
+        "15010267",
+        "15020247",
+        "15020248",
+        "15020249",
+        "15020250",
+        "15020251",
+        "15020252",
+        "15020266",
+        "15040257",
+        "15040258",
+        "15040259",
+        "15040260",
+        "15040261",
+        "15040262",
+        "15040282",
+        "15200253",
+        "15200254",
+        "15200255",
+        "15200256",
+        "15200257",
+        "15200258",
+        "15200268",
+        "19920306",
+        "19920307",
+        "19920317"
+    ],
+    "cveIds": []
+}

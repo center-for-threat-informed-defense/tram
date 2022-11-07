@@ -1,0 +1,282 @@
+{
+    "id": "T1021.002",
+    "name": "SMB/Windows Admin Shares",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to interact with a remote network share using Server Message Block (SMB). The adversary may then perform actions as the logged-on user.\n\nSMB is a file, printer, and serial port sharing protocol for Windows machines on the same network or domain. Adversaries may use SMB to interact with file shares, allowing them to move laterally throughout a network. Linux and macOS implementations of SMB typically use Samba.\n\nWindows systems have hidden network shares that are accessible only to administrators and provide the ability for remote file copy and other administrative functions. Example network shares include `C$`, `ADMIN$`, and `IPC$`. Adversaries may use this technique in conjunction with administrator-level [Valid Accounts](https://attack.mitre.org/techniques/T1078) to remotely access a networked system over SMB,(Citation: Wikipedia Server Message Block) to interact with systems using remote procedure calls (RPCs),(Citation: TechNet RPC) transfer files, and run transferred binaries through remote Execution. Example execution techniques that rely on authenticated sessions over SMB/RPC are [Scheduled Task/Job](https://attack.mitre.org/techniques/T1053), [Service Execution](https://attack.mitre.org/techniques/T1569/002), and [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047). Adversaries can also use NTLM hashes to access administrator shares on systems with [Pass the Hash](https://attack.mitre.org/techniques/T1550/002) and certain configuration and patch levels.(Citation: Microsoft Admin Shares)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1021/002",
+            "external_id": "T1021.002"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/561.html",
+            "external_id": "CAPEC-561"
+        },
+        {
+            "source_name": "Wikipedia Server Message Block",
+            "description": "Wikipedia. (2017, December 16). Server Message Block. Retrieved December 21, 2017.",
+            "url": "https://en.wikipedia.org/wiki/Server_Message_Block"
+        },
+        {
+            "source_name": "TechNet RPC",
+            "description": "Microsoft. (2003, March 28). What Is RPC?. Retrieved June 12, 2016.",
+            "url": "https://technet.microsoft.com/en-us/library/cc787851.aspx"
+        },
+        {
+            "source_name": "Microsoft Admin Shares",
+            "description": "Microsoft. (n.d.). How to create and delete hidden or administrative shares on client computers. Retrieved November 20, 2014.",
+            "url": "http://support.microsoft.com/kb/314984"
+        },
+        {
+            "source_name": "Lateral Movement Payne",
+            "description": "Payne, J. (2015, November 26). Tracking Lateral Movement Part One - Special Groups and Specific Service Accounts. Retrieved February 1, 2016.",
+            "url": "https://docs.microsoft.com/en-us/archive/blogs/jepayne/tracking-lateral-movement-part-one-special-groups-and-specific-service-accounts"
+        },
+        {
+            "source_name": "Windows Event Forwarding Payne",
+            "description": "Payne, J. (2015, November 23). Monitoring what matters - Windows Event Forwarding for everyone (even if you already have a SIEM.). Retrieved February 1, 2016.",
+            "url": "https://docs.microsoft.com/en-us/archive/blogs/jepayne/monitoring-what-matters-windows-event-forwarding-for-everyone-even-if-you-already-have-a-siem"
+        },
+        {
+            "source_name": "Medium Detecting WMI Persistence",
+            "description": "French, D. (2018, October 9). Detecting & Removing an Attacker\u2019s WMI Persistence. Retrieved October 11, 2019.",
+            "url": "https://medium.com/threatpunter/detecting-removing-wmi-persistence-60ccbb7dff96"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "lateral-movement"
+        }
+    ],
+    "tactic": [
+        "lateral-movement"
+    ],
+    "x_mitre_detection": "Ensure that proper logging of accounts used to log into systems is turned on and centrally collected. Windows logging is able to collect success/failure for accounts that may be used to move laterally and can be collected using tools such as Windows Event Forwarding. (Citation: Lateral Movement Payne)(Citation: Windows Event Forwarding Payne) Monitor remote login events and associated SMB activity for file transfers and remote process execution. Monitor the actions of remote users who connect to administrative shares. Monitor for use of tools and commands to connect to remote shares, such as [Net](https://attack.mitre.org/software/S0039), on the command-line interface and Discovery techniques that could be used to find remotely accessible systems.(Citation: Medium Detecting WMI Persistence)",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Flow",
+        "Network Share: Network Share Access",
+        "Logon Session: Logon Session Creation",
+        "Command: Command Execution",
+        "Network Traffic: Network Connection Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "SMB enabled; Host/network firewalls not blocking SMB ports between source and destination; Use of domain account in administrator group on remote system or default system admin account."
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Limit Access to Resource Over Network",
+                "description": "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+                "type": "course-of-action",
+                "id": "M1035"
+            },
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            },
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that host firewall is configured to restrict file sharing communications e.g. SMB.",
+                "acid": "98582256"
+            },
+            {
+                "description": "Ensure that Windows administrative shares is disabled to limit access to resources.",
+                "acid": "98582257"
+            },
+            {
+                "description": "Ensure that local administrator account passwords are not reused across systems.",
+                "acid": "98582258"
+            },
+            {
+                "description": "Ensure that password policies are implemented for password complexity and uniqueness to prevent from being cracked or guessed.",
+                "acid": "98582259"
+            },
+            {
+                "description": "Ensure that remote use of local admin credentials are denied to log into systems.",
+                "acid": "98582260"
+            },
+            {
+                "description": "Ensure that domain user accounts are not kept in the local Administrators group for multiple systems.",
+                "acid": "98582261"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that logging is enabled for accounts used to log into systems to collect logs for analysis.",
+                "acid": "98582250"
+            },
+            {
+                "description": "Ensure that Windows Event Forwarding tool is configured to collect windows account logs.",
+                "acid": "98582251"
+            },
+            {
+                "description": "Ensure that remote login events are monitored.",
+                "acid": "98582252"
+            },
+            {
+                "description": "Ensure that SMB activity (associated with remote login) for file transfers and remote process execution are monitored.",
+                "acid": "98582253"
+            },
+            {
+                "description": "Ensure that activity of remote users that connect to administrative shares are monitored.",
+                "acid": "98582254"
+            },
+            {
+                "description": "Ensure that tools and commands (e.g. net) use to connect to remote shares are monitored.",
+                "acid": "98582255"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000020",
+        "40000205",
+        "40000499",
+        "40000513",
+        "40000523"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "15010074",
+        "15010075",
+        "15010076",
+        "15010077",
+        "15010340",
+        "15020077",
+        "15020078",
+        "15020079",
+        "15020080",
+        "15020081",
+        "15020246",
+        "15020344",
+        "15030077",
+        "15030078",
+        "15030079",
+        "15030080",
+        "15030081",
+        "15030314",
+        "15040139",
+        "15040140",
+        "15040141",
+        "15040142",
+        "15040143",
+        "15040266",
+        "15180071",
+        "15180072",
+        "15180073",
+        "15180074",
+        "15200074",
+        "15200075",
+        "15200076",
+        "15200077",
+        "15200332",
+        "16010079",
+        "16010080",
+        "16010081",
+        "16010082",
+        "16010083",
+        "16010300",
+        "16020079",
+        "16020080",
+        "16020081",
+        "16020082",
+        "16020083",
+        "16020309",
+        "16100081",
+        "16100082",
+        "16100083",
+        "16100084",
+        "16100085",
+        "16100347",
+        "16110079",
+        "16110080",
+        "16110081",
+        "16110082",
+        "16110083",
+        "16110287",
+        "16120081",
+        "16120082",
+        "16120083",
+        "16120084",
+        "16120085",
+        "16120304",
+        "16140071",
+        "16140072",
+        "16140073",
+        "16140074",
+        "16360081",
+        "16360082",
+        "16360083",
+        "16360084",
+        "16360085",
+        "16360190",
+        "16360191",
+        "16360373",
+        "16460079",
+        "16460080",
+        "16460081",
+        "16460082",
+        "16460083",
+        "16460189",
+        "16460190",
+        "16460367",
+        "19920073",
+        "19920074",
+        "19920075",
+        "19920076",
+        "19920077",
+        "19920282",
+        "19920329"
+    ],
+    "cveIds": [
+        "CVE-1999-0520",
+        "CVE-2009-3103",
+        "CVE-2017-0143",
+        "CVE-2017-0144",
+        "CVE-2017-0145",
+        "CVE-2017-0146",
+        "CVE-2017-0147",
+        "CVE-2017-0148",
+        "CVE-2020-0796",
+        "CVE-2020-1206",
+        "CVE-2020-1301"
+    ]
+}

@@ -1,0 +1,139 @@
+﻿{
+    "id": "T1572",
+    "name": "Protocol Tunneling",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may tunnel network communications to and from a victim system within a separate protocol to avoid detection/network filtering and/or enable access to otherwise unreachable systems. Tunneling involves explicitly encapsulating a protocol within another. This behavior may conceal malicious traffic by blending in with existing traffic and/or provide an outer layer of encryption (similar to a VPN). Tunneling could also enable routing of network packets that would otherwise not reach their intended destination, such as SMB, RDP, or other traffic that would be filtered by network appliances or not routed over the Internet. \n\nThere are various means to encapsulate a protocol within another protocol. For example, adversaries may perform SSH tunneling (also known as SSH port forwarding), which involves forwarding arbitrary data over an encrypted SSH tunnel.(Citation: SSH Tunneling) \n\n[Protocol Tunneling](https://attack.mitre.org/techniques/T1572) may also be abused by adversaries during [Dynamic Resolution](https://attack.mitre.org/techniques/T1568). Known as DNS over HTTPS (DoH), queries to resolve C2 infrastructure may be encapsulated within encrypted HTTPS packets.(Citation: BleepingComp Godlua JUL19) \n\nAdversaries may also leverage [Protocol Tunneling](https://attack.mitre.org/techniques/T1572) in conjunction with [Proxy](https://attack.mitre.org/techniques/T1090) and/or [Protocol Impersonation](https://attack.mitre.org/techniques/T1001/003) to further conceal C2 communications and infrastructure. ",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1572",
+            "external_id": "T1572"
+        },
+        {
+            "source_name": "SSH Tunneling",
+            "description": "SSH.COM. (n.d.). SSH tunnel. Retrieved March 15, 2020.",
+            "url": "https://www.ssh.com/ssh/tunneling"
+        },
+        {
+            "source_name": "BleepingComp Godlua JUL19",
+            "description": "Gatlan, S. (2019, July 3). New Godlua Malware Evades Traffic Monitoring via DNS over HTTPS. Retrieved March 15, 2020.",
+            "url": "https://www.bleepingcomputer.com/news/security/new-godlua-malware-evades-traffic-monitoring-via-dns-over-https/"
+        },
+        {
+            "source_name": "University of Birmingham C2",
+            "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016.",
+            "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "command-and-control"
+        }
+    ],
+    "tactic": [
+        "command-and-control"
+    ],
+    "x_mitre_detection": "Monitoring for systems listening and/or establishing external connections using ports/protocols commonly associated with tunneling, such as SSH (port 22). Also monitor for processes commonly associated with tunneling, such as Plink and the OpenSSH client. \n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol standards regarding syntax, structure, or any other variable adversaries could leverage to conceal data.(Citation: University of Birmingham C2)",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow",
+        "Network Traffic: Network Connection Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            },
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that network traffic is filtered out to block untrusted or known bad domains and resources.",
+                "acid": "98582592"
+            },
+            {
+                "description": "Ensure that Network intrusion detection and prevention system(s) is configured to identify malicious network traffic (by using network signatures).",
+                "acid": "98582593"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that system is configured to monitor for listening and/or establishing external connections using ports/protocols commonly associated with tunneling (e.g.SSH).",
+                "acid": "98582587"
+            },
+            {
+                "description": "Ensure that system is configured to monitor for processes commonly associated with tunneling (e.g. Plink and the OpenSSH client).",
+                "acid": "98582588"
+            },
+            {
+                "description": "Ensure that monitoring solutions are configured to analyze network data for uncommon data flows.",
+                "acid": "98582589"
+            },
+            {
+                "description": "Ensure that system is configured to monitor for suspicious processes (do not normally have network communication) that utilizes the network.",
+                "acid": "98582590"
+            },
+            {
+                "description": "Ensure that the monitoring tool is configured to analyze packet contents to detect application layer protocols (use to leverage to conceal data).",
+                "acid": "98582591"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000020",
+        "40000182",
+        "40000513",
+        "40000515",
+        "40000523"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106016",
+        "50106022"
+    ],
+    "technologycontrolIds": [
+        "101040028",
+        "101050028",
+        "101060028",
+        "101540036",
+        "101550036",
+        "101560028",
+        "101570028",
+        "101600028",
+        "103900028",
+        "10460028",
+        "10960019",
+        "11010028"
+    ],
+    "cveIds": [],
+    "subTechniques": []
+}

@@ -1,0 +1,236 @@
+{
+    "id": "T1078.004",
+    "name": "Cloud Accounts",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may obtain and abuse credentials of a cloud account as a means of gaining Initial Access, Persistence, Privilege Escalation, or Defense Evasion. Cloud accounts are those created and configured by an organization for use by users, remote support, services, or for administration of resources within a cloud service provider or SaaS application. In some cases, cloud accounts may be federated with traditional identity management system, such as Window Active Directory.(Citation: AWS Identity Federation)(Citation: Google Federating GC)(Citation: Microsoft Deploying AD Federation)\n\nCompromised credentials for cloud accounts can be used to harvest sensitive data from online storage accounts and databases. Access to cloud accounts can also be abused to gain Initial Access to a network by abusing a [Trusted Relationship](https://attack.mitre.org/techniques/T1199). Similar to [Domain Accounts](https://attack.mitre.org/techniques/T1078/002), compromise of federated cloud accounts may allow adversaries to more easily move laterally within an environment.\n\nOnce a cloud account is compromised, an adversary may perform [Account Manipulation](https://attack.mitre.org/techniques/T1098) - for example, by adding [Additional Cloud Roles](https://attack.mitre.org/techniques/T1098/003) - to maintain persistence and potentially escalate their privileges.",
+    "x_mitre_platforms": [
+        "Azure AD",
+        "Office 365",
+        "SaaS",
+        "IaaS",
+        "Google Workspace"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1078/004",
+            "external_id": "T1078.004"
+        },
+        {
+            "source_name": "AWS Identity Federation",
+            "description": "Amazon. (n.d.). Identity Federation in AWS. Retrieved March 13, 2020.",
+            "url": "https://aws.amazon.com/identity/federation/"
+        },
+        {
+            "source_name": "Google Federating GC",
+            "description": "Google. (n.d.). Federating Google Cloud with Active Directory. Retrieved March 13, 2020.",
+            "url": "https://cloud.google.com/solutions/federating-gcp-with-active-directory-introduction"
+        },
+        {
+            "source_name": "Microsoft Deploying AD Federation",
+            "description": "Microsoft. (n.d.). Deploying Active Directory Federation Services in Azure. Retrieved March 13, 2020.",
+            "url": "https://docs.microsoft.com/en-us/windows-server/identity/ad-fs/deployment/how-to-connect-fed-azure-adfs"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "initial-access"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "persistence",
+        "privilege-escalation",
+        "initial-access"
+    ],
+    "x_mitre_detection": "Monitor the activity of cloud accounts to detect abnormal or malicious behavior, such as accessing information outside of the normal function of the account or account usage at atypical hours.",
+    "x_mitre_data_sources": [
+        "User Account: User Account Authentication",
+        "Logon Session: Logon Session Creation",
+        "Logon Session: Logon Session Metadata"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Multi-factor Authentication",
+                "description": "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+                "type": "course-of-action",
+                "id": "M1032"
+            },
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000205",
+        "40000490",
+        "40000499",
+        "40000509"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [
+        "PACR00001"
+    ],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "11480007",
+        "11480008",
+        "11480011",
+        "15010064",
+        "15020065",
+        "15030065",
+        "15040130",
+        "15180060",
+        "15200064",
+        "16010068",
+        "16020068",
+        "16100069",
+        "16110068",
+        "16120069",
+        "16140060",
+        "16360070",
+        "16460068",
+        "16460395",
+        "17800001",
+        "17800005",
+        "17800007",
+        "17800008",
+        "17800009",
+        "17800010",
+        "17800011",
+        "17800012",
+        "17800013",
+        "17800014",
+        "17800015",
+        "17800018",
+        "17810001",
+        "17880003",
+        "17880007",
+        "17880009",
+        "17890003",
+        "17890005",
+        "17900001",
+        "17900005",
+        "17900007",
+        "17910001",
+        "17910003",
+        "17930001",
+        "18140001",
+        "18140002",
+        "18140003",
+        "18140004",
+        "18140005",
+        "18140006",
+        "18160002",
+        "18240001",
+        "18240002",
+        "18420002",
+        "18420003",
+        "18420005",
+        "18420006",
+        "18420007",
+        "18420011",
+        "18710002",
+        "18770001",
+        "18770002",
+        "18770003",
+        "18780001",
+        "19310009",
+        "19310010",
+        "19310011",
+        "19310012",
+        "19310032",
+        "19310033",
+        "19330005",
+        "19330006",
+        "19360001",
+        "19360002",
+        "19360007",
+        "19360008",
+        "19360009",
+        "19360010",
+        "19360011",
+        "19360012",
+        "19360013",
+        "19360014",
+        "19360015",
+        "19360017",
+        "19360020",
+        "19430002",
+        "19430003",
+        "19430004",
+        "19430005",
+        "19430006",
+        "19430007",
+        "19430008",
+        "19430009",
+        "19430010",
+        "19450001",
+        "19450002",
+        "19450003",
+        "19450004",
+        "19450005",
+        "19450006",
+        "19450007",
+        "19450008",
+        "19480001",
+        "19920415",
+        "19920444"
+    ],
+    "cveIds": []
+}

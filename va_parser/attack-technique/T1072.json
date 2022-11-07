@@ -1,0 +1,244 @@
+﻿{
+    "id": "T1072",
+    "name": "Software Deployment Tools",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may gain access to and use third-party software suites installed within an enterprise network, such as administration, monitoring, and deployment systems, to move laterally through the network. Third-party applications and software deployment systems may be in use in the network environment for administration purposes (e.g., SCCM, HBSS, Altiris, etc.).\n\nAccess to a third-party network-wide or enterprise-wide software system may enable an adversary to have remote code execution on all systems that are connected to such a system. The access may be used to laterally move to other systems, gather information, or cause a specific effect, such as wiping the hard drives on all endpoints.\n\nThe permissions required for this action vary by system configuration; local credentials may be sufficient with direct access to the third-party system, or specific domain credentials may be required. However, the system may require an administrative account to log in or to perform it's intended purpose.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1072",
+            "external_id": "T1072"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/187.html",
+            "external_id": "CAPEC-187"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "lateral-movement"
+        }
+    ],
+    "tactic": [
+        "execution",
+        "lateral-movement"
+    ],
+    "x_mitre_detection": "Detection methods will vary depending on the type of third-party software or system and how it is typically used. \n\nThe same investigation process can be applied here as with other potentially malicious activities where the distribution vector is initially unknown but the resulting activity follows a discernible pattern. Analyze the process execution trees, historical activities from the third-party application (such as what types of files are usually pushed), and the resulting activities or events from the file/binary/script pushed to systems. \n\nOften these third-party applications will have logs of their own that can be collected and correlated with other data from the environment. Ensure that third-party application logs are on-boarded to the enterprise logging system and the logs are regularly reviewed. Audit software deployment logs and look for suspicious or unauthorized activity. A system not typically used to push software to clients that suddenly is used for such a task outside of a known admin function may be suspicious. Monitor account login activity on these applications to detect suspicious/abnormal usage.\n\nPerform application deployment at regular times so that irregular deployment activity stands out. Monitor process activity that does not correlate to known good software. Monitor account login activity on the deployment system.",
+    "x_mitre_data_sources": [
+        "Application Log: Application Log Content",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": true,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Active Directory Configuration",
+                "description": "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc.",
+                "type": "course-of-action",
+                "id": "M1015"
+            },
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk.",
+                "type": "course-of-action",
+                "id": "M1051"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+                "type": "course-of-action",
+                "id": "M1030"
+            },
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            },
+            {
+                "name": "Third-party Software Mitigation",
+                "description": "Evaluate the security of third-party software that could be used in the enterprise environment. Ensure that access to management systems for third-party systems is limited, monitored, and secure. Have a strict approval policy for use of third-party systems.\n\nGrant access to Third-party systems only to a limited number of authorized administrators. Ensure proper system and access isolation for critical network systems through use of firewalls, account privilege separation, group policy, and multi-factor authentication. Verify that account credentials that may be used to access third-party systems are unique and not used throughout the enterprise network. Ensure that any accounts used by third-party providers to access these systems are traceable to the third-party and are not used throughout the network or used by other third-party providers in the same environment. Ensure third-party systems are regularly patched by users or the provider to prevent potential remote access through [Exploitation for Privilege Escalation](https://attack.mitre.org/techniques/T1068). \n\nEnsure there are regular reviews of accounts provisioned to these systems to verify continued business need, and ensure there is governance to trace de-provisioning of access that is no longer required.\n\nWhere the third-party system is used for deployment services, ensure that it can be configured to deploy only signed binaries, then ensure that the trusted signing certificates are not co-located with the third-party system and are instead located on a system that cannot be accessed remotely or to which remote access is tightly controlled.",
+                "type": "course-of-action",
+                "id": "T1072"
+            },
+            {
+                "name": "Multi-factor Authentication",
+                "description": "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+                "type": "course-of-action",
+                "id": "M1032"
+            },
+            {
+                "name": "Remote Data Storage",
+                "description": "Use remote security log and sensitive file storage where access can be controlled better to prevent exposure of intrusion detection log data or sensitive information.",
+                "type": "course-of-action",
+                "id": "M1029"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that group policy (AD Configuration) is configured to implement the proper system and access control to critical network systems",
+                "acid": "98580340"
+            },
+            {
+                "description": "Ensure that multifactor authentication is configured on critical network systems",
+                "acid": "98580341"
+            },
+            {
+                "description": "Ensure that firewalls are configured to implement network isolation (Segmentation) for critical network systems",
+                "acid": "98580342"
+            },
+            {
+                "description": "Ensure that password policy is implemented which defines the usage of unique passwords to access deployment systems",
+                "acid": "98580343"
+            },
+            {
+                "description": "Ensure that access to application deployment systems is limited to a defined number of administrators",
+                "acid": "98580344"
+            },
+            {
+                "description": "Ensure that the application deployment system is configured to deploy signed binaries",
+                "acid": "98580345"
+            },
+            {
+                "description": "Ensure that trusted signing certificates and application deployment systems are isolated from each other where remote access is limited/ blocked",
+                "acid": "98580346"
+            },
+            {
+                "description": "Ensure that patch management solutions are configured to patch deployment systems regularly",
+                "acid": "98580347"
+            },
+            {
+                "description": "Ensure that strict approval policies are defined for the use of deployment systems",
+                "acid": "98580348"
+            },
+            {
+                "description": "Ensure that accounts used by the third-party providers to access accounts are unique to each and every third-party provider",
+                "acid": "98580349"
+            },
+            {
+                "description": "Ensure that accounts used by the third-party providers are used only in the environment required and not throughout the network",
+                "acid": "98580350"
+            },
+            {
+                "description": "Ensure that review and auditing are performed on the provisioned accounts third party accounts where access is provided based on the business need",
+                "acid": "98580351"
+            },
+            {
+                "description": "Ensure that proper access is defined to the third party accounts where access of the accounts is isolated from the critical network systems",
+                "acid": "98580352"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that logging and monitoring solution is configured to capture logs of third party applications and are reviewed",
+                "acid": "98580334"
+            },
+            {
+                "description": "Ensure that software deployment logs are audited",
+                "acid": "98580335"
+            },
+            {
+                "description": "Ensure that account login activities of third party applications are monitored for suspicious/ abnormal use",
+                "acid": "98580336"
+            },
+            {
+                "description": "Ensure that application deployments are performed in a pre-defined time frame. (Eg.Active Hours)",
+                "acid": "98580337"
+            },
+            {
+                "description": "Ensure that the process activity of applications is monitored to find suspicious activities/ anomalies in the process events",
+                "acid": "98580338"
+            },
+            {
+                "description": "Ensure that the account login activity of the deployment system is monitored",
+                "acid": "98580339"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000117",
+        "40000205",
+        "40000499",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106009",
+        "50106010",
+        "50106012",
+        "50106021",
+        "50106027",
+        "50106032",
+        "50106110",
+        "50106111",
+        "50106115"
+    ],
+    "technologycontrolIds": [
+        "10190001",
+        "10190002",
+        "11060015",
+        "11100015",
+        "11170010",
+        "16460379",
+        "16460391",
+        "18380013",
+        "18380046",
+        "18380051",
+        "18400004",
+        "18410021",
+        "19010001",
+        "19010002",
+        "19290001",
+        "19920418"
+    ],
+    "cveIds": [],
+    "subTechniques": []
+}

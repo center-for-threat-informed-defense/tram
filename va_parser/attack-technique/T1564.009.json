@@ -1,0 +1,92 @@
+﻿{
+    "id": "T1564.009",
+    "name": "Resource Forking",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse resource forks to hide malicious code or executables to evade detection and bypass security applications. A resource fork provides applications a structured way to store resources such as thumbnail images, menu definitions, icons, dialog boxes, and code.(Citation: macOS Hierarchical File System Overview) Usage of a resource fork is identifiable when displaying a file's extended attributes, using <code>ls -l@</code> or <code>xattr -l</code> commands. Resource forks have been deprecated and replaced with the application bundle structure. Non-localized resources are placed at the top level directory of an application bundle, while localized resources are placed in the <code>/Resources</code> folder.(Citation: Resource and Data Forks)(Citation: ELC Extended Attributes)\n\nAdversaries can use resource forks to hide malicious data that may otherwise be stored directly in files. Adversaries can execute content with an attached resource fork, at a specified offset, that is moved to an executable location then invoked. Resource fork content may also be obfuscated/encrypted until execution.(Citation: sentinellabs resource named fork 2020)(Citation: tau bundlore erika noerenberg 2020)",
+    "x_mitre_platforms": [
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Notarization",
+        "Gatekeeper"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1564/009",
+            "external_id": "T1564.009"
+        },
+        {
+            "source_name": "tau bundlore erika noerenberg 2020",
+            "description": "Erika Noerenberg. (2020, June 29). TAU Threat Analysis: Bundlore (macOS) mm-install-macos. Retrieved October 12, 2021.",
+            "url": "https://blogs.vmware.com/security/2020/06/tau-threat-analysis-bundlore-macos-mm-install-macos.html"
+        },
+        {
+            "source_name": "Resource and Data Forks",
+            "description": "Flylib. (n.d.). Identifying Resource and Data Forks. Retrieved October 12, 2021.",
+            "url": "https://flylib.com/books/en/4.395.1.192/1/"
+        },
+        {
+            "source_name": "ELC Extended Attributes",
+            "description": "Howard Oakley. (2020, October 24). There's more to files than data: Extended Attributes. Retrieved October 12, 2021.",
+            "url": "https://eclecticlight.co/2020/10/24/theres-more-to-files-than-data-extended-attributes/"
+        },
+        {
+            "source_name": "sentinellabs resource named fork 2020",
+            "description": "Phil Stokes. (2020, November 5). Resourceful macOS Malware Hides in Named Fork. Retrieved October 12, 2021.",
+            "url": "https://www.sentinelone.com/labs/resourceful-macos-malware-hides-in-named-fork/"
+        },
+        {
+            "source_name": "macOS Hierarchical File System Overview",
+            "description": "Tenon. (n.d.). Retrieved October 12, 2021.",
+            "url": "http://tenon.com/products/codebuilder/User_Guide/6_File_Systems.html#anchor520553"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Identify files with the <code>com.apple.ResourceFork</code> extended attribute and large data amounts stored in resource forks. \n\nMonitor command-line activity leveraging the use of resource forks, especially those immediately followed by potentially malicious activity such as creating network connections. ",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "File: File Metadata",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Application Developer Guidance",
+                "description": "This mitigation describes any guidance or training given to developers of applications to avoid introducing security weaknesses that an adversary may be able to take advantage of.",
+                "type": "course-of-action",
+                "id": "M1013"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

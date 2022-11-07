@@ -1,0 +1,133 @@
+﻿{
+    "id": "T1547.003",
+    "name": "Time Providers",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse time providers to execute DLLs when the system boots. The Windows Time service (W32Time) enables time synchronization across and within domains.(Citation: Microsoft W32Time Feb 2018) W32Time time providers are responsible for retrieving time stamps from hardware/network resources and outputting these values to other network clients.(Citation: Microsoft TimeProvider)\n\nTime providers are implemented as dynamic-link libraries (DLLs) that are registered in the subkeys of  <code>HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\W32Time\\TimeProviders\\</code>.(Citation: Microsoft TimeProvider) The time provider manager, directed by the service control manager, loads and starts time providers listed and enabled under this key at system startup and/or whenever parameters are changed.(Citation: Microsoft TimeProvider)\n\nAdversaries may abuse this architecture to establish persistence, specifically by registering and enabling a malicious DLL as a time provider. Administrator privileges are required for time provider registration, though execution will run in context of the Local Service account.(Citation: Github W32Time Oct 2017)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1547/003",
+            "external_id": "T1547.003"
+        },
+        {
+            "source_name": "Github W32Time Oct 2017",
+            "description": "Lundgren, S. (2017, October 28). w32time. Retrieved March 26, 2018.",
+            "url": "https://github.com/scottlundgren/w32time"
+        },
+        {
+            "source_name": "Microsoft W32Time May 2017",
+            "description": "Mathers, B. (2017, May 31). Windows Time Service Tools and Settings. Retrieved March 26, 2018.",
+            "url": "https://docs.microsoft.com/windows-server/networking/windows-time-service/windows-time-service-tools-and-settings"
+        },
+        {
+            "source_name": "Microsoft W32Time Feb 2018",
+            "description": "Microsoft. (2018, February 1). Windows Time Service (W32Time). Retrieved March 26, 2018.",
+            "url": "https://docs.microsoft.com/windows-server/networking/windows-time-service/windows-time-service-top"
+        },
+        {
+            "source_name": "Microsoft TimeProvider",
+            "description": "Microsoft. (n.d.). Time Provider. Retrieved March 26, 2018.",
+            "url": "https://msdn.microsoft.com/library/windows/desktop/ms725475.aspx"
+        },
+        {
+            "source_name": "TechNet Autoruns",
+            "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016.",
+            "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "persistence",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "Baseline values and monitor/analyze activity related to modifying W32Time information in the Registry, including application programming interface (API) calls such as <code>RegCreateKeyEx</code> and <code>RegSetValueEx</code> as well as execution of the W32tm.exe utility.(Citation: Microsoft W32Time May 2017) There is no restriction on the number of custom time providers registrations, though each may require a DLL payload written to disk.(Citation: Github W32Time Oct 2017)\n\nThe Sysinternals Autoruns tool may also be used to analyze auto-starting locations, including DLLs listed as time providers.(Citation: TechNet Autoruns)",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "Module: Module Load",
+        "Windows Registry: Windows Registry Key Modification"
+    ],
+    "x_mitre_permissions_required": [
+        "SYSTEM",
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict Registry Permissions",
+                "description": "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+                "type": "course-of-action",
+                "id": "M1024"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Group Policy is implemented to configure and block additions/modifications to W32Time DLLs",
+                "acid": "98580471"
+            },
+            {
+                "description": "Ensure that Group Policy is implemented to configure and block modifications to W32Time parameters in the Registry",
+                "acid": "98580472"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that activity related to the modification of W32Time information in the Registry is monitored and analyzed",
+                "acid": "98580466"
+            },
+            {
+                "description": "Ensure that the RegCreateKeyEx application programming interface (API) call is monitored and analyzed",
+                "acid": "98580467"
+            },
+            {
+                "description": "Ensure that the RegSetValueEx application programming interface (API) call is monitored and analyzed",
+                "acid": "98580468"
+            },
+            {
+                "description": "Ensure that execution of the W32tm.exe utility is monitored and analyzed",
+                "acid": "98580469"
+            },
+            {
+                "description": "Ensure that the Sysinternals Autoruns tool is deployed to analyze auto-starting locations, including DLLs listed as time providers",
+                "acid": "98580470"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

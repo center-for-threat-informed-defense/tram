@@ -1,0 +1,228 @@
+﻿{
+    "id": "T1134",
+    "name": "Access Token Manipulation",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may modify access tokens to operate under a different user or system security context to perform actions and bypass access controls. Windows uses access tokens to determine the ownership of a running process. A user can manipulate access tokens to make a running process appear as though it is the child of a different process or belongs to someone other than the user that started the process. When this occurs, the process also takes on the security context associated with the new token.\n\nAn adversary can use built-in Windows API functions to copy access tokens from existing processes; this is known as token stealing. These token can then be applied to an existing process (i.e. [Token Impersonation/Theft](https://attack.mitre.org/techniques/T1134/001)) or used to spawn a new process (i.e. [Create Process with Token](https://attack.mitre.org/techniques/T1134/002)). An adversary must already be in a privileged user context (i.e. administrator) to steal a token. However, adversaries commonly use token stealing to elevate their security context from the administrator level to the SYSTEM level. An adversary can then use a token to authenticate to a remote system as the account for that token if the account has appropriate permissions on the remote system.(Citation: Pentestlab Token Manipulation)\n\nAny standard user can use the <code>runas</code> command, and the Windows API functions, to create impersonation tokens; it does not require access to an administrator account. There are also other mechanisms, such as Active Directory fields, that can be used to modify access tokens.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Windows User Account Control",
+        "Heuristic Detection",
+        "System Access Controls",
+        "Host Forensic Analysis"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1134",
+            "external_id": "T1134"
+        },
+        {
+            "source_name": "BlackHat Atkinson Winchester Token Manipulation",
+            "description": "Atkinson, J., Winchester, R. (2017, December 7). A Process is No One: Hunting for Token Manipulation. Retrieved December 21, 2017.",
+            "url": "https://www.blackhat.com/docs/eu-17/materials/eu-17-Atkinson-A-Process-Is-No-One-Hunting-For-Token-Manipulation.pdf"
+        },
+        {
+            "source_name": "Microsoft Command-line Logging",
+            "description": "Mathers, B. (2017, March 7). Command line process auditing. Retrieved April 21, 2017.",
+            "url": "https://technet.microsoft.com/en-us/windows-server-docs/identity/ad-ds/manage/component-updates/command-line-process-auditing"
+        },
+        {
+            "source_name": "Microsoft LogonUser",
+            "description": "Microsoft TechNet. (n.d.). Retrieved April 25, 2017.",
+            "url": "https://msdn.microsoft.com/en-us/library/windows/desktop/aa378184(v=vs.85).aspx"
+        },
+        {
+            "source_name": "Microsoft DuplicateTokenEx",
+            "description": "Microsoft TechNet. (n.d.). Retrieved April 25, 2017.",
+            "url": "https://msdn.microsoft.com/en-us/library/windows/desktop/aa446617(v=vs.85).aspx"
+        },
+        {
+            "source_name": "Microsoft ImpersonateLoggedOnUser",
+            "description": "Microsoft TechNet. (n.d.). Retrieved April 25, 2017.",
+            "url": "https://msdn.microsoft.com/en-us/library/windows/desktop/aa378612(v=vs.85).aspx"
+        },
+        {
+            "source_name": "Pentestlab Token Manipulation",
+            "description": "netbiosX. (2017, April 3). Token Manipulation. Retrieved April 21, 2017.",
+            "url": "https://pentestlab.blog/2017/04/03/token-manipulation/"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/633.html",
+            "external_id": "CAPEC-633"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "If an adversary is using a standard command-line shell, analysts can detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the <code>runas</code> command. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nIf an adversary is using a payload that calls the Windows token APIs directly, analysts can detect token manipulation only through careful analysis of user network activity, examination of running processes, and correlation with other endpoint and network behavior. \n\nThere are many Windows API calls a payload can take advantage of to manipulate access tokens (e.g., <code>LogonUser</code> (Citation: Microsoft LogonUser), <code>DuplicateTokenEx</code>(Citation: Microsoft DuplicateTokenEx), and <code>ImpersonateLoggedOnUser</code>(Citation: Microsoft ImpersonateLoggedOnUser)). Please see the referenced Windows API pages for more information.\n\nQuery systems for process and thread token information and look for inconsistencies such as user owns processes impersonating the local SYSTEM account.(Citation: BlackHat Atkinson Winchester Token Manipulation)\n\nLook for inconsistencies between the various fields that store PPID information, such as the EventHeader ProcessId from data collected via Event Tracing for Windows (ETW), Creator Process ID/Name from Windows event logs, and the ProcessID and ParentProcessID (which are also produced from ETW and other utilities such as Task Manager and Process Explorer). The ETW provided EventHeader ProcessId identifies the actual parent process.",
+    "x_mitre_data_sources": [
+        "Active Directory: Active Directory Object Modification",
+        "Command: Command Execution",
+        "User Account: User Account Metadata",
+        "Process: OS API Execution",
+        "Process: Process Metadata",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [
+        "SYSTEM"
+    ],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Access Token Manipulation Mitigation",
+                "description": "Access tokens are an integral part of the security system within Windows and cannot be turned off. However, an attacker must already have administrator level access on the local system to make full use of this technique; be sure to restrict users and accounts to the least privileges they require to do their job.\n\nAny user can also spoof access tokens if they have legitimate credentials. Follow mitigation guidelines for preventing adversary use of [Valid Accounts](https://attack.mitre.org/techniques/T1078). Limit permissions so that users and user groups cannot create tokens. This setting should be defined for the local system account only. GPO: Computer Configuration > [Policies] > Windows Settings > Security Settings > Local Policies > User Rights Assignment: Create a token object. (Citation: Microsoft Create Token) Also define who can create a process level token to only the local and network service through GPO: Computer Configuration > [Policies] > Windows Settings > Security Settings > Local Policies > User Rights Assignment: Replace a process level token. (Citation: Microsoft Replace Process Token)\n\nAlso limit opportunities for adversaries to increase privileges by limiting Privilege Escalation opportunities.",
+                "type": "course-of-action",
+                "id": "T1134"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that permission for creating tokens are blocked for users and user groups",
+                "acid": "98581033"
+            },
+            {
+                "description": "Ensure that restrictions on the creation of tokens are implemented for the local system account only",
+                "acid": "98581034"
+            },
+            {
+                "description": "Ensure that the creation of process level token is restricted only to local service accounts and network service accounts",
+                "acid": "98581035"
+            },
+            {
+                "description": "Ensure that Administrators are educated to log in as a standard user but run their tools with administrator privileges using the runas command",
+                "acid": "98581036"
+            },
+            {
+                "description": "Ensure that users and accounts are restricted to the least privileges (minimum privileges) which they require by default",
+                "acid": "98581037"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that command-line activity is audited to detect token manipulation",
+                "acid": "98581027"
+            },
+            {
+                "description": "Ensure that command-line activity is audited specifically for runas command",
+                "acid": "98581028"
+            },
+            {
+                "description": "Ensure that user network activity is analyzed to detect token manipulation",
+                "acid": "98581029"
+            },
+            {
+                "description": "Ensure that running processes are examined to detect token manipulation",
+                "acid": "98581030"
+            },
+            {
+                "description": "Ensure that Windows APIs (such as DuplicateToken(Ex), ImpersonateLoggedOnUser, and LogonUser) are monitored for suspicious behaviors which could help detect Token Impersonation",
+                "acid": "98581031"
+            },
+            {
+                "description": "Ensure that systems are queried for process and thread token information to identify inconsistencies such as user owns processes impersonating the local SYSTEM account",
+                "acid": "98581032"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000205",
+        "40000490",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106000"
+    ],
+    "technologycontrolIds": [
+        "11060004",
+        "11060005",
+        "11060006",
+        "11060007",
+        "11100004",
+        "11100005",
+        "11100006",
+        "11100007",
+        "11170002",
+        "11170003",
+        "15010078",
+        "15020082",
+        "15030082",
+        "15040081",
+        "15180075",
+        "15200078",
+        "16010084",
+        "16020084",
+        "16100086",
+        "16110084",
+        "16120086",
+        "16140075",
+        "16360086",
+        "16460084",
+        "18330001",
+        "18330002",
+        "18330003",
+        "18350010",
+        "19920078"
+    ],
+    "cveIds": [
+        "CVE-2015-1701",
+        "CVE-2016-7256",
+        "CVE-2017-9101",
+        "CVE-2018-6941",
+        "CVE-2019-18873",
+        "CVE-2019-5420",
+        "CVE-2020-0981",
+        "CVE-2020-11749",
+        "CVE-2021-31761"
+    ],
+    "subTechniques": [
+        "T1134.001",
+        "T1134.002",
+        "T1134.003",
+        "T1134.004",
+        "T1134.005"
+    ]
+}

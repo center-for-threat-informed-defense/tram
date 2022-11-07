@@ -1,0 +1,157 @@
+﻿{
+    "id": "T1090",
+    "name": "Proxy",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use a connection proxy to direct network traffic between systems or act as an intermediary for network communications to a command and control server to avoid direct connections to their infrastructure. Many tools exist that enable traffic redirection through proxies or port redirection, including [HTRAN](https://attack.mitre.org/software/S0040), ZXProxy, and ZXPortMap. (Citation: Trend Micro APT Attack Tools) Adversaries use these types of proxies to manage command and control communications, reduce the number of simultaneous outbound network connections, provide resiliency in the face of connection loss, or to ride over existing trusted communications paths between victims to avoid suspicion. Adversaries may chain together multiple proxies to further disguise the source of malicious traffic.\n\nAdversaries can also take advantage of routing schemes in Content Delivery Networks (CDNs) to proxy command and control traffic.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "Network"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1090",
+            "external_id": "T1090"
+        },
+        {
+            "source_name": "Trend Micro APT Attack Tools",
+            "description": "Wilhoit, K. (2013, March 4). In-Depth Look: APT Attack Tools of the Trade. Retrieved December 2, 2015.",
+            "url": "http://blog.trendmicro.com/trendlabs-security-intelligence/in-depth-look-apt-attack-tools-of-the-trade/"
+        },
+        {
+            "source_name": "University of Birmingham C2",
+            "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016.",
+            "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "command-and-control"
+        }
+    ],
+    "tactic": [
+        "command-and-control"
+    ],
+    "x_mitre_detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server or between clients that should not or often do not communicate with one another). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)\n\nConsider monitoring for traffic to known anonymity networks (such as [Tor](https://attack.mitre.org/software/S0183)).",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow",
+        "Network Traffic: Network Connection Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            },
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            },
+            {
+                "name": "SSL/TLS Inspection",
+                "description": "Break and inspect SSL/TLS sessions to look at encrypted web traffic for adversary activity.",
+                "type": "course-of-action",
+                "id": "M1020"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Firewalls and network monitoring solutions are configured to detect traffic to known anonymity networks are blocked using Network allow and blocklists.",
+                "acid": "98582598"
+            },
+            {
+                "description": "Ensure that Network intrusion detection and prevention systems that use network signatures are configured to identify and block traffic for malwares.",
+                "acid": "98582599"
+            },
+            {
+                "description": "Ensure that Network intrusion detection and prevention systems are configured to identify changes in C2 protocol signatures and block the network traffic.",
+                "acid": "98582600"
+            },
+            {
+                "description": "Ensure that SSL/TLS inspection is configured where SSL/TLS sessions are broken and inspected for malicious signatures.",
+                "acid": "98582601"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Network monitoring solutions are configured to monitor and analyze network data for uncommon data flows.",
+                "acid": "98582594"
+            },
+            {
+                "description": "Ensure that processes utilized on the network are monitored for anomalies to detect suspicious network communications.",
+                "acid": "98582595"
+            },
+            {
+                "description": "Ensure that Network monitoring solutions are configured to monitor and analyze packet contents to detect communications that do not follow expected protocol behavior.",
+                "acid": "98582596"
+            },
+            {
+                "description": "Ensure that traffic monitoring to known anonymity networks (tor) is configured.",
+                "acid": "98582597"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000020",
+        "40000182",
+        "40000513",
+        "40000515",
+        "40000523"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106016"
+    ],
+    "technologycontrolIds": [
+        "10101011",
+        "10101026",
+        "10101031",
+        "101540036",
+        "101550036",
+        "101560028",
+        "101570028",
+        "101600028",
+        "103900028",
+        "10460028",
+        "10960078",
+        "11010028",
+        "16020467",
+        "16100509",
+        "16120462",
+        "18380046",
+        "18380051",
+        "18440001",
+        "19000003",
+        "19920493"
+    ],
+    "cveIds": [],
+    "subTechniques": [
+        "T1090.001",
+        "T1090.002",
+        "T1090.003",
+        "T1090.004"
+    ]
+}

@@ -1,0 +1,156 @@
+{
+    "id": "T1573.002",
+    "name": "Asymmetric Cryptography",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may employ a known asymmetric encryption algorithm to conceal command and control traffic rather than relying on any inherent protections provided by a communication protocol. Asymmetric cryptography, also known as public key cryptography, uses a keypair per party: one public that can be freely distributed, and one private. Due to how the keys are generated, the sender encrypts data with the receiver's public key and the receiver decrypts the data with their private key. This ensures that only the intended recipient can read the encrypted data. Common public key encryption algorithms include RSA and ElGamal.\n\nFor efficiency, many protocols (including SSL/TLS) use symmetric cryptography once a connection is established, but use asymmetric cryptography to establish or transmit a key. As such, these protocols are classified as [Asymmetric Cryptography](https://attack.mitre.org/techniques/T1573/002).",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1573/002",
+            "external_id": "T1573.002"
+        },
+        {
+            "source_name": "SANS Decrypting SSL",
+            "description": "Butler, M. (2013, November). Finding Hidden Threats by Decrypting SSL. Retrieved April 5, 2016.",
+            "url": "http://www.sans.org/reading-room/whitepapers/analyst/finding-hidden-threats-decrypting-ssl-34840"
+        },
+        {
+            "source_name": "SEI SSL Inspection Risks",
+            "description": "Dormann, W. (2015, March 13). The Risks of SSL Inspection. Retrieved April 5, 2016.",
+            "url": "https://insights.sei.cmu.edu/cert/2015/03/the-risks-of-ssl-inspection.html"
+        },
+        {
+            "source_name": "University of Birmingham C2",
+            "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016.",
+            "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "command-and-control"
+        }
+    ],
+    "tactic": [
+        "command-and-control"
+    ],
+    "x_mitre_detection": "SSL/TLS inspection is one way of detecting command and control traffic within some encrypted communication channels.(Citation: SANS Decrypting SSL) SSL/TLS inspection does come with certain risks that should be considered before implementing to avoid potential security issues such as incomplete certificate validation.(Citation: SEI SSL Inspection Risks)\n\nIn general, analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            },
+            {
+                "name": "SSL/TLS Inspection",
+                "description": "Break and inspect SSL/TLS sessions to look at encrypted web traffic for adversary activity.",
+                "type": "course-of-action",
+                "id": "M1020"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Network intrusion detection and prevention system(s) is implemented to identify malicious network traffic (by using network signatures).",
+                "acid": "98582553"
+            },
+            {
+                "description": "Ensure that SSL/TLS inspection is used to check encrypted sessions contents to search for malicious communication.",
+                "acid": "98582554"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that SSL/TLS inspection is in place to detect command and control traffic within encrypted communication channels.",
+                "acid": "98582548"
+            },
+            {
+                "description": "Ensure that certificate validation is checked while implementing SSL/TLS inspection.",
+                "acid": "98582549"
+            },
+            {
+                "description": "Ensure that monitoring solutions are configured to analyze network data for uncommon data flows.",
+                "acid": "98582550"
+            },
+            {
+                "description": "Ensure that system is configured to monitor for suspicious processes (do not normally have network communication) that utilizes the network.",
+                "acid": "98582551"
+            },
+            {
+                "description": "Ensure that the monitoring tool is configured to analyze packet contents to detect suspicious communication.",
+                "acid": "98582552"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000182",
+        "40000515"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "11060009",
+        "11060012",
+        "11060043",
+        "11060044",
+        "11060045",
+        "11060046",
+        "11060047",
+        "11100009",
+        "11100012",
+        "11100042",
+        "11100043",
+        "11100044",
+        "11100045",
+        "11100046",
+        "11170005",
+        "11170022",
+        "11170024",
+        "17800003",
+        "18260001",
+        "18260003",
+        "18270004",
+        "18270005",
+        "18280003",
+        "18280004",
+        "18300002",
+        "18510001",
+        "18520001",
+        "18830003",
+        "18840005",
+        "18840006",
+        "18870001",
+        "18870002",
+        "18960002",
+        "18960003",
+        "18970001",
+        "18970002",
+        "19000001",
+        "19220002"
+    ],
+    "cveIds": []
+}

@@ -1,0 +1,121 @@
+﻿{
+    "id": "T0860",
+    "name": "Wireless Compromise",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may perform wireless compromise as a method of gaining communications and unauthorized access to a wireless network. Access to a wireless network may be gained through the compromise of a wireless device. (Citation: Alexander Bolshev, Gleb Cherbov July 2014) (Citation: Alexander Bolshev March 2014) Adversaries may also utilize radios and other wireless communication devices on the same frequency as the wireless network. Wireless compromise can be done as an initial access vector from a remote distance.     A joint case study on the Maroochy Shire Water Services event examined the attack from a cyber security perspective. (Citation: Marshall Abrams July 2008) The adversary disrupted Maroochy Shire's radio-controlled sewage system by driving around with stolen radio equipment and issuing commands with them. Boden used a two-way radio to communicate with and set the frequencies of Maroochy Shire's repeater stations.   A Polish student used a modified TV remote controller to gain access to and control over the Lodz city tram system in Poland. (Citation: John Bill May 2017) (Citation: Shelley Smith February 2008) The remote controller device allowed the student to interface with the trams network to modify track settings and override operator control. The adversary may have accomplished this by aligning the controller to the frequency and amplitude of IR control protocol signals. (Citation: Bruce Schneier January 2008) The controller then enabled initial access to the network, allowing the capture and replay of tram signals. (Citation: John Bill May 2017)",
+    "x_mitre_platforms": [
+        "Control Server",
+        "Field Controller/RTU/PLC/IED",
+        "Input/Output Server"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0860",
+            "external_id": "T0860"
+        },
+        {
+            "source_name": "Alexander Bolshev, Gleb Cherbov July 2014",
+            "description": "Alexander Bolshev, Gleb Cherbov 2014, July 08 ICSCorsair: How I will PWN your ERP through 4-20 mA current loop Retrieved. 2020/01/05 ",
+            "url": "https://www.blackhat.com/docs/us-14/materials/us-14-Bolshev-ICSCorsair-How-I-Will-PWN-Your-ERP-Through-4-20mA-Current-Loop-WP.pdf"
+        },
+        {
+            "source_name": "Alexander Bolshev March 2014",
+            "description": "Alexander Bolshev 2014, March 11 S4x14: HART As An Attack Vector Retrieved. 2020/01/05 ",
+            "url": "https://www.slideshare.net/dgpeters/17-bolshev-1-13"
+        },
+        {
+            "source_name": "Marshall Abrams July 2008",
+            "description": "Marshall Abrams 2008, July 23 Malicious Control System Cyber Security Attack Case Study Maroochy Water Services, Australia Retrieved. 2018/03/27 ",
+            "url": "https://www.mitre.org/sites/default/files/pdf/08_1145.pdf"
+        },
+        {
+            "source_name": "John Bill May 2017",
+            "description": "John Bill 2017, May 12 Hacked Cyber Security Railways Retrieved. 2019/10/17 ",
+            "url": "https://www.londonreconnections.com/2017/hacked-cyber-security-railways/"
+        },
+        {
+            "source_name": "Shelley Smith February 2008",
+            "description": "Shelley Smith 2008, February 12 Teen Hacker in Poland Plays Trains and Derails City Tram System Retrieved. 2019/10/17 ",
+            "url": "https://inhomelandsecurity.com/teen_hacker_in_poland_plays_tr/"
+        },
+        {
+            "source_name": "Bruce Schneier January 2008",
+            "description": "Bruce Schneier 2008, January 17 Hacking Polish Trams Retrieved. 2019/10/17 ",
+            "url": "https://www.schneier.com/blog/archives/2008/01/hacking_the_pol.html"
+        },
+        {
+            "source_name": "John Bill May 2017",
+            "description": "John Bill 2017, May 12 Hacked Cyber Security Railways Retrieved. 2019/10/17 ",
+            "url": "https://www.londonreconnections.com/2017/hacked-cyber-security-railways/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "initial-access-ics"
+        }
+    ],
+    "tactic": [
+        "initial-access-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Flow",
+        "Application Log: Application Log Content",
+        "Logon Session: Logon Session Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Communication Authenticity",
+                "description": "When communicating over an untrusted network, utilize secure network protocols that both authenticate the message sender and can verify its integrity. This can be done either through message authentication codes (MACs) or digital signatures, to detect spoofed network messages and unauthorized connections.",
+                "type": "course-of-action",
+                "id": "M0802"
+            },
+            {
+                "name": "Software Process and Device Authentication",
+                "description": "Require the authentication of devices and software processes where appropriate. Devices that connect remotely to other systems should require strong authentication to prevent spoofing of communications. Furthermore, software processes should also require authentication when accessing APIs.",
+                "type": "course-of-action",
+                "id": "M0813"
+            },
+            {
+                "name": "Minimize Wireless Signal Propagation",
+                "description": "Wireless signals frequently propagate outside of organizational boundaries, which provide opportunities for adversaries to monitor or gain unauthorized access to the wireless network. (Citation: CISA March 2010) To minimize this threat, organizations should implement measures to detect, understand, and reduce unnecessary RF propagation. (Citation: DHS  National Urban Security Technology Laboratory April 2019)",
+                "type": "course-of-action",
+                "id": "M0806"
+            },
+            {
+                "name": "Encrypt Network Traffic",
+                "description": "Utilize strong cryptographic techniques and protocols to prevent eavesdropping on network communications.",
+                "type": "course-of-action",
+                "id": "M0808"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [
+        "CVE-2019-6538"
+    ],
+    "subTechniques": []
+}

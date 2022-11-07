@@ -1,0 +1,112 @@
+﻿{
+    "id": "T1554",
+    "name": "Compromise Client Software Binary",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may modify client software binaries to establish persistent access to systems. Client software enables users to access services provided by a server. Common client software types are SSH clients, FTP clients, email clients, and web browsers.\n\nAdversaries may make modifications to client software binaries to carry out malicious tasks when those applications are in use. For example, an adversary may copy source code for the client software, add a backdoor, compile for the target, and replace the legitimate application binary (or support files) with the backdoored one. Since these applications may be routinely executed by the user, the adversary can leverage this for persistent access to the host.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1554",
+            "external_id": "T1554"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Collect and analyze signing certificate metadata and check signature validity on software that executes within the environment. Look for changes to client software that do not correlate with known software or patch cycles. \n\nConsider monitoring for anomalous behavior from client applications, such as atypical module loads, file reads/writes, or network connections.",
+    "x_mitre_data_sources": [
+        "File: File Modification",
+        "File: File Creation",
+        "File: File Deletion",
+        "File: File Metadata"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Code Signing",
+                "description": "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+                "type": "course-of-action",
+                "id": "M1045"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that all application component binaries are signed by the correct/valid application developers",
+                "acid": "98580563"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that metadata of signing certificate are collected and analyzed",
+                "acid": "98580559"
+            },
+            {
+                "description": "Ensure that signature validity on software that executes within the environment is checked",
+                "acid": "98580560"
+            },
+            {
+                "description": "Ensure that changes to client software that do not correlate with known software or patch cycles are monitored",
+                "acid": "98580561"
+            },
+            {
+                "description": "Ensure that client applications are monitored for changes such as unusual module loads, file reads/writes, or network connections",
+                "acid": "98580562"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106028"
+    ],
+    "technologycontrolIds": [
+        "16460387",
+        "19920417"
+    ],
+    "cveIds": [
+        "CVE-1999-0005",
+        "CVE-1999-0021",
+        "CVE-1999-0267",
+        "CVE-1999-0404",
+        "CVE-2009-3023",
+        "CVE-2012-0158",
+        "CVE-2012-1876",
+        "CVE-2016-10174",
+        "CVE-2016-8377",
+        "CVE-2017-12718",
+        "CVE-2017-5177",
+        "CVE-2017-6465",
+        "CVE-2017-6506",
+        "CVE-2017-7269",
+        "CVE-2018-10594",
+        "CVE-2019-11043",
+        "CVE-2019-19383"
+    ],
+    "subTechniques": []
+}

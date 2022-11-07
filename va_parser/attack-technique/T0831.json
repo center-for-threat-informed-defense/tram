@@ -1,0 +1,87 @@
+﻿{
+    "id": "T0831",
+    "name": "Manipulation of Control",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may manipulate physical process control within the industrial environment. Methods of manipulating control can include changes to set point values, tags, or other parameters. Adversaries may manipulate control systems devices or possibly leverage their own, to communicate with and command physical control processes. The duration of manipulation may be temporary or longer sustained, depending on operator detection.   \n\nMethods of Manipulation of Control include: \n\n* Man-in-the-middle  \n* Spoof command message \n* Changing setpoints  \n\nA Polish student used a remote controller device to interface with the Lodz city tram system in Poland. (Citation: John Bill May 2017) (Citation: Shelley Smith February 2008) (Citation: Bruce Schneier January 2008) Using this remote, the student was able to capture and replay legitimate tram signals. As a consequence, four trams were derailed and twelve people injured due to resulting emergency stops. (Citation: Shelley Smith February 2008) The track controlling commands issued may have also resulted in tram collisions, a further risk to those on board and nearby the areas of impact. (Citation: Bruce Schneier January 2008)",
+    "x_mitre_platforms": [
+        "None"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T0831",
+            "url": "https://attack.mitre.org/techniques/T0831"
+        },
+        {
+            "source_name": "Bruce Schneier January 2008",
+            "url": "https://www.schneier.com/blog/archives/2008/01/hacking_the_pol.html",
+            "description": "Bruce Schneier 2008, January 17 Hacking Polish Trams Retrieved. 2019/10/17 "
+        },
+        {
+            "source_name": "John Bill May 2017",
+            "url": "https://www.londonreconnections.com/2017/hacked-cyber-security-railways/",
+            "description": "John Bill 2017, May 12 Hacked Cyber Security Railways Retrieved. 2019/10/17 "
+        },
+        {
+            "source_name": "Shelley Smith February 2008",
+            "url": "https://inhomelandsecurity.com/teen_hacker_in_poland_plays_tr/",
+            "description": "Shelley Smith 2008, February 12 Teen Hacker in Poland Plays Trains and Derails City Tram System Retrieved. 2019/10/17 "
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "impact-ics"
+        }
+    ],
+    "tactic": [
+        "impact-ics"
+    ],
+    "x_mitre_detection": "",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Out-of-Band Communications Channel",
+                "description": "Have alternative methods to support communication requirements during communication failures and data integrity attacks. (Citation: National Institute of Standards and Technology April 2013) (Citation: Defense Advanced Research Projects Agency)",
+                "type": "course-of-action",
+                "id": "M0810"
+            },
+            {
+                "name": "Data Backup",
+                "description": "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise.   Maintain and exercise incident response plans  (Citation: Department of Homeland Security October 2009), including the management of  'gold-copy' back-up images and configurations for key systems to enable quick recovery and response from adversarial activities that impact control, view, or availability.",
+                "type": "course-of-action",
+                "id": "M0953"
+            },
+            {
+                "name": "Communication Authenticity",
+                "description": "When communicating over an untrusted network, utilize secure network protocols that both authenticate the message sender and can verify its integrity. This can be done either through message authentication codes (MACs) or digital signatures, to detect spoofed network messages and unauthorized connections.",
+                "type": "course-of-action",
+                "id": "M0802"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

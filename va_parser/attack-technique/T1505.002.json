@@ -1,0 +1,114 @@
+{
+    "id": "T1505.002",
+    "name": "Transport Agent",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse Microsoft transport agents to establish persistent access to systems. Microsoft Exchange transport agents can operate on email messages passing through the transport pipeline to perform various tasks such as filtering spam, filtering malicious attachments, journaling, or adding a corporate signature to the end of all outgoing emails.(Citation: Microsoft TransportAgent Jun 2016)(Citation: ESET LightNeuron May 2019) Transport agents can be written by application developers and then compiled to .NET assemblies that are subsequently registered with the Exchange server. Transport agents will be invoked during a specified stage of email processing and carry out developer defined tasks. \n\nAdversaries may register a malicious transport agent to provide a persistence mechanism in Exchange Server that can be triggered by adversary-specified email events.(Citation: ESET LightNeuron May 2019) Though a malicious transport agent may be invoked for all emails passing through the Exchange transport pipeline, the agent can be configured to only carry out specific tasks in response to adversary defined criteria. For example, the transport agent may only carry out an action like copying in-transit attachments and saving them for later exfiltration if the recipient email address matches an entry on a list provided by the adversary. ",
+    "x_mitre_platforms": [
+        "Linux",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1505/002",
+            "external_id": "T1505.002"
+        },
+        {
+            "source_name": "Microsoft TransportAgent Jun 2016",
+            "description": "Microsoft. (2016, June 1). Transport agents. Retrieved June 24, 2019.",
+            "url": "https://docs.microsoft.com/en-us/exchange/transport-agents-exchange-2013-help"
+        },
+        {
+            "source_name": "ESET LightNeuron May 2019",
+            "description": "Faou, M. (2019, May). Turla LightNeuron: One email away from remote code execution. Retrieved June 24, 2019.",
+            "url": "https://www.welivesecurity.com/wp-content/uploads/2019/05/ESET-LightNeuron.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Consider monitoring application logs for abnormal behavior that may indicate suspicious installation of application software components. Consider monitoring file locations associated with the installation of new application software components such as paths from which applications typically load such extensible components.",
+    "x_mitre_data_sources": [
+        "Application Log: Application Log Content",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "SYSTEM",
+        "Administrator",
+        "root"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Code Signing",
+                "description": "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+                "type": "course-of-action",
+                "id": "M1045"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that component software on critical services are regularly checked to verify the integrity of the systems and identify if unexpected changes have been made",
+                "acid": "98580974"
+            },
+            {
+                "description": "Ensure that all application component binaries are signed by the correct application developers",
+                "acid": "98580975"
+            },
+            {
+                "description": "Ensure that administrator accounts having permissions to add component software are not allowed day-to-day operations",
+                "acid": "98580976"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that application logs are monitored for abnormal behavior that may indicate suspicious installation of application software components",
+                "acid": "98580972"
+            },
+            {
+                "description": "Ensure that file location associated with the installation of new application software components are monitored",
+                "acid": "98580973"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

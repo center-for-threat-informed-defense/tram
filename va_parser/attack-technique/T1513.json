@@ -1,0 +1,102 @@
+﻿{
+    "id": "T1513",
+    "name": "Screen Capture",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use screen capture to collect additional information about a target device, such as applications running in the foreground, user data, credentials, or other sensitive information. Applications running in the background can capture screenshots or videos of another application running in the foreground by using the Android `MediaProjectionManager` (generally requires the device user to grant consent).(Citation: Fortinet screencap July 2019)(Citation: Android ScreenCap1 2019) Background applications can also use Android accessibility services to capture screen contents being displayed by a foreground application.(Citation: Lookout-Monokle) An adversary with root access or Android Debug Bridge (adb) access could call the Android `screencap` or `screenrecord` commands.(Citation: Android ScreenCap2 2019)(Citation: Trend Micro ScreenCap July 2015) ",
+    "x_mitre_platforms": [
+        "Android"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T1513",
+            "url": "https://attack.mitre.org/techniques/T1513"
+        },
+        {
+            "source_name": "Android ScreenCap2 2019",
+            "url": "https://developer.android.com/studio/command-line/adb",
+            "description": "Android Developers. (n.d.). Android Debug Bridge (adb). Retrieved August 8, 2019."
+        },
+        {
+            "source_name": "Android ScreenCap1 2019",
+            "url": "https://developer.android.com/reference/android/media/projection/MediaProjectionManager",
+            "description": "Android Developers. (n.d.). Android MediaProjectionManager. Retrieved August 8, 2019."
+        },
+        {
+            "source_name": "Lookout-Monokle",
+            "url": "https://www.lookout.com/documents/threat-reports/lookout-discovers-monokle-threat-report.pdf",
+            "description": "Bauer A., Kumar A., Hebeisen C., et al. (2019, July). Monokle: The Mobile Surveillance Tooling of the Special Technology Center. Retrieved September 4, 2019."
+        },
+        {
+            "source_name": "Fortinet screencap July 2019",
+            "url": "https://www.fortinet.com/blog/threat-research/new-wave-bianlian-malware.html",
+            "description": "Dario Durando. (2019, July 3). BianLian: A New Wave Emerges. Retrieved September 4, 2019."
+        },
+        {
+            "source_name": "Trend Micro ScreenCap July 2015",
+            "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/hacking-team-rcsandroid-spying-tool-listens-to-calls-roots-devices-to-get-in/",
+            "description": "Zhang, V. (2015, July 21). Hacking Team RCSAndroid Spying Tool Listens to Calls; Roots Devices to Get In. Retrieved August 8, 2019."
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/application-threats/APP-40.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "APP-40"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-mobile-attack",
+            "phase_name": "collection"
+        }
+    ],
+    "tactic": [
+        "collection"
+    ],
+    "x_mitre_detection": "The user can view a list of apps with accessibility service privileges in the device settings. Application vetting services can look for the use of the Android `MediaProjectionManager` class, applying extra scrutiny to applications that use the class.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Enterprise Policy",
+                "description": "An enterprise mobility management (EMM), also known as mobile device management (MDM), system can be used to provision policies to mobile devices to control aspects of their allowed behavior.",
+                "type": "course-of-action",
+                "id": "M1012"
+            },
+            {
+                "name": "User Guidance",
+                "description": "Describes any guidance or training given to users to set particular configuration settings or avoid specific potentially risky behaviors.",
+                "type": "course-of-action",
+                "id": "M1011"
+            },
+            {
+                "name": "Application Developer Guidance",
+                "description": "This mitigation describes any guidance or training given to developers of applications to avoid introducing security weaknesses that an adversary may be able to take advantage of.",
+                "type": "course-of-action",
+                "id": "M1013"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

@@ -1,0 +1,105 @@
+﻿{
+    "id": "T1036.004",
+    "name": "Masquerade Task or Service",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to manipulate the name of a task or service to make it appear legitimate or benign. Tasks/services executed by the Task Scheduler or systemd will typically be given a name and/or description.(Citation: TechNet Schtasks)(Citation: Systemd Service Units) Windows services will have a service name as well as a display name. Many benign tasks and services exist that have commonly associated names. Adversaries may give tasks or services names that are similar or identical to those of legitimate ones.\n\nTasks or services contain other fields, such as a description, that adversaries may attempt to make appear legitimate.(Citation: Palo Alto Shamoon Nov 2016)(Citation: Fysbis Dr Web Analysis)",
+    "x_mitre_platforms": [
+        "Windows",
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1036/004",
+            "external_id": "T1036.004"
+        },
+        {
+            "source_name": "TechNet Schtasks",
+            "description": "Microsoft. (n.d.). Schtasks. Retrieved April 28, 2016.",
+            "url": "https://technet.microsoft.com/en-us/library/bb490996.aspx"
+        },
+        {
+            "source_name": "Systemd Service Units",
+            "description": "Freedesktop.org. (n.d.). systemd.service \u2014 Service unit configuration. Retrieved March 16, 2020.",
+            "url": "https://www.freedesktop.org/software/systemd/man/systemd.service.html"
+        },
+        {
+            "source_name": "Palo Alto Shamoon Nov 2016",
+            "description": "Falcone, R.. (2016, November 30). Shamoon 2: Return of the Disttrack Wiper. Retrieved January 11, 2017.",
+            "url": "http://researchcenter.paloaltonetworks.com/2016/11/unit42-shamoon-2-return-disttrack-wiper/"
+        },
+        {
+            "source_name": "Fysbis Dr Web Analysis",
+            "description": "Doctor Web. (2014, November 21). Linux.BackDoor.Fysbis.1. Retrieved December 7, 2017.",
+            "url": "https://vms.drweb.com/virus/?i=4276269"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Look for changes to tasks and services that do not correlate with known software, patch cycles, etc. Suspicious program execution through scheduled tasks or services may show up as outlier processes that have not been seen before when compared against historical data. Monitor processes and command-line arguments for actions that could be taken to create tasks or services. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.",
+    "x_mitre_data_sources": [
+        "Service: Service Creation",
+        "Command: Command Execution",
+        "Service: Service Metadata",
+        "Scheduled Job: Scheduled Job Modification",
+        "Scheduled Job: Scheduled Job Metadata"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that tasks and services are monitored for any modifications that do not correlate with known software, patch cycles, etc.",
+                "acid": "98581399"
+            },
+            {
+                "description": "Ensure that program execution through scheduled tasks or services is monitored for any outlier processes.",
+                "acid": "98581400"
+            },
+            {
+                "description": "Ensure that processes are monitored to check if any task or service is created.",
+                "acid": "98581401"
+            },
+            {
+                "description": "Ensure that command-line arguments are monitored to check if any task or services are created.",
+                "acid": "98581402"
+            },
+            {
+                "description": "Ensure that Data and events are viewed as part of a chain of behavior rather than isolation.",
+                "acid": "98581403"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

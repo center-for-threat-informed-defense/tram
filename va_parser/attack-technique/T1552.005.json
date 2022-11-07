@@ -1,0 +1,98 @@
+{
+    "id": "T1552.005",
+    "name": "Cloud Instance Metadata API",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to access the Cloud Instance Metadata API to collect credentials and other sensitive data.\n\nMost cloud service providers support a Cloud Instance Metadata API which is a service provided to running virtual instances that allows applications to access information about the running virtual instance. Available information generally includes name, security group, and additional metadata including sensitive data such as credentials and UserData scripts that may contain additional secrets. The Instance Metadata API is provided as a convenience to assist in managing applications and is accessible by anyone who can access the instance.(Citation: AWS Instance Metadata API) A cloud metadata API has been used in at least one high profile compromise.(Citation: Krebs Capital One August 2019)\n\nIf adversaries have a presence on the running virtual instance, they may query the Instance Metadata API directly to identify credentials that grant access to additional resources. Additionally, adversaries may exploit a Server-Side Request Forgery (SSRF) vulnerability in a public facing web proxy that allows them to gain access to the sensitive information via a request to the Instance Metadata API.(Citation: RedLock Instance Metadata API 2018)\n\nThe de facto standard across cloud service providers is to host the Instance Metadata API at <code>http[:]//169.254.169.254</code>.\n",
+    "x_mitre_platforms": [
+        "IaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1552/005",
+            "external_id": "T1552.005"
+        },
+        {
+            "source_name": "AWS Instance Metadata API",
+            "description": "AWS. (n.d.). Instance Metadata and User Data. Retrieved July 18, 2019.",
+            "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html"
+        },
+        {
+            "source_name": "Krebs Capital One August 2019",
+            "description": "Krebs, B.. (2019, August 19). What We Can Learn from the Capital One Hack. Retrieved March 25, 2020.",
+            "url": "https://krebsonsecurity.com/2019/08/what-we-can-learn-from-the-capital-one-hack/"
+        },
+        {
+            "source_name": "RedLock Instance Metadata API 2018",
+            "description": "Higashi, Michael. (2018, May 15). Instance Metadata API: A Modern Day Trojan Horse. Retrieved July 16, 2019.",
+            "url": "https://redlock.io/blog/instance-metadata-api-a-modern-day-trojan-horse"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "Monitor access to the Instance Metadata API and look for anomalous queries.\n\nIt may be possible to detect adversary use of credentials they have obtained such as in [Valid Accounts](https://attack.mitre.org/techniques/T1078).",
+    "x_mitre_data_sources": [
+        "User Account: User Account Authentication"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that WAF is configured properly to prevent external adversaries from exploiting Server-side Request Forgery (SSRF) attacks that allow access to the Cloud Instance Metadata API.",
+                "acid": "98582088"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that access to the Instance Metadata API are monitored for anomalous queries.",
+                "acid": "98582087"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "19310008",
+        "19310013",
+        "19310016",
+        "19310017",
+        "19310018"
+    ],
+    "cveIds": []
+}

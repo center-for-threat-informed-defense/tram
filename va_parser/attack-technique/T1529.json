@@ -1,0 +1,146 @@
+﻿{
+    "id": "T1529",
+    "name": "System Shutdown/Reboot",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may shutdown/reboot systems to interrupt access to, or aid in the destruction of, those systems. Operating systems may contain commands to initiate a shutdown/reboot of a machine or network device. In some cases, these commands may also be used to initiate a shutdown/reboot of a remote computer or network device via [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) (e.g. <code>reload</code>).(Citation: Microsoft Shutdown Oct 2017)(Citation: alert_TA18_106A) Shutting down or rebooting systems may disrupt access to computer resources for legitimate users.\n\nAdversaries may attempt to shutdown/reboot a system after impacting it in other ways, such as [Disk Structure Wipe](https://attack.mitre.org/techniques/T1561/002) or [Inhibit System Recovery](https://attack.mitre.org/techniques/T1490), to hasten the intended effects on system availability.(Citation: Talos Nyetya June 2017)(Citation: Talos Olympic Destroyer 2018)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "Network"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1529",
+            "external_id": "T1529"
+        },
+        {
+            "source_name": "Talos Nyetya June 2017",
+            "description": "Chiu, A. (2016, June 27). New Ransomware Variant \"Nyetya\" Compromises Systems Worldwide. Retrieved March 26, 2019.",
+            "url": "https://blog.talosintelligence.com/2017/06/worldwide-ransomware-variant.html"
+        },
+        {
+            "source_name": "alert_TA18_106A",
+            "description": "CISA. (2018, April 20). Russian State-Sponsored Cyber Actors Targeting Network Infrastructure Devices. Retrieved February 14, 2022.",
+            "url": "https://www.cisa.gov/uscert/ncas/alerts/TA18-106A"
+        },
+        {
+            "source_name": "Talos Olympic Destroyer 2018",
+            "description": "Mercer, W. and Rascagneres, P. (2018, February 12). Olympic Destroyer Takes Aim At Winter Olympics. Retrieved March 14, 2019.",
+            "url": "https://blog.talosintelligence.com/2018/02/olympic-destroyer.html"
+        },
+        {
+            "source_name": "Microsoft Shutdown Oct 2017",
+            "description": "Microsoft. (2017, October 15). Shutdown. Retrieved October 4, 2019.",
+            "url": "https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/shutdown"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "impact"
+        }
+    ],
+    "tactic": [
+        "impact"
+    ],
+    "x_mitre_detection": "Use process monitoring to monitor the execution and command line parameters of binaries involved in shutting down or rebooting systems. Windows event logs may also designate activity associated with a shutdown/reboot, ex. Event ID 1074 and 6006. Unexpected or unauthorized commands from network cli on network devices may also be associated with shutdown/reboot, e.g. the <code>reload</code> command.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Sensor Health: Host Status",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process monitoring tool is configured to monitor the execution of binaries.",
+                "acid": "98582948"
+            },
+            {
+                "description": "Ensure that process monitoring tool is configured to monitor the command line parameters of binaries involved in shutting down or rebooting the systems.",
+                "acid": "98582949"
+            },
+            {
+                "description": "Ensure that Event ID 1074 - \"Associated with System shutdown/reboot by process/user\" is monitored.",
+                "acid": "98582950"
+            },
+            {
+                "description": "Ensure that Event ID 6006 - \"Associated with event log service stopped\" is monitored.",
+                "acid": "98582951"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000113",
+        "40000187"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106016",
+        "50106023",
+        "50106113"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [
+        "CVE-2015-0064",
+        "CVE-2015-0065",
+        "CVE-2015-2431",
+        "CVE-2015-5119",
+        "CVE-2015-6103",
+        "CVE-2015-6104",
+        "CVE-2015-7925",
+        "CVE-2016-0170",
+        "CVE-2016-7189",
+        "CVE-2017-8682",
+        "CVE-2018-0834",
+        "CVE-2018-0835",
+        "CVE-2018-0837",
+        "CVE-2018-0838",
+        "CVE-2018-0860",
+        "CVE-2018-0933",
+        "CVE-2018-0980",
+        "CVE-2018-15397",
+        "CVE-2018-18995",
+        "CVE-2018-8133",
+        "CVE-2018-8139",
+        "CVE-2018-8229",
+        "CVE-2018-8279",
+        "CVE-2018-8288",
+        "CVE-2018-8291",
+        "CVE-2018-8298",
+        "CVE-2018-8355",
+        "CVE-2018-8384",
+        "CVE-2018-8466",
+        "CVE-2018-8467",
+        "CVE-2018-8617",
+        "CVE-2019-0539",
+        "CVE-2019-0567",
+        "CVE-2019-0568",
+        "CVE-2019-1144",
+        "CVE-2019-1145",
+        "CVE-2019-1149",
+        "CVE-2019-1150",
+        "CVE-2019-1151",
+        "CVE-2019-1152",
+        "CVE-2019-1817"
+    ],
+    "subTechniques": []
+}

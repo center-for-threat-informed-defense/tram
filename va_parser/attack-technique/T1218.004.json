@@ -1,0 +1,109 @@
+﻿{
+    "id": "T1218.004",
+    "name": "InstallUtil",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use InstallUtil to proxy execution of code through a trusted Windows utility. InstallUtil is a command-line utility that allows for installation and uninstallation of resources by executing specific installer components specified in .NET binaries. (Citation: MSDN InstallUtil) The InstallUtil binary may also be digitally signed by Microsoft and located in the .NET directories on a Windows system: <code>C:\\Windows\\Microsoft.NET\\Framework\\v<version>\\InstallUtil.exe</code> and <code>C:\\Windows\\Microsoft.NET\\Framework64\\v<version>\\InstallUtil.exe</code>.\n\nInstallUtil may also be used to bypass application control through use of attributes within the binary that execute the class decorated with the attribute <code>[System.ComponentModel.RunInstaller(true)]</code>. (Citation: LOLBAS Installutil)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Digital Certificate Validation",
+        "Application control"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1218/004",
+            "external_id": "T1218.004"
+        },
+        {
+            "source_name": "MSDN InstallUtil",
+            "description": "Microsoft. (n.d.). Installutil.exe (Installer Tool). Retrieved July 1, 2016.",
+            "url": "https://msdn.microsoft.com/en-us/library/50614e95.aspx"
+        },
+        {
+            "source_name": "LOLBAS Installutil",
+            "description": "LOLBAS. (n.d.). Installutil.exe. Retrieved July 31, 2019.",
+            "url": "https://lolbas-project.github.io/lolbas/Binaries/Installutil/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Use process monitoring to monitor the execution and arguments of InstallUtil.exe. Compare recent invocations of InstallUtil.exe with prior history of known good arguments and executed binaries to determine anomalous and potentially adversarial activity. Command arguments used before and after the InstallUtil.exe invocation may also be useful in determining the origin and purpose of the binary being executed.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that InstallUtil is disabled or removed if not necessary within a given environment.",
+                "acid": "98581629"
+            },
+            {
+                "description": "Ensure that application whitelisting is configured to block execution of InstallUtil.exe (if not required for a given system or network).",
+                "acid": "98581630"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process monitoring is used to monitor the execution and arguments of InstallUtil.exe.",
+                "acid": "98581625"
+            },
+            {
+                "description": "Ensure that recent invocations of InstallUtil.exe are compared with the history of known good arguments to determine anomalous activity.",
+                "acid": "98581626"
+            },
+            {
+                "description": "Ensure that recent invocations of InstallUtil.exe are compared with the history of executed binaries to determine anomalous activity.",
+                "acid": "98581627"
+            },
+            {
+                "description": "Ensure that Command arguments used before and after the InstallUtil.exe invocation are inspected to determine the execution of binary.",
+                "acid": "98581628"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

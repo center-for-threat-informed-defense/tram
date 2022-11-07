@@ -1,0 +1,111 @@
+{
+    "id": "T1595.002",
+    "name": "Vulnerability Scanning",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may scan victims for vulnerabilities that can be used during targeting. Vulnerability scans typically check if the configuration of a target host/application (ex: software and version) potentially aligns with the target of a specific exploit the adversary may seek to use.\n\nThese scans may also include more broad attempts to [Gather Victim Host Information](https://attack.mitre.org/techniques/T1592) that can be used to identify more commonly known, exploitable vulnerabilities. Vulnerability scans typically harvest running software and version numbers via server banners, listening ports, or other network artifacts.(Citation: OWASP Vuln Scanning) Information from these scans may reveal opportunities for other forms of reconnaissance (ex: [Search Open Websites/Domains](https://attack.mitre.org/techniques/T1593) or [Search Open Technical Databases](https://attack.mitre.org/techniques/T1596)), establishing operational resources (ex: [Develop Capabilities](https://attack.mitre.org/techniques/T1587) or [Obtain Capabilities](https://attack.mitre.org/techniques/T1588)), and/or initial access (ex: [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190)).",
+    "x_mitre_platforms": [
+        "PRE"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1595/002",
+            "external_id": "T1595.002"
+        },
+        {
+            "source_name": "OWASP Vuln Scanning",
+            "description": "OWASP Wiki. (2018, February 16). OAT-014 Vulnerability Scanning. Retrieved October 20, 2020.",
+            "url": "https://wiki.owasp.org/index.php/OAT-014_Vulnerability_Scanning"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "reconnaissance"
+        }
+    ],
+    "tactic": [
+        "reconnaissance"
+    ],
+    "x_mitre_detection": "Monitor for suspicious network traffic that could be indicative of scanning, such as large quantities originating from a single source (especially if the source is known to be associated with an adversary/botnet). Analyzing web metadata may also reveal artifacts that can be attributed to potentially malicious activity, such as referer or user-agent string HTTP/S fields.\n\nMuch of this activity may have a very high occurrence and associated false positive rate, as well as potentially taking place outside the visibility of the target organization, making detection difficult for defenders.\n\nDetection efforts may be focused on related stages of the adversary lifecycle, such as during Initial Access.",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Flow",
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Pre-compromise",
+                "description": "This category is used for any applicable mitigation activities that apply to techniques occurring before an adversary gains Initial Access, such as Reconnaissance and Resource Development techniques.",
+                "type": "course-of-action",
+                "id": "M1056"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [
+        "C0232001",
+        "C0343004",
+        "C0411017",
+        "C0430006",
+        "C0430007",
+        "C0445001",
+        "C0445002",
+        "C0445003",
+        "C0449001",
+        "C0450002",
+        "C0451001",
+        "C0451002",
+        "C0451003",
+        "C0451005",
+        "C0451006",
+        "C0613001",
+        "C0613002",
+        "C0613003",
+        "C0613004",
+        "C0613005",
+        "C0663001",
+        "C0663002",
+        "C1756001",
+        "C1756002",
+        "C1756003",
+        "C1757001",
+        "C1757002",
+        "C1757003",
+        "C1757004",
+        "C1758001",
+        "C1758002",
+        "C1758003",
+        "C1758004",
+        "C1758005",
+        "C2139001",
+        "C2140001"
+    ],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "18760001",
+        "18980001",
+        "19330001",
+        "19330007"
+    ],
+    "cveIds": [
+        "CVE-2021-44228"
+    ]
+}

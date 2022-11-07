@@ -1,0 +1,153 @@
+﻿{
+    "id": "T1495",
+    "name": "Firmware Corruption",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may overwrite or corrupt the flash memory contents of system BIOS or other firmware in devices attached to a system in order to render them inoperable or unable to boot, thus denying the availability to use the devices and/or the system.(Citation: Symantec Chernobyl W95.CIH) Firmware is software that is loaded and executed from non-volatile memory on hardware devices in order to initialize and manage device functionality. These devices may include the motherboard, hard drive, or video cards.\n\nIn general, adversaries may manipulate, overwrite, or corrupt firmware in order to deny the use of the system or devices. For example, corruption of firmware responsible for loading the operating system for network devices may render the network devices inoperable.(Citation: dhs_threat_to_net_devices)(Citation: cisa_malware_orgs_ukraine) Depending on the device, this attack may also result in [Data Destruction](https://attack.mitre.org/techniques/T1485). ",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "Network"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1495",
+            "external_id": "T1495"
+        },
+        {
+            "source_name": "cisa_malware_orgs_ukraine",
+            "description": "CISA. (2022, April 28). Alert (AA22-057A) Update: Destructive Malware Targeting Organizations in Ukraine. Retrieved July 29, 2022.",
+            "url": "https://www.cisa.gov/uscert/ncas/alerts/aa22-057a"
+        },
+        {
+            "source_name": "dhs_threat_to_net_devices",
+            "description": "U.S. Department of Homeland Security. (2016, August 30). The Increasing Threat to Network Infrastructure Devices and Recommended Mitigations. Retrieved July 29, 2022.",
+            "url": "https://cyber.dhs.gov/assets/report/ar-16-20173.pdf"
+        },
+        {
+            "source_name": "MITRE Trustworthy Firmware Measurement",
+            "description": "Upham, K. (2014, March). Going Deep into the BIOS with MITRE Firmware Security Research. Retrieved January 5, 2016.",
+            "url": "http://www.mitre.org/publications/project-stories/going-deep-into-the-bios-with-mitre-firmware-security-research"
+        },
+        {
+            "source_name": "Symantec Chernobyl W95.CIH",
+            "description": "Yamamura, M. (2002, April 25). W95.CIH. Retrieved April 12, 2019.",
+            "url": "https://web.archive.org/web/20190508170055/https://www.symantec.com/security-center/writeup/2000-122010-2655-99"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "impact"
+        }
+    ],
+    "tactic": [
+        "impact"
+    ],
+    "x_mitre_detection": "System firmware manipulation may be detected.(Citation: MITRE Trustworthy Firmware Measurement) Log attempts to read/write to BIOS and compare against known patching behavior.",
+    "x_mitre_data_sources": [
+        "Firmware: Firmware Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk.",
+                "type": "course-of-action",
+                "id": "M1051"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Firmware Corruption Mitigation",
+                "description": "Prevent adversary access to privileged accounts or access necessary to perform this technique. Check the integrity of the existing BIOS and device firmware to determine if it is vulnerable to modification. Patch the BIOS and other firmware as necessary to prevent successful use of known vulnerabilities. ",
+                "type": "course-of-action",
+                "id": "T1495"
+            },
+            {
+                "name": "Boot Integrity",
+                "description": "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms.",
+                "type": "course-of-action",
+                "id": "M1046"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Boot Integrity Checking is configured to examine the integrity of the existing BIOS to determine if it is vulnerable to modification.",
+                "acid": "98582885"
+            },
+            {
+                "description": "Ensure that permissions are configured properly to prevent access to privileged accounts.",
+                "acid": "98582886"
+            },
+            {
+                "description": "Ensure that only necessary permissions are applied to replace system firmware.",
+                "acid": "98582887"
+            },
+            {
+                "description": "Ensure that BIOS is patched to prevent further compromise of known vulnerabilities.",
+                "acid": "98582888"
+            },
+            {
+                "description": "Ensure that the firmware is patched to prevent further compromise of known vulnerabilities.",
+                "acid": "98582889"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the Firmware Integrity Checking tool is implemented to detect any manipulation with system firmware.",
+                "acid": "98582882"
+            },
+            {
+                "description": "Ensure that system logs are monitored that attempts to read/write to BIOS.",
+                "acid": "98582883"
+            },
+            {
+                "description": "Ensure that system logs (that attempts to read/write to BIOS) are compared against known patching behavior.",
+                "acid": "98582884"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000113",
+        "40000117",
+        "40000187",
+        "40000205",
+        "40000499",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106002",
+        "50106003",
+        "50106010",
+        "50106016",
+        "50106032",
+        "50106110",
+        "50106113"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

@@ -1,0 +1,82 @@
+﻿{
+    "id": "T1630",
+    "name": "Indicator Removal on Host",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may delete, alter, or hide generated artifacts on a device, including files, jailbreak status, or the malicious application itself. These actions may interfere with event collection, reporting, or other notifications used to detect intrusion activity. This may compromise the integrity of mobile security solutions by causing notable events or information to go unreported.",
+    "x_mitre_platforms": [
+        "iOS",
+        "Android"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T1630",
+            "url": "https://attack.mitre.org/techniques/T1630"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/application-threats/APP-43.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "APP-43"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "phase_name": "defense-evasion",
+            "kill_chain_name": "mitre-mobile-attack"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Mobile security products can detect which applications can request device administrator permissions. Users can view applications with administrator access through the device settings, and may also notice if user data is inexplicably missing. Users can see a list of applications that can use accessibility services in the device settings. Application vetting services could look for use of APIs that could indicate the application is trying to hide activity.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Security Updates",
+                "description": "Install security updates in response to discovered vulnerabilities.\n\nPurchase devices with a vendor and/or mobile carrier commitment to provide security updates in a prompt manner for a set period of time.\n\nDecommission devices that will no longer receive security updates.\n\nLimit or block access to enterprise resources from devices that have not installed recent security updates.\n\nOn Android devices, access can be controlled based on each device's security patch level. On iOS devices, access can be controlled based on the iOS version.",
+                "type": "course-of-action",
+                "id": "M1001"
+            },
+            {
+                "name": "User Guidance",
+                "description": "Describes any guidance or training given to users to set particular configuration settings or avoid specific potentially risky behaviors.",
+                "type": "course-of-action",
+                "id": "M1011"
+            },
+            {
+                "name": "Attestation",
+                "description": "Enable remote attestation capabilities when available (such as Android SafetyNet or Samsung Knox TIMA Attestation) and prohibit devices that fail the attestation from accessing enterprise resources.",
+                "type": "course-of-action",
+                "id": "M1002"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": [
+        "T1630.001",
+        "T1630.002",
+        "T1630.003"
+    ]
+}

@@ -1,0 +1,114 @@
+﻿{
+    "id": "T1560",
+    "name": "Archive Collected Data",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "An adversary may compress and/or encrypt data that is collected prior to exfiltration. Compressing the data can help to obfuscate the collected data and minimize the amount of data sent over the network. Encryption can be used to hide information that is being exfiltrated from detection or make exfiltration less conspicuous upon inspection by a defender.\n\nBoth compression and encryption are done prior to exfiltration, and can be performed using a utility, 3rd party library, or custom method.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1560",
+            "external_id": "T1560"
+        },
+        {
+            "source_name": "Wikipedia File Header Signatures",
+            "description": "Wikipedia. (2016, March 31). List of file signatures. Retrieved April 22, 2016.",
+            "url": "https://en.wikipedia.org/wiki/List_of_file_signatures"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+        }
+    ],
+    "tactic": [
+        "collection"
+    ],
+    "x_mitre_detection": "Archival software and archived files can be detected in many ways. Common utilities that may be present on the system or brought in by an adversary may be detectable through process monitoring and monitoring for command-line arguments for known archival utilities. This may yield a significant number of benign events, depending on how systems in the environment are typically used.\n\nA process that loads the Windows DLL crypt32.dll may be used to perform encryption, decryption, or verification of file signatures.\n\nConsider detecting writing of files with extensions and/or headers associated with compressed or encrypted file types. Detection efforts may focus on follow-on exfiltration activity, where compressed or encrypted files can be detected in transit with a network intrusion detection or data loss prevention system analyzing file headers.(Citation: Wikipedia File Header Signatures)",
+    "x_mitre_data_sources": [
+        "Script: Script Execution",
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that system scans are performed regularly to identify unauthorized archival utilities.",
+                "acid": "98582308"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process monitoring is performed to detect common utilities on the system, which could be suspicious.",
+                "acid": "98582302"
+            },
+            {
+                "description": "Ensure that command-line arguments are monitored for known archival utilities.",
+                "acid": "98582303"
+            },
+            {
+                "description": "Ensure that process that loads the Windows DLL crypt32.dll is used to perform encryption, decryption, or verification of file signatures.",
+                "acid": "98582304"
+            },
+            {
+                "description": "Ensure that the writing of files is detected with extensions and/or headers associated with compressed or encrypted file types.",
+                "acid": "98582305"
+            },
+            {
+                "description": "Ensure that the Network Intrusion Detection System is configured to detect compressed or encrypted files in transit by analyzing file headers.",
+                "acid": "98582306"
+            },
+            {
+                "description": "Ensure that the Data Loss Prevention System is configured to detect compressed or encrypted files in transit by analyzing file headers.",
+                "acid": "98582307"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106013"
+    ],
+    "technologycontrolIds": [
+        "11500017",
+        "19920414",
+        "19920421",
+        "19920423",
+        "19920452"
+    ],
+    "cveIds": [],
+    "subTechniques": [
+        "T1560.001",
+        "T1560.002",
+        "T1560.003"
+    ]
+}

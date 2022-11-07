@@ -1,0 +1,124 @@
+{
+    "id": "T1053.006",
+    "name": "Systemd Timers",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse systemd timers to perform task scheduling for initial or recurring execution of malicious code. Systemd timers are unit files with file extension <code>.timer</code> that control services. Timers can be set to run on a calendar event or after a time span relative to a starting point. They can be used as an alternative to [Cron](https://attack.mitre.org/techniques/T1053/003) in Linux environments.(Citation: archlinux Systemd Timers Aug 2020) Systemd timers may be activated remotely via the <code>systemctl</code> command line utility, which operates over [SSH](https://attack.mitre.org/techniques/T1021/004).(Citation: Systemd Remote Control)\n\nEach <code>.timer</code> file must have a corresponding <code>.service</code> file with the same name, e.g., <code>example.timer</code> and <code>example.service</code>. <code>.service</code> files are [Systemd Service](https://attack.mitre.org/techniques/T1543/002) unit files that are managed by the systemd system and service manager.(Citation: Linux man-pages: systemd January 2014) Privileged timers are written to <code>/etc/systemd/system/</code> and <code>/usr/lib/systemd/system</code> while user level are written to <code>~/.config/systemd/user/</code>.\n\nAn adversary may use systemd timers to execute malicious code at system startup or on a scheduled basis for persistence.(Citation: Arch Linux Package Systemd Compromise BleepingComputer 10JUL2018)(Citation: gist Arch package compromise 10JUL2018)(Citation: acroread package compromised Arch Linux Mail 8JUL2018) Timers installed using privileged paths may be used to maintain root level persistence. Adversaries may also install user level timers to achieve user level persistence.",
+    "x_mitre_platforms": [
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1053/006",
+            "external_id": "T1053.006"
+        },
+        {
+            "source_name": "archlinux Systemd Timers Aug 2020",
+            "description": "archlinux. (2020, August 11). systemd/Timers. Retrieved October 12, 2020.",
+            "url": "https://wiki.archlinux.org/index.php/Systemd/Timers"
+        },
+        {
+            "source_name": "Systemd Remote Control",
+            "description": "Aaron Kili. (2018, January 16). How to Control Systemd Services on Remote Linux Server. Retrieved July 26, 2021.",
+            "url": "https://www.tecmint.com/control-systemd-services-on-remote-linux-server/"
+        },
+        {
+            "source_name": "Linux man-pages: systemd January 2014",
+            "description": "Linux man-pages. (2014, January). systemd(1) - Linux manual page. Retrieved April 23, 2019.",
+            "url": "http://man7.org/linux/man-pages/man1/systemd.1.html"
+        },
+        {
+            "source_name": "Arch Linux Package Systemd Compromise BleepingComputer 10JUL2018",
+            "description": "Catalin Cimpanu. (2018, July 10). Malware Found in Arch Linux AUR Package Repository. Retrieved April 23, 2019.",
+            "url": "https://www.bleepingcomputer.com/news/security/malware-found-in-arch-linux-aur-package-repository/"
+        },
+        {
+            "source_name": "gist Arch package compromise 10JUL2018",
+            "description": "Catalin Cimpanu. (2018, July 10). ~x file downloaded in public Arch package compromise. Retrieved April 23, 2019.",
+            "url": "https://gist.github.com/campuscodi/74d0d2e35d8fd9499c76333ce027345a"
+        },
+        {
+            "source_name": "acroread package compromised Arch Linux Mail 8JUL2018",
+            "description": "Eli Schwartz. (2018, June 8). acroread package compromised. Retrieved April 23, 2019.",
+            "url": "https://lists.archlinux.org/pipermail/aur-general/2018-July/034153.html"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "execution",
+        "persistence",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "Systemd timer unit files may be detected by auditing file creation and modification events within the <code>/etc/systemd/system</code>, <code>/usr/lib/systemd/system/</code>, and <code>~/.config/systemd/user/</code> directories, as well as associated symbolic links. Suspicious processes or scripts spawned in this manner will have a parent process of \u2018systemd', a parent process ID of 1, and will usually execute as the \u2018root' user.\n\nSuspicious systemd timers can also be identified by comparing results against a trusted system baseline. Malicious systemd timers may be detected by using the systemctl utility to examine system wide timers: <code>systemctl list-timers \u2013all</code>. Analyze the contents of corresponding <code>.service</code> files present on the file system and ensure that they refer to legitimate, expected executables.\n\nAudit the execution and command-line arguments of the 'systemd-run' utility as it may be used to create timers.(Citation: archlinux Systemd Timers Aug 2020)",
+    "x_mitre_data_sources": [
+        "File: File Modification",
+        "Command: Command Execution",
+        "Scheduled Job: Scheduled Job Creation",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "root"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": true,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000205",
+        "40000490",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

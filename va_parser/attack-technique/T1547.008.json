@@ -1,0 +1,138 @@
+﻿{
+    "id": "T1547.008",
+    "name": "LSASS Driver",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may modify or add LSASS drivers to obtain persistence on compromised systems. The Windows security subsystem is a set of components that manage and enforce the security policy for a computer or domain. The Local Security Authority (LSA) is the main component responsible for local security policy and user authentication. The LSA includes multiple dynamic link libraries (DLLs) associated with various other security functions, all of which run in the context of the LSA Subsystem Service (LSASS) lsass.exe process.(Citation: Microsoft Security Subsystem)\n\nAdversaries may target LSASS drivers to obtain persistence. By either replacing or adding illegitimate drivers (e.g., [Hijack Execution Flow](https://attack.mitre.org/techniques/T1574)), an adversary can use LSA operations to continuously execute malicious payloads.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1547/008",
+            "external_id": "T1547.008"
+        },
+        {
+            "source_name": "Microsoft LSA Protection Mar 2014",
+            "description": "Microsoft. (2014, March 12). Configuring Additional LSA Protection. Retrieved November 27, 2017.",
+            "url": "https://technet.microsoft.com/library/dn408187.aspx"
+        },
+        {
+            "source_name": "Microsoft DLL Security",
+            "description": "Microsoft. (n.d.). Dynamic-Link Library Security. Retrieved November 27, 2017.",
+            "url": "https://msdn.microsoft.com/library/windows/desktop/ff919712.aspx"
+        },
+        {
+            "source_name": "Microsoft Security Subsystem",
+            "description": "Microsoft. (n.d.). Security Subsystem Architecture. Retrieved November 27, 2017.",
+            "url": "https://technet.microsoft.com/library/cc961760.aspx"
+        },
+        {
+            "source_name": "TechNet Autoruns",
+            "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016.",
+            "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "persistence",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "With LSA Protection enabled, monitor the event logs (Events 3033 and 3063) for failed attempts to load LSA plug-ins and drivers. (Citation: Microsoft LSA Protection Mar 2014) Also monitor DLL load operations in lsass.exe. (Citation: Microsoft DLL Security)\n\nUtilize the Sysinternals Autoruns/Autorunsc utility (Citation: TechNet Autoruns) to examine loaded drivers associated with the LSA. ",
+    "x_mitre_data_sources": [
+        "File: File Creation",
+        "File: File Modification",
+        "Module: Module Load",
+        "Driver: Driver Load"
+    ],
+    "x_mitre_permissions_required": [
+        "SYSTEM",
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Process Integrity",
+                "description": "Protect processes with high privileges that can be used to interact with critical system components through use of protected process light, anti-process injection defenses, or other process integrity enforcement measures.",
+                "type": "course-of-action",
+                "id": "M1025"
+            },
+            {
+                "name": "Credential Access Protection",
+                "description": "Use capabilities to prevent successful credential access by adversaries; including blocking forms of credential dumping.",
+                "type": "course-of-action",
+                "id": "M1043"
+            },
+            {
+                "name": "Restrict Library Loading",
+                "description": "Prevent abuse of library loading mechanisms in the operating system and software to load untrusted code by configuring appropriate library loading mechanisms and investigating potential vulnerable software.",
+                "type": "course-of-action",
+                "id": "M1044"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Windows Defender Credential Guard is enabled on Windows 10 and Server 2016 to run lsass.exe in an isolated virtualized environment without any device drivers",
+                "acid": "98580503"
+            },
+            {
+                "description": "Ensure that LSA Protection is enabled on Windows 8.1 and Server 2012 R2",
+                "acid": "98580504"
+            },
+            {
+                "description": "Ensure that Registry key HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\RunAsPPL is set to dword:00000001 to enable LSA Protection",
+                "acid": "98580505"
+            },
+            {
+                "description": "Ensure that safe DLL search mode is enabled to mitigate the risk that may arise due to lsass.exe loading a malicious code library",
+                "acid": "98580506"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that event logs for Event ID 3033 are monitored for failed attempts to load LSA plug-ins and drivers",
+                "acid": "98580499"
+            },
+            {
+                "description": "Ensure that event logs for Event ID 3063 are monitored for failed attempts to load LSA plug-ins and drivers",
+                "acid": "98580500"
+            },
+            {
+                "description": "Ensure that DLL load operations in lsass.exe are monitored",
+                "acid": "98580501"
+            },
+            {
+                "description": "Ensure that loaded drivers associated with the LSA is examined by utilizing Sysinternals Autoruns/Autorunsc utility",
+                "acid": "98580502"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

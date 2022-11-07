@@ -1,0 +1,126 @@
+{
+    "id": "T1542.003",
+    "name": "Bootkit",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use bootkits to persist on systems. Bootkits reside at a layer below the operating system and may make it difficult to perform full remediation unless an organization suspects one was used and can act accordingly.\n\nA bootkit is a malware variant that modifies the boot sectors of a hard drive, including the Master Boot Record (MBR) and Volume Boot Record (VBR). (Citation: Mandiant M Trends 2016) The MBR is the section of disk that is first loaded after completing hardware initialization by the BIOS. It is the location of the boot loader. An adversary who has raw access to the boot drive may overwrite this area, diverting execution during startup from the normal boot loader to adversary code. (Citation: Lau 2011)\n\nThe MBR passes control of the boot process to the VBR. Similar to the case of MBR, an adversary who has raw access to the boot drive may overwrite the VBR to divert execution during startup to adversary code.",
+    "x_mitre_platforms": [
+        "Linux",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Host intrusion prevention systems",
+        "Anti-virus",
+        "File monitoring"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1542/003",
+            "external_id": "T1542.003"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/552.html",
+            "external_id": "CAPEC-552"
+        },
+        {
+            "source_name": "Mandiant M Trends 2016",
+            "description": "Mandiant. (2016, February 25). Mandiant M-Trends 2016. Retrieved March 5, 2019.",
+            "url": "https://www.fireeye.com/content/dam/fireeye-www/current-threats/pdfs/rpt-mtrends-2016.pdf"
+        },
+        {
+            "source_name": "Lau 2011",
+            "description": "Lau, H. (2011, August 8). Are MBR Infections Back in Fashion? (Infographic). Retrieved November 13, 2014.",
+            "url": "http://www.symantec.com/connect/blogs/are-mbr-infections-back-fashion"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "persistence",
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Perform integrity checking on MBR and VBR. Take snapshots of MBR and VBR and compare against known good samples. Report changes to MBR and VBR as they occur for indicators of suspicious activity and further analysis.",
+    "x_mitre_data_sources": [
+        "Drive: Drive Modification"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Boot Integrity",
+                "description": "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms.",
+                "type": "course-of-action",
+                "id": "M1046"
+            },
+            {
+                "name": "Bootkit Mitigation",
+                "description": "Ensure proper permissions are in place to help prevent adversary access to privileged accounts necessary to perform this action. Use Trusted Platform Module technology and a secure or trusted boot process to prevent system integrity from being compromised. (Citation: TCG Trusted Platform Module) (Citation: TechNet Secure Boot Process)",
+                "type": "course-of-action",
+                "id": "T1067"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Trusted Platform Module technology and a secure or trusted boot process is implemented to prevent system integrity from being compromised",
+                "acid": "98580958"
+            },
+            {
+                "description": "Ensure that proper permissions are in place to help prevent unauthorized access to privileged accounts",
+                "acid": "98580959"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that integrity checking is performed on MBR and VBR",
+                "acid": "98580955"
+            },
+            {
+                "description": "Ensure that snapshots of MBR and VBR are taken and compared against known good samples",
+                "acid": "98580956"
+            },
+            {
+                "description": "Ensure that changes to MBR and VBR are reported for indicators of suspicious activity and further analysis",
+                "acid": "98580957"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

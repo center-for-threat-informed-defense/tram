@@ -1,0 +1,219 @@
+﻿{
+    "id": "T1197",
+    "name": "BITS Jobs",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse BITS jobs to persistently execute code and perform various background tasks. Windows Background Intelligent Transfer Service (BITS) is a low-bandwidth, asynchronous file transfer mechanism exposed through [Component Object Model](https://attack.mitre.org/techniques/T1559/001) (COM).(Citation: Microsoft COM)(Citation: Microsoft BITS) BITS is commonly used by updaters, messengers, and other applications preferred to operate in the background (using available idle bandwidth) without interrupting other networked applications. File transfer tasks are implemented as BITS jobs, which contain a queue of one or more file operations.\n\nThe interface to create and manage BITS jobs is accessible through [PowerShell](https://attack.mitre.org/techniques/T1059/001) and the [BITSAdmin](https://attack.mitre.org/software/S0190) tool.(Citation: Microsoft BITS)(Citation: Microsoft BITSAdmin)\n\nAdversaries may abuse BITS to download (e.g. [Ingress Tool Transfer](https://attack.mitre.org/techniques/T1105)), execute, and even clean up after running malicious code (e.g. [Indicator Removal](https://attack.mitre.org/techniques/T1070)). BITS tasks are self-contained in the BITS job database, without new files or registry modifications, and often permitted by host firewalls.(Citation: CTU BITS Malware June 2016)(Citation: Mondok Windows PiggyBack BITS May 2007)(Citation: Symantec BITS May 2007) BITS enabled execution may also enable persistence by creating long-standing jobs (the default maximum lifetime is 90 days and extendable) or invoking an arbitrary program when a job completes or errors (including after system reboots).(Citation: PaloAlto UBoatRAT Nov 2017)(Citation: CTU BITS Malware June 2016)\n\nBITS upload functionalities can also be used to perform [Exfiltration Over Alternative Protocol](https://attack.mitre.org/techniques/T1048).(Citation: CTU BITS Malware June 2016)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Firewall",
+        "Host forensic analysis"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1197",
+            "external_id": "T1197"
+        },
+        {
+            "source_name": "CTU BITS Malware June 2016",
+            "description": "Counter Threat Unit Research Team. (2016, June 6). Malware Lingers with BITS. Retrieved January 12, 2018.",
+            "url": "https://www.secureworks.com/blog/malware-lingers-with-bits"
+        },
+        {
+            "source_name": "Symantec BITS May 2007",
+            "description": "Florio, E. (2007, May 9). Malware Update with Windows Update. Retrieved January 12, 2018.",
+            "url": "https://www.symantec.com/connect/blogs/malware-update-windows-update"
+        },
+        {
+            "source_name": "Elastic - Hunting for Persistence Part 1",
+            "description": "French, D., Murphy, B. (2020, March 24). Adversary tradecraft 101: Hunting for persistence using Elastic Security (Part 1). Retrieved December 21, 2020.",
+            "url": "https://www.elastic.co/blog/hunting-for-persistence-using-elastic-security-part-1"
+        },
+        {
+            "source_name": "PaloAlto UBoatRAT Nov 2017",
+            "description": "Hayashi, K. (2017, November 28). UBoatRAT Navigates East Asia. Retrieved January 12, 2018.",
+            "url": "https://researchcenter.paloaltonetworks.com/2017/11/unit42-uboatrat-navigates-east-asia/"
+        },
+        {
+            "source_name": "Microsoft Issues with BITS July 2011",
+            "description": "Microsoft. (2011, July 19). Issues with BITS. Retrieved January 12, 2018.",
+            "url": "https://technet.microsoft.com/library/dd939934.aspx"
+        },
+        {
+            "source_name": "Microsoft BITS",
+            "description": "Microsoft. (n.d.). Background Intelligent Transfer Service. Retrieved January 12, 2018.",
+            "url": "https://msdn.microsoft.com/library/windows/desktop/bb968799.aspx"
+        },
+        {
+            "source_name": "Microsoft BITSAdmin",
+            "description": "Microsoft. (n.d.). BITSAdmin Tool. Retrieved January 12, 2018.",
+            "url": "https://msdn.microsoft.com/library/aa362813.aspx"
+        },
+        {
+            "source_name": "Microsoft COM",
+            "description": "Microsoft. (n.d.). Component Object Model (COM). Retrieved November 22, 2017.",
+            "url": "https://msdn.microsoft.com/library/windows/desktop/ms680573.aspx"
+        },
+        {
+            "source_name": "Mondok Windows PiggyBack BITS May 2007",
+            "description": "Mondok, M. (2007, May 11). Malware piggybacks on Windows\u2019 Background Intelligent Transfer Service. Retrieved January 12, 2018.",
+            "url": "https://arstechnica.com/information-technology/2007/05/malware-piggybacks-on-windows-background-intelligent-transfer-service/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "persistence"
+    ],
+    "x_mitre_detection": "BITS runs as a service and its status can be checked with the Sc query utility (<code>sc query bits</code>).(Citation: Microsoft Issues with BITS July 2011) Active BITS tasks can be enumerated using the [BITSAdmin](https://attack.mitre.org/software/S0190) tool (<code>bitsadmin /list /allusers /verbose</code>).(Citation: Microsoft BITS)\n\nMonitor usage of the [BITSAdmin](https://attack.mitre.org/software/S0190) tool (especially the \u2018Transfer', 'Create', 'AddFile', 'SetNotifyFlags', 'SetNotifyCmdLine', 'SetMinRetryDelay', 'SetCustomHeaders', and 'Resume' command options)(Citation: Microsoft BITS) Admin logs, PowerShell logs, and the Windows Event log for BITS activity.(Citation: Elastic - Hunting for Persistence Part 1) Also consider investigating more detailed information about jobs by parsing the BITS job database.(Citation: CTU BITS Malware June 2016)\n\nMonitor and analyze network activity generated by BITS. BITS jobs use HTTP(S) and SMB for remote connections and are tethered to the creating user and will only function when that user is logged on (this rule applies even if a user attaches the job to a service account).(Citation: Microsoft BITS)",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Connection Creation",
+        "Service: Service Metadata",
+        "Command: Command Execution",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "BITS Jobs Mitigation",
+                "description": "This type of attack technique cannot be easily mitigated with preventive controls since it is based on the abuse of operating system design features. For example, disabling all BITS functionality will likely have unintended side effects, such as preventing legitimate software patching and updating. Efforts should be focused on preventing adversary tools from running earlier in the chain of activity and on identification of subsequent malicious behavior. (Citation: Mondok Windows PiggyBack BITS May 2007)\n\nModify network and/or host firewall rules, as well as other network controls, to only allow legitimate BITS traffic.\n\nConsider limiting access to the BITS interface to specific users or groups. (Citation: Symantec BITS May 2007)\n\nConsider reducing the default BITS job lifetime in Group Policy or by editing the <code>JobInactivityTimeout</code> and <code>MaxDownloadTime</code> Registry values in <code> HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\BITS</code>. (Citation: Microsoft BITS)",
+                "type": "course-of-action",
+                "id": "T1197"
+            },
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that network rules are configured to allow only legitimate BITS traffic",
+                "acid": "98580442"
+            },
+            {
+                "description": "Ensure that host firewall rules are configured to allow only legitimate BITS traffic",
+                "acid": "98580443"
+            },
+            {
+                "description": "Ensure that network controls are implemented to allow only legitimate BITS traffic",
+                "acid": "98580444"
+            },
+            {
+                "description": "Ensure that the default BITS job lifetime in Group Policy is reduced",
+                "acid": "98580445"
+            },
+            {
+                "description": "Ensure that JobInactivityTimeout Registry Value in HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\BITS is edited to reduce BITS job lifetime",
+                "acid": "98580446"
+            },
+            {
+                "description": "Ensure that MaxDownloadTime Registry Value in HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\BITS is edited to reduce BITS job lifetime",
+                "acid": "98580447"
+            },
+            {
+                "description": "Ensure that access to the BITS interface is limited to specific users or groups",
+                "acid": "98580448"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that usage of the BITS Admin tool is monitored for malicious BITS activity",
+                "acid": "98580430"
+            },
+            {
+                "description": "Ensure that usage of the BITS Admin tool for the 'Transfer' command option is monitored",
+                "acid": "98580431"
+            },
+            {
+                "description": "Ensure that usage of the BITS Admin tool for the 'Create' command option is monitored",
+                "acid": "98580432"
+            },
+            {
+                "description": "Ensure that usage of the BITS Admin tool for the 'AddFile' command option is monitored",
+                "acid": "98580433"
+            },
+            {
+                "description": "Ensure that usage of the BITS Admin tool for 'SetNotifyFlags' command option is monitored",
+                "acid": "98580434"
+            },
+            {
+                "description": "Ensure that usage of the BITS Admin tool for the 'SetNotifyCmdLine' command option is monitored",
+                "acid": "98580435"
+            },
+            {
+                "description": "Ensure that usage of the BITS Admin tool for the 'SetCustomHeaders' command option is monitored",
+                "acid": "98580436"
+            },
+            {
+                "description": "Ensure that usage of the BITS Admin tool for 'SetMinRetryDelay' command option is monitored",
+                "acid": "98580437"
+            },
+            {
+                "description": "Ensure that usage of the BITS Admin tool for the 'Resume' command option is monitored",
+                "acid": "98580438"
+            },
+            {
+                "description": "Ensure that the Windows Event log is monitored for BITS activity",
+                "acid": "98580439"
+            },
+            {
+                "description": "Ensure that the BITS job database is parsed for gathering information about BITS jobs",
+                "acid": "98580440"
+            },
+            {
+                "description": "Ensure that network activity generated by BITS are monitored and analyzed",
+                "acid": "98580441"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000215",
+        "40000490",
+        "40000500"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

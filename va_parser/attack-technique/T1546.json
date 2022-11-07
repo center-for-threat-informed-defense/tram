@@ -1,0 +1,246 @@
+﻿{
+    "id": "T1546",
+    "name": "Event Triggered Execution",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may establish persistence and/or elevate privileges using system mechanisms that trigger execution based on specific events. Various operating systems have means to monitor and subscribe to events such as logons or other user activity such as running specific applications/binaries. Cloud environments may also support various functions and services that monitor and can be invoked in response to specific cloud events.(Citation: Backdooring an AWS account)(Citation: Varonis Power Automate Data Exfiltration)(Citation: Microsoft DART Case Report 001)\n\nAdversaries may abuse these mechanisms as a means of maintaining persistent access to a victim via repeatedly executing malicious code. After gaining access to a victim system, adversaries may create/modify event triggers to point to malicious content that will be executed whenever the event trigger is invoked.(Citation: FireEye WMI 2015)(Citation: Malware Persistence on OS X)(Citation: amnesia malware)\n\nSince the execution can be proxied by an account with higher permissions, such as SYSTEM or service accounts, an adversary may be able to abuse these triggered execution mechanisms to escalate their privileges. ",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "SaaS",
+        "IaaS",
+        "Office 365"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1546",
+            "external_id": "T1546"
+        },
+        {
+            "source_name": "FireEye WMI 2015",
+            "description": "Ballenthin, W., et al. (2015). Windows Management Instrumentation (WMI) Offense, Defense, and Forensics. Retrieved March 30, 2016.",
+            "url": "https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf"
+        },
+        {
+            "source_name": "Microsoft DART Case Report 001",
+            "description": "Berk Veral. (2020, March 9). Real-life cybercrime stories from DART, the Microsoft Detection and Response Team. Retrieved May 27, 2022.",
+            "url": "https://www.microsoft.com/security/blog/2020/03/09/real-life-cybercrime-stories-dart-microsoft-detection-and-response-team"
+        },
+        {
+            "source_name": "amnesia malware",
+            "description": "Claud Xiao, Cong Zheng, Yanhui Jia. (2017, April 6). New IoT/Linux Malware Targets DVRs, Forms Botnet. Retrieved February 19, 2018.",
+            "url": "https://researchcenter.paloaltonetworks.com/2017/04/unit42-new-iotlinux-malware-targets-dvrs-forms-botnet/"
+        },
+        {
+            "source_name": "Backdooring an AWS account",
+            "description": "Daniel Grzelak. (2016, July 9). Backdooring an AWS account. Retrieved May 27, 2022.",
+            "url": "https://medium.com/daniel-grzelak/backdooring-an-aws-account-da007d36f8f9"
+        },
+        {
+            "source_name": "Varonis Power Automate Data Exfiltration",
+            "description": "Eric Saraga. (2022, February 2). Using Power Automate for Covert Data Exfiltration in Microsoft 365. Retrieved May 27, 2022.",
+            "url": "https://www.varonis.com/blog/power-automate-data-exfiltration"
+        },
+        {
+            "source_name": "Malware Persistence on OS X",
+            "description": "Patrick Wardle. (2015). Malware Persistence on OS X Yosemite. Retrieved July 10, 2017.",
+            "url": "https://www.virusbulletin.com/uploads/pdf/conference/vb2014/VB2014-Wardle.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "privilege-escalation",
+        "persistence"
+    ],
+    "x_mitre_detection": "Monitoring for additions or modifications of mechanisms that could be used to trigger event-based execution, especially the addition of abnormal commands such as execution of unknown programs, opening network sockets, or reaching out across the network. Also look for changes that do not line up with updates, patches, or other planned administrative activity. \n\nThese mechanisms may vary by OS, but are typically stored in central repositories that store configuration information such as the Windows Registry, Common Information Model (CIM), and/or specific named files, the last of which can be hashed and compared to known good values. \n\nMonitor for processes, API/System calls, and other common ways of manipulating these event repositories. \n\nTools such as Sysinternals Autoruns can be used to detect changes to execution triggers that could be attempts at persistence. Also look for abnormal process call trees for execution of other commands that could relate to Discovery actions or other techniques.  \n\nMonitor DLL loads by processes, specifically looking for DLLs that are not recognized or not normally loaded into a process. Look for abnormal process behavior that may be due to a process loading a malicious DLL. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as making network connections for Command and Control, learning details about the environment through Discovery, and conducting Lateral Movement. ",
+    "x_mitre_data_sources": [
+        "WMI: WMI Creation",
+        "Module: Module Load",
+        "Cloud Service: Cloud Service Modification",
+        "Command: Command Execution",
+        "File: File Modification",
+        "Windows Registry: Windows Registry Key Modification",
+        "Process: Process Creation",
+        "File: File Creation",
+        "File: File Metadata"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that additions or modifications of mechanisms used to trigger event-based execution are monitored",
+                "acid": "98580634"
+            },
+            {
+                "description": "Ensure that the addition of unusual commands such as the execution of unknown programs, opening network sockets, or reaching out across the network are monitored",
+                "acid": "98580635"
+            },
+            {
+                "description": "Ensure that changes that do not line up with updates, patches, or other planned administrative activities are monitored",
+                "acid": "98580636"
+            },
+            {
+                "description": "Ensure that processes, API/System calls, are monitored for manipulating event repositories",
+                "acid": "98580637"
+            },
+            {
+                "description": "Ensure that Sysinternals Autoruns is deployed to detect changes to execution triggers",
+                "acid": "98580638"
+            },
+            {
+                "description": "Ensure that execution of commands that could relate to Discovery or other adversary techniques are monitored",
+                "acid": "98580639"
+            },
+            {
+                "description": "Ensure that DLL loads by processes are monitored for unfamiliar or unrecognized DLL loads",
+                "acid": "98580640"
+            },
+            {
+                "description": "Ensure that process loading a malicious DLL should be monitored",
+                "acid": "98580641"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000117",
+        "40000205",
+        "40000490",
+        "40000499",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106000",
+        "50106001",
+        "50106008",
+        "50106010",
+        "50106020",
+        "50106032",
+        "50106110"
+    ],
+    "technologycontrolIds": [
+        "101540003",
+        "101540021",
+        "101550003",
+        "101550021",
+        "101560003",
+        "101560021",
+        "101570003",
+        "101570021",
+        "101600003",
+        "101600021",
+        "103900003",
+        "103900021",
+        "10460003",
+        "10460021",
+        "11010003",
+        "11010021",
+        "15010333",
+        "15010334",
+        "15010335",
+        "15010336",
+        "15020336",
+        "15020337",
+        "15020338",
+        "15020339",
+        "15030307",
+        "15030308",
+        "15030309",
+        "15030310",
+        "15040316",
+        "15040317",
+        "15040320",
+        "15040321",
+        "15180157",
+        "15180158",
+        "15180159",
+        "15200325",
+        "15200326",
+        "15200327",
+        "15200328",
+        "16010293",
+        "16010294",
+        "16010295",
+        "16010296",
+        "16020301",
+        "16020302",
+        "16020303",
+        "16020304",
+        "16100340",
+        "16100341",
+        "16100342",
+        "16100343",
+        "16110280",
+        "16110281",
+        "16110282",
+        "16110283",
+        "16120296",
+        "16120297",
+        "16120298",
+        "16120299",
+        "16140157",
+        "16140158",
+        "16140159",
+        "16360336",
+        "16360361",
+        "16360362",
+        "16360363",
+        "16360364",
+        "16460356",
+        "16460357",
+        "16460358",
+        "16460371",
+        "19920276",
+        "19920277",
+        "19920278"
+    ],
+    "cveIds": [
+        "CVE-2012-0158"
+    ],
+    "subTechniques": [
+        "T1546.001",
+        "T1546.002",
+        "T1546.003",
+        "T1546.004",
+        "T1546.005",
+        "T1546.006",
+        "T1546.007",
+        "T1546.008",
+        "T1546.009",
+        "T1546.010",
+        "T1546.011",
+        "T1546.012",
+        "T1546.013",
+        "T1546.014",
+        "T1546.015",
+        "T1546.016"
+    ]
+}

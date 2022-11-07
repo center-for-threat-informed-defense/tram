@@ -1,0 +1,135 @@
+{
+    "id": "T1578.003",
+    "name": "Delete Cloud Instance",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "An adversary may delete a cloud instance after they have performed malicious activities in an attempt to evade detection and remove evidence of their presence.  Deleting an instance or virtual machine can remove valuable forensic artifacts and other evidence of suspicious behavior if the instance is not recoverable.\n\nAn adversary may also [Create Cloud Instance](https://attack.mitre.org/techniques/T1578/002) and later terminate the instance after achieving their objectives.(Citation: Mandiant M-Trends 2020)",
+    "x_mitre_platforms": [
+        "IaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1578/003",
+            "external_id": "T1578.003"
+        },
+        {
+            "source_name": "Mandiant M-Trends 2020",
+            "description": "Mandiant. (2020, February). M-Trends 2020. Retrieved April 24, 2020.",
+            "url": "https://content.fireeye.com/m-trends/rpt-m-trends-2020"
+        },
+        {
+            "source_name": "AWS CloudTrail Search",
+            "description": "Amazon. (n.d.). Search CloudTrail logs for API calls to EC2 Instances. Retrieved June 17, 2020.",
+            "url": "https://aws.amazon.com/premiumsupport/knowledge-center/cloudtrail-search-api-calls/"
+        },
+        {
+            "source_name": "Azure Activity Logs",
+            "description": "Microsoft. (n.d.). View Azure activity logs. Retrieved June 17, 2020.",
+            "url": "https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/view-activity-logs"
+        },
+        {
+            "source_name": "Cloud Audit Logs",
+            "description": "Google. (n.d.). Audit Logs. Retrieved June 1, 2020.",
+            "url": "https://cloud.google.com/logging/docs/audit#admin-activity"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "The deletion of a new instance or virtual machine is a common part of operations within many cloud environments. Events should then not be viewed in isolation, but as part of a chain of behavior that could lead to other activities. For example, detecting a sequence of events such as the creation of an instance, mounting of a snapshot to that instance, and deletion of that instance by a new user account may indicate suspicious activity.\n\nIn AWS, CloudTrail logs capture the deletion of an instance in the <code>TerminateInstances</code> event, and in Azure the deletion of a VM may be captured in Azure activity logs.(Citation: AWS CloudTrail Search)(Citation: Azure Activity Logs) Google's Admin Activity audit logs within their Cloud Audit logs can be used to detect the usage of <code>gcloud compute instances delete</code> to delete a VM.(Citation: Cloud Audit Logs)",
+    "x_mitre_data_sources": [
+        "Instance: Instance Deletion",
+        "Instance: Instance Metadata"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that auditing is employed for the user to monitor their permissions regularly.",
+                "acid": "98581490"
+            },
+            {
+                "description": "Ensure that permission is implemented properly so that only expected users can delete new instances.",
+                "acid": "98581491"
+            },
+            {
+                "description": "Ensure that the least privileges are implemented by limiting permissions for creating new instances.",
+                "acid": "98581492"
+            },
+            {
+                "description": "Ensure that the IAM role is implemented to limit the number of users in the organization.",
+                "acid": "98581493"
+            },
+            {
+                "description": "Ensure that the IAM role is implemented to reduce all permanent privileged role assignments.",
+                "acid": "98581494"
+            },
+            {
+                "description": "Ensure that periodic entitlement reviews are conducted on IAM users, roles, and policies.",
+                "acid": "98581495"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that events are viewed as part of the chain of behavior rather than isolation.",
+                "acid": "98581486"
+            },
+            {
+                "description": "Ensure that CloudTrail logs are monitored to inspect the deletion of an instance in the \"TerminateInstances\" events.",
+                "acid": "98581487"
+            },
+            {
+                "description": "Ensure that for Azure, Azure activity logs are monitored to check the deletion of a VM.",
+                "acid": "98581488"
+            },
+            {
+                "description": "Ensure that Google's Admin Activity audit logs (within their Cloud Audit logs) are monitored to detect the deletion of a VM.",
+                "acid": "98581489"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000490"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

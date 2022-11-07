@@ -1,0 +1,88 @@
+﻿{
+    "id": "T1062",
+    "name": "Hypervisor",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": true,
+    "description": "**This technique has been deprecated and should no longer be used.**\n\nA type-1 hypervisor is a software layer that sits between the guest operating systems and system's hardware. (Citation: Wikipedia Hypervisor) It presents a virtual running environment to an operating system. An example of a common hypervisor is Xen. (Citation: Wikipedia Xen) A type-1 hypervisor operates at a level below the operating system and could be designed with [Rootkit](https://attack.mitre.org/techniques/T1014) functionality to hide its existence from the guest operating system. (Citation: Myers 2007) A malicious hypervisor of this nature could be used to persist on systems through interruption.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1062",
+            "external_id": "T1062"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/552.html",
+            "external_id": "CAPEC-552"
+        },
+        {
+            "source_name": "Wikipedia Hypervisor",
+            "description": "Wikipedia. (2016, May 23). Hypervisor. Retrieved June 11, 2016.",
+            "url": "https://en.wikipedia.org/wiki/Hypervisor"
+        },
+        {
+            "source_name": "Wikipedia Xen",
+            "description": "Xen. (n.d.). In Wikipedia. Retrieved November 13, 2014.",
+            "url": "http://en.wikipedia.org/wiki/Xen"
+        },
+        {
+            "source_name": "Myers 2007",
+            "description": "Myers, M., and Youndt, S. (2007). An Introduction to Hardware-Assisted Virtual Machine (HVM) Rootkits. Retrieved November 13, 2014.",
+            "url": "http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.90.8832&rep=rep1&type=pdf"
+        },
+        {
+            "source_name": "virtualization.info 2006",
+            "description": "virtualization.info. (Interviewer) & Liguori, A. (Interviewee). (2006, August 11). Debunking Blue Pill myth &#91;Interview transcript&#93;. Retrieved November 13, 2014.",
+            "url": "http://virtualization.info/en/news/2006/08/debunking-blue-pill-myth.html"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Type-1 hypervisors may be detected by performing timing analysis. Hypervisors emulate certain CPU instructions that would normally be executed by the hardware. If an instruction takes orders of magnitude longer to execute than normal on a system that should not contain a hypervisor, one may be present. (Citation: virtualization.info 2006)",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Hypervisor Mitigation",
+                "description": "Prevent adversary access to privileged accounts necessary to install a hypervisor.",
+                "type": "course-of-action",
+                "id": "T1062"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

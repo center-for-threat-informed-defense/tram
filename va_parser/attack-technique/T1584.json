@@ -1,0 +1,129 @@
+﻿{
+    "id": "T1584",
+    "name": "Compromise Infrastructure",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may compromise third-party infrastructure that can be used during targeting. Infrastructure solutions include physical or cloud servers, domains, and third-party web and DNS services. Instead of buying, leasing, or renting infrastructure an adversary may compromise infrastructure and use it during other phases of the adversary lifecycle.(Citation: Mandiant APT1)(Citation: ICANNDomainNameHijacking)(Citation: Talos DNSpionage Nov 2018)(Citation: FireEye EPS Awakens Part 2) Additionally, adversaries may compromise numerous machines to form a botnet they can leverage.\n\nUse of compromised infrastructure allows an adversary to stage, launch, and execute an operation. Compromised infrastructure can help adversary operations blend in with traffic that is seen as normal, such as contact with high reputation or trusted sites. For example, adversaries may leverage compromised infrastructure (potentially also in conjunction with [Digital Certificates](https://attack.mitre.org/techniques/T1588/004)) to further blend in and support staged information gathering and/or [Phishing](https://attack.mitre.org/techniques/T1566) campaigns.(Citation: FireEye DNS Hijack 2019) \n\nBy using compromised infrastructure, adversaries may make it difficult to tie their actions back to them. Prior to targeting, adversaries may compromise the infrastructure of other adversaries.(Citation: NSA NCSC Turla OilRig)",
+    "x_mitre_platforms": [
+        "PRE"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1584",
+            "external_id": "T1584"
+        },
+        {
+            "source_name": "FireEye DNS Hijack 2019",
+            "description": "Hirani, M., Jones, S., Read, B. (2019, January 10). Global DNS Hijacking Campaign: DNS Record Manipulation at Scale. Retrieved October 9, 2020.",
+            "url": "https://www.fireeye.com/blog/threat-research/2019/01/global-dns-hijacking-campaign-dns-record-manipulation-at-scale.html"
+        },
+        {
+            "source_name": "ICANNDomainNameHijacking",
+            "description": "ICANN Security and Stability Advisory Committee. (2005, July 12). Domain Name Hijacking: Incidents, Threats, Risks and Remediation. Retrieved March 6, 2017.",
+            "url": "https://www.icann.org/groups/ssac/documents/sac-007-en"
+        },
+        {
+            "source_name": "Koczwara Beacon Hunting Sep 2021",
+            "description": "Koczwara, M. (2021, September 7). Hunting Cobalt Strike C2 with Shodan. Retrieved October 12, 2021.",
+            "url": "https://michaelkoczwara.medium.com/cobalt-strike-c2-hunting-with-shodan-c448d501a6e2"
+        },
+        {
+            "source_name": "Mandiant APT1",
+            "description": "Mandiant. (n.d.). APT1 Exposing One of China\u2019s Cyber Espionage Units. Retrieved July 18, 2016.",
+            "url": "https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf"
+        },
+        {
+            "source_name": "Talos DNSpionage Nov 2018",
+            "description": "Mercer, W., Rascagneres, P. (2018, November 27). DNSpionage Campaign Targets Middle East. Retrieved October 9, 2020.",
+            "url": "https://blog.talosintelligence.com/2018/11/dnspionage-campaign-targets-middle-east.html"
+        },
+        {
+            "source_name": "NSA NCSC Turla OilRig",
+            "description": "NSA/NCSC. (2019, October 21). Cybersecurity Advisory: Turla Group Exploits Iranian APT To Expand Coverage Of Victims. Retrieved October 16, 2020.",
+            "url": "https://media.defense.gov/2019/Oct/18/2002197242/-1/-1/0/NSA_CSA_Turla_20191021%20ver%204%20-%20nsa.gov.pdf"
+        },
+        {
+            "source_name": "Mandiant SCANdalous Jul 2020",
+            "description": "Stephens, A. (2020, July 13). SCANdalous! (External Detection Using Network Scan Data and Automation). Retrieved October 12, 2021.",
+            "url": "https://www.mandiant.com/resources/scandalous-external-detection-using-network-scan-data-and-automation"
+        },
+        {
+            "source_name": "ThreatConnect Infrastructure Dec 2020",
+            "description": "ThreatConnect. (2020, December 15). Infrastructure Research and Hunting: Boiling the Domain Ocean. Retrieved October 12, 2021.",
+            "url": "https://threatconnect.com/blog/infrastructure-research-hunting/"
+        },
+        {
+            "source_name": "FireEye EPS Awakens Part 2",
+            "description": "Winters, R. (2015, December 20). The EPS Awakens - Part 2. Retrieved January 22, 2016.",
+            "url": "https://web.archive.org/web/20151226205946/https://www.fireeye.com/blog/threat-research/2015/12/the-eps-awakens-part-two.html"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "resource-development"
+        }
+    ],
+    "tactic": [
+        "resource-development"
+    ],
+    "x_mitre_detection": "Consider monitoring for anomalous changes to domain registrant information and/or domain resolution information that may indicate the compromise of a domain. Efforts may need to be tailored to specific domains of interest as benign registration and resolution changes are a common occurrence on the internet. \n\nOnce adversaries have provisioned compromised infrastructure (ex: a server for use in command and control), internet scans may help proactively discover compromised infrastructure. Consider looking for identifiable patterns such as services listening, certificates in use, SSL/TLS negotiation features, or other response artifacts associated with adversary C2 software.(Citation: ThreatConnect Infrastructure Dec 2020)(Citation: Mandiant SCANdalous Jul 2020)(Citation: Koczwara Beacon Hunting Sep 2021)\n\nDetection efforts may be focused on related stages of the adversary lifecycle, such as during Command and Control.",
+    "x_mitre_data_sources": [
+        "Domain Name: Domain Registration",
+        "Domain Name: Passive DNS",
+        "Domain Name: Active DNS",
+        "Internet Scan: Response Metadata",
+        "Internet Scan: Response Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Pre-compromise",
+                "description": "This category is used for any applicable mitigation activities that apply to techniques occurring before an adversary gains Initial Access, such as Reconnaissance and Resource Development techniques.",
+                "type": "course-of-action",
+                "id": "M1056"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "16100592",
+        "18110001",
+        "18110002",
+        "19320006",
+        "19320008",
+        "19330002",
+        "19330003",
+        "19920456",
+        "19920475"
+    ],
+    "cveIds": [],
+    "subTechniques": [
+        "T1584.001",
+        "T1584.002",
+        "T1584.003",
+        "T1584.004",
+        "T1584.005",
+        "T1584.006",
+        "T1584.007"
+    ]
+}

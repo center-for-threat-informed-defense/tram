@@ -1,0 +1,122 @@
+﻿{
+    "id": "T0866",
+    "name": "Exploitation of Remote Services",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may exploit a software vulnerability to take advantage of a programming error in a program, service, or within the operating system software or kernel itself to enable remote service abuse. A common goal for post-compromise exploitation of remote services is for initial access into and lateral movement throughout the ICS environment to enable access to targeted systems. (Citation: Enterprise ATT&CK)  ICS asset owners and operators have been affected by ransomware (or disruptive malware masquerading as ransomware) migrating from enterprise IT to ICS environments: WannaCry, NotPetya, and BadRabbit. In each of these cases, self-propagating (wormable) malware initially infected IT networks, but through exploit (particularly the SMBv1-targeting MS17-010 vulnerability) spread to industrial networks, producing significant impacts. (Citation: Joe Slowik April 2019)",
+    "x_mitre_platforms": [
+        "Human-Machine Interface",
+        "Data Historian",
+        "Engineering Workstation"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0866",
+            "external_id": "T0866"
+        },
+        {
+            "source_name": "Enterprise ATT&CK",
+            "description": "Enterprise ATT&CK   Exploitation of Remote Services Retrieved. 2019/10/27 ",
+            "url": "https://attack.mitre.org/techniques/T1210/"
+        },
+        {
+            "source_name": "Joe Slowik April 2019",
+            "description": "Joe Slowik 2019, April 10 Implications of IT Ransomware for ICS Environments Retrieved. 2019/10/27 ",
+            "url": "https://dragos.com/blog/industry-news/implications-of-it-ransomware-for-ics-environments/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "initial-access-ics"
+        },
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "lateral-movement-ics"
+        }
+    ],
+    "tactic": [
+        "initial-access-ics",
+        "lateral-movement-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Vulnerability Scanning",
+                "description": "Vulnerability scanning is used to find potentially exploitable software vulnerabilities to remediate them.",
+                "type": "course-of-action",
+                "id": "M0916"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M0942"
+            },
+            {
+                "name": "Exploit Protection",
+                "description": "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring.",
+                "type": "course-of-action",
+                "id": "M0950"
+            },
+            {
+                "name": "Threat Intelligence Program",
+                "description": "A threat intelligence program helps an organization generate their own threat intelligence information and track trends to inform defensive priorities to mitigate risk.",
+                "type": "course-of-action",
+                "id": "M0919"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network.  Restrict network access to only required systems and services. In addition, prevent systems from other networks or business functions (e.g., enterprise) from accessing critical process control systems. For example, in IEC 62443, systems within the same secure level should be grouped into a zone, and access to that zone is restricted by a conduit, or mechanism to restrict data flows between zones by segmenting the network. (Citation: IEC February 2019) (Citation: IEC August 2013)",
+                "type": "course-of-action",
+                "id": "M0930"
+            },
+            {
+                "name": "Application Isolation and Sandboxing",
+                "description": "Restrict the execution of code to a virtual environment on or in-transit to an endpoint system.",
+                "type": "course-of-action",
+                "id": "M0948"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M0926"
+            },
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk. Software updates may need to be scheduled around operational down times.",
+                "type": "course-of-action",
+                "id": "M0951"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

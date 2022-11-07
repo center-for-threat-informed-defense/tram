@@ -1,0 +1,90 @@
+﻿{
+    "id": "T1562.010",
+    "name": "Downgrade Attack",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may downgrade or use a version of system features that may be outdated, vulnerable, and/or does not support updated security controls such as logging. For example, [PowerShell](https://attack.mitre.org/techniques/T1059/001) versions 5+ includes Script Block Logging (SBL) which can record executed script content. However, adversaries may attempt to execute a previous version of PowerShell that does not support SBL with the intent to [Impair Defenses](https://attack.mitre.org/techniques/T1562) while running malicious scripts that may have otherwise been detected.(Citation: CrowdStrike BGH Ransomware 2021)(Citation: Mandiant BYOL 2018)(Citation: att_def_ps_logging)\n\nAdversaries may downgrade and use less-secure versions of various features of a system, such as [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059)s or even network protocols that can be abused to enable [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557).(Citation: Praetorian TLS Downgrade Attack 2014)",
+    "x_mitre_platforms": [
+        "Windows",
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1562/010",
+            "external_id": "T1562.010"
+        },
+        {
+            "source_name": "CrowdStrike BGH Ransomware 2021",
+            "description": "Falcon Complete Team. (2021, May 11). Response When Minutes Matter: Rising Up Against Ransomware. Retrieved October 8, 2021.",
+            "url": "https://www.crowdstrike.com/blog/how-falcon-complete-stopped-a-big-game-hunting-ransomware-attack/"
+        },
+        {
+            "source_name": "att_def_ps_logging",
+            "description": "Hao, M. (2019, February 27). Attack and Defense Around PowerShell Event Logging. Retrieved November 24, 2021.",
+            "url": "https://nsfocusglobal.com/attack-and-defense-around-powershell-event-logging/"
+        },
+        {
+            "source_name": "inv_ps_attacks",
+            "description": "Hastings, M. (2014, July 16). Investigating PowerShell Attacks. Retrieved December 1, 2021.",
+            "url": "https://powershellmagazine.com/2014/07/16/investigating-powershell-attacks/"
+        },
+        {
+            "source_name": "Mandiant BYOL 2018",
+            "description": "Kirk, N. (2018, June 18). Bring Your Own Land (BYOL) \u2013 A Novel Red Teaming Technique. Retrieved October 8, 2021.",
+            "url": "https://www.mandiant.com/resources/bring-your-own-land-novel-red-teaming-technique"
+        },
+        {
+            "source_name": "Praetorian TLS Downgrade Attack 2014",
+            "description": "Praetorian. (2014, August 19). Man-in-the-Middle TLS Protocol Downgrade Attack. Retrieved October 8, 2021.",
+            "url": "https://www.praetorian.com/blog/man-in-the-middle-tls-ssl-protocol-downgrade-attack/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor for commands or other activity that may be indicative of attempts to abuse older or deprecated technologies (ex: <code>powershell \u2013v 2</code>). Also monitor for other abnormal events, such as execution of and/or processes spawning from a version of a tool that is not expected in the environment.\n\nMonitor for Windows event ID (EID) 400, specifically the <code>EngineVersion</code> field which shows the version of PowerShell running and may highlight a malicious downgrade attack.(Citation: inv_ps_attacks)",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "Process: Process Metadata"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

@@ -1,0 +1,84 @@
+﻿{
+    "id": "T1027.005",
+    "name": "Indicator Removal from Tools",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may remove indicators from tools if they believe their malicious tool was detected, quarantined, or otherwise curtailed. They can modify the tool by removing the indicator and using the updated version that is no longer detected by the target's defensive systems or subsequent targets that may use similar systems.\n\nA good example of this is when malware is detected with a file signature and quarantined by anti-virus software. An adversary who can determine that the malware was quarantined because of its file signature may modify the file to explicitly avoid that signature, and then re-use the malware.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Anti-virus",
+        "Host intrusion prevention systems",
+        "Log analysis",
+        "Signature-based detection"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1027/005",
+            "external_id": "T1027.005"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "The first detection of a malicious tool may trigger an anti-virus or other security tool alert. Similar events may also occur at the boundary through network IDS, email scanning appliance, etc. The initial detection should be treated as an indication of a potentially more invasive intrusion. The alerting system should be thoroughly investigated beyond that initial alert for activity that was not detected. Adversaries may continue with an operation, assuming that individual events like an anti-virus detect will not be investigated or that an analyst will not be able to conclusively link that event to other activity occurring on the network.",
+    "x_mitre_data_sources": [
+        "Application Log: Application Log Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that anti-virus is implemented in an organization to detect malicious tools.",
+                "acid": "98581560"
+            },
+            {
+                "description": "Ensure that network IDS is implemented in an organization to detect malicious traffic.",
+                "acid": "98581561"
+            },
+            {
+                "description": "Ensure that the email scanning tool is implemented in an organization to detect a malicious file.",
+                "acid": "98581562"
+            },
+            {
+                "description": "Ensure that the alerting system is thoroughly investigated beyond the initial alert for the activity that was not detected.",
+                "acid": "98581563"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000004",
+        "40000077"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100521",
+        "50102561"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

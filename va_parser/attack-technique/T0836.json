@@ -1,0 +1,86 @@
+﻿{
+    "id": "T0836",
+    "name": "Modify Parameter",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may modify parameters used to instruct industrial control system devices. These devices operate via programs that dictate how and when to perform actions based on such parameters. Such parameters can determine the extent to which an action is performed and may specify additional options. For example, a program on a control system device dictating motor processes may take a parameter defining the total number of seconds to run that motor.      \n\nAn adversary can potentially modify these parameters to produce an outcome outside of what was intended by the operators. By modifying system and process critical parameters, the adversary may cause [Impact](https://attack.mitre.org/tactics/TA0105) to equipment and/or control processes. Modified parameters may be turned into dangerous, out-of-bounds, or unexpected values from typical operations. For example, specifying that a process run for more or less time than it should, or dictating an unusually high, low, or invalid value as a parameter.   \n\nIn the Maroochy Attack, Vitek Boden gained remote computer access to the control system and altered data so that whatever function should have occurred at affected pumping stations did not occur or occurred in a different way. The software program installed in the laptop was one developed by Hunter Watertech for its use in changing configurations in the PDS computers. This ultimately led to 800,000 liters of raw sewage being spilled out into the community. (Citation: Marshall Abrams July 2008)  \n\nIn the Oldsmar water treatment attack, adversaries raised the sodium hydroxide setpoint value from 100 part-per-million (ppm) to 11,100 ppm, far beyond normal operating levels. (Citation: Pinellas County Sheriffs Office February 2021)",
+    "x_mitre_platforms": [
+        "Control Server",
+        "Field Controller/RTU/PLC/IED",
+        "Safety Instrumented System/Protection Relay",
+        "Human-Machine Interface"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T0836",
+            "url": "https://attack.mitre.org/techniques/T0836"
+        },
+        {
+            "source_name": "Marshall Abrams July 2008",
+            "url": "https://www.mitre.org/sites/default/files/pdf/08_1145.pdf",
+            "description": "Marshall Abrams 2008, July 23 Malicious Control System Cyber Security Attack Case Study Maroochy Water Services, Australia Retrieved. 2018/03/27 "
+        },
+        {
+            "source_name": "Pinellas County Sheriffs Office February 2021",
+            "url": "https://www.youtube.com/watch?v=MkXDSOgLQ6M",
+            "description": "Pinellas County Sheriffs Office 2021, February 8 Treatment Plant Intrusion Press Conference Retrieved. 2021/10/08 "
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "impair-process-control"
+        }
+    ],
+    "tactic": [
+        "impair-process-control"
+    ],
+    "x_mitre_detection": "",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content",
+        "Application Log: Application Log Content",
+        "Operational Databases: Device Alarm",
+        "Asset: Device Configuration/Parameters"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses. Perform periodic integrity checks of the device to validate the correctness of the firmware, software, programs, and configurations. Integrity checks, which typically include cryptographic hashes or digital signatures, should be compared to those obtained at known valid states, especially after events like device reboots, program downloads, or program restarts.",
+                "type": "course-of-action",
+                "id": "M0947"
+            },
+            {
+                "name": "Authorization Enforcement",
+                "description": "The device or system should restrict read, manipulate, or execute privileges to only authenticated users who require access based on approved security policies.  Role-based Access Control (RBAC) schemes can help reduce the overhead of assigning permissions to the large number of devices within an ICS. For example, IEC 62351 provides examples of roles used to support common system operations within the electric power sector  (Citation: International Electrotechnical Commission July 2020), while IEEE 1686 defines standard permissions for users of IEDs. (Citation: Institute of Electrical and Electronics Engineers January 2014)",
+                "type": "course-of-action",
+                "id": "M0800"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [
+        "CVE-2018-18995"
+    ],
+    "subTechniques": []
+}

@@ -1,0 +1,139 @@
+{
+    "id": "T1505.001",
+    "name": "SQL Stored Procedures",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse SQL stored procedures to establish persistent access to systems. SQL Stored Procedures are code that can be saved and reused so that database users do not waste time rewriting frequently used SQL queries. Stored procedures can be invoked via SQL statements to the database using the procedure name or via defined events (e.g. when a SQL server application is started/restarted).\n\nAdversaries may craft malicious stored procedures that can provide a persistence mechanism in SQL database servers.(Citation: NetSPI Startup Stored Procedures)(Citation: Kaspersky MSSQL Aug 2019) To execute operating system commands through SQL syntax the adversary may have to enable additional functionality, such as xp_cmdshell for MSSQL Server.(Citation: NetSPI Startup Stored Procedures)(Citation: Kaspersky MSSQL Aug 2019)(Citation: Microsoft xp_cmdshell 2017) \n\nMicrosoft SQL Server can enable common language runtime (CLR) integration. With CLR integration enabled, application developers can write stored procedures using any .NET framework language (e.g. VB .NET, C#, etc.).(Citation: Microsoft CLR Integration 2017) Adversaries may craft or modify CLR assemblies that are linked to stored procedures since these CLR assemblies can be made to execute arbitrary commands.(Citation: NetSPI SQL Server CLR) ",
+    "x_mitre_platforms": [
+        "Windows",
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1505/001",
+            "external_id": "T1505.001"
+        },
+        {
+            "source_name": "NetSPI Startup Stored Procedures",
+            "description": "Sutherland, S. (2016, March 7). Maintaining Persistence via SQL Server \u2013 Part 1: Startup Stored Procedures. Retrieved July 8, 2019.",
+            "url": "https://blog.netspi.com/sql-server-persistence-part-1-startup-stored-procedures/"
+        },
+        {
+            "source_name": "Kaspersky MSSQL Aug 2019",
+            "description": "Plakhov, A., Sitchikhin, D. (2019, August 22). Agent 1433: remote attack on Microsoft SQL Server. Retrieved September 4, 2019.",
+            "url": "https://securelist.com/malicious-tasks-in-ms-sql-server/92167/"
+        },
+        {
+            "source_name": "Microsoft xp_cmdshell 2017",
+            "description": "Microsoft. (2017, March 15). xp_cmdshell (Transact-SQL). Retrieved September 9, 2019.",
+            "url": "https://docs.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/xp-cmdshell-transact-sql?view=sql-server-2017"
+        },
+        {
+            "source_name": "Microsoft CLR Integration 2017",
+            "description": "Microsoft. (2017, June 19). Common Language Runtime Integration. Retrieved July 8, 2019.",
+            "url": "https://docs.microsoft.com/en-us/sql/relational-databases/clr-integration/common-language-runtime-integration-overview?view=sql-server-2017"
+        },
+        {
+            "source_name": "NetSPI SQL Server CLR",
+            "description": "Sutherland, S. (2017, July 13). Attacking SQL Server CLR Assemblies. Retrieved July 8, 2019.",
+            "url": "https://blog.netspi.com/attacking-sql-server-clr-assemblies/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "On a MSSQL Server, consider monitoring for xp_cmdshell usage.(Citation: NetSPI Startup Stored Procedures) Consider enabling audit features that can log malicious startup activities.",
+    "x_mitre_data_sources": [
+        "Application Log: Application Log Content"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM",
+        "root"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Code Signing",
+                "description": "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+                "type": "course-of-action",
+                "id": "M1045"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that component software on critical services are regularly checked to verify the integrity of the systems and identify if unexpected changes have been made",
+                "acid": "98580969"
+            },
+            {
+                "description": "Ensure that all application component binaries are signed by the correct application developers",
+                "acid": "98580970"
+            },
+            {
+                "description": "Ensure that administrator accounts having permissions to add component software are not allowed day-to-day operations",
+                "acid": "98580971"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that on an MSSQL Server, monitoring for xp_cmdshell usage is performed",
+                "acid": "98580967"
+            },
+            {
+                "description": "Ensure that audit features are enabled to log malicious startup activities",
+                "acid": "98580968"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "14050010",
+        "14050018",
+        "14110018",
+        "14110038",
+        "14120010",
+        "14120017",
+        "14130010",
+        "14130017",
+        "14170010",
+        "14170018"
+    ],
+    "cveIds": []
+}

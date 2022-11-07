@@ -1,0 +1,59 @@
+﻿{
+    "id": "T0825",
+    "name": "Location Identification",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": true,
+    "description": "Adversaries may perform location identification using device data to inform operations and targeted impact for attacks. Location identification data can come in a number of forms, including geographic location, location relative to other control system devices, time zone, and current time. An adversary may use an embedded global positioning system (GPS) module in a device to figure out the physical coordinates of a device. NIST SP800-82 recommends that devices utilize GPS or another location determining mechanism to attach appropriate timestamps to log entries (Citation: Guidance - NIST SP800-82). While this assists in logging and event tracking, an adversary could use the underlying positioning mechanism to determine the general location of a device. An adversary can also infer the physical location of serially connected devices by using serial connection enumeration. \n\nAn adversary attempt to attack and cause Impact could potentially affect other control system devices in close proximity. Device local-time and time-zone settings can also provide adversaries a rough indicator of device location, when specific geographic identifiers cannot be determined from the system.",
+    "x_mitre_platforms": [
+        "Windows",
+        "Control Server"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0825",
+            "external_id": "T0825"
+        },
+        {
+            "source_name": "Guidance - NIST SP800-82",
+            "description": "Keith Stouffer. (2015, May). Guide to Industrial Control Systems (ICS) Security. Retrieved March 28, 2018.",
+            "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-82r2.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "collection-ics"
+        }
+    ],
+    "tactic": [
+        "collection-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

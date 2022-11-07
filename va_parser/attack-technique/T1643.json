@@ -1,0 +1,66 @@
+﻿{
+    "id": "T1643",
+    "name": "Generate Traffic from Victim",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may generate outbound traffic from devices. This is typically performed to manipulate external outcomes, such as to achieve carrier billing fraud or to manipulate app store rankings or ratings. Outbound traffic is typically generated as SMS messages or general web traffic, but may take other forms as well.\n\nIf done via SMS messages, Android apps must hold the `SEND_SMS` permission. Additionally, sending an SMS message requires user consent if the recipient is a premium number. Applications cannot send SMS messages on iOS",
+    "x_mitre_platforms": [
+        "Android",
+        "iOS"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T1643",
+            "url": "https://attack.mitre.org/techniques/T1643"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/application-threats/APP-16.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "APP-16"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "phase_name": "impact",
+            "kill_chain_name": "mitre-mobile-attack"
+        }
+    ],
+    "tactic": [
+        "impact"
+    ],
+    "x_mitre_detection": "On Android, users can review which applications can use premium SMS features in the \u201cSpecial access\u201d page within application settings. Application vetting services can detect when applications request the `SEND_SMS` permission, which should be infrequently used.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Guidance",
+                "description": "Describes any guidance or training given to users to set particular configuration settings or avoid specific potentially risky behaviors.",
+                "type": "course-of-action",
+                "id": "M1011"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

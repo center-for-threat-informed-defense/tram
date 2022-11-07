@@ -1,0 +1,197 @@
+{
+    "id": "T1569.002",
+    "name": "Service Execution",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse the Windows service control manager to execute malicious commands or payloads. The Windows service control manager (<code>services.exe</code>) is an interface to manage and manipulate services.(Citation: Microsoft Service Control Manager) The service control manager is accessible to users via GUI components as well as system utilities such as <code>sc.exe</code> and [Net](https://attack.mitre.org/software/S0039).\n\n[PsExec](https://attack.mitre.org/software/S0029) can also be used to execute commands or payloads via a temporary Windows service created through the service control manager API.(Citation: Russinovich Sysinternals) Tools such as [PsExec](https://attack.mitre.org/software/S0029) and <code>sc.exe</code> can accept remote servers as arguments and may be used to conduct remote execution.\n\nAdversaries may leverage these mechanisms to execute malicious content. This can be done by either executing a new or modified service. This technique is the execution used in conjunction with [Windows Service](https://attack.mitre.org/techniques/T1543/003) during service persistence or privilege escalation.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1569/002",
+            "external_id": "T1569.002"
+        },
+        {
+            "source_name": "Microsoft Service Control Manager",
+            "description": "Microsoft. (2018, May 31). Service Control Manager. Retrieved March 28, 2020.",
+            "url": "https://docs.microsoft.com/windows/win32/services/service-control-manager"
+        },
+        {
+            "source_name": "Russinovich Sysinternals",
+            "description": "Russinovich, M. (2014, May 2). Windows Sysinternals PsExec v2.11. Retrieved May 13, 2015.",
+            "url": "https://technet.microsoft.com/en-us/sysinternals/bb897553.aspx"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        }
+    ],
+    "tactic": [
+        "execution"
+    ],
+    "x_mitre_detection": "Changes to service Registry entries and command line invocation of tools capable of modifying services that do not correlate with known software, patch cycles, etc., may be suspicious. If a service is used only to execute a binary or script and not to persist, then it will likely be changed back to its original form shortly after the service is restarted so the service is not left broken, as is the case with the common administrator tool [PsExec](https://attack.mitre.org/software/S0029).",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Windows Registry: Windows Registry Key Modification",
+        "Command: Command Execution",
+        "Service: Service Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": true,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that services are configured to run at the permission level of the user who created it",
+                "acid": "98580362"
+            },
+            {
+                "description": "Ensure that users with low privileges are configured to have blocked access to replace or modify service binaries with high permission",
+                "acid": "98580363"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that service registry entries and command-line invocation of tools are monitored for changes. (that do not correlate with known software changes)",
+                "acid": "98580361"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "15030343",
+        "15030347",
+        "15030348",
+        "16010409",
+        "16010448",
+        "16010453",
+        "16010459",
+        "16010462",
+        "16010479",
+        "16010528",
+        "16020412",
+        "16020419",
+        "16020458",
+        "16020463",
+        "16020465",
+        "16020466",
+        "16020467",
+        "16020469",
+        "16020472",
+        "16020489",
+        "16020538",
+        "16100399",
+        "16100454",
+        "16100461",
+        "16100500",
+        "16100505",
+        "16100507",
+        "16100508",
+        "16100509",
+        "16100511",
+        "16100514",
+        "16100531",
+        "16100580",
+        "16100590",
+        "16100592",
+        "16100604",
+        "16100605",
+        "16110396",
+        "16110435",
+        "16110440",
+        "16110446",
+        "16110449",
+        "16110466",
+        "16110515",
+        "16120407",
+        "16120414",
+        "16120453",
+        "16120458",
+        "16120460",
+        "16120461",
+        "16120462",
+        "16120464",
+        "16120467",
+        "16120484",
+        "16120533",
+        "19920437",
+        "19920439",
+        "19920440",
+        "19920445",
+        "19920448",
+        "19920450",
+        "19920453",
+        "19920455",
+        "19920456",
+        "19920460",
+        "19920461",
+        "19920462",
+        "19920463",
+        "19920465",
+        "19920466",
+        "19920468",
+        "19920469",
+        "19920470",
+        "19920471",
+        "19920474",
+        "19920475",
+        "19920478",
+        "19920479",
+        "19920482",
+        "19920483",
+        "19920485",
+        "19920486",
+        "19920487",
+        "19920488",
+        "19920490",
+        "19920493",
+        "19920494",
+        "19920496",
+        "19920497",
+        "19920499"
+    ],
+    "cveIds": []
+}

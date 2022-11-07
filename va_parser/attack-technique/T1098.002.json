@@ -1,0 +1,144 @@
+{
+    "id": "T1098.002",
+    "name": "Additional Email Delegate Permissions",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may grant additional permission levels to maintain persistent access to an adversary-controlled email account. \n\nFor example, the <code>Add-MailboxPermission</code> [PowerShell](https://attack.mitre.org/techniques/T1059/001) cmdlet, available in on-premises Exchange and in the cloud-based service Office 365, adds permissions to a mailbox.(Citation: Microsoft - Add-MailboxPermission)(Citation: FireEye APT35 2018)(Citation: Crowdstrike Hiding in Plain Sight 2018) In Google Workspace, delegation can be enabled via the Google Admin console and users can delegate accounts via their Gmail settings.(Citation: Gmail Delegation)(Citation: Google Ensuring Your Information is Safe) \n\nAdversaries may also assign mailbox folder permissions through individual folder permissions or roles. In Office 365 environments, adversaries may assign the Default or Anonymous user permissions or roles to the Top of Information Store (root), Inbox, or other mailbox folders. By assigning one or both user permissions to a folder, the adversary can utilize any other account in the tenant to maintain persistence to the target user's mail folders.(Citation: Remediation and Hardening Strategies for Microsoft 365 to Defend Against UNC2452)\n\nThis may be used in persistent threat incidents as well as BEC (Business Email Compromise) incidents where an adversary can add [Additional Cloud Roles](https://attack.mitre.org/techniques/T1098/003) to the accounts they wish to compromise. This may further enable use of additional techniques for gaining access to systems. For example, compromised business accounts are often used to send messages to other accounts in the network of the target business while creating inbox rules (ex: [Internal Spearphishing](https://attack.mitre.org/techniques/T1534)), so the messages evade spam/phishing detection mechanisms.(Citation: Bienstock, D. - Defending O365 - 2019)",
+    "x_mitre_platforms": [
+        "Windows",
+        "Office 365",
+        "Google Workspace"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1098/002",
+            "external_id": "T1098.002"
+        },
+        {
+            "source_name": "Bienstock, D. - Defending O365 - 2019",
+            "description": "Bienstock, D.. (2019). BECS and Beyond: Investigating and Defending O365. Retrieved September 13, 2019.",
+            "url": "https://www.slideshare.net/DouglasBienstock/shmoocon-2019-becs-and-beyond-investigating-and-defending-office-365"
+        },
+        {
+            "source_name": "Crowdstrike Hiding in Plain Sight 2018",
+            "description": "Crowdstrike. (2018, July 18). Hiding in Plain Sight: Using the Office 365 Activities API to Investigate Business Email Compromises. Retrieved January 19, 2020.",
+            "url": "https://www.crowdstrike.com/blog/hiding-in-plain-sight-using-the-office-365-activities-api-to-investigate-business-email-compromises/"
+        },
+        {
+            "source_name": "Google Ensuring Your Information is Safe",
+            "description": "Google. (2011, June 1). Ensuring your information is safe online. Retrieved April 1, 2022.",
+            "url": "https://googleblog.blogspot.com/2011/06/ensuring-your-information-is-safe.html"
+        },
+        {
+            "source_name": "Gmail Delegation",
+            "description": "Google. (n.d.). Turn Gmail delegation on or off. Retrieved April 1, 2022.",
+            "url": "https://support.google.com/a/answer/7223765?hl=en"
+        },
+        {
+            "source_name": "FireEye APT35 2018",
+            "description": "Mandiant. (2018). Mandiant M-Trends 2018. Retrieved July 9, 2018.",
+            "url": "https://www.fireeye.com/content/dam/collateral/en/mtrends-2018.pdf"
+        },
+        {
+            "source_name": "Microsoft - Add-MailboxPermission",
+            "description": "Microsoft. (n.d.). Add-Mailbox Permission. Retrieved September 13, 2019.",
+            "url": "https://docs.microsoft.com/en-us/powershell/module/exchange/mailboxes/add-mailboxpermission?view=exchange-ps"
+        },
+        {
+            "source_name": "Remediation and Hardening Strategies for Microsoft 365 to Defend Against UNC2452",
+            "description": "Mike Burns, Matthew McWhirt, Douglas Bienstock, Nick Bennett. (2021, January 19). Remediation and Hardening Strategies for Microsoft 365 to Defend Against UNC2452. Retrieved September 25, 2021.",
+            "url": "https://www.fireeye.com/blog/threat-research/2021/01/remediation-and-hardening-strategies-for-microsoft-365-to-defend-against-unc2452.html"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Monitor for unusual Exchange and Office 365 email account permissions changes that may indicate excessively broad permissions being granted to compromised accounts.\n\nEnable the UpdateFolderPermissions action for all logon types. The mailbox audit log will forward folder permission modification events to the Unified Audit Log. Create rules to alert on ModifyFolderPermissions operations where the Anonymous or Default user is assigned permissions other than None. \n\nA larger than normal volume of emails sent from an account and similar phishing emails sent from \u202freal accounts within a network may be a sign that an account was compromised and attempts to leverage access with modified email permissions is occurring.",
+    "x_mitre_data_sources": [
+        "User Account: User Account Modification",
+        "Application Log: Application Log Content",
+        "Group: Group Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Multi-factor Authentication",
+                "description": "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+                "type": "course-of-action",
+                "id": "M1032"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that multifactor authentication is implemented for all user accounts",
+                "acid": "98580415"
+            },
+            {
+                "description": "Ensure that multifactor authentication is implemented for all privileged accounts",
+                "acid": "98580416"
+            },
+            {
+                "description": "Ensure that domain administrator accounts are not used for day-to-day operations",
+                "acid": "98580417"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that unusual Exchange and Office 365 email account permissions changes are monitored",
+                "acid": "98580413"
+            },
+            {
+                "description": "Ensure that volume of emails sent from an account should be monitored to identify if it is similar to phishing emails spams",
+                "acid": "98580414"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "19120021",
+        "19120022",
+        "19120032",
+        "19120033",
+        "19120034",
+        "19120042"
+    ],
+    "cveIds": []
+}

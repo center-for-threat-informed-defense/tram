@@ -1,0 +1,171 @@
+{
+    "id": "T1499.001",
+    "name": "OS Exhaustion Flood",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may launch a denial of service (DoS) attack targeting an endpoint's operating system (OS). A system's OS is responsible for managing the finite resources as well as preventing the entire system from being overwhelmed by excessive demands on its capacity. These attacks do not need to exhaust the actual resources on a system; the attacks may simply exhaust the limits and available resources that an OS self-imposes.\n\nDifferent ways to achieve this exist, including TCP state-exhaustion attacks such as SYN floods and ACK floods.(Citation: Arbor AnnualDoSreport Jan 2018) With SYN floods, excessive amounts of SYN packets are sent, but the 3-way TCP handshake is never completed. Because each OS has a maximum number of concurrent TCP connections that it will allow, this can quickly exhaust the ability of the system to receive new requests for TCP connections, thus preventing access to any TCP service provided by the server.(Citation: Cloudflare SynFlood)\n\nACK floods leverage the stateful nature of the TCP protocol. A flood of ACK packets are sent to the target. This forces the OS to search its state table for a related TCP connection that has already been established. Because the ACK packets are for connections that do not exist, the OS will have to search the entire state table to confirm that no match exists. When it is necessary to do this for a large flood of packets, the computational requirements can cause the server to become sluggish and/or unresponsive, due to the work it must do to eliminate the rogue ACK packets. This greatly reduces the resources available for providing the targeted service.(Citation: Corero SYN-ACKflood)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1499/001",
+            "external_id": "T1499.001"
+        },
+        {
+            "source_name": "Cisco DoSdetectNetflow",
+            "description": "Cisco. (n.d.). Detecting and Analyzing Network Threats With NetFlow. Retrieved April 25, 2019.",
+            "url": "https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/netflow/configuration/15-mt/nf-15-mt-book/nf-detct-analy-thrts.pdf"
+        },
+        {
+            "source_name": "Cloudflare SynFlood",
+            "description": "Cloudflare. (n.d.). What is a SYN flood attack?. Retrieved April 22, 2019.",
+            "url": "https://www.cloudflare.com/learning/ddos/syn-flood-ddos-attack/"
+        },
+        {
+            "source_name": "Corero SYN-ACKflood",
+            "description": "Corero. (n.d.). What is a SYN-ACK Flood Attack?. Retrieved April 22, 2019.",
+            "url": "https://www.corero.com/resources/ddos-attack-types/syn-flood-ack.html"
+        },
+        {
+            "source_name": "Arbor AnnualDoSreport Jan 2018",
+            "description": "Philippe Alcoy, Steinthor Bjarnason, Paul Bowen, C.F. Chui, Kirill Kasavchnko, and Gary Sockrider of Netscout Arbor. (2018, January). Insight into the Global Threat Landscape - Netscout Arbor's 13th Annual Worldwide Infrastructure Security Report. Retrieved April 22, 2019.",
+            "url": "https://pages.arbornetworks.com/rs/082-KNA-087/images/13th_Worldwide_Infrastructure_Security_Report.pdf"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/469.html",
+            "external_id": "CAPEC-469"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/482.html",
+            "external_id": "CAPEC-482"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "impact"
+        }
+    ],
+    "tactic": [
+        "impact"
+    ],
+    "x_mitre_detection": "Detection of Endpoint DoS can sometimes be achieved before the effect is sufficient to cause significant impact to the availability of the service, but such response time typically requires very aggressive monitoring and responsiveness. Typical network throughput monitoring tools such as netflow, SNMP, and custom scripts can be used to detect sudden increases in circuit utilization.(Citation: Cisco DoSdetectNetflow) Real-time, automated, and qualitative study of the network traffic can identify a sudden surge in one type of protocol can be used to detect an attack as it starts.",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Flow",
+        "Sensor Health: Host Status",
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Endpoint Denial of Service Mitigation",
+                "description": "Leverage services provided by Content Delivery Networks (CDN) or providers specializing in DoS mitigations to filter traffic upstream from services.(Citation: CERT-EU DDoS March 2017) Filter boundary traffic by blocking source addresses sourcing the attack, blocking ports that are being targeted, or blocking protocols being used for transport. To defend against SYN floods, enable SYN Cookies.",
+                "type": "course-of-action",
+                "id": "T1499"
+            },
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that services provided by Content Delivery Networks (CDN) or providers specializing in DoS mitigations to filter traffic upstream from services are followed.",
+                "acid": "98582841"
+            },
+            {
+                "description": "Ensure that network devices are configured to filter network traffic by blocking the source address of the attack.",
+                "acid": "98582842"
+            },
+            {
+                "description": "Ensure that network device are configured to block ports that are being targeted in the attack.",
+                "acid": "98582843"
+            },
+            {
+                "description": "Ensure that network device are configured to block protocols being used for transport.",
+                "acid": "98582844"
+            },
+            {
+                "description": "Ensure that SYN Cookies are enabled to prevent SYN floods attack.",
+                "acid": "98582845"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the monitoring tool is configured ( with aggressive response time) to detect Endpoint DoS.",
+                "acid": "98582838"
+            },
+            {
+                "description": "Ensure that monitoring tool e.g. netflow, SNMP, and custom scripts are used to analyze network traffic to detect sudden spikes in the network.",
+                "acid": "98582839"
+            },
+            {
+                "description": "Ensure that real-time, automated, and qualitative study of network traffic is analyzed to identify a sudden surge in one type of protocol (can be used to detect an attack in the initial stage).",
+                "acid": "98582840"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000020",
+        "40000513",
+        "40000523"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "101540010",
+        "101540016",
+        "101540039",
+        "101540040",
+        "101550010",
+        "101550016",
+        "101550040",
+        "101550041",
+        "101560010",
+        "101560011",
+        "101560015",
+        "101560016",
+        "101570010",
+        "101570011",
+        "101570015",
+        "101570016",
+        "101600010",
+        "101600011",
+        "101600015",
+        "101600016",
+        "103900010",
+        "103900011",
+        "103900015",
+        "103900016",
+        "10460015",
+        "10460016",
+        "11010015",
+        "11010016",
+        "16390020"
+    ],
+    "cveIds": [
+        "CVE-2020-15393"
+    ]
+}

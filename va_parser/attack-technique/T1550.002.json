@@ -1,0 +1,152 @@
+{
+    "id": "T1550.002",
+    "name": "Pass the Hash",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may \u201cpass the hash\u201d using stolen password hashes to move laterally within an environment, bypassing normal system access controls. Pass the hash (PtH) is a method of authenticating as a user without having access to the user's cleartext password. This method bypasses standard authentication steps that require a cleartext password, moving directly into the portion of the authentication that uses the password hash.\n\nWhen performing PtH, valid password hashes for the account being used are captured using a [Credential Access](https://attack.mitre.org/tactics/TA0006) technique. Captured hashes are used with PtH to authenticate as that user. Once authenticated, PtH may be used to perform actions on local or remote systems.\n\nAdversaries may also use stolen password hashes to \"overpass the hash.\" Similar to PtH, this involves using a password hash to authenticate as a user but also uses the password hash to create a valid Kerberos ticket. This ticket can then be used to perform [Pass the Ticket](https://attack.mitre.org/techniques/T1550/003) attacks.(Citation: Stealthbits Overpass-the-Hash)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "System Access Controls"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1550/002",
+            "external_id": "T1550.002"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/644.html",
+            "external_id": "CAPEC-644"
+        },
+        {
+            "source_name": "Stealthbits Overpass-the-Hash",
+            "description": "Warren, J. (2019, February 26). How to Detect Overpass-the-Hash Attacks. Retrieved February 4, 2021.",
+            "url": "https://stealthbits.com/blog/how-to-detect-overpass-the-hash-attacks/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "lateral-movement"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "lateral-movement"
+    ],
+    "x_mitre_detection": "Audit all logon and credential use events and review for discrepancies. Unusual remote logins that correlate with other suspicious activity (such as writing and executing binaries) may indicate malicious activity. NTLM LogonType 3 authentications that are not associated to a domain login and are not anonymous logins are suspicious.\n\nEvent ID 4768 and 4769 will also be generated on the Domain Controller when a user requests a new ticket granting ticket or service ticket. These events combined with the above activity may be indicative of an overpass the hash attempt.(Citation: Stealthbits Overpass-the-Hash)",
+    "x_mitre_data_sources": [
+        "Logon Session: Logon Session Creation",
+        "User Account: User Account Authentication",
+        "Active Directory: Active Directory Credential Request"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk.",
+                "type": "course-of-action",
+                "id": "M1051"
+            },
+            {
+                "name": "User Account Control",
+                "description": "Configure Windows User Account Control to mitigate risk of adversaries obtaining elevated process access.",
+                "type": "course-of-action",
+                "id": "M1052"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that credential overlap across systems (for privileged accounts) are limited to prevent credential compromise.",
+                "acid": "98581780"
+            },
+            {
+                "description": "Ensure that a patch update- KB2871997 is applied to Windows 7 and higher systems to limit the default access of accounts in the local administrator group.",
+                "acid": "98581781"
+            },
+            {
+                "description": "Ensure that pass the hash mitigations is enabled to apply UAC restrictions to local accounts on network logon through GPO:\nComputer Configuration > [Policies] > Administrative Templates > SCM: Pass the Hash Mitigations: Apply UAC restrictions to local accounts on network logons.",
+                "acid": "98581782"
+            },
+            {
+                "description": "Ensure that domain accounts are not kept in the local administrator groups across multiple systems.",
+                "acid": "98581783"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that events related to logon are audited and checked for any discrepancies.",
+                "acid": "98581776"
+            },
+            {
+                "description": "Ensure that events related to credential use are audited and checked for any discrepancies.",
+                "acid": "98581777"
+            },
+            {
+                "description": "Ensure that remote logins are monitored for unusual sessions, and checked if it correlates with other suspicious activity.",
+                "acid": "98581778"
+            },
+            {
+                "description": "Ensure that NTLM LogonType 3 authentications if not associated to a domain login and are not anonymous logins are suspicious.",
+                "acid": "98581779"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000117",
+        "40000205",
+        "40000490",
+        "40000499",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "14050027",
+        "14050040",
+        "14110027",
+        "14110030",
+        "14120030",
+        "14120031",
+        "14130039",
+        "14130040",
+        "14170034"
+    ],
+    "cveIds": [
+        "CVE-2010-5290"
+    ]
+}

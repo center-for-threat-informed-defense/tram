@@ -1,0 +1,143 @@
+{
+    "id": "T1491.002",
+    "name": "External Defacement",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "An adversary may deface systems external to an organization in an attempt to deliver messaging, intimidate, or otherwise mislead an organization or users. [External Defacement](https://attack.mitre.org/techniques/T1491/002) may ultimately cause users to distrust the systems and to question/discredit the system's integrity. Externally-facing websites are a common victim of defacement; often targeted by adversary and hacktivist groups in order to push a political message or spread propaganda.(Citation: FireEye Cyber Threats to Media Industries)(Citation: Kevin Mandia Statement to US Senate Committee on Intelligence)(Citation: Anonymous Hackers Deface Russian Govt Site) [External Defacement](https://attack.mitre.org/techniques/T1491/002) may be used as a catalyst to trigger events, or as a response to actions taken by an organization or government. Similarly, website defacement may also be used as setup, or a precursor, for future attacks such as [Drive-by Compromise](https://attack.mitre.org/techniques/T1189).(Citation: Trend Micro Deep Dive Into Defacement)",
+    "x_mitre_platforms": [
+        "Windows",
+        "IaaS",
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1491/002",
+            "external_id": "T1491.002"
+        },
+        {
+            "source_name": "FireEye Cyber Threats to Media Industries",
+            "description": "FireEye. (n.d.). Retrieved April 19, 2019.",
+            "url": "https://www.fireeye.com/content/dam/fireeye-www/current-threats/pdfs/ib-entertainment.pdf"
+        },
+        {
+            "source_name": "Kevin Mandia Statement to US Senate Committee on Intelligence",
+            "description": "Kevin Mandia. (2017, March 30). Prepared Statement of Kevin Mandia, CEO of FireEye, Inc. before the United States Senate Select Committee on Intelligence. Retrieved April 19, 2019.",
+            "url": "https://www.intelligence.senate.gov/sites/default/files/documents/os-kmandia-033017.pdf"
+        },
+        {
+            "source_name": "Anonymous Hackers Deface Russian Govt Site",
+            "description": "Andy. (2018, May 12). \u2018Anonymous\u2019 Hackers Deface Russian Govt. Site to Protest Web-Blocking (NSFW). Retrieved April 19, 2019.",
+            "url": "https://torrentfreak.com/anonymous-hackers-deface-russian-govt-site-to-protest-web-blocking-nsfw-180512/"
+        },
+        {
+            "source_name": "Trend Micro Deep Dive Into Defacement",
+            "description": "Marco Balduzzi, Ryan Flores, Lion Gu, Federico Maggi, Vincenzo Ciancaglini, Roel Reyes, Akira Urano. (n.d.). A Deep Dive into Defacement: How Geopolitical Events Trigger Web Attacks. Retrieved April 19, 2019.",
+            "url": "https://documents.trendmicro.com/assets/white_papers/wp-a-deep-dive-into-defacement.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "impact"
+        }
+    ],
+    "tactic": [
+        "impact"
+    ],
+    "x_mitre_detection": "Monitor external websites for unplanned content changes. Monitor application logs for abnormal behavior that may indicate attempted or successful exploitation. Use deep packet inspection to look for artifacts of common exploit traffic, such as SQL injection. Web Application Firewalls may detect improper inputs attempting exploitation.",
+    "x_mitre_data_sources": [
+        "File: File Modification",
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Data Backup",
+                "description": "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise.",
+                "type": "course-of-action",
+                "id": "M1053"
+            },
+            {
+                "name": "Defacement Mitigation",
+                "description": "Implementing best practices for websites such as defending against [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190) (Citation: OWASP Top 10 2017). Consider implementing IT disaster recovery plans that contain procedures for taking regular data backups that can be used to restore organizational data. (Ready.gov IT DRP) Ensure backups are stored off system and is protected from common methods adversaries may use to gain access and destroy the backups to prevent recovery.",
+                "type": "course-of-action",
+                "id": "T1491"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that IT disaster recovery plans are implemented in the organization for taking regular data backups.",
+                "acid": "98582799"
+            },
+            {
+                "description": "Ensure that data backups are stored off system and protected from common adversary methods.",
+                "acid": "98582800"
+            },
+            {
+                "description": "Ensure that data backups are protected from common methods adversaries use to gain access.",
+                "acid": "98582801"
+            },
+            {
+                "description": "Ensure that data backups are protected from common methods adversaries use to destroy the backups to prevent recovery.",
+                "acid": "98582802"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that monitoring solutions are in place to check unplanned content changes for external websites.",
+                "acid": "98582795"
+            },
+            {
+                "description": "Ensure that application logs are monitored for abnormal behavior indicating attempted or successful exploitation",
+                "acid": "98582796"
+            },
+            {
+                "description": "Ensure that deep packet inspection is employed to check for artifacts of common exploit traffic, e.g. SQL injection.",
+                "acid": "98582797"
+            },
+            {
+                "description": "Ensure that Web Application Firewalls are configured to detect improper inputs attempting exploitation.",
+                "acid": "98582798"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000112"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "14050026",
+        "14110026",
+        "14120029",
+        "14130038",
+        "14170033",
+        "17800010",
+        "17800011",
+        "17800015",
+        "17800016",
+        "17800018",
+        "18710002"
+    ],
+    "cveIds": [
+        "CVE-2017-1001000"
+    ]
+}

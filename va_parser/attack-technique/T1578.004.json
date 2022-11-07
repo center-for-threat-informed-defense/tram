@@ -1,0 +1,106 @@
+﻿{
+    "id": "T1578.004",
+    "name": "Revert Cloud Instance",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "An adversary may revert changes made to a cloud instance after they have performed malicious activities in attempt to evade detection and remove evidence of their presence. In highly virtualized environments, such as cloud-based infrastructure, this may be accomplished by restoring virtual machine (VM) or data storage snapshots through the cloud management dashboard or cloud APIs.\n\nAnother variation of this technique is to utilize temporary storage attached to the compute instance. Most cloud providers provide various types of storage including persistent, local, and/or ephemeral, with the ephemeral types often reset upon stop/restart of the VM.(Citation: Tech Republic - Restore AWS Snapshots)(Citation: Google - Restore Cloud Snapshot)",
+    "x_mitre_platforms": [
+        "IaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1578/004",
+            "external_id": "T1578.004"
+        },
+        {
+            "source_name": "Tech Republic - Restore AWS Snapshots",
+            "description": "Hardiman, N.. (2012, March 20). Backing up and restoring snapshots on Amazon EC2 machines. Retrieved October 8, 2019.",
+            "url": "https://www.techrepublic.com/blog/the-enterprise-cloud/backing-up-and-restoring-snapshots-on-amazon-ec2-machines/"
+        },
+        {
+            "source_name": "Google - Restore Cloud Snapshot",
+            "description": "Google. (2019, October 7). Restoring and deleting persistent disk snapshots. Retrieved October 8, 2019.",
+            "url": "https://cloud.google.com/compute/docs/disks/restore-and-delete-snapshots"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Establish centralized logging of instance activity, which can be used to monitor and review system events even after reverting to a snapshot, rolling back changes, or changing persistence/type of storage. Monitor specifically for events related to snapshots and rollbacks and VM configuration changes, that are occurring outside of normal activity. To reduce false positives, valid change management procedures could introduce a known identifier that is logged with the change (e.g., tag or header) if supported by the cloud provider, to help distinguish valid, expected actions from malicious ones.",
+    "x_mitre_data_sources": [
+        "Instance: Instance Stop",
+        "Instance: Instance Start",
+        "Instance: Instance Metadata",
+        "Instance: Instance Modification"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that centralized logging of instance activity is employed.",
+                "acid": "98581496"
+            },
+            {
+                "description": "Ensure that centralized logging is used to monitor system events even after reverting to a snapshot.",
+                "acid": "98581497"
+            },
+            {
+                "description": "Ensure that centralized logging is used to monitor system events even after rolling back changes.",
+                "acid": "98581498"
+            },
+            {
+                "description": "Ensure that centralized logging is used to monitor system events even after changing persistence/type of storage.",
+                "acid": "98581499"
+            },
+            {
+                "description": "Ensure that events related to snapshots (occurring outside of the normal activity) are monitored.",
+                "acid": "98581500"
+            },
+            {
+                "description": "Ensure that events related to rollbacks (occurring outside of the normal activity) are monitored.",
+                "acid": "98581501"
+            },
+            {
+                "description": "Ensure that events related to VM configuration changes (occurring outside of the normal activity) are monitored.",
+                "acid": "98581502"
+            },
+            {
+                "description": "Ensure that valid change management procedures are implemented to distinguish valid, expected actions from malicious ones.",
+                "acid": "98581503"
+            },
+            {
+                "description": "Ensure that valid change management procedures are implemented to reduce false positive.",
+                "acid": "98581504"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

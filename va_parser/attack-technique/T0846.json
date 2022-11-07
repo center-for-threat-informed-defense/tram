@@ -1,0 +1,74 @@
+﻿{
+    "id": "T0846",
+    "name": "Remote System Discovery",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to get a listing of other systems by IP address, hostname, or other logical identifier on a network that may be used for subsequent Lateral Movement or Discovery techniques. Functionality could exist within adversary tools to enable this, but utilities available on the operating system or vendor software could also be used. (Citation: Enterprise ATT&CK January 2018)",
+    "x_mitre_platforms": [
+        "Control Server",
+        "Data Historian",
+        "Safety Instrumented System/Protection Relay",
+        "Field Controller/RTU/PLC/IED",
+        "Human-Machine Interface"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0846",
+            "external_id": "T0846"
+        },
+        {
+            "source_name": "Enterprise ATT&CK January 2018",
+            "description": "Enterprise ATT&CK 2018, January 11 Remote System Discovery Retrieved. 2018/05/17 ",
+            "url": "https://attack.mitre.org/wiki/Technique/T1018"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "discovery-ics"
+        }
+    ],
+    "tactic": [
+        "discovery-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "File: File Access",
+        "Network Traffic: Network Connection Creation",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Static Network Configuration",
+                "description": "Configure hosts and devices to use static network configurations when possible, protocols that require dynamic discovery/addressing (e.g., ARP, DHCP, DNS) can be used to manipulate network message forwarding and enable various MitM attacks. This mitigation may not always be usable due to limited device features or challenges introduced with different network configurations.",
+                "type": "course-of-action",
+                "id": "M0814"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

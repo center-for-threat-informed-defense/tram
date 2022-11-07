@@ -1,0 +1,169 @@
+{
+    "id": "T1563.001",
+    "name": "SSH Hijacking",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may hijack a legitimate user's SSH session to move laterally within an environment. Secure Shell (SSH) is a standard means of remote access on Linux and macOS systems. It allows a user to connect to another system via an encrypted tunnel, commonly authenticating through a password, certificate or the use of an asymmetric encryption key pair.\n\nIn order to move laterally from a compromised host, adversaries may take advantage of trust relationships established with other systems via public key authentication in active SSH sessions by hijacking an existing connection to another system. This may occur through compromising the SSH agent itself or by having access to the agent's socket. If an adversary is able to obtain root access, then hijacking SSH sessions is likely trivial.(Citation: Slideshare Abusing SSH)(Citation: SSHjack Blackhat)(Citation: Clockwork SSH Agent Hijacking)(Citation: Breach Post-mortem SSH Hijack)\n\n[SSH Hijacking](https://attack.mitre.org/techniques/T1563/001) differs from use of [SSH](https://attack.mitre.org/techniques/T1021/004) because it hijacks an existing SSH session rather than creating a new session using [Valid Accounts](https://attack.mitre.org/techniques/T1078).",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1563/001",
+            "external_id": "T1563.001"
+        },
+        {
+            "source_name": "Slideshare Abusing SSH",
+            "description": "Duarte, H., Morrison, B. (2012). (Mis)trusting and (ab)using ssh. Retrieved January 8, 2018.",
+            "url": "https://www.slideshare.net/morisson/mistrusting-and-abusing-ssh-13526219"
+        },
+        {
+            "source_name": "SSHjack Blackhat",
+            "description": "Adam Boileau. (2005, August 5). Trust Transience:  Post Intrusion SSH Hijacking. Retrieved December 19, 2017.",
+            "url": "https://www.blackhat.com/presentations/bh-usa-05/bh-us-05-boileau.pdf"
+        },
+        {
+            "source_name": "Clockwork SSH Agent Hijacking",
+            "description": "Beuchler, B. (2012, September 28). SSH Agent Hijacking. Retrieved December 20, 2017.",
+            "url": "https://www.clockwork.com/news/2012/09/28/602/ssh_agent_hijacking"
+        },
+        {
+            "source_name": "Breach Post-mortem SSH Hijack",
+            "description": "Hodgson, M. (2019, May 8). Post-mortem and remediations for Apr 11 security incident. Retrieved February 17, 2020.",
+            "url": "https://matrix.org/blog/2019/05/08/post-mortem-and-remediations-for-apr-11-security-incident"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "lateral-movement"
+        }
+    ],
+    "tactic": [
+        "lateral-movement"
+    ],
+    "x_mitre_detection": "Use of SSH may be legitimate, depending upon the network environment and how it is used. Other factors, such as access patterns and activity that occurs after a remote login, may indicate suspicious or malicious behavior with SSH. Monitor for user accounts logged into systems they would not normally access or access patterns to multiple systems over a relatively short period of time. Also monitor user SSH-agent socket files being used by different users.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Logon Session: Logon Session Creation",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "root"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "SSH service enabled, trust relationships configured, established connections"
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that agent forwarding is disabled on systems if not required.",
+                "acid": "98582215"
+            },
+            {
+                "description": "Ensure that strong password policies are implemented for SSH key pairs.",
+                "acid": "98582216"
+            },
+            {
+                "description": "Ensure that key-store technologies such as ssh-agent should be restricted if not secured properly.",
+                "acid": "98582217"
+            },
+            {
+                "description": "Ensure that remote SSH access as root or privilege accounts are restricted.",
+                "acid": "98582218"
+            },
+            {
+                "description": "Ensure that permissions are implemented properly for hardening systems to prevent root privilege escalation.",
+                "acid": "98582219"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that system is monitored for any unusual access patterns and activity occurs after a remote login.",
+                "acid": "98582212"
+            },
+            {
+                "description": "Ensure that user accounts are monitored for any unusual login or access to multiple systems over a relatively short period of time.",
+                "acid": "98582213"
+            },
+            {
+                "description": "Ensure that user SSH-agent socket files used by different users are monitored.",
+                "acid": "98582214"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "10101002",
+        "10190004",
+        "10960041",
+        "10960047",
+        "16010460",
+        "16010529",
+        "16020470",
+        "16020539",
+        "16100512",
+        "16100581",
+        "16110447",
+        "16110516",
+        "16120465",
+        "16120534",
+        "17850004",
+        "17850012",
+        "18350012",
+        "18380005",
+        "19010004",
+        "19920436",
+        "19920441",
+        "19920458",
+        "19920488"
+    ],
+    "cveIds": []
+}

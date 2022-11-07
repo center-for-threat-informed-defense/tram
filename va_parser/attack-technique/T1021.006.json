@@ -1,0 +1,195 @@
+{
+    "id": "T1021.006",
+    "name": "Windows Remote Management",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to interact with remote systems using Windows Remote Management (WinRM). The adversary may then perform actions as the logged-on user.\n\nWinRM is the name of both a Windows service and a protocol that allows a user to interact with a remote system (e.g., run an executable, modify the Registry, modify services).(Citation: Microsoft WinRM) It may be called with the `winrm` command or by any number of programs such as PowerShell.(Citation: Jacobsen 2014) WinRM  can be used as a method of remotely interacting with [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047).(Citation: MSDN WMI)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1021/006",
+            "external_id": "T1021.006"
+        },
+        {
+            "source_name": "Microsoft WinRM",
+            "description": "Microsoft. (n.d.). Windows Remote Management. Retrieved November 12, 2014.",
+            "url": "http://msdn.microsoft.com/en-us/library/aa384426"
+        },
+        {
+            "source_name": "Jacobsen 2014",
+            "description": "Jacobsen, K. (2014, May 16). Lateral Movement with PowerShell&#91;slides&#93;. Retrieved November 12, 2014.",
+            "url": "https://www.slideshare.net/kieranjacobsen/lateral-movement-with-power-shell-2"
+        },
+        {
+            "source_name": "MSDN WMI",
+            "description": "Microsoft. (n.d.). Windows Management Instrumentation. Retrieved April 27, 2016.",
+            "url": "https://msdn.microsoft.com/en-us/library/aa394582.aspx"
+        },
+        {
+            "source_name": "Medium Detecting Lateral Movement",
+            "description": "French, D. (2018, September 30). Detecting Lateral Movement Using Sysmon and Splunk. Retrieved October 11, 2019.",
+            "url": "https://medium.com/threatpunter/detecting-lateral-movement-using-sysmon-and-splunk-318d3be141bc"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "lateral-movement"
+        }
+    ],
+    "tactic": [
+        "lateral-movement"
+    ],
+    "x_mitre_detection": "Monitor use of WinRM within an environment by tracking service execution. If it is not normally used or is disabled, then this may be an indicator of suspicious behavior.  Monitor processes created and actions taken by the WinRM process or a WinRM invoked script to correlate it with other related events.(Citation: Medium Detecting Lateral Movement) Also monitor for remote WMI connection attempts (typically over port 5985 when using HTTP and 5986 for HTTPS).",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Service: Service Metadata",
+        "Logon Session: Logon Session Creation",
+        "Command: Command Execution",
+        "Network Traffic: Network Connection Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+                "type": "course-of-action",
+                "id": "M1030"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that WinRM service is disabled.",
+                "acid": "98582290"
+            },
+            {
+                "description": "Ensure that critical enclaves are locked down with separate WinRM infrastructure if WinRM service is necessary.",
+                "acid": "98582291"
+            },
+            {
+                "description": "Ensure that best security practices are followed for configuring host firewalls to restrict WinRM access to allow communication only to/from specific devices.",
+                "acid": "98582292"
+            },
+            {
+                "description": "Ensure that critical enclaves are locked down with separate WinRM accounts and permissions if WinRM service is necessary.",
+                "acid": "98582293"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that use of WinRM (within an environment) is monitored by tracking service execution.",
+                "acid": "98582286"
+            },
+            {
+                "description": "Ensure that use of WinRM is monitored for any abnormal use or if disabled.",
+                "acid": "98582287"
+            },
+            {
+                "description": "Ensure that processes created by WinRM process are monitored.",
+                "acid": "98582288"
+            },
+            {
+                "description": "Ensure that system is monitored for any unusual activity by WinRM process.",
+                "acid": "98582289"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "15010320",
+        "15010322",
+        "15010323",
+        "15010325",
+        "15020326",
+        "15020328",
+        "15020329",
+        "15020331",
+        "15030296",
+        "15030298",
+        "15030299",
+        "15030300",
+        "15030302",
+        "15040301",
+        "15040302",
+        "15040303",
+        "15040304",
+        "15200312",
+        "15200314",
+        "15200315",
+        "15200317",
+        "16010281",
+        "16010282",
+        "16010283",
+        "16010285",
+        "16020292",
+        "16020293",
+        "16020294",
+        "16020296",
+        "16100331",
+        "16100332",
+        "16100333",
+        "16100335",
+        "16100399",
+        "16100730",
+        "16110268",
+        "16110269",
+        "16110270",
+        "16110272",
+        "16120287",
+        "16120288",
+        "16120289",
+        "16120291",
+        "16360346",
+        "16360348",
+        "16360349",
+        "16360350",
+        "16360352",
+        "16460341",
+        "16460343",
+        "16460345",
+        "16460347",
+        "19920267",
+        "19920269",
+        "19920270",
+        "19920271",
+        "19920461"
+    ],
+    "cveIds": []
+}

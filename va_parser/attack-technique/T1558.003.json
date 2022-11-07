@@ -1,0 +1,151 @@
+{
+    "id": "T1558.003",
+    "name": "Kerberoasting",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse a valid Kerberos ticket-granting ticket (TGT) or sniff network traffic to obtain a ticket-granting service (TGS) ticket that may be vulnerable to [Brute Force](https://attack.mitre.org/techniques/T1110).(Citation: Empire InvokeKerberoast Oct 2016)(Citation: AdSecurity Cracking Kerberos Dec 2015) \n\nService principal names (SPNs) are used to uniquely identify each instance of a Windows service. To enable authentication, Kerberos requires that SPNs be associated with at least one service logon account (an account specifically tasked with running a service(Citation: Microsoft Detecting Kerberoasting Feb 2018)).(Citation: Microsoft SPN)(Citation: Microsoft SetSPN)(Citation: SANS Attacking Kerberos Nov 2014)(Citation: Harmj0y Kerberoast Nov 2016)\n\nAdversaries possessing a valid Kerberos ticket-granting ticket (TGT) may request one or more Kerberos ticket-granting service (TGS) service tickets for any SPN from a domain controller (DC).(Citation: Empire InvokeKerberoast Oct 2016)(Citation: AdSecurity Cracking Kerberos Dec 2015) Portions of these tickets may be encrypted with the RC4 algorithm, meaning the Kerberos 5 TGS-REP etype 23 hash of the service account associated with the SPN is used as the private key and is thus vulnerable to offline [Brute Force](https://attack.mitre.org/techniques/T1110) attacks that may expose plaintext credentials.(Citation: AdSecurity Cracking Kerberos Dec 2015)(Citation: Empire InvokeKerberoast Oct 2016) (Citation: Harmj0y Kerberoast Nov 2016)\n\nThis same behavior could be executed using service tickets captured from network traffic.(Citation: AdSecurity Cracking Kerberos Dec 2015)\n\nCracked hashes may enable [Persistence](https://attack.mitre.org/tactics/TA0003), [Privilege Escalation](https://attack.mitre.org/tactics/TA0004), and [Lateral Movement](https://attack.mitre.org/tactics/TA0008) via access to [Valid Accounts](https://attack.mitre.org/techniques/T1078).(Citation: SANS Attacking Kerberos Nov 2014)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1558/003",
+            "external_id": "T1558.003"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/509.html",
+            "external_id": "CAPEC-509"
+        },
+        {
+            "source_name": "Empire InvokeKerberoast Oct 2016",
+            "description": "EmpireProject. (2016, October 31). Invoke-Kerberoast.ps1. Retrieved March 22, 2018.",
+            "url": "https://github.com/EmpireProject/Empire/blob/master/data/module_source/credentials/Invoke-Kerberoast.ps1"
+        },
+        {
+            "source_name": "AdSecurity Cracking Kerberos Dec 2015",
+            "description": "Metcalf, S. (2015, December 31). Cracking Kerberos TGS Tickets Using Kerberoast \u2013 Exploiting Kerberos to Compromise the Active Directory Domain. Retrieved March 22, 2018.",
+            "url": "https://adsecurity.org/?p=2293"
+        },
+        {
+            "source_name": "Microsoft Detecting Kerberoasting Feb 2018",
+            "description": "Bani, M. (2018, February 23). Detecting Kerberoasting activity using Azure Security Center. Retrieved March 23, 2018.",
+            "url": "https://blogs.technet.microsoft.com/motiba/2018/02/23/detecting-kerberoasting-activity-using-azure-security-center/"
+        },
+        {
+            "source_name": "Microsoft SPN",
+            "description": "Microsoft. (n.d.). Service Principal Names. Retrieved March 22, 2018.",
+            "url": "https://msdn.microsoft.com/library/ms677949.aspx"
+        },
+        {
+            "source_name": "Microsoft SetSPN",
+            "description": "Microsoft. (2010, April 13). Service Principal Names (SPNs) SetSPN Syntax (Setspn.exe). Retrieved March 22, 2018.",
+            "url": "https://social.technet.microsoft.com/wiki/contents/articles/717.service-principal-names-spns-setspn-syntax-setspn-exe.aspx"
+        },
+        {
+            "source_name": "SANS Attacking Kerberos Nov 2014",
+            "description": "Medin, T. (2014, November). Attacking Kerberos - Kicking the Guard Dog of Hades. Retrieved March 22, 2018.",
+            "url": "https://redsiege.com/kerberoast-slides"
+        },
+        {
+            "source_name": "Harmj0y Kerberoast Nov 2016",
+            "description": "Schroeder, W. (2016, November 1). Kerberoasting Without Mimikatz. Retrieved March 23, 2018.",
+            "url": "https://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "Enable Audit Kerberos Service Ticket Operations to log Kerberos TGS service ticket requests. Particularly investigate irregular patterns of activity (ex: accounts making numerous requests, Event ID 4769, within a small time frame, especially if they also request RC4 encryption [Type 0x17]).(Citation: Microsoft Detecting Kerberoasting Feb 2018)(Citation: AdSecurity Cracking Kerberos Dec 2015)",
+    "x_mitre_data_sources": [
+        "Active Directory: Active Directory Credential Request"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "Valid domain account or the ability to sniff traffic within a domain"
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            },
+            {
+                "name": "Encrypt Sensitive Information",
+                "description": "Protect sensitive information with strong encryption.",
+                "type": "course-of-action",
+                "id": "M1041"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that stronger encryption algorithm such as AES Kerberos encryption, are enabled rather than RC4(where possible)",
+                "acid": "98582034"
+            },
+            {
+                "description": "Ensure that strong password length (ideally 25+ characters) and complexity policies are implemented for service accounts.",
+                "acid": "98582035"
+            },
+            {
+                "description": "Ensure that passwords for service accounts are periodically expired.",
+                "acid": "98582036"
+            },
+            {
+                "description": "Ensure that Group Managed Service Accounts or another third party product such as password vaulting are in place for password management.",
+                "acid": "98582037"
+            },
+            {
+                "description": "Ensure that service accounts are limited to minimal required privileges, including membership in privileged groups such as Domain Administrators.",
+                "acid": "98582038"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Audit Kerberos Service Ticket Operations is enabled to log Kerberos TGS service ticket requests.",
+                "acid": "98582032"
+            },
+            {
+                "description": "Ensure that kerberos service is investigated for irregular patterns of activity such as accounts making numerous requests, Event ID 4769, within a small time frame, (requesting RC4 encryption [Type 0x17]).",
+                "acid": "98582033"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100312",
+        "50100331"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

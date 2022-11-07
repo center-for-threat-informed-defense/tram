@@ -1,0 +1,55 @@
+﻿{
+    "id": "T0854",
+    "name": "Serial Connection Enumeration",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": true,
+    "description": "Adversaries may perform serial connection enumeration to gather situational awareness after gaining access to devices in the OT network. Control systems devices often communicate to each other via various types of serial communication mediums. These serial communications are used to facilitate informational communication, as well as commands.  Serial Connection Enumeration differs from I/O Module Discovery, as I/O modules are auxiliary systems to the main system, and devices that are connected via serial connection are normally discrete systems.\n\nWhile IT and OT networks may work in tandem, the exact structure of the OT network may not be discernible from the IT network alone. After gaining access to a device on the OT network, an adversary may be able to enumerate the serial connections. From this perspective, the adversary can see the specific physical devices to which the compromised device is connected to. This gives the adversary greater situational awareness and can influence the actions that the adversary can take in an attack.",
+    "x_mitre_platforms": [
+        "Windows",
+        "Input/Output Server",
+        "Field Controller/RTU/PLC/IED"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0854",
+            "external_id": "T0854"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "discovery-ics"
+        }
+    ],
+    "tactic": [
+        "discovery-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

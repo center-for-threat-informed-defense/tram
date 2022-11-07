@@ -1,0 +1,151 @@
+﻿{
+    "id": "T1564",
+    "name": "Hide Artifacts",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to hide artifacts associated with their behaviors to evade detection. Operating systems may have features to hide various artifacts, such as important system files and administrative task execution, to avoid disrupting user work environments and prevent users from changing files or features on the system. Adversaries may abuse these features to hide artifacts such as files, directories, user accounts, or other system activity to evade detection.(Citation: Sofacy Komplex Trojan)(Citation: Cybereason OSX Pirrit)(Citation: MalwareBytes ADS July 2015)\n\nAdversaries may also attempt to hide artifacts associated with malicious behavior by creating computing regions that are isolated from common security instrumentation, such as through the use of virtualization technology.(Citation: Sophos Ragnar May 2020)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "Office 365"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1564",
+            "external_id": "T1564"
+        },
+        {
+            "source_name": "Sofacy Komplex Trojan",
+            "description": "Dani Creus, Tyler Halfpop, Robert Falcone. (2016, September 26). Sofacy's 'Komplex' OS X Trojan. Retrieved July 8, 2017.",
+            "url": "https://researchcenter.paloaltonetworks.com/2016/09/unit42-sofacys-komplex-os-x-trojan/"
+        },
+        {
+            "source_name": "Cybereason OSX Pirrit",
+            "description": "Amit Serper. (2016). Cybereason Lab Analysis OSX.Pirrit. Retrieved December 10, 2021.",
+            "url": "https://cdn2.hubspot.net/hubfs/3354902/Content%20PDFs/Cybereason-Lab-Analysis-OSX-Pirrit-4-6-16.pdf"
+        },
+        {
+            "source_name": "MalwareBytes ADS July 2015",
+            "description": "Arntz, P. (2015, July 22). Introduction to Alternate Data Streams. Retrieved March 21, 2018.",
+            "url": "https://blog.malwarebytes.com/101/2015/07/introduction-to-alternate-data-streams/"
+        },
+        {
+            "source_name": "Sophos Ragnar May 2020",
+            "description": "SophosLabs. (2020, May 21). Ragnar Locker ransomware deploys virtual machine to dodge security. Retrieved June 29, 2020.",
+            "url": "https://news.sophos.com/en-us/2020/05/21/ragnar-locker-ransomware-deploys-virtual-machine-to-dodge-security/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor files, processes, and command-line arguments for actions indicative of hidden artifacts. Monitor event and authentication logs for records of hidden artifacts being used. Monitor the file system and shell commands for hidden attribute usage.",
+    "x_mitre_data_sources": [
+        "User Account: User Account Creation",
+        "Process: OS API Execution",
+        "Windows Registry: Windows Registry Key Modification",
+        "Firmware: Firmware Modification",
+        "Service: Service Creation",
+        "File: File Modification",
+        "User Account: User Account Metadata",
+        "Process: Process Creation",
+        "Application Log: Application Log Content",
+        "Command: Command Execution",
+        "File: File Metadata",
+        "File: File Creation",
+        "Script: Script Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that files are monitored for hidden artifacts.",
+                "acid": "98581212"
+            },
+            {
+                "description": "Ensure that processes are monitored for hidden artifacts.",
+                "acid": "98581213"
+            },
+            {
+                "description": "Ensure that command-line arguments are monitored for hidden artifacts.",
+                "acid": "98581214"
+            },
+            {
+                "description": "Ensure that event logs (for records of hidden artifacts that are being used) are monitored.",
+                "acid": "98581215"
+            },
+            {
+                "description": "Ensure that authentication logs (for records of hidden artifacts that are being used) are monitored.",
+                "acid": "98581216"
+            },
+            {
+                "description": "Ensure that the file system is monitored for the usage of hidden attributes.",
+                "acid": "98581217"
+            },
+            {
+                "description": "Ensure that the shell commands are monitored for the usage of hidden attributes.",
+                "acid": "98581218"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000004",
+        "40000132"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100521",
+        "50100523",
+        "50102144",
+        "50102145",
+        "50102146",
+        "50102147",
+        "50106006",
+        "50106008",
+        "50106009",
+        "50106011",
+        "50106012",
+        "50106015"
+    ],
+    "technologycontrolIds": [
+        "16460378",
+        "19920400",
+        "19920409",
+        "19920411"
+    ],
+    "cveIds": [],
+    "subTechniques": [
+        "T1564.001",
+        "T1564.002",
+        "T1564.003",
+        "T1564.004",
+        "T1564.005",
+        "T1564.006",
+        "T1564.007",
+        "T1564.008",
+        "T1564.009",
+        "T1564.010"
+    ]
+}

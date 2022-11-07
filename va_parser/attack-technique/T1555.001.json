@@ -1,0 +1,105 @@
+﻿{
+    "id": "T1555.001",
+    "name": "Keychain",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may acquire credentials from Keychain. Keychain (or Keychain Services) is the macOS credential management system that stores account names, passwords, private keys, certificates, sensitive application data, payment data, and secure notes. There are three types of Keychains: Login Keychain, System Keychain, and Local Items (iCloud) Keychain. The default Keychain is the Login Keychain, which stores user passwords and information. The System Keychain stores items accessed by the operating system, such as items shared among users on a host. The Local Items (iCloud) Keychain is used for items synced with Apple's iCloud service. \n\nKeychains can be viewed and edited through the Keychain Access application or using the command-line utility <code>security</code>. Keychain files are located in <code>~/Library/Keychains/</code>, <code>/Library/Keychains/</code>, and <code>/Network/Library/Keychains/</code>.(Citation: Keychain Services Apple)(Citation: Keychain Decryption Passware)(Citation: OSX Keychain Schaumann)\n\nAdversaries may gather user credentials from Keychain storage/memory. For example, the command <code>security dump-keychain \u2013d</code> will dump all Login Keychain credentials from <code>~/Library/Keychains/login.keychain-db</code>. Adversaries may also directly read Login Keychain credentials from the <code>~/Library/Keychains/login.keychain</code> file. Both methods require a password, where the default password for the Login Keychain is the current user's password to login to the macOS host.(Citation: External to DA, the OS X Way)(Citation: Empire Keychain Decrypt)  ",
+    "x_mitre_platforms": [
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1555/001",
+            "external_id": "T1555.001"
+        },
+        {
+            "source_name": "External to DA, the OS X Way",
+            "description": "Alex Rymdeko-Harvey, Steve Borosh. (2016, May 14). External to DA, the OS X Way. Retrieved July 3, 2017.",
+            "url": "http://www.slideshare.net/StephanBorosh/external-to-da-the-os-x-way"
+        },
+        {
+            "source_name": "Keychain Services Apple",
+            "description": "Apple. (n.d.). Keychain Services. Retrieved April 11, 2022.",
+            "url": "https://developer.apple.com/documentation/security/keychain_services"
+        },
+        {
+            "source_name": "Empire Keychain Decrypt",
+            "description": "Empire. (2018, March 8). Empire keychaindump_decrypt Module. Retrieved April 14, 2022.",
+            "url": "https://github.com/EmpireProject/Empire/blob/08cbd274bef78243d7a8ed6443b8364acd1fc48b/lib/modules/python/collection/osx/keychaindump_decrypt.py"
+        },
+        {
+            "source_name": "OSX Keychain Schaumann",
+            "description": "Jan Schaumann. (2015, November 5). Using the OS X Keychain to store and retrieve passwords. Retrieved March 31, 2022.",
+            "url": "https://www.netmeister.org/blog/keychain-passwords.html"
+        },
+        {
+            "source_name": "Keychain Decryption Passware",
+            "description": "Yana Gourenko. (n.d.). A Deep Dive into Apple Keychain Decryption. Retrieved April 13, 2022.",
+            "url": "https://support.passware.com/hc/en-us/articles/4573379868567-A-Deep-Dive-into-Apple-Keychain-Decryption"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "Unlocking the keychain and using passwords from it is a very common process, so there is likely to be a lot of noise in any detection technique. Monitoring of system calls to the keychain can help determine if there is a suspicious process trying to access it.",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "File: File Access",
+        "Process: OS API Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the user's login keychain is different from the user's login password",
+                "acid": "98581849"
+            },
+            {
+                "description": "Ensure that Password policies are defined in the organization",
+                "acid": "98581850"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that system calls to the keychain are monitored to identify suspicious access",
+                "acid": "98581848"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100329"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

@@ -1,0 +1,97 @@
+{
+    "id": "T1001.003",
+    "name": "Protocol Impersonation",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may impersonate legitimate protocols or web service traffic to disguise command and control activity and thwart analysis efforts. By impersonating legitimate protocols or web services, adversaries can make their command and control traffic blend in with legitimate network traffic.  \n\nAdversaries may impersonate a fake SSL/TLS handshake to make it look like subsequent traffic is SSL/TLS encrypted, potentially interfering with some security tooling, or to make the traffic look like it is related with a trusted entity. ",
+    "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1001/003",
+            "external_id": "T1001.003"
+        },
+        {
+            "source_name": "University of Birmingham C2",
+            "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016.",
+            "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "command-and-control"
+        }
+    ],
+    "tactic": [
+        "command-and-control"
+    ],
+    "x_mitre_detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Network intrusion detection and prevention system(s) is configured to identify malicious network traffic (by using network signatures).",
+                "acid": "98582517"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that network monitoring solutions are configured to analyze network data for uncommon data flows.",
+                "acid": "98582512"
+            },
+            {
+                "description": "Ensure that monitoring solutions are configured to monitor for processes that sends fixed sized data at regular interval of time, opens unnecessary connections.",
+                "acid": "98582513"
+            },
+            {
+                "description": "Ensure that system is monitored for suspicious processes (do not normally have network communication) that utilizes the network.",
+                "acid": "98582514"
+            },
+            {
+                "description": "Ensure that monitoring tool is configured to analyze packet contents to detect suspicious communication following unexpected protocol behavior.",
+                "acid": "98582515"
+            },
+            {
+                "description": "Ensure that monitoring tool is configured to analyze packet contents to detect suspicious communication (application layer protocols that do not follow the protocol used for the port).",
+                "acid": "98582516"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000182",
+        "40000515"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

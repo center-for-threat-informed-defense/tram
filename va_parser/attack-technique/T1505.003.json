@@ -1,0 +1,184 @@
+{
+    "id": "T1505.003",
+    "name": "Web Shell",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may backdoor web servers with web shells to establish persistent access to systems. A Web shell is a Web script that is placed on an openly accessible Web server to allow an adversary to use the Web server as a gateway into a network. A Web shell may provide a set of functions to execute or a command-line interface on the system that hosts the Web server.(Citation: volexity_0day_sophos_FW)\n\nIn addition to a server-side script, a Web shell may have a client interface program that is used to talk to the Web server (e.g. [China Chopper](https://attack.mitre.org/software/S0020) Web shell client).(Citation: Lee 2013)",
+    "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS",
+        "Network"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1505/003",
+            "external_id": "T1505.003"
+        },
+        {
+            "source_name": "NSA Cyber Mitigating Web Shells",
+            "description": " NSA Cybersecurity Directorate. (n.d.). Mitigating Web Shells. Retrieved July 22, 2021.",
+            "url": "https://github.com/nsacyber/Mitigating-Web-Shells"
+        },
+        {
+            "source_name": "volexity_0day_sophos_FW",
+            "description": "Adair, S., Lancaster, T., Volexity Threat Research. (2022, June 15). DriftingCloud: Zero-Day Sophos Firewall Exploitation and an Insidious Breach. Retrieved July 1, 2022.",
+            "url": "https://www.volexity.com/blog/2022/06/15/driftingcloud-zero-day-sophos-firewall-exploitation-and-an-insidious-breach/"
+        },
+        {
+            "source_name": "Lee 2013",
+            "description": "Lee, T., Hanzlik, D., Ahl, I. (2013, August 7). Breaking Down the China Chopper Web Shell - Part I. Retrieved March 27, 2015.",
+            "url": "https://www.fireeye.com/blog/threat-research/2013/08/breaking-down-the-china-chopper-web-shell-part-i.html"
+        },
+        {
+            "source_name": "US-CERT Alert TA15-314A Web Shells",
+            "description": "US-CERT. (2015, November 13). Compromised Web Servers and Web Shells - Threat Awareness and Guidance. Retrieved June 8, 2016.",
+            "url": "https://www.us-cert.gov/ncas/alerts/TA15-314A"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/650.html",
+            "external_id": "CAPEC-650"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Web shells can be difficult to detect. Unlike other forms of persistent remote access, they do not initiate connections. The portion of the Web shell that is on the server may be small and innocuous looking. The PHP version of the China Chopper Web shell, for example, is the following short payload: (Citation: Lee 2013) \n\n<code>&lt;?php @eval($_POST['password']);&gt;</code>\n\nNevertheless, detection mechanisms exist. Process monitoring may be used to detect Web servers that perform suspicious actions such as spawning cmd.exe or accessing files that are not in the Web directory.(Citation: NSA Cyber Mitigating Web Shells)\n\nFile monitoring may be used to detect changes to files in the Web directory of a Web server that do not match with updates to the Web server's content and may indicate implantation of a Web shell script.(Citation: NSA Cyber Mitigating Web Shells)\n\nLog authentication attempts to the server and any unusual traffic patterns to or from the server and internal network. (Citation: US-CERT Alert TA15-314A Web Shells)",
+    "x_mitre_data_sources": [
+        "File: File Creation",
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Flow",
+        "Process: Process Creation",
+        "File: File Modification",
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "Adversary access to Web server with vulnerability or account to upload and serve the Web shell file."
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process monitoring is used to detect Web servers performing suspicious actions such as running cmd.exe",
+                "acid": "98580977"
+            },
+            {
+                "description": "Ensure that process monitoring is used to detect Web servers performing suspicious actions such as accessing files that are not in the Web directory",
+                "acid": "98580978"
+            },
+            {
+                "description": "Ensure that file monitoring is used to detect changes to files in the Web directory of a Web server that does not match with updates to the Web server's content",
+                "acid": "98580979"
+            },
+            {
+                "description": "Ensure that file monitoring is used to detect changes to files in the Web directory of a Web server that may indicate implantation of a Web shell script",
+                "acid": "98580980"
+            },
+            {
+                "description": "Ensure that logs for authentication attempts to the server and any unusual traffic patterns to or from the server and internal network are captured",
+                "acid": "98580981"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000132",
+        "40000514"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "18410003",
+        "19920494"
+    ],
+    "cveIds": [
+        "CVE-2011-2523",
+        "CVE-2011-4106",
+        "CVE-2012-6081",
+        "CVE-2012-6498",
+        "CVE-2013-5576",
+        "CVE-2016-3088",
+        "CVE-2017-12629",
+        "CVE-2017-12929",
+        "CVE-2017-17976",
+        "CVE-2017-5638",
+        "CVE-2017-7494",
+        "CVE-2017-9080",
+        "CVE-2018-1000094",
+        "CVE-2018-1000811",
+        "CVE-2018-13981",
+        "CVE-2018-15137",
+        "CVE-2018-15961",
+        "CVE-2018-17553",
+        "CVE-2018-20159",
+        "CVE-2018-2894",
+        "CVE-2018-5997",
+        "CVE-2019-11445",
+        "CVE-2019-12185",
+        "CVE-2019-12744",
+        "CVE-2019-16113",
+        "CVE-2019-18234",
+        "CVE-2019-6714",
+        "CVE-2019-8942",
+        "CVE-2020-10963",
+        "CVE-2020-11010",
+        "CVE-2020-11108",
+        "CVE-2020-12029",
+        "CVE-2020-14008",
+        "CVE-2020-15189",
+        "CVE-2020-1745",
+        "CVE-2020-1938",
+        "CVE-2020-24186",
+        "CVE-2020-28337",
+        "CVE-2020-29607",
+        "CVE-2020-3240",
+        "CVE-2020-35314",
+        "CVE-2020-5297",
+        "CVE-2020-7246",
+        "CVE-2021-22205",
+        "CVE-2021-24155",
+        "CVE-2021-31933",
+        "CVE-2021-36711",
+        "CVE-2021-39608",
+        "CVE-2021-42362",
+        "CVE-2021-42580",
+        "CVE-2021-44228",
+        "CVE-2021-44664",
+        "CVE-2021-44673",
+        "CVE-2022-26965"
+    ]
+}

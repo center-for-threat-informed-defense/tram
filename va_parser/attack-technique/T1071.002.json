@@ -1,0 +1,109 @@
+{
+    "id": "T1071.002",
+    "name": "File Transfer Protocols",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may communicate using application layer protocols associated with transferring files to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server. \n\nProtocols such as FTP, FTPS, and TFTP that transfer files may be very common in environments.  Packets produced from these protocols may have many fields and headers in which data can be concealed. Data could also be concealed within the transferred files. An adversary may abuse these protocols to communicate with systems under their control within a victim network while also mimicking normal, expected traffic. ",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1071/002",
+            "external_id": "T1071.002"
+        },
+        {
+            "source_name": "University of Birmingham C2",
+            "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016.",
+            "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "command-and-control"
+        }
+    ],
+    "tactic": [
+        "command-and-control"
+    ],
+    "x_mitre_detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol for the port that is being used.(Citation: University of Birmingham C2)",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Flow",
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Network intrusion detection and prevention system(s) is configured to identify malicious network traffic (by using network signatures).",
+                "acid": "98582455"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that network monitoring solutions are configured to analyze network data for uncommon data flows.",
+                "acid": "98582450"
+            },
+            {
+                "description": "Ensure that monitoring solutions are configured to monitor for processes that sends fixed sized data at regular interval of time, opens unnecessary connections.",
+                "acid": "98582451"
+            },
+            {
+                "description": "Ensure that system is monitored for suspicious processes (do not normally have network communication) that utilizes the network.",
+                "acid": "98582452"
+            },
+            {
+                "description": "Ensure that monitoring tool is configured to analyze packet contents to detect suspicious communication following unexpected protocol behavior.",
+                "acid": "98582453"
+            },
+            {
+                "description": "Ensure that monitoring tool is configured to analyze packet contents to detect suspicious communication (application layer protocols that do not follow the protocol for the used port).",
+                "acid": "98582454"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000182",
+        "40000515"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "101020036",
+        "10110036",
+        "101540053",
+        "101550053",
+        "101560054",
+        "101570054",
+        "101600058",
+        "103900054",
+        "10460056",
+        "11010056"
+    ],
+    "cveIds": []
+}

@@ -1,0 +1,140 @@
+﻿{
+    "id": "T1491",
+    "name": "Defacement",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may modify visual content available internally or externally to an enterprise network, thus affecting the integrity of the original content. Reasons for [Defacement](https://attack.mitre.org/techniques/T1491) include delivering messaging, intimidation, or claiming (possibly false) credit for an intrusion. Disturbing or offensive images may be used as a part of [Defacement](https://attack.mitre.org/techniques/T1491) in order to cause user discomfort, or to pressure compliance with accompanying messages. \n",
+    "x_mitre_platforms": [
+        "Windows",
+        "IaaS",
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1491",
+            "external_id": "T1491"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "impact"
+        }
+    ],
+    "tactic": [
+        "impact"
+    ],
+    "x_mitre_detection": "Monitor internal and external websites for unplanned content changes. Monitor application logs for abnormal behavior that may indicate attempted or successful exploitation. Use deep packet inspection to look for artifacts of common exploit traffic, such as SQL injection. Web Application Firewalls may detect improper inputs attempting exploitation.\n\n",
+    "x_mitre_data_sources": [
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content",
+        "File: File Modification",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Data Backup",
+                "description": "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise.",
+                "type": "course-of-action",
+                "id": "M1053"
+            },
+            {
+                "name": "Defacement Mitigation",
+                "description": "Implementing best practices for websites such as defending against [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190) (Citation: OWASP Top 10 2017). Consider implementing IT disaster recovery plans that contain procedures for taking regular data backups that can be used to restore organizational data. (Ready.gov IT DRP) Ensure backups are stored off system and is protected from common methods adversaries may use to gain access and destroy the backups to prevent recovery.",
+                "type": "course-of-action",
+                "id": "T1491"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that IT disaster recovery plans are implemented in the organization for taking regular data backups.",
+                "acid": "98582783"
+            },
+            {
+                "description": "Ensure that data backups are stored off system and protected from common adversary methods.",
+                "acid": "98582784"
+            },
+            {
+                "description": "Ensure that data backups are protected from common methods adversaries use to gain access.",
+                "acid": "98582785"
+            },
+            {
+                "description": "Ensure that data backups are protected from common methods adversaries use to destroy the backups to prevent recovery.",
+                "acid": "98582786"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that external and internal websites are monitored for unplanned content changes.",
+                "acid": "98582779"
+            },
+            {
+                "description": "Ensure that application logs are monitored for abnormal behavior indicating attempted or successful exploitation",
+                "acid": "98582780"
+            },
+            {
+                "description": "Ensure that deep packet inspection is employed to check for artifacts of common exploit traffic, e.g. SQL injection.",
+                "acid": "98582781"
+            },
+            {
+                "description": "Ensure that Web Application Firewalls are configured to detect improper inputs attempting exploitation.",
+                "acid": "98582782"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000109",
+        "40000112",
+        "40000113",
+        "40000178",
+        "40000187",
+        "40000492"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106003",
+        "50106012",
+        "50106016",
+        "50106113"
+    ],
+    "technologycontrolIds": [
+        "14050026",
+        "14110026",
+        "14120029",
+        "14130038",
+        "14170033",
+        "17800010",
+        "17800011",
+        "17800015",
+        "17800016",
+        "17800018",
+        "18710002"
+    ],
+    "cveIds": [
+        "CVE-2012-0158",
+        "CVE-2017-1001000",
+        "CVE-2018-15961",
+        "CVE-2020-9459"
+    ],
+    "subTechniques": [
+        "T1491.001",
+        "T1491.002"
+    ]
+}

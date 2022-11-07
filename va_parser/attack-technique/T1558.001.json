@@ -1,0 +1,135 @@
+{
+    "id": "T1558.001",
+    "name": "Golden Ticket",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries who have the KRBTGT account password hash may forge Kerberos ticket-granting tickets (TGT), also known as a golden ticket.(Citation: AdSecurity Kerberos GT Aug 2015) Golden tickets enable adversaries to generate authentication material for any account in Active Directory.(Citation: CERT-EU Golden Ticket Protection) \n\nUsing a golden ticket, adversaries are then able to request ticket granting service (TGS) tickets, which enable access to specific resources. Golden tickets require adversaries to interact with the Key Distribution Center (KDC) in order to obtain TGS.(Citation: ADSecurity Detecting Forged Tickets)\n\nThe KDC service runs all on domain controllers that are part of an Active Directory domain. KRBTGT is the Kerberos Key Distribution Center (KDC) service account and is responsible for encrypting and signing all Kerberos tickets.(Citation: ADSecurity Kerberos and KRBTGT) The KRBTGT password hash may be obtained using [OS Credential Dumping](https://attack.mitre.org/techniques/T1003) and privileged access to a domain controller.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1558/001",
+            "external_id": "T1558.001"
+        },
+        {
+            "source_name": "AdSecurity Kerberos GT Aug 2015",
+            "description": "Metcalf, S. (2015, August 7). Kerberos Golden Tickets are Now More Golden. Retrieved December 1, 2017.",
+            "url": "https://adsecurity.org/?p=1640"
+        },
+        {
+            "source_name": "CERT-EU Golden Ticket Protection",
+            "description": "Abolins, D., Boldea, C., Socha, K., Soria-Machado, M. (2016, April 26). Kerberos Golden Ticket Protection. Retrieved July 13, 2017.",
+            "url": "https://cert.europa.eu/static/WhitePapers/UPDATED%20-%20CERT-EU_Security_Whitepaper_2014-007_Kerberos_Golden_Ticket_Protection_v1_4.pdf"
+        },
+        {
+            "source_name": "ADSecurity Detecting Forged Tickets",
+            "description": "Metcalf, S. (2015, May 03). Detecting Forged Kerberos Ticket (Golden Ticket & Silver Ticket) Use in Active Directory. Retrieved December 23, 2015.",
+            "url": "https://adsecurity.org/?p=1515"
+        },
+        {
+            "source_name": "ADSecurity Kerberos and KRBTGT",
+            "description": "Sean Metcalf. (2014, November 10). Kerberos & KRBTGT: Active Directory\u2019s Domain Kerberos Service Account. Retrieved January 30, 2020.",
+            "url": "https://adsecurity.org/?p=483"
+        },
+        {
+            "source_name": "Stealthbits Detect PtT 2019",
+            "description": "Jeff Warren. (2019, February 19). How to Detect Pass-the-Ticket Attacks. Retrieved February 27, 2020.",
+            "url": "https://blog.stealthbits.com/detect-pass-the-ticket-attacks"
+        },
+        {
+            "source_name": "Microsoft Kerberos Golden Ticket",
+            "description": "Microsoft. (2015, March 24). Kerberos Golden Ticket Check (Updated). Retrieved February 27, 2020.",
+            "url": "https://gallery.technet.microsoft.com/scriptcenter/Kerberos-Golden-Ticket-b4814285"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "Monitor for anomalous Kerberos activity, such as malformed or blank fields in Windows logon/logoff events (Event ID 4624, 4672, 4634), RC4 encryption within TGTs, and TGS requests without preceding TGT requests.(Citation: ADSecurity Kerberos and KRBTGT)(Citation: CERT-EU Golden Ticket Protection)(Citation: Stealthbits Detect PtT 2019)\n\nMonitor the lifetime of TGT tickets for values that differ from the default domain duration.(Citation: Microsoft Kerberos Golden Ticket)\n\nMonitor for indications of [Pass the Ticket](https://attack.mitre.org/techniques/T1550/003) being used to move laterally. \n",
+    "x_mitre_data_sources": [
+        "Logon Session: Logon Session Metadata",
+        "Active Directory: Active Directory Credential Request"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Active Directory Configuration",
+                "description": "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc.",
+                "type": "course-of-action",
+                "id": "M1015"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the built-in KRBTGT account password is reset twice to invalidate any existing golden tickets created with the KRBTGT hash and other Kerberos tickets derived from it.",
+                "acid": "98582023"
+            },
+            {
+                "description": "Ensure that domain admin account permissions are limited to domain controllers and limited servers.",
+                "acid": "98582024"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that system is monitored for anomalous Kerberos activity, such as malformed or blank fields in Windows logon/logoff events (Event ID 4624, 4672, 4634).",
+                "acid": "98582018"
+            },
+            {
+                "description": "Ensure that kerboes activity is monitored for RC4 encryption within ticket granting tickets (TGTs).",
+                "acid": "98582019"
+            },
+            {
+                "description": "Ensure that kerboes activity is monitored for ticket granting service (TGS) requests without preceding TGT requests.",
+                "acid": "98582020"
+            },
+            {
+                "description": "Ensure that the lifetime of TGT tickets is monitored for values that differ from the default domain duration",
+                "acid": "98582021"
+            },
+            {
+                "description": "Ensure that system is monitored for indications of Pass the Ticket being used to move laterally.",
+                "acid": "98582022"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [
+        "CVE-2014-6324"
+    ]
+}

@@ -1,0 +1,403 @@
+﻿{
+    "id": "T1548",
+    "name": "Abuse Elevation Control Mechanism",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may circumvent mechanisms designed to control elevate privileges to gain higher-level permissions. Most modern systems contain native elevation control mechanisms that are intended to limit privileges that a user can perform on a machine. Authorization has to be granted to specific users in order to perform tasks that can be considered of higher risk. An adversary can perform several methods to take advantage of built-in control mechanisms in order to escalate privileges on a system.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1548",
+            "external_id": "T1548"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "privilege-escalation",
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor the file system for files that have the setuid or setgid bits set. Also look for any process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes. On Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo).\n\nConsider monitoring for <code>/usr/libexec/security_authtrampoline</code> executions which may indicate that AuthorizationExecuteWithPrivileges is being executed. MacOS system logs may also indicate when AuthorizationExecuteWithPrivileges is being called. Monitoring OS API callbacks for the execution can also be a way to detect this behavior but requires specialized security tooling.\n\nOn Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo). This technique is abusing normal functionality in macOS and Linux systems, but sudo has the ability to log all input and output based on the <code>LOG_INPUT</code> and <code>LOG_OUTPUT</code> directives in the <code>/etc/sudoers</code> file.\n\nThere are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Some UAC bypass methods rely on modifying specific, user-accessible Registry settings. Analysts should monitor Registry settings for unauthorized changes.",
+    "x_mitre_data_sources": [
+        "Process: Process Metadata",
+        "Process: Process Creation",
+        "Process: OS API Execution",
+        "File: File Metadata",
+        "File: File Modification",
+        "Windows Registry: Windows Registry Key Modification",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            },
+            {
+                "name": "User Account Control",
+                "description": "Configure Windows User Account Control to mitigate risk of adversaries obtaining elevated process access.",
+                "type": "course-of-action",
+                "id": "M1052"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Windows systems are checked regularly for common UAC bypass weaknesses",
+                "acid": "98580993"
+            },
+            {
+                "description": "Ensure that System settings are configured to prevent applications from running that haven't been downloaded from legitimate repositories",
+                "acid": "98580994"
+            },
+            {
+                "description": "Ensure that unsigned applications are not allowed from being run",
+                "acid": "98580995"
+            },
+            {
+                "description": "Ensure that applications with known vulnerabilities or known shell escapes should not have the setuid or setgid bits set to reduce potential damage in case the application is compromised",
+                "acid": "98580996"
+            },
+            {
+                "description": "Ensure that the number of programs with setuid or setgid bits set should be minimized across a system to reduce potential damage",
+                "acid": "98580997"
+            },
+            {
+                "description": "Ensure that the sudo tty_tickets setting is enabled to prevent risk across tty sessions",
+                "acid": "98580998"
+            },
+            {
+                "description": "Ensure that users are removed from the local administrator group on systems",
+                "acid": "98580999"
+            },
+            {
+                "description": "Ensure that the timestamp_timeout is to 0 so that the user has to input their password every time sudo is executed, which will reduce potential risks",
+                "acid": "98581000"
+            },
+            {
+                "description": "Ensure that the sudoers file is not allowed to edit without entering passwords to reduce potential risks",
+                "acid": "98581001"
+            },
+            {
+                "description": "Ensure that edit access to sudoers files are restricted so that users can't spawn risky processes as users with higher privilege",
+                "acid": "98581002"
+            },
+            {
+                "description": "Ensure that the highest enforcement level for User Access Control(UAC) is used to mitigate UAC bypass opportunities",
+                "acid": "98581003"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the file system is monitored for files having the setuid or setgid bits set",
+                "acid": "98580986"
+            },
+            {
+                "description": "Ensure that process API calls monitored for behavior indicating Process Injection",
+                "acid": "98580987"
+            },
+            {
+                "description": "Ensure that unusual loaded DLLs through DLL Search Order Hijacking are monitored",
+                "acid": "98580988"
+            },
+            {
+                "description": "Ensure that /usr/libexec/security_authtrampoline executions are monitored for suspicious behavior indicating execution of AuthorizationExecuteWithPrivileges",
+                "acid": "98580989"
+            },
+            {
+                "description": "Ensure that MacOS system logs are analyzed to check when AuthorizationExecuteWithPrivileges is being called",
+                "acid": "98580990"
+            },
+            {
+                "description": "Ensure that OS API callbacks for the execution are monitored for suspicious behavior indicating the execution of AuthorizationExecuteWithPrivileges",
+                "acid": "98580991"
+            },
+            {
+                "description": "Ensure that Registry settings are monitored for unauthorized changes",
+                "acid": "98580992"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000117",
+        "40000205",
+        "40000215",
+        "40000490",
+        "40000499",
+        "40000500",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106000",
+        "50106008",
+        "50106010",
+        "50106032",
+        "50106110"
+    ],
+    "technologycontrolIds": [
+        "15010104",
+        "15010105",
+        "15010106",
+        "15010107",
+        "15010108",
+        "15010109",
+        "15010110",
+        "15010111",
+        "15010190",
+        "15020107",
+        "15020108",
+        "15020109",
+        "15020110",
+        "15020111",
+        "15020112",
+        "15020113",
+        "15020114",
+        "15030107",
+        "15030108",
+        "15030109",
+        "15030110",
+        "15030111",
+        "15030112",
+        "15030113",
+        "15030114",
+        "15030202",
+        "15040108",
+        "15040109",
+        "15040110",
+        "15040111",
+        "15040112",
+        "15040113",
+        "15040114",
+        "15040115",
+        "15200104",
+        "15200105",
+        "15200106",
+        "15200107",
+        "15200108",
+        "15200109",
+        "15200110",
+        "15200111",
+        "15200191",
+        "16010110",
+        "16010111",
+        "16010112",
+        "16010113",
+        "16010114",
+        "16010115",
+        "16010116",
+        "16010117",
+        "16010199",
+        "16020109",
+        "16020110",
+        "16020111",
+        "16020112",
+        "16020113",
+        "16020114",
+        "16020115",
+        "16020116",
+        "16020203",
+        "16100111",
+        "16100112",
+        "16100113",
+        "16100114",
+        "16100115",
+        "16100116",
+        "16100117",
+        "16100118",
+        "16100200",
+        "16100214",
+        "16100592",
+        "16110108",
+        "16110109",
+        "16110110",
+        "16110111",
+        "16110112",
+        "16110113",
+        "16110114",
+        "16110115",
+        "16110196",
+        "16120112",
+        "16120113",
+        "16120114",
+        "16120115",
+        "16120116",
+        "16120117",
+        "16120118",
+        "16120119",
+        "16120203",
+        "16130115",
+        "16130206",
+        "16130210",
+        "16360112",
+        "16360113",
+        "16360114",
+        "16360115",
+        "16360116",
+        "16360117",
+        "16360118",
+        "16360189",
+        "16360209",
+        "16460110",
+        "16460111",
+        "16460112",
+        "16460113",
+        "16460114",
+        "16460115",
+        "16460116",
+        "16460188",
+        "16460207",
+        "18380047",
+        "18380052",
+        "19920103",
+        "19920104",
+        "19920105",
+        "19920106",
+        "19920107",
+        "19920108",
+        "19920109",
+        "19920189",
+        "19920475"
+    ],
+    "cveIds": [
+        "CVE-1999-0005",
+        "CVE-1999-0021",
+        "CVE-1999-0148",
+        "CVE-1999-0267",
+        "CVE-1999-0404",
+        "CVE-2004-1389",
+        "CVE-2008-0655",
+        "CVE-2008-4250",
+        "CVE-2009-3023",
+        "CVE-2010-0840",
+        "CVE-2010-1225",
+        "CVE-2010-3765",
+        "CVE-2011-2921",
+        "CVE-2012-1876",
+        "CVE-2013-0810",
+        "CVE-2013-4810",
+        "CVE-2013-5065",
+        "CVE-2013-7246",
+        "CVE-2014-6278",
+        "CVE-2015-0096",
+        "CVE-2015-1539",
+        "CVE-2015-1701",
+        "CVE-2015-8562",
+        "CVE-2016-10174",
+        "CVE-2016-6754",
+        "CVE-2016-8377",
+        "CVE-2016-9269",
+        "CVE-2017-12500",
+        "CVE-2017-12542",
+        "CVE-2017-12557",
+        "CVE-2017-12611",
+        "CVE-2017-12635",
+        "CVE-2017-12718",
+        "CVE-2017-14486",
+        "CVE-2017-5177",
+        "CVE-2017-5792",
+        "CVE-2017-5799",
+        "CVE-2017-5815",
+        "CVE-2017-5816",
+        "CVE-2017-5817",
+        "CVE-2017-6326",
+        "CVE-2017-6465",
+        "CVE-2017-6506",
+        "CVE-2017-6526",
+        "CVE-2017-7269",
+        "CVE-2017-9101",
+        "CVE-2018-10093",
+        "CVE-2018-10594",
+        "CVE-2018-11220",
+        "CVE-2018-11686",
+        "CVE-2018-15767",
+        "CVE-2018-16763",
+        "CVE-2018-7448",
+        "CVE-2018-7602",
+        "CVE-2018-8736",
+        "CVE-2019-10149",
+        "CVE-2019-11043",
+        "CVE-2019-11229",
+        "CVE-2019-16405",
+        "CVE-2019-1663",
+        "CVE-2019-17558",
+        "CVE-2019-1812",
+        "CVE-2019-19383",
+        "CVE-2019-3717",
+        "CVE-2019-8387",
+        "CVE-2019-9760",
+        "CVE-2020-11107",
+        "CVE-2020-20277",
+        "CVE-2020-24949",
+        "CVE-2020-28328",
+        "CVE-2020-35606",
+        "CVE-2020-5847",
+        "CVE-2021-42840",
+        "CVE-2021-44596",
+        "CVE-2022-0824",
+        "CVE-2022-24562"
+    ],
+    "subTechniques": [
+        "T1548.001",
+        "T1548.002",
+        "T1548.003",
+        "T1548.004"
+    ]
+}

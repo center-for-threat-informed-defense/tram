@@ -1,0 +1,86 @@
+﻿{
+    "id": "T1516",
+    "name": "Input Injection",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "A malicious application can inject input to the user interface to mimic user interaction through the abuse of Android's accessibility APIs.\n\n[Input Injection](https://attack.mitre.org/techniques/T1516) can be achieved using any of the following methods:\n\n* Mimicking user clicks on the screen, for example to steal money from a user's PayPal account.(Citation: android-trojan-steals-paypal-2fa)\n* Injecting global actions, such as `GLOBAL_ACTION_BACK` (programatically mimicking a physical back button press), to trigger actions on behalf of the user.(Citation: Talos Gustuff Apr 2019)\n* Inserting input into text fields on behalf of the user. This method is used legitimately to auto-fill text fields by applications such as password managers.(Citation: bitwarden autofill logins)",
+    "x_mitre_platforms": [
+        "Android"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "url": "https://attack.mitre.org/techniques/T1516",
+            "source_name": "mitre-mobile-attack",
+            "external_id": "T1516"
+        },
+        {
+            "description": "Luk\u00e1\u0161 \u0160tefanko. (2018, December 11). Android Trojan steals money from PayPal accounts even with 2FA on. Retrieved July 11, 2019.",
+            "url": "https://www.welivesecurity.com/2018/12/11/android-trojan-steals-money-paypal-accounts-2fa/",
+            "source_name": "android-trojan-steals-paypal-2fa"
+        },
+        {
+            "description": "Vitor Ventura. (2019, April 9).  Gustuff banking botnet targets Australia . Retrieved September 3, 2019.",
+            "url": "https://blog.talosintelligence.com/2019/04/gustuff-targets-australia.html",
+            "source_name": "Talos Gustuff Apr 2019"
+        },
+        {
+            "description": "Bitwarden. (n.d.).  Auto-fill logins on Android . Retrieved September 15, 2019.",
+            "url": "https://help.bitwarden.com/article/auto-fill-android/",
+            "source_name": "bitwarden autofill logins"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-mobile-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-mobile-attack",
+            "phase_name": "impact"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "impact"
+    ],
+    "x_mitre_detection": "Users can view applications that have registered accessibility services in the accessibility menu within the device settings.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Guidance",
+                "description": "Describes any guidance or training given to users to set particular configuration settings or avoid specific potentially risky behaviors.",
+                "type": "course-of-action",
+                "id": "M1011"
+            },
+            {
+                "name": "Enterprise Policy",
+                "description": "An enterprise mobility management (EMM), also known as mobile device management (MDM), system can be used to provision policies to mobile devices to control aspects of their allowed behavior.",
+                "type": "course-of-action",
+                "id": "M1012"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

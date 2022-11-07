@@ -1,0 +1,171 @@
+﻿{
+    "id": "T1087",
+    "name": "Account Discovery",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to get a listing of accounts on a system or within an environment. This information can help adversaries determine which accounts exist to aid in follow-on behavior.",
+    "x_mitre_platforms": [
+        "Windows",
+        "Azure AD",
+        "Office 365",
+        "SaaS",
+        "IaaS",
+        "Linux",
+        "macOS",
+        "Google Workspace"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1087",
+            "external_id": "T1087"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/575.html",
+            "external_id": "CAPEC-575"
+        },
+        {
+            "source_name": "Elastic - Koadiac Detection with EQL",
+            "description": "Stepanic, D.. (2020, January 13). Embracing offensive tooling: Building detections against Koadic using EQL. Retrieved November 30, 2020.",
+            "url": "https://www.elastic.co/blog/embracing-offensive-tooling-building-detections-against-koadic-using-eql"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "discovery"
+        }
+    ],
+    "tactic": [
+        "discovery"
+    ],
+    "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nMonitor for processes that can be used to enumerate user accounts, such as <code>net.exe</code> and <code>net1.exe</code>, especially when executed in quick succession.(Citation: Elastic - Koadiac Detection with EQL)",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "User Account: User Account Metadata",
+        "File: File Access"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Account Discovery Mitigation",
+                "description": "Prevent administrator accounts from being enumerated when an application is elevating through UAC since it can lead to the disclosure of account names. The Registry key is located <code>HKLM\\ SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\CredUI\\EnumerateAdministrators</code>. It can be disabled through GPO: Computer Configuration > [Policies] > Administrative Templates > Windows Components > Credential User Interface: E numerate administrator accounts on elevation. (Citation: UCF STIG Elevation Account Enumeration)\n\nIdentify unnecessary system utilities or potentially malicious software that may be used to acquire information about system and domain accounts, and audit and/or block them by using whitelisting (Citation: Beechey 2010) tools, like AppLocker, (Citation: Windows Commands JPCERT) (Citation: NSA MS AppLocker) or Software Restriction Policies (Citation: Corio 2008) where appropriate. (Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1087"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that system is configured properly to prevent administrator accounts from being enumerated when an application is elevating through UAC.",
+                "acid": "98582097"
+            },
+            {
+                "description": "Ensure that administrator accounts are disabled from being enumerated through GPO: Computer Configuration > [Policies] > Administrative Templates > Windows Components > Credential User Interface: Enumerate administrator accounts on elevation.",
+                "acid": "98582098"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process and command-line arguments are monitored for actions taken to gather system and network information.",
+                "acid": "98582094"
+            },
+            {
+                "description": "Ensure that remote access tools (with built-in features) is implemented to interact directly with the Windows API to gather information.",
+                "acid": "98582095"
+            },
+            {
+                "description": "Ensure that Windows system management tools such as Windows Management Instrumentation and PowerShell are in place to gather information.",
+                "acid": "98582096"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000207",
+        "40000490"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100333",
+        "50101185",
+        "50102528",
+        "50104298",
+        "50106020"
+    ],
+    "technologycontrolIds": [
+        "10960007",
+        "11220004",
+        "11220005",
+        "15010064",
+        "15010163",
+        "15020065",
+        "15020158",
+        "15030065",
+        "15030171",
+        "15040130",
+        "15180060",
+        "15200064",
+        "15200163",
+        "16010068",
+        "16010172",
+        "16020068",
+        "16020174",
+        "16100069",
+        "16100180",
+        "16110068",
+        "16110170",
+        "16120069",
+        "16120175",
+        "16140060",
+        "16360070",
+        "16360184",
+        "16460068",
+        "16460183",
+        "18330001",
+        "18330002",
+        "18330003",
+        "18340002",
+        "18360002",
+        "18380052",
+        "18550006",
+        "18560002",
+        "18620001",
+        "18630001",
+        "18640002",
+        "19920159",
+        "19920415"
+    ],
+    "cveIds": [
+        "CVE-2013-6129"
+    ],
+    "subTechniques": [
+        "T1087.001",
+        "T1087.002",
+        "T1087.003",
+        "T1087.004"
+    ]
+}

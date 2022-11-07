@@ -1,0 +1,216 @@
+﻿{
+    "id": "T1553",
+    "name": "Subvert Trust Controls",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may undermine security controls that will either warn users of untrusted activity or prevent execution of untrusted programs. Operating systems and security products may contain mechanisms to identify programs or websites as possessing some level of trust. Examples of such features would include a program being allowed to run because it is signed by a valid code signing certificate, a program prompting the user with a warning because it has an attribute set from being downloaded from the Internet, or getting an indication that you are about to connect to an untrusted site.\n\nAdversaries may attempt to subvert these trust mechanisms. The method adversaries use will depend on the specific mechanism they seek to subvert. Adversaries may conduct [File and Directory Permissions Modification](https://attack.mitre.org/techniques/T1222) or [Modify Registry](https://attack.mitre.org/techniques/T1112) in support of subverting these controls.(Citation: SpectorOps Subverting Trust Sept 2017) Adversaries may also create or steal code signing certificates to acquire trust on target systems.(Citation: Securelist Digital Certificates)(Citation: Symantec Digital Certificates) ",
+    "x_mitre_platforms": [
+        "Windows",
+        "macOS",
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Anti-virus",
+        "Autoruns Analysis",
+        "Digital Certificate Validation",
+        "User Mode Signature Validation",
+        "Windows User Account Control",
+        "Application Control"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1553",
+            "external_id": "T1553"
+        },
+        {
+            "source_name": "SpectorOps Code Signing Dec 2017",
+            "description": "Graeber, M. (2017, December 22). Code Signing Certificate Cloning Attacks and Defenses. Retrieved April 3, 2018.",
+            "url": "https://posts.specterops.io/code-signing-certificate-cloning-attacks-and-defenses-6f98657fc6ec"
+        },
+        {
+            "source_name": "SpectorOps Subverting Trust Sept 2017",
+            "description": "Graeber, M. (2017, September). Subverting Trust in Windows. Retrieved January 31, 2018.",
+            "url": "https://specterops.io/assets/resources/SpecterOps_Subverting_Trust_in_Windows.pdf"
+        },
+        {
+            "source_name": "Securelist Digital Certificates",
+            "description": "Ladikov, A. (2015, January 29). Why You Shouldn\u2019t Completely Trust Files Signed with Digital Certificates. Retrieved March 31, 2016.",
+            "url": "https://securelist.com/why-you-shouldnt-completely-trust-files-signed-with-digital-certificates/68593/"
+        },
+        {
+            "source_name": "Symantec Digital Certificates",
+            "description": "Shinotsuka, H. (2013, February 22). How Attackers Steal Private Keys from Digital Certificates. Retrieved March 31, 2016.",
+            "url": "http://www.symantec.com/connect/blogs/how-attackers-steal-private-keys-digital-certificates"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Collect and analyze signing certificate metadata on software that executes within the environment to look for unusual certificate characteristics and outliers. Periodically baseline registered SIPs and trust providers (Registry entries and files on disk), specifically looking for new, modified, or non-Microsoft entries. (Citation: SpectorOps Subverting Trust Sept 2017) A system's root certificates are unlikely to change frequently. Monitor new certificates installed on a system that could be due to malicious activity.(Citation: SpectorOps Code Signing Dec 2017)\n\nAnalyze Autoruns data for oddities and anomalies, specifically malicious files attempting persistent execution by hiding within auto-starting locations. Autoruns will hide entries signed by Microsoft or Windows by default, so ensure \"Hide Microsoft Entries\" and \"Hide Windows Entries\" are both deselected.(Citation: SpectorOps Subverting Trust Sept 2017) \n\nMonitor and investigate attempts to modify extended file attributes with utilities such as <code>xattr</code>. Built-in system utilities may generate high false positive alerts, so compare against baseline knowledge for how systems are typically used and correlate modification events with other indications of malicious activity where possible. ",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Windows Registry: Windows Registry Key Creation",
+        "Process: Process Creation",
+        "File: File Modification",
+        "File: File Metadata",
+        "Module: Module Load",
+        "Windows Registry: Windows Registry Key Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            },
+            {
+                "name": "Restrict Registry Permissions",
+                "description": "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+                "type": "course-of-action",
+                "id": "M1024"
+            },
+            {
+                "name": "Software Configuration",
+                "description": "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+                "type": "course-of-action",
+                "id": "M1054"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that System settings are properly configured to prevent applications from running that are not downloaded through the Apple Store (or other legitimate repositories.).",
+                "acid": "98581690"
+            },
+            {
+                "description": "Ensure that whitelisting solutions e.g. AppLocker or Device Guard is enabled to block the loading of malicious content.",
+                "acid": "98581691"
+            },
+            {
+                "description": "Ensure that Windows Group Policy is implemented properly to manage root certificates.",
+                "acid": "98581692"
+            },
+            {
+                "description": "Ensure that the Flags value of HKLM\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\Root\\ProtectedRoots is set to 1 to prevent (non-administrator users) further root installations into HKCU certificate store.",
+                "acid": "98581693"
+            },
+            {
+                "description": "Ensure that permissions are set properly for Registry hives to prevent users from modifying keys related to SIP.",
+                "acid": "98581694"
+            },
+            {
+                "description": "Ensure that permissions are set properly for Registry hives to prevent users from modifying keys related to trust provider components.",
+                "acid": "98581695"
+            },
+            {
+                "description": "Ensure that Registry keys are free from malicious modifications to prevent from being hijacked.",
+                "acid": "98581696"
+            },
+            {
+                "description": "Ensure that Registry keys are prevented from any modifications (malicious) to protect components from being hijacked (to suitable functions).",
+                "acid": "98581697"
+            },
+            {
+                "description": "Ensure that HTTP Public Key Pinning (HPKP) is employed to mitigate potential man-in-the-middle attacks where the fraudulent certificate is used to intercept encrypted communications.",
+                "acid": "98581698"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that signing certificate metadata on software is collected.",
+                "acid": "98581678"
+            },
+            {
+                "description": "Ensure that signing certificate metadata on software is analyzed that executes within the environment to check unusual certificate characteristics and outliers.",
+                "acid": "98581679"
+            },
+            {
+                "description": "Ensure that baseline registered SIPs are monitored periodically for new, modified, or non-Microsoft entries.",
+                "acid": "98581680"
+            },
+            {
+                "description": "Ensure that system's root certificates are inspected for any change.",
+                "acid": "98581681"
+            },
+            {
+                "description": "Ensure that system is monitored for the installation of any new certificates which may be due to malicious activity.",
+                "acid": "98581682"
+            },
+            {
+                "description": "Ensure that Autoruns data is monitored and analyzed for any oddities and anomalies.",
+                "acid": "98581683"
+            },
+            {
+                "description": "Ensure that \"Hide Microsoft Entries\" are deselected as Autoruns by default hide entries signed by Microsoft or Windows.",
+                "acid": "98581684"
+            },
+            {
+                "description": "Ensure that \"Hide Windows Entries\" are deselected as Autoruns by default hide entries signed by Microsoft or Windows.",
+                "acid": "98581685"
+            },
+            {
+                "description": "Ensure that extended file attributes are monitored.",
+                "acid": "98581686"
+            },
+            {
+                "description": "Ensure that extended file attributes are examined if attempted to modify with utilities such as xattr.",
+                "acid": "98581687"
+            },
+            {
+                "description": "Ensure that Built-in system utilities are compared against baseline knowledge to check typical system use (to reduce false-positive alerts).",
+                "acid": "98581688"
+            },
+            {
+                "description": "Ensure that modification events are correlated with other indications of malicious activity to reduce false-positive alerts.",
+                "acid": "98581689"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106008"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [
+        "CVE-2014-4077",
+        "CVE-2019-3762"
+    ],
+    "subTechniques": [
+        "T1553.001",
+        "T1553.002",
+        "T1553.003",
+        "T1553.004",
+        "T1553.005",
+        "T1553.006"
+    ]
+}

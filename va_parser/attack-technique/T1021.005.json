@@ -1,0 +1,188 @@
+{
+    "id": "T1021.005",
+    "name": "VNC",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to remotely control machines using Virtual Network Computing (VNC).  VNC is a platform-independent desktop sharing system that uses the RFB (\u201cremote framebuffer\u201d) protocol to enable users to remotely control another computer's display by relaying the screen, mouse, and keyboard inputs over the network.(Citation: The Remote Framebuffer Protocol)\n\nVNC differs from [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1021/001) as VNC is screen-sharing software rather than resource-sharing software. By default, VNC uses the system's authentication, but it can be configured to use credentials specific to VNC.(Citation: MacOS VNC software for Remote Desktop)(Citation: VNC Authentication)\n\nAdversaries may abuse VNC to perform malicious actions as the logged-on user such as opening documents, downloading files, and running arbitrary commands. An adversary could use VNC to remotely control and monitor a system to collect data and information to pivot to other systems within the network. Specific VNC libraries/implementations have also been susceptible to brute force attacks and memory usage exploitation.(Citation: Hijacking VNC)(Citation: macOS root VNC login without authentication)(Citation: VNC Vulnerabilities)(Citation: Offensive Security VNC Authentication Check)(Citation: Attacking VNC Servers PentestLab)(Citation: Havana authentication bug)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1021/005",
+            "external_id": "T1021.005"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/555.html",
+            "external_id": "CAPEC-555"
+        },
+        {
+            "source_name": "The Remote Framebuffer Protocol",
+            "description": "T. Richardson, J. Levine, RealVNC Ltd.. (2011, March). The Remote Framebuffer Protocol. Retrieved September 20, 2021.",
+            "url": "https://datatracker.ietf.org/doc/html/rfc6143#section-7.2.2"
+        },
+        {
+            "source_name": "MacOS VNC software for Remote Desktop",
+            "description": "Apple Support. (n.d.). Set up a computer running VNC software for Remote Desktop. Retrieved August 18, 2021.",
+            "url": "https://support.apple.com/guide/remote-desktop/set-up-a-computer-running-vnc-software-apdbed09830/mac"
+        },
+        {
+            "source_name": "VNC Authentication",
+            "description": "Tegan. (2019, August 15). Setting up System Authentication. Retrieved September 20, 2021.",
+            "url": "https://help.realvnc.com/hc/en-us/articles/360002250097-Setting-up-System-Authentication"
+        },
+        {
+            "source_name": "Hijacking VNC",
+            "description": "Z3RO. (2019, March 10). Day 70: Hijacking VNC (Enum, Brute, Access and Crack). Retrieved September 20, 2021.",
+            "url": "https://int0x33.medium.com/day-70-hijacking-vnc-enum-brute-access-and-crack-d3d18a4601cc"
+        },
+        {
+            "source_name": "macOS root VNC login without authentication",
+            "description": "Nick Miles. (2017, November 30). Detecting macOS High Sierra root account without authentication. Retrieved September 20, 2021.",
+            "url": "https://www.tenable.com/blog/detecting-macos-high-sierra-root-account-without-authentication"
+        },
+        {
+            "source_name": "VNC Vulnerabilities",
+            "description": "Sergiu Gatlan. (2019, November 22). Dozens of VNC Vulnerabilities Found in Linux, Windows Solutions. Retrieved September 20, 2021.",
+            "url": "https://www.bleepingcomputer.com/news/security/dozens-of-vnc-vulnerabilities-found-in-linux-windows-solutions/"
+        },
+        {
+            "source_name": "Offensive Security VNC Authentication Check",
+            "description": "Offensive Security. (n.d.). VNC Authentication. Retrieved October 6, 2021.",
+            "url": "https://www.offensive-security.com/metasploit-unleashed/vnc-authentication/"
+        },
+        {
+            "source_name": "Attacking VNC Servers PentestLab",
+            "description": "Administrator, Penetration Testing Lab. (2012, October 30). Attacking VNC Servers. Retrieved October 6, 2021.",
+            "url": "https://pentestlab.blog/2012/10/30/attacking-vnc-servers/"
+        },
+        {
+            "source_name": "Havana authentication bug",
+            "description": "Jay Pipes. (2013, December 23). Security Breach! Tenant A is seeing the VNC Consoles of Tenant B!. Retrieved October 6, 2021.",
+            "url": "http://lists.openstack.org/pipermail/openstack/2013-December/004138.html"
+        },
+        {
+            "source_name": "Apple Unified Log Analysis Remote Login and Screen Sharing",
+            "description": "Sarah Edwards. (2020, April 30). Analysis of Apple Unified Logs: Quarantine Edition [Entry 6] \u2013 Working From Home? Remote Logins. Retrieved August 19, 2021.",
+            "url": "https://sarah-edwards-xzkc.squarespace.com/blog/2020/4/30/analysis-of-apple-unified-logs-quarantine-edition-entry-6-working-from-home-remote-logins"
+        },
+        {
+            "source_name": "Gnome Remote Desktop grd-settings",
+            "description": "Pascal Nowack. (n.d.). Retrieved September 21, 2021.",
+            "url": "https://gitlab.gnome.org/GNOME/gnome-remote-desktop/-/blob/9aa9181e/src/grd-settings.c#L207"
+        },
+        {
+            "source_name": "Gnome Remote Desktop gschema",
+            "description": "Pascal Nowack. (n.d.). Retrieved September 21, 2021.",
+            "url": "https://gitlab.gnome.org/GNOME/gnome-remote-desktop/-/blob/9aa9181e/src/org.gnome.desktop.remote-desktop.gschema.xml.in"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "lateral-movement"
+        }
+    ],
+    "tactic": [
+        "lateral-movement"
+    ],
+    "x_mitre_detection": "Use of VNC may be legitimate depending on the environment and how it's used. Other factors, such as access patterns and activity that occurs after a remote login, may indicate suspicious or malicious behavior using VNC.\n\nOn macOS systems <code>log show --predicate 'process = \"screensharingd\" and eventMessage contains \"Authentication:\"'</code> can be used to review incoming VNC connection attempts for suspicious activity.(Citation: Apple Unified Log Analysis Remote Login and Screen Sharing)\n\nMonitor for use of built-in debugging environment variables (such as those containing credentials or other sensitive information) as well as test/default users on VNC servers, as these can leave openings for adversaries to abuse.(Citation: Gnome Remote Desktop grd-settings)(Citation: Gnome Remote Desktop gschema)",
+    "x_mitre_data_sources": [
+        "Logon Session: Logon Session Creation",
+        "Network Traffic: Network Connection Creation",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "VNC server installed and listening for connections."
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Limit Software Installation",
+                "description": "Block users or groups from installing unapproved software.",
+                "type": "course-of-action",
+                "id": "M1033"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Inventory workstations are in place for unauthorized VNC server software.",
+                "acid": "98582279"
+            },
+            {
+                "description": "Ensure that VNC server software is uninstalled if not required.",
+                "acid": "98582280"
+            },
+            {
+                "description": "Ensure that network traffic is filtered to check VNC traffic utilizing default TCP ports 5900 used for the server.",
+                "acid": "98582281"
+            },
+            {
+                "description": "Ensure that network traffic is filtered to check VNC traffic utilizing default TCP ports 5800 used for browser access.",
+                "acid": "98582282"
+            },
+            {
+                "description": "Ensure that network traffic is filtered to check VNC traffic utilizing default TCP ports 5500 used for a viewer in listening mode.",
+                "acid": "98582283"
+            },
+            {
+                "description": "Ensure that software installation to user groups are restricted.",
+                "acid": "98582284"
+            },
+            {
+                "description": "Ensure that VNC server are manually installed by the user.",
+                "acid": "98582285"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that system is monitored for any unusual access patterns and activity occurs after a remote login to detect malicious behavior with VNC.",
+                "acid": "98582278"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000020",
+        "40000513",
+        "40000523"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

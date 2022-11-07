@@ -1,0 +1,169 @@
+{
+    "id": "T1003.006",
+    "name": "DCSync",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to access credentials and other sensitive information by abusing a Windows Domain Controller's application programming interface (API)(Citation: Microsoft DRSR Dec 2017) (Citation: Microsoft GetNCCChanges) (Citation: Samba DRSUAPI) (Citation: Wine API samlib.dll) to simulate the replication process from a remote domain controller using a technique called DCSync.\n\nMembers of the Administrators, Domain Admins, and Enterprise Admin groups or computer accounts on the domain controller are able to run DCSync to pull password data(Citation: ADSecurity Mimikatz DCSync) from Active Directory, which may include current and historical hashes of potentially useful accounts such as KRBTGT and Administrators. The hashes can then in turn be used to create a [Golden Ticket](https://attack.mitre.org/techniques/T1558/001) for use in [Pass the Ticket](https://attack.mitre.org/techniques/T1550/003)(Citation: Harmj0y Mimikatz and DCSync) or change an account's password as noted in [Account Manipulation](https://attack.mitre.org/techniques/T1098).(Citation: InsiderThreat ChangeNTLM July 2017)\n\nDCSync functionality has been included in the \"lsadump\" module in [Mimikatz](https://attack.mitre.org/software/S0002).(Citation: GitHub Mimikatz lsadump Module) Lsadump also includes NetSync, which performs DCSync over a legacy replication protocol.(Citation: Microsoft NRPC Dec 2017)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1003/006",
+            "external_id": "T1003.006"
+        },
+        {
+            "source_name": "Microsoft DRSR Dec 2017",
+            "description": "Microsoft. (2017, December 1). MS-DRSR Directory Replication Service (DRS) Remote Protocol. Retrieved December 4, 2017.",
+            "url": "https://msdn.microsoft.com/library/cc228086.aspx"
+        },
+        {
+            "source_name": "Microsoft GetNCCChanges",
+            "description": "Microsoft. (n.d.). IDL_DRSGetNCChanges (Opnum 3). Retrieved December 4, 2017.",
+            "url": "https://msdn.microsoft.com/library/dd207691.aspx"
+        },
+        {
+            "source_name": "Samba DRSUAPI",
+            "description": "SambaWiki. (n.d.). DRSUAPI. Retrieved December 4, 2017.",
+            "url": "https://wiki.samba.org/index.php/DRSUAPI"
+        },
+        {
+            "source_name": "Wine API samlib.dll",
+            "description": "Wine API. (n.d.). samlib.dll. Retrieved December 4, 2017.",
+            "url": "https://source.winehq.org/WineAPI/samlib.html"
+        },
+        {
+            "source_name": "ADSecurity Mimikatz DCSync",
+            "description": "Metcalf, S. (2015, September 25). Mimikatz DCSync Usage, Exploitation, and Detection. Retrieved August 7, 2017.",
+            "url": "https://adsecurity.org/?p=1729"
+        },
+        {
+            "source_name": "Harmj0y Mimikatz and DCSync",
+            "description": "Schroeder, W. (2015, September 22). Mimikatz and DCSync and ExtraSids, Oh My. Retrieved August 7, 2017.",
+            "url": "http://www.harmj0y.net/blog/redteaming/mimikatz-and-dcsync-and-extrasids-oh-my/"
+        },
+        {
+            "source_name": "InsiderThreat ChangeNTLM July 2017",
+            "description": "Warren, J. (2017, July 11). Manipulating User Passwords with Mimikatz. Retrieved December 4, 2017.",
+            "url": "https://blog.stealthbits.com/manipulating-user-passwords-with-mimikatz-SetNTLM-ChangeNTLM"
+        },
+        {
+            "source_name": "GitHub Mimikatz lsadump Module",
+            "description": "Deply, B., Le Toux, V. (2016, June 5). module ~ lsadump. Retrieved August 7, 2017.",
+            "url": "https://github.com/gentilkiwi/mimikatz/wiki/module-~-lsadump"
+        },
+        {
+            "source_name": "Microsoft NRPC Dec 2017",
+            "description": "Microsoft. (2017, December 1). MS-NRPC - Netlogon Remote Protocol. Retrieved December 6, 2017.",
+            "url": "https://msdn.microsoft.com/library/cc237008.aspx"
+        },
+        {
+            "source_name": "Microsoft SAMR",
+            "description": "Microsoft. (n.d.). MS-SAMR Security Account Manager (SAM) Remote Protocol (Client-to-Server) - Transport. Retrieved December 4, 2017.",
+            "url": "https://msdn.microsoft.com/library/cc245496.aspx"
+        },
+        {
+            "source_name": "AdSecurity DCSync Sept 2015",
+            "description": "Metcalf, S. (2015, September 25). Mimikatz DCSync Usage, Exploitation, and Detection. Retrieved December 4, 2017.",
+            "url": "https://adsecurity.org/?p=1729"
+        },
+        {
+            "source_name": "Harmj0y DCSync Sept 2015",
+            "description": "Schroeder, W. (2015, September 22). Mimikatz and DCSync and ExtraSids, Oh My. Retrieved December 4, 2017.",
+            "url": "http://www.harmj0y.net/blog/redteaming/mimikatz-and-dcsync-and-extrasids-oh-my/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "Monitor domain controller logs for replication requests and other unscheduled activity possibly associated with DCSync.(Citation: Microsoft DRSR Dec 2017) (Citation: Microsoft GetNCCChanges) (Citation: Samba DRSUAPI) Also monitor for network protocols(Citation: Microsoft DRSR Dec 2017) (Citation: Microsoft NRPC Dec 2017) and other replication requests(Citation: Microsoft SAMR) from IPs not associated with known domain controllers.(Citation: AdSecurity DCSync Sept 2015)\n\nNote: Domain controllers may not log replication requests originating from the default domain controller account.(Citation: Harmj0y DCSync Sept 2015)",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Flow",
+        "Active Directory: Active Directory Object Access",
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            },
+            {
+                "name": "Active Directory Configuration",
+                "description": "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc.",
+                "type": "course-of-action",
+                "id": "M1015"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that active directory configuration defines an access control list for domain controllers to manage \"Replicating Directory Changes\" and permissions",
+                "acid": "98581955"
+            },
+            {
+                "description": "Ensure that local administrator accounts are configured with complex and unique passwords",
+                "acid": "98581956"
+            },
+            {
+                "description": "Ensure that Privilege Access Management solutions are configured with appropriate privileges to different levels of administrative tiers",
+                "acid": "98581957"
+            },
+            {
+                "description": "Ensure that user or admin domain accounts are not configured under local administrator groups in windows",
+                "acid": "98581958"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that domain controller logs are monitored to identify replication requests and unscheduled activity associated with DCSync",
+                "acid": "98581953"
+            },
+            {
+                "description": "Ensure that network protocols are monitored to identify replication requests from unknown IPs with known domain controllers",
+                "acid": "98581954"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100281",
+        "50100282"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

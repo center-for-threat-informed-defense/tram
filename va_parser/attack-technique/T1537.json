@@ -1,0 +1,153 @@
+﻿{
+    "id": "T1537",
+    "name": "Transfer Data to Cloud Account",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may exfiltrate data by transferring the data, including backups of cloud environments, to another cloud account they control on the same service to avoid typical file transfers/downloads and network-based exfiltration detection.\n\nA defender who is monitoring for large transfers to outside the cloud environment through normal file transfers or over command and control channels may not be watching for data transfers to another account within the same cloud provider. Such transfers may utilize existing cloud provider APIs and the internal address space of the cloud provider to blend into normal traffic or avoid data transfers over external network interfaces.\n\nIncidents have been observed where adversaries have created backups of cloud instances and transferred them to separate accounts.(Citation: DOJ GRU Indictment Jul 2018) ",
+    "x_mitre_platforms": [
+        "IaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1537",
+            "external_id": "T1537"
+        },
+        {
+            "source_name": "AWS EBS Snapshot Sharing",
+            "description": "Amazon Web Services. (n.d.). Share an Amazon EBS snapshot. Retrieved March 2, 2022.",
+            "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html"
+        },
+        {
+            "source_name": "Azure Shared Access Signature",
+            "description": "Delegate access with a shared access signature. (2019, December 18). Delegate access with a shared access signature. Retrieved March 2, 2022.",
+            "url": "https://docs.microsoft.com/en-us/rest/api/storageservices/delegate-access-with-shared-access-signature"
+        },
+        {
+            "source_name": "Azure Blob Snapshots",
+            "description": "Microsoft Azure. (2021, December 29). Blob snapshots. Retrieved March 2, 2022.",
+            "url": "https://docs.microsoft.com/en-us/azure/storage/blobs/snapshots-overview"
+        },
+        {
+            "source_name": "DOJ GRU Indictment Jul 2018",
+            "description": "Mueller, R. (2018, July 13). Indictment - United States of America vs. VIKTOR BORISOVICH NETYKSHO, et al. Retrieved September 13, 2018.",
+            "url": "https://www.justice.gov/file/1080281/download"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "exfiltration"
+        }
+    ],
+    "tactic": [
+        "exfiltration"
+    ],
+    "x_mitre_detection": "Monitor account activity for attempts to share data, snapshots, or backups with untrusted or unusual accounts on the same cloud service provider. Monitor for anomalous file transfer activity between accounts and to untrusted VPCs. \n\nIn AWS, sharing an Elastic Block Store (EBS) snapshot, either with specified users or publicly, generates a ModifySnapshotAttribute event in CloudTrail logs.(Citation: AWS EBS Snapshot Sharing) Similarly, in Azure, creating a Shared Access Signature (SAS) URI for a Virtual Hard Disk (VHS) snapshot generates a \"Get Snapshot SAS URL\" event in Activity Logs.(Citation: Azure Blob Snapshots)(Citation: Azure Shared Access Signature)",
+    "x_mitre_data_sources": [
+        "Snapshot: Snapshot Creation",
+        "Snapshot: Snapshot Metadata",
+        "Cloud Storage: Cloud Storage Modification",
+        "Cloud Storage: Cloud Storage Metadata",
+        "Cloud Storage: Cloud Storage Creation",
+        "Network Traffic: Network Traffic Content",
+        "Snapshot: Snapshot Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that network-based filtering restriction is implemented to prevent data transfers to untrusted VPCs.",
+                "acid": "98582723"
+            },
+            {
+                "description": "Ensure that access keys rotated within a certain number of days to reduce the effectiveness of stolen credentials.",
+                "acid": "98582724"
+            },
+            {
+                "description": "Ensure that user account and IAM policies are restricted to least privileges required.",
+                "acid": "98582725"
+            },
+            {
+                "description": "Ensure that IAM policies are applied properly to limit user access.",
+                "acid": "98582726"
+            },
+            {
+                "description": "Ensure that temporary credentials are used for accounts that are only valid for a certain period of time (to reduce the effectiveness of compromised accounts).",
+                "acid": "98582727"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that cloud account activity is monitored for unusual attempts to share data, snapshots, or backups with untrusted or unusual accounts on the same cloud service provider.",
+                "acid": "98582721"
+            },
+            {
+                "description": "Ensure that system is monitored for anomalous file transfer activity between accounts and to untrusted VPCs.",
+                "acid": "98582722"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000121",
+        "40000223",
+        "40000490",
+        "40000502",
+        "40000504"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106013",
+        "50106022"
+    ],
+    "technologycontrolIds": [
+        "18330001",
+        "18330002",
+        "18330003",
+        "18380026",
+        "18430003",
+        "18550004",
+        "18550005",
+        "18640003",
+        "18640007",
+        "18800001",
+        "18850001",
+        "18860001"
+    ],
+    "cveIds": [],
+    "subTechniques": []
+}

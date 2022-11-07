@@ -1,0 +1,134 @@
+{
+    "id": "T1134.002",
+    "name": "Create Process with Token",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may create a new process with a different token to escalate privileges and bypass access controls. Processes can be created with the token and resulting security context of another user using features such as <code>CreateProcessWithTokenW</code> and <code>runas</code>.(Citation: Microsoft RunAs)\n\nCreating processes with a different token may require the credentials of the target user, specific privileges to impersonate that user, or access to the token to be used (ex: gathered via other means such as [Token Impersonation/Theft](https://attack.mitre.org/techniques/T1134/001) or [Make and Impersonate Token](https://attack.mitre.org/techniques/T1134/003)).",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Windows User Account Control",
+        "System access controls",
+        "File system access controls"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1134/002",
+            "external_id": "T1134.002"
+        },
+        {
+            "source_name": "Microsoft RunAs",
+            "description": "Microsoft. (2016, August 31). Runas. Retrieved October 1, 2021.",
+            "url": "https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771525(v=ws.11)"
+        },
+        {
+            "source_name": "Microsoft Command-line Logging",
+            "description": "Mathers, B. (2017, March 7). Command line process auditing. Retrieved April 21, 2017.",
+            "url": "https://technet.microsoft.com/en-us/windows-server-docs/identity/ad-ds/manage/component-updates/command-line-process-auditing"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "If an adversary is using a standard command-line shell (i.e. [Windows Command Shell](https://attack.mitre.org/techniques/T1059/003)), analysts may detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the <code>runas</code> command or similar artifacts. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nIf an adversary is using a payload that calls the Windows token APIs directly, analysts may detect token manipulation only through careful analysis of user activity, examination of running processes, and correlation with other endpoint and network behavior.\n\nAnalysts can also monitor for use of Windows APIs such as <code>CreateProcessWithTokenW</code> and correlate activity with other suspicious behavior to reduce false positives that may be due to normal benign use by users and administrators.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Process: OS API Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that permission for creating tokens are blocked for users and user groups",
+                "acid": "98581051"
+            },
+            {
+                "description": "Ensure that restrictions on the creation of tokens are implemented for the local system account only",
+                "acid": "98581052"
+            },
+            {
+                "description": "Ensure that the creation of process level token is restricted only to local service accounts and network service accounts",
+                "acid": "98581053"
+            },
+            {
+                "description": "Ensure that Administrators are educated to log in as a standard user but run their tools with administrator privileges using the runas command",
+                "acid": "98581054"
+            },
+            {
+                "description": "Ensure that users and accounts are restricted to the least privileges (minimum privileges) which they require by default",
+                "acid": "98581055"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that command-line activity is audited to detect token manipulation",
+                "acid": "98581046"
+            },
+            {
+                "description": "Ensure that command-line activity is audited specifically for runas command",
+                "acid": "98581047"
+            },
+            {
+                "description": "Ensure that user network activity is analyzed to detect token manipulation",
+                "acid": "98581048"
+            },
+            {
+                "description": "Ensure that running processes are examined to detect token manipulation",
+                "acid": "98581049"
+            },
+            {
+                "description": "Ensure that Windows APIs (such as DuplicateToken(Ex), CreateProcessWithToken) are monitored for suspicious behaviors which could help detect Token Impersonation",
+                "acid": "98581050"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000205",
+        "40000490",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

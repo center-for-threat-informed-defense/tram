@@ -1,0 +1,163 @@
+{
+    "id": "T1550.003",
+    "name": "Pass the Ticket",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may \u201cpass the ticket\u201d using stolen Kerberos tickets to move laterally within an environment, bypassing normal system access controls. Pass the ticket (PtT) is a method of authenticating to a system using Kerberos tickets without having access to an account's password. Kerberos authentication can be used as the first step to lateral movement to a remote system.\n\nWhen preforming PtT, valid Kerberos tickets for [Valid Accounts](https://attack.mitre.org/techniques/T1078) are captured by [OS Credential Dumping](https://attack.mitre.org/techniques/T1003). A user's service tickets or ticket granting ticket (TGT) may be obtained, depending on the level of access. A service ticket allows for access to a particular resource, whereas a TGT can be used to request service tickets from the Ticket Granting Service (TGS) to access any resource the user has privileges to access.(Citation: ADSecurity AD Kerberos Attacks)(Citation: GentilKiwi Pass the Ticket)\n\nA [Silver Ticket](https://attack.mitre.org/techniques/T1558/002) can be obtained for services that use Kerberos as an authentication mechanism and are used to generate tickets to access that particular resource and the system that hosts the resource (e.g., SharePoint).(Citation: ADSecurity AD Kerberos Attacks)\n\nA [Golden Ticket](https://attack.mitre.org/techniques/T1558/001) can be obtained for the domain using the Key Distribution Service account KRBTGT account NTLM hash, which enables generation of TGTs for any account in Active Directory.(Citation: Campbell 2014)\n\nAdversaries may also create a valid Kerberos ticket using other user information, such as stolen password hashes or AES keys. For example, \"overpassing the hash\" involves using a NTLM password hash to authenticate as a user (i.e. [Pass the Hash](https://attack.mitre.org/techniques/T1550/002)) while also using the password hash to create a valid Kerberos ticket.(Citation: Stealthbits Overpass-the-Hash)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "System Access Controls"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1550/003",
+            "external_id": "T1550.003"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/645.html",
+            "external_id": "CAPEC-645"
+        },
+        {
+            "source_name": "ADSecurity AD Kerberos Attacks",
+            "description": "Metcalf, S. (2014, November 22). Mimikatz and Active Directory Kerberos Attacks. Retrieved June 2, 2016.",
+            "url": "https://adsecurity.org/?p=556"
+        },
+        {
+            "source_name": "GentilKiwi Pass the Ticket",
+            "description": "Deply, B. (2014, January 13). Pass the ticket. Retrieved June 2, 2016.",
+            "url": "http://blog.gentilkiwi.com/securite/mimikatz/pass-the-ticket-kerberos"
+        },
+        {
+            "source_name": "Campbell 2014",
+            "description": "Campbell, C. (2014). The Secret Life of Krbtgt. Retrieved December 4, 2014.",
+            "url": "http://defcon.org/images/defcon-22/dc-22-presentations/Campbell/DEFCON-22-Christopher-Campbell-The-Secret-Life-of-Krbtgt.pdf"
+        },
+        {
+            "source_name": "Stealthbits Overpass-the-Hash",
+            "description": "Warren, J. (2019, February 26). How to Detect Overpass-the-Hash Attacks. Retrieved February 4, 2021.",
+            "url": "https://stealthbits.com/blog/how-to-detect-overpass-the-hash-attacks/"
+        },
+        {
+            "source_name": "CERT-EU Golden Ticket Protection",
+            "description": "Abolins, D., Boldea, C., Socha, K., Soria-Machado, M. (2016, April 26). Kerberos Golden Ticket Protection. Retrieved July 13, 2017.",
+            "url": "https://cert.europa.eu/static/WhitePapers/UPDATED%20-%20CERT-EU_Security_Whitepaper_2014-007_Kerberos_Golden_Ticket_Protection_v1_4.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "lateral-movement"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "lateral-movement"
+    ],
+    "x_mitre_detection": "Audit all Kerberos authentication and credential use events and review for discrepancies. Unusual remote authentication events that correlate with other suspicious activity (such as writing and executing binaries) may indicate malicious activity.\n\nEvent ID 4769 is generated on the Domain Controller when using a golden ticket after the KRBTGT password has been reset twice, as mentioned in the mitigation section. The status code 0x1F indicates the action has failed due to \"Integrity check on decrypted field failed\" and indicates misuse by a previously invalidated golden ticket.(Citation: CERT-EU Golden Ticket Protection)",
+    "x_mitre_data_sources": [
+        "Active Directory: Active Directory Credential Request",
+        "User Account: User Account Authentication",
+        "Logon Session: Logon Session Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "Kerberos authentication enabled"
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Active Directory Configuration",
+                "description": "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc.",
+                "type": "course-of-action",
+                "id": "M1015"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that built-in KRBTGT account password is reset twice to invalidate any existing golden tickets created with the KRBTGT hash and other Kerberos tickets derived from it.",
+                "acid": "98581788"
+            },
+            {
+                "description": "Ensure that unique and complex password are set for local administrator account.",
+                "acid": "98581789"
+            },
+            {
+                "description": "Ensure that domain admin account permissions are limited to domain controllers and critical servers.",
+                "acid": "98581790"
+            },
+            {
+                "description": "Ensure that other admin functions are assigned to separate accounts.",
+                "acid": "98581791"
+            },
+            {
+                "description": "Ensure that normal user are not allowed to be a local administrator for multiple systems.",
+                "acid": "98581792"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that all Kerberos authentication and credential use events are regularly audited for any discrepancies.",
+                "acid": "98581784"
+            },
+            {
+                "description": "Ensure that remote logins are monitored for unusual sessions, and checked if it correlates with other suspicious activity.",
+                "acid": "98581785"
+            },
+            {
+                "description": "Ensure that Event ID 4769 - generated on Domain Controller (when using a golden ticket after the KRBTGT password has been reset twice) is monitored.",
+                "acid": "98581786"
+            },
+            {
+                "description": "Ensure that system is inspected for 0x1F error code indicating the failed action due to \"Integrity check on decrypted field\" and misuse by a previously invalidated golden ticket.",
+                "acid": "98581787"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000205",
+        "40000490",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

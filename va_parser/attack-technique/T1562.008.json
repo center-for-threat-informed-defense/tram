@@ -1,0 +1,87 @@
+{
+    "id": "T1562.008",
+    "name": "Disable Cloud Logs",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "An adversary may disable cloud logging capabilities and integrations to limit what data is collected on their activities and avoid detection. \n\nCloud environments allow for collection and analysis of audit and application logs that provide insight into what activities a user does within the environment. If an adversary has sufficient permissions, they can disable logging to avoid detection of their activities. For example, in AWS an adversary may disable CloudWatch/CloudTrail integrations prior to conducting further malicious activity.(Citation: Following the CloudTrail: Generating strong AWS security signals with Sumo Logic)",
+    "x_mitre_platforms": [
+        "IaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1562/008",
+            "external_id": "T1562.008"
+        },
+        {
+            "source_name": "Following the CloudTrail: Generating strong AWS security signals with Sumo Logic",
+            "description": "Dan Whalen. (2019, September 10). Following the CloudTrail: Generating strong AWS security signals with Sumo Logic. Retrieved October 16, 2020.",
+            "url": "https://expel.io/blog/following-cloudtrail-generating-aws-security-signals-sumo-logic/"
+        },
+        {
+            "source_name": "Stopping CloudTrail from Sending Events to CloudWatch Logs",
+            "description": "Amazon Web Services. (n.d.). Stopping CloudTrail from Sending Events to CloudWatch Logs. Retrieved October 16, 2020.",
+            "url": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/stop-cloudtrail-from-sending-events-to-cloudwatch-logs.html"
+        },
+        {
+            "source_name": "Configuring Data Access audit logs",
+            "description": "Google. (n.d.). Configuring Data Access audit logs. Retrieved October 16, 2020.",
+            "url": "https://cloud.google.com/logging/docs/audit/configure-data-access"
+        },
+        {
+            "source_name": "az monitor diagnostic-settings",
+            "description": "Microsoft. (n.d.). az monitor diagnostic-settings. Retrieved October 16, 2020.",
+            "url": "https://docs.microsoft.com/en-us/cli/azure/monitor/diagnostic-settings?view=azure-cli-latest#az_monitor_diagnostic_settings_delete"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor logs for API calls to disable logging. In AWS, monitor for: <code>StopLogging</code> and <code>DeleteTrail</code>.(Citation: Stopping CloudTrail from Sending Events to CloudWatch Logs) In GCP, monitor for: <code>google.logging.v2.ConfigServiceV2.UpdateSink</code>.(Citation: Configuring Data Access audit logs)  In Azure, monitor for <code>az monitor diagnostic-settings delete</code>.(Citation: az monitor diagnostic-settings) Additionally, a sudden loss of a log source may indicate that it has been disabled.",
+    "x_mitre_data_sources": [
+        "Cloud Service: Cloud Service Disable",
+        "Cloud Service: Cloud Service Modification"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000490"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

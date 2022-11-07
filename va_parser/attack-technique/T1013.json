@@ -1,0 +1,85 @@
+﻿{
+    "id": "T1013",
+    "name": "Port Monitors",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "A port monitor can be set through the  (Citation: AddMonitor) API call to set a DLL to be loaded at startup. (Citation: AddMonitor) This DLL can be located in <code>C:\\Windows\\System32</code> and will be loaded by the print spooler service, spoolsv.exe, on boot. The spoolsv.exe process also runs under SYSTEM level permissions. (Citation: Bloxham) Alternatively, an arbitrary DLL can be loaded if permissions allow writing a fully-qualified pathname for that DLL to <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Print\\Monitors</code>. \n\nThe Registry key contains entries for the following:\n\n* Local Port\n* Standard TCP/IP Port\n* USB Monitor\n* WSD Port\n\nAdversaries can use this technique to load malicious code at startup that will persist on system reboot and execute as SYSTEM.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1013",
+            "external_id": "T1013"
+        },
+        {
+            "source_name": "AddMonitor",
+            "description": "Microsoft. (n.d.). AddMonitor function. Retrieved November 12, 2014.",
+            "url": "http://msdn.microsoft.com/en-us/library/dd183341"
+        },
+        {
+            "source_name": "Bloxham",
+            "description": "Bloxham, B. (n.d.). Getting Windows to Play with Itself &#91;PowerPoint slides&#93;. Retrieved November 12, 2014.",
+            "url": "https://www.defcon.org/images/defcon-22/dc-22-presentations/Bloxham/DEFCON-22-Brady-Bloxham-Windows-API-Abuse-UPDATED.pdf"
+        },
+        {
+            "source_name": "TechNet Autoruns",
+            "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016.",
+            "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "persistence",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "* Monitor process API calls to  (Citation: AddMonitor).\n* Monitor DLLs that are loaded by spoolsv.exe for DLLs that are abnormal.\n* New DLLs written to the System32 directory that do not correlate with known good software or patching may be suspicious.\n* Monitor Registry writes to <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Print\\Monitors</code>.\n* Run the Autoruns utility, which checks for this Registry key as a persistence mechanism (Citation: TechNet Autoruns)",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [
+        "SYSTEM"
+    ],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Port Monitors Mitigation",
+                "description": "Identify and block potentially malicious software that may persist in this manner by using whitelisting (Citation: Beechey 2010) tools capable of monitoring DLL loads by processes running under SYSTEM permissions.",
+                "type": "course-of-action",
+                "id": "T1013"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

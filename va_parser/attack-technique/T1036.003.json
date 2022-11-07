@@ -1,0 +1,112 @@
+﻿{
+    "id": "T1036.003",
+    "name": "Rename System Utilities",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may rename legitimate system utilities to try to evade security mechanisms concerning the usage of those utilities. Security monitoring and control mechanisms may be in place for system utilities adversaries are capable of abusing. (Citation: LOLBAS Main Site) It may be possible to bypass those security mechanisms by renaming the utility prior to utilization (ex: rename <code>rundll32.exe</code>). (Citation: Elastic Masquerade Ball) An alternative case occurs when a legitimate utility is copied or moved to a different directory and renamed to avoid detections based on system utilities executing from non-standard paths. (Citation: F-Secure CozyDuke)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1036/003",
+            "external_id": "T1036.003"
+        },
+        {
+            "source_name": "LOLBAS Main Site",
+            "description": "LOLBAS. (n.d.). Living Off The Land Binaries and Scripts (and also Libraries). Retrieved February 10, 2020.",
+            "url": "https://lolbas-project.github.io/"
+        },
+        {
+            "source_name": "Elastic Masquerade Ball",
+            "description": "Ewing, P. (2016, October 31). How to Hunt: The Masquerade Ball. Retrieved October 31, 2016.",
+            "url": "http://pages.endgame.com/rs/627-YBU-612/images/EndgameJournal_The%20Masquerade%20Ball_Pages_R2.pdf"
+        },
+        {
+            "source_name": "F-Secure CozyDuke",
+            "description": "F-Secure Labs. (2015, April 22). CozyDuke: Malware Analysis. Retrieved December 10, 2015.",
+            "url": "https://www.f-secure.com/documents/996508/1030745/CozyDuke"
+        },
+        {
+            "source_name": "Twitter ItsReallyNick Masquerading Update",
+            "description": "Carr, N.. (2018, October 25). Nick Carr Status Update Masquerading. Retrieved April 22, 2019.",
+            "url": "https://twitter.com/ItsReallyNick/status/1055321652777619457"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "If file names are mismatched between the file name on disk and that of the binary's PE metadata, this is a likely indicator that a binary was renamed after it was compiled. Collecting and comparing disk and resource filenames for binaries by looking to see if the InternalName, OriginalFilename, and/or ProductName match what is expected could provide useful leads, but may not always be indicative of malicious activity. (Citation: Elastic Masquerade Ball) Do not focus on the possible names a file could have, but instead on the command-line arguments that are known to be used and are distinct because it will have a better rate of detection.(Citation: Twitter ItsReallyNick Masquerading Update)",
+    "x_mitre_data_sources": [
+        "File: File Modification",
+        "Process: Process Metadata",
+        "Command: Command Execution",
+        "File: File Metadata"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that file system access controls are used to protect folders e.g. C:\\Windows\\System32.",
+                "acid": "98581398"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the file name on disk and that of the binary's PE metadata are matched (or the binary might be renamed after it was compiled).",
+                "acid": "98581393"
+            },
+            {
+                "description": "Ensure that disk and resource filenames for binaries are collected and compared to check if the InternalName match.",
+                "acid": "98581394"
+            },
+            {
+                "description": "Ensure that disk and resource filenames for binaries are collected and compared to check if the OriginalFilename match.",
+                "acid": "98581395"
+            },
+            {
+                "description": "Ensure that disk and resource filenames for binaries are collected and compared to check if the ProductName match.",
+                "acid": "98581396"
+            },
+            {
+                "description": "Ensure that command-line arguments are inspected for file name rather than checking for the possible name of the file could be.",
+                "acid": "98581397"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

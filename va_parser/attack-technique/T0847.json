@@ -1,0 +1,129 @@
+﻿{
+    "id": "T0847",
+    "name": "Replication Through Removable Media",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may move onto systems, such as those separated from the enterprise network, by copying malware to removable media which is inserted into the control systems environment. The adversary may rely on unknowing trusted third parties, such as suppliers or contractors with access privileges, to introduce the removable media. This technique enables initial access to target devices that never connect to untrusted networks, but are physically accessible.     Operators of the German nuclear power plant, Gundremmingen, discovered malware on a facility computer not connected to the internet. (Citation: Kernkraftwerk Gundremmingen April 2016) (Citation: Trend Micro April 2016) The malware included Conficker and W32.Ramnit, which were also found on eighteen removable disk drives in the facility. (Citation: Christoph Steitz, Eric Auchard April 2016) (Citation: Catalin Cimpanu April 2016) (Citation: Peter Dockrill April 2016) (Citation: Lee Mathews April 2016) (Citation: Sean Gallagher April 2016) (Citation: Dark Reading Staff April 2016) The plant has since checked for infection and cleaned up more than 1,000 computers. (Citation: BBC April 2016) An ESET researcher commented that internet disconnection does not guarantee system safety from infection or payload execution. (Citation: ESET April 2016)",
+    "x_mitre_platforms": [
+        "Human-Machine Interface",
+        "Data Historian",
+        "Control Server"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0847",
+            "external_id": "T0847"
+        },
+        {
+            "source_name": "Kernkraftwerk Gundremmingen April 2016",
+            "description": "Kernkraftwerk Gundremmingen 2016, April 25 Detektion von Bro-Schadsoftware an mehreren Rechnern Retrieved. 2019/10/14 ",
+            "url": "https://www.kkw-gundremmingen.de/presse.php?id=571"
+        },
+        {
+            "source_name": "Trend Micro April 2016",
+            "description": "Trend Micro 2016, April 27 Malware Discovered in German Nuclear Power Plant Retrieved. 2019/10/14 ",
+            "url": "https://www.trendmicro.com/vinfo/us/security/news/cyber-attacks/malware-discovered-in-german-nuclear-power-plant"
+        },
+        {
+            "source_name": "Christoph Steitz, Eric Auchard April 2016",
+            "description": "Christoph Steitz, Eric Auchard 2016, April 26 German nuclear plant infected with computer viruses, operator says Retrieved. 2019/10/14 ",
+            "url": "https://www.reuters.com/article/us-nuclearpower-cyber-germany/german-nuclear-plant-infected-with-computer-viruses-operator-says-idUSKCN0XN2OS"
+        },
+        {
+            "source_name": "Catalin Cimpanu April 2016",
+            "description": "Catalin Cimpanu 2016, April 26 Malware Shuts Down German Nuclear Power Plant on Chernobyl's 30th Anniversary Retrieved. 2019/10/14 ",
+            "url": "https://news.softpedia.com/news/on-chernobyl-s-30th-anniversary-malware-shuts-down-german-nuclear-power-plant-503429.shtml"
+        },
+        {
+            "source_name": "Peter Dockrill April 2016",
+            "description": "Peter Dockrill 2016, April 28 Multiple Computer Viruses Have Been Discovered in This German Nuclear Plant Retrieved. 2019/10/14 ",
+            "url": "https://www.sciencealert.com/multiple-computer-viruses-have-been-discovered-in-this-german-nuclear-plant"
+        },
+        {
+            "source_name": "Lee Mathews April 2016",
+            "description": "Lee Mathews 2016, April 27 German nuclear plant found riddled with Conficker, other viruses Retrieved. 2019/10/14 ",
+            "url": "https://www.geek.com/apps/german-nuclear-plant-found-riddled-with-conficker-other-viruses-1653415/"
+        },
+        {
+            "source_name": "Sean Gallagher April 2016",
+            "description": "Sean Gallagher 2016, April 27 German nuclear plants fuel rod system swarming with old malware Retrieved. 2019/10/14 ",
+            "url": "https://arstechnica.com/information-technology/2016/04/german-nuclear-plants-fuel-rod-system-swarming-with-old-malware/"
+        },
+        {
+            "source_name": "Dark Reading Staff April 2016",
+            "description": "Dark Reading Staff 2016, April 28 German Nuclear Power Plant Infected With Malware Retrieved. 2019/10/14 ",
+            "url": "https://www.darkreading.com/endpoint/german-nuclear-power-plant-infected-with-malware/d/d-id/1325298"
+        },
+        {
+            "source_name": "BBC April 2016",
+            "description": "BBC 2016, April 28 German nuclear plant hit by computer viruses Retrieved. 2019/10/14 ",
+            "url": "https://www.bbc.com/news/technology-36158606"
+        },
+        {
+            "source_name": "ESET April 2016",
+            "description": "ESET 2016, April 28 Malware found at a German nuclear power plant Retrieved. 2019/10/14 ",
+            "url": "https://www.welivesecurity.com/2016/04/28/malware-found-german-nuclear-power-plant/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "initial-access-ics"
+        }
+    ],
+    "tactic": [
+        "initial-access-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Drive: Drive Creation",
+        "File: File Access",
+        "File: File Creation",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M0928"
+            },
+            {
+                "name": "Limit Hardware Installation",
+                "description": "Block users or groups from installing or using unapproved hardware on systems, including USB devices.",
+                "type": "course-of-action",
+                "id": "M0934"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M0942"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

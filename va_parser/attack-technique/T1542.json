@@ -1,0 +1,168 @@
+﻿{
+    "id": "T1542",
+    "name": "Pre-OS Boot",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse Pre-OS Boot mechanisms as a way to establish persistence on a system. During the booting process of a computer, firmware and various startup services are loaded before the operating system. These programs control flow of execution before the operating system takes control.(Citation: Wikipedia Booting)\n\nAdversaries may overwrite data in boot drivers or firmware such as BIOS (Basic Input/Output System) and The Unified Extensible Firmware Interface (UEFI) to persist on systems at a layer below the operating system. This can be particularly difficult to detect as malware at this level will not be detected by host software-based defenses.",
+    "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "Network",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Anti-virus",
+        "Host intrusion prevention systems",
+        "File monitoring"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1542",
+            "external_id": "T1542"
+        },
+        {
+            "source_name": "ITWorld Hard Disk Health Dec 2014",
+            "description": "Pinola, M. (2014, December 14). 3 tools to check your hard drive's health and make sure it's not already dying on you. Retrieved October 2, 2018.",
+            "url": "https://www.itworld.com/article/2853992/3-tools-to-check-your-hard-drives-health-and-make-sure-its-not-already-dying-on-you.html"
+        },
+        {
+            "source_name": "Wikipedia Booting",
+            "description": "Wikipedia. (n.d.). Booting. Retrieved November 13, 2019.",
+            "url": "https://en.wikipedia.org/wiki/Booting"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "persistence"
+    ],
+    "x_mitre_detection": "Perform integrity checking on pre-OS boot mechanisms that can be manipulated for malicious purposes. Take snapshots of boot records and firmware and compare against known good images. Log changes to boot records, BIOS, and EFI, which can be performed by API calls, and compare against known good behavior and patching.\n\nDisk check, forensic utilities, and data from device drivers (i.e. processes and API calls) may reveal anomalies that warrant deeper investigation.(Citation: ITWorld Hard Disk Health Dec 2014)",
+    "x_mitre_data_sources": [
+        "Drive: Drive Modification",
+        "Driver: Driver Metadata",
+        "Process: OS API Execution",
+        "Firmware: Firmware Modification",
+        "Command: Command Execution",
+        "Network Traffic: Network Connection Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk.",
+                "type": "course-of-action",
+                "id": "M1051"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Boot Integrity",
+                "description": "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms.",
+                "type": "course-of-action",
+                "id": "M1046"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Trusted Platform Module technology and a secure or trusted boot process is implemented to prevent system integrity from being compromised",
+                "acid": "98580938"
+            },
+            {
+                "description": "Ensure that the integrity of the existing BIOS or EFI is checked regularly to determine if it is vulnerable to modification",
+                "acid": "98580939"
+            },
+            {
+                "description": "Ensure that proper permissions are in place to help prevent unauthorized access to privileged accounts",
+                "acid": "98580940"
+            },
+            {
+                "description": "Ensure that the BIOS and EFI are patched regularly",
+                "acid": "98580941"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that integrity checking on pre-OS boot mechanisms is performed to identify malicious activity",
+                "acid": "98580934"
+            },
+            {
+                "description": "Ensure that snapshots of boot records and firmware are taken and compared against known good images",
+                "acid": "98580935"
+            },
+            {
+                "description": "Ensure that logs for changes to boot records, BIOS, and EFI, are captured and compared against known good behavior and patching",
+                "acid": "98580936"
+            },
+            {
+                "description": "Ensure that Disk check, forensic utilities, and data from device drivers are collected and analyzed for information gathering",
+                "acid": "98580937"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000117",
+        "40000162",
+        "40000182",
+        "40000205",
+        "40000496",
+        "40000499",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106010",
+        "50106032",
+        "50106110"
+    ],
+    "technologycontrolIds": [
+        "10190051",
+        "19010051"
+    ],
+    "cveIds": [
+        "CVE-2015-0097",
+        "CVE-2015-7925",
+        "CVE-2016-5645",
+        "CVE-2019-1736",
+        "CVE-2020-3416",
+        "CVE-2020-3513",
+        "CVE-2020-5326",
+        "CVE-2020-5376",
+        "CVE-2020-5378",
+        "CVE-2020-5379"
+    ],
+    "subTechniques": [
+        "T1542.001",
+        "T1542.002",
+        "T1542.003",
+        "T1542.004",
+        "T1542.005"
+    ]
+}

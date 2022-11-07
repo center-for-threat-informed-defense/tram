@@ -1,0 +1,96 @@
+﻿{
+    "id": "T1505.005",
+    "name": "Terminal Services DLL",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse components of Terminal Services to enable persistent access to systems. Microsoft Terminal Services, renamed to Remote Desktop Services in some Windows Server OSs as of 2022, enable remote terminal connections to hosts. Terminal Services allows servers to transmit a full, interactive, graphical user interface to clients via RDP.(Citation: Microsoft Remote Desktop Services)\n\n[Windows Service](https://attack.mitre.org/techniques/T1543/003)s that are run as a \"generic\" process (ex: <code>svchost.exe</code>) load the service's DLL file, the location of which is stored in a Registry entry named <code>ServiceDll</code>.(Citation: Microsoft System Services Fundamentals) The <code>termsrv.dll</code> file, typically stored in `%SystemRoot%\\System32\\`, is the default <code>ServiceDll</code> value for Terminal Services in `HKLM\\System\\CurrentControlSet\\services\\TermService\\Parameters\\`.\n\nAdversaries may modify and/or replace the Terminal Services DLL to enable persistent access to victimized hosts.(Citation: James TermServ DLL) Modifications to this DLL could be done to execute arbitrary payloads (while also potentially preserving normal <code>termsrv.dll</code> functionality) as well as to simply enable abusable features of Terminal Services. For example, an adversary may enable features such as concurrent [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1021/001) sessions by either patching the <code>termsrv.dll</code> file or modifying the <code>ServiceDll</code> value to point to a DLL that provides increased RDP functionality.(Citation: Windows OS Hub RDP)(Citation: RDPWrap Github) On a non-server Windows OS this increased functionality may also enable an adversary to avoid Terminal Services prompts that warn/log out users of a system when a new RDP session is created.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1505/005",
+            "external_id": "T1505.005"
+        },
+        {
+            "source_name": "James TermServ DLL",
+            "description": "James. (2019, July 14). @James_inthe_box. Retrieved March 28, 2022.",
+            "url": "https://twitter.com/james_inthe_box/status/1150495335812177920"
+        },
+        {
+            "source_name": "Microsoft System Services Fundamentals",
+            "description": "Microsoft. (2018, February 17). Windows System Services Fundamentals. Retrieved March 28, 2022.",
+            "url": "https://social.technet.microsoft.com/wiki/contents/articles/12229.windows-system-services-fundamentals.aspx"
+        },
+        {
+            "source_name": "Microsoft Remote Desktop Services",
+            "description": "Microsoft. (2019, August 23). About Remote Desktop Services. Retrieved March 28, 2022.",
+            "url": "https://docs.microsoft.com/windows/win32/termserv/about-terminal-services"
+        },
+        {
+            "source_name": "RDPWrap Github",
+            "description": "Stas'M Corp. (2014, October 22). RDP Wrapper Library by Stas'M. Retrieved March 28, 2022.",
+            "url": "https://github.com/stascorp/rdpwrap"
+        },
+        {
+            "source_name": "Windows OS Hub RDP",
+            "description": "Windows OS Hub. (2021, November 10). How to Allow Multiple RDP Sessions in Windows 10 and 11?. Retrieved March 28, 2022.",
+            "url": "http://woshub.com/how-to-allow-multiple-rdp-sessions-in-windows-10/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Monitor for changes to Registry keys associated with <code>ServiceDll</code> and other subkey values under <code>HKLM\\System\\CurrentControlSet\\services\\TermService\\Parameters\\</code>.\n\nMonitor unexpected changes and/or interactions with <code>termsrv.dll</code>, which is typically stored in <code>%SystemRoot%\\System32\\</code>.\n\nMonitor commands as well as  processes and arguments for potential adversary actions to modify Registry values (ex: <code>reg.exe</code>) or modify/replace the legitimate <code>termsrv.dll</code>.\n\nMonitor module loads by the Terminal Services process (ex: <code>svchost.exe -k termsvcs</code>) for unexpected DLLs (the default is <code>%SystemRoot%\\System32\\termsrv.dll</code>, though an adversary could also use [Match Legitimate Name or Location](https://attack.mitre.org/techniques/T1036/005) on a malicious payload).",
+    "x_mitre_data_sources": [
+        "File: File Modification",
+        "Process: Process Creation",
+        "Module: Module Load",
+        "Command: Command Execution",
+        "Windows Registry: Windows Registry Key Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Restrict Registry Permissions",
+                "description": "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+                "type": "course-of-action",
+                "id": "M1024"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

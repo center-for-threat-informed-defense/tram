@@ -1,0 +1,107 @@
+﻿{
+    "id": "T1027.009",
+    "name": "Embedded Payloads",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may embed payloads within other files to conceal malicious content from defenses. Otherwise seemingly benign files (such as scripts and executables) may be abused to carry and obfuscate malicious payloads and content. In some cases, embedded payloads may also enable adversaries to [Subvert Trust Controls](https://attack.mitre.org/techniques/T1553) by not impacting execution controls such as digital signatures and notarization tickets.(Citation: Sentinel Labs) \n\nAdversaries may embed payloads in various file formats to hide payloads.(Citation: Microsoft Learn) This is similar to [Steganography](https://attack.mitre.org/techniques/T1027/003), though does not involve weaving malicious content into specific bytes and patterns related to legitimate digital media formats.(Citation: GitHub PSImage) \n\nFor example, adversaries have been observed embedding payloads within or as an overlay of an otherwise benign binary.(Citation: Securelist Dtrack2) Adversaries have also been observed nesting payloads (such as executables and run-only scripts) inside a file of the same format.(Citation: SentinelLabs reversing run-only applescripts 2021) \n\nEmbedded content may also be used as [Process Injection](https://attack.mitre.org/techniques/T1055) payloads used to infect benign system processes.(Citation: Trend Micro) These embedded then injected payloads may be used as part of the modules of malware designed to provide specific features such as encrypting C2 communications in support of an orchestrator module. For example, an embedded module may be injected into default browsers, allowing adversaries to then communicate via the network.(Citation: Malware Analysis Report ComRAT)",
+    "x_mitre_platforms": [
+        "macOS",
+        "Windows",
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1027/009",
+            "external_id": "T1027.009"
+        },
+        {
+            "source_name": "GitHub PSImage",
+            "description": "Barrett Adams . (n.d.). Invoke-PSImage . Retrieved September 30, 2022.",
+            "url": "https://github.com/peewpw/Invoke-PSImage"
+        },
+        {
+            "source_name": "Malware Analysis Report ComRAT",
+            "description": "CISA. (2020, October 29). Malware Analysis Report (AR20-303A) MAR-10310246-2.v1 \u2013 PowerShell Script: ComRAT. Retrieved September 30, 2022.",
+            "url": "https://www.cisa.gov/uscert/ncas/analysis-reports/ar20-303a"
+        },
+        {
+            "source_name": "Trend Micro",
+            "description": "Karen Victor. (2020, May 18). Reflective Loading Runs Netwalker Fileless Ransomware. Retrieved September 30, 2022.",
+            "url": "https://www.trendmicro.com/en_us/research/20/e/netwalker-fileless-ransomware-injected-via-reflective-loading.html"
+        },
+        {
+            "source_name": "Securelist Dtrack2",
+            "description": "KONSTANTIN ZYKOV. (2019, September 23). Hello! My name is Dtrack. Retrieved September 30, 2022.",
+            "url": "https://securelist.com/my-name-is-dtrack/93338/"
+        },
+        {
+            "source_name": "Microsoft Learn",
+            "description": "Microsoft. (2021, April 6). 2.5 ExtraData. Retrieved September 30, 2022.",
+            "url": "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-shllink/c41e062d-f764-4f13-bd4f-ea812ab9a4d1"
+        },
+        {
+            "source_name": "SentinelLabs reversing run-only applescripts 2021",
+            "description": "Phil Stokes. (2021, January 11). FADE DEAD | Adventures in Reversing Malicious Run-Only AppleScripts. Retrieved September 29, 2022.",
+            "url": "https://www.sentinelone.com/labs/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/"
+        },
+        {
+            "source_name": "Sentinel Labs",
+            "description": "Phil Stokes. (2021, January 11). FADE DEAD | Adventures in Reversing Malicious Run-Only AppleScripts. Retrieved September 30, 2022.",
+            "url": "https://www.sentinelone.com/labs/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "",
+    "x_mitre_data_sources": [
+        "File: File Creation",
+        "File: File Metadata"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "User"
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Antivirus/Antimalware",
+                "description": "Use signatures or heuristics to detect malicious software.",
+                "type": "course-of-action",
+                "id": "M1049"
+            },
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

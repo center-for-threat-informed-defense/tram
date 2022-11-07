@@ -1,0 +1,118 @@
+﻿{
+    "id": "T1538",
+    "name": "Cloud Service Dashboard",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "An adversary may use a cloud service dashboard GUI with stolen credentials to gain useful information from an operational cloud environment, such as specific services, resources, and features. For example, the GCP Command Center can be used to view all assets, findings of potential security risks, and to run additional queries, such as finding public IP addresses and open ports.(Citation: Google Command Center Dashboard)\n\nDepending on the configuration of the environment, an adversary may be able to enumerate more information via the graphical dashboard than an API. This allows the adversary to gain information without making any API requests.",
+    "x_mitre_platforms": [
+        "Azure AD",
+        "Office 365",
+        "IaaS",
+        "Google Workspace"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1538",
+            "external_id": "T1538"
+        },
+        {
+            "source_name": "Google Command Center Dashboard",
+            "description": "Google. (2019, October 3). Quickstart: Using the dashboard. Retrieved October 8, 2019.",
+            "url": "https://cloud.google.com/security-command-center/docs/quickstart-scc-dashboard"
+        },
+        {
+            "source_name": "AWS Console Sign-in Events",
+            "description": "Amazon. (n.d.). AWS Console Sign-in Events. Retrieved October 23, 2019.",
+            "url": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-aws-console-sign-in-events.html"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "discovery"
+        }
+    ],
+    "tactic": [
+        "discovery"
+    ],
+    "x_mitre_detection": "Monitor account activity logs to see actions performed and activity associated with the cloud service management console. Some cloud providers, such as AWS, provide distinct log events for login attempts to the management console.(Citation: AWS Console Sign-in Events)",
+    "x_mitre_data_sources": [
+        "Logon Session: Logon Session Creation",
+        "User Account: User Account Authentication"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that user account management solutions are configured to restrict/ limit privileges of users to the resource required(Dashboard visibility)",
+                "acid": "98582121"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that account activity logs of cloud service management console are monitored",
+                "acid": "98582119"
+            },
+            {
+                "description": "Ensure that log events are monitored on login attempts to the management console (AWS cloud instance)",
+                "acid": "98582120"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000121",
+        "40000490",
+        "40000504"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106004",
+        "50106005"
+    ],
+    "technologycontrolIds": [
+        "17880006",
+        "17900002",
+        "18330005",
+        "18330006",
+        "18330007",
+        "18330008",
+        "18330009",
+        "18330010",
+        "18400001",
+        "18420004",
+        "18580001",
+        "18640004",
+        "18820001",
+        "18890001",
+        "18900001",
+        "19200003",
+        "19220005"
+    ],
+    "cveIds": [],
+    "subTechniques": []
+}

@@ -1,0 +1,80 @@
+﻿{
+    "id": "T0828",
+    "name": "Loss of Productivity and Revenue",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may cause loss of productivity and revenue through disruption and even damage to the availability and integrity of control system operations, devices, and related processes. This technique may manifest as a direct effect of an ICS-targeting attack or tangentially, due to an IT-targeting attack against non-segregated environments.   In cases where these operations or services are brought to a halt, the loss of productivity may eventually present an impact for the end-users or consumers of products and services. The disrupted supply-chain may result in supply shortages and increased prices, among other consequences.   A ransomware attack on an Australian beverage company resulted in the shutdown of some manufacturing sites, including precautionary halts to protect key systems. (Citation: Paganini, Pierluigi June 2020) The company announced the potential for temporary shortages of their products following the attack. (Citation: Paganini, Pierluigi June 2020) (Citation: Lion Corporation June 2020)  In the 2021 Colonial Pipeline ransomware incident, the pipeline was unable to transport approximately 2.5 million barrels of fuel per day to the East Coast.  (Citation: Colonial Pipeline Company May 2021)",
+    "x_mitre_platforms": [
+        "None"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0828",
+            "external_id": "T0828"
+        },
+        {
+            "source_name": "Paganini, Pierluigi June 2020",
+            "description": "Paganini, Pierluigi 2020, June 14 Ransomware attack disrupts operations at Australian beverage company Lion Retrieved. 2021/10/08 ",
+            "url": "https://securityaffairs.co/wordpress/104749/cyber-crime/ransomware-attack-hit-lion.html"
+        },
+        {
+            "source_name": "Paganini, Pierluigi June 2020",
+            "description": "Paganini, Pierluigi 2020, June 14 Ransomware attack disrupts operations at Australian beverage company Lion Retrieved. 2021/10/08 ",
+            "url": "https://securityaffairs.co/wordpress/104749/cyber-crime/ransomware-attack-hit-lion.html"
+        },
+        {
+            "source_name": "Lion Corporation June 2020",
+            "description": "Lion Corporation 2020, June 26 Lion Cyber incident update: 26 June 2020 Retrieved. 2021/10/08 ",
+            "url": "https://lionco.com/2020/06/26/lion-update-re-cyber-issue/"
+        },
+        {
+            "source_name": "Colonial Pipeline Company May 2021",
+            "description": "Colonial Pipeline Company 2021, May Media Statement Update: Colonial Pipeline System Disruption Retrieved. 2021/10/08 ",
+            "url": "https://www.colpipe.com/news/press-releases/media-statement-colonial-pipeline-system-disruption"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "impact-ics"
+        }
+    ],
+    "tactic": [
+        "impact-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Data Backup",
+                "description": "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise.   Maintain and exercise incident response plans  (Citation: Department of Homeland Security October 2009), including the management of  'gold-copy' back-up images and configurations for key systems to enable quick recovery and response from adversarial activities that impact control, view, or availability.",
+                "type": "course-of-action",
+                "id": "M0953"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

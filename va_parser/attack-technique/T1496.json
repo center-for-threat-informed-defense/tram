@@ -1,0 +1,175 @@
+﻿{
+    "id": "T1496",
+    "name": "Resource Hijacking",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may leverage the resources of co-opted systems in order to solve resource intensive problems, which may impact system and/or hosted service availability. \n\nOne common purpose for Resource Hijacking is to validate transactions of cryptocurrency networks and earn virtual currency. Adversaries may consume enough system resources to negatively impact and/or cause affected machines to become unresponsive.(Citation: Kaspersky Lazarus Under The Hood Blog 2017) Servers and cloud-based systems are common targets because of the high potential for available resources, but user endpoint systems may also be compromised and used for Resource Hijacking and cryptocurrency mining.(Citation: CloudSploit - Unused AWS Regions) Containerized environments may also be targeted due to the ease of deployment via exposed APIs and the potential for scaling mining activities by deploying or compromising multiple containers within an environment or cluster.(Citation: Unit 42 Hildegard Malware)(Citation: Trend Micro Exposed Docker APIs)\n\nAdditionally, some cryptocurrency mining malware identify then kill off processes for competing malware to ensure it's not competing for resources.(Citation: Trend Micro War of Crypto Miners)\n\nAdversaries may also use malware that leverages a system's network bandwidth as part of a botnet in order to facilitate [Network Denial of Service](https://attack.mitre.org/techniques/T1498) campaigns and/or to seed malicious torrents.(Citation: GoBotKR)",
+    "x_mitre_platforms": [
+        "Windows",
+        "IaaS",
+        "Linux",
+        "macOS",
+        "Containers"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1496",
+            "external_id": "T1496"
+        },
+        {
+            "source_name": "Unit 42 Hildegard Malware",
+            "description": "Chen, J. et al. (2021, February 3). Hildegard: New TeamTNT Cryptojacking Malware Targeting Kubernetes. Retrieved April 5, 2021.",
+            "url": "https://unit42.paloaltonetworks.com/hildegard-malware-teamtnt/"
+        },
+        {
+            "source_name": "CloudSploit - Unused AWS Regions",
+            "description": "CloudSploit. (2019, June 8). The Danger of Unused AWS Regions. Retrieved October 8, 2019.",
+            "url": "https://blog.cloudsploit.com/the-danger-of-unused-aws-regions-af0bf1b878fc"
+        },
+        {
+            "source_name": "Kaspersky Lazarus Under The Hood Blog 2017",
+            "description": "GReAT. (2017, April 3). Lazarus Under the Hood. Retrieved April 17, 2019.",
+            "url": "https://securelist.com/lazarus-under-the-hood/77908/"
+        },
+        {
+            "source_name": "Trend Micro Exposed Docker APIs",
+            "description": "Oliveira, A. (2019, May 30). Infected Containers Target Docker via Exposed APIs. Retrieved April 6, 2021.",
+            "url": "https://www.trendmicro.com/en_us/research/19/e/infected-cryptocurrency-mining-containers-target-docker-hosts-with-exposed-apis-use-shodan-to-find-additional-victims.html"
+        },
+        {
+            "source_name": "Trend Micro War of Crypto Miners",
+            "description": "Oliveira, A., Fiser, D. (2020, September 10). War of Linux Cryptocurrency Miners: A Battle for Resources. Retrieved April 6, 2021.",
+            "url": "https://www.trendmicro.com/en_us/research/20/i/war-of-linux-cryptocurrency-miners-a-battle-for-resources.html"
+        },
+        {
+            "source_name": "GoBotKR",
+            "description": "Zuzana Hromcov\u00e1. (2019, July 8). Malicious campaign targets South Korean users with backdoor\u2011laced torrents. Retrieved March 31, 2022.",
+            "url": "https://www.welivesecurity.com/2019/07/08/south-korean-users-backdoor-torrents/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "impact"
+        }
+    ],
+    "tactic": [
+        "impact"
+    ],
+    "x_mitre_detection": "Consider monitoring process resource usage to determine anomalous activity associated with malicious hijacking of computer resources such as CPU, memory, and graphics processing resources. Monitor for suspicious use of network resources associated with cryptocurrency mining software. Monitor for common cryptomining software process names and files on local systems that may indicate compromise and resource usage.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Process: Process Creation",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Flow",
+        "Sensor Health: Host Status",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Resource Hijacking Mitigation",
+                "description": "Identify potentially malicious software and audit and/or block it by using whitelisting(Citation: Beechey 2010) tools, like AppLocker,(Citation: Windows Commands JPCERT)(Citation: NSA MS AppLocker) or Software Restriction Policies(Citation: Corio 2008) where appropriate.(Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1496"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process resource usage is monitored to determine anomalous activity associated with the malicious hijacking of computer resources such as CPU, memory, and graphics processing resources.",
+                "acid": "98582929"
+            },
+            {
+                "description": "Ensure that the monitoring solution is configured to check suspicious usage of network resources associated with cryptocurrency mining software.",
+                "acid": "98582930"
+            },
+            {
+                "description": "Ensure that system is monitored for common crypto mining software process names to determine compromise and resource usage.",
+                "acid": "98582931"
+            },
+            {
+                "description": "Ensure that system is monitored for common crypto mining software process files to determine compromise and resource usage.",
+                "acid": "98582932"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000113",
+        "40000187"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106016"
+    ],
+    "technologycontrolIds": [
+        "101540008",
+        "101550008",
+        "101560008",
+        "101570008",
+        "101600008",
+        "103900008",
+        "10460008",
+        "11010008",
+        "14030026",
+        "14030035",
+        "14040026",
+        "14040035",
+        "15010178",
+        "15010179",
+        "15020357",
+        "15020358",
+        "15030186",
+        "15030187",
+        "15200179",
+        "15200180",
+        "16010187",
+        "16010188",
+        "16020189",
+        "16020190",
+        "16100195",
+        "16100196",
+        "16110185",
+        "16110186",
+        "16120190",
+        "16120191",
+        "16360205",
+        "16360206",
+        "16460203",
+        "16460204",
+        "17850001",
+        "17850005",
+        "17850006",
+        "17850008",
+        "17850010",
+        "18350003",
+        "18990001",
+        "19360013",
+        "19360014",
+        "19360015",
+        "19920174",
+        "19920175",
+        "19920481"
+    ],
+    "cveIds": [
+        "CVE-2018-11084",
+        "CVE-2020-16200",
+        "CVE-2021-44228"
+    ],
+    "subTechniques": []
+}

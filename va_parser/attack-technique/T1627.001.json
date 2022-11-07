@@ -1,0 +1,71 @@
+﻿{
+    "id": "T1627.001",
+    "name": "Geofencing",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use a device's geographical location to limit certain malicious behaviors. For example, malware operators may limit the distribution of a second stage payload to certain geographic regions.(Citation: Lookout eSurv)\n\n[Geofencing](https://attack.mitre.org/techniques/T1627/001)\u202fis accomplished by persuading the user to grant the application permission to access location services. The application can then collect, process, and exfiltrate the device's location to perform location-based actions, such as ceasing malicious behavior or showing region-specific advertisements. \n\nOne method to accomplish\u202f[Geofencing](https://attack.mitre.org/techniques/T1627/001)\u202fon Android is to use the built-in Geofencing API to automatically trigger certain behaviors when the device enters or exits a specified radius around a geographical location. Similar to  other\u202f[Geofencing](https://attack.mitre.org/techniques/T1627/001) methods, this requires that the user has granted the `ACCESS_FINE_LOCATION` and `ACCESS_BACKGROUND_LOCATION` permissions. The latter is only required if the application targets Android 10 (API level 29) or higher. However, Android 11 introduced additional permission controls that may restrict background location collection based on user permission choices at runtime. These additional controls include \"Allow only while using the app\", which will effectively prohibit background location collection.  \n\nSimilarly, on iOS, developers can use built-in APIs to setup and execute geofencing. Depending on the use case, the app will either need to call\u202f`requestWhenInUseAuthorization()`\u202for\u202f`requestAlwaysAuthorization()`, depending on when access to the location services is required. Similar to Android, users also have the option to limit when the application can access the device's location, including one-time use and only when the application is running in the foreground.  \n\n[Geofencing](https://attack.mitre.org/techniques/T1627/001)\u202fcan be used to prevent exposure of capabilities in environments that are not intended to be compromised or operated within. For example, location data could be used to limit malware spread and/or capabilities, which could also potentially evade application analysis environments (ex: malware analysis outside of the target geographic area). Other malicious usages could include showing language-specific input prompts and/or advertisements.",
+    "x_mitre_platforms": [
+        "Android",
+        "iOS"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T1627.001",
+            "url": "https://attack.mitre.org/techniques/T1627/001"
+        },
+        {
+            "source_name": "Lookout eSurv",
+            "url": "https://blog.lookout.com/esurv-research",
+            "description": "A. Bauer. (2019, April 8). Lookout discovers phishing sites distributing new iOS and Android surveillanceware. Retrieved September 11, 2020."
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "phase_name": "defense-evasion",
+            "kill_chain_name": "mitre-mobile-attack"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Users can review which applications have location permissions in the operating system's settings menu. On Android 10 and later, the system shows a notification to the user when an app has been accessing device location in the background. Application vetting services can detect unnecessary and potentially abused location permissions or API calls.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Guidance",
+                "description": "Describes any guidance or training given to users to set particular configuration settings or avoid specific potentially risky behaviors.",
+                "type": "course-of-action",
+                "id": "M1011"
+            },
+            {
+                "name": "Use Recent OS Version",
+                "description": "New mobile operating system versions bring not only patches against discovered vulnerabilities but also often bring security architecture improvements that provide resilience against potential vulnerabilities or weaknesses that have not yet been discovered. They may also bring improvements that block use of observed adversary techniques.",
+                "type": "course-of-action",
+                "id": "M1006"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

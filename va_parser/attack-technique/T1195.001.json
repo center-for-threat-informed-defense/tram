@@ -1,0 +1,107 @@
+{
+    "id": "T1195.001",
+    "name": "Compromise Software Dependencies and Development Tools",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may manipulate software dependencies and development tools prior to receipt by a final consumer for the purpose of data or system compromise. Applications often depend on external software to function properly. Popular open source projects that are used as dependencies in many applications may be targeted as a means to add malicious code to users of the dependency.(Citation: Trendmicro NPM Compromise)  \n\nTargeting may be specific to a desired victim set or may be distributed to a broad set of consumers but only move on to additional tactics on specific victims. ",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1195/001",
+            "external_id": "T1195.001"
+        },
+        {
+            "source_name": "Trendmicro NPM Compromise",
+            "description": "Trendmicro. (2018, November 29). Hacker Infects Node.js Package to Steal from Bitcoin Wallets. Retrieved April 10, 2019.",
+            "url": "https://www.trendmicro.com/vinfo/dk/security/news/cybercrime-and-digital-threats/hacker-infects-node-js-package-to-steal-from-bitcoin-wallets"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "initial-access"
+        }
+    ],
+    "tactic": [
+        "initial-access"
+    ],
+    "x_mitre_detection": "Use verification of distributed binaries through hash checking or other integrity checking mechanisms. Scan downloads for malicious signatures and attempt to test software and updates prior to deployment while taking note of potential suspicious activity. ",
+    "x_mitre_data_sources": [
+        "File: File Metadata"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Vulnerability Scanning",
+                "description": "Vulnerability scanning is used to find potentially exploitable software vulnerabilities to remediate them.",
+                "type": "course-of-action",
+                "id": "M1016"
+            },
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk.",
+                "type": "course-of-action",
+                "id": "M1051"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the patch management solution is configured to update the applications to the latest build",
+                "acid": "98580081"
+            },
+            {
+                "description": "Ensure that monitoring tools are configured to monitor vulnerability sources to identify vulnerabilities",
+                "acid": "98580082"
+            },
+            {
+                "description": "Ensure that code review tools (automatic and manual) are implemented to review codes for vulnerabilities",
+                "acid": "98580083"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the hash checking solution is implemented to verify distributed binaries",
+                "acid": "98580079"
+            },
+            {
+                "description": "Ensure that the endpoint security solution is configured to scan all the downloaded files for malicious signatures",
+                "acid": "98580080"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000117",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100779"
+    ],
+    "technologycontrolIds": [
+        "18370003",
+        "18380020",
+        "18410002",
+        "19440002"
+    ],
+    "cveIds": []
+}

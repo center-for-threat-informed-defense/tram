@@ -1,0 +1,119 @@
+﻿{
+    "id": "T1137.005",
+    "name": "Outlook Rules",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse Microsoft Outlook rules to obtain persistence on a compromised system. Outlook rules allow a user to define automated behavior to manage email messages. A benign rule might, for example, automatically move an email to a particular folder in Outlook if it contains specific words from a specific sender. Malicious Outlook rules can be created that can trigger code execution when an adversary sends a specifically crafted email to that user.(Citation: SilentBreak Outlook Rules)\n\nOnce malicious rules have been added to the user's mailbox, they will be loaded when Outlook is started. Malicious rules will execute when an adversary sends a specifically crafted email to the user.(Citation: SilentBreak Outlook Rules)",
+    "x_mitre_platforms": [
+        "Windows",
+        "Office 365"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1137/005",
+            "external_id": "T1137.005"
+        },
+        {
+            "source_name": "SilentBreak Outlook Rules",
+            "description": "Landers, N. (2015, December 4). Malicious Outlook Rules. Retrieved February 4, 2019.",
+            "url": "https://silentbreaksecurity.com/malicious-outlook-rules/"
+        },
+        {
+            "source_name": "Microsoft Detect Outlook Forms",
+            "description": "Fox, C., Vangel, D. (2018, April 22). Detect and Remediate Outlook Rules and Custom Forms Injections Attacks in Office 365. Retrieved February 4, 2019.",
+            "url": "https://docs.microsoft.com/en-us/office365/securitycompliance/detect-and-remediate-outlook-rules-forms-attack"
+        },
+        {
+            "source_name": "Pfammatter - Hidden Inbox Rules",
+            "description": "Damian Pfammatter. (2018, September 17). Hidden Inbox Rules in Microsoft Exchange. Retrieved October 12, 2021.",
+            "url": "https://blog.compass-security.com/2018/09/hidden-inbox-rules-in-microsoft-exchange/"
+        },
+        {
+            "source_name": "SensePost NotRuler",
+            "description": "SensePost. (2017, September 21). NotRuler - The opposite of Ruler, provides blue teams with the ability to detect Ruler usage against Exchange. Retrieved February 4, 2019.",
+            "url": "https://github.com/sensepost/notruler"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Microsoft has released a PowerShell script to safely gather mail forwarding rules and custom forms in your mail environment as well as steps to interpret the output.(Citation: Microsoft Detect Outlook Forms) This PowerShell script is ineffective in gathering rules with modified `PRPR_RULE_MSG_NAME` and `PR_RULE_MSG_PROVIDER` properties caused by adversaries using a Microsoft Exchange Server Messaging API Editor (MAPI Editor), so only examination with the Exchange Administration tool MFCMapi can reveal these mail forwarding rules.(Citation: Pfammatter - Hidden Inbox Rules) SensePost, whose tool [Ruler](https://attack.mitre.org/software/S0358) can be used to carry out malicious rules, forms, and Home Page attacks, has released a tool to detect Ruler usage.(Citation: SensePost NotRuler)\n\nCollect process execution information including process IDs (PID) and parent process IDs (PPID) and look for abnormal chains of activity resulting from Office processes. Non-standard process execution trees may also indicate suspicious or malicious behavior.",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Application Log: Application Log Content",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk.",
+                "type": "course-of-action",
+                "id": "M1051"
+            },
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that patch release KB3191938 is applied to systems to block Outlook Visual Basic and displays a malicious code warning",
+                "acid": "98580920"
+            },
+            {
+                "description": "Ensure that patch release KB4011091 is applied to the system to disable custom forms by default",
+                "acid": "98580921"
+            },
+            {
+                "description": "Ensure that patch release KB4011162 is applied to systems to remove the legacy Home Page feature",
+                "acid": "98580922"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process execution information including process IDs (PID) and parent process IDs (PPID) are collected to identify for malicious activity resulting from Office processes",
+                "acid": "98580917"
+            },
+            {
+                "description": "Ensure that non-standard process execution trees should be monitored to identify malicious behavior",
+                "acid": "98580918"
+            },
+            {
+                "description": "Ensure that SensePost's tool Ruler is used to carry out malicious rules, forms, and Home Page attacks",
+                "acid": "98580919"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

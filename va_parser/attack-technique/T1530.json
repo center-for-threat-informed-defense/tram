@@ -1,0 +1,313 @@
+﻿{
+    "id": "T1530",
+    "name": "Data from Cloud Storage",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may access data from improperly secured cloud storage.\n\nMany cloud service providers offer solutions for online data object storage such as Amazon S3, Azure Storage, and Google Cloud Storage. These solutions differ from other storage solutions (such as SQL or Elasticsearch) in that there is no overarching application. Data from these solutions can be retrieved directly using the cloud provider's APIs. \n\nIn other cases, SaaS application providers such as Slack, Confluence, and Salesforce also provide cloud storage solutions as a peripheral use case of their platform. These cloud objects can be extracted directly from their associated application.(Citation: EA Hacked via Slack - June 2021)(Citation: SecureWorld - How Secure Is Your Slack Channel - Dec 2021)(Citation: HackerNews - 3 SaaS App Cyber Attacks - April 2022)(Citation: Dark Clouds_Usenix_Mulazzani_08_2011)\n\nAdversaries may collect sensitive data from these cloud storage solutions. Providers typically offer security guides to help end users configure systems, though misconfigurations are a common problem.(Citation: Amazon S3 Security, 2019)(Citation: Microsoft Azure Storage Security, 2019)(Citation: Google Cloud Storage Best Practices, 2019) There have been numerous incidents where cloud storage has been improperly secured, typically by unintentionally allowing public access to unauthenticated users, overly-broad access by all users, or even access for any anonymous person outside the control of the Identity Access Management system without even needing basic user permissions.\n\nThis open access may expose various types of sensitive data, such as credit cards, personally identifiable information, or medical records.(Citation: Trend Micro S3 Exposed PII, 2017)(Citation: Wired Magecart S3 Buckets, 2019)(Citation: HIPAA Journal S3 Breach, 2017)(Citation: Rclone-mega-extortion_05_2021)\n\nAdversaries may also obtain then abuse leaked credentials from source repositories, logs, or other means as a way to gain access to cloud storage objects.",
+    "x_mitre_platforms": [
+        "IaaS",
+        "SaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1530",
+            "external_id": "T1530"
+        },
+        {
+            "source_name": "SecureWorld - How Secure Is Your Slack Channel - Dec 2021",
+            "description": " Drew Todd. (2021, December 28). How Secure Is Your Slack Channel?. Retrieved May 31, 2022.",
+            "url": "https://www.secureworld.io/industry-news/how-secure-is-your-slack-channel#:~:text=Electronic%20Arts%20hacked%20through%20Slack%20channel&text=In%20total%2C%20the%20hackers%20claim,credentials%20over%20a%20Slack%20channel."
+        },
+        {
+            "source_name": "Amazon S3 Security, 2019",
+            "description": "Amazon. (2019, May 17). How can I secure the files in my Amazon S3 bucket?. Retrieved October 4, 2019.",
+            "url": "https://aws.amazon.com/premiumsupport/knowledge-center/secure-s3-resources/"
+        },
+        {
+            "source_name": "Microsoft Azure Storage Security, 2019",
+            "description": "Amlekar, M., Brooks, C., Claman, L., et. al.. (2019, March 20). Azure Storage security guide. Retrieved October 4, 2019.",
+            "url": "https://docs.microsoft.com/en-us/azure/storage/common/storage-security-guide"
+        },
+        {
+            "source_name": "EA Hacked via Slack - June 2021",
+            "description": "Anthony Spadafora. (2021, June 11). EA hack reportedly used stolen cookies and Slack to target gaming giant. Retrieved May 31, 2022.",
+            "url": "https://www.techradar.com/news/ea-hack-reportedly-used-stolen-cookies-and-slack-to-hack-gaming-giant"
+        },
+        {
+            "source_name": "Wired Magecart S3 Buckets, 2019",
+            "description": "Barrett, B.. (2019, July 11). Hack Brief: A Card-Skimming Hacker Group Hit 17K Domains\u2014and Counting. Retrieved October 4, 2019.",
+            "url": "https://www.wired.com/story/magecart-amazon-cloud-hacks/"
+        },
+        {
+            "source_name": "Google Cloud Storage Best Practices, 2019",
+            "description": "Google. (2019, September 16). Best practices for Cloud Storage. Retrieved October 4, 2019.",
+            "url": "https://cloud.google.com/storage/docs/best-practices"
+        },
+        {
+            "source_name": "HackerNews - 3 SaaS App Cyber Attacks - April 2022",
+            "description": "Hananel Livneh. (2022, April 7). Into the Breach: Breaking Down 3 SaaS App Cyber Attacks in 2022. Retrieved May 31, 2022.",
+            "url": "https://thehackernews.com/2022/04/into-breach-breaking-down-3-saas-app.html"
+        },
+        {
+            "source_name": "HIPAA Journal S3 Breach, 2017",
+            "description": "HIPAA Journal. (2017, October 11). 47GB of Medical Records and Test Results Found in Unsecured Amazon S3 Bucket. Retrieved October 4, 2019.",
+            "url": "https://www.hipaajournal.com/47gb-medical-records-unsecured-amazon-s3-bucket/"
+        },
+        {
+            "source_name": "Rclone-mega-extortion_05_2021",
+            "description": "Justin Schoenfeld, Aaron Didier. (2021, May 4). Transferring leverage in a ransomware attack. Retrieved July 14, 2022.",
+            "url": "https://redcanary.com/blog/rclone-mega-extortion/"
+        },
+        {
+            "source_name": "Dark Clouds_Usenix_Mulazzani_08_2011",
+            "description": "Martin Mulazzani, Sebastian Schrittwieser, Manuel Leithner, Markus Huber, and Edgar Weippl. (2011, August). Dark Clouds on the Horizon: Using Cloud Storage as Attack Vector and Online Slack Space. Retrieved July 14, 2022.",
+            "url": "https://www.usenix.org/conference/usenix-security-11/dark-clouds-horizon-using-cloud-storage-attack-vector-and-online-slack"
+        },
+        {
+            "source_name": "Trend Micro S3 Exposed PII, 2017",
+            "description": "Trend Micro. (2017, November 6). A Misconfigured Amazon S3 Exposed Almost 50 Thousand PII in Australia. Retrieved October 4, 2019.",
+            "url": "https://www.trendmicro.com/vinfo/us/security/news/virtualization-and-cloud/a-misconfigured-amazon-s3-exposed-almost-50-thousand-pii-in-australia"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+        }
+    ],
+    "tactic": [
+        "collection"
+    ],
+    "x_mitre_detection": "Monitor for unusual queries to the cloud provider's storage service. Activity originating from unexpected sources may indicate improper permissions are set that is allowing access to data. Additionally, detecting failed attempts by a user for a certain object, followed by escalation of privileges by the same user, and access to the same object may be an indication of suspicious activity.",
+    "x_mitre_data_sources": [
+        "Cloud Storage: Cloud Storage Access"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Encrypt Sensitive Information",
+                "description": "Protect sensitive information with strong encryption.",
+                "type": "course-of-action",
+                "id": "M1041"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Multi-factor Authentication",
+                "description": "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+                "type": "course-of-action",
+                "id": "M1032"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that permissions on a cloud storage are checked regularly to ensure proper permissions are set to deny open or unprivileged access to resources.",
+                "acid": "98582333"
+            },
+            {
+                "description": "Ensure that data stored at rest in cloud storage are encrypted.",
+                "acid": "98582334"
+            },
+            {
+                "description": "Ensure that managed encryption keys are rotated by providers.",
+                "acid": "98582335"
+            },
+            {
+                "description": "Ensure that an incident response plan is in place for storage breach which includes rotating the keys and test for impact on client applications",
+                "acid": "98582336"
+            },
+            {
+                "description": "Ensure that IP allows listing along with the user account management is implemented to ensure that data access is restricted not only to valid users.",
+                "acid": "98582337"
+            },
+            {
+                "description": "Ensure that IP allows listing along with the user account management is implemented to ensure that data access is allowed only from expected IP ranges to mitigate the use of stolen credentials to access data.",
+                "acid": "98582338"
+            },
+            {
+                "description": "Ensure that multi-factor authentication is implemented to restrict access to resources and cloud storage APIs.",
+                "acid": "98582339"
+            },
+            {
+                "description": "Ensure that access control lists are implemented for storage systems and objects.",
+                "acid": "98582340"
+            },
+            {
+                "description": "Ensure that user permissions groups and roles are configured to manage access to cloud storage",
+                "acid": "98582341"
+            },
+            {
+                "description": "Ensure that strict Identity and Access Management (IAM) controls are implemented to prevent access to storage solutions if not required.",
+                "acid": "98582342"
+            },
+            {
+                "description": "Ensure that temporary access tokens are issued(rather than permanent credentials), to entities outside of the internal security boundary",
+                "acid": "98582343"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the cloud provider's storage service should be monitored for unusual queries.",
+                "acid": "98582330"
+            },
+            {
+                "description": "Ensure that activity should be monitored if originating from unexpected sources since it may indicate that improper permissions are set which allows access to data.",
+                "acid": "98582331"
+            },
+            {
+                "description": "Ensure that failed attempts by a user for a certain object followed by an escalation of privileges by the same user, and access to the same object should be monitored to identify suspicious activity.",
+                "acid": "98582332"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000125",
+        "40000490",
+        "40000495",
+        "40000509"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106013",
+        "50106022",
+        "50106027",
+        "50106115"
+    ],
+    "technologycontrolIds": [
+        "11470013",
+        "11470017",
+        "11480001",
+        "11480003",
+        "11480004",
+        "11480005",
+        "11490013",
+        "17800001",
+        "17800004",
+        "17800005",
+        "17800007",
+        "17800008",
+        "17800009",
+        "17800010",
+        "17800011",
+        "17800012",
+        "17800013",
+        "17800014",
+        "17800015",
+        "17800016",
+        "17800018",
+        "17830002",
+        "17880002",
+        "18070002",
+        "18080001",
+        "18100001",
+        "18100003",
+        "18260003",
+        "18270005",
+        "18280004",
+        "18330011",
+        "18330012",
+        "18340008",
+        "18350001",
+        "18370004",
+        "18370010",
+        "18370011",
+        "18380016",
+        "18390001",
+        "18390002",
+        "18390005",
+        "18390006",
+        "18410007",
+        "18410008",
+        "18410015",
+        "18410016",
+        "18410017",
+        "18410019",
+        "18420010",
+        "18420011",
+        "18420012",
+        "18430001",
+        "18450001",
+        "18530001",
+        "18590002",
+        "18590003",
+        "18600003",
+        "18600004",
+        "18600005",
+        "18610003",
+        "18610004",
+        "18610005",
+        "18650004",
+        "18690001",
+        "18710001",
+        "18710002",
+        "18740003",
+        "18780001",
+        "18830002",
+        "18840003",
+        "18870002",
+        "18910003",
+        "18970001",
+        "18970002",
+        "19200002",
+        "19200003",
+        "19220005",
+        "19270001",
+        "19270002",
+        "19270003",
+        "19270004",
+        "19280001",
+        "19280002",
+        "19300001",
+        "19300002",
+        "19320001",
+        "19320002",
+        "19320003",
+        "19320007",
+        "19360016",
+        "19410001",
+        "19410002",
+        "19440007",
+        "19440008",
+        "19460001"
+    ],
+    "cveIds": [],
+    "subTechniques": []
+}

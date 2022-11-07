@@ -1,0 +1,158 @@
+{
+    "id": "T1036.005",
+    "name": "Match Legitimate Name or Location",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may match or approximate the name or location of legitimate files or resources when naming/placing them. This is done for the sake of evading defenses and observation. This may be done by placing an executable in a commonly trusted directory (ex: under System32) or giving it the name of a legitimate, trusted program (ex: svchost.exe). In containerized environments, this may also be done by creating a resource in a namespace that matches the naming convention of a container pod or cluster. Alternatively, a file or container image name given may be a close approximation to legitimate programs/images or something innocuous.\n\nAdversaries may also use the same icon of the file they are trying to mimic.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "Containers"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Application Control"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1036/005",
+            "external_id": "T1036.005"
+        },
+        {
+            "source_name": "Twitter ItsReallyNick Masquerading Update",
+            "description": "Carr, N.. (2018, October 25). Nick Carr Status Update Masquerading. Retrieved April 22, 2019.",
+            "url": "https://twitter.com/ItsReallyNick/status/1055321652777619457"
+        },
+        {
+            "source_name": "Docker Images",
+            "description": "Docker. (n.d.). Docker Images. Retrieved April 6, 2021.",
+            "url": "https://docs.docker.com/engine/reference/commandline/images/"
+        },
+        {
+            "source_name": "Elastic Masquerade Ball",
+            "description": "Ewing, P. (2016, October 31). How to Hunt: The Masquerade Ball. Retrieved October 31, 2016.",
+            "url": "http://pages.endgame.com/rs/627-YBU-612/images/EndgameJournal_The%20Masquerade%20Ball_Pages_R2.pdf"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/177.html",
+            "external_id": "CAPEC-177"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Collect file hashes; file names that do not match their expected hash are suspect. Perform file monitoring; files with known names but in unusual locations are suspect. Likewise, files that are modified outside of an update or patch are suspect.\n\nIf file names are mismatched between the file name on disk and that of the binary's PE metadata, this is a likely indicator that a binary was renamed after it was compiled. Collecting and comparing disk and resource filenames for binaries by looking to see if the InternalName, OriginalFilename, and/or ProductName match what is expected could provide useful leads, but may not always be indicative of malicious activity. (Citation: Elastic Masquerade Ball) Do not focus on the possible names a file could have, but instead on the command-line arguments that are known to be used and are distinct because it will have a better rate of detection.(Citation: Twitter ItsReallyNick Masquerading Update)\n\nIn containerized environments, use image IDs and layer hashes to compare images instead of relying only on their names.(Citation: Docker Images) Monitor for the unexpected creation of new resources within your cluster in Kubernetes, especially those created by atypical users.",
+    "x_mitre_data_sources": [
+        "Image: Image Metadata",
+        "File: File Metadata",
+        "Process: Process Metadata"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Code Signing",
+                "description": "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+                "type": "course-of-action",
+                "id": "M1045"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that signed binaries are implemented in code.",
+                "acid": "98581415"
+            },
+            {
+                "description": "Ensure that whitelisting tools are employed to restrict program execution by attributes other than file names for common operating system utilities.",
+                "acid": "98581416"
+            },
+            {
+                "description": "Ensure that file system access controls are employed to protect folders e.g. C:\\Windows\\System32.",
+                "acid": "98581417"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that file hashes are collected",
+                "acid": "98581405"
+            },
+            {
+                "description": "Ensure that file names match their expected hashes.",
+                "acid": "98581406"
+            },
+            {
+                "description": "Ensure that file monitoring is performed for files.",
+                "acid": "98581407"
+            },
+            {
+                "description": "Ensure that files with known names but in unusual locations are suspect.",
+                "acid": "98581408"
+            },
+            {
+                "description": "Ensure that files that are modified outside of an update or patch are suspect.",
+                "acid": "98581409"
+            },
+            {
+                "description": "Ensure that file name on disk and that of the binary's PE metadata are matched,(or the binary might be renamed after it was compiled).",
+                "acid": "98581410"
+            },
+            {
+                "description": "Ensure that disk and resource filenames for binaries are collected and compared to check if the InternalName matches.",
+                "acid": "98581411"
+            },
+            {
+                "description": "Ensure that disk and resource filenames for binaries are collected and compared to check if the OriginalFilename matches.",
+                "acid": "98581412"
+            },
+            {
+                "description": "Ensure that disk and resource filenames for binaries are collected and compared to check if the ProductName matches.",
+                "acid": "98581413"
+            },
+            {
+                "description": "Ensure that command-line arguments are inspected for file name rather than checking for the possible name of the file could be.",
+                "acid": "98581414"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "19350022"
+    ],
+    "cveIds": [
+        "CVE-2020-6808"
+    ]
+}

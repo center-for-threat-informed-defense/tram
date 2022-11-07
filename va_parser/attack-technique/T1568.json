@@ -1,0 +1,150 @@
+﻿{
+    "id": "T1568",
+    "name": "Dynamic Resolution",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may dynamically establish connections to command and control infrastructure to evade common detections and remediations. This may be achieved by using malware that shares a common algorithm with the infrastructure the adversary uses to receive the malware's communications. These calculations can be used to dynamically adjust parameters such as the domain name, IP address, or port number the malware uses for command and control.\n\nAdversaries may use dynamic resolution for the purpose of [Fallback Channels](https://attack.mitre.org/techniques/T1008). When contact is lost with the primary command and control server malware may employ dynamic resolution as a means to reestablishing command and control.(Citation: Talos CCleanup 2017)(Citation: FireEye POSHSPY April 2017)(Citation: ESET Sednit 2017 Activity)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1568",
+            "external_id": "T1568"
+        },
+        {
+            "source_name": "Talos CCleanup 2017",
+            "description": "Brumaghin, E. et al. (2017, September 18). CCleanup: A Vast Number of Machines at Risk. Retrieved March 9, 2018.",
+            "url": "http://blog.talosintelligence.com/2017/09/avast-distributes-malware.html"
+        },
+        {
+            "source_name": "FireEye POSHSPY April 2017",
+            "description": "Dunwoody, M.. (2017, April 3). Dissecting One of APT29\u2019s Fileless WMI and PowerShell Backdoors (POSHSPY). Retrieved April 5, 2017.",
+            "url": "https://www.fireeye.com/blog/threat-research/2017/03/dissecting_one_ofap.html"
+        },
+        {
+            "source_name": "ESET Sednit 2017 Activity",
+            "description": "ESET. (2017, December 21). Sednit update: How Fancy Bear Spent the Year. Retrieved February 18, 2019.",
+            "url": "https://www.welivesecurity.com/2017/12/21/sednit-update-fancy-bear-spent-year/"
+        },
+        {
+            "source_name": "Data Driven Security DGA",
+            "description": "Jacobs, J. (2014, October 2). Building a DGA Classifier: Part 2, Feature Engineering. Retrieved February 18, 2019.",
+            "url": "https://datadrivensecurity.info/blog/posts/2014/Oct/dga-part2/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "command-and-control"
+        }
+    ],
+    "tactic": [
+        "command-and-control"
+    ],
+    "x_mitre_detection": "Detecting dynamically generated C2 can be challenging due to the number of different algorithms, constantly evolving malware families, and the increasing complexity of the algorithms. There are multiple approaches to detecting a pseudo-randomly generated domain name, including using frequency analysis, Markov chains, entropy, proportion of dictionary words, ratio of vowels to other characters, and more (Citation: Data Driven Security DGA). CDN domains may trigger these detections due to the format of their domain names. In addition to detecting algorithm generated domains based on the name, another more general approach for detecting a suspicious domain is to check for recently registered names or for rarely visited domains.",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow",
+        "Network Traffic: Network Connection Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            },
+            {
+                "name": "Restrict Web-Based Content",
+                "description": "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+                "type": "course-of-action",
+                "id": "M1021"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Network intrusion detection and prevention system(s) is configured to identify malicious network traffic (by using network signatures).",
+                "acid": "98582521"
+            },
+            {
+                "description": "Ensure that a local DNS sinkhole is used to help prevent behaviors associated with dynamic resolution.",
+                "acid": "98582522"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that frequency analysis is performed to detect a pseudo-randomly generated domain name which could be suspicious.",
+                "acid": "98582518"
+            },
+            {
+                "description": "Ensure that different approaches such as Markov chains, entropy, proportion of dictionary words, ratio of vowels to other characters is used to detect a pseudo-randomly generated domain name which could be suspicious.",
+                "acid": "98582519"
+            },
+            {
+                "description": "Ensure that recently registered names or rarely visited domains are monitored to identify suspicious domain.",
+                "acid": "98582520"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000182",
+        "40000208"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "11060036",
+        "11100035",
+        "16390048",
+        "19340001",
+        "19340002",
+        "19340003",
+        "19340004",
+        "19340005",
+        "19340006",
+        "19340008",
+        "19340009",
+        "19340010",
+        "19340011",
+        "19340012",
+        "19340013",
+        "19340014",
+        "19340015",
+        "19340016",
+        "19340017",
+        "19340018",
+        "19340019",
+        "19340020",
+        "19340021",
+        "19340022",
+        "19340023",
+        "19360018"
+    ],
+    "cveIds": [],
+    "subTechniques": [
+        "T1568.001",
+        "T1568.002",
+        "T1568.003"
+    ]
+}

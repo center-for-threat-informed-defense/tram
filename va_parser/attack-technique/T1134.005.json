@@ -1,0 +1,155 @@
+{
+    "id": "T1134.005",
+    "name": "SID-History Injection",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use SID-History Injection to escalate privileges and bypass access controls. The Windows security identifier (SID) is a unique value that identifies a user or group account. SIDs are used by Windows security in both security descriptors and access tokens. (Citation: Microsoft SID) An account can hold additional SIDs in the SID-History Active Directory attribute (Citation: Microsoft SID-History Attribute), allowing inter-operable account migration between domains (e.g., all values in SID-History are included in access tokens).\n\nWith Domain Administrator (or equivalent) rights, harvested or well-known SID values (Citation: Microsoft Well Known SIDs Jun 2017) may be inserted into SID-History to enable impersonation of arbitrary users/groups such as Enterprise Administrators. This manipulation may result in elevated access to local resources and/or access to otherwise inaccessible domains via lateral movement techniques such as [Remote Services](https://attack.mitre.org/techniques/T1021), [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002), or [Windows Remote Management](https://attack.mitre.org/techniques/T1021/006).",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1134/005",
+            "external_id": "T1134.005"
+        },
+        {
+            "source_name": "Microsoft SID",
+            "description": "Microsoft. (n.d.). Security Identifiers. Retrieved November 30, 2017.",
+            "url": "https://msdn.microsoft.com/library/windows/desktop/aa379571.aspx"
+        },
+        {
+            "source_name": "Microsoft SID-History Attribute",
+            "description": "Microsoft. (n.d.). Active Directory Schema - SID-History attribute. Retrieved November 30, 2017.",
+            "url": "https://msdn.microsoft.com/library/ms679833.aspx"
+        },
+        {
+            "source_name": "Microsoft Well Known SIDs Jun 2017",
+            "description": "Microsoft. (2017, June 23). Well-known security identifiers in Windows operating systems. Retrieved November 30, 2017.",
+            "url": "https://support.microsoft.com/help/243330/well-known-security-identifiers-in-windows-operating-systems"
+        },
+        {
+            "source_name": "Microsoft Get-ADUser",
+            "description": "Microsoft. (n.d.). Active Directory Cmdlets - Get-ADUser. Retrieved November 30, 2017.",
+            "url": "https://technet.microsoft.com/library/ee617241.aspx"
+        },
+        {
+            "source_name": "AdSecurity SID History Sept 2015",
+            "description": "Metcalf, S. (2015, September 19). Sneaky Active Directory Persistence #14: SID History. Retrieved November 30, 2017.",
+            "url": "https://adsecurity.org/?p=1772"
+        },
+        {
+            "source_name": "Microsoft DsAddSidHistory",
+            "description": "Microsoft. (n.d.). Using DsAddSidHistory. Retrieved November 30, 2017.",
+            "url": "https://msdn.microsoft.com/library/ms677982.aspx"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "Examine data in user's SID-History attributes using the PowerShell <code>Get-ADUser</code> cmdlet (Citation: Microsoft Get-ADUser), especially users who have SID-History values from the same domain. (Citation: AdSecurity SID History Sept 2015) Also monitor account management events on Domain Controllers for successful and failed changes to SID-History. (Citation: AdSecurity SID History Sept 2015) (Citation: Microsoft DsAddSidHistory)\n\nMonitor for Windows API calls to the <code>DsAddSidHistory</code> function. (Citation: Microsoft DsAddSidHistory)",
+    "x_mitre_data_sources": [
+        "Process: OS API Execution",
+        "Active Directory: Active Directory Object Modification",
+        "User Account: User Account Metadata"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Active Directory Configuration",
+                "description": "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc.",
+                "type": "course-of-action",
+                "id": "M1015"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that SID-History attributes are cleaned once legitimate account migration is complete",
+                "acid": "98581072"
+            },
+            {
+                "description": "Ensure that SID Filtering is applied to interest trusts, such as forest trusts and external trusts, to exclude SID-History from accessing domain resources",
+                "acid": "98581073"
+            },
+            {
+                "description": "Ensure that SID Filtering is applied to interforest trusts to ensures that any authentication requests over a trust only contain SIDs of security principals from the trusted domain",
+                "acid": "98581074"
+            },
+            {
+                "description": "Ensure that SID Filtering is applied by disabling SIDHistory on forest trusts using the netdom tool (netdom trust /domain: /EnableSIDHistory:no on the domain controller)",
+                "acid": "98581075"
+            },
+            {
+                "description": "Ensure that SID Filtering is implemented by applying SID Filter Quarantining to external trusts using the netdom tool (netdom trust /domain: /quarantine:yes on the domain controller)",
+                "acid": "98581076"
+            },
+            {
+                "description": "Ensure that the trusted and untrusted domains are split into separate forests where SID Filtering can be applied to an interest trust",
+                "acid": "98581077"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that data in the user\u2019s SID-History attributes are examined using the PowerShell Get-ADUser cmdlet for users having SID-History values from the same domain",
+                "acid": "98581069"
+            },
+            {
+                "description": "Ensure that account management events on Domain Controllers are monitored for successful and failed changes to SID-History",
+                "acid": "98581070"
+            },
+            {
+                "description": "Ensure that Windows API calls to the DsAddSidHistory function are monitored for malicious behavior",
+                "acid": "98581071"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "15010078",
+        "15020082",
+        "15030082",
+        "15040081",
+        "15180075",
+        "15200078",
+        "16010084",
+        "16020084",
+        "16100086",
+        "16110084",
+        "16120086",
+        "16140075",
+        "16360086",
+        "16460084",
+        "19920078"
+    ],
+    "cveIds": []
+}

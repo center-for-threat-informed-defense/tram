@@ -1,0 +1,118 @@
+{
+    "id": "T1218.007",
+    "name": "Msiexec",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse msiexec.exe to proxy execution of malicious payloads. Msiexec.exe is the command-line utility for the Windows Installer and is thus commonly associated with executing installation packages (.msi).(Citation: Microsoft msiexec) The Msiexec.exe binary may also be digitally signed by Microsoft.\n\nAdversaries may abuse msiexec.exe to launch local or network accessible MSI files. Msiexec.exe can also execute DLLs.(Citation: LOLBAS Msiexec)(Citation: TrendMicro Msiexec Feb 2018) Since it may be signed and native on Windows systems, msiexec.exe can be used to bypass application control solutions that do not account for its potential abuse. Msiexec.exe execution may also be elevated to SYSTEM privileges if the <code>AlwaysInstallElevated</code> policy is enabled.(Citation: Microsoft AlwaysInstallElevated 2018)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Digital Certificate Validation",
+        "Application control"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1218/007",
+            "external_id": "T1218.007"
+        },
+        {
+            "source_name": "TrendMicro Msiexec Feb 2018",
+            "description": "Co, M. and Sison, G. (2018, February 8). Attack Using Windows Installer msiexec.exe leads to LokiBot. Retrieved April 18, 2019.",
+            "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/attack-using-windows-installer-msiexec-exe-leads-lokibot/"
+        },
+        {
+            "source_name": "LOLBAS Msiexec",
+            "description": "LOLBAS. (n.d.). Msiexec.exe. Retrieved April 18, 2019.",
+            "url": "https://lolbas-project.github.io/lolbas/Binaries/Msiexec/"
+        },
+        {
+            "source_name": "Microsoft msiexec",
+            "description": "Microsoft. (2017, October 15). msiexec. Retrieved January 24, 2020.",
+            "url": "https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/msiexec"
+        },
+        {
+            "source_name": "Microsoft AlwaysInstallElevated 2018",
+            "description": "Microsoft. (2018, May 31). AlwaysInstallElevated. Retrieved December 14, 2020.",
+            "url": "https://docs.microsoft.com/en-us/windows/win32/msi/alwaysinstallelevated"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Use process monitoring to monitor the execution and arguments of msiexec.exe. Compare recent invocations of msiexec.exe with prior history of known good arguments and executed MSI files or DLLs to determine anomalous and potentially adversarial activity. Command arguments used before and after the invocation of msiexec.exe may also be useful in determining the origin and purpose of the MSI files or DLLs being executed.",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Connection Creation",
+        "Command: Command Execution",
+        "Module: Module Load",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that proper permissions are applied to privileged accounts or groups to prevent the execution of Msiexec.exe.",
+                "acid": "98581660"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process monitoring is used to monitor the execution and arguments of msiexec.exe.",
+                "acid": "98581656"
+            },
+            {
+                "description": "Ensure that recent invocations of msiexec.exe are compared with the history of known good arguments to determine anomalous activity.",
+                "acid": "98581657"
+            },
+            {
+                "description": "Ensure that recent invocations of msiexec.exe are compared with the history of executed MSI files or DLLs to determine anomalous activity.",
+                "acid": "98581658"
+            },
+            {
+                "description": "Ensure that Command arguments used before and after the msiexec.exe invocation are inspected to determine the (origin and purpose) MSI files or DLLs load.",
+                "acid": "98581659"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

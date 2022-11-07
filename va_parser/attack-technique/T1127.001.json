@@ -1,0 +1,107 @@
+﻿{
+    "id": "T1127.001",
+    "name": "MSBuild",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use MSBuild to proxy execution of code through a trusted Windows utility. MSBuild.exe (Microsoft Build Engine) is a software build platform used by Visual Studio. It handles XML formatted project files that define requirements for loading and building various platforms and configurations.(Citation: MSDN MSBuild)\n\nAdversaries can abuse MSBuild to proxy execution of malicious code. The inline task capability of MSBuild that was introduced in .NET version 4 allows for C# or Visual Basic code to be inserted into an XML project file.(Citation: MSDN MSBuild)(Citation: Microsoft MSBuild Inline Tasks 2017) MSBuild will compile and execute the inline task. MSBuild.exe is a signed Microsoft binary, so when it is used this way it can execute arbitrary code and bypass application control defenses that are configured to allow MSBuild.exe execution.(Citation: LOLBAS Msbuild)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1127/001",
+            "external_id": "T1127.001"
+        },
+        {
+            "source_name": "MSDN MSBuild",
+            "description": "Microsoft. (n.d.). MSBuild1. Retrieved November 30, 2016.",
+            "url": "https://msdn.microsoft.com/library/dd393574.aspx"
+        },
+        {
+            "source_name": "Microsoft MSBuild Inline Tasks 2017",
+            "description": "Microsoft. (2017, September 21). MSBuild inline tasks. Retrieved March 5, 2021.",
+            "url": "https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-inline-tasks?view=vs-2019#code-element"
+        },
+        {
+            "source_name": "LOLBAS Msbuild",
+            "description": "LOLBAS. (n.d.). Msbuild.exe. Retrieved July 31, 2019.",
+            "url": "https://lolbas-project.github.io/lolbas/Binaries/Msbuild/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Use process monitoring to monitor the execution and arguments of MSBuild.exe. Compare recent invocations of those binaries with prior history of known good arguments and executed binaries to determine anomalous and potentially adversarial activity. Command arguments used before and after invocation of the utilities may also be useful in determining the origin and purpose of the binary being executed.",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        ".NET Framework version 4 or higher"
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that MSBuild.exe is removed if not required within an environment.",
+                "acid": "98581762"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process monitoring is configured to monitor the execution and arguments of MSBuild.exe.",
+                "acid": "98581758"
+            },
+            {
+                "description": "Ensure that recent invocations of binaries are compared with the history of known good arguments to determine anomalous activity.",
+                "acid": "98581759"
+            },
+            {
+                "description": "Ensure that recent invocations of binaries are compared with the history of executed binaries to determine anomalous activity.",
+                "acid": "98581760"
+            },
+            {
+                "description": "Ensure that Command arguments used before and after the invocation of the utilities are used to determine the execution of binary.",
+                "acid": "98581761"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

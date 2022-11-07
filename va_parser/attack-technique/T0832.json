@@ -1,0 +1,89 @@
+﻿{
+    "id": "T0832",
+    "name": "Manipulation of View",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to manipulate the information reported back to operators or controllers. This manipulation may be short term or sustained. During this time the process itself could be in a much different state than what is reported. (Citation: Corero) (Citation: Michael J. Assante and Robert M. Lee) (Citation: Tyson Macaulay)   Operators may be fooled into doing something that is harmful to the system in a loss of view situation. With a manipulated view into the systems, operators may issue inappropriate control sequences that introduce faults or catastrophic failures into the system. Business analysis systems can also be provided with inaccurate data leading to bad management decisions.",
+    "x_mitre_platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Field Controller/RTU/PLC/IED"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0832",
+            "external_id": "T0832"
+        },
+        {
+            "source_name": "Corero",
+            "description": "Corero   Industrial Control System (ICS) Security Retrieved. 2019/11/04 ",
+            "url": "https://www.corero.com/resources/files/whitepapers/cns_whitepaper_ics.pdf"
+        },
+        {
+            "source_name": "Michael J. Assante and Robert M. Lee",
+            "description": "Michael J. Assante and Robert M. Lee Corero   Industrial Control System (ICS) Security Retrieved. 2019/11/04  The Industrial Control System Cyber Kill Chain Retrieved. 2019/11/04 ",
+            "url": "https://www.sans.org/reading-room/whitepapers/ICS/industrial-control-system-cyber-kill-chain-36297"
+        },
+        {
+            "source_name": "Tyson Macaulay",
+            "description": "Tyson Macaulay Michael J. Assante and Robert M. Lee Corero   Industrial Control System (ICS) Security Retrieved. 2019/11/04  The Industrial Control System Cyber Kill Chain Retrieved. 2019/11/04  RIoT Control: Understanding and Managing Risks and the Internet of Things Retrieved. 2019/11/04 ",
+            "url": "https://books.google.com/books?id=oXIYBAAAQBAJ&pg=PA249&lpg=PA249&dq=loss+denial+manipulation+of+view&source=bl&ots=dV1uQ8IUff&sig=ACfU3U2NIwGjhg051D_Ytw6npyEk9xcf4w&hl=en&sa=X&ved=2ahUKEwj2wJ7y4tDlAhVmplkKHSTaDnQQ6AEwAHoECAgQAQ#v=onepage&q=loss%20denial%20manipulation%20of%20view&f=false"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "impact-ics"
+        }
+    ],
+    "tactic": [
+        "impact-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Communication Authenticity",
+                "description": "When communicating over an untrusted network, utilize secure network protocols that both authenticate the message sender and can verify its integrity. This can be done either through message authentication codes (MACs) or digital signatures, to detect spoofed network messages and unauthorized connections.",
+                "type": "course-of-action",
+                "id": "M0802"
+            },
+            {
+                "name": "Out-of-Band Communications Channel",
+                "description": "Have alternative methods to support communication requirements during communication failures and data integrity attacks. (Citation: National Institute of Standards and Technology April 2013) (Citation: Defense Advanced Research Projects Agency)",
+                "type": "course-of-action",
+                "id": "M0810"
+            },
+            {
+                "name": "Data Backup",
+                "description": "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise.   Maintain and exercise incident response plans  (Citation: Department of Homeland Security October 2009), including the management of  'gold-copy' back-up images and configurations for key systems to enable quick recovery and response from adversarial activities that impact control, view, or availability.",
+                "type": "course-of-action",
+                "id": "M0953"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

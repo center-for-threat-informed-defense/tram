@@ -1,0 +1,107 @@
+﻿{
+    "id": "T0879",
+    "name": "Damage to Property",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may cause damage and destruction of property to infrastructure, equipment, and the surrounding environment when attacking control systems. This technique may result in device and operational equipment breakdown, or represent tangential damage from other techniques used in an attack. Depending on the severity of physical damage and disruption caused to control processes and systems, this technique may result in [Loss of Safety](https://attack.mitre.org/techniques/T0880). Operations that result in [Loss of Control](https://attack.mitre.org/techniques/T0827) may also cause damage to property, which may be directly or indirectly motivated by an adversary seeking to cause impact in the form of [Loss of Productivity and Revenue](https://attack.mitre.org/techniques/T0828).   The German Federal Office for Information Security (BSI) reported a targeted attack on a steel mill under an incidents affecting business section of its 2014 IT Security Report. (Citation: BSI State of IT Security 2014)  These targeted attacks affected industrial operations and resulted in breakdowns of control system components and even entire installations. As a result of these breakdowns, massive impact and damage resulted from the uncontrolled shutdown of a blast furnace.  In the Maroochy Attack, Vitek Boden gained remote computer access to the control system and altered data so that whatever function should have occurred at affected pumping stations did not occur or occurred in a different way. This ultimately led to 800,000 liters of raw sewage being spilled out into the community. The raw sewage affected local parks, rivers, and even a local hotel. This resulted in harm to marine life and produced a sickening stench from the community's now blackened rivers. (Citation: Marshall Abrams July 2008)  A Polish student used a remote controller device to interface with the Lodz city tram system in Poland. (Citation: John Bill May 2017) (Citation: Shelley Smith February 2008) (Citation: Bruce Schneier January 2008) Using this remote, the student was able to capture and replay legitimate tram signals. This resulted in damage to impacted trams, people, and the surrounding property. Reportedly, four trams were derailed and were forced to make emergency stops. (Citation: Shelley Smith February 2008) Commands issued by the student may have also resulted in tram collisions, causing harm to those on board and the environment outside. (Citation: Bruce Schneier January 2008)",
+    "x_mitre_platforms": [
+        "None"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0879",
+            "external_id": "T0879"
+        },
+        {
+            "source_name": "BSI State of IT Security 2014",
+            "description": "Bundesamt fr Sicherheit in der Informationstechnik (BSI) (German Federal Office for Information Security) 2014 Die Lage der IT-Sicherheit in Deutschland 2014 (The State of IT Security in Germany) Retrieved. 2019/10/30 ",
+            "url": "https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/Securitysituation/IT-Security-Situation-in-Germany-2014.pdf?__blob=publicationFile&v=3"
+        },
+        {
+            "source_name": "Marshall Abrams July 2008",
+            "description": "Marshall Abrams 2008, July 23 Malicious Control System Cyber Security Attack Case Study Maroochy Water Services, Australia Retrieved. 2018/03/27 ",
+            "url": "https://www.mitre.org/sites/default/files/pdf/08_1145.pdf"
+        },
+        {
+            "source_name": "John Bill May 2017",
+            "description": "John Bill 2017, May 12 Hacked Cyber Security Railways Retrieved. 2019/10/17 ",
+            "url": "https://www.londonreconnections.com/2017/hacked-cyber-security-railways/"
+        },
+        {
+            "source_name": "Shelley Smith February 2008",
+            "description": "Shelley Smith 2008, February 12 Teen Hacker in Poland Plays Trains and Derails City Tram System Retrieved. 2019/10/17 ",
+            "url": "https://inhomelandsecurity.com/teen_hacker_in_poland_plays_tr/"
+        },
+        {
+            "source_name": "Bruce Schneier January 2008",
+            "description": "Bruce Schneier 2008, January 17 Hacking Polish Trams Retrieved. 2019/10/17 ",
+            "url": "https://www.schneier.com/blog/archives/2008/01/hacking_the_pol.html"
+        },
+        {
+            "source_name": "Shelley Smith February 2008",
+            "description": "Shelley Smith 2008, February 12 Teen Hacker in Poland Plays Trains and Derails City Tram System Retrieved. 2019/10/17 ",
+            "url": "https://inhomelandsecurity.com/teen_hacker_in_poland_plays_tr/"
+        },
+        {
+            "source_name": "Bruce Schneier January 2008",
+            "description": "Bruce Schneier 2008, January 17 Hacking Polish Trams Retrieved. 2019/10/17 ",
+            "url": "https://www.schneier.com/blog/archives/2008/01/hacking_the_pol.html"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "impact-ics"
+        }
+    ],
+    "tactic": [
+        "impact-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Allowlists",
+                "description": "Network allowlists can be implemented through either host-based files or system hosts files to specify what connections (e.g., IP address, MAC address, port, protocol) can be made from a device. Allowlist techniques that operate at the  application layer (e.g., DNP3, Modbus, HTTP) are addressed in [Filter Network Traffic](https://attack.mitre.org/mitigations/M0937) mitigation.",
+                "type": "course-of-action",
+                "id": "M0807"
+            },
+            {
+                "name": "Safety Instrumented Systems",
+                "description": "Utilize Safety Instrumented Systems (SIS) to provide an additional layer of protection to hazard scenarios that may cause property damage. A SIS will typically include sensors, logic solvers, and a final control element that can be used to automatically respond to an hazardous condition  (Citation: A G Foord, W G Gulland, C R Howard, T Kellacher, W H Smith 2004) . Ensure that all SISs are segmented from operational networks to prevent them from being targeted by additional adversarial behavior.",
+                "type": "course-of-action",
+                "id": "M0812"
+            },
+            {
+                "name": "Mechanical Protection Layers",
+                "description": "Utilize a layered protection design based on physical or mechanical protection systems to prevent damage to property, equipment, human safety, or the environment. Examples include interlocks, rupture disk, release values, etc. (Citation: A G Foord, W G Gulland, C R Howard, T Kellacher, W H Smith 2004) ",
+                "type": "course-of-action",
+                "id": "M0805"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

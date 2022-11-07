@@ -1,0 +1,146 @@
+{
+    "id": "T1059.006",
+    "name": "Python",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse Python commands and scripts for execution. Python is a very popular scripting/programming language, with capabilities to perform many functions. Python can be executed interactively from the command-line (via the <code>python.exe</code> interpreter) or via scripts (.py) that can be written and distributed to different systems. Python code can also be compiled into binary executables.\n\nPython comes with many built-in packages to interact with the underlying system, such as file operations and device I/O. Adversaries can use these libraries to download and execute commands or other scripts as well as perform various malicious behaviors.",
+    "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1059/006",
+            "external_id": "T1059.006"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        }
+    ],
+    "tactic": [
+        "execution"
+    ],
+    "x_mitre_detection": "Monitor systems for abnormal Python usage and python.exe behavior, which could be an indicator of malicious activity. Understanding standard usage patterns is important to avoid a high number of false positives. If scripting is restricted for normal users, then any attempts to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information Discovery, Collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM",
+        "root"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "Python is installed."
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Antivirus/Antimalware",
+                "description": "Use signatures or heuristics to detect malicious software.",
+                "type": "course-of-action",
+                "id": "M1049"
+            },
+            {
+                "name": "Limit Software Installation",
+                "description": "Block users or groups from installing unapproved software.",
+                "type": "course-of-action",
+                "id": "M1033"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Anti-virus solutions are configured to automatically quarantine suspicious files",
+                "acid": "98580206"
+            },
+            {
+                "description": "Ensure that Inventory systems are regularly audited for unauthorized Python installations",
+                "acid": "98580207"
+            },
+            {
+                "description": "Ensure that Denylist Python was not required",
+                "acid": "98580208"
+            },
+            {
+                "description": "Ensure that users should be restricted from installing Python were not required",
+                "acid": "98580209"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that systems are monitored for abnormal Python usage and python.exe behavior indicating malicious activity",
+                "acid": "98580199"
+            },
+            {
+                "description": "Ensure that any attempt to enable scripts by restricted user accounts should be monitored",
+                "acid": "98580200"
+            },
+            {
+                "description": "Ensure that uncommon scripts running out of cycle from patching or other administrator function should be monitored",
+                "acid": "98580201"
+            },
+            {
+                "description": "Ensure that scripts are captured from the file system(when possible) to monitor their actions and intent",
+                "acid": "98580202"
+            },
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for script execution indicating suspicious behavior",
+                "acid": "98580203"
+            },
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for network and system information discovery actions indicating suspicious behavior",
+                "acid": "98580204"
+            },
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for scriptable post-compromise behaviors",
+                "acid": "98580205"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100523",
+        "50101358"
+    ],
+    "technologycontrolIds": [
+        "16460389",
+        "16460390",
+        "16460391",
+        "19920418",
+        "19920419",
+        "19920451"
+    ],
+    "cveIds": [
+        "CVE-2019-16784"
+    ]
+}

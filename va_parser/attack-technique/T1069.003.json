@@ -1,0 +1,113 @@
+{
+    "id": "T1069.003",
+    "name": "Cloud Groups",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to find cloud groups and permission settings. The knowledge of cloud permission groups can help adversaries determine the particular roles of users and groups within an environment, as well as which users are associated with a particular group.\n\nWith authenticated access there are several tools that can be used to find permissions groups. The <code>Get-MsolRole</code> PowerShell cmdlet can be used to obtain roles and permissions groups for Exchange and Office 365 accounts (Citation: Microsoft Msolrole)(Citation: GitHub Raindance).\n\nAzure CLI (AZ CLI) and the Google Cloud Identity Provider API also provide interfaces to obtain permissions groups. The command <code>az ad user get-member-groups</code> will list groups associated to a user account for Azure while the API endpoint <code>GET https://cloudidentity.googleapis.com/v1/groups</code> lists group resources available to a user for Google.(Citation: Microsoft AZ CLI)(Citation: Black Hills Red Teaming MS AD Azure, 2018)(Citation: Google Cloud Identity API Documentation)\n\nAdversaries may attempt to list ACLs for objects to determine the owner and other accounts with access to the object, for example, via the AWS <code>GetBucketAcl</code> API (Citation: AWS Get Bucket ACL). Using this information an adversary can target accounts with permissions to a given object or leverage accounts they have already compromised to access the object.",
+    "x_mitre_platforms": [
+        "Azure AD",
+        "Office 365",
+        "SaaS",
+        "IaaS",
+        "Google Workspace"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1069/003",
+            "external_id": "T1069.003"
+        },
+        {
+            "source_name": "AWS Get Bucket ACL",
+            "description": "Amazon Web Services. (n.d.). Retrieved May 28, 2021.",
+            "url": "https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketAcl.html"
+        },
+        {
+            "source_name": "Black Hills Red Teaming MS AD Azure, 2018",
+            "description": "Felch, M.. (2018, August 31). Red Teaming Microsoft Part 1 Active Directory Leaks via Azure. Retrieved October 6, 2019.",
+            "url": "https://www.blackhillsinfosec.com/red-teaming-microsoft-part-1-active-directory-leaks-via-azure/"
+        },
+        {
+            "source_name": "Google Cloud Identity API Documentation",
+            "description": "Google. (n.d.). Retrieved March 16, 2021.",
+            "url": "https://cloud.google.com/identity/docs/reference/rest"
+        },
+        {
+            "source_name": "Microsoft AZ CLI",
+            "description": "Microsoft. (n.d.). az ad user. Retrieved October 6, 2019.",
+            "url": "https://docs.microsoft.com/en-us/cli/azure/ad/user?view=azure-cli-latest"
+        },
+        {
+            "source_name": "Microsoft Msolrole",
+            "description": "Microsoft. (n.d.). Get-MsolRole. Retrieved October 6, 2019.",
+            "url": "https://docs.microsoft.com/en-us/powershell/module/msonline/get-msolrole?view=azureadps-1.0"
+        },
+        {
+            "source_name": "GitHub Raindance",
+            "description": "Stringer, M.. (2018, November 21). RainDance. Retrieved October 6, 2019.",
+            "url": "https://github.com/True-Demon/raindance"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "discovery"
+        }
+    ],
+    "tactic": [
+        "discovery"
+    ],
+    "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Activity and account logs for the cloud services can also be monitored for suspicious commands that are anomalous compared to a baseline of normal activity.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Application Log: Application Log Content",
+        "Group: Group Metadata",
+        "Process: Process Creation",
+        "Group: Group Enumeration"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for suspicious activities",
+                "acid": "98582149"
+            },
+            {
+                "description": "Ensure that account activity logs of cloud service management console are monitored",
+                "acid": "98582150"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "18330005",
+        "18330006",
+        "18330007",
+        "18330008",
+        "18330009",
+        "18330010",
+        "18400001",
+        "18580001",
+        "18640004",
+        "18890001",
+        "18900001"
+    ],
+    "cveIds": []
+}

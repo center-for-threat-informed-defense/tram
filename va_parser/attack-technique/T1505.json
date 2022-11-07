@@ -1,0 +1,228 @@
+﻿{
+    "id": "T1505",
+    "name": "Server Software Component",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse legitimate extensible development features of servers to establish persistent access to systems. Enterprise server applications may include features that allow developers to write and install software or scripts to extend the functionality of the main application. Adversaries may install malicious components to extend and abuse server applications.(Citation: volexity_0day_sophos_FW)",
+    "x_mitre_platforms": [
+        "Windows",
+        "Linux",
+        "macOS",
+        "Network"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1505",
+            "external_id": "T1505"
+        },
+        {
+            "source_name": "volexity_0day_sophos_FW",
+            "description": "Adair, S., Lancaster, T., Volexity Threat Research. (2022, June 15). DriftingCloud: Zero-Day Sophos Firewall Exploitation and an Insidious Breach. Retrieved July 1, 2022.",
+            "url": "https://www.volexity.com/blog/2022/06/15/driftingcloud-zero-day-sophos-firewall-exploitation-and-an-insidious-breach/"
+        },
+        {
+            "source_name": "US-CERT Alert TA15-314A Web Shells",
+            "description": "US-CERT. (2015, November 13). Compromised Web Servers and Web Shells - Threat Awareness and Guidance. Retrieved June 8, 2016.",
+            "url": "https://www.us-cert.gov/ncas/alerts/TA15-314A"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Consider monitoring application logs for abnormal behavior that may indicate suspicious installation of application software components. Consider monitoring file locations associated with the installation of new application software components such as paths from which applications typically load such extensible components.\n\nProcess monitoring may be used to detect servers components that perform suspicious actions such as running cmd.exe or accessing files. Log authentication attempts to the server and any unusual traffic patterns to or from the server and internal network. (Citation: US-CERT Alert TA15-314A Web Shells) ",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Flow",
+        "File: File Creation",
+        "Application Log: Application Log Content",
+        "Process: Process Creation",
+        "Network Traffic: Network Traffic Content",
+        "File: File Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Code Signing",
+                "description": "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+                "type": "course-of-action",
+                "id": "M1045"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Restrict Registry Permissions",
+                "description": "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+                "type": "course-of-action",
+                "id": "M1024"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that component software on critical services are regularly checked to verify the integrity of the systems and identify if unexpected changes have been made",
+                "acid": "98580964"
+            },
+            {
+                "description": "Ensure that all application component binaries are signed by the correct application developers",
+                "acid": "98580965"
+            },
+            {
+                "description": "Ensure that administrator accounts having permissions to add component software are not allowed day-to-day operations",
+                "acid": "98580966"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that application logs are monitored for abnormal behavior that may indicate suspicious installation of application software components",
+                "acid": "98580960"
+            },
+            {
+                "description": "Ensure that file location associated with the installation of new application software components are monitored",
+                "acid": "98580961"
+            },
+            {
+                "description": "Ensure that process monitoring is performed to detect servers components performing suspicious actions such as running cmd.exe or accessing files",
+                "acid": "98580962"
+            },
+            {
+                "description": "Ensure that logs for authentication attempts to the server and any unusual traffic patterns to or from the server and internal network are captured",
+                "acid": "98580963"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000132",
+        "40000205",
+        "40000490",
+        "40000499",
+        "40000514"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106008",
+        "50106012"
+    ],
+    "technologycontrolIds": [
+        "14050010",
+        "14050018",
+        "14110018",
+        "14110038",
+        "14120010",
+        "14120017",
+        "14130010",
+        "14130017",
+        "14170010",
+        "14170018",
+        "16130102",
+        "18410003",
+        "18410004",
+        "19920467",
+        "19920494"
+    ],
+    "cveIds": [
+        "CVE-2011-2523",
+        "CVE-2011-4106",
+        "CVE-2012-6081",
+        "CVE-2012-6498",
+        "CVE-2013-5576",
+        "CVE-2014-4148",
+        "CVE-2016-3088",
+        "CVE-2017-12629",
+        "CVE-2017-12929",
+        "CVE-2017-17976",
+        "CVE-2017-5638",
+        "CVE-2017-7494",
+        "CVE-2017-9080",
+        "CVE-2018-1000094",
+        "CVE-2018-1000811",
+        "CVE-2018-13981",
+        "CVE-2018-15137",
+        "CVE-2018-15961",
+        "CVE-2018-17553",
+        "CVE-2018-20159",
+        "CVE-2018-2894",
+        "CVE-2018-5997",
+        "CVE-2019-11445",
+        "CVE-2019-12185",
+        "CVE-2019-12744",
+        "CVE-2019-16113",
+        "CVE-2019-18234",
+        "CVE-2019-6714",
+        "CVE-2019-8942",
+        "CVE-2020-10963",
+        "CVE-2020-11010",
+        "CVE-2020-11108",
+        "CVE-2020-12029",
+        "CVE-2020-14008",
+        "CVE-2020-15189",
+        "CVE-2020-1745",
+        "CVE-2020-1938",
+        "CVE-2020-24186",
+        "CVE-2020-28337",
+        "CVE-2020-29607",
+        "CVE-2020-3240",
+        "CVE-2020-35314",
+        "CVE-2020-5297",
+        "CVE-2020-7246",
+        "CVE-2021-22205",
+        "CVE-2021-24155",
+        "CVE-2021-31933",
+        "CVE-2021-36711",
+        "CVE-2021-39608",
+        "CVE-2021-42362",
+        "CVE-2021-42580",
+        "CVE-2021-44228",
+        "CVE-2021-44664",
+        "CVE-2021-44673",
+        "CVE-2022-26965"
+    ],
+    "subTechniques": [
+        "T1505.001",
+        "T1505.002",
+        "T1505.003",
+        "T1505.004",
+        "T1505.005"
+    ]
+}

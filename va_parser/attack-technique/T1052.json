@@ -1,0 +1,130 @@
+﻿{
+    "id": "T1052",
+    "name": "Exfiltration Over Physical Medium",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to exfiltrate data via a physical medium, such as a removable drive. In certain circumstances, such as an air-gapped network compromise, exfiltration could occur via a physical medium or device introduced by a user. Such media could be an external hard drive, USB drive, cellular phone, MP3 player, or other removable storage and processing device. The physical medium or device could be used as the final exfiltration point or to hop between otherwise disconnected systems.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1052",
+            "external_id": "T1052"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "exfiltration"
+        }
+    ],
+    "tactic": [
+        "exfiltration"
+    ],
+    "x_mitre_detection": "Monitor file access on removable media. Detect processes that execute when removable media are mounted.",
+    "x_mitre_data_sources": [
+        "File: File Access",
+        "Drive: Drive Creation",
+        "Command: Command Execution",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "Presence of physical medium or device"
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Data Loss Prevention",
+                "description": "Use a data loss prevention (DLP) strategy to categorize sensitive data, identify data formats indicative of personal identifiable information (PII), and restrict exfiltration of sensitive data.(Citation: PurpleSec Data Loss Prevention)",
+                "type": "course-of-action",
+                "id": "M1057"
+            },
+            {
+                "name": "Exfiltration Over Physical Medium Mitigation",
+                "description": "Disable Autorun if it is unnecessary. (Citation: Microsoft Disable Autorun) Disallow or restrict removable media at an organizational policy level if they are not required for business operations. (Citation: TechNet Removable Media Control)",
+                "type": "course-of-action",
+                "id": "T1052"
+            },
+            {
+                "name": "Limit Hardware Installation",
+                "description": "Block users or groups from installing or using unapproved hardware on systems, including USB devices.",
+                "type": "course-of-action",
+                "id": "M1034"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Autorun feature is disabled in the system if not required.",
+                "acid": "98582694"
+            },
+            {
+                "description": "Ensure that organizational policy is in place to restrict use of removable media in the organization.",
+                "acid": "98582695"
+            },
+            {
+                "description": "Ensure that use of USB devices and removable media within a network is limited.",
+                "acid": "98582696"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that removable media is inspected for any file access.",
+                "acid": "98582692"
+            },
+            {
+                "description": "Ensure that system is monitored for any process execution after a removable media is mounted.",
+                "acid": "98582693"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000152",
+        "40000223",
+        "40000494",
+        "40000502",
+        "40000508",
+        "40000518"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100237",
+        "50104316",
+        "50106013"
+    ],
+    "technologycontrolIds": [
+        "101040018",
+        "101050018",
+        "101060018",
+        "10190024",
+        "10190025",
+        "19010024",
+        "19010025"
+    ],
+    "cveIds": [],
+    "subTechniques": [
+        "T1052.001"
+    ]
+}

@@ -1,0 +1,97 @@
+﻿{
+    "id": "T1074.001",
+    "name": "Local Data Staging",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may stage collected data in a central location or directory on the local system prior to Exfiltration. Data may be kept in separate files or combined into one file through techniques such as [Archive Collected Data](https://attack.mitre.org/techniques/T1560). Interactive command shells may be used, and common functionality within [cmd](https://attack.mitre.org/software/S0106) and bash may be used to copy data into a staging location.\n\nAdversaries may also stage collected data in various available formats/locations of a system, including local storage databases/repositories or the Windows Registry.(Citation: Prevailion DarkWatchman 2021)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1074/001",
+            "external_id": "T1074.001"
+        },
+        {
+            "source_name": "Prevailion DarkWatchman 2021",
+            "description": "Smith, S., Stafford, M. (2021, December 14). DarkWatchman: A new evolution in fileless techniques. Retrieved January 10, 2022.",
+            "url": "https://www.prevailion.com/darkwatchman-new-fileless-techniques/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+        }
+    ],
+    "tactic": [
+        "collection"
+    ],
+    "x_mitre_detection": "Processes that appear to be reading files from disparate locations and writing them to the same directory or file may be an indication of data being staged, especially if they are suspected of performing encryption or compression on the files, such as 7zip, RAR, ZIP, or zlib. Monitor publicly writeable directories, central locations, and commonly used staging directories (recycle bin, temp folders, etc.) to regularly check for compressed or encrypted data that may be indicative of staging.\n\nMonitor processes and command-line arguments for actions that could be taken to collect and combine files. Remote access tools with built-in features may interact directly with the Windows API to gather and copy to a location. Data may also be acquired and staged through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nConsider monitoring accesses and modifications to local storage repositories (such as the Windows Registry), especially from suspicious processes that could be related to malicious data collection.",
+    "x_mitre_data_sources": [
+        "Windows Registry: Windows Registry Key Modification",
+        "Command: Command Execution",
+        "File: File Access",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes reading files from disparate locations and writing them to the same directory or file should be monitored.",
+                "acid": "98582389"
+            },
+            {
+                "description": "Ensure that process should be monitored if they are performing encryption or compression on the files, such as 7zip, RAR, ZIP, or zlib.",
+                "acid": "98582390"
+            },
+            {
+                "description": "Ensure that publicly writable directories are monitored regularly for compressed or encrypted data indicating staging.",
+                "acid": "98582391"
+            },
+            {
+                "description": "Ensure that central locations are monitored regularly for compressed or encrypted data indicating staging.",
+                "acid": "98582392"
+            },
+            {
+                "description": "Ensure that commonly used staging directories (recycle bin, temp folders, etc.) are monitored regularly for compressed or encrypted data indicating staging.",
+                "acid": "98582393"
+            },
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for actions taken to gather local email files from a system.",
+                "acid": "98582394"
+            },
+            {
+                "description": "Ensure that system is monitored for remote access tools interacting directly with the Windows API to gather data.",
+                "acid": "98582395"
+            },
+            {
+                "description": "Ensure that system is monitored if data is acquired through Windows system management tools such as Windows Management Instrumentation and PowerShell.",
+                "acid": "98582396"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

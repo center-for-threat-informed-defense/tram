@@ -1,0 +1,134 @@
+{
+    "id": "T1542.005",
+    "name": "TFTP Boot",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse netbooting to load an unauthorized network device operating system from a Trivial File Transfer Protocol (TFTP) server. TFTP boot (netbooting) is commonly used by network administrators to load configuration-controlled network device images from a centralized management server. Netbooting is one option in the boot sequence and can be used to centralize, manage, and control device images.\n\nAdversaries may manipulate the configuration on the network device specifying use of a malicious TFTP server, which may be used in conjunction with [Modify System Image](https://attack.mitre.org/techniques/T1601) to load a modified image on device startup or reset. The unauthorized image allows adversaries to modify device configuration, add malicious capabilities to the device, and introduce backdoors to maintain control of the network device while minimizing detection through use of a standard functionality. This technique is similar to [ROMMONkit](https://attack.mitre.org/techniques/T1542/004) and may result in the network device running a modified image. (Citation: Cisco Blog Legacy Device Attacks)",
+    "x_mitre_platforms": [
+        "Network"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1542/005",
+            "external_id": "T1542.005"
+        },
+        {
+            "source_name": "Cisco Blog Legacy Device Attacks",
+            "description": "Omar Santos. (2020, October 19). Attackers Continue to Target Legacy Devices. Retrieved October 20, 2020.",
+            "url": "https://community.cisco.com/t5/security-blogs/attackers-continue-to-target-legacy-devices/ba-p/4169954"
+        },
+        {
+            "source_name": "Cisco IOS Software Integrity Assurance - Secure Boot",
+            "description": "Cisco. (n.d.). Cisco IOS Software Integrity Assurance - Secure Boot. Retrieved October 19, 2020.",
+            "url": "https://tools.cisco.com/security/center/resources/integrity_assurance.html#35"
+        },
+        {
+            "source_name": "Cisco IOS Software Integrity Assurance - Image File Verification",
+            "description": "Cisco. (n.d.). Cisco IOS Software Integrity Assurance - Cisco IOS Image File Verification. Retrieved October 19, 2020.",
+            "url": "https://tools.cisco.com/security/center/resources/integrity_assurance.html#7"
+        },
+        {
+            "source_name": "Cisco IOS Software Integrity Assurance - Run-Time Memory Verification",
+            "description": "Cisco. (n.d.). Cisco IOS Software Integrity Assurance - Cisco IOS Run-Time Memory Integrity Verification. Retrieved October 19, 2020.",
+            "url": "https://tools.cisco.com/security/center/resources/integrity_assurance.html#13"
+        },
+        {
+            "source_name": "Cisco IOS Software Integrity Assurance - Command History",
+            "description": "Cisco. (n.d.). Cisco IOS Software Integrity Assurance - Command History. Retrieved October 21, 2020.",
+            "url": "https://tools.cisco.com/security/center/resources/integrity_assurance.html#23"
+        },
+        {
+            "source_name": "Cisco IOS Software Integrity Assurance - Boot Information",
+            "description": "Cisco. (n.d.). Cisco IOS Software Integrity Assurance - Boot Information. Retrieved October 21, 2020.",
+            "url": "https://tools.cisco.com/security/center/resources/integrity_assurance.html#26"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "persistence"
+    ],
+    "x_mitre_detection": "Consider comparing a copy of the network device configuration and system image against a known-good version to discover unauthorized changes to system boot, startup configuration, or the running OS. (Citation: Cisco IOS Software Integrity Assurance - Secure Boot) (Citation: Cisco IOS Software Integrity Assurance - Image File Verification)The same process can be accomplished through a comparison of the run-time memory, though this is non-trivial and may require assistance from the vendor.  (Citation: Cisco IOS Software Integrity Assurance - Run-Time Memory Verification)\n\nReview command history in either the console or as part of the running memory to determine if unauthorized or suspicious commands were used to modify device configuration. (Citation: Cisco IOS Software Integrity Assurance - Command History) Check boot information including system uptime, image booted, and startup configuration to determine if results are consistent with expected behavior in the environment. (Citation: Cisco IOS Software Integrity Assurance - Boot Information) Monitor unusual connections or connection attempts to the device that may specifically target TFTP or other file-sharing protocols.",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Connection Creation",
+        "Firmware: Firmware Modification",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Limit Access to Resource Over Network",
+                "description": "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+                "type": "course-of-action",
+                "id": "M1035"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Boot Integrity",
+                "description": "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms.",
+                "type": "course-of-action",
+                "id": "M1046"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [
+        "40000182",
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

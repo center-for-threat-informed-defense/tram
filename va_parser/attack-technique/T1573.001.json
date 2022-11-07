@@ -1,0 +1,113 @@
+{
+    "id": "T1573.001",
+    "name": "Symmetric Cryptography",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may employ a known symmetric encryption algorithm to conceal command and control traffic rather than relying on any inherent protections provided by a communication protocol. Symmetric encryption algorithms use the same key for plaintext encryption and ciphertext decryption. Common symmetric encryption algorithms include AES, DES, 3DES, Blowfish, and RC4.",
+    "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1573/001",
+            "external_id": "T1573.001"
+        },
+        {
+            "source_name": "University of Birmingham C2",
+            "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016.",
+            "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "command-and-control"
+        }
+    ],
+    "tactic": [
+        "command-and-control"
+    ],
+    "x_mitre_detection": "With symmetric encryption, it may be possible to obtain the algorithm and key from samples and use them to decode network traffic to detect malware communications signatures.\n\nIn general, analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Network intrusion detection and prevention system(s) is implemented to identify malicious network traffic (by using network signatures).",
+                "acid": "98582547"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the algorithm and key from symmetric encryption samples are collected to decode network traffic (to detect malicious communication).",
+                "acid": "98582543"
+            },
+            {
+                "description": "Ensure that monitoring solutions are configured to analyze network data for uncommon data flows.",
+                "acid": "98582544"
+            },
+            {
+                "description": "Ensure that system is configured to monitor for suspicious processes (do not normally have network communication) that utilizes the network.",
+                "acid": "98582545"
+            },
+            {
+                "description": "Ensure that the monitoring tool is configured to analyze packet contents to detect suspicious communication.",
+                "acid": "98582546"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000182",
+        "40000515"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "11060048",
+        "11060049",
+        "11060051",
+        "11060052",
+        "11060053",
+        "11060054",
+        "11100047",
+        "11100048",
+        "11100049",
+        "11100050",
+        "11100051",
+        "11100052",
+        "11170026",
+        "11170027",
+        "11170029",
+        "11170030",
+        "11170031",
+        "11170032",
+        "11480014"
+    ],
+    "cveIds": []
+}

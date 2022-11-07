@@ -1,0 +1,73 @@
+﻿{
+    "id": "T0835",
+    "name": "Manipulate I/O Image",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may manipulate the I/O image of PLCs through various means to prevent them from functioning as expected. Methods of I/O image manipulation may include overriding the I/O table via direct memory manipulation or using the override function used for testing PLC programs. (Citation: Dr. Kelvin T. Erickson December 2010) During the scan cycle, a PLC reads the status of all inputs and stores them in an image table. (Citation: Nanjundaiah, Vaidyanath) The image table is the PLCs internal storage location where values of inputs/outputs for one scan are stored while it executes the user program. After the PLC has solved the entire logic program, it updates the output image table. The contents of this output image table are written to the corresponding output points in I/O Modules.  One of the unique characteristics of PLCs is their ability to override the status of a physical discrete input or to override the logic driving a physical output coil and force the output to a desired status.",
+    "x_mitre_platforms": [
+        "Field Controller/RTU/PLC/IED"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0835",
+            "external_id": "T0835"
+        },
+        {
+            "source_name": "Dr. Kelvin T. Erickson December 2010",
+            "description": "Dr. Kelvin T. Erickson 2010, December Programmable logic controller hardware Retrieved. 2018/03/29 ",
+            "url": "https://www.isa.org/standards-and-publications/isa-publications/intech/2010/december/programmable-logic-controller-hardware/"
+        },
+        {
+            "source_name": "Nanjundaiah, Vaidyanath",
+            "description": "Nanjundaiah, Vaidyanath Dr. Kelvin T. Erickson 2010, December Programmable logic controller hardware Retrieved. 2018/03/29  PLC Ladder Logic Basics Retrieved. 2021/10/11 ",
+            "url": "https://www.ezautomation.net/industry-articles/plc-ladder-logic-basics.htm"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "inhibit-response-function"
+        }
+    ],
+    "tactic": [
+        "inhibit-response-function"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Operational Databases: Process History/Live Data",
+        "Operational Databases: Device Alarm"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Mitigation Limited or Not Effective",
+                "description": "This type of attack technique cannot be easily mitigated with preventative controls since it is based on the abuse of system features.",
+                "type": "course-of-action",
+                "id": "M0816"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

@@ -1,0 +1,121 @@
+﻿{
+    "id": "T1037.004",
+    "name": "RC Scripts",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may establish persistence by modifying RC scripts which are executed during a Unix-like system's startup. These files allow system administrators to map and start custom services at startup for different run levels. RC scripts require root privileges to modify.\n\nAdversaries can establish persistence by adding a malicious binary path or shell commands to <code>rc.local</code>, <code>rc.common</code>, and other RC scripts specific to the Unix-like distribution.(Citation: IranThreats Kittens Dec 2017)(Citation: Intezer HiddenWasp Map 2019) Upon reboot, the system executes the script's contents as root, resulting in persistence.\n\nAdversary abuse of RC scripts is especially effective for lightweight Unix-like distributions using the root user as default, such as IoT or embedded systems.(Citation: intezer-kaiji-malware)\n\nSeveral Unix-like systems have moved to Systemd and deprecated the use of RC scripts. This is now a deprecated mechanism in macOS in favor of [Launchd](https://attack.mitre.org/techniques/T1053/004). (Citation: Apple Developer Doco Archive Launchd)(Citation: Startup Items) This technique can be used on Mac OS X Panther v10.3 and earlier versions which still execute the RC scripts.(Citation: Methods of Mac Malware Persistence) To maintain backwards compatibility some systems, such as Ubuntu, will execute the RC scripts if they exist with the correct file permissions.(Citation: Ubuntu Manpage systemd rc)",
+    "x_mitre_platforms": [
+        "macOS",
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1037/004",
+            "external_id": "T1037.004"
+        },
+        {
+            "source_name": "IranThreats Kittens Dec 2017",
+            "description": "Iran Threats . (2017, December 5). Flying Kitten to Rocket Kitten, A Case of Ambiguity and Shared Code. Retrieved May 28, 2020.",
+            "url": "https://iranthreats.github.io/resources/attribution-flying-rocket-kitten/"
+        },
+        {
+            "source_name": "Intezer HiddenWasp Map 2019",
+            "description": "Sanmillan, I. (2019, May 29). HiddenWasp Malware Stings Targeted Linux Systems. Retrieved June 24, 2019.",
+            "url": "https://www.intezer.com/blog-hiddenwasp-malware-targeting-linux-systems/"
+        },
+        {
+            "source_name": "intezer-kaiji-malware",
+            "description": "Paul Litvak. (2020, May 4). Kaiji: New Chinese Linux malware turning to Golang. Retrieved December 17, 2020.",
+            "url": "https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/"
+        },
+        {
+            "source_name": "Apple Developer Doco Archive Launchd",
+            "description": "Apple. (2016, September 13). Daemons and Services Programming Guide - Creating Launch Daemons and Agents. Retrieved February 24, 2021.",
+            "url": "https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html"
+        },
+        {
+            "source_name": "Startup Items",
+            "description": "Apple. (2016, September 13). Startup Items. Retrieved July 11, 2017.",
+            "url": "https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/StartupItems.html"
+        },
+        {
+            "source_name": "Methods of Mac Malware Persistence",
+            "description": "Patrick Wardle. (2014, September). Methods of Malware Persistence on Mac OS X. Retrieved July 5, 2017.",
+            "url": "https://www.virusbulletin.com/uploads/pdf/conference/vb2014/VB2014-Wardle.pdf"
+        },
+        {
+            "source_name": "Ubuntu Manpage systemd rc",
+            "description": "Canonical Ltd.. (n.d.). systemd-rc-local-generator - Compatibility generator for starting /etc/rc.local and        /usr/sbin/halt.local during boot and shutdown. Retrieved February 23, 2021.",
+            "url": "http://manpages.ubuntu.com/manpages/bionic/man8/systemd-rc-local-generator.8.html"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "persistence",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "Monitor for unexpected changes to RC scripts in the <code>/etc/</code> directory. Monitor process execution resulting from RC scripts for unusual or unknown applications or behavior.\n\nMonitor for <code>/etc/rc.local</code> file creation. Although types of RC scripts vary for each Unix-like distribution, several execute <code>/etc/rc.local</code> if present. ",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "File: File Creation",
+        "File: File Modification"
+    ],
+    "x_mitre_permissions_required": [
+        "root"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that user accounts privileges are limited and only authorized users allowed to edit the rc.common file",
+                "acid": "98580542"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the /etc/rc.common file is monitored to detect changes from the company policy",
+                "acid": "98580540"
+            },
+            {
+                "description": "Ensure that process execution resulting from the rc.common script is monitored for unusual or unknown applications or behavior",
+                "acid": "98580541"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

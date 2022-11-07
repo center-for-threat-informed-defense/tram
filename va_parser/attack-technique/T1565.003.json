@@ -1,0 +1,122 @@
+{
+    "id": "T1565.003",
+    "name": "Runtime Data Manipulation",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may modify systems in order to manipulate the data as it is accessed and displayed to an end user, thus threatening the integrity of the data.(Citation: FireEye APT38 Oct 2018)(Citation: DOJ Lazarus Sony 2018) By manipulating runtime data, adversaries may attempt to affect a business process, organizational understanding, and decision making.\n\nAdversaries may alter application binaries used to display data in order to cause runtime manipulations. Adversaries may also conduct [Change Default File Association](https://attack.mitre.org/techniques/T1546/001) and [Masquerading](https://attack.mitre.org/techniques/T1036) to cause a similar effect. The type of modification and the impact it will have depends on the target application and process as well as the goals and objectives of the adversary. For complex systems, an adversary would likely need special expertise and possibly access to specialized software related to the system that would typically be gained through a prolonged information gathering campaign in order to have the desired impact.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1565/003",
+            "external_id": "T1565.003"
+        },
+        {
+            "source_name": "FireEye APT38 Oct 2018",
+            "description": "FireEye. (2018, October 03). APT38: Un-usual Suspects. Retrieved November 6, 2018.",
+            "url": "https://content.fireeye.com/apt/rpt-apt38"
+        },
+        {
+            "source_name": "DOJ Lazarus Sony 2018",
+            "description": "Department of Justice. (2018, September 6). Criminal Complaint - United States of America v. PARK JIN HYOK. Retrieved March 29, 2019.",
+            "url": "https://www.justice.gov/opa/press-release/file/1092091/download"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "impact"
+        }
+    ],
+    "tactic": [
+        "impact"
+    ],
+    "x_mitre_detection": "Inspect important application binary file hashes, locations, and modifications for suspicious/unexpected values.",
+    "x_mitre_data_sources": [
+        "File: File Metadata",
+        "File: File Deletion",
+        "File: File Modification",
+        "File: File Creation",
+        "Process: OS API Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator",
+        "root",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+                "type": "course-of-action",
+                "id": "M1030"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that network segmentation is implemented to identify critical business processes and isolate them to protect against unauthorized access and tampering.",
+                "acid": "98582777"
+            },
+            {
+                "description": "Ensure that file and directory permissions are implemented properly to prevent system processes from being overwritten or reconfigured to load potentially malicious code.",
+                "acid": "98582778"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that monitoring solution is implemented to inspect important file hashes for suspicious/unexpected values.",
+                "acid": "98582774"
+            },
+            {
+                "description": "Ensure that monitoring solution is implemented to inspect locations for suspicious/unexpected values.",
+                "acid": "98582775"
+            },
+            {
+                "description": "Ensure that Monitoring is implemented to inspect modifications for suspicious/unexpected values.",
+                "acid": "98582776"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "11060022",
+        "11100022",
+        "11170015",
+        "14050004",
+        "14110004",
+        "14120004",
+        "14130004",
+        "14170004",
+        "16130212"
+    ],
+    "cveIds": [
+        "CVE-2018-10299"
+    ]
+}

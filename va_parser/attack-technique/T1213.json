@@ -1,0 +1,186 @@
+﻿{
+    "id": "T1213",
+    "name": "Data from Information Repositories",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may leverage information repositories to mine valuable information. Information repositories are tools that allow for storage of information, typically to facilitate collaboration or information sharing between users, and can store a wide variety of data that may aid adversaries in further objectives, or direct access to the target information. Adversaries may also abuse external sharing features to share sensitive documents with recipients outside of the organization. \n\nThe following is a brief list of example information that may hold potential value to an adversary and may also be found on an information repository:\n\n* Policies, procedures, and standards\n* Physical / logical network diagrams\n* System architecture diagrams\n* Technical system documentation\n* Testing / development credentials\n* Work / project schedules\n* Source code snippets\n* Links to network shares and other internal resources\n\nInformation stored in a repository may vary based on the specific instance or environment. Specific common information repositories include web-based platforms such as [Sharepoint](https://attack.mitre.org/techniques/T1213/002) and [Confluence](https://attack.mitre.org/techniques/T1213/001), specific services such as Code Repositories, IaaS databases, enterprise databases, and other storage infrastructure such as SQL Server.",
+    "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS",
+        "SaaS",
+        "Office 365",
+        "Google Workspace",
+        "IaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1213",
+            "external_id": "T1213"
+        },
+        {
+            "source_name": "Atlassian Confluence Logging",
+            "description": "Atlassian. (2018, January 9). How to Enable User Access Logging. Retrieved April 4, 2018.",
+            "url": "https://confluence.atlassian.com/confkb/how-to-enable-user-access-logging-182943.html"
+        },
+        {
+            "source_name": "Microsoft SharePoint Logging",
+            "description": "Microsoft. (2017, July 19). Configure audit settings for a site collection. Retrieved April 4, 2018.",
+            "url": "https://support.office.com/en-us/article/configure-audit-settings-for-a-site-collection-a9920c97-38c0-44f2-8bcb-4cf1e2ae22d2"
+        },
+        {
+            "source_name": "Sharepoint Sharing Events",
+            "description": "Microsoft. (n.d.). Sharepoint Sharing Events. Retrieved October 8, 2021.",
+            "url": "https://docs.microsoft.com/en-us/microsoft-365/compliance/use-sharing-auditing?view=o365-worldwide#sharepoint-sharing-events"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+        }
+    ],
+    "tactic": [
+        "collection"
+    ],
+    "x_mitre_detection": "As information repositories generally have a considerably large user base, detection of malicious use can be non-trivial. At minimum, access to information repositories performed by privileged users (for example, Active Directory Domain, Enterprise, or Schema Administrators) should be closely monitored and alerted upon, as these types of accounts should generally not be used to access information repositories. If the capability exists, it may be of value to monitor and alert on users that are retrieving and viewing a large number of documents and pages; this behavior may be indicative of programmatic means being used to retrieve all data within the repository. In environments with high-maturity, it may be possible to leverage User-Behavioral Analytics (UBA) platforms to detect and alert on user based anomalies.\n\nThe user access logging within Microsoft's SharePoint can be configured to report access to certain pages and documents. (Citation: Microsoft SharePoint Logging) Sharepoint audit logging can also be configured to report when a user shares a resource. (Citation: Sharepoint Sharing Events) The user access logging within Atlassian's Confluence can also be configured to report access to certain pages and documents through AccessLogFilter. (Citation: Atlassian Confluence Logging) Additional log storage and analysis infrastructure will likely be required for more robust detection capabilities. ",
+    "x_mitre_data_sources": [
+        "Application Log: Application Log Content",
+        "Logon Session: Logon Session Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Data from Information Repositories Mitigation",
+                "description": "To mitigate adversary access to information repositories for collection:\n\n* Develop and publish policies that define acceptable information to be stored\n* Appropriate implementation of access control mechanisms that include both authentication and appropriate authorization\n* Enforce the principle of least-privilege\n* Periodic privilege review of accounts\n* Mitigate access to [Valid Accounts](https://attack.mitre.org/techniques/T1078) that may be used to access repositories",
+                "type": "course-of-action",
+                "id": "T1213"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that accounts and privileges for critical and sensitive repositories should be reviewed periodically.",
+                "acid": "98582350"
+            },
+            {
+                "description": "Ensure that the principle of least-privilege is enforced to ensure user access management.",
+                "acid": "98582351"
+            },
+            {
+                "description": "Ensure that access control mechanisms that include both authentication and authorization are implemented for accounts.",
+                "acid": "98582352"
+            },
+            {
+                "description": "Ensure that policies should be developed and published that define acceptable information to be stored in repositories.",
+                "acid": "98582353"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that access to information repositories performed by privileged users should be closely monitored and alerted upon, as privileged accounts are not generally used to access information repositories.",
+                "acid": "98582344"
+            },
+            {
+                "description": "Ensure that access to information repositories performed by Active Directory Domains should be closely monitored and alerted upon.",
+                "acid": "98582345"
+            },
+            {
+                "description": "Ensure that access to information repositories performed by Enterprise, or Schema Administrators should be closely monitored and alerted upon.",
+                "acid": "98582346"
+            },
+            {
+                "description": "Ensure that User-Behavioral Analytics (UBA) platforms are configured to detect and alert on user-based anomalies.",
+                "acid": "98582347"
+            },
+            {
+                "description": "Ensure that the user access logging within Microsoft's SharePoint is configured to report access to certain pages and documents",
+                "acid": "98582348"
+            },
+            {
+                "description": "Ensure that the user access logging within Atlassian's Confluence is configured to report access to certain pages and documents through AccessLogFilter.",
+                "acid": "98582349"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000125",
+        "40000152",
+        "40000191",
+        "40000211",
+        "40000490",
+        "40000494",
+        "40000495",
+        "40000508",
+        "40000509",
+        "40000512",
+        "40000514",
+        "40000516",
+        "40000518"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106012",
+        "50106027",
+        "50106115"
+    ],
+    "technologycontrolIds": [
+        "16410034",
+        "16410035",
+        "16410036",
+        "16420036",
+        "16420037",
+        "16420038",
+        "17830002",
+        "18080001",
+        "18100003",
+        "18330001",
+        "18330002",
+        "18330003",
+        "18350010",
+        "18420011",
+        "19120002"
+    ],
+    "cveIds": [
+        "CVE-2012-3015",
+        "CVE-2018-18995"
+    ],
+    "subTechniques": [
+        "T1213.001",
+        "T1213.002",
+        "T1213.003"
+    ]
+}

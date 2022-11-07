@@ -1,0 +1,129 @@
+{
+    "id": "T1134.001",
+    "name": "Token Impersonation/Theft",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may duplicate then impersonate another user's token to escalate privileges and bypass access controls. An adversary can create a new access token that duplicates an existing token using <code>DuplicateToken(Ex)</code>. The token can then be used with <code>ImpersonateLoggedOnUser</code> to allow the calling thread to impersonate a logged on user's security context, or with <code>SetThreadToken</code> to assign the impersonated token to a thread.\n\nAn adversary may do this when they have a specific, existing process they want to assign the new token to. For example, this may be useful for when the target user has a non-network logon session on the system.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Windows User Account Control",
+        "System access controls",
+        "File system access controls"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1134/001",
+            "external_id": "T1134.001"
+        },
+        {
+            "source_name": "Microsoft Command-line Logging",
+            "description": "Mathers, B. (2017, March 7). Command line process auditing. Retrieved April 21, 2017.",
+            "url": "https://technet.microsoft.com/en-us/windows-server-docs/identity/ad-ds/manage/component-updates/command-line-process-auditing"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "If an adversary is using a standard command-line shell, analysts can detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the <code>runas</code> command. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nAnalysts can also monitor for use of Windows APIs such as <code>DuplicateToken(Ex)</code>, <code> ImpersonateLoggedOnUser </code>, and <code> SetThreadToken </code> and correlate activity with other suspicious behavior to reduce false positives that may be due to normal benign use by users and administrators.",
+    "x_mitre_data_sources": [
+        "Process: OS API Execution",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that permission for creating tokens are blocked for users and user groups",
+                "acid": "98581041"
+            },
+            {
+                "description": "Ensure that restrictions on the creation of tokens are implemented for the local system account only",
+                "acid": "98581042"
+            },
+            {
+                "description": "Ensure that the creation of process level token is restricted only to local service accounts and network service accounts",
+                "acid": "98581043"
+            },
+            {
+                "description": "Ensure that Administrators are educated to log in as a standard user but run their tools with administrator privileges using the runas command",
+                "acid": "98581044"
+            },
+            {
+                "description": "Ensure that users and accounts are restricted to the least privileges (minimum privileges) which they require by default",
+                "acid": "98581045"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that command-line activity is audited to detect token manipulation",
+                "acid": "98581038"
+            },
+            {
+                "description": "Ensure that command-line activity is audited specifically for runas command",
+                "acid": "98581039"
+            },
+            {
+                "description": "Ensure that Windows APIs (such as DuplicateToken(Ex), ImpersonateLoggedOnUser, and SetThreadToken) are monitored for suspicious behaviors which could help detect Token Impersonation",
+                "acid": "98581040"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000205",
+        "40000490",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "18330001",
+        "18330002",
+        "18330003",
+        "18350010"
+    ],
+    "cveIds": [
+        "CVE-2015-1701",
+        "CVE-2016-7256"
+    ]
+}

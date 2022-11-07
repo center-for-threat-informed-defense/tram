@@ -1,0 +1,92 @@
+﻿{
+    "id": "T0813",
+    "name": "Denial of Control",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may cause a denial of control to temporarily prevent operators and engineers from interacting with process controls. An adversary may attempt to deny process control access to cause a temporary loss of communication with the control device or to prevent operator adjustment of process controls. An affected process may still be operating during the period of control loss, but not necessarily in a desired state. (Citation: Corero) (Citation: Michael J. Assante and Robert M. Lee) (Citation: Tyson Macaulay)  In the Maroochy attack, the adversary was able to temporarily shut an investigator out of the network preventing them from issuing any controls.  In the 2017 Dallas Siren incident operators were unable to disable the false alarms from the Office of Emergency Management headquarters. (Citation: Mark Loveless April 2017)",
+    "x_mitre_platforms": [
+        "None"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0813",
+            "external_id": "T0813"
+        },
+        {
+            "source_name": "Corero",
+            "description": "Corero   Industrial Control System (ICS) Security Retrieved. 2019/11/04 ",
+            "url": "https://www.corero.com/resources/files/whitepapers/cns_whitepaper_ics.pdf"
+        },
+        {
+            "source_name": "Michael J. Assante and Robert M. Lee",
+            "description": "Michael J. Assante and Robert M. Lee Corero   Industrial Control System (ICS) Security Retrieved. 2019/11/04  The Industrial Control System Cyber Kill Chain Retrieved. 2019/11/04 ",
+            "url": "https://www.sans.org/reading-room/whitepapers/ICS/industrial-control-system-cyber-kill-chain-36297"
+        },
+        {
+            "source_name": "Tyson Macaulay",
+            "description": "Tyson Macaulay Michael J. Assante and Robert M. Lee Corero   Industrial Control System (ICS) Security Retrieved. 2019/11/04  The Industrial Control System Cyber Kill Chain Retrieved. 2019/11/04  RIoT Control: Understanding and Managing Risks and the Internet of Things Retrieved. 2019/11/04 ",
+            "url": "https://books.google.com/books?id=oXIYBAAAQBAJ&pg=PA249&lpg=PA249&dq=loss+denial+manipulation+of+view&source=bl&ots=dV1uQ8IUff&sig=ACfU3U2NIwGjhg051D_Ytw6npyEk9xcf4w&hl=en&sa=X&ved=2ahUKEwj2wJ7y4tDlAhVmplkKHSTaDnQQ6AEwAHoECAgQAQ#v=onepage&q=loss%20denial%20manipulation%20of%20view&f=false"
+        },
+        {
+            "source_name": "Mark Loveless April 2017",
+            "description": "Mark Loveless 2017, April 11 THE DALLAS COUNTY SIREN HACK Retrieved. 2020/11/06 ",
+            "url": "https://duo.com/decipher/the-dallas-county-siren-hack"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "impact-ics"
+        }
+    ],
+    "tactic": [
+        "impact-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Out-of-Band Communications Channel",
+                "description": "Have alternative methods to support communication requirements during communication failures and data integrity attacks. (Citation: National Institute of Standards and Technology April 2013) (Citation: Defense Advanced Research Projects Agency)",
+                "type": "course-of-action",
+                "id": "M0810"
+            },
+            {
+                "name": "Data Backup",
+                "description": "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise.   Maintain and exercise incident response plans  (Citation: Department of Homeland Security October 2009), including the management of  'gold-copy' back-up images and configurations for key systems to enable quick recovery and response from adversarial activities that impact control, view, or availability.",
+                "type": "course-of-action",
+                "id": "M0953"
+            },
+            {
+                "name": "Redundancy of Service",
+                "description": "Redundancy could be provided for both critical ICS devices and services, such as back-up devices or hot-standbys.",
+                "type": "course-of-action",
+                "id": "M0811"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

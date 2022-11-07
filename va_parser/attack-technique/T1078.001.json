@@ -1,0 +1,203 @@
+{
+    "id": "T1078.001",
+    "name": "Default Accounts",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may obtain and abuse credentials of a default account as a means of gaining Initial Access, Persistence, Privilege Escalation, or Defense Evasion. Default accounts are those that are built-into an OS, such as the Guest or Administrator accounts on Windows systems. Default accounts also include default factory/provider set accounts on other types of systems, software, or devices, including the root user account in AWS and the default service account in Kubernetes.(Citation: Microsoft Local Accounts Feb 2019)(Citation: AWS Root User)(Citation: Threat Matrix for Kubernetes)\n\nDefault accounts are not limited to client machines, rather also include accounts that are preset for equipment such as network devices and computer applications whether they are internal, open source, or commercial. Appliances that come preset with a username and password combination pose a serious threat to organizations that do not change it post installation, as they are easy targets for an adversary. Similarly, adversaries may also utilize publicly disclosed or stolen [Private Keys](https://attack.mitre.org/techniques/T1552/004) or credential materials to legitimately connect to remote environments via [Remote Services](https://attack.mitre.org/techniques/T1021).(Citation: Metasploit SSH Module)",
+    "x_mitre_platforms": [
+        "Windows",
+        "Azure AD",
+        "Office 365",
+        "SaaS",
+        "IaaS",
+        "Linux",
+        "macOS",
+        "Google Workspace",
+        "Containers"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1078/001",
+            "external_id": "T1078.001"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/70.html",
+            "external_id": "CAPEC-70"
+        },
+        {
+            "source_name": "Microsoft Local Accounts Feb 2019",
+            "description": "Microsoft. (2018, December 9). Local Accounts. Retrieved February 11, 2019.",
+            "url": "https://docs.microsoft.com/en-us/windows/security/identity-protection/access-control/local-accounts"
+        },
+        {
+            "source_name": "AWS Root User",
+            "description": "Amazon. (n.d.). AWS Account Root User. Retrieved April 5, 2021.",
+            "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"
+        },
+        {
+            "source_name": "Threat Matrix for Kubernetes",
+            "description": "Weizman, Y. (2020, April 2). Threat Matrix for Kubernetes. Retrieved March 30, 2021.",
+            "url": "https://www.microsoft.com/security/blog/2020/04/02/attack-matrix-kubernetes/"
+        },
+        {
+            "source_name": "Metasploit SSH Module",
+            "description": "undefined. (n.d.). Retrieved April 12, 2019.",
+            "url": "https://github.com/rapid7/metasploit-framework/tree/master/modules/exploits/linux/ssh"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "initial-access"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "persistence",
+        "privilege-escalation",
+        "initial-access"
+    ],
+    "x_mitre_detection": "Monitor whether default accounts have been activated or logged into. These audits should also include checks on any appliances and applications for default credentials or SSH keys, and if any are discovered, they should be updated immediately.",
+    "x_mitre_data_sources": [
+        "Logon Session: Logon Session Creation",
+        "User Account: User Account Authentication"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the default username and password utilized by the application should be changed immediately after the installation, and before deployment to a production environment",
+                "acid": "98580118"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that systems are monitored for active or logging default accounts",
+                "acid": "98580116"
+            },
+            {
+                "description": "Ensure that appliances and applications are monitored for default credentials or SSH keys",
+                "acid": "98580117"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000509"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [
+        "PACR00001"
+    ],
+    "policycontrolIds": [
+        "50102826",
+        "50103017",
+        "50103497"
+    ],
+    "technologycontrolIds": [
+        "101020015",
+        "10110015",
+        "101540027",
+        "101540038",
+        "101550027",
+        "101550038",
+        "101560019",
+        "101560040",
+        "101560042",
+        "101570019",
+        "101570040",
+        "101570042",
+        "101600040",
+        "101600042",
+        "103900019",
+        "103900039",
+        "103900040",
+        "10460040",
+        "10460042",
+        "10960008",
+        "11010040",
+        "11010042",
+        "14010015",
+        "14010027",
+        "14020015",
+        "14020050",
+        "14030002",
+        "14040002",
+        "14050017",
+        "14050037",
+        "14080028",
+        "14080056",
+        "14080069",
+        "14110017",
+        "14120016",
+        "14120038",
+        "14130016",
+        "14130047",
+        "14170017",
+        "15010064",
+        "15020065",
+        "15030065",
+        "15040130",
+        "15180060",
+        "15200064",
+        "16010068",
+        "16020068",
+        "16100069",
+        "16110068",
+        "16120069",
+        "16140060",
+        "16360070",
+        "16460068",
+        "16460395",
+        "18340001",
+        "19920415",
+        "19920444"
+    ],
+    "cveIds": [
+        "CVE-2018-10633",
+        "CVE-2018-11062",
+        "CVE-2018-15771",
+        "CVE-2019-10990",
+        "CVE-2020-14510",
+        "CVE-2020-5231",
+        "CVE-2020-5364",
+        "CVE-2020-5365",
+        "CVE-2020-5374"
+    ]
+}

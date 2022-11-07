@@ -1,0 +1,84 @@
+﻿{
+    "id": "T1180",
+    "name": "Screensaver",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "Screensavers are programs that execute after a configurable time of user inactivity and consist of Portable Executable (PE) files with a .scr file extension.(Citation: Wikipedia Screensaver) The Windows screensaver application scrnsave.scr is located in <code>C:\\Windows\\System32\\</code>, and <code>C:\\Windows\\sysWOW64\\</code> on 64-bit Windows systems, along with screensavers included with base Windows installations. \n\nThe following screensaver settings are stored in the Registry (<code>HKCU\\Control Panel\\Desktop\\</code>) and could be manipulated to achieve persistence:\n\n* <code>SCRNSAVE.exe</code> - set to malicious PE path\n* <code>ScreenSaveActive</code> - set to '1' to enable the screensaver\n* <code>ScreenSaverIsSecure</code> - set to '0' to not require a password to unlock\n* <code>ScreenSaveTimeout</code> - sets user inactivity timeout before screensaver is executed\n\nAdversaries can use screensaver settings to maintain persistence by setting the screensaver to run malware after a certain timeframe of user inactivity. (Citation: ESET Gazer Aug 2017)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1180",
+            "external_id": "T1180"
+        },
+        {
+            "source_name": "Wikipedia Screensaver",
+            "description": "Wikipedia. (2017, November 22). Screensaver. Retrieved December 5, 2017.",
+            "url": "https://en.wikipedia.org/wiki/Screensaver"
+        },
+        {
+            "source_name": "ESET Gazer Aug 2017",
+            "description": "ESET. (2017, August). Gazing at Gazer: Turla\u2019s new second stage backdoor. Retrieved September 14, 2017.",
+            "url": "https://www.welivesecurity.com/wp-content/uploads/2017/08/eset-gazer.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Monitor process execution and command-line parameters of .scr files. Monitor changes to screensaver configuration changes in the Registry that may not correlate with typical user behavior.\n\nTools such as Sysinternals Autoruns can be used to detect changes to the screensaver binary path in the Registry. Suspicious paths and PE files may indicate outliers among legitimate screensavers in a network and should be investigated.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Screensaver Mitigation",
+                "description": "Block .scr files from being executed from non-standard locations. Set Group Policy to force users to have a dedicated screensaver where local changes should not override the settings to prevent changes. Use Group Policy to disable screensavers if they are unnecessary. (Citation: TechNet Screensaver GP)",
+                "type": "course-of-action",
+                "id": "T1180"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

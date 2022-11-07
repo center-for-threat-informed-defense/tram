@@ -1,0 +1,104 @@
+﻿{
+    "id": "T1590",
+    "name": "Gather Victim Network Information",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may gather information about the victim's networks that can be used during targeting. Information about networks may include a variety of details, including administrative data (ex: IP ranges, domain names, etc.) as well as specifics regarding its topology and operations.\n\nAdversaries may gather this information in various ways, such as direct collection actions via [Active Scanning](https://attack.mitre.org/techniques/T1595) or [Phishing for Information](https://attack.mitre.org/techniques/T1598). Information about networks may also be exposed to adversaries via online or other accessible data sets (ex: [Search Open Technical Databases](https://attack.mitre.org/techniques/T1596)).(Citation: WHOIS)(Citation: DNS Dumpster)(Citation: Circl Passive DNS) Gathering this information may reveal opportunities for other forms of reconnaissance (ex: [Active Scanning](https://attack.mitre.org/techniques/T1595) or [Search Open Websites/Domains](https://attack.mitre.org/techniques/T1593)), establishing operational resources (ex: [Acquire Infrastructure](https://attack.mitre.org/techniques/T1583) or [Compromise Infrastructure](https://attack.mitre.org/techniques/T1584)), and/or initial access (ex: [Trusted Relationship](https://attack.mitre.org/techniques/T1199)).",
+    "x_mitre_platforms": [
+        "PRE"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1590",
+            "external_id": "T1590"
+        },
+        {
+            "source_name": "WHOIS",
+            "description": "NTT America. (n.d.). Whois Lookup. Retrieved October 20, 2020.",
+            "url": "https://www.whois.net/"
+        },
+        {
+            "source_name": "DNS Dumpster",
+            "description": "Hacker Target. (n.d.). DNS Dumpster. Retrieved October 20, 2020.",
+            "url": "https://dnsdumpster.com/"
+        },
+        {
+            "source_name": "Circl Passive DNS",
+            "description": "CIRCL Computer Incident Response Center. (n.d.). Passive DNS. Retrieved October 20, 2020.",
+            "url": "https://www.circl.lu/services/passive-dns/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "reconnaissance"
+        }
+    ],
+    "tactic": [
+        "reconnaissance"
+    ],
+    "x_mitre_detection": "Much of this activity may have a very high occurrence and associated false positive rate, as well as potentially taking place outside the visibility of the target organization, making detection difficult for defenders.\n\nDetection efforts may be focused on related stages of the adversary lifecycle, such as during Initial Access.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Pre-compromise",
+                "description": "This category is used for any applicable mitigation activities that apply to techniques occurring before an adversary gains Initial Access, such as Reconnaissance and Resource Development techniques.",
+                "type": "course-of-action",
+                "id": "M1056"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [
+        "40000148"
+    ],
+    "externalcontrolIds": [
+        "C0235002",
+        "C0453001",
+        "C2342009",
+        "C2447001",
+        "C2447002",
+        "C2454002"
+    ],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106020",
+        "50106023",
+        "50106025",
+        "50106031"
+    ],
+    "technologycontrolIds": [
+        "19320005",
+        "19330004",
+        "19360019",
+        "19360021",
+        "19370003",
+        "19490002",
+        "19530001"
+    ],
+    "cveIds": [],
+    "subTechniques": [
+        "T1590.001",
+        "T1590.002",
+        "T1590.003",
+        "T1590.004",
+        "T1590.005",
+        "T1590.006"
+    ]
+}

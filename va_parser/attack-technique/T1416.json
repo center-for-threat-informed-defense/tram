@@ -1,0 +1,64 @@
+﻿{
+    "id": "T1416",
+    "name": "URI Hijacking",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may register Uniform Resource Identifiers (URIs) to intercept sensitive data.\n\nApplications regularly register URIs with the operating system to act as a response handler for various actions, such as logging into an app using an external account via single sign-on. This allows redirections to that specific URI to be intercepted by the application. If a malicious application were to register for a URI that was already in use by a genuine application, the malicious application may be able to intercept data intended for the genuine application or perform a phishing attack against the genuine application. Intercepted data may include OAuth authorization codes or tokens that could be used by the malicious application to gain access to resources.(Citation: Trend Micro iOS URL Hijacking)(Citation: IETF-PKCE)",
+    "x_mitre_platforms": [
+        "Android",
+        "iOS"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T1416",
+            "url": "https://attack.mitre.org/techniques/T1416"
+        },
+        {
+            "source_name": "Trend Micro iOS URL Hijacking",
+            "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/ios-url-scheme-susceptible-to-hijacking/",
+            "description": "L. Wu, Y. Zhou, M. Li. (2019, July 12).  iOS URL Scheme Susceptible to Hijacking. Retrieved September 11, 2020."
+        },
+        {
+            "source_name": "IETF-PKCE",
+            "url": "https://tools.ietf.org/html/rfc7636",
+            "description": "N. Sakimura, J. Bradley, and N. Agarwal. (2015, September). IETF RFC 7636: Proof Key for Code Exchange by OAuth Public Clients. Retrieved December 21, 2016."
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-mobile-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "On Android, users may be presented with a popup to select the appropriate application to open the URI in. If the user sees an application they do not recognize, they can remove it.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

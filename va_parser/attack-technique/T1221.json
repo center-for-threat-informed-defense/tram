@@ -1,0 +1,196 @@
+﻿{
+    "id": "T1221",
+    "name": "Template Injection",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may create or modify references in user document templates to conceal malicious code or force authentication attempts. For example, Microsoft's Office Open XML (OOXML) specification defines an XML-based format for Office documents (.docx, xlsx, .pptx) to replace older binary formats (.doc, .xls, .ppt). OOXML files are packed together ZIP archives compromised of various XML files, referred to as parts, containing properties that collectively define how a document is rendered.(Citation: Microsoft Open XML July 2017)\n\nProperties within parts may reference shared public resources accessed via online URLs. For example, template properties may reference a file, serving as a pre-formatted document blueprint, that is fetched when the document is loaded.\n\nAdversaries may abuse these templates to initially conceal malicious code to be executed via user documents. Template references injected into a document may enable malicious payloads to be fetched and executed when the document is loaded.(Citation: SANS Brian Wiltse Template Injection) These documents can be delivered via other techniques such as [Phishing](https://attack.mitre.org/techniques/T1566) and/or [Taint Shared Content](https://attack.mitre.org/techniques/T1080) and may evade static detections since no typical indicators (VBA macro, script, etc.) are present until after the malicious payload is fetched.(Citation: Redxorblue Remote Template Injection) Examples have been seen in the wild where template injection was used to load malicious code containing an exploit.(Citation: MalwareBytes Template Injection OCT 2017)\n\nAdversaries may also modify the <code>*\\template</code> control word within an .rtf file to similarly conceal then download malicious code. This legitimate control word value is intended to be a file destination of a template file resource that is retrieved and loaded when an .rtf file is opened. However, adversaries may alter the bytes of an existing .rtf file to insert a template control word field to include a URL resource of a malicious payload.(Citation: Proofpoint RTF Injection)(Citation: Ciberseguridad Decoding malicious RTF files)\n\nThis technique may also enable [Forced Authentication](https://attack.mitre.org/techniques/T1187) by injecting a SMB/HTTPS (or other credential prompting) URL and triggering an authentication attempt.(Citation: Anomali Template Injection MAR 2018)(Citation: Talos Template Injection July 2017)(Citation: ryhanson phishery SEPT 2016)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Static File Analysis"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1221",
+            "external_id": "T1221"
+        },
+        {
+            "source_name": "Microsoft Open XML July 2017",
+            "description": "Microsoft. (2014, July 9). Introducing the Office (2007) Open XML File Formats. Retrieved July 20, 2018.",
+            "url": "https://docs.microsoft.com/previous-versions/office/developer/office-2007/aa338205(v=office.12)"
+        },
+        {
+            "source_name": "SANS Brian Wiltse Template Injection",
+            "description": "Wiltse, B.. (2018, November 7). Template Injection Attacks - Bypassing Security Controls by Living off the Land. Retrieved April 10, 2019.",
+            "url": "https://www.sans.org/reading-room/whitepapers/testing/template-injection-attacks-bypassing-security-controls-living-land-38780"
+        },
+        {
+            "source_name": "Redxorblue Remote Template Injection",
+            "description": "Hawkins, J. (2018, July 18). Executing Macros From a DOCX With Remote Template Injection. Retrieved October 12, 2018.",
+            "url": "http://blog.redxorblue.com/2018/07/executing-macros-from-docx-with-remote.html"
+        },
+        {
+            "source_name": "MalwareBytes Template Injection OCT 2017",
+            "description": "Segura, J. (2017, October 13). Decoy Microsoft Word document delivers malware through a RAT. Retrieved July 21, 2018.",
+            "url": "https://blog.malwarebytes.com/threat-analysis/2017/10/decoy-microsoft-word-document-delivers-malware-through-rat/"
+        },
+        {
+            "source_name": "Proofpoint RTF Injection",
+            "description": "Raggi, M. (2021, December 1). Injection is the New Black: Novel RTF Template Inject Technique Poised for Widespread Adoption\u202fBeyond APT Actors\u202f. Retrieved December 9, 2021.",
+            "url": "https://www.proofpoint.com/us/blog/threat-insight/injection-new-black-novel-rtf-template-inject-technique-poised-widespread"
+        },
+        {
+            "source_name": "Ciberseguridad Decoding malicious RTF files",
+            "description": "Pedrero, R.. (2021, July). Decoding malicious RTF files. Retrieved November 16, 2021.",
+            "url": "https://ciberseguridad.blog/decodificando-ficheros-rtf-maliciosos/"
+        },
+        {
+            "source_name": "Anomali Template Injection MAR 2018",
+            "description": "Intel_Acquisition_Team. (2018, March 1). Credential Harvesting and Malicious File Delivery using Microsoft Office Template Injection. Retrieved July 20, 2018.",
+            "url": "https://forum.anomali.com/t/credential-harvesting-and-malicious-file-delivery-using-microsoft-office-template-injection/2104"
+        },
+        {
+            "source_name": "Talos Template Injection July 2017",
+            "description": "Baird, S. et al.. (2017, July 7). Attack on Critical Infrastructure Leverages Template Injection. Retrieved July 21, 2018.",
+            "url": "https://blog.talosintelligence.com/2017/07/template-injection.html"
+        },
+        {
+            "source_name": "ryhanson phishery SEPT 2016",
+            "description": "Hanson, R. (2016, September 24). phishery. Retrieved July 21, 2018.",
+            "url": "https://github.com/ryhanson/phishery"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Analyze process behavior to determine if user document applications (such as Office) are performing actions, such as opening network connections, reading files, spawning abnormal child processes (ex: [PowerShell](https://attack.mitre.org/techniques/T1059/001)), or other suspicious actions that could relate to post-compromise behavior.\n\nMonitor .rtf files for strings indicating the <code>&#42;\\template</code> control word has been modified to retrieve a URL resource, such as <code>&#42;\\template http</code> or <code>&#42;\\template \\u-</code>.",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Antivirus/Antimalware",
+                "description": "Use signatures or heuristics to detect malicious software.",
+                "type": "course-of-action",
+                "id": "M1049"
+            },
+            {
+                "name": "Template Injection Mitigation",
+                "description": "Consider disabling Microsoft Office macros/active content to prevent the execution of malicious payloads in documents (Citation: Microsoft Disable Macros), though this setting may not mitigate the [Forced Authentication](https://attack.mitre.org/techniques/T1187) use for this technique.\n\nBecause this technique involves user interaction on the endpoint, it's difficult to fully mitigate. However, there are potential mitigations including training users to identify social engineering techniques and spearphishing emails. Network/Host intrusion prevention systems, antivirus, and detonation chambers can be employed to prevent documents from fetching and/or executing malicious payloads. (Citation: Anomali Template Injection MAR 2018)",
+                "type": "course-of-action",
+                "id": "T1221"
+            },
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            },
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the Network/Host intrusion prevention system is employed to prevent executing malicious payloads.",
+                "acid": "98581741"
+            },
+            {
+                "description": "Ensure that antivirus is employed to prevent documents from fetching and/or executing malicious payloads.",
+                "acid": "98581742"
+            },
+            {
+                "description": "Ensure that detonation chambers are employed to prevent documents from fetching and/or executing malicious payloads.",
+                "acid": "98581743"
+            },
+            {
+                "description": "Ensure that Microsoft Office macros/active content is disabled to prevent the execution of malicious payloads in documents, though this setting may not mitigate the Forced Authentication use for this technique.",
+                "acid": "98581744"
+            },
+            {
+                "description": "Ensure that Network/Host intrusion prevention systems, antivirus, and detonation chambers are employed to prevent documents from fetching and/or executing malicious payloads.",
+                "acid": "98581745"
+            },
+            {
+                "description": "Ensure that users are well trained to identify social engineering techniques and spearphishing emails.",
+                "acid": "98581746"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process behavior is analyzed to determine if an Office application is opening network connections.",
+                "acid": "98581737"
+            },
+            {
+                "description": "Ensure that process behavior is analyzed to determine if an Office application is reading files.",
+                "acid": "98581738"
+            },
+            {
+                "description": "Ensure that process behavior is analyzed to determine if an Office application is spawning abnormal child processes e.g. PowerShell.",
+                "acid": "98581739"
+            },
+            {
+                "description": "Ensure that process behavior is analyzed to determine if an Office application is performing other suspicious actions.",
+                "acid": "98581740"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000182",
+        "40000211",
+        "40000516"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [
+        "50110012",
+        "50110013",
+        "50110014",
+        "50110015",
+        "50110026"
+    ],
+    "policycontrolIds": [
+        "50106014"
+    ],
+    "technologycontrolIds": [
+        "16390035",
+        "16390044"
+    ],
+    "cveIds": [
+        "CVE-2019-16759"
+    ],
+    "subTechniques": []
+}

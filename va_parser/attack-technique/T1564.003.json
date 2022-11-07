@@ -1,0 +1,125 @@
+﻿{
+    "id": "T1564.003",
+    "name": "Hidden Window",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use hidden windows to conceal malicious activity from the plain sight of users. In some cases, windows that would typically be displayed when an application carries out an operation can be hidden. This may be utilized by system administrators to avoid disrupting user work environments when carrying out administrative tasks. \n\nOn Windows, there are a variety of features in scripting languages in Windows, such as [PowerShell](https://attack.mitre.org/techniques/T1059/001), Jscript, and [Visual Basic](https://attack.mitre.org/techniques/T1059/005) to make windows hidden. One example of this is <code>powershell.exe -WindowStyle Hidden</code>. (Citation: PowerShell About 2019)\n\nSimilarly, on macOS the configurations for how applications run are listed in property list (plist) files. One of the tags in these files can be <code>apple.awt.UIElement</code>, which allows for Java applications to prevent the application's icon from appearing in the Dock. A common use for this is when applications run in the system tray, but don't also want to show up in the Dock.\n\nAdversaries may abuse these functionalities to hide otherwise visible windows from users so as not to alert the user to adversary activity on the system.(Citation: Antiquated Mac Malware)",
+    "x_mitre_platforms": [
+        "macOS",
+        "Windows",
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1564/003",
+            "external_id": "T1564.003"
+        },
+        {
+            "source_name": "PowerShell About 2019",
+            "description": "Wheeler, S. et al.. (2019, May 1). About PowerShell.exe. Retrieved October 11, 2019.",
+            "url": "https://docs.microsoft.com/en-us/powershell/module/Microsoft.PowerShell.Core/About/about_PowerShell_exe?view=powershell-5.1"
+        },
+        {
+            "source_name": "Antiquated Mac Malware",
+            "description": "Thomas Reed. (2017, January 18). New Mac backdoor using antiquated code. Retrieved July 5, 2017.",
+            "url": "https://blog.malwarebytes.com/threat-analysis/2017/01/new-mac-backdoor-using-antiquated-code/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor processes and command-line arguments for actions indicative of hidden windows. In Windows, enable and configure event logging and PowerShell logging to check for the hidden window style. In MacOS, plist files are ASCII text files with a specific format, so they're relatively easy to parse. File monitoring can check for the <code>apple.awt.UIElement</code> or any other suspicious plist tag in plist files and flag them.",
+    "x_mitre_data_sources": [
+        "File: File Modification",
+        "Command: Command Execution",
+        "Script: Script Execution",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that an anti-virus solution is implemented to restrict program execution.",
+                "acid": "98581233"
+            },
+            {
+                "description": "Ensure that application allowlisting (Application whitelisting) is configured on MacOS",
+                "acid": "98581234"
+            },
+            {
+                "description": "Ensure that all other programs except allowlist programs (whitelisted programs) are considered as suspicious.",
+                "acid": "98581235"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes are monitored for hidden windows.",
+                "acid": "98581227"
+            },
+            {
+                "description": "Ensure that command-line arguments are monitored for hidden windows.",
+                "acid": "98581228"
+            },
+            {
+                "description": "Ensure that event logging is enabled and configured in Windows to check for the hidden window style.",
+                "acid": "98581229"
+            },
+            {
+                "description": "Ensure that PowerShell logging is enabled and configured in Windows to check for the hidden window style.",
+                "acid": "98581230"
+            },
+            {
+                "description": "Ensure that File monitoring is configured to check \"apple.awt.UIElement\" tag in plist files and flag them.",
+                "acid": "98581231"
+            },
+            {
+                "description": "Ensure that File monitoring is enabled to check suspicious plist tags in plist files and flag them.",
+                "acid": "98581232"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000004"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100521",
+        "50100523",
+        "50102144",
+        "50102145",
+        "50102146",
+        "50102147"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

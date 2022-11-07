@@ -1,0 +1,97 @@
+﻿{
+    "id": "T1564.008",
+    "name": "Email Hiding Rules",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use email rules to hide inbound emails in a compromised user's mailbox. Many email clients allow users to create inbox rules for various email functions, including moving emails to other folders, marking emails as read, or deleting emails. Rules may be created or modified within email clients or through external features such as the <code>New-InboxRule</code> or <code>Set-InboxRule</code> [PowerShell](https://attack.mitre.org/techniques/T1059/001) cmdlets on Windows systems.(Citation: Microsoft Inbox Rules)(Citation: MacOS Email Rules)(Citation: Microsoft New-InboxRule)(Citation: Microsoft Set-InboxRule)\n\nAdversaries may utilize email rules within a compromised user's mailbox to delete and/or move emails to less noticeable folders. Adversaries may do this to hide security alerts, C2 communication, or responses to [Internal Spearphishing](https://attack.mitre.org/techniques/T1534) emails sent from the compromised account.\n\nAny user or administrator within the organization (or adversary with valid credentials) may be able to create rules to automatically move or delete emails. These rules can be abused to impair/delay detection had the email content been immediately seen by a user or defender. Malicious rules commonly filter out emails based on key words (such as <code>malware</code>, <code>suspicious</code>, <code>phish</code>, and <code>hack</code>) found in message bodies and subject lines. (Citation: Microsoft Cloud App Security)",
+    "x_mitre_platforms": [
+        "Windows",
+        "Office 365",
+        "Linux",
+        "macOS",
+        "Google Workspace"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1564/008",
+            "external_id": "T1564.008"
+        },
+        {
+            "source_name": "MacOS Email Rules",
+            "description": "Apple. (n.d.). Use rules to manage emails you receive in Mail on Mac. Retrieved June 14, 2021.",
+            "url": "https://support.apple.com/guide/mail/use-rules-to-manage-emails-you-receive-mlhlp1017/mac"
+        },
+        {
+            "source_name": "Microsoft BEC Campaign",
+            "description": "Carr, N., Sellmer, S. (2021, June 14). Behind the scenes of business email compromise: Using cross-domain threat data to disrupt a large BEC campaign. Retrieved June 15, 2021.",
+            "url": "https://www.microsoft.com/security/blog/2021/06/14/behind-the-scenes-of-business-email-compromise-using-cross-domain-threat-data-to-disrupt-a-large-bec-infrastructure/"
+        },
+        {
+            "source_name": "Microsoft Inbox Rules",
+            "description": "Microsoft. (n.d.). Manage email messages by using rules. Retrieved June 11, 2021.",
+            "url": "https://support.microsoft.com/en-us/office/manage-email-messages-by-using-rules-c24f5dea-9465-4df4-ad17-a50704d66c59"
+        },
+        {
+            "source_name": "Microsoft New-InboxRule",
+            "description": "Microsoft. (n.d.). New-InboxRule. Retrieved June 7, 2021.",
+            "url": "https://docs.microsoft.com/en-us/powershell/module/exchange/new-inboxrule?view=exchange-ps"
+        },
+        {
+            "source_name": "Microsoft Set-InboxRule",
+            "description": "Microsoft. (n.d.). Set-InboxRule. Retrieved June 7, 2021.",
+            "url": "https://docs.microsoft.com/en-us/powershell/module/exchange/set-inboxrule?view=exchange-ps"
+        },
+        {
+            "source_name": "Microsoft Cloud App Security",
+            "description": "Niv Goldenberg. (2018, December 12). Rule your inbox with Microsoft Cloud App Security. Retrieved June 7, 2021.",
+            "url": "https://techcommunity.microsoft.com/t5/security-compliance-and-identity/rule-your-inbox-with-microsoft-cloud-app-security/ba-p/299154"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor email clients and applications for suspicious activity, such as missing messages or abnormal configuration and/or log entries.\n\nOn Windows systems, monitor for creation of suspicious inbox rules through the use of the <code>New-InboxRule</code> and <code>Set-InboxRule</code> PowerShell cmdlets.(Citation: Microsoft BEC Campaign) On MacOS systems, monitor for modifications to the <code>RulesActiveState.plist</code>, <code>SyncedRules.plist</code>, <code>UnsyncedRules.plist</code>, and <code>MessageRules.plist</code> files.(Citation: MacOS Email Rules)",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Application Log: Application Log Content",
+        "File: File Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

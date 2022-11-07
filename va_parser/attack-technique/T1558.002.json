@@ -1,0 +1,126 @@
+{
+    "id": "T1558.002",
+    "name": "Silver Ticket",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries who have the password hash of a target service account (e.g. SharePoint, MSSQL) may forge Kerberos ticket granting service (TGS) tickets, also known as silver tickets. Kerberos TGS tickets are also known as service tickets.(Citation: ADSecurity Silver Tickets)\n\nSilver tickets are more limited in scope in than golden tickets in that they only enable adversaries to access a particular resource (e.g. MSSQL) and the system that hosts the resource; however, unlike golden tickets, adversaries with the ability to forge silver tickets are able to create TGS tickets without interacting with the Key Distribution Center (KDC), potentially making detection more difficult.(Citation: ADSecurity Detecting Forged Tickets)\n\nPassword hashes for target services may be obtained using [OS Credential Dumping](https://attack.mitre.org/techniques/T1003) or [Kerberoasting](https://attack.mitre.org/techniques/T1558/003).",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1558/002",
+            "external_id": "T1558.002"
+        },
+        {
+            "source_name": "ADSecurity Silver Tickets",
+            "description": "Sean Metcalf. (2015, November 17). How Attackers Use Kerberos Silver Tickets to Exploit Systems. Retrieved February 27, 2020.",
+            "url": "https://adsecurity.org/?p=2011"
+        },
+        {
+            "source_name": "ADSecurity Detecting Forged Tickets",
+            "description": "Metcalf, S. (2015, May 03). Detecting Forged Kerberos Ticket (Golden Ticket & Silver Ticket) Use in Active Directory. Retrieved December 23, 2015.",
+            "url": "https://adsecurity.org/?p=1515"
+        },
+        {
+            "source_name": "Medium Detecting Attempts to Steal Passwords from Memory",
+            "description": "French, D. (2018, October 2). Detecting Attempts to Steal Passwords from Memory. Retrieved October 11, 2019.",
+            "url": "https://medium.com/threatpunter/detecting-attempts-to-steal-passwords-from-memory-558f16dce4ea"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "Monitor for anomalous Kerberos activity, such as malformed or blank fields in Windows logon/logoff events (Event ID 4624, 4634, 4672).(Citation: ADSecurity Detecting Forged Tickets) \n\nMonitor for unexpected processes interacting with lsass.exe.(Citation: Medium Detecting Attempts to Steal Passwords from Memory) Common credential dumpers such as Mimikatz access the LSA Subsystem Service (LSASS) process by opening the process, locating the LSA secrets key, and decrypting the sections in memory where credential details, including Kerberos tickets, are stored.",
+    "x_mitre_data_sources": [
+        "Logon Session: Logon Session Metadata"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Encrypt Sensitive Information",
+                "description": "Protect sensitive information with strong encryption.",
+                "type": "course-of-action",
+                "id": "M1041"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that stronger encryption algorithm such as AES Kerberos encryption, are enabled rather than RC4(where possible)",
+                "acid": "98582027"
+            },
+            {
+                "description": "Ensure that strong password length (ideally 25+ characters) and complexity policies are implemented for service accounts.",
+                "acid": "98582028"
+            },
+            {
+                "description": "Ensure that passwords for service accounts are periodically expired.",
+                "acid": "98582029"
+            },
+            {
+                "description": "Ensure that Group Managed Service Accounts or another third party product such as password vaulting are in place for password management.",
+                "acid": "98582030"
+            },
+            {
+                "description": "Ensure that service accounts are limited to minimal required privileges, including membership in privileged groups such as Domain Administrators.",
+                "acid": "98582031"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that system is monitored for anomalous Kerberos activity, such as malformed or blank fields in Windows logon/logoff events (Event ID 4624, 4672, 4634).",
+                "acid": "98582025"
+            },
+            {
+                "description": "Ensure that system is monitored for unexpected processes interacting with lsass.exe.",
+                "acid": "98582026"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100312",
+        "50100331"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

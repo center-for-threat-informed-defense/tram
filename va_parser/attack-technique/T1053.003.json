@@ -1,0 +1,132 @@
+{
+    "id": "T1053.003",
+    "name": "Cron",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse the <code>cron</code> utility to perform task scheduling for initial or recurring execution of malicious code.(Citation: 20 macOS Common Tools and Techniques) The <code>cron</code> utility is a time-based job scheduler for Unix-like operating systems.  The <code> crontab</code> file contains the schedule of cron entries to be run and the specified times for execution. Any <code>crontab</code> files are stored in operating system-specific file paths.\n\nAn adversary may use <code>cron</code> in Linux or Unix environments to execute programs at system startup or on a scheduled basis for [Persistence](https://attack.mitre.org/tactics/TA0003). ",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1053/003",
+            "external_id": "T1053.003"
+        },
+        {
+            "source_name": "20 macOS Common Tools and Techniques",
+            "description": "Phil Stokes. (2021, February 16). 20 Common Tools & Techniques Used by macOS Threat Actors & Malware. Retrieved August 23, 2021.",
+            "url": "https://labs.sentinelone.com/20-common-tools-techniques-used-by-macos-threat-actors-malware/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "execution",
+        "persistence",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "Monitor scheduled task creation from common utilities using command-line invocation. Legitimate scheduled tasks may be created during installation of new software or through system administration functions. Look for changes to tasks that do not correlate with known software, patch cycles, etc.  \n\nSuspicious program execution through scheduled tasks may show up as outlier processes that have not been seen before when compared against historical data. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement. ",
+    "x_mitre_data_sources": [
+        "Scheduled Job: Scheduled Job Creation",
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "File: File Modification"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that changes to the cron schedule are reviewed",
+                "acid": "98580323"
+            },
+            {
+                "description": "Ensure that cron execution is reviewed within the /var/log directory",
+                "acid": "98580324"
+            },
+            {
+                "description": "Ensure that location of the cron log file is validated by checking the syslog config at /etc/rsyslog.conf or /etc/syslog.conf",
+                "acid": "98580325"
+            },
+            {
+                "description": "Ensure that cron permissions are controlled by /etc/cron.allow and /etc/cron.deny",
+                "acid": "98580326"
+            },
+            {
+                "description": "Ensure that users that need to use cron are listed in the /etc/cron. allow file",
+                "acid": "98580327"
+            },
+            {
+                "description": "Ensure that cron.deny is used to explicitly disallow users from using cron",
+                "acid": "98580328"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that scheduled task created using command-line invocation are monitored",
+                "acid": "98580320"
+            },
+            {
+                "description": "Ensure that changes to tasks that do not correlate with known software, patch cycles, etc. are monitored",
+                "acid": "98580321"
+            },
+            {
+                "description": "Ensure that program execution through scheduled tasks is monitored and compared with historical data to identify unfamiliar processes",
+                "acid": "98580322"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000490"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [
+        "CVE-2017-14094",
+        "CVE-2022-27226"
+    ]
+}

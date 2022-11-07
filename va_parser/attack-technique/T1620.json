@@ -1,0 +1,102 @@
+﻿{
+    "id": "T1620",
+    "name": "Reflective Code Loading",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may reflectively load code into a process in order to conceal the execution of malicious payloads. Reflective loading involves allocating then executing payloads directly within the memory of the process, vice creating a thread or process backed by a file path on disk. Reflectively loaded payloads may be compiled binaries, anonymous files (only present in RAM), or just snubs of fileless executable code (ex: position-independent shellcode).(Citation: Introducing Donut)(Citation: S1 Custom Shellcode Tool)(Citation: Stuart ELF Memory)(Citation: 00sec Droppers)(Citation: Mandiant BYOL)\n\nReflective code injection is very similar to [Process Injection](https://attack.mitre.org/techniques/T1055) except that the \u201cinjection\u201d loads code into the processes' own memory instead of that of a separate process. Reflective loading may evade process-based detections since the execution of the arbitrary code may be masked within a legitimate or otherwise benign process. Reflectively loading payloads directly into memory may also avoid creating files or other artifacts on disk, while also enabling malware to keep these payloads encrypted (or otherwise obfuscated) until execution.(Citation: Stuart ELF Memory)(Citation: 00sec Droppers)(Citation: Intezer ACBackdoor)(Citation: S1 Old Rat New Tricks)",
+    "x_mitre_platforms": [
+        "macOS",
+        "Linux",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Application control",
+        "Anti-virus"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1620",
+            "external_id": "T1620"
+        },
+        {
+            "source_name": "00sec Droppers",
+            "description": "0x00pico. (2017, September 25). Super-Stealthy Droppers. Retrieved October 4, 2021.",
+            "url": "https://0x00sec.org/t/super-stealthy-droppers/3715"
+        },
+        {
+            "source_name": "S1 Custom Shellcode Tool",
+            "description": "Bunce, D. (2019, October 31). Building A Custom Tool For Shellcode Analysis. Retrieved October 4, 2021.",
+            "url": "https://www.sentinelone.com/blog/building-a-custom-tool-for-shellcode-analysis/"
+        },
+        {
+            "source_name": "Mandiant BYOL",
+            "description": "Kirk, N. (2018, June 18). Bring Your Own Land (BYOL) \u2013 A Novel Red Teaming Technique. Retrieved October 4, 2021.",
+            "url": "https://www.mandiant.com/resources/bring-your-own-land-novel-red-teaming-technique"
+        },
+        {
+            "source_name": "S1 Old Rat New Tricks",
+            "description": "Landry, J. (2016, April 21). Teaching an old RAT new tricks. Retrieved October 4, 2021.",
+            "url": "https://www.sentinelone.com/blog/teaching-an-old-rat-new-tricks/"
+        },
+        {
+            "source_name": "MDSec Detecting DOTNET",
+            "description": "MDSec Research. (n.d.). Detecting and Advancing In-Memory .NET Tradecraft. Retrieved October 4, 2021.",
+            "url": "https://www.mdsec.co.uk/2020/06/detecting-and-advancing-in-memory-net-tradecraft/"
+        },
+        {
+            "source_name": "Intezer ACBackdoor",
+            "description": "Sanmillan, I. (2019, November 18). ACBackdoor: Analysis of a New Multiplatform Backdoor. Retrieved October 4, 2021.",
+            "url": "https://www.intezer.com/blog/research/acbackdoor-analysis-of-a-new-multiplatform-backdoor/"
+        },
+        {
+            "source_name": "Stuart ELF Memory",
+            "description": "Stuart. (2018, March 31). In-Memory-Only ELF Execution (Without tmpfs). Retrieved October 4, 2021.",
+            "url": "https://magisterquis.github.io/2018/03/31/in-memory-only-elf-execution.html"
+        },
+        {
+            "source_name": "Introducing Donut",
+            "description": "The Wover. (2019, May 9). Donut - Injecting .NET Assemblies as Shellcode. Retrieved October 4, 2021.",
+            "url": "https://thewover.github.io/Introducing-Donut/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor for code artifacts associated with reflectively loading code, such as the abuse of .NET functions such as <code>Assembly.Load()</code> and [Native API](https://attack.mitre.org/techniques/T1106) functions such as <code>CreateThread()</code>, <code>memfd_create()</code>, <code>execve()</code>, and/or <code>execveat()</code>.(Citation: 00sec Droppers)(Citation: S1 Old Rat New Tricks)\n\nMonitor for artifacts of abnormal process execution. For example, a common signature related to reflective code loading on Windows is mechanisms related to the .NET Common Language Runtime (CLR) -- such as mscor.dll, mscoree.dll, and clr.dll -- loading into abnormal processes (such as notepad.exe). Similarly, AMSI / ETW traces can be used to identify signs of arbitrary code execution from within the memory of potentially compromised processes.(Citation: MDSec Detecting DOTNET)(Citation: Introducing Donut)\n\nAnalyze process behavior to determine if a process is performing actions it usually does not, such as opening network connections, reading files, or other suspicious actions that could relate to post-compromise behavior. ",
+    "x_mitre_data_sources": [
+        "Process: OS API Execution",
+        "Module: Module Load",
+        "Script: Script Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

@@ -1,0 +1,377 @@
+{
+    "id": "T1543.003",
+    "name": "Windows Service",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may create or modify Windows services to repeatedly execute malicious payloads as part of persistence. When Windows boots up, it starts programs or applications called services that perform background system functions.(Citation: TechNet Services) Windows service configuration information, including the file path to the service's executable or recovery programs/commands, is stored in the Windows Registry.\n\nAdversaries may install a new service or modify an existing service to execute at startup in order to persist on a system. Service configurations can be set or modified using system utilities (such as sc.exe), by directly modifying the Registry, or by interacting directly with the Windows API. \n\nAdversaries may also use services to install and execute malicious drivers. For example, after dropping a driver file (ex: `.sys`) to disk, the payload can be loaded and registered via [Native API](https://attack.mitre.org/techniques/T1106) functions such as `CreateServiceW()` (or manually via functions such as `ZwLoadDriver()` and `ZwSetValueKey()`), by creating the required service Registry values (i.e. [Modify Registry](https://attack.mitre.org/techniques/T1112)), or by using command-line utilities such as `PnPUtil.exe`.(Citation: Symantec W.32 Stuxnet Dossier)(Citation: Crowdstrike DriveSlayer February 2022)(Citation: Unit42 AcidBox June 2020) Adversaries may leverage these drivers as [Rootkit](https://attack.mitre.org/techniques/T1014)s to hide the presence of malicious activity on a system. Adversaries may also load a signed yet vulnerable driver onto a compromised machine (known as \"Bring Your Own Vulnerable Driver\" (BYOVD)) as part of [Exploitation for Privilege Escalation](https://attack.mitre.org/techniques/T1068).(Citation: ESET InvisiMole June 2020)(Citation: Unit42 AcidBox June 2020)\n\nServices may be created with administrator privileges but are executed under SYSTEM privileges, so an adversary may also use a service to escalate privileges. Adversaries may also directly start services through [Service Execution](https://attack.mitre.org/techniques/T1569/002). To make detection analysis more challenging, malicious services may also incorporate [Masquerade Task or Service](https://attack.mitre.org/techniques/T1036/004) (ex: using a service and/or payload name related to a legitimate OS or benign software component).",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1543/003",
+            "external_id": "T1543.003"
+        },
+        {
+            "source_name": "Microsoft Windows Event Forwarding FEB 2018",
+            "description": "Hardy, T. & Hall, J. (2018, February 15). Use Windows Event Forwarding to help with intrusion detection. Retrieved August 7, 2018.",
+            "url": "https://docs.microsoft.com/windows/security/threat-protection/use-windows-event-forwarding-to-assist-in-intrusion-detection"
+        },
+        {
+            "source_name": "ESET InvisiMole June 2020",
+            "description": "Hromcova, Z. and Cherpanov, A. (2020, June). INVISIMOLE: THE HIDDEN PART OF THE STORY. Retrieved July 16, 2020.",
+            "url": "https://www.welivesecurity.com/wp-content/uploads/2020/06/ESET_InvisiMole.pdf"
+        },
+        {
+            "source_name": "TechNet Services",
+            "description": "Microsoft. (n.d.). Services. Retrieved June 7, 2016.",
+            "url": "https://technet.microsoft.com/en-us/library/cc772408.aspx"
+        },
+        {
+            "source_name": "Microsoft 4697 APR 2017",
+            "description": "Miroshnikov, A. & Hall, J. (2017, April 18). 4697(S): A service was installed in the system. Retrieved August 7, 2018.",
+            "url": "https://docs.microsoft.com/windows/security/threat-protection/auditing/event-4697"
+        },
+        {
+            "source_name": "Symantec W.32 Stuxnet Dossier",
+            "description": "Nicolas Falliere, Liam O. Murchu, Eric Chien. (2011, February). W32.Stuxnet Dossier. Retrieved December 7, 2020.",
+            "url": "https://www.wired.com/images_blogs/threatlevel/2010/11/w32_stuxnet_dossier.pdf"
+        },
+        {
+            "source_name": "Unit42 AcidBox June 2020",
+            "description": "Reichel, D. and Idrizovic, E. (2020, June 17). AcidBox: Rare Malware Repurposing Turla Group Exploit Targeted Russian Organizations. Retrieved March 16, 2021.",
+            "url": "https://unit42.paloaltonetworks.com/acidbox-rare-malware/"
+        },
+        {
+            "source_name": "TechNet Autoruns",
+            "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016.",
+            "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902"
+        },
+        {
+            "source_name": "Crowdstrike DriveSlayer February 2022",
+            "description": "Thomas, W. et al. (2022, February 25). CrowdStrike Falcon Protects from New Wiper Malware Used in Ukraine Cyberattacks. Retrieved March 25, 2022.",
+            "url": "https://www.crowdstrike.com/blog/how-crowdstrike-falcon-protects-against-wiper-malware-used-in-ukraine-attacks/"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/478.html",
+            "external_id": "CAPEC-478"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/550.html",
+            "external_id": "CAPEC-550"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/551.html",
+            "external_id": "CAPEC-551"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "persistence",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "Monitor processes and command-line arguments for actions that could create or modify services. Command-line invocation of tools capable of adding or modifying services may be unusual, depending on how systems are typically used in a particular environment. Services may also be modified through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001), so additional logging may need to be configured to gather the appropriate data. Remote access tools with built-in features may also interact directly with the Windows API to perform these functions outside of typical system utilities. Collect service utility execution and service binary path arguments used for analysis. Service binary paths may even be changed to execute commands or scripts.  \n\nLook for changes to service Registry entries that do not correlate with known software, patch cycles, etc. Service information is stored in the Registry at <code>HKLM\\SYSTEM\\CurrentControlSet\\Services</code>. Changes to the binary path and the service startup type changed from manual or disabled to automatic, if it does not typically do so, may be suspicious. Tools such as Sysinternals Autoruns may also be used to detect system service changes that could be attempts at persistence.(Citation: TechNet Autoruns)  \n\nCreation of new services may generate an alterable event (ex: Event ID 4697 and/or 7045 (Citation: Microsoft 4697 APR 2017)(Citation: Microsoft Windows Event Forwarding FEB 2018)). New, benign services may be created during installation of new software.\n\nSuspicious program execution through services may show up as outlier processes that have not been seen before when compared against historical data. Look for abnormal process call trees from known services and for execution of other commands that could relate to Discovery or other adversary techniques. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Service: Service Creation",
+        "Windows Registry: Windows Registry Key Modification",
+        "Windows Registry: Windows Registry Key Creation",
+        "Service: Service Modification",
+        "Driver: Driver Load"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Code Signing",
+                "description": "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+                "type": "course-of-action",
+                "id": "M1045"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that auditing tools are deployed to detect privilege and service abuse opportunities on systems within an enterprise",
+                "acid": "98580629"
+            },
+            {
+                "description": "Ensure that user accounts and group privileges are limited and only authorized administrators are allowed to interact with system-level process changes and service configurations",
+                "acid": "98580630"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes and command-line arguments for actions that could create or modify services",
+                "acid": "98580619"
+            },
+            {
+                "description": "Ensure that logs for service modification through Windows system management tools are collected and analyzed",
+                "acid": "98580620"
+            },
+            {
+                "description": "Ensure that logs for service modification through Windows Management Instrumentation are collected and analyzed",
+                "acid": "98580621"
+            },
+            {
+                "description": "Ensure that logs for service modification through PowerShell are collected and analyzed",
+                "acid": "98580622"
+            },
+            {
+                "description": "Ensure that service utility execution and service binary path arguments are collected for analysis",
+                "acid": "98580623"
+            },
+            {
+                "description": "Ensure that changes to service Registry entries that do not correlate with known software, patch cycles, etc",
+                "acid": "98580624"
+            },
+            {
+                "description": "Ensure that the Sysinternals Autoruns tool is deployed to detect system service changes",
+                "acid": "98580625"
+            },
+            {
+                "description": "Ensure that process call trees from known services are monitored",
+                "acid": "98580626"
+            },
+            {
+                "description": "Ensure that execution of commands that could relate to Discovery or other adversary techniques are monitored",
+                "acid": "98580627"
+            },
+            {
+                "description": "Ensure that unfamiliar process execution through services is monitored",
+                "acid": "98580628"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000490"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "15010146",
+        "15010148",
+        "15010150",
+        "15010152",
+        "15010153",
+        "15010154",
+        "15010155",
+        "15010159",
+        "15010160",
+        "15010180",
+        "15010188",
+        "15010352",
+        "15020139",
+        "15020141",
+        "15020143",
+        "15020145",
+        "15020146",
+        "15020148",
+        "15020149",
+        "15020152",
+        "15020153",
+        "15020168",
+        "15020359",
+        "15020379",
+        "15030149",
+        "15030151",
+        "15030152",
+        "15030154",
+        "15030155",
+        "15030157",
+        "15030159",
+        "15030160",
+        "15030164",
+        "15030165",
+        "15030188",
+        "15030197",
+        "15030327",
+        "15040021",
+        "15040022",
+        "15040026",
+        "15040035",
+        "15040042",
+        "15040046",
+        "15040054",
+        "15040061",
+        "15040065",
+        "15040073",
+        "15040331",
+        "15200146",
+        "15200148",
+        "15200150",
+        "15200152",
+        "15200153",
+        "15200154",
+        "15200155",
+        "15200159",
+        "15200160",
+        "15200181",
+        "15200189",
+        "15200343",
+        "16010153",
+        "16010155",
+        "16010159",
+        "16010161",
+        "16010162",
+        "16010163",
+        "16010164",
+        "16010168",
+        "16010169",
+        "16010189",
+        "16010197",
+        "16010312",
+        "16020152",
+        "16020154",
+        "16020158",
+        "16020160",
+        "16020161",
+        "16020163",
+        "16020164",
+        "16020168",
+        "16020169",
+        "16020191",
+        "16020199",
+        "16020321",
+        "16100154",
+        "16100158",
+        "16100159",
+        "16100161",
+        "16100162",
+        "16100164",
+        "16100165",
+        "16100167",
+        "16100168",
+        "16100172",
+        "16100173",
+        "16100197",
+        "16100210",
+        "16100366",
+        "16110151",
+        "16110153",
+        "16110157",
+        "16110159",
+        "16110160",
+        "16110161",
+        "16110162",
+        "16110166",
+        "16110167",
+        "16110187",
+        "16110194",
+        "16110299",
+        "16120155",
+        "16120157",
+        "16120161",
+        "16120163",
+        "16120164",
+        "16120166",
+        "16120167",
+        "16120171",
+        "16120172",
+        "16120192",
+        "16120199",
+        "16120316",
+        "16360152",
+        "16360154",
+        "16360155",
+        "16360159",
+        "16360160",
+        "16360162",
+        "16360163",
+        "16360168",
+        "16360169",
+        "16360176",
+        "16360177",
+        "16360207",
+        "16360219",
+        "16360377",
+        "16460151",
+        "16460153",
+        "16460154",
+        "16460158",
+        "16460159",
+        "16460161",
+        "16460162",
+        "16460167",
+        "16460168",
+        "16460175",
+        "16460176",
+        "16460205",
+        "16460217",
+        "16460373",
+        "16460378",
+        "19920138",
+        "19920140",
+        "19920141",
+        "19920143",
+        "19920144",
+        "19920146",
+        "19920148",
+        "19920149",
+        "19920153",
+        "19920154",
+        "19920176",
+        "19920185",
+        "19920285",
+        "19920400",
+        "19920409",
+        "19920411",
+        "19920492"
+    ],
+    "cveIds": []
+}
