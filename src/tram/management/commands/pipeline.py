@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import time
 
 from django.contrib.auth.models import User
@@ -46,7 +47,9 @@ class Command(BaseCommand):
         )
         sp_load.add_argument(
             "--file",
-            default="data/training/bootstrap-training-data.json",
+            default=os.path.join(
+                os.getcwd(), "data/training/bootstrap-training-data.json"
+            ),
             help="Training data file to load. Defaults: data/training/bootstrap-training-data.json",
         )
 
