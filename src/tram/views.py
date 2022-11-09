@@ -134,6 +134,7 @@ def index(request):
 @login_required
 @require_POST
 def upload(request):
+
     """Places a file into ml-pipeline for analysis"""
     # Initialize the processing job.
     dpj = None
@@ -358,6 +359,7 @@ def techniques(request):
     else:
         return HttpResponseBadRequest("Unsupported file type")
     os.remove(filePath)
+    delete_file(generated_doc_id)
     write_logs(
         control_id, description, fileName, filePath, final_report, generated_doc_id
     )
@@ -468,3 +470,18 @@ def write_logs(
     print("----------------------------------------------------------------")
     print(_log)
     print("*****************************************************************")
+
+
+def delete_file(doc_id):
+    document = Document.objects.get(id=doc_id)
+    document.docfile.delete(save=True)
+    document.delete()
+    return "Successfully Deleted. . . Document with id - ", str(doc_id)
+
+
+@api_view(["GET"])
+def clear_memory(request):
+    documents = Document.objects.all()
+    for document in documents:
+        document.delete()
+    return Response("Cleared Memory Successfully")
