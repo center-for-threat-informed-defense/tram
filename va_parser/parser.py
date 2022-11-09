@@ -49,7 +49,7 @@ def get_technique_name(technqiue_id):
 
 
 def cleanup():
-    url = "http://localhost:8000/clean_memory/"
+    url = "http://localhost:8000/clear_memory/"
 
     payload = ""
     headers = {"Authorization": "Bearer " + get_access_token()}
