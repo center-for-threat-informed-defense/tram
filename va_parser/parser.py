@@ -48,6 +48,19 @@ def get_technique_name(technqiue_id):
     return ""
 
 
+def get_access_token():
+    url = "http://localhost:8000/api/token/"
+
+    payload = json.dumps({"username": "jojo", "password": "Safe@123"})
+    headers = {"Cookie": "", "Content-Type": "application/json"}
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    response = json.loads(response.content)
+
+    return response["access"]
+
+
 year = 2022
 
 count = 0
@@ -94,7 +107,7 @@ for single_cve in cve_data:
             ]
         )
         headers = {
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzMzk2MDc5LCJpYXQiOjE2NjczOTYwNzksImp0aSI6IjcyNjU3YjI1MGNmNjQ2Y2U4MTQ2YTA3Y2Q4MWYzZDNhIiwidXNlcl9pZCI6Mn0.Qr2gdBgWJCut36ZA1Yft_xOJvTTq53ruQsSsIdfCWAA",
+            "Authorization": "Bearer " + get_access_token(),
             "Content-Type": "application/json",
         }
 
