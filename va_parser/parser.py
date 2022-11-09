@@ -1,5 +1,6 @@
 ﻿import json
 import os
+import pathlib
 import re
 
 import requests
@@ -34,7 +35,9 @@ import requests
 
 def get_technique_name(technqiue_id):
 
-    attack_path = os.getcwd() + "/va_parser/attack-technique/"
+    attack_path = os.path.join(
+        pathlib.Path(__file__).parent.resolve(), "../va_parser/attack-technique/"
+    )
     file_path = os.path.join(attack_path, technqiue_id + ".json")
 
     technique_list = os.listdir(attack_path)
@@ -74,11 +77,13 @@ def get_access_token():
 
 year = 2002
 
-for year in range(2003, 2015, 1):
+for year in range(2008, 2015, 1):
 
     count = 0
 
-    path = os.getcwd() + "/va_parser/year-wise-cves/"
+    path = os.path.join(
+        pathlib.Path(__file__).parent.resolve(), "../va_parser/year-wise-cves/"
+    )
 
     filename = "CVE_" + str(year) + ".json"
 
@@ -91,7 +96,9 @@ for year in range(2003, 2015, 1):
 
     for single_cve in cve_data:
 
-        cve_path = os.getcwd() + "/va_parser/cve-data/"
+        cve_path = os.path.join(
+            pathlib.Path(__file__).parent.resolve(), "../va_parser/cve-data/"
+        )
 
         exported_cve_list = os.listdir(cve_path)
 
@@ -138,7 +145,9 @@ for year in range(2003, 2015, 1):
 
             final_json["ttpMapping"] = ttp_list
 
-            out_path = os.getcwd() + "/va_parser/cve-data/"
+            out_path = os.path.join(
+                pathlib.Path(__file__).parent.resolve(), "../va_parser/cve-data/"
+            )
 
             with open(
                 out_path + cve_id + ".json",
