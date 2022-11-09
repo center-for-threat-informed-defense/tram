@@ -48,6 +48,17 @@ def get_technique_name(technqiue_id):
     return ""
 
 
+def cleanup():
+    url = "http://localhost:8000/clean_memory/"
+
+    payload = ""
+    headers = {"Authorization": "Bearer " + get_access_token()}
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    print(response.text)
+
+
 def get_access_token():
     url = "http://localhost:8000/api/token/"
 
@@ -61,78 +72,79 @@ def get_access_token():
     return response["access"]
 
 
-year = 2022
+year = 2002
 
-count = 0
+for year in range(2003, 2015, 1):
 
-path = os.getcwd() + "/va_parser/year-wise-cves/"
+    count = 0
 
-filename = "CVE_" + str(year) + ".json"
+    path = os.getcwd() + "/va_parser/year-wise-cves/"
 
-file_path = path + filename
+    filename = "CVE_" + str(year) + ".json"
 
-with open(file_path, "r") as f:
-    cve_data = json.load(f)
+    file_path = path + filename
 
-url = "http://localhost:8000/techniques/"
+    with open(file_path, "r") as f:
+        cve_data = json.load(f)
 
+    url = "http://localhost:8000/techniques/"
 
-for single_cve in cve_data:
+    for single_cve in cve_data:
 
-    cve_path = os.getcwd() + "/va_parser/cve-data/"
+        cve_path = os.getcwd() + "/va_parser/cve-data/"
 
-    exported_cve_list = os.listdir(cve_path)
+        exported_cve_list = os.listdir(cve_path)
 
-    cve_id = list(single_cve.keys())[0]
+        cve_id = list(single_cve.keys())[0]
 
-    if cve_id + ".json" not in exported_cve_list:
+        if cve_id + ".json" not in exported_cve_list:
 
-        print("Writing data for. . . ", cve_id)
+            print("Writing data for. . . ", cve_id)
 
-        final_json = {}
-        cve_desc = single_cve[cve_id]["title"]
+            final_json = {}
+            cve_desc = single_cve[cve_id]["title"]
 
-        payload = json.dumps(
-            [
-                {
-                    "unique_identifier": cve_id,
-                    "description": [
-                        {
-                            "field_data": cve_desc,
-                            "field_type": "control",
-                        }
-                    ],
-                    "techniqueMapping": "",
-                }
-            ]
-        )
-        headers = {
-            "Authorization": "Bearer " + get_access_token(),
-            "Content-Type": "application/json",
-        }
+            payload = json.dumps(
+                [
+                    {
+                        "unique_identifier": cve_id,
+                        "description": [
+                            {
+                                "field_data": cve_desc,
+                                "field_type": "control",
+                            }
+                        ],
+                        "techniqueMapping": "",
+                    }
+                ]
+            )
+            headers = {
+                "Authorization": "Bearer " + get_access_token(),
+                "Content-Type": "application/json",
+            }
 
-        response = requests.request("POST", url, headers=headers, data=payload)
+            response = requests.request("POST", url, headers=headers, data=payload)
 
-        ttp_mapping = json.loads(response.content)[0]["technique_list"]
+            ttp_mapping = json.loads(response.content)[0]["technique_list"]
 
-        final_json = single_cve[cve_id]
-        ttp_list = []
+            final_json = single_cve[cve_id]
+            ttp_list = []
 
-        for single_technique in ttp_mapping:
-            temp_dict = single_technique
-            technique_id = temp_dict["technique_id"]
-            temp_dict["technique_name"] = get_technique_name(technique_id)
-            ttp_list.append(temp_dict)
+            for single_technique in ttp_mapping:
+                temp_dict = single_technique
+                technique_id = temp_dict["technique_id"]
+                temp_dict["technique_name"] = get_technique_name(technique_id)
+                ttp_list.append(temp_dict)
 
-        final_json["ttpMapping"] = ttp_list
+            final_json["ttpMapping"] = ttp_list
 
-        out_path = os.getcwd() + "/va_parser/cve-data/"
+            out_path = os.getcwd() + "/va_parser/cve-data/"
 
-        with open(
-            out_path + cve_id + ".json",
-            "w",
-        ) as json_file:
-            json.dump(final_json, json_file, indent=4)
-        count += 1
-        print(". . . . . ", count, " . . . . . ")
-        print("Successfully wrote data for. . . ", cve_id)
+            with open(
+                out_path + cve_id + ".json",
+                "w",
+            ) as json_file:
+                json.dump(final_json, json_file, indent=4)
+            count += 1
+            print(". . . . . ", count, " . . . . . ")
+            print("Successfully wrote data for. . . ", cve_id)
