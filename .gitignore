@@ -16,6 +16,7 @@ db.sqlite3
 .vscode/
 *.egg-info
 *.crt
+/data/media/
 
 # pyenv
 .python-version
