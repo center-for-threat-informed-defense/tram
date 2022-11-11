@@ -1,16 +1,16 @@
 import json
 import logging
-
+import sys
 from django.conf import settings
 from django.core.management.base import BaseCommand
-
+sys.path.append("/Users/safe/Desktop/project/tram-main/src")
 from tram.models import AttackObject
 
 LOAD = "load"
 CLEAR = "clear"
 logger = logging.getLogger(__name__)
 
-
+insertId=set()
 STIX_TYPE_TO_ATTACK_TYPE = {
     "attack-pattern": "technique",
     "course-of-action": "mitigation",
@@ -18,8 +18,8 @@ STIX_TYPE_TO_ATTACK_TYPE = {
     "malware": "software",
     "tool": "software",
     "x-mitre-tactic": "tactic",
+    "x-mitre-data-source":"data_source"
 }
-
 
 class Command(BaseCommand):
     help = "Machine learning pipeline commands"
@@ -36,36 +36,53 @@ class Command(BaseCommand):
         logger.info("Deleted %d Attack objects", deleted[0])
 
     def create_attack_object(self, obj):
-        for external_reference in obj["external_references"]:
-            if external_reference["source_name"] not in (
-                "mitre-attack",
-                "mitre-pre-attack",
-                "mitre-mobile-attack",
-            ):
-                continue
+        if "external_references" in obj.keys():
+            for external_reference in obj["external_references"]:
+                if external_reference["source_name"] not in (
+                    "mitre-attack",
+                    "mitre-pre-attack",
+                    "mitre-mobile-attack",
+                ):
+                    continue
 
-            attack_id = external_reference["external_id"]
-            attack_url = external_reference["url"]
-            matrix = external_reference["source_name"]
+                attack_id = external_reference["external_id"]
+                attack_url = external_reference["url"]
+                matrix = external_reference["source_name"]
 
-        assert attack_id is not None
-        assert attack_url is not None
-        assert matrix is not None
+                assert attack_id is not None
+                assert attack_url is not None
+                assert matrix is not None
 
-        stix_type = obj["type"]
-        attack_type = STIX_TYPE_TO_ATTACK_TYPE[stix_type]
+                stix_type = obj["type"]
+                attack_type = STIX_TYPE_TO_ATTACK_TYPE[stix_type]
+        
+            obj1= AttackObject.objects.get(
+                name=obj["name"],
+                stix_id=obj["id"],
+                stix_type=stix_type,
+                attack_id=attack_id,
+                attack_type=attack_type,
+                attack_url=attack_url,
+                matrix=matrix,
+            )
 
-        obj, created = AttackObject.objects.get_or_create(
-            name=obj["name"],
-            stix_id=obj["id"],
-            stix_type=stix_type,
-            attack_id=attack_id,
-            attack_type=attack_type,
-            attack_url=attack_url,
-            matrix=matrix,
-        )
+            if not obj1:
+                if attack_id not in insertId:
+                    insertId.add(attack_id)
+                    obj=AttackObject.objects.create(
+                    name=obj["name"],
+                    stix_id=obj["id"],
+                    stix_type=stix_type,
+                    attack_id=attack_id,
+                    attack_type=attack_type,
+                    attack_url=attack_url,
+                    matrix=matrix,
+                )
 
-        return obj, created
+                return obj,True
+            return obj,False
+        else:
+            return obj,False
 
     def load_attack_data(self, filepath):
         created_stats = {}
@@ -74,7 +91,7 @@ class Command(BaseCommand):
         with open(filepath, "r") as f:
             attack_json = json.load(f)
 
-        assert attack_json["spec_version"] == "2.0"
+        assert attack_json["spec_version"] == "2.1"
         assert attack_json["type"] == "bundle"
 
         for obj in attack_json["objects"]:
@@ -122,5 +139,9 @@ class Command(BaseCommand):
             )
             self.load_attack_data(settings.DATA_DIRECTORY / "attack/mobile-attack.json")
             self.load_attack_data(settings.DATA_DIRECTORY / "attack/pre-attack.json")
+
+            
         elif subcommand == CLEAR:
             self.clear_attack_data()
+
+

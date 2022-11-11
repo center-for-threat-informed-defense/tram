@@ -16458,12 +16458,7 @@
             "text": "cron",
             "order": 1495,
             "disposition": "accept",
-            "mappings": [
-                {
-                    "attack_id": "T1053.001",
-                    "confidence": "100.0"
-                }
-            ]
+            "mappings": []
         },
         {
             "text": "winrm",
