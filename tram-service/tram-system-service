@@ -1,0 +1,18 @@
+fileName
+    /etc/systemd/system/start_tram.service
+
+FileData
+    [Unit]
+    Description=TRAM Start Service
+    After=network.target
+    StartLimitIntervalSec=0
+
+    [Service]
+    Type=simple
+    Restart=always
+    RestartSec=1
+    User=root
+    ExecStart=/bin/bash /home/ubuntu/start_tram_server.sh
+
+    [Install]
+    WantedBy=multi-user.target
