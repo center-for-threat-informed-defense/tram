@@ -638,6 +638,7 @@ def update_analyzed_report_with_training_dataset():
         all_analyzed_reports = json.load(f)
 
         for single_technique in technique_wise_data:
+            
             if single_technique in ATTACK_LOOKUP.keys():
                 technique_name = ATTACK_LOOKUP[single_technique].lower()
                 existing_technique_data_in_report = all_analyzed_reports[technique_name]

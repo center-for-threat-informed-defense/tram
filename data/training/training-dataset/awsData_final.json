@@ -1,0 +1,1422 @@
+[
+    {
+        "unique_identifier": "17850008",
+        "description": [
+            {
+                "field_data": "Ensure that AWS EC2 security groups restrict all inbound public traffic from all ports",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1205"
+    },
+    {
+        "unique_identifier": "18780001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Database Migration Service instances are not publicly accessible",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18530005",
+        "description": [
+            {
+                "field_data": "Ensure that AWS SageMaker models have network isolation enabled",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18770003",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Cognito user pools enforce multi factor authentication (MFA)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17890003",
+        "description": [
+            {
+                "field_data": "Ensure inline group policy does not allow iam:PassRole to all resources",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17880003",
+        "description": [
+            {
+                "field_data": "Ensure active access keys are rotated every 90 days or less",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1110"
+    },
+    {
+        "unique_identifier": "17800010",
+        "description": [
+            {
+                "field_data": "Ensure S3 buckets do not allow WRITE access to AWS authenticated users through S3 ACLs",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1491"
+    },
+    {
+        "unique_identifier": "17850004",
+        "description": [
+            {
+                "field_data": "Ensure no AWS EC2 security group allows unrestricted inbound access to SSH port 22",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1563.001"
+    },
+    {
+        "unique_identifier": "17850012",
+        "description": [
+            {
+                "field_data": "Ensure no EC2 security group allows unrestricted inbound access to TCP ports 20 and 21 (FTP)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1563.001"
+    },
+    {
+        "unique_identifier": "19200002",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Neptune database instances storage are encrypted",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "18420003",
+        "description": [
+            {
+                "field_data": "Ensure IAM password policy prevents password reuse",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18970001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS workspaces have user volume encryption enabled",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "18170002",
+        "description": [
+            {
+                "field_data": "Ensure no Subnet allows all outbound/egress traffic NACLs",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18160002",
+        "description": [
+            {
+                "field_data": "Ensure SQS queues do not authorized DeleteMessage action to all principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18840002",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Elasticsearch Service domains use Cognito authentication for Kibana",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18840003",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Elasticsearch Service domains are encrypted at rest",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "18260001",
+        "description": [
+            {
+                "field_data": "Ensure that your AWS ELBs listeners are using a secure protocol (HTTPS or SSL)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "18270001",
+        "description": [
+            {
+                "field_data": "Ensure Drop Invalid Header Fields is enabled for your AWS ALBs",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1040"
+    },
+    {
+        "unique_identifier": "17830002",
+        "description": [
+            {
+                "field_data": "Ensure that Amazon EBS volume snapshots are not accessible to all AWS accounts",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1213"
+    },
+    {
+        "unique_identifier": "17910001",
+        "description": [
+            {
+                "field_data": "Ensure managed policy does not allow iam:PassRole to all resources",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17900001",
+        "description": [
+            {
+                "field_data": "Ensure AssumeRole policy does not allows all principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18180001",
+        "description": [
+            {
+                "field_data": "Ensure no custom Amazon Network ACL allows all inbound/ingress traffic",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "17850013",
+        "description": [
+            {
+                "field_data": "Ensure no security group allows unrestricted inbound access to TCP port 1433 (MsSQL)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "19200003",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Neptune database instances storage use IAM Database Authentication",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1110"
+    },
+    {
+        "unique_identifier": "18420002",
+        "description": [
+            {
+                "field_data": "Ensure IAM password policy expires passwords within 90 days or less",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1110"
+    },
+    {
+        "unique_identifier": "18280003",
+        "description": [
+            {
+                "field_data": "Ensure that your AWS NLBs listeners are using a secure protocol (TLS)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "18510001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Kinesis Data Streams are encrypted",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "17850005",
+        "description": [
+            {
+                "field_data": "Ensure no security group allows access to all ports",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1205"
+    },
+    {
+        "unique_identifier": "18990002",
+        "description": [
+            {
+                "field_data": "Ensure that AWS AppStream 2.0 users are configured to authenticate using SAML",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1552"
+    },
+    {
+        "unique_identifier": "18140006",
+        "description": [
+            {
+                "field_data": "Ensure SNS topics do not authorized SetTopicAttributes action to all principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17800007",
+        "description": [
+            {
+                "field_data": "Ensure that all the S3 actions are not authorized to all principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17880002",
+        "description": [
+            {
+                "field_data": "Ensure inactive access keys are rotated every 90 days or less",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17800011",
+        "description": [
+            {
+                "field_data": "Ensure AWS S3 buckets do not allow public WRITE access",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1491"
+    },
+    {
+        "unique_identifier": "18770002",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Cognito user pools does not allow temporary passwords to stay valid beyond 24 hours",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18070005",
+        "description": [
+            {
+                "field_data": "Ensure AWS RDS instances have sufficient backup retention period",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1486"
+    },
+    {
+        "unique_identifier": "17850002",
+        "description": [
+            {
+                "field_data": "Ensure no security group allows unrestricted ingress access to MongoDB port 27017",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18100003",
+        "description": [
+            {
+                "field_data": "Ensure Redshift clusters are not publicly accessible",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1213"
+    },
+    {
+        "unique_identifier": "18830003",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Elasticache Redis clusters have encryption in transit enabled",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "18280004",
+        "description": [
+            {
+                "field_data": "Ensure AWS NLBs are using the latest predefined security policies",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "18690001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS EFS file systems have encryption enabled",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "17850014",
+        "description": [
+            {
+                "field_data": "Ensure no security group allows unrestricted inbound access to TCP port 3306 (MySQL)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18420005",
+        "description": [
+            {
+                "field_data": "Ensure no root account access key exists",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17880009",
+        "description": [
+            {
+                "field_data": "Ensure inline user policy does not allow sts:AssumeRole action to all resources",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18530003",
+        "description": [
+            {
+                "field_data": "Ensure that AWS SageMaker notebook instances are placed in a VPC",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18710002",
+        "description": [
+            {
+                "field_data": "Ensure that AWS KMS keys does not have public access",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1491"
+    },
+    {
+        "unique_identifier": "17850018",
+        "description": [
+            {
+                "field_data": "Ensure no AWS EC2 security group allows unrestricted inbound access to TCP port 3389 (RDP)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18070002",
+        "description": [
+            {
+                "field_data": "Ensure AWS RDS instances are encrypted",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "17880005",
+        "description": [
+            {
+                "field_data": "Ensure user with no redundant or unused API keys",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17890005",
+        "description": [
+            {
+                "field_data": "Ensure inline group policy does not allow sts:AssumeRole action to all resources",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17800016",
+        "description": [
+            {
+                "field_data": "Ensure that Delete Actions in the S3 bucket policy are not authorized to all Principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1491"
+    },
+    {
+        "unique_identifier": "18650006",
+        "description": [
+            {
+                "field_data": "Ensure that AWS API Gateway Rest API Stages are protected by an AWS WAF Web ACL",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1059"
+    },
+    {
+        "unique_identifier": "17850022",
+        "description": [
+            {
+                "field_data": "Ensure no AWS EC2 security group allows unrestricted inbound access to UDP port 137 and 138",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18140001",
+        "description": [
+            {
+                "field_data": "Ensure SNS topics do not authorized AddPermission action to all principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18870001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Glue crawler security configurations enable AWS S3 encryption",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "18240002",
+        "description": [
+            {
+                "field_data": "Ensure that secrets over 90 days old should be rotated",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1110"
+    },
+    {
+        "unique_identifier": "17810001",
+        "description": [
+            {
+                "field_data": "Ensure there are no secrets in EC2 instance user data",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17800001",
+        "description": [
+            {
+                "field_data": "Ensure that Get Actions in the S3 bucket policy are not authorized to all Principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17800017",
+        "description": [
+            {
+                "field_data": "Ensure that List Actions in the S3 bucket policy are not authorized to all Principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1591"
+    },
+    {
+        "unique_identifier": "18070003",
+        "description": [
+            {
+                "field_data": "Ensure AWS RDS instances have Automated Backups feature enabled",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1486"
+    },
+    {
+        "unique_identifier": "17850019",
+        "description": [
+            {
+                "field_data": "Ensure no AWS EC2 security group allows unrestricted inbound access to TCP port 25 (SMTP)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18080001",
+        "description": [
+            {
+                "field_data": "Ensure that your Amazon RDS database snapshots are not accessible to all AWS accounts",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1213"
+    },
+    {
+        "unique_identifier": "19000001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS App Mesh virtual nodes enforce TLS by default for all backends",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "18840005",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Elasticsearch Service domains enforce HTTPS-only communications",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "17900007",
+        "description": [
+            {
+                "field_data": "Ensure inline role policy does not allow sts:AssumeRole action to all resources",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17850015",
+        "description": [
+            {
+                "field_data": "Ensure no security group allows unrestricted inbound access to TCP port 2049 (NFS)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18420004",
+        "description": [
+            {
+                "field_data": "Ensure MFA is enabled for the root account",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1550"
+    },
+    {
+        "unique_identifier": "18830002",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Elasticache Redis clusters have encryption at rest enabled",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "17850003",
+        "description": [
+            {
+                "field_data": "Ensure security group does not whitelist AWS CIDRs",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1048"
+    },
+    {
+        "unique_identifier": "18420012",
+        "description": [
+            {
+                "field_data": "Ensure that existing EBS attached volumes are encrypted",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1486"
+    },
+    {
+        "unique_identifier": "18110002",
+        "description": [
+            {
+                "field_data": "Ensure your domain names have the Transfer Lock feature enabled in order to keep them secure",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1583"
+    },
+    {
+        "unique_identifier": "18840006",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Elasticsearch Service domains that enforce HTTPS-only communications use a TLS 1.2 security policy",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "18270004",
+        "description": [
+            {
+                "field_data": "Ensure that your AWS ALBs listeners are using a secure protocol (HTTPS)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "17800018",
+        "description": [
+            {
+                "field_data": "Ensure that Put Actions in the S3 bucket policy are not authorized to all Principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1491"
+    },
+    {
+        "unique_identifier": "18420007",
+        "description": [
+            {
+                "field_data": "Ensure root account credentials have not been used recently to access your AWS account",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1110"
+    },
+    {
+        "unique_identifier": "18180004",
+        "description": [
+            {
+                "field_data": "Ensure no default Amazon Network ACL allows all outbound/egress traffic",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "17850016",
+        "description": [
+            {
+                "field_data": "Ensure no security group allows unrestricted inbound access to TCP port 1521 (Oracle DB)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18830001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Elasticache Redis clusters have an AUTH token enabled",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18820001",
+        "description": [
+            {
+                "field_data": "Ensure that supported directories have RADIUS enabled for multi-factor authentication (MFA)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1538"
+    },
+    {
+        "unique_identifier": "18420011",
+        "description": [
+            {
+                "field_data": "Ensure that Amazon EBS volume snapshots are not accessible to all AWS accounts",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18110001",
+        "description": [
+            {
+                "field_data": "Ensure your domain names are automatically renewed by AWS Route 53 service",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1583"
+    },
+    {
+        "unique_identifier": "18100001",
+        "description": [
+            {
+                "field_data": "Ensure database encryption is enabled for AWS Redshift clusters to protect your data at rest",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "18240001",
+        "description": [
+            {
+                "field_data": "Ensure that secrets have automatic rotation configured",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1110"
+    },
+    {
+        "unique_identifier": "18140003",
+        "description": [
+            {
+                "field_data": "Ensure SNS topics do not authorized Publish action to all principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17850020",
+        "description": [
+            {
+                "field_data": "Ensure no AWS EC2 security group allows unrestricted inbound access to TCP port 139",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18650004",
+        "description": [
+            {
+                "field_data": "Ensure that AWS API Gateway Rest API Stages have cache encryption enabled",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "17800014",
+        "description": [
+            {
+                "field_data": "Ensure S3 buckets do not allow WRITE_ACP access to AWS authenticated users using S3 ACLs",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17880007",
+        "description": [
+            {
+                "field_data": "Ensure inline user policy does not allow iam:PassRole to all resources",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17920001",
+        "description": [
+            {
+                "field_data": "Ensure ACM certificates are renewed at least 7 days before their expiration",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1557"
+    },
+    {
+        "unique_identifier": "17930001",
+        "description": [
+            {
+                "field_data": "Ensure that the IAM role associated with your AWS CloudFormation stack grants least privilege",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18520001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Kinesis Firehose delivery are encrypted",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "18530001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS SageMaker notebook instance storage volumes are encrypted",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "19000003",
+        "description": [
+            {
+                "field_data": "Ensure that AWS App Mesh virtual nodes define an HTTP access log path to enable log exports for Envoy proxies",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1090"
+    },
+    {
+        "unique_identifier": "18710001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS KMS keys have key rotation enabled",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18700001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Elastic Kubernetes Service (EKS) cluster API servers are not accessible from the internet",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1613"
+    },
+    {
+        "unique_identifier": "19220002",
+        "description": [
+            {
+                "field_data": "Ensure that AWS EMR Cluster security configurations enforce encryption in transit",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "17800015",
+        "description": [
+            {
+                "field_data": "Ensure AWS S3 buckets do not allow public WRITE_ACP access",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1491"
+    },
+    {
+        "unique_identifier": "17880006",
+        "description": [
+            {
+                "field_data": "Ensure AWS IAM users have either API access or console access enabled",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1538"
+    },
+    {
+        "unique_identifier": "17850021",
+        "description": [
+            {
+                "field_data": "Ensure no AWS EC2 security group allows unrestricted inbound access to TCP port 23 (Telnet)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "17800003",
+        "description": [
+            {
+                "field_data": "Ensure AWS S3 buckets enforce SSL to secure data in transit",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "18140002",
+        "description": [
+            {
+                "field_data": "Ensure SNS topics do not authorized DeleteTopic action to all principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18870002",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Glue crawler security configurations enable AWS CloudWatch logs encryption",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "18420010",
+        "description": [
+            {
+                "field_data": "Ensure Amazon EBS snapshots are encrypted",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1486"
+    },
+    {
+        "unique_identifier": "17850001",
+        "description": [
+            {
+                "field_data": "Ensure no security group allows unrestricted access to all ports to everyone",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1205"
+    },
+    {
+        "unique_identifier": "18420006",
+        "description": [
+            {
+                "field_data": "Ensure that AWS root account user is not using X.509 certificates to validate API requests",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17850017",
+        "description": [
+            {
+                "field_data": "Ensure no security group allows unrestricted inbound access to TCP port 5432 (PostgreSQL DB)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18740003",
+        "description": [
+            {
+                "field_data": "Ensure that AWS MQ message brokers are not publicly accessible",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1530"
+    },
+    {
+        "unique_identifier": "17900005",
+        "description": [
+            {
+                "field_data": "Ensure inline role policy does not allow iam:PassRole to all resources",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18450001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS DynamoDB tables use KMS CMKs for encryption at rest",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "18270005",
+        "description": [
+            {
+                "field_data": "Ensure AWS ALBs are using the latest predefined security policies",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "17800004",
+        "description": [
+            {
+                "field_data": "Ensure Amazon S3 buckets have Default Encryption feature enabled",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "18140005",
+        "description": [
+            {
+                "field_data": "Ensure SNS topics do not authorized RemovePermission action to all principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17800012",
+        "description": [
+            {
+                "field_data": "Ensure AWS S3 buckets do not allow READ_ACP access to AWS authenticated users using ACLs",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17880001",
+        "description": [
+            {
+                "field_data": "Ensure that MFA is enabled for all IAM users that have a console password",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1621"
+    },
+    {
+        "unique_identifier": "18760001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS AppStream 2.0 fleets doesnot provide default internet access",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1595"
+    },
+    {
+        "unique_identifier": "18770001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS Cognito user pools have a password policy that meets or exceed AWS CIS Foundations Benchmark standards",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18070006",
+        "description": [
+            {
+                "field_data": "Ensure Certificate Authority Assigned to RDS Instance is not deprecated",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1608"
+    },
+    {
+        "unique_identifier": "19220005",
+        "description": [
+            {
+                "field_data": "Ensure that AWS EMR Cluster security configurations enable Kerberos authentication",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1110"
+    },
+    {
+        "unique_identifier": "18920001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS resource share does not allow external principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18490001",
+        "description": [
+            {
+                "field_data": "Ensure that trusted signers have key pairs",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1486"
+    },
+    {
+        "unique_identifier": "18270002",
+        "description": [
+            {
+                "field_data": "Ensure Deletion Protection feature is enabled for your AWS ALBs",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1485"
+    },
+    {
+        "unique_identifier": "17800008",
+        "description": [
+            {
+                "field_data": "Ensure S3 buckets do not allow READ access to AWS authenticated users through ACLs",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18960003",
+        "description": [
+            {
+                "field_data": "Ensure that Managed Kafka Stream clusters use TLS for client authentication",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "17900002",
+        "description": [
+            {
+                "field_data": "Ensure Cross-account AssumeRole policy has external ID and MFA",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1538"
+    },
+    {
+        "unique_identifier": "18420001",
+        "description": [
+            {
+                "field_data": "Ensure IAM password policy requires minimum length of 14 or greater",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1110"
+    },
+    {
+        "unique_identifier": "17850010",
+        "description": [
+            {
+                "field_data": "Ensure there are no EC2 security groups that open range of ports to allow traffic",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1205"
+    },
+    {
+        "unique_identifier": "18180002",
+        "description": [
+            {
+                "field_data": "Ensure no custom Amazon Network ACL allows all outbound/egress traffic",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18990001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS AppStream 2.0 users are monitored for signs of compromise",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1496"
+    },
+    {
+        "unique_identifier": "18980001",
+        "description": [
+            {
+                "field_data": "Ensure that AWS AppStream 2.0 images you build are not publicly accessible",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1595"
+    },
+    {
+        "unique_identifier": "17850006",
+        "description": [
+            {
+                "field_data": "Ensure default EC2 security groups are not in use",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1205"
+    },
+    {
+        "unique_identifier": "18280001",
+        "description": [
+            {
+                "field_data": "Ensure Deletion Protection feature is enabled for your AWS NLBs",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1485"
+    },
+    {
+        "unique_identifier": "17850011",
+        "description": [
+            {
+                "field_data": "Ensure no AWS EC2 security group allows unrestricted inbound access to TCP and UDP port 53 (DNS)",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071.004"
+    },
+    {
+        "unique_identifier": "18180003",
+        "description": [
+            {
+                "field_data": "Ensure no default Amazon Network ACL allows all inbound/ingress traffic",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "17910003",
+        "description": [
+            {
+                "field_data": "Ensure managed policy does not allow sts:AssumeRole action to all resources",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18960002",
+        "description": [
+            {
+                "field_data": "Ensure that Managed Kafka Stream clusters enforce TLS-only communications between clients and brokers",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "18970002",
+        "description": [
+            {
+                "field_data": "Ensure that AWS workspaces have root volume encryption enabled",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "17800009",
+        "description": [
+            {
+                "field_data": "Ensure AWS S3 buckets do not allow public READ access",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "18170001",
+        "description": [
+            {
+                "field_data": "Ensure no Subnet allows all inbound/ingress traffic NACLs",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1071"
+    },
+    {
+        "unique_identifier": "18260003",
+        "description": [
+            {
+                "field_data": "Ensure AWS ELBs are using the latest predefined security policies",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1565.001"
+    },
+    {
+        "unique_identifier": "18300002",
+        "description": [
+            {
+                "field_data": "Ensure AWS Redshift non-default parameter groups require SSL to secure data in transit",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1573"
+    },
+    {
+        "unique_identifier": "17800013",
+        "description": [
+            {
+                "field_data": "Ensure AWS S3 buckets do not allow public READ_ACP access",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    },
+    {
+        "unique_identifier": "17800005",
+        "description": [
+            {
+                "field_data": "Ensure AWS S3 buckets have the MFA Delete feature enabled",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1110"
+    },
+    {
+        "unique_identifier": "18140004",
+        "description": [
+            {
+                "field_data": "Ensure SNS topics do not authorized Receive action to all principals",
+                "field_type": "description"
+            }
+        ],
+        "techniqueMapping": "T1078"
+    }
+]
