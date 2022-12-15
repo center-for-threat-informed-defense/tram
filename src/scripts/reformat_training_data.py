@@ -32,6 +32,7 @@ import itertools
 import json
 import logging
 import os
+import pathlib
 import sys
 from datetime import datetime
 from functools import partial
@@ -51,6 +52,7 @@ file_path = (
 outfile = parent_directory + "/data/training/bootstrap-training-data.json"
 logger = logging.getLogger(__name__)
 
+arr = pathlib.Path(__file__).parent.resolve()
 
 # ATTACK_LOOKUP = {  # A mapping of attack descriptions to technique IDs
 #     "drive-by compromise": "T1189",
@@ -232,7 +234,7 @@ ATTACK_LOOKUP = {
     "inhibit system recovery": "T1490",
     "scheduled task/job: scheduled task": "T1053.005",
     "system owner/user discovery": "T1033",
-    "data from local system": "T1533",
+    "data from local system": "T1005",
     "exfiltration over c2 channel": "T1041",
     "network share discovery": "T1135",
     "create or modify system process: windows service": "T1543.003",
@@ -782,7 +784,6 @@ ATTACK_LOOKUP = {
     "escape to host": "T1611",
     "build image on host": "T1612",
     "group policy discovery": "T1615",
-    "standard cryptographic protocol": "T1521",
 }
 
 
