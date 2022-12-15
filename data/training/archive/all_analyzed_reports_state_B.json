@@ -1231,19 +1231,6 @@
     "Many of this APT\u2019s components are signed with phony Intel and AMD digital certificates",
     "Adversaries may create, acquire, or steal code signing materials to sign their malware or tools. Code signing provides a level of authenticity on a binary from the developer and a guarantee that the binary has not been tampered with. (Citation: Wikipedia Code Signing) The certificates used during an operation may be created, acquired, or stolen by the adversary. (Citation: Securelist Digital Certificates) (Citation: Symantec Digital Certificates) Unlike [Invalid Code Signature](https://attack.mitre.org/techniques/T1036/001), this activity will result in a valid signature.\n\nCode signing to verify software on first run can be used on modern Windows and macOS systems. It is not used on Linux due to the decentralized nature of the platform. (Citation: Wikipedia Code Signing)(Citation: EclecticLightChecksonEXECodeSigning)\n\nCode signing certificates may be used to bypass security policies that require signed code to execute on a system. "
   ],
-  "standard cryptographic protocol": [
-    "Figure 9: Example of callback Earlier versions of UPPERCUT used the hard-coded string \u201cthis is the encrypt key\u201d for Blowfish encryption when communicating with a C2",
-    "If the <flag> field of the message header is greater than one, the XOR key used to encrypt message bodies is iterated in reverse when encrypting and decrypting messages",
-    "A 256-bit AES session key is generated and used to encrypt both message headers and bodies separately",
-    "Initially, the key is sent to the C2 server with the entire message and headers encrypted with the RSA key exchange algorithm",
-    "Based upon the instructional guide and the provided tools, this package appears consistent with the methodologies FireEye outlined in their research on how these attacks were executed, including specific details such as the use of ICAP via a proxy passthrough, in this case specifically squid, and using certbot to create a Let\u2019s Encrypt SSL certificate",
-    "The backdoor's infrequent beaconing, traffic obfuscation, extensive encryption and use of geographically local, legitimate websites for command and control (C2) make identification of its network traffic difficult",
-    "Encrypting communications using AES and RSA public key cryptography   5",
-    "The AES key is unique for each communication and is encrypted with one of two RSA public keys",
-    "Figure 12 and Figure 13 show the RSA keys used in FELIXROOT, and Figure 14 shows the AES encryption parameters",
-    "Figure 19.\u00a0Scrambling \u2018Mac OSX 10.12\u2019  Encryption  The scrambled byte sequence is passed onto the constructor of the class Packet::Packet, which creates a random AES256 key and encrypts the buffer with this key",
-    "It first grabs an encrypted blob stored away in a global variable and pulls out 381 bytes of this encrypted data:  The standard win32 api CryptDecrypt uses rc4 to decrypt this blob into a hardcoded c2, url path, and url parameters listed below with a simple 140-bit key \u201c\\x8B\\xFF\\x55\\x8B\\xEC\\x83\\xEC\\x50\\xA1\\x84\\x18\\x03\\x68\\x33\\xC9\\x66\\xF7\\x45\\x10\\xE8\\x1F\\x89\\x45\\xFC\\x8B\\x45\\x14\\x56\u2033"
-  ],
   "screen capture standard application layer protocol exfiltration over command and control channel data encoding remote file copy-multi": {
     "technique_names": [
       "screen capture",
@@ -2264,11 +2251,10 @@
       "By using this method, it will copy itself into a running Internet Explorer process in order to avoid detection by running as an independent process"
     ]
   },
-  "standard application layer protocol custom cryptographic protocol standard cryptographic protocol binary padding web service exfiltration over command and control channel pass the hash uncommonly used port fallback channels-multi": {
+  "standard application layer protocol custom cryptographic protocol binary padding web service exfiltration over command and control channel pass the hash uncommonly used port fallback channels-multi": {
     "technique_names": [
       "application layer protocol",
       "encrypted channel",
-      "standard cryptographic protocol",
       "obfuscated files or information: binary padding",
       "web service",
       "exfiltration over c2 channel",
@@ -2374,11 +2360,8 @@
       "Figure 5: Sample pseudo-HTTP beacon The pseudo-HTTP protocol uses any proxies discovered by the HTTP proxy monitoring thread or added by the adminka command"
     ]
   },
-  "standard cryptographic protocol obfuscated files or information-multi": {
-    "technique_names": [
-      "standard cryptographic protocol",
-      "obfuscated files or information"
-    ],
+  "proxy obfuscated files or information-multi": {
+    "technique_names": ["obfuscated files or information", "proxy"],
     "sentances": ["All subsequent messages are encrypted with AES in CBC mode"]
   },
   "masquerading": [
@@ -3986,8 +3969,8 @@
       "Additional Features The Zyklon malware offers the following additional capabilities (via plugins): Browser Password Recovery Zyklon HTTP can recover passwords from popular web browsers, including:  Google Chrome Mozilla Firefox Internet Explorer Opera Browser Chrome Canary/SXS CoolNovo Browser Apple Safari Flock Browser SeaMonkey Browser SRWare Iron Browser Comodo Dragon Browser  FTP Password Recovery Zyklon currently supports FTP password recovery from the following FTP applications:  FileZilla SmartFTP FlashFXP FTPCommander Dreamweaver WS_FTP  Gaming Software Key Recovery Zyklon can recover PC Gaming software keys from the following games:  Battlefield Call of Duty FIFA NFS Age of Empires Quake The Sims Half-Life IGI Star Wars  Email Password Recovery Zyklon may also collect email passwords from following applications:  Microsoft Outlook Express Microsoft Outlook 2002/XP/2003/2007/2010/2013 Mozilla Thunderbird Windows Live Mail 2012 IncrediMail, Foxmail v6.x - v7.x Windows Live Messenger MSN Messenger Google Talk GMail Notifier PaltalkScene IM Pidgin (Formerly Gaim) Messenger Miranda Messenger Windows Credential Manager  License Key Recovery The malware automatically detects and decrypts the license/serial keys of more than 200 popular pieces of software, including Office, SQL Server, Adobe, and Nero"
     ]
   },
-  "custom cryptographic protocol standard cryptographic protocol-multi": {
-    "technique_names": ["encrypted channel", "standard cryptographic protocol"],
+  "custom cryptographic protocol proxy-multi": {
+    "technique_names": ["encrypted channel"],
     "sentances": [
       "RIPTIDE\u2019s first communication with its C2 server fetches an encryption key, and the RC4 encryption key is used to encrypt all further communication",
       "Figure 12: RSA public key 1    Figure 13: RSA public key 2    Figure 14: AES encryption parameters After encryption, the cipher text to be sent over C2 is Base64 encoded"
@@ -6160,8 +6143,8 @@
       "Encoding the encryption key  In order for the C&C server to decrypt the encrypted data, the randomly generated AES256 key must be included in the packet along with the encrypted data"
     ]
   },
-  "screen capture standard cryptographic protocol-multi": {
-    "technique_names": ["screen capture", "standard cryptographic protocol"],
+  "screen capture proxy-multi": {
+    "technique_names": ["screen capture"],
     "sentances": [
       "Function for scrambling AES256 key in the outgoing packet  Some screenshots taken during scrambling and encryption process:   Figure 21.\u00a0The highlighted bytes represent the scrambled computer info   Figure 22.\u00a0Randomly generated AES256 key   Figure 23.\u00a0Scrambled AES256 key (0xC1 XOR 0x13 = 0xD2, 0xD2 ROL 6 = 0xB4) etc.)   Figure 24.\u00a0Computer info encrypted with AES256 key   Figure 25.\u00a0Screenshot of the final payload to be sent to C&C server"
     ]
@@ -6962,11 +6945,8 @@
       "Amongst the downloaded files, \u00a0the fake .gif and .jpg files appear to be dependencies for the malware"
     ]
   },
-  "standard cryptographic protocol command-line interface-multi": {
-    "technique_names": [
-      "standard cryptographic protocol",
-      "command and scripting interpreter"
-    ],
+  "proxy command-line interface-multi": {
+    "technique_names": ["command and scripting interpreter"],
     "sentances": [
       "The plugin uses the same network protocol as PLAINTEE and so we were able to trivially decode further commands that were sent.\u00a0 The following commands were observed:  tasklist ipconfig /all  The attacker performed these two commands 33 seconds apart"
     ]
@@ -7381,8 +7361,8 @@
       "Exploits  CVE-2017-0143, SMB exploit CVE-2017-0146, SMB exploit  These 2 exploits are EternalBlue/Doublepulsar and are used to drop the Stage1 Dropper onto a system.\u00a0 Installation The Gh0stRAT dropper arrives on a PC through the use of EternalBlue/DoublePulsar.\u00a0 Once on a victim\u2019s PC, the dropper executable is launched and it decrypts and loads the Gh0stRAT DLL into memory.\u00a0 It then passes the config buffer to the extracted DLL and calls the exported function (Shellex)  [Screenshot 2] The mainthread of the code.\u00a0 Note the call at the bottom that calls Shellex Gh0stRAT dll functionality An important note:\u00a0 In its base state, this sample is damaged, therefore it will not install its services properly.\u00a0 However, as the service information is included, I will list it anyways.\u00a0 Additionally, samples downloaded from its distribution server DO install correctly,\u00a0 and are downloaded during the base dll\u2019s runtime"
     ]
   },
-  "standard cryptographic protocol data encoding-multi": {
-    "technique_names": ["standard cryptographic protocol", "data encoding"],
+  "proxy data encoding-multi": {
+    "technique_names": ["data encoding"],
     "sentances": [
       "Techniques for Analysis When I was analyzing this sample, the malware was unable to connect to its C2.\u00a0 However, I was still able to analyze the network traffic of the sample.\u00a0 How, you might ask?\u00a0 Using a hex editor and a script I wrote to encrypt text using the algorithm that this sample uses, I encrypted my own C2 address (192.168.1.108:7721) and replaced the hardcoded C2 address with my own encrypted address.\u00a0 I then opened a listener on my own IP on the respective port.\u00a0 \u00a0 [Screenshot 3] comparison of My IP (Left) vs C2 IP (Right) Next, using a debugger, I set a couple breakpoints in the Internet Communications function and ran the malware.\u00a0 The malware sample then connected to my IP and sent information to me, which I was able to observe using Wireshark.\u00a0 After I\u2019d captured the traffic, I was able to write another script to decrypt and decompress the traffic in order to view the data being sent.\u00a0 Additionally, I then wrote a socket script that detects the Gh0stRAT variant traffic, automatically decrypts the traffic, and then extracts the Implant_Opcodes for the sample.\u00a0 A second version of the script allows commands to be sent back to the malware, after I enumerated the exact command format for the sample.\u00a0  [Screenshot 4] Output of Version 1 of the script So far, the 2 opcodes that the sample has sent are 0x65 and 0x66, or Implant_Heartbeat and Implant_Login, respectively.\u00a0 \u201cHitting between the heartbeats\u201d When sending commands, first the sample must login in with 0x65, then you can send commands to it.\u00a0 However, you have to move fast as the sample will send an Implant_Heartbeat followed by an Implant_Login every 10 seconds or so, and if you try to send a command to the sample as it is responding with either opcode, it will ignore the command.\u00a0 A proof of concept of the command script can be found\u00a0here\u00a0, while the Implant extraction script and the Command Script will be included in the Appendix"
     ]
@@ -7445,11 +7425,8 @@
       "In other cases, threat actors placed web shells on externally accessible servers, sometimes behind a reverse proxy, to execute commands on the compromised system"
     ]
   },
-  "code signing standard cryptographic protocol-multi": {
-    "technique_names": [
-      "subvert trust controls: code signing",
-      "standard cryptographic protocol"
-    ],
+  "code signing proxy-multi": {
+    "technique_names": ["subvert trust controls: code signing", "proxy"],
     "sentances": [
       "Newer HttpBrowser versions use SSL with self-signed certificates to encrypt network communications"
     ]
@@ -7490,13 +7467,12 @@
       "Team member or team identifier Analysis of the OwaAuth web shell revealed a PDB string with the \"SyberSpace\" username (see Figure 20)"
     ]
   },
-  "permission groups discovery spearphishing link custom cryptographic protocol masquerading standard cryptographic protocol binary padding system network configuration discovery registry run keys / startup folder exfiltration over alternative protocol pass the hash commonly used port-multi": {
+  "permission groups discovery spearphishing link custom cryptographic protocol masquerading binary padding system network configuration discovery registry run keys / startup folder exfiltration over alternative protocol pass the hash commonly used port-multi": {
     "technique_names": [
       "permission groups discovery",
       "phishing: spearphishing link",
       "encrypted channel",
       "masquerading",
-      "standard cryptographic protocol",
       "obfuscated files or information: binary padding",
       "system network configuration discovery",
       "boot or logon autostart execution: registry run keys / startup folder",
@@ -7573,11 +7549,8 @@
       "The frequent checking ensures that any changes made will be quickly followed, and the repeated attempts to run the Revenge RAT binary make it almost certain that even if the process is terminated, the RAT will be running again soon"
     ]
   },
-  "standard cryptographic protocol exfiltration over command and control channel-multi": {
-    "technique_names": [
-      "standard cryptographic protocol",
-      "exfiltration over c2 channel"
-    ],
+  "exfiltration over command and control channel-multi": {
+    "technique_names": ["exfiltration over c2 channel"],
     "sentances": [
       "We are still analyzing this Trojan to determine the specific structure of the data sent between the Trojan and the C2 server; however, it does appear that the Trojan is using the RC4 algorithm to encrypt data sent to the C2 server within HTTP POST requests"
     ]
