@@ -53,6 +53,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("ml/", views.ml_home),
     path("ml/techniques/<str:attack_id>", views.ml_technique_sentences),
+    path("delete_report/<int:report_id>", views.delete_report),
     path("ml/models/<str:model_key>", views.ml_model_detail),
     path("clear_memory/", views.clear_memory),
+    path("test_api/", views.test_api),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

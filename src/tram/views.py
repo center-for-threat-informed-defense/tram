@@ -319,68 +319,134 @@ def create_temporary_file(description):
     return fileName, filePath
 
 
+# @api_view(["POST"])
+# def techniques(request):
+
+#     session_token = request.auth.token.decode("utf-8")
+#     response = []
+
+#     file_content_type = request.content_type
+#     if file_content_type in ("application/json",):  # .json files
+#         json_data = request.data
+
+#         for single_object in json_data:
+#             control_id = single_object["unique_identifier"]
+
+#             description = " ".join(filter_description(single_object["description"]))
+
+#             filePath = ""
+#             fileName, filePath = create_temporary_file(description)
+#             uploaded_report_status = upload_text(filePath, fileName, session_token)
+#             uploaded_report_status = json.loads(
+#                 uploaded_report_status.content.decode("utf-8")
+#             )
+#             generated_doc_id = uploaded_report_status["doc-id"]
+
+#             # mm = base.ModelManager("logreg") //LogisticRegressionModel
+#             # mm = base.ModelManager("nb") #NaiveBayesModel
+#             mm = base.ModelManager("nn_cls")  # nn_cls MLPClassifierModel
+#             mm.run_model()
+
+#             generated_report = {}
+#             final_report = {}
+#             generated_report = extract_report(session_token, generated_doc_id)
+#             generated_report = json.loads(generated_report.decode("utf-8"))
+
+#             if generated_report != {}:
+#                 final_report = parse_generated_report(control_id, generated_report)
+
+#             response.append(final_report)
+#     else:
+#         return HttpResponseBadRequest("Unsupported file type")
+#     os.remove(filePath)
+#     delete_file(generated_doc_id)
+#     write_logs(
+#         control_id, description, fileName, filePath, final_report, generated_doc_id
+#     )
+#     return JsonResponse(response, safe=False)
+
+
 @api_view(["POST"])
 def techniques(request):
-
+    start = time.time()
+    start_token = time.time()
     session_token = request.auth.token.decode("utf-8")
+    end_token = time.time()
     response = []
-
     file_content_type = request.content_type
     if file_content_type in ("application/json",):  # .json files
         json_data = request.data
-
         for single_object in json_data:
             control_id = single_object["unique_identifier"]
-
             description = " ".join(filter_description(single_object["description"]))
-
             filePath = ""
             fileName, filePath = create_temporary_file(description)
+            start_upload = time.time()
             uploaded_report_status = upload_text(filePath, fileName, session_token)
             uploaded_report_status = json.loads(
                 uploaded_report_status.content.decode("utf-8")
             )
+            # print("===========")
+            # print(uploaded_report_status)
             generated_doc_id = uploaded_report_status["doc-id"]
-
+            end_upload = time.time()
             # mm = base.ModelManager("logreg") //LogisticRegressionModel
             # mm = base.ModelManager("nb") #NaiveBayesModel
             mm = base.ModelManager("nn_cls")  # nn_cls MLPClassifierModel
+            start_model = time.time()
             mm.run_model()
-
+            end_model = time.time()
             generated_report = {}
             final_report = {}
-            generated_report = extract_report(session_token, generated_doc_id)
+            start_report_gen = time.time()
+            generated_report, time_taken = extract_report(
+                session_token, generated_doc_id
+            )
+            end_report_gen = time.time()
+            # print(generated_report)
             generated_report = json.loads(generated_report.decode("utf-8"))
-
             if generated_report != {}:
                 final_report = parse_generated_report(control_id, generated_report)
-
             response.append(final_report)
     else:
         return HttpResponseBadRequest("Unsupported file type")
+    # print(generated_doc_id)
     os.remove(filePath)
     delete_file(generated_doc_id)
     write_logs(
         control_id, description, fileName, filePath, final_report, generated_doc_id
     )
+    end = time.time()
+    time_list = [
+        {"time taken in doc upload": end_upload - start_upload},
+        {"time taken in model run": end_model - start_model},
+        {"time taken in report generation": end_report_gen - start_report_gen},
+        {"time taken report_mapping": time_taken},
+        {"Total time taken": end - start},
+    ]
+    response.append(time_list)
     return JsonResponse(response, safe=False)
 
 
 def extract_report(session_token, generated_doc_id):
 
-    url = "http://localhost:8000/api/reports/"
+    st = time.time()
+
+    # url = "http://localhost:8000/api/reports/"
 
     payload = {}
-    headers = {"Authorization": "Bearer " + session_token}
+    # headers = {"Authorization": "Bearer " + session_token}
 
-    response = requests.request("GET", url, headers=headers, data=payload, timeout=1000)
+    # response = requests.request("GET", url, headers=headers, data=payload, timeout=1000)
 
-    response = response.content
+    # response = response.content
 
-    response = json.loads(response.decode("utf-8"))
+    # response = json.loads(response.decode("utf-8"))
+
+    all_reports_metadata = list(Report.objects.all().values())
 
     report_id = ""
-    for single_report in response:
+    for single_report in all_reports_metadata:
         document_id = single_report.get("document_id", None)
         if document_id == generated_doc_id:
             report_id = str(single_report.get("id", None))
@@ -391,7 +457,9 @@ def extract_report(session_token, generated_doc_id):
 
     response = requests.request("GET", url, headers=headers, data=payload, timeout=1000)
 
-    return response.content
+    et = time.time()
+
+    return response.content, et - st
 
 
 @api_view(["POST"])
@@ -423,7 +491,6 @@ def modified_upload(request):
             return HttpResponseBadRequest(res.errors)
     else:
         return HttpResponseBadRequest("Unsupported file type")
-
     if dpj:
         response["job-id"] = dpj.pk
         response["doc-id"] = dpj.document.pk
@@ -480,8 +547,31 @@ def delete_file(doc_id):
 
 
 @api_view(["GET"])
+def delete_report(request, report_id):
+    report = Report.objects.get(id=report_id)
+    report.delete()
+    # queryset = Report.objects.all()
+    # rep = Report()
+    # document_id = rep.request.query_params.get("doc-id", None)
+    # if document_id:
+    #     queryset = queryset.filter(document__id=document_id)
+    #     print("hello############")
+    return Response(
+        ("Successfully Deleted. . . Document with id - ", str(report_id)),
+        status=200,
+    )
+
+
+@api_view(["GET"])
 def clear_memory(request):
     documents = Document.objects.all()
     for document in documents:
         document.delete()
     return Response("Cleared Memory Successfully")
+
+
+@api_view(["GET"])
+def test_api(request):
+    queryset = list(Report.objects.all().values())
+    print(queryset)
+    return JsonResponse(queryset, safe=False)
