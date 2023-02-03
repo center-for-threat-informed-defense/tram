@@ -3,7 +3,7 @@ django-constance==2.8.0
 django-picklefield==3.0.1
 django-rest-framework==0.1.0
 djangorestframework-simplejwt==5.1.0
-django==3.2.16
+django==3.2.17
 faker==6.5.0
 gunicorn==20.1.0
 nltk==3.6.7
