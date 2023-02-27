@@ -1,0 +1,110 @@
+﻿{
+    "id": "T1056",
+    "name": "Input Capture",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use methods of capturing user input to obtain credentials or collect information. During normal system usage, users often provide credentials to various different locations, such as login pages/portals or system dialog boxes. Input capture mechanisms may be transparent to the user (e.g. [Credential API Hooking](https://attack.mitre.org/techniques/T1056/004)) or rely on deceiving the user into providing input into what they believe to be a genuine service (e.g. [Web Portal Capture](https://attack.mitre.org/techniques/T1056/003)).",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "Network"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1056",
+            "external_id": "T1056"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/569.html",
+            "external_id": "CAPEC-569"
+        },
+        {
+            "source_name": "Adventures of a Keystroke",
+            "description": "Tinaztepe,  E. (n.d.). The Adventures of a Keystroke:  An in-depth look into keyloggers on Windows. Retrieved April 27, 2016.",
+            "url": "http://opensecuritytraining.info/Keylogging_files/The%20Adventures%20of%20a%20Keystroke.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "collection",
+        "credential-access"
+    ],
+    "x_mitre_detection": "Detection may vary depending on how input is captured but may include monitoring for certain Windows API calls (e.g. `SetWindowsHook`, `GetKeyState`, and `GetAsyncKeyState`)(Citation: Adventures of a Keystroke), monitoring for malicious instances of [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059), and ensuring no unauthorized drivers or kernel modules that could indicate keylogging or API hooking are present.",
+    "x_mitre_data_sources": [
+        "Windows Registry: Windows Registry Key Modification",
+        "Process: Process Metadata",
+        "Driver: Driver Load",
+        "File: File Modification",
+        "Process: Process Creation",
+        "Process: OS API Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM",
+        "root",
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that windows API calls such as SetWindowsHook, GetKeyState, and GetAsyncKeyState are monitored for input capture",
+                "acid": "98581872"
+            },
+            {
+                "description": "Ensure that security monitoring tools are configured which helps to detect malicious instances of Command and Scripting Interpreter",
+                "acid": "98581873"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000211",
+        "40000499",
+        "40000516"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [
+        "50110012",
+        "50110013",
+        "50110014",
+        "50110015",
+        "50110026"
+    ],
+    "policycontrolIds": [
+        "50106014"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": [
+        "T1056.001",
+        "T1056.002",
+        "T1056.003",
+        "T1056.004"
+    ]
+}

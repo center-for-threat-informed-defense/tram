@@ -1,0 +1,153 @@
+﻿{
+    "id": "T0886",
+    "name": "Remote Services",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may leverage remote services to move between assets and network segments. These services are often used to allow operators to interact with systems remotely within the network, some examples are RDP, SMB, SSH, and other similar mechanisms. (Citation: Blake Johnson, Dan Caban, Marina Krotofil, Dan Scali, Nathan Brubaker, Christopher Glyer December 2017) (Citation: Dragos December 2017) (Citation: Joe Slowik April 2019)  Remote services could be used to support remote access, data transmission, authentication, name resolution, and other remote functions. Further, remote services may be necessary to allow operators and administrators to configure systems within the network from their engineering or management workstations. An adversary may use this technique to access devices which may be dual-homed (Citation: Blake Johnson, Dan Caban, Marina Krotofil, Dan Scali, Nathan Brubaker, Christopher Glyer December 2017) to multiple network segments, and can be used for [Program Download](https://attack.mitre.org/techniques/T0843) or to execute attacks on control devices directly through [Valid Accounts](https://attack.mitre.org/techniques/T0859).  Specific remote services (RDP & VNC) may be a precursor to enable [Graphical User Interface](https://attack.mitre.org/techniques/T0823) execution on devices such as HMIs or engineering workstation software.  In the Oldsmar water treatment attack, adversaries gained access to the system through remote access software, allowing for the use of the standard operator HMI interface. (Citation: Pinellas County Sheriffs Office February 2021)  Based on incident data, CISA and FBI assessed that Chinese state-sponsored actors also compromised various authorized remote access channels, including systems designed to transfer data and/or allow access between corporate and ICS networks.  (Citation: CISA AA21-201A Pipeline Intrusion July 2021)",
+    "x_mitre_platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Control Server"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0886",
+            "external_id": "T0886"
+        },
+        {
+            "source_name": "Blake Johnson, Dan Caban, Marina Krotofil, Dan Scali, Nathan Brubaker, Christopher Glyer December 2017",
+            "description": "Blake Johnson, Dan Caban, Marina Krotofil, Dan Scali, Nathan Brubaker, Christopher Glyer 2017, December 14 Attackers Deploy New ICS Attack Framework TRITON and Cause Operational Disruption to Critical Infrastructure Retrieved. 2018/01/12 ",
+            "url": "https://www.fireeye.com/blog/threat-research/2017/12/attackers-deploy-new-ics-attack-framework-triton.html"
+        },
+        {
+            "source_name": "Dragos December 2017",
+            "description": "Dragos 2017, December 13 TRISIS Malware Analysis of Safety System Targeted Malware Retrieved. 2018/01/12 ",
+            "url": "https://dragos.com/blog/trisis/TRISIS-01.pdf"
+        },
+        {
+            "source_name": "Joe Slowik April 2019",
+            "description": "Joe Slowik 2019, April 10 Implications of IT Ransomware for ICS Environments Retrieved. 2019/10/27 ",
+            "url": "https://dragos.com/blog/industry-news/implications-of-it-ransomware-for-ics-environments/"
+        },
+        {
+            "source_name": "Blake Johnson, Dan Caban, Marina Krotofil, Dan Scali, Nathan Brubaker, Christopher Glyer December 2017",
+            "description": "Blake Johnson, Dan Caban, Marina Krotofil, Dan Scali, Nathan Brubaker, Christopher Glyer 2017, December 14 Attackers Deploy New ICS Attack Framework TRITON and Cause Operational Disruption to Critical Infrastructure Retrieved. 2018/01/12 ",
+            "url": "https://www.fireeye.com/blog/threat-research/2017/12/attackers-deploy-new-ics-attack-framework-triton.html"
+        },
+        {
+            "source_name": "Pinellas County Sheriffs Office February 2021",
+            "description": "Pinellas County Sheriffs Office 2021, February 8 Treatment Plant Intrusion Press Conference Retrieved. 2021/10/08 ",
+            "url": "https://www.youtube.com/watch?v=MkXDSOgLQ6M"
+        },
+        {
+            "source_name": "CISA AA21-201A Pipeline Intrusion July 2021",
+            "description": "Department of Justice (DOJ), DHS Cybersecurity & Infrastructure Security Agency (CISA) 2021, July 20 Chinese Gas Pipeline Intrusion Campaign, 2011 to 2013 Retrieved. 2021/10/08 ",
+            "url": "https://us-cert.cisa.gov/sites/default/files/publications/AA21-201A_Chinese_Gas_Pipeline_Intrusion_Campaign_2011_to_2013%20(1).pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "initial-access-ics"
+        },
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "lateral-movement-ics"
+        }
+    ],
+    "tactic": [
+        "initial-access-ics",
+        "lateral-movement-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Logon Session: Logon Session Creation",
+        "Network Share: Network Share Access",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Flow",
+        "Network Traffic: Network Traffic Content",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Software Process and Device Authentication",
+                "description": "Require the authentication of devices and software processes where appropriate. Devices that connect remotely to other systems should require strong authentication to prevent spoofing of communications. Furthermore, software processes should also require authentication when accessing APIs.",
+                "type": "course-of-action",
+                "id": "M0813"
+            },
+            {
+                "name": "Authorization Enforcement",
+                "description": "The device or system should restrict read, manipulate, or execute privileges to only authenticated users who require access based on approved security policies.  Role-based Access Control (RBAC) schemes can help reduce the overhead of assigning permissions to the large number of devices within an ICS. For example, IEC 62351 provides examples of roles used to support common system operations within the electric power sector  (Citation: International Electrotechnical Commission July 2020), while IEEE 1686 defines standard permissions for users of IEDs. (Citation: Institute of Electrical and Electronics Engineers January 2014)",
+                "type": "course-of-action",
+                "id": "M0800"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network.  Restrict network access to only required systems and services. In addition, prevent systems from other networks or business functions (e.g., enterprise) from accessing critical process control systems. For example, in IEC 62443, systems within the same secure level should be grouped into a zone, and access to that zone is restricted by a conduit, or mechanism to restrict data flows between zones by segmenting the network. (Citation: IEC February 2019) (Citation: IEC August 2013)",
+                "type": "course-of-action",
+                "id": "M0930"
+            },
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M0927"
+            },
+            {
+                "name": "Human User Authentication",
+                "description": "Require user authentication before allowing access to data or accepting commands to a device. While strong multi-factor authentication is preferable, it is not always feasible within ICS environments. Performing strong user authentication also requires additional security controls and processes which are often the target of related adversarial techniques (e.g., Valid Accounts, Default Credentials). Therefore, associated ATT&CK mitigations should be considered in addition to this, including [Multi-factor Authentication](https://attack.mitre.org/mitigations/M0932), [Account Use Policies](https://attack.mitre.org/mitigations/M0936), [Password Policies](https://attack.mitre.org/mitigations/M0927), [User Account Management](https://attack.mitre.org/mitigations/M0918), [Privileged Account Management](https://attack.mitre.org/mitigations/M0926), and [https://attack.mitre.org/mitigations/M1052/ User Account Control].",
+                "type": "course-of-action",
+                "id": "M0804"
+            },
+            {
+                "name": "Network Allowlists",
+                "description": "Network allowlists can be implemented through either host-based files or system hosts files to specify what connections (e.g., IP address, MAC address, port, protocol) can be made from a device. Allowlist techniques that operate at the  application layer (e.g., DNP3, Modbus, HTTP) are addressed in [Filter Network Traffic](https://attack.mitre.org/mitigations/M0937) mitigation.",
+                "type": "course-of-action",
+                "id": "M0807"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M0918"
+            },
+            {
+                "name": "Access Management",
+                "description": "Access Management technologies can be used to enforce authorization polices and decisions, especially when existing field devices do not provided sufficient capabilities to support user identification and authentication. (Citation: McCarthy, J et al. July 2018) These technologies typically utilize an in-line network device or gateway system to prevent access to unauthenticated users, while also integrating with an authentication service to first verify user credentials. (Citation: Centre for the Protection of National Infrastructure November 2010)",
+                "type": "course-of-action",
+                "id": "M0801"
+            },
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.   Perform inline allow/denylisting of network messages based on the application layer (OSI Layer 7) protocol, especially for automation protocols. Application allowlists are beneficial when there are well-defined communication sequences, types, rates, or patterns needed during expected system operations. Application denylists may be needed if all acceptable communication sequences cannot be defined, but instead a set of known malicious uses can be denied (e.g., excessive communication  attempts, shutdown messages, invalid commands).  Devices performing these functions are often referred to as deep-packet inspection (DPI) firewalls, context-aware firewalls, or firewalls blocking specific automation/SCADA protocol aware firewalls. (Citation: Centre for the Protection of National Infrastructure February 2005)",
+                "type": "course-of-action",
+                "id": "M0937"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

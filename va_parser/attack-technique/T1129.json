@@ -1,0 +1,98 @@
+﻿{
+    "id": "T1129",
+    "name": "Shared Modules",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may execute malicious payloads via loading shared modules. The Windows module loader can be instructed to load DLLs from arbitrary local paths and arbitrary Universal Naming Convention (UNC) network paths. This functionality resides in NTDLL.dll and is part of the Windows [Native API](https://attack.mitre.org/techniques/T1106) which is called from functions like <code>CreateProcess</code>, <code>LoadLibrary</code>, etc. of the Win32 API.(Citation: Wikipedia Windows Library Files)\n\nThe module loader can load DLLs:\n\n* via specification of the (fully-qualified or relative) DLL pathname in the IMPORT directory;\n    \n* via EXPORT forwarded to another DLL, specified with (fully-qualified or relative) pathname (but without extension);\n    \n* via an NTFS junction or symlink program.exe.local with the fully-qualified or relative pathname of a directory containing the DLLs specified in the IMPORT directory or forwarded EXPORTs;\n    \n* via <code>&#x3c;file name=\"filename.extension\" loadFrom=\"fully-qualified or relative pathname\"&#x3e;</code> in an embedded or external \"application manifest\". The file name refers to an entry in the IMPORT directory or a forwarded EXPORT.\n\nAdversaries may use this functionality as a way to execute arbitrary payloads on a victim system. For example, malware may execute share modules to load additional components or features.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1129",
+            "external_id": "T1129"
+        },
+        {
+            "source_name": "Wikipedia Windows Library Files",
+            "description": "Wikipedia. (2017, January 31). Microsoft Windows library files. Retrieved February 13, 2017.",
+            "url": "https://en.wikipedia.org/wiki/Microsoft_Windows_library_files"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        }
+    ],
+    "tactic": [
+        "execution"
+    ],
+    "x_mitre_detection": "Monitoring DLL module loads may generate a significant amount of data and may not be directly useful for defense unless collected under specific circumstances, since benign use of Windows modules load functions are common and may be difficult to distinguish from malicious behavior. Legitimate software will likely only need to load routine, bundled DLL modules or Windows system DLLs such that deviation from known module loads may be suspicious. Limiting DLL module loads to <code>%SystemRoot%</code> and <code>%ProgramFiles%</code> directories will protect against module loads from unsafe paths. \n\nCorrelation of other events with behavior surrounding module loads using API monitoring and suspicious DLLs written to disk will provide additional context to an event that may assist in determining if it is due to malicious behavior.",
+    "x_mitre_data_sources": [
+        "Process: OS API Execution",
+        "Module: Module Load"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Execution through Module Load Mitigation",
+                "description": "Directly mitigating module loads and API calls related to module loads will likely have unintended side effects, such as preventing legitimate software from operating properly. Efforts should be focused on preventing adversary tools from running earlier in the chain of activity and on identifying and correlated subsequent behavior to determine if it is the result of malicious activity.",
+                "type": "course-of-action",
+                "id": "T1129"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Application control solution(tools) is configured to identify and block malicious software/applications",
+                "acid": "98580332"
+            },
+            {
+                "description": "Ensure that the Application control solution(tools) is configured to prevent DLL modules from being loaded",
+                "acid": "98580333"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the load routine of software is monitored to have bundled DLL modules or Windows system DLLs modules",
+                "acid": "98580329"
+            },
+            {
+                "description": "Ensure that DLL module loads are limited to %SystemRoot% and %ProgramFiles% directories",
+                "acid": "98580330"
+            },
+            {
+                "description": "Ensure that application call events associated with module loads using API monitoring and suspicious DLL writes are monitored",
+                "acid": "98580331"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106008"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

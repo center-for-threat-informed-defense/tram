@@ -1,0 +1,112 @@
+﻿{
+    "id": "T1567",
+    "name": "Exfiltration Over Web Service",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use an existing, legitimate external Web service to exfiltrate data rather than their primary command and control channel. Popular Web services acting as an exfiltration mechanism may give a significant amount of cover due to the likelihood that hosts within a network are already communicating with them prior to compromise. Firewall rules may also already exist to permit traffic to these services.\n\nWeb service providers also commonly use SSL/TLS encryption, giving adversaries an added level of protection.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1567",
+            "external_id": "T1567"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "exfiltration"
+        }
+    ],
+    "tactic": [
+        "exfiltration"
+    ],
+    "x_mitre_detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. User behavior monitoring may help to detect abnormal patterns of activity.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "File: File Access",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow",
+        "Network Traffic: Network Connection Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict Web-Based Content",
+                "description": "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+                "type": "course-of-action",
+                "id": "M1021"
+            },
+            {
+                "name": "Data Loss Prevention",
+                "description": "Use a data loss prevention (DLP) strategy to categorize sensitive data, identify data formats indicative of personal identifiable information (PII), and restrict exfiltration of sensitive data.(Citation: PurpleSec Data Loss Prevention)",
+                "type": "course-of-action",
+                "id": "M1057"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that web proxies are used to enforce an external network communication policy to prevent unauthorized use of external services.",
+                "acid": "98582706"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that network monitoring solutions are configured to analyze network data for uncommon data flows.",
+                "acid": "98582702"
+            },
+            {
+                "description": "Ensure that system is monitored for suspicious processes (do not normally have network communication) that utilizes the network.",
+                "acid": "98582703"
+            },
+            {
+                "description": "Ensure that monitoring tool is configured to analyze packet contents to detect suspicious communication following unexpected protocol behavior.",
+                "acid": "98582704"
+            },
+            {
+                "description": "Ensure that system is configured to monitor user behavior to detect abnormal activity patterns.",
+                "acid": "98582705"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000152",
+        "40000208",
+        "40000223",
+        "40000494",
+        "40000502",
+        "40000508",
+        "40000518"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100557",
+        "50101920",
+        "50106013",
+        "50106020"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": [
+        "T1567.001",
+        "T1567.002"
+    ]
+}

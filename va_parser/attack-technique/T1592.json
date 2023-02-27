@@ -1,0 +1,128 @@
+﻿{
+    "id": "T1592",
+    "name": "Gather Victim Host Information",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may gather information about the victim's hosts that can be used during targeting. Information about hosts may include a variety of details, including administrative data (ex: name, assigned IP, functionality, etc.) as well as specifics regarding its configuration (ex: operating system, language, etc.).\n\nAdversaries may gather this information in various ways, such as direct collection actions via [Active Scanning](https://attack.mitre.org/techniques/T1595) or [Phishing for Information](https://attack.mitre.org/techniques/T1598). Adversaries may also compromise sites then include malicious content designed to collect host information from visitors.(Citation: ATT ScanBox) Information about hosts may also be exposed to adversaries via online or other accessible data sets (ex: [Social Media](https://attack.mitre.org/techniques/T1593/001) or [Search Victim-Owned Websites](https://attack.mitre.org/techniques/T1594)). Gathering this information may reveal opportunities for other forms of reconnaissance (ex: [Search Open Websites/Domains](https://attack.mitre.org/techniques/T1593) or [Search Open Technical Databases](https://attack.mitre.org/techniques/T1596)), establishing operational resources (ex: [Develop Capabilities](https://attack.mitre.org/techniques/T1587) or [Obtain Capabilities](https://attack.mitre.org/techniques/T1588)), and/or initial access (ex: [Supply Chain Compromise](https://attack.mitre.org/techniques/T1195) or [External Remote Services](https://attack.mitre.org/techniques/T1133)).",
+    "x_mitre_platforms": [
+        "PRE"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1592",
+            "external_id": "T1592"
+        },
+        {
+            "source_name": "ATT ScanBox",
+            "description": "Blasco, J. (2014, August 28). Scanbox: A Reconnaissance Framework Used with Watering Hole Attacks. Retrieved October 19, 2020.",
+            "url": "https://cybersecurity.att.com/blogs/labs-research/scanbox-a-reconnaissance-framework-used-on-watering-hole-attacks"
+        },
+        {
+            "source_name": "ThreatConnect Infrastructure Dec 2020",
+            "description": "ThreatConnect. (2020, December 15). Infrastructure Research and Hunting: Boiling the Domain Ocean. Retrieved October 12, 2021.",
+            "url": "https://threatconnect.com/blog/infrastructure-research-hunting/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "reconnaissance"
+        }
+    ],
+    "tactic": [
+        "reconnaissance"
+    ],
+    "x_mitre_detection": "Internet scanners may be used to look for patterns associated with malicious content designed to collect host information from visitors.(Citation: ThreatConnect Infrastructure Dec 2020)(Citation: ATT ScanBox)\n\nMuch of this activity may have a very high occurrence and associated false positive rate, as well as potentially taking place outside the visibility of the target organization, making detection difficult for defenders. Detection efforts may be focused on related stages of the adversary lifecycle, such as during Initial Access.",
+    "x_mitre_data_sources": [
+        "Internet Scan: Response Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Pre-compromise",
+                "description": "This category is used for any applicable mitigation activities that apply to techniques occurring before an adversary gains Initial Access, such as Reconnaissance and Resource Development techniques.",
+                "type": "course-of-action",
+                "id": "M1056"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [
+        "40000148",
+        "40000191",
+        "40000227",
+        "40000505",
+        "40000512",
+        "40000514"
+    ],
+    "externalcontrolIds": [
+        "C0205001",
+        "C0205002",
+        "C0205003",
+        "C0205004",
+        "C0205005",
+        "C0205006",
+        "C0205007",
+        "C0205008",
+        "C0205009",
+        "C0205011",
+        "C0205012",
+        "C0205013",
+        "C0205015",
+        "C0205016",
+        "C0231001",
+        "C0231002",
+        "C0231003",
+        "C0232002",
+        "C0233001",
+        "C0233002",
+        "C0233003",
+        "C0233004",
+        "C0233006",
+        "C0233007",
+        "C0235001",
+        "C0235004",
+        "C0235005",
+        "C0235006",
+        "C0246001",
+        "C0246002",
+        "C0259001",
+        "C0343001"
+    ],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106020",
+        "50106023",
+        "50106025",
+        "50106031"
+    ],
+    "technologycontrolIds": [
+        "18980001",
+        "19320003",
+        "19410001",
+        "19410002",
+        "19460001"
+    ],
+    "cveIds": [],
+    "subTechniques": [
+        "T1592.001",
+        "T1592.002",
+        "T1592.003",
+        "T1592.004"
+    ]
+}

@@ -1,0 +1,150 @@
+﻿{
+    "id": "T1490",
+    "name": "Inhibit System Recovery",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may delete or remove built-in operating system data and turn off services designed to aid in the recovery of a corrupted system to prevent recovery.(Citation: Talos Olympic Destroyer 2018)(Citation: FireEye WannaCry 2017) This may deny access to available backups and recovery options.\n\nOperating systems may contain features that can help fix corrupted systems, such as a backup catalog, volume shadow copies, and automatic repair features. Adversaries may disable or delete system recovery features to augment the effects of [Data Destruction](https://attack.mitre.org/techniques/T1485) and [Data Encrypted for Impact](https://attack.mitre.org/techniques/T1486).(Citation: Talos Olympic Destroyer 2018)(Citation: FireEye WannaCry 2017)\n\nA number of native Windows utilities have been used by adversaries to disable or delete system recovery features:\n\n* <code>vssadmin.exe</code> can be used to delete all volume shadow copies on a system - <code>vssadmin.exe delete shadows /all /quiet</code>\n* [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) can be used to delete volume shadow copies - <code>wmic shadowcopy delete</code>\n* <code>wbadmin.exe</code> can be used to delete the Windows Backup Catalog - <code>wbadmin.exe delete catalog -quiet</code>\n* <code>bcdedit.exe</code> can be used to disable automatic Windows recovery features by modifying boot configuration data - <code>bcdedit.exe /set {default} bootstatuspolicy ignoreallfailures & bcdedit /set {default} recoveryenabled no</code>",
+    "x_mitre_platforms": [
+        "Windows",
+        "macOS",
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1490",
+            "external_id": "T1490"
+        },
+        {
+            "source_name": "FireEye WannaCry 2017",
+            "description": "Berry, A., Homan, J., and Eitzman, R. (2017, May 23). WannaCry Malware Profile. Retrieved March 15, 2019.",
+            "url": "https://www.fireeye.com/blog/threat-research/2017/05/wannacry-malware-profile.html"
+        },
+        {
+            "source_name": "Talos Olympic Destroyer 2018",
+            "description": "Mercer, W. and Rascagneres, P. (2018, February 12). Olympic Destroyer Takes Aim At Winter Olympics. Retrieved March 14, 2019.",
+            "url": "https://blog.talosintelligence.com/2018/02/olympic-destroyer.html"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "impact"
+        }
+    ],
+    "tactic": [
+        "impact"
+    ],
+    "x_mitre_detection": "Use process monitoring to monitor the execution and command line parameters of binaries involved in inhibiting system recovery, such as vssadmin, wbadmin, and bcdedit. The Windows event logs, ex. Event ID 524 indicating a system catalog was deleted, may contain entries associated with suspicious activity.\n\nMonitor the status of services involved in system recovery. Monitor the registry for changes associated with system recovery features (ex: the creation of <code>HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\PreviousVersions\\DisableLocalPage</code>).",
+    "x_mitre_data_sources": [
+        "File: File Deletion",
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "Service: Service Metadata",
+        "Windows Registry: Windows Registry Key Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Inhibit System Recovery Mitigation",
+                "description": "Consider technical controls to prevent the disabling of services or deletion of files involved in system recovery. \n\nConsider implementing IT disaster recovery plans that contain procedures for taking regular data backups that can be used to restore organizational data.(Citation: Ready.gov IT DRP) Ensure backups are stored off system and is protected from common methods adversaries may use to gain access and destroy the backups to prevent recovery.\n\nIdentify potentially malicious software and audit and/or block it by using whitelisting(Citation: Beechey 2010) tools, like AppLocker,(Citation: Windows Commands JPCERT)(Citation: NSA MS AppLocker) or Software Restriction Policies(Citation: Corio 2008) where appropriate.(Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1490"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            },
+            {
+                "name": "Data Backup",
+                "description": "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise.",
+                "type": "course-of-action",
+                "id": "M1053"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that IT disaster recovery plans are implemented in the organization to take regular data backups.",
+                "acid": "98582896"
+            },
+            {
+                "description": "Ensure that data backups are stored off the system and protected from common adversary methods.",
+                "acid": "98582897"
+            },
+            {
+                "description": "Ensure that system is configured properly to prevent the disabling of services or deletion of files involved in the system recovery.",
+                "acid": "98582898"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process monitoring is used to monitor the execution of binaries.",
+                "acid": "98582890"
+            },
+            {
+                "description": "Ensure that process monitoring is used to monitor the command-line parameters of binaries (e.g. vssadmin, wbadmin, and credit) that involve in the inhibiting system recovery.",
+                "acid": "98582891"
+            },
+            {
+                "description": "Ensure that Windows event logs are monitored for any suspicious activity.",
+                "acid": "98582892"
+            },
+            {
+                "description": "Ensure that \"Event ID 524: a system catalog was deleted\" is monitored for any suspicious activity.",
+                "acid": "98582893"
+            },
+            {
+                "description": "Ensure that system is monitored for service status that involves system recovery.",
+                "acid": "98582894"
+            },
+            {
+                "description": "Ensure that system is monitored for any registry modification activity associated with system recovery features.",
+                "acid": "98582895"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000109",
+        "40000113",
+        "40000187",
+        "40000492",
+        "40000510",
+        "40000511"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106002",
+        "50106003",
+        "50106016",
+        "50106113"
+    ],
+    "technologycontrolIds": [
+        "11060001",
+        "11100001",
+        "11170001",
+        "14050025",
+        "14110037",
+        "14120028",
+        "14130037",
+        "14170032",
+        "16130135"
+    ],
+    "cveIds": [],
+    "subTechniques": []
+}

@@ -1,0 +1,88 @@
+﻿{
+    "id": "T1488",
+    "name": "Disk Content Wipe",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may erase the contents of storage devices on specific systems as well as large numbers of systems in a network to interrupt availability to system and network resources.\n\nAdversaries may partially or completely overwrite the contents of a storage device rendering the data irrecoverable through the storage interface.(Citation: Novetta Blockbuster)(Citation: Novetta Blockbuster Destructive Malware)(Citation: DOJ Lazarus Sony 2018) Instead of wiping specific disk structures or files, adversaries with destructive intent may wipe arbitrary portions of disk content. To wipe disk content, adversaries may acquire direct access to the hard drive in order to overwrite arbitrarily sized portions of disk with random data.(Citation: Novetta Blockbuster Destructive Malware) Adversaries have been observed leveraging third-party drivers like [RawDisk](https://attack.mitre.org/software/S0364) to directly access disk content.(Citation: Novetta Blockbuster)(Citation: Novetta Blockbuster Destructive Malware) This behavior is distinct from [Data Destruction](https://attack.mitre.org/techniques/T1485) because sections of the disk erased instead of individual files.\n\nTo maximize impact on the target organization in operations where network-wide availability interruption is the goal, malware used for wiping disk content may have worm-like features to propagate across a network by leveraging additional techniques like [Valid Accounts](https://attack.mitre.org/techniques/T1078), [OS Credential Dumping](https://attack.mitre.org/techniques/T1003), and [Windows Admin Shares](https://attack.mitre.org/techniques/T1077).(Citation: Novetta Blockbuster Destructive Malware)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1488",
+            "external_id": "T1488"
+        },
+        {
+            "source_name": "Novetta Blockbuster",
+            "description": "Novetta Threat Research Group. (2016, February 24). Operation Blockbuster: Unraveling the Long Thread of the Sony Attack. Retrieved February 25, 2016.",
+            "url": "https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Report.pdf"
+        },
+        {
+            "source_name": "Novetta Blockbuster Destructive Malware",
+            "description": "Novetta Threat Research Group. (2016, February 24). Operation Blockbuster: Destructive Malware Report. Retrieved March 2, 2016.",
+            "url": "https://operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Destructive-Malware-Report.pdf"
+        },
+        {
+            "source_name": "DOJ Lazarus Sony 2018",
+            "description": "Department of Justice. (2018, September 6). Criminal Complaint - United States of America v. PARK JIN HYOK. Retrieved March 29, 2019.",
+            "url": "https://www.justice.gov/opa/press-release/file/1092091/download"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "impact"
+        }
+    ],
+    "tactic": [
+        "impact"
+    ],
+    "x_mitre_detection": "Look for attempts to read/write to sensitive locations like the partition boot sector or BIOS parameter block/superblock. Monitor for unusual kernel driver installation activity.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator",
+        "root",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Data Destruction Mitigation",
+                "description": "Consider implementing IT disaster recovery plans that contain procedures for taking regular data backups that can be used to restore organizational data.(Citation: Ready.gov IT DRP) Ensure backups are stored off system and is protected from common methods adversaries may use to gain access and destroy the backups to prevent recovery.\n\nIdentify potentially malicious software and audit and/or block it by using whitelisting(Citation: Beechey 2010) tools, like AppLocker,(Citation: Windows Commands JPCERT)(Citation: NSA MS AppLocker) or Software Restriction Policies(Citation: Corio 2008) where appropriate.(Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1488"
+            },
+            {
+                "name": "Data Backup",
+                "description": "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise.",
+                "type": "course-of-action",
+                "id": "M1053"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

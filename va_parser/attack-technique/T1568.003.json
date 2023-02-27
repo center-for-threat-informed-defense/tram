@@ -1,0 +1,101 @@
+{
+    "id": "T1568.003",
+    "name": "DNS Calculation",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may perform calculations on addresses returned in DNS results to determine which port and IP address to use for command and control, rather than relying on a predetermined port number or the actual returned IP address. A IP and/or port number calculation can be used to bypass egress filtering on a C2 channel.(Citation: Meyers Numbered Panda)\n\nOne implementation of [DNS Calculation](https://attack.mitre.org/techniques/T1568/003) is to take the first three octets of an IP address in a DNS response and use those values to calculate the port for command and control traffic.(Citation: Meyers Numbered Panda)(Citation: Moran 2014)(Citation: Rapid7G20Espionage)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1568/003",
+            "external_id": "T1568.003"
+        },
+        {
+            "source_name": "Meyers Numbered Panda",
+            "description": "Meyers, A. (2013, March 29). Whois Numbered Panda. Retrieved January 14, 2016.",
+            "url": "http://www.crowdstrike.com/blog/whois-numbered-panda/"
+        },
+        {
+            "source_name": "Moran 2014",
+            "description": "Moran, N., Oppenheim, M., Engle, S., & Wartell, R.. (2014, September 3). Darwin\u2019s Favorite APT Group &#91;Blog&#93;. Retrieved November 12, 2014.",
+            "url": "https://www.fireeye.com/blog/threat-research/2014/09/darwins-favorite-apt-group-2.html"
+        },
+        {
+            "source_name": "Rapid7G20Espionage",
+            "description": "Rapid7. (2013, August 26). Upcoming G20 Summit Fuels Espionage Operations. Retrieved March 6, 2017.",
+            "url": "https://blog.rapid7.com/2013/08/26/upcoming-g20-summit-fuels-espionage-operations/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "command-and-control"
+        }
+    ],
+    "tactic": [
+        "command-and-control"
+    ],
+    "x_mitre_detection": "Detection for this technique is difficult because it would require knowledge of the specific implementation of the port calculation algorithm. Detection may be possible by analyzing DNS records if the algorithm is known.",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that DNS records are analyzed to detect (possible if the algorithm is known) DNS calculation.",
+                "acid": "98582534"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "16390048",
+        "19340001",
+        "19340002",
+        "19340003",
+        "19340004",
+        "19340005",
+        "19340006",
+        "19340008",
+        "19340009",
+        "19340010",
+        "19340011",
+        "19340012",
+        "19340013",
+        "19340014",
+        "19340015",
+        "19340016",
+        "19340017",
+        "19340018",
+        "19340019",
+        "19340020",
+        "19340021",
+        "19340022",
+        "19340023",
+        "19360018"
+    ],
+    "cveIds": []
+}

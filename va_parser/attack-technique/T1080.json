@@ -1,0 +1,139 @@
+﻿{
+    "id": "T1080",
+    "name": "Taint Shared Content",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "\nAdversaries may deliver payloads to remote systems by adding content to shared storage locations, such as network drives or internal code repositories. Content stored on network drives or in other shared locations may be tainted by adding malicious programs, scripts, or exploit code to otherwise valid files. Once a user opens the shared tainted content, the malicious portion can be executed to run the adversary's code on a remote system. Adversaries may use tainted shared content to move laterally.\n\nA directory share pivot is a variation on this technique that uses several other techniques to propagate malware when users access a shared network directory. It uses [Shortcut Modification](https://attack.mitre.org/techniques/T1547/009) of directory .LNK files that use [Masquerading](https://attack.mitre.org/techniques/T1036) to look like the real directories, which are hidden through [Hidden Files and Directories](https://attack.mitre.org/techniques/T1564/001). The malicious .LNK-based directories have an embedded command that executes the hidden malware file in the directory and then opens the real intended directory so that the user's expected action still occurs. When used with frequently used network directories, the technique may result in frequent reinfections and broad access to systems and potentially to new and higher privileged accounts. (Citation: Retwin Directory Share Pivot)\n\nAdversaries may also compromise shared network directories through binary infections by appending or prepending its code to the healthy binary on the shared network directory. The malware may modify the original entry point (OEP) of the healthy binary to ensure that it is executed before the legitimate code. The infection could continue to spread via the newly infected file when it is executed by a remote system. These infections may target both binary and non-binary formats that end with extensions including, but not limited to, .EXE, .DLL, .SCR, .BAT, and/or .VBS.",
+    "x_mitre_platforms": [
+        "Windows",
+        "Office 365",
+        "SaaS",
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1080",
+            "external_id": "T1080"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/562.html",
+            "external_id": "CAPEC-562"
+        },
+        {
+            "source_name": "Retwin Directory Share Pivot",
+            "description": "Routin, D. (2017, November 13). Abusing network shares for efficient lateral movements and privesc (DirSharePivot). Retrieved April 12, 2018.",
+            "url": "https://rewtin.blogspot.ch/2017/11/abusing-user-shares-for-efficient.html"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "lateral-movement"
+        }
+    ],
+    "tactic": [
+        "lateral-movement"
+    ],
+    "x_mitre_detection": "Processes that write or overwrite many files to a network shared directory may be suspicious. Monitor processes that are executed from removable media for malicious or abnormal activity such as network connections due to Command and Control and possible network Discovery techniques.\n\nFrequently scan shared network directories for malicious files, hidden files, .LNK files, and other file types that may not typical exist in directories used to share specific types of content.",
+    "x_mitre_data_sources": [
+        "File: File Creation",
+        "Process: Process Creation",
+        "Network Share: Network Share Access",
+        "File: File Modification"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "Access to shared folders and content with write permissions"
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Taint Shared Content Mitigation",
+                "description": "Protect shared folders by minimizing users who have write access. Use utilities that detect or mitigate common features used in exploitation, such as the Microsoft Enhanced Mitigation Experience Toolkit (EMET).\n\nReduce potential lateral movement risk by using web-based document management and collaboration services that do not use network file and directory sharing.\n\nIdentify potentially malicious software that may be used to taint content or may result from it and audit and/or block the unknown programs by using whitelisting (Citation: Beechey 2010) tools, like AppLocker, (Citation: Windows Commands JPCERT) (Citation: NSA MS AppLocker) or Software Restriction Policies (Citation: Corio 2008) where appropriate. (Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1080"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Exploit Protection",
+                "description": "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring.",
+                "type": "course-of-action",
+                "id": "M1050"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that AppLocker is configured to identify and prevent execution from malicious software used to taint content.",
+                "acid": "98582298"
+            },
+            {
+                "description": "Ensure that Software Restriction Policies are implemented to identify and prevent execution from malicious software used to taint content.",
+                "acid": "98582299"
+            },
+            {
+                "description": "Ensure that Microsoft Enhanced Mitigation Experience Toolkit (EMET) is configured to detect and mitigate common features used in exploitation.",
+                "acid": "98582300"
+            },
+            {
+                "description": "Ensure that shared folders are protected by restricting write access for user.",
+                "acid": "98582301"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes that write or overwrite many files to a network shared directory are monitored for any suspicious activity.",
+                "acid": "98582294"
+            },
+            {
+                "description": "Ensure that processes that are executed from removable media are monitored for any abnormal activity.",
+                "acid": "98582295"
+            },
+            {
+                "description": "Ensure that shared network directories are scanned regularly for malicious files, hidden files, .LNK files.",
+                "acid": "98582296"
+            },
+            {
+                "description": "Ensure that shared network directories are scanned regularly for other file types that may not typically exist in directories but used to share specific type of content.",
+                "acid": "98582297"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106008"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [
+        "CVE-2020-3126"
+    ],
+    "subTechniques": []
+}

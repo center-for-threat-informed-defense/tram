@@ -1,0 +1,123 @@
+{
+    "id": "T1559.001",
+    "name": "Component Object Model",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use the Windows Component Object Model (COM) for local code execution. COM is an inter-process communication (IPC) component of the native Windows application programming interface (API) that enables interaction between software objects, or executable code that implements one or more interfaces.(Citation: Fireeye Hunting COM June 2019) Through COM, a client object can call methods of server objects, which are typically binary Dynamic Link Libraries (DLL) or executables (EXE).(Citation: Microsoft COM) Remote COM execution is facilitated by [Remote Services](https://attack.mitre.org/techniques/T1021) such as  [Distributed Component Object Model](https://attack.mitre.org/techniques/T1021/003) (DCOM).(Citation: Fireeye Hunting COM June 2019)\n\nVarious COM interfaces are exposed that can be abused to invoke arbitrary execution via a variety of programming languages such as C, C++, Java, and [Visual Basic](https://attack.mitre.org/techniques/T1059/005).(Citation: Microsoft COM) Specific COM objects also exist to directly perform functions beyond code execution, such as creating a [Scheduled Task/Job](https://attack.mitre.org/techniques/T1053), fileless download/execution, and other adversary behaviors related to privilege escalation and persistence.(Citation: Fireeye Hunting COM June 2019)(Citation: ProjectZero File Write EoP Apr 2018)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1559/001",
+            "external_id": "T1559.001"
+        },
+        {
+            "source_name": "Fireeye Hunting COM June 2019",
+            "description": "Hamilton, C. (2019, June 4). Hunting COM Objects. Retrieved June 10, 2019.",
+            "url": "https://www.fireeye.com/blog/threat-research/2019/06/hunting-com-objects.html"
+        },
+        {
+            "source_name": "Microsoft COM",
+            "description": "Microsoft. (n.d.). Component Object Model (COM). Retrieved November 22, 2017.",
+            "url": "https://msdn.microsoft.com/library/windows/desktop/ms680573.aspx"
+        },
+        {
+            "source_name": "ProjectZero File Write EoP Apr 2018",
+            "description": "Forshaw, J. (2018, April 18). Windows Exploitation Tricks: Exploiting Arbitrary File Writes for Local Elevation of Privilege. Retrieved May 3, 2018.",
+            "url": "https://googleprojectzero.blogspot.com/2018/04/windows-exploitation-tricks-exploiting.html"
+        },
+        {
+            "source_name": "Enigma Outlook DCOM Lateral Movement Nov 2017",
+            "description": "Nelson, M. (2017, November 16). Lateral Movement using Outlook's CreateObject Method and DotNetToJScript. Retrieved November 21, 2017.",
+            "url": "https://enigma0x3.net/2017/11/16/lateral-movement-using-outlooks-createobject-method-and-dotnettojscript/"
+        },
+        {
+            "source_name": "Enigma MMC20 COM Jan 2017",
+            "description": "Nelson, M. (2017, January 5). Lateral Movement using the MMC20 Application COM Object. Retrieved November 21, 2017.",
+            "url": "https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        }
+    ],
+    "tactic": [
+        "execution"
+    ],
+    "x_mitre_detection": "Monitor for COM objects loading DLLs and other modules not typically associated with the application.(Citation: Enigma Outlook DCOM Lateral Movement Nov 2017) Enumeration of COM objects, via [Query Registry](https://attack.mitre.org/techniques/T1012) or [PowerShell](https://attack.mitre.org/techniques/T1059/001), may also proceed malicious use.(Citation: Fireeye Hunting COM June 2019)(Citation: Enigma MMC20 COM Jan 2017)\n\nMonitor for spawning of processes associated with COM objects, especially those invoked by a user different than the one currently logged on. ",
+    "x_mitre_data_sources": [
+        "Module: Module Load",
+        "Process: Process Creation",
+        "Script: Script Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": true,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Application Isolation and Sandboxing",
+                "description": "Restrict execution of code to a virtual environment on or in transit to an endpoint system.",
+                "type": "course-of-action",
+                "id": "M1048"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that all Component Object Model(COM) alerts and Protected View are enabled",
+                "acid": "98580247"
+            },
+            {
+                "description": "Ensure that registry settings in HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Classes\\\\AppID\\\\{{AppID_GUID}} associated with the process-wide security of individual COM applications is modified",
+                "acid": "98580248"
+            },
+            {
+                "description": "Ensure that the registry setting in HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Ole associated with system-wide security defaults for all COM applications is modified",
+                "acid": "98580249"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that COM objects loading DLLs and other modules are monitored",
+                "acid": "98580244"
+            },
+            {
+                "description": "Ensure that the enumeration of COM objects, via Query Registry or PowerShell, is monitored for the indicators of malicious actions",
+                "acid": "98580245"
+            },
+            {
+                "description": "Ensure that spawning of processes associated with COM objects are monitored to identify if any unusual process is spawned",
+                "acid": "98580246"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

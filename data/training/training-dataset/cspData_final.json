@@ -1,0 +1,1963 @@
+﻿[
+    {
+        "unique_identifier": "40000020",
+        "description": [
+            {
+                "field_data": "Organizations network must be securely hidden from the external network with the help of peripheral firewalls to ensure that external hosts are not able to access the internal resources. It helps in identifying the traffic that passes through the network, therefore, helping in segregating the legitimate and malicious traffic. Rules can be defined in the firewalls, which helps in regulating the flow of network traffic both inbound and outbound thereby enhancing the security of the host.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Network Firewall solution is not placed on the periphery of the organization's network, which might allow the attacker to get access to the network or leads to open the current infrastructure at risk for any public attacks",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1557.002",
+            "T1557",
+            "T1499.004",
+            "T1557.003",
+            "T1071.004",
+            "T1498.001",
+            "T1048",
+            "T1048.002",
+            "T1048.001",
+            "T1048.003",
+            "T1557.001",
+            "T1570",
+            "T1090.003",
+            "T1599.001",
+            "T1599",
+            "T1498",
+            "T1602.002",
+            "T1095",
+            "T1499.001",
+            "T1205.001",
+            "T1572",
+            "T1090",
+            "T1498.002",
+            "T1219",
+            "T1021.002",
+            "T1602.001",
+            "T1499.002",
+            "T1205",
+            "T1021.005"
+        ]
+    },
+    {
+        "unique_identifier": "40000097",
+        "description": [
+            {
+                "field_data": "Access Management Solution should provide administrators with the provisions to change a user's role, track user activities, create reports on those activities, and enforce policies on an ongoing basis. These systems are designed to provide a means of administering user access across an entire enterprise and to ensure compliance with corporate policies and government regulations.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Access Management Solution was not deployed in the organization, which may result in potential security threats due to inadequate access provisioning and further leads to non-compliance with organizational policies and government regulations",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1199",
+            "T1098",
+            "T1136",
+            "T1556",
+            "T1110",
+            "T1552",
+            "T1040",
+            "T1003",
+            "T1550",
+            "T1548",
+            "T1548.002",
+            "T1574.005",
+            "T1574",
+            "T1550.002",
+            "T1574.010",
+            "T1134",
+            "T1053.002",
+            "T1197",
+            "T1185",
+            "T1574.012",
+            "T1087.004",
+            "T1078.004",
+            "T1580",
+            "T1538",
+            "T1619",
+            "T1213.003",
+            "T1213.001",
+            "T1552.007",
+            "T1609",
+            "T1053.007",
+            "T1613",
+            "T1578.002",
+            "T1134.002",
+            "T1578.001",
+            "T1543",
+            "T1110.004",
+            "T1053.003",
+            "T1530",
+            "T1213",
+            "T1578.003",
+            "T1610",
+            "T1562.008",
+            "T1562.002",
+            "T1562.007",
+            "T1562.004",
+            "T1562.001",
+            "T1484",
+            "T1606",
+            "T1484.001",
+            "T1562",
+            "T1562.006",
+            "T1547.006",
+            "T1543.004",
+            "T1569.001",
+            "T1134.003",
+            "T1578",
+            "T1059.008",
+            "T1550.003",
+            "T1547.012",
+            "T1563.002",
+            "T1021.001",
+            "T1563",
+            "T1021",
+            "T1606.002",
+            "T1021.004",
+            "T1098.004",
+            "T1053.005",
+            "T1053",
+            "T1505",
+            "T1489",
+            "T1213.002",
+            "T1547.009",
+            "T1528",
+            "T1569",
+            "T1543.002",
+            "T1053.006",
+            "T1134.001",
+            "T1537",
+            "T1078",
+            "T1047",
+            "T1546.003",
+            "T1543.003",
+            "T1547.004",
+            "T1547.013"
+        ]
+    },
+    {
+        "unique_identifier": "40000102",
+        "description": [
+            {
+                "field_data": "An application scanner is a critical part of enterprise application security as it helps administrators and developers to find malicious code like cross-site scripting or SQL injection as well as backdoors and other threats that hackers may use to attack an organization, steal data or wreak havoc. Detection of vulnerabilities in the application is used to determine the weaknesses of the applications, the risk evaluation of attacks, the diagnosis, and suggestions to solve the problems.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Application Security solution is not deployed in the organization, which can lead to unidentified vulnerabilities These vulnerabilities can be exploited further and may result in the potential compromise of the application",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1068",
+            "T1212",
+            "T1190",
+            "T1210",
+            "T1133"
+        ]
+    },
+    {
+        "unique_identifier": "40000109",
+        "description": [
+            {
+                "field_data": "Backup & Recovery solution provides enterprise-grade protection and recovery of virtual machines, containers, databases, applications, files and endpoints, with a single view for managing entire environment. The aim of backup and recovery software is to make applications and information accessible from anywhere in minimal downtime even if any incident occur.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Backup and Recovery solution was not deployed in the organization, as a result of which in case of any primary failure such as hardware or software failure, data corruption, or malicious attack, or accidental deletion of data, organization won't be able to recover data that might impact business operations",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1485",
+            "T1486",
+            "T1561",
+            "T1491",
+            "T1490"
+        ]
+    },
+    {
+        "unique_identifier": "40000113",
+        "description": [
+            {
+                "field_data": "Business Continuity Management (BCM) solution provides organization with the capabilities to anticipate, prepare, and respond to internal and external (City and Site level) business disruptions. It also provide specific disaster recovery mitigation options to be implemented in the organization with individual defined roles and responsibilities.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Business Continuity Management Solution is not deployed in the organization, in case of any disaster, potential business crisis may disrupt operations due to absence of effective planning to deal with such scenarios and may impact business",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1565",
+            "T1495",
+            "T1496",
+            "T1529",
+            "T1485",
+            "T1486",
+            "T1561",
+            "T1491",
+            "T1490",
+            "T1489",
+            "T1498",
+            "T1499",
+            "T1531"
+        ]
+    },
+    {
+        "unique_identifier": "40000117",
+        "description": [
+            {
+                "field_data": "Patch Management solution is implemented in organization to ensure that all critical and high-risk vulnerabilities reported are patched or mitigated as soon as they are reported. It manage patches or upgrades for software applications and technologies in order to fix existing problems with software that are noticed after the initial release. Patch Management adds to the security by scanning network thoroughly and identify missing patches and efficiently installing those patches and updates across the network.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Patch Management solution is not deployed in the organization as a result of which attackers can exploit unpatched critical and high-risk vulnerabilities that are reported and can compromise the system",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1546.010",
+            "T1546.011",
+            "T1176",
+            "T1548.002",
+            "T1542.002",
+            "T1195.001",
+            "T1195.002",
+            "T1574.002",
+            "T1189",
+            "T1190",
+            "T1212",
+            "T1211",
+            "T1068",
+            "T1210",
+            "T1495",
+            "T1552.006",
+            "T1574",
+            "T1602.002",
+            "T1137",
+            "T1550.002",
+            "T1110.001",
+            "T1542",
+            "T1072",
+            "T1195",
+            "T1542.001",
+            "T1091",
+            "T1047",
+            "T1059"
+        ]
+    },
+    {
+        "unique_identifier": "40000121",
+        "description": [
+            {
+                "field_data": "Cloud Access Security Brokers (CASB) solution is a software tool or service that is implemented between an organization's on-premises infrastructure and a cloud provider's infrastructure. CASB solution provides visibility into Shadow IT operations, which helps in identifying risky cloud applications, prevent dangerous usage of unsanctioned applications, and also identify the most vulnerable users who are at risk.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Cloud Access Security Brokers (CASB) solution is not implemented in the organization, as result of which the cloud provider infrastructure and the inhouse cloud infrastructure cannot be validated whether cloud infrastructure meet compliance requirements, which increases the chances of insecure communication, MITM and data integrity based attacks",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1537",
+            "T1619",
+            "T1538",
+            "T1580",
+            "T1578",
+            "T1098",
+            "T1136",
+            "T1110"
+        ]
+    },
+    {
+        "unique_identifier": "40000125",
+        "description": [
+            {
+                "field_data": "Database Activity Monitoring solution is used to monitor, capture and record database events in near-real time and provide alerts about policy violations. It validate each and every query to the database and detects unusual database read and update activity from the application layer.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Database Activity Monitoring solution is not deployed in organization as a result of which the changes and suspicious access and activity in the database cannot be tracked, which allows attackers to manipulate and exfiltrate the data in the database",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1602",
+            "T1530",
+            "T1213",
+            "T1005",
+            "T1039",
+            "T1565",
+            "T1485"
+        ]
+    },
+    {
+        "unique_identifier": "40000128",
+        "description": [
+            {
+                "field_data": "DDoS Mitigation Solution includes sequence of activities aimed at diminishing the impact of a distributed denial of service (DDoS) attacks and successfully protect against them. It helps in reducing downtime and minimizing business risk by deflecting and absorbing the largest DDoS attacks.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that DDoS Mitigation solution is not deployed in the organization as a result of which an attacker can cause a Denial of Service that might stops the server from accepting further connections that might result in unavailability of the service and disruption of business operations",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1498",
+            "T1499"
+        ]
+    },
+    {
+        "unique_identifier": "40000132",
+        "description": [
+            {
+                "field_data": "Digital Forensic tools are always combined with incident response methodology. It helps an organization to immediately and proficiently respond to security incidents. Further, post incident investigation is performed to perform the root cause analysis. Revealing caveats in the security sensors, infrastructure, attack's kill chain modus operandi and also reveals the attacker's techniques/tactics/procedures. The digital forensic invention outcome helps enumerate,mitigate the risks, ways to efficiently tune the sensors for better detection , vulnerability management and underlying policies.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Digital Forensic Investigation solution is not implemented in the organization, since organizations rely deeply on digital devices to process, store and recover data, so incase of any security incident, due to absence of forensic tool organization may not effectively identify the cause and root out flaws or bugs that would allow a repeat scenario and may impact business",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1070.004",
+            "T1525",
+            "T1098",
+            "T1505.003"
+        ]
+    },
+    {
+        "unique_identifier": "40000136",
+        "description": [
+            {
+                "field_data": "A secure email gateway offers a robust framework of technologies that protect against email-borne threats. Email Gateway works as a firewall for email communications, enforcing a set of rules about what email can enter or leave email network. They scan all inbound and outbound malicious emails, to stop malicious content from entering employees inboxes. It offer features such as virus and malware blocking, spam filtering, content filtering and email archiving.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Email gateway security solution is not implemented in the organization, due to which it become prone to email-borne threats i e Phishing, Business email compromise etc that an attacker can use to gain control over organization confidential information and further leads to DOS Attacks",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1566",
+            "T1598",
+            "T1534",
+            "T1204"
+        ]
+    },
+    {
+        "unique_identifier": "40000140",
+        "description": [
+            {
+                "field_data": "The Endpoint Detection and Response Solution (EDR) and Endpoint Protection Platform Solution (EPP) together act as comprehensive endpoint security solution as EDR focuses primarily on threats that have evaded front-line defenses and entered into the organization network, and EPP focuses on prevention.\nEDR is an integrated endpoint security solution that combines real-time continuous monitoring and collection of endpoint data with rule-based automated response and analysis capabilities.\nEPP is an integrated suite of endpoint protection technologies such as antivirus, data encryption, intrusion prevention, and data loss prevention, that detects and stops a variety of threats at the endpoint.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that EDR and EPP are not deployed in the organization that may allow an attacker to stay for a longer period of time by evading detection and thus which may allow him to exploit vulnerabilities or compromise systems in the organization",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1059",
+            "T1543",
+            "T1574",
+            "T1204.002",
+            "T1055",
+            "T1027",
+            "T1003"
+        ]
+    },
+    {
+        "unique_identifier": "40000148",
+        "description": [
+            {
+                "field_data": "Asset management software is a application that is used to record and track an asset throughout its life cycle, from procurement to disposal. It provides an organization with information like where certain assets are located, who is using them, how they are being utilized, and details about the asset.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Asset Management solution is not implemented in the organization, it means the maintenance of assets, both software, and hardware cannot be tracked, which leads to assets being not managed, patched from risks, and vulnerabilities",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1586",
+            "T1585",
+            "T1592",
+            "T1590",
+            "T1136",
+            "T1098"
+        ]
+    },
+    {
+        "unique_identifier": "40000152",
+        "description": [
+            {
+                "field_data": "Data Loss Prevention solution is implemented to ensure that sensitive data is not lost, misused, or accessed by unauthorized users. It monitors all endpoint activity and can block emails or attachments containing confidential data, enforce policies on the transfer of data to removable media devices such as USB thumb drives, and even prevent activities such as printing, copying and pasting. DLP offers complete data visibility and control, ensuring that employees, third-party vendors, contractors and partners are prevented from leaking sensitive data intentionally or inadvertently.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Data Loss Prevention solution is not implemented in the organization, it means there are high chances of malwares intruding the organization systems, and assets, which cannot be prevented Also, rogue employee's can exfiltrate the data from the system easily which leads to business impact",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1005",
+            "T1025",
+            "T1048",
+            "T1041",
+            "T1052",
+            "T1567",
+            "T1213",
+            "T1039"
+        ]
+    },
+    {
+        "unique_identifier": "40000158",
+        "description": [
+            {
+                "field_data": "Identity governance and administration solutions manage identity and access life cycles across multiple systems. It automate provisioning of accounts, fulfill access requests, manage passwords, and govern user access and access certification processes.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Identity Governance and Administration system is not implemented in the organization, due to which organization security team won't be able to promptly detect inappropriate access, policy violations or weak controls that put organizations at risk and leads to business impact",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1621",
+            "T1110",
+            "T1098",
+            "T1136",
+            "T1531"
+        ]
+    },
+    {
+        "unique_identifier": "40000162",
+        "description": [
+            {
+                "field_data": "Endpoint and Mobile Encryption solution is computer security software that protects the confidentiality of data stored on computer media by encrypting the complete storage media (e.g., a hard disk, floppy disk, or USB device) by using disk encryption.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Device encryption is not enabled on all the host systems; this may lead to the risk of unauthorized access and data leakage to the company's information",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1601",
+            "T1565",
+            "T1005",
+            "T1542"
+        ]
+    },
+    {
+        "unique_identifier": "40000166",
+        "description": [
+            {
+                "field_data": "Vulnerability Assessment Solution proactively identify risks and vulnerabilities in computer systems, networks, hardware, applications and other parts of the ecosystem. These tools provide the required information about the incident to security and response teams and further helps them in analyzing and prioritizing risks for potential remediation.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Vulnerability Assessment solution is not deployed to detect security vulnerabilities in the IT environments exposed to the internet, which may lead to increased exposure to technical vulnerabilities, non-procedural approach for vulnerability management and further leads to major information security incidents",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1195",
+            "T1210",
+            "T1190",
+            "T1212"
+        ]
+    },
+    {
+        "unique_identifier": "40000170",
+        "description": [
+            {
+                "field_data": "Cyber Risk Quantification (CRQ) solution helps businesses measure and mitigate the cyber risk posture of the organization in real-time and brings out actionable insights per asset and vector, enabling business leaders to make an informed cybersecurity decision. As technology continues to proliferate, businesses will need Cyber Risk Quantification (CRQ) to stay a step ahead in the digital world. It uses industry leading and highly vetted probabilistic models to more accurately describe the cyber security and technology-based risks facing an organization.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Cyber Risk Quantification Solution is not implemented in the organization, it means organization risks are not scanned, and quantified continuously which may lead to some security threats and may impact business",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1059"
+        ]
+    },
+    {
+        "unique_identifier": "40000178",
+        "description": [
+            {
+                "field_data": "Integrated Risk Management solution is defined as the combined technology, processes and data that serves to fulfill the objective of enabling the simplification, automation and integration of strategic, operational and IT risk management across an organization.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Integrated Risk Management solution is not deployed in the organization, as a result organization may not be able to manage the risk effectively by identifying and mitigating them in timely manner",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1210",
+            "T1190",
+            "T1486",
+            "T1565",
+            "T1491",
+            "T1499",
+            "T1498",
+            "T1489",
+            "T1555",
+            "T1482",
+            "T1201",
+            "T1033",
+            "T1557",
+            "T1046",
+            "T1040",
+            "T1135",
+            "T1016"
+        ]
+    },
+    {
+        "unique_identifier": "40000182",
+        "description": [
+            {
+                "field_data": "IDS (Intrusion Detection System) and IPS (Intrusion Prevention System) both increase the security level of networks, monitoring traffic and inspecting, and scanning packets for suspicious data. Detection in both systems is mainly based on signatures already detected and recognized.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Intrusion Detection & Prevention Solutions is not implemented in the organization, to cover all external and accessible loophole, which may lead to break-in, unauthorized access to premises, theft of information or information processing facilities, etc",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1557.002",
+            "T1557",
+            "T1071",
+            "T1573.002",
+            "T1102.002",
+            "T1557.003",
+            "T1071.004",
+            "T1132",
+            "T1001",
+            "T1030",
+            "T1602",
+            "T1102.001",
+            "T1568.002",
+            "T1568",
+            "T1573",
+            "T1048",
+            "T1048.002",
+            "T1041",
+            "T1048.001",
+            "T1048.003",
+            "T1090.002",
+            "T1008",
+            "T1071.002",
+            "T1105",
+            "T1090.001",
+            "T1001.001",
+            "T1557.001",
+            "T1570",
+            "T1071.003",
+            "T1204.003",
+            "T1204.001",
+            "T1104",
+            "T1602.002",
+            "T1046",
+            "T1095",
+            "T1132.002",
+            "T1571",
+            "T1102.003",
+            "T1566",
+            "T1001.003",
+            "T1572",
+            "T1090",
+            "T1542.004",
+            "T1219",
+            "T1602.001",
+            "T1029",
+            "T1566.001",
+            "T1132.001",
+            "T1001.002",
+            "T1573.001",
+            "T1542.005",
+            "T1221",
+            "T1204",
+            "T1071.001",
+            "T1102"
+        ]
+    },
+    {
+        "unique_identifier": "40000187",
+        "description": [
+            {
+                "field_data": "IT Risk Management Solution provides sophisticated tools to manage and mitigate IT risk, standardize IT risk assessment methodologies, and provide actionable, enterprise-level risk information for improved organizational decision making. It integrates with multiple end-point IT security band infrastructure management tools and security intelligence feeds to identify and prioritize the risk exposure for IT assets.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that IT Risk Management Solution is not deployed in the organization, due to which emerging risks across geopolitical, digital, strategic, third-party, cybersecurity, and compliance areas may not be managed effectively and it can further impact business performance",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1210",
+            "T1068",
+            "T1211",
+            "T1212",
+            "T1190",
+            "T1531",
+            "T1485",
+            "T1486",
+            "T1565",
+            "T1491",
+            "T1561",
+            "T1499",
+            "T1495",
+            "T1490",
+            "T1498",
+            "T1496",
+            "T1489",
+            "T1529",
+            "T1195"
+        ]
+    },
+    {
+        "unique_identifier": "40000191",
+        "description": [
+            {
+                "field_data": "IT Vendor Risk Management solution solutions support enterprises to assess, monitor and manage their exposure to risks arising from use of third parties that provide IT products and services or that have access to their information.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that IT Vendor Risk Management solution is not implemented in the organization, which may lead to undetected malicious activities and does not ensure quality delivery of the third-party/vendor",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1592",
+            "T1589",
+            "T1199",
+            "T1213",
+            "T1597",
+            "T1596"
+        ]
+    },
+    {
+        "unique_identifier": "40000194",
+        "description": [
+            {
+                "field_data": "Network Access Control (NAC) solution is implemented in organization to restrict access to resources on their network. NAC helps to define rules and permissions on devices that can access the network and helps in preventing the unauthorized devices and APT from accessing the network.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that NAC solution is not deployed in the organization due to which resources can be accessed by external parties, and any users in the organization can access the network access, which results in data exfiltration and privilege escalation based attacks",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1200"
+        ]
+    },
+    {
+        "unique_identifier": "40000201",
+        "description": [
+            {
+                "field_data": "Password Management solution enforce various password controls such as an individual password for accountability, enforce password changes, password storage in encrypted form, masking of passwords on screen, etc. It save the effort of remembering different logins for all online accounts, and keep them secure by generating strong passwords that are difficult to guess, and storing them all safely in an encrypted vault.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Password Management solution is not deployed ,since users need to maintain different passwords for each account they might end up using weak credentials, which may lead to password attacks",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1555",
+            "T1552",
+            "T1003",
+            "T1566"
+        ]
+    },
+    {
+        "unique_identifier": "40000205",
+        "description": [
+            {
+                "field_data": "Privileged Access Management is used to defined the privileges and access restriction to the users that use the organization resources. This helps to assign privileges and apply restrictions over the users and the privileged users for enabling the security over the data that is handled in the network.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that PAM solution is not implemented which means access to critical assets and data is not restricted This leads to unintended access of critical assets and privilege escalation based attacks which allows attacker to access the sensitive data with ease",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1003.008",
+            "T1548",
+            "T1134",
+            "T1098",
+            "T1098.001",
+            "T1098.003",
+            "T1098.002",
+            "T1053.002",
+            "T1542.003",
+            "T1612",
+            "T1548.002",
+            "T1003.005",
+            "T1136.003",
+            "T1078.004",
+            "T1553.006",
+            "T1059",
+            "T1559.001",
+            "T1552.007",
+            "T1609",
+            "T1053.007",
+            "T1136",
+            "T1134.002",
+            "T1552.002",
+            "T1003.006",
+            "T1021.003",
+            "T1136.002",
+            "T1078.002",
+            "T1556.001",
+            "T1484",
+            "T1484.002",
+            "T1601.002",
+            "T1611",
+            "T1190",
+            "T1210",
+            "T1222",
+            "T1495",
+            "T1606",
+            "T1558.001",
+            "T1505.004",
+            "T1525",
+            "T1559",
+            "T1558.003",
+            "T1547.006",
+            "T1003.004",
+            "T1003.001",
+            "T1222.002",
+            "T1136.001",
+            "T1078.003",
+            "T1134.003",
+            "T1556",
+            "T1601",
+            "T1218.007",
+            "T1003.003",
+            "T1599.001",
+            "T1599",
+            "T1556.004",
+            "T1059.008",
+            "T1003",
+            "T1550.002",
+            "T1550.003",
+            "T1601.001",
+            "T1556.003",
+            "T1059.001",
+            "T1542",
+            "T1003.007",
+            "T1055",
+            "T1055.008",
+            "T1563.002",
+            "T1021.001",
+            "T1563",
+            "T1556.005",
+            "T1606.002",
+            "T1021.002",
+            "T1505.001",
+            "T1563.001",
+            "T1562.009",
+            "T1053.005",
+            "T1053",
+            "T1003.002",
+            "T1505",
+            "T1569.002",
+            "T1558.002",
+            "T1072",
+            "T1558",
+            "T1548.003",
+            "T1218",
+            "T1542.001",
+            "T1569",
+            "T1543.002",
+            "T1053.006",
+            "T1542.005",
+            "T1134.001",
+            "T1505.002",
+            "T1552",
+            "T1550",
+            "T1078",
+            "T1056.003",
+            "T1222.001",
+            "T1047",
+            "T1546.003",
+            "T1021.006"
+        ]
+    },
+    {
+        "unique_identifier": "40000208",
+        "description": [
+            {
+                "field_data": "Secure Web Gateway solution should be implemented in the organization as it offers protection against online security threats by enforcing company security policies and filtering malicious internet traffic in real-time.It offers URL filtering, application controls for web applications and the detection and filtering of malicious code.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Secure Gateway is not implemented in the organization, and users may end up accessing malicious website traffic on the internet and in the cloud that could infect their devices and compromise the internal network of organization",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1102.002",
+            "T1059",
+            "T1218.001",
+            "T1102.001",
+            "T1568.002",
+            "T1189",
+            "T1568",
+            "T1567",
+            "T1567.002",
+            "T1567.001",
+            "T1059.007",
+            "T1204.001",
+            "T1566",
+            "T1566.001",
+            "T1566.002",
+            "T1566.003",
+            "T1204",
+            "T1059.005",
+            "T1102"
+        ]
+    },
+    {
+        "unique_identifier": "40000211",
+        "description": [
+            {
+                "field_data": "Computer-Based Training (CBT) solution is a central component of a comprehensive security education and behavior management program. CBT delivers a learning experience through computing devices. Security Training will educate the employees about the possible risks while handling the information they manage and covers Vishing, Phishing, Access Control Security, Data Security, System Security, Network Security, Wifi Security etc.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Computer-Based Training solution is not deployed in the organization, which may result in security lapse at people end leading to cyber attacks, malicious activities, unintentional information disclosure, social engineering, etc",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1557",
+            "T1176",
+            "T1185",
+            "T1213",
+            "T1056",
+            "T1036",
+            "T1111",
+            "T1621",
+            "T1566",
+            "T1598",
+            "T1528",
+            "T1539",
+            "T1221",
+            "T1552",
+            "T1204",
+            "T1078",
+            "T1110"
+        ]
+    },
+    {
+        "unique_identifier": "40000215",
+        "description": [
+            {
+                "field_data": "Security Configuration Management solution is used to manage the configuration settings and helps to identify the vulnerabilities and risks associated with them. It is used to track changes and help define the best practise approach and especially for business-critical areas.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Security Configuration Management solution is not implemented in the organization which means the best practises cannot be maintained and tracked and misconfiguration and vulnerabilities might go unnoticed which increases the attack surfaces",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1548",
+            "T1197",
+            "T1543",
+            "T1547",
+            "T1053",
+            "T1195",
+            "T1037"
+        ]
+    },
+    {
+        "unique_identifier": "40000219",
+        "description": [
+            {
+                "field_data": "Security information and event management (SIEM) is an approach to security management that combines SIM (security information management), and SEM (security event management) functions into one security management system. It is important to implement SIEM to monitor and manages the events/logs generated by the devices.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Security Information and Event Management (SIEM) Solution is not implemented in the organization which might leave the organization take more time in realizing an attack or increase the reaction time, which leads to high-level damage to the organization and its processes",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1566",
+            "T1598",
+            "T1133",
+            "T1059",
+            "T1020",
+            "T1110",
+            "T1190",
+            "T1595",
+            "T1204",
+            "T1571",
+            "T1558",
+            "T1550"
+        ]
+    },
+    {
+        "unique_identifier": "40000223",
+        "description": [
+            {
+                "field_data": "Organization should implement User and Entity Behavior Analytics solutions to analyze the user behaviors that are connected to an organization's network and entities or end-points such as servers, applications, etc. to figure out the anomalies and send alerts of the probable threat. UEBA monitors the activities of users and entities (such as hardware devices and networks) and compares present activity to \"normal\" or \"baseline\" behavior.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that User and Entity Behavior Analytics solution are not implemented due to which some anomalous activity might not be identified, which could be an indication of an intrusion or malicious \"insider\" actions and later it may result in serious threats and have major business impacts",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1078",
+            "T1030",
+            "T1011",
+            "T1052",
+            "T1567",
+            "T1029",
+            "T1537"
+        ]
+    },
+    {
+        "unique_identifier": "40000227",
+        "description": [
+            {
+                "field_data": "Web Application Firewall solution protects web apps by filtering, monitoring, and blocking malicious traffic (HTTP/S) proceeding towards the Web application. It prevents unauthorized data from transferring from the app. It applies a set of policy rules to determine between the malicious and the safe traffic. Applying these policies helps WAF to identify the vulnerability, loopholes, and malicious traffic behavior and to take immediate action. Policies enable WAF to secure web applications and servers from attack.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the Web Application Firewall solution is not in place; this may lead to the risk of improper restrictions in the applications and allow an attacker to compromise the application",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1190",
+            "T1133",
+            "T1592",
+            "T1595"
+        ]
+    },
+    {
+        "unique_identifier": "40000490",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Access Management Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Access Management Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1199",
+            "T1098",
+            "T1136",
+            "T1556",
+            "T1110",
+            "T1552",
+            "T1040",
+            "T1003",
+            "T1550",
+            "T1548",
+            "T1548.002",
+            "T1574.005",
+            "T1574",
+            "T1550.002",
+            "T1574.010",
+            "T1134",
+            "T1053.002",
+            "T1197",
+            "T1185",
+            "T1574.012",
+            "T1087.004",
+            "T1078.004",
+            "T1580",
+            "T1538",
+            "T1619",
+            "T1213.003",
+            "T1213.001",
+            "T1552.007",
+            "T1609",
+            "T1053.007",
+            "T1613",
+            "T1578.002",
+            "T1134.002",
+            "T1578.001",
+            "T1543",
+            "T1110.004",
+            "T1053.003",
+            "T1530",
+            "T1213",
+            "T1578.003",
+            "T1610",
+            "T1562.008",
+            "T1562.002",
+            "T1562.007",
+            "T1562.004",
+            "T1562.001",
+            "T1484",
+            "T1606",
+            "T1484.001",
+            "T1562",
+            "T1562.006",
+            "T1547.006",
+            "T1543.004",
+            "T1569.001",
+            "T1134.003",
+            "T1578",
+            "T1059.008",
+            "T1550.003",
+            "T1547.012",
+            "T1563.002",
+            "T1021.001",
+            "T1563",
+            "T1021",
+            "T1606.002",
+            "T1021.004",
+            "T1098.004",
+            "T1053.005",
+            "T1053",
+            "T1505",
+            "T1489",
+            "T1213.002",
+            "T1547.009",
+            "T1528",
+            "T1569",
+            "T1543.002",
+            "T1053.006",
+            "T1134.001",
+            "T1537",
+            "T1078",
+            "T1047",
+            "T1546.003",
+            "T1543.003",
+            "T1547.004",
+            "T1547.013"
+        ]
+    },
+    {
+        "unique_identifier": "40000491",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Application Security Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Application Security Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1068",
+            "T1212",
+            "T1190",
+            "T1210",
+            "T1133"
+        ]
+    },
+    {
+        "unique_identifier": "40000492",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Backup and Recovery Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Backup and Recovery Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1485",
+            "T1486",
+            "T1561",
+            "T1491",
+            "T1490"
+        ]
+    },
+    {
+        "unique_identifier": "40000493",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Cyber Risk Quantification Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Cyber Risk Quantification Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1059"
+        ]
+    },
+    {
+        "unique_identifier": "40000494",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Data Loss Prevention Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Data Loss Prevention Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1005",
+            "T1025",
+            "T1048",
+            "T1041",
+            "T1052",
+            "T1567",
+            "T1213",
+            "T1039"
+        ]
+    },
+    {
+        "unique_identifier": "40000495",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Database Activity Monitoring Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Database Activity Monitoring Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1602",
+            "T1530",
+            "T1213",
+            "T1005",
+            "T1039",
+            "T1565",
+            "T1485"
+        ]
+    },
+    {
+        "unique_identifier": "40000496",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Endpoint and Mobile Encryption Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Endpoint and Mobile Encryption Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1601",
+            "T1565",
+            "T1005",
+            "T1542"
+        ]
+    },
+    {
+        "unique_identifier": "40000497",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Endpoint Detection and Response Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Endpoint Detection and Response Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1059",
+            "T1543",
+            "T1574",
+            "T1204.002",
+            "T1055",
+            "T1027",
+            "T1003"
+        ]
+    },
+    {
+        "unique_identifier": "40000498",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Password Management Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Password Management Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1555",
+            "T1552",
+            "T1003",
+            "T1566"
+        ]
+    },
+    {
+        "unique_identifier": "40000499",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Privileged Access Management Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Privileged Access Management Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1003.008",
+            "T1548",
+            "T1134",
+            "T1098",
+            "T1098.001",
+            "T1098.003",
+            "T1098.002",
+            "T1053.002",
+            "T1542.003",
+            "T1612",
+            "T1548.002",
+            "T1003.005",
+            "T1136.003",
+            "T1078.004",
+            "T1553.006",
+            "T1059",
+            "T1559.001",
+            "T1552.007",
+            "T1609",
+            "T1053.007",
+            "T1136",
+            "T1134.002",
+            "T1552.002",
+            "T1003.006",
+            "T1021.003",
+            "T1136.002",
+            "T1078.002",
+            "T1556.001",
+            "T1484",
+            "T1484.002",
+            "T1601.002",
+            "T1611",
+            "T1190",
+            "T1210",
+            "T1222",
+            "T1495",
+            "T1606",
+            "T1558.001",
+            "T1505.004",
+            "T1525",
+            "T1559",
+            "T1558.003",
+            "T1547.006",
+            "T1003.004",
+            "T1003.001",
+            "T1222.002",
+            "T1136.001",
+            "T1078.003",
+            "T1134.003",
+            "T1556",
+            "T1601",
+            "T1218.007",
+            "T1003.003",
+            "T1599.001",
+            "T1599",
+            "T1556.004",
+            "T1059.008",
+            "T1003",
+            "T1550.002",
+            "T1550.003",
+            "T1601.001",
+            "T1556.003",
+            "T1059.001",
+            "T1542",
+            "T1003.007",
+            "T1055",
+            "T1055.008",
+            "T1563.002",
+            "T1021.001",
+            "T1563",
+            "T1556.005",
+            "T1606.002",
+            "T1021.002",
+            "T1505.001",
+            "T1563.001",
+            "T1562.009",
+            "T1053.005",
+            "T1053",
+            "T1003.002",
+            "T1505",
+            "T1569.002",
+            "T1558.002",
+            "T1072",
+            "T1558",
+            "T1548.003",
+            "T1218",
+            "T1542.001",
+            "T1569",
+            "T1543.002",
+            "T1053.006",
+            "T1542.005",
+            "T1134.001",
+            "T1505.002",
+            "T1552",
+            "T1550",
+            "T1078",
+            "T1056.003",
+            "T1222.001",
+            "T1047",
+            "T1546.003",
+            "T1021.006"
+        ]
+    },
+    {
+        "unique_identifier": "40000500",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Security Configuration Management Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Security Configuration Management Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1548",
+            "T1197",
+            "T1543",
+            "T1547",
+            "T1053",
+            "T1195",
+            "T1037"
+        ]
+    },
+    {
+        "unique_identifier": "40000501",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Security Information and Event Management (SIEM) Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Security Information and Event Management (SIEM) Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1566",
+            "T1598",
+            "T1133",
+            "T1059",
+            "T1020",
+            "T1110",
+            "T1190",
+            "T1595",
+            "T1204",
+            "T1571",
+            "T1558",
+            "T1550"
+        ]
+    },
+    {
+        "unique_identifier": "40000502",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the User and Entity Behavior Analytics Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the User and Entity Behavior Analytics Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1078",
+            "T1030",
+            "T1011",
+            "T1052",
+            "T1567",
+            "T1029",
+            "T1537"
+        ]
+    },
+    {
+        "unique_identifier": "40000503",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by Vulnerability Assessment Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Vulnerability Assessment Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information / functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1195",
+            "T1210",
+            "T1190",
+            "T1212"
+        ]
+    },
+    {
+        "unique_identifier": "40000504",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the CASB Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the CASB Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information/functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1537",
+            "T1619",
+            "T1538",
+            "T1580",
+            "T1578",
+            "T1098",
+            "T1136",
+            "T1110"
+        ]
+    },
+    {
+        "unique_identifier": "40000505",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Web Application Firewall (WAF)",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business critical assets are not covered by the Web Application Firewall which might cause the assets to be exposed to threats and vulnerabilities that might affect the information/functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1190",
+            "T1133",
+            "T1592",
+            "T1595"
+        ]
+    },
+    {
+        "unique_identifier": "40000506",
+        "description": [
+            {
+                "field_data": "CWPPs are workload-centric security products that protect server workloads in hybrid, multi-cloud data centre environments. It provide consistent visibility and control for physical machines, virtual machines (VMs), containers and serverless workloads, regardless of location. CWPP protect workloads using a combination of system integrity protection, application control, behavioural monitoring, intrusion prevention and optional anti-malware protection at runtime. It also includes scanning for workload risk proactively in the development pipeline.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Cloud Workload Protection Solution (CWPP) solution is not implemented in the organization as a result, Applications and data are at risk because of the lack of visibility and control, the changing nature of workloads, and the prevalence of the DevOps environment.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1195",
+            "T1210",
+            "T1190",
+            "T1212",
+            "T1204.002",
+            "T1595"
+        ]
+    },
+    {
+        "unique_identifier": "40000507",
+        "description": [
+            {
+                "field_data": "Deception technology software is designed to help detect, analyze, and protect against unknown threats by tricking threat actors into thinking they have discovered zero-day or other vulnerabilities. These tools use decoys, traps, lures, honeypots, and other deceptively attractive data sources the attacker may consider valuable. This bait is visible to the attacker and alerts security teams when they have taken the bait. Security teams can then cut off access and investigate the attacker\u2019s behaviour. Companies use these tools to allow hackers into their systems to monitor their behaviour with the goal of better understanding their navigation paths, operational mechanisms, and targets. In effect, this software helps provide the company with information on vulnerabilities by offering a better understanding of threat vectors and vulnerabilities of their own systems, applications, and networks.\n\nDeception technology products are typically standalone solutions purpose-built for deception and investigation. Occasionally, data loss prevention (DLP) software and network security software may have some features to insert traps or lures but these do not compare to the same variety of decoys as deception-specific technology platforms.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Deception Technology software is not implemented in the organization as a result the appropriate defence practice to misguide the attackers are not implemented and attackers can get access to the infrastructure",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1059",
+            "T1543",
+            "T1574",
+            "T1204.002",
+            "T1055",
+            "T1027",
+            "T1003",
+            "T1595"
+        ]
+    },
+    {
+        "unique_identifier": "40000508",
+        "description": [
+            {
+                "field_data": "Data masking, an umbrella term for data anonymization, pseudonymization, redaction, scrubbing, or de-identification, is a method of protecting sensitive data by replacing the original value with a fictitious but realistic equivalent.\n\nThese enable organizations to operationally minimize the footprint and propagation of sensitive data (or its viewing) without extensive custom development. Data is masked either before access or at the time of access, depending on the use case\u2019s requirements.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Data Masking Technology is not implemented in the organization, due to which the confidential information is not masked which further increases the risk of sensitive data being exposed or leaked",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1565.001",
+            "T1005",
+            "T1025",
+            "T1048",
+            "T1041",
+            "T1052",
+            "T1567",
+            "T1213",
+            "T1039"
+        ]
+    },
+    {
+        "unique_identifier": "40000509",
+        "description": [
+            {
+                "field_data": "Electronic Data Discovery solutions automate and facilitate the electronic discovery (e-discovery) process, which includes the identification, preservation, collection, processing, review, analysis and production of digital data in support of the common law discovery process in litigation or other investigative proceedings.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the Electronic Data Discovery solution is not implemented, as a result of which sensitive customer data or credentials may be at risk in the event of a breach as the data could be stored in an unsafe manner such as in plaintext in the database, in user workstations or on a network shared drive.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1005",
+            "T1025",
+            "T1213",
+            "T1039",
+            "T1530",
+            "T1119",
+            "T1486",
+            "T1565",
+            "T1485",
+            "T1078",
+            "T1078.001",
+            "T1078.002",
+            "T1078.003",
+            "T1078.004"
+        ]
+    },
+    {
+        "unique_identifier": "40000510",
+        "description": [
+            {
+                "field_data": "IoT security is the technology segment focused on safeguarding connected devices and networks in the internet of things (IoT). IoT involves adding internet connectivity to a system of interrelated computing devices, mechanical and digital machines, each \"thing\" is provided a unique identifier and the ability to automatically transfer data over a network. Allowing devices to connect to the internet opens them up to a number of serious vulnerabilities if they are not properly protected.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that IoT Security Solution is not implemented in the organization as a result, if attackers find a way to inject malware into an IoT system, they may change its functionality, collect personal data, and launch other attacks. Moreover, some devices can be infected with viruses out of the box if manufacturers don't ensure adequate software security.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1195",
+            "T1210",
+            "T1190",
+            "T1212",
+            "T1199",
+            "T1133",
+            "T1136.001",
+            "T1557",
+            "T1046",
+            "T1048",
+            "T1095",
+            "T1571",
+            "T1490"
+        ]
+    },
+    {
+        "unique_identifier": "40000511",
+        "description": [
+            {
+                "field_data": "Operational technology (OT) includes computer systems designed to be deployed in critical infrastructure (power, water, etc.), manufacturing, and similar industries. They automate, monitor, and manage the operations of industrial machinery, using custom protocols and software to communicate with legacy and proprietary systems.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the operational technology security solution is not implemented, as a result of which a security issue in the underline control system could lead to damage to property or a threat to the safety of its users.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1195",
+            "T1210",
+            "T1190",
+            "T1212",
+            "T1199",
+            "T1133",
+            "T1136.001",
+            "T1557",
+            "T1046",
+            "T1048",
+            "T1095",
+            "T1571",
+            "T1490"
+        ]
+    },
+    {
+        "unique_identifier": "40000512",
+        "description": [
+            {
+                "field_data": "Threat intelligence is the analysis of data using tools and techniques to generate meaningful information about existing or emerging threats targeting the organization that helps mitigate risks. Threat Intelligence helps organizations make faster, more informed security decisions and change their behaviour from reactive to proactive to combat attacks.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Security Threat Intelligence software is not implemented, as a result of which the information about existing or emerging threats targeting the organization will not be identified and further leads to security attacks",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1592",
+            "T1589",
+            "T1199",
+            "T1213",
+            "T1597",
+            "T1596",
+            "T1212",
+            "T1210"
+        ]
+    },
+    {
+        "unique_identifier": "40000513",
+        "description": [
+            {
+                "field_data": "Zero Trust Network Access (ZTNA) is an IT security solution that provides secure remote access to an organization\u2019s applications, data, and services based on clearly defined access control policies.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the Network access solution is not implemented as a result, there will be insecure remote access to an organization\u2019s applications, data, and services based, which can further lead to attacker gaining access to the infrastructure",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1199",
+            "T1133",
+            "T1136.001",
+            "T1046",
+            "T1571",
+            "T1557.002",
+            "T1557",
+            "T1499.004",
+            "T1557.003",
+            "T1071.004",
+            "T1498.001",
+            "T1048",
+            "T1048.002",
+            "T1048.001",
+            "T1048.003",
+            "T1557.001",
+            "T1570",
+            "T1090.003",
+            "T1599.001",
+            "T1599",
+            "T1498",
+            "T1602.002",
+            "T1095",
+            "T1499.001",
+            "T1205.001",
+            "T1572",
+            "T1090",
+            "T1498.002",
+            "T1219",
+            "T1021.002",
+            "T1602.001",
+            "T1499.002",
+            "T1205",
+            "T1021.005"
+        ]
+    },
+    {
+        "unique_identifier": "40000514",
+        "description": [
+            {
+                "field_data": "Security orchestration, automation and response (SOAR) technology helps coordinate, execute and automate tasks between various people and tools all within a single platform. This allows organizations to not only quickly respond to cybersecurity attacks but also observe, understand and prevent future incidents, thus improving their overall security posture.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Security Orchestration, Automation and Response (SOAR) Solution is not implemented, resulting in a genuine threat event that may get unnoticed.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1592",
+            "T1589",
+            "T1199",
+            "T1213",
+            "T1597",
+            "T1596",
+            "T1212",
+            "T1210",
+            "T1070.004",
+            "T1525",
+            "T1098",
+            "T1505.003"
+        ]
+    },
+    {
+        "unique_identifier": "40000515",
+        "description": [
+            {
+                "field_data": "NDR solutions primarily use non-signature-based techniques (for example, machine learning or other analytical techniques) to detect suspicious traffic on enterprise networks. NDR tools continuously analyze raw traffic and/or flow records to build models that reflect normal network behaviour. When the NDR tools detect suspicious traffic patterns, they raise alerts. NDR solutions can also monitor east/west communications by analyzing traffic from strategically placed network sensors.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Network Detection and Response Solution is not implemented as a result, malicious behaviour within the network will be undetected and lead to an increase in the cyber attacks on the network",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1071",
+            "T1071.001",
+            "T1071.002",
+            "T1071.003",
+            "T1071.004",
+            "T1132",
+            "T1132.001",
+            "T1132.002",
+            "T1001",
+            "T1001.001",
+            "T1001.002",
+            "T1001.003",
+            "T1573",
+            "T1573.001",
+            "T1573.002",
+            "T1095",
+            "T1571",
+            "T1572",
+            "T1090.001",
+            "T1090.004",
+            "T1557.001",
+            "T1557.002",
+            "T1557.003"
+        ]
+    },
+    {
+        "unique_identifier": "40000516",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the mandatory information security training completed by the employees",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the mandatory training is not completed, which may result in security lapse at people end leading to cyber attacks, malicious activities, unintentional information disclosure, social engineering, etc",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1557",
+            "T1176",
+            "T1185",
+            "T1213",
+            "T1056",
+            "T1036",
+            "T1111",
+            "T1621",
+            "T1566",
+            "T1598",
+            "T1528",
+            "T1539",
+            "T1221",
+            "T1552",
+            "T1204",
+            "T1078",
+            "T1110"
+        ]
+    },
+    {
+        "unique_identifier": "40000517",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical accounts/subscriptions/projects covered by the Cloud Workload Protection Platforms Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business-critical assets are not covered by the Cloud Workload Protection Platforms which might cause the assets to be exposed to threats and vulnerabilities that might affect the information/functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1195",
+            "T1210",
+            "T1190",
+            "T1212",
+            "T1204.002",
+            "T1595"
+        ]
+    },
+    {
+        "unique_identifier": "40000518",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Data Masking Technologies",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business-critical assets are not covered by the Cloud Workload Protection Platforms which might cause the assets to be exposed to threats and vulnerabilities that might affect the information/functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1565.001",
+            "T1005",
+            "T1025",
+            "T1048",
+            "T1041",
+            "T1052",
+            "T1567",
+            "T1213",
+            "T1039"
+        ]
+    },
+    {
+        "unique_identifier": "40000519",
+        "description": [
+            {
+                "field_data": "Cloud security posture management (CSPM) automates the identification and remediation of risks across cloud infrastructures, including Infrastructure as a Service (IaaS), Software as a Service (Saas), and Platform as a Service (PaaS). CSPM is used for risk visualization and assessment, incident response, compliance monitoring, and DevOps integration, and can uniformly apply best practices for cloud security to hybrid, multi-cloud, and container environments.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Cloud Security Posture Management (CSPM) Solution is not implemented in the organization which might leave the organization to take more time in realizing a cloud attack or increase the reaction time, which leads to high-level damage to the cloud infrastructure",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1195",
+            "T1210",
+            "T1190",
+            "T1212",
+            "T1204.002",
+            "T1595"
+        ]
+    },
+    {
+        "unique_identifier": "40000520",
+        "description": [
+            {
+                "field_data": "SaaS Security Posture Management (SSPM) is a robotic set of security tools and automation that enables the organization\u2019s Security and IT teams to get visibility and manage the security posture of their SaaS environments. While CSPM is looking at the security posture of the Public Cloud or IaaS environments like AWS; SSPM is diving into Services that the servers (or workloads) are not under the control of the organization like Salesforce and Slack.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that SaaS Security Posture Management (SSPM) is not implemented in the organization as a result, there would be a lack of privilege activity monitoring and inadequate compliance management of SAAS products.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1195",
+            "T1210",
+            "T1190",
+            "T1212",
+            "T1204.002",
+            "T1595"
+        ]
+    },
+    {
+        "unique_identifier": "40000521",
+        "description": [
+            {
+                "field_data": "Unified Endpoint Management is a solution for managing endpoints, offering mobile device management (MDM) and mobile application management (MAM) capabilities. With Endpoint Management, you manage device and app policies and deliver apps to users.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that Unified Endpoint Management (UEM) Solution is not implemented as a result, the organization would face challenges to implement the secure configuration of mobile devices over a centralized managed system, for different variety of operating systems.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1546.010",
+            "T1546.011",
+            "T1176",
+            "T1548.002",
+            "T1542.002",
+            "T1195.001",
+            "T1195.002",
+            "T1574.002",
+            "T1189",
+            "T1190",
+            "T1212",
+            "T1211",
+            "T1068",
+            "T1210",
+            "T1495",
+            "T1552.006",
+            "T1574",
+            "T1602.002",
+            "T1137",
+            "T1550.002",
+            "T1110.001",
+            "T1542",
+            "T1072",
+            "T1195",
+            "T1542.001",
+            "T1091",
+            "T1047",
+            "T1059"
+        ]
+    },
+    {
+        "unique_identifier": "40000522",
+        "description": [
+            {
+                "field_data": "The control indicates the percentage of the business critical assets covered by the Unified Endpoint Management (UEM)  Solution",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that the business-critical assets are not covered by the Unified Endpoint Management (UEM) Solution which might cause the assets to be exposed to threats and vulnerabilities that might affect the information/functionality of the assets",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1546.010",
+            "T1546.011",
+            "T1176",
+            "T1548.002",
+            "T1542.002",
+            "T1195.001",
+            "T1195.002",
+            "T1574.002",
+            "T1189",
+            "T1190",
+            "T1212",
+            "T1211",
+            "T1068",
+            "T1210",
+            "T1495",
+            "T1552.006",
+            "T1574",
+            "T1602.002",
+            "T1137",
+            "T1550.002",
+            "T1110.001",
+            "T1542",
+            "T1072",
+            "T1195",
+            "T1542.001",
+            "T1091",
+            "T1047",
+            "T1059"
+        ]
+    }
+]

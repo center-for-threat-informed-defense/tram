@@ -1,0 +1,105 @@
+{
+    "id": "T1011.001",
+    "name": "Exfiltration Over Bluetooth",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to exfiltrate data over Bluetooth rather than the command and control channel. If the command and control network is a wired Internet connection, an adversary may opt to exfiltrate data using a Bluetooth communication channel.\n\nAdversaries may choose to do this if they have sufficient access and proximity. Bluetooth connections might not be secured or defended as well as the primary Internet-connected channel because it is not routed through the same enterprise network.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1011/001",
+            "external_id": "T1011.001"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "exfiltration"
+        }
+    ],
+    "tactic": [
+        "exfiltration"
+    ],
+    "x_mitre_detection": "Monitor for processes utilizing the network that do not normally have network communication or have never been seen before. Processes that normally require user-driven events to access the network (for example, a web browser opening with a mouse click or key press) but access the network without such may be malicious.\n\nMonitor for and investigate changes to host adapter settings, such as addition and/or replication of communication interfaces.",
+    "x_mitre_data_sources": [
+        "File: File Access",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Bluetooth is disabled by configuring the security settings in local computer.",
+                "acid": "98582689"
+            },
+            {
+                "description": "Ensure that group policies are implemented in the organization to disable Bluetooth if not required in the environment.",
+                "acid": "98582690"
+            },
+            {
+                "description": "Ensure that creation of new network adapters are prevented (where possible).",
+                "acid": "98582691"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that system is monitored for suspicious processes (do not normally have network communication) that utilizes the network.",
+                "acid": "98582685"
+            },
+            {
+                "description": "Ensure that processes that require user-driven events to access the network are monitored for any unusual activity.",
+                "acid": "98582686"
+            },
+            {
+                "description": "Ensure that system is monitored and inspected for any changes to host adapter settings.",
+                "acid": "98582687"
+            },
+            {
+                "description": "Ensure that host adapter settings is monitored and inspected for any changes made to it.",
+                "acid": "98582688"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "19920455"
+    ],
+    "cveIds": []
+}

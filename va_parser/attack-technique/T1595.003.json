@@ -1,0 +1,82 @@
+﻿{
+    "id": "T1595.003",
+    "name": "Wordlist Scanning",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may iteratively probe infrastructure using brute-forcing and crawling techniques. While this technique employs similar methods to [Brute Force](https://attack.mitre.org/techniques/T1110), its goal is the identification of content and infrastructure rather than the discovery of valid credentials. Wordlists used in these scans may contain generic, commonly used names and file extensions or terms specific to a particular software. Adversaries may also create custom, target-specific wordlists using data gathered from other Reconnaissance techniques (ex: [Gather Victim Org Information](https://attack.mitre.org/techniques/T1591), or [Search Victim-Owned Websites](https://attack.mitre.org/techniques/T1594)).\n\nFor example, adversaries may use web content discovery tools such as Dirb, DirBuster, and GoBuster and generic or custom wordlists to enumerate a website's pages and directories.(Citation: ClearSky Lebanese Cedar Jan 2021) This can help them to discover old, vulnerable pages or hidden administrative portals that could become the target of further operations (ex: [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190) or [Brute Force](https://attack.mitre.org/techniques/T1110)).  \n\nAs cloud storage solutions typically use globally unique names, adversaries may also use target-specific wordlists and tools such as s3recon and GCPBucketBrute to enumerate public and private buckets on cloud infrastructure.(Citation: S3Recon GitHub)(Citation: GCPBucketBrute) Once storage objects are discovered, adversaries may leverage [Data from Cloud Storage](https://attack.mitre.org/techniques/T1530) to access valuable information that can be exfiltrated or used to escalate privileges and move laterally. ",
+    "x_mitre_platforms": [
+        "PRE"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1595/003",
+            "external_id": "T1595.003"
+        },
+        {
+            "source_name": "ClearSky Lebanese Cedar Jan 2021",
+            "description": "ClearSky Cyber Security. (2021, January). \u201cLebanese Cedar\u201d APT Global Lebanese Espionage Campaign Leveraging Web Servers. Retrieved February 10, 2021.",
+            "url": "https://www.clearskysec.com/wp-content/uploads/2021/01/Lebanese-Cedar-APT.pdf"
+        },
+        {
+            "source_name": "GCPBucketBrute",
+            "description": "Spencer Gietzen. (2019, February 26). Google Cloud Platform (GCP) Bucket Enumeration and Privilege Escalation. Retrieved March 4, 2022.",
+            "url": "https://rhinosecuritylabs.com/gcp/google-cloud-platform-gcp-bucket-enumeration/"
+        },
+        {
+            "source_name": "S3Recon GitHub",
+            "description": "Travis Clarke. (2020, March 21). S3Recon GitHub. Retrieved March 4, 2022.",
+            "url": "https://github.com/clarketm/s3recon"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "reconnaissance"
+        }
+    ],
+    "tactic": [
+        "reconnaissance"
+    ],
+    "x_mitre_detection": "Monitor for suspicious network traffic that could be indicative of scanning, such as large quantities originating from a single source (especially if the source is known to be associated with an adversary/botnet). Monitor for access to S3 buckets, especially those that are not intended to be publicly accessible. \n\nMuch of this activity may have a very high occurrence and associated false positive rate, as well as potentially taking place outside the visibility of the target organization, making detection difficult for defenders. \n\nDetection efforts may be focused on related stages of the adversary lifecycle, such as during Initial Access.",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Pre-compromise",
+                "description": "This category is used for any applicable mitigation activities that apply to techniques occurring before an adversary gains Initial Access, such as Reconnaissance and Resource Development techniques.",
+                "type": "course-of-action",
+                "id": "M1056"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

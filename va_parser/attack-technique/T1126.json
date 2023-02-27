@@ -1,0 +1,72 @@
+﻿{
+    "id": "T1126",
+    "name": "Network Share Connection Removal",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may remove share connections that are no longer useful in order to clean up traces of their operation. Windows shared drive and [Windows Admin Shares](https://attack.mitre.org/techniques/T1077) connections can be removed when no longer needed. [Net](https://attack.mitre.org/software/S0039) is an example utility that can be used to remove network share connections with the <code>net use \\\\system\\share /delete</code> command. (Citation: Technet Net Use)\n\n",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Host forensic analysis"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1126",
+            "external_id": "T1126"
+        },
+        {
+            "source_name": "Technet Net Use",
+            "description": "Microsoft. (n.d.). Net Use. Retrieved November 25, 2016.",
+            "url": "https://technet.microsoft.com/bb490717.aspx"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Network share connections may be common depending on how an network environment is used. Monitor command-line invocation of <code>net use</code> commands associated with establishing and removing remote shares over SMB, including following best practices for detection of [Windows Admin Shares](https://attack.mitre.org/techniques/T1077). SMB traffic between systems may also be captured and decoded to look for related network share session and file transfer activity. Windows authentication logs are also useful in determining when authenticated network shares are established and by which account, and can be used to correlate network share activity to other events to investigate potentially malicious activity.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "Established network share connection to a remote system. Level of access depends on permissions of the account used."
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Share Connection Removal Mitigation",
+                "description": "Follow best practices for mitigation of activity related to establishing [Windows Admin Shares](https://attack.mitre.org/techniques/T1077). \n\nIdentify unnecessary system utilities or potentially malicious software that may be used to leverage network shares, and audit and/or block them by using whitelisting (Citation: Beechey 2010) tools, like AppLocker, (Citation: Windows Commands JPCERT) (Citation: NSA MS AppLocker) or Software Restriction Policies (Citation: Corio 2008) where appropriate. (Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1126"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

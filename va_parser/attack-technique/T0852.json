@@ -1,0 +1,68 @@
+﻿{
+    "id": "T0852",
+    "name": "Screen Capture",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to perform screen capture of devices in the control system environment. Screenshots may be taken of workstations, HMIs, or other devices that display environment-relevant process, device, reporting, alarm, or related data. These device displays may reveal information regarding the ICS process, layout, control, and related schematics. In particular, an HMI can provide a lot of important industrial process information. (Citation: ICS-CERT October 2017) Analysis of screen captures may provide the adversary with an understanding of intended operations and interactions between critical devices.",
+    "x_mitre_platforms": [
+        "Human-Machine Interface"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0852",
+            "external_id": "T0852"
+        },
+        {
+            "source_name": "ICS-CERT October 2017",
+            "description": "ICS-CERT 2017, October 21 Advanced Persistent Threat Activity Targeting Energy and Other Critical Infrastructure Sectors Retrieved. 2017/10/23 ",
+            "url": "https://www.us-cert.gov/ncas/alerts/TA17-293A"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "collection-ics"
+        }
+    ],
+    "tactic": [
+        "collection-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Process: OS API Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Mitigation Limited or Not Effective",
+                "description": "This type of attack technique cannot be easily mitigated with preventative controls since it is based on the abuse of system features.",
+                "type": "course-of-action",
+                "id": "M0816"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

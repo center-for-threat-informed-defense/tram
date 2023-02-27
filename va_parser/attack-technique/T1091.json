@@ -1,0 +1,159 @@
+﻿{
+    "id": "T1091",
+    "name": "Replication Through Removable Media",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may move onto systems, possibly those on disconnected or air-gapped networks, by copying malware to removable media and taking advantage of Autorun features when the media is inserted into a system and executes. In the case of Lateral Movement, this may occur through modification of executable files stored on removable media or by copying malware and renaming it to look like a legitimate file to trick users into executing it on a separate system. In the case of Initial Access, this may occur through manual manipulation of the media, modification of systems used to initially format the media, or modification to the media's firmware itself.\n\nMobile devices may also be used to infect PCs with malware if connected via USB.(Citation: Exploiting Smartphone USB ) This infection may be achieved using devices (Android, iOS, etc.) and, in some instances, USB charging cables.(Citation: Windows Malware Infecting Android)(Citation: iPhone Charging Cable Hack) For example, when a smartphone is connected to a system, it may appear to be mounted similar to a USB-connected disk drive. If malware that is compatible with the connected system is on the mobile device, the malware could infect the machine (especially if Autorun features are enabled).",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1091",
+            "external_id": "T1091"
+        },
+        {
+            "source_name": "Windows Malware Infecting Android",
+            "description": "Lucian Constantin. (2014, January 23). Windows malware tries to infect Android devices connected to PCs. Retrieved May 25, 2022.",
+            "url": "https://www.computerworld.com/article/2486903/windows-malware-tries-to-infect-android-devices-connected-to-pcs.html"
+        },
+        {
+            "source_name": "iPhone Charging Cable Hack",
+            "description": "Zack Whittaker. (2019, August 12). This hacker\u2019s iPhone charging cable can hijack your computer. Retrieved May 25, 2022.",
+            "url": "https://techcrunch.com/2019/08/12/iphone-charging-cable-hack-computer-def-con/"
+        },
+        {
+            "source_name": "Exploiting Smartphone USB ",
+            "description": "Zhaohui Wang & Angelos Stavrou. (n.d.). Exploiting Smart-Phone USB Connectivity For Fun And Profit. Retrieved May 25, 2022.",
+            "url": "https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.226.3427&rep=rep1&type=pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "lateral-movement"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "initial-access"
+        }
+    ],
+    "tactic": [
+        "lateral-movement",
+        "initial-access"
+    ],
+    "x_mitre_detection": "Monitor file access on removable media. Detect processes that execute from removable media after it is mounted or when initiated by a user. If a remote access tool is used in this manner to move laterally, then additional actions are likely to occur after execution, such as opening network connections for Command and Control and system and network information Discovery.",
+    "x_mitre_data_sources": [
+        "Drive: Drive Creation",
+        "File: File Access",
+        "Process: Process Creation",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "Removable media allowed, Autorun enabled or vulnerability present that allows for code execution"
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Replication Through Removable Media Mitigation",
+                "description": "Disable Autorun if it is unnecessary. (Citation: Microsoft Disable Autorun) Disallow or restrict removable media at an organizational policy level if it is not required for business operations. (Citation: TechNet Removable Media Control)\n\nIdentify potentially malicious software that may be used to infect removable media or may result from tainted removable media, and audit and/or block it by using whitelisting (Citation: Beechey 2010) tools, like AppLocker, (Citation: Windows Commands JPCERT) (Citation: NSA MS AppLocker) or Software Restriction Policies (Citation: Corio 2008) where appropriate. (Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1091"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Limit Hardware Installation",
+                "description": "Block users or groups from installing or using unapproved hardware on systems, including USB devices.",
+                "type": "course-of-action",
+                "id": "M1034"
+            },
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Autorun is disabled to restrict removable media access",
+                "acid": "98580070"
+            },
+            {
+                "description": "Ensure that organization policy is defined and implemented which restricts the use of removable media",
+                "acid": "98580071"
+            },
+            {
+                "description": "Ensure that the use of USB devices and removable media within a network is restricted or blocked",
+                "acid": "98580072"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that file access are monitored on removable media",
+                "acid": "98580068"
+            },
+            {
+                "description": "Ensure that processes that execute from removable media is monitored when mounted/ initiated by a user",
+                "acid": "98580069"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000117",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100237",
+        "50100997",
+        "50104316"
+    ],
+    "technologycontrolIds": [
+        "10190076",
+        "10190077",
+        "10190078",
+        "10190079",
+        "10190080",
+        "19010076",
+        "19010077",
+        "19010078",
+        "19010079",
+        "19010080"
+    ],
+    "cveIds": [
+        "CVE-2015-1769",
+        "CVE-2017-0199",
+        "CVE-2017-8464",
+        "CVE-2018-15376",
+        "CVE-2019-15959",
+        "CVE-2020-12024",
+        "CVE-2020-12464",
+        "CVE-2020-15393",
+        "CVE-2020-3198",
+        "CVE-2020-4068",
+        "CVE-2020-7456",
+        "CVE-2020-9804"
+    ],
+    "subTechniques": []
+}

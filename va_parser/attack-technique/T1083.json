@@ -1,0 +1,131 @@
+﻿{
+    "id": "T1083",
+    "name": "File and Directory Discovery",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system. Adversaries may use the information from [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nMany command shell utilities can be used to obtain this information. Examples include <code>dir</code>, <code>tree</code>, <code>ls</code>, <code>find</code>, and <code>locate</code>.(Citation: Windows Commands JPCERT) Custom tools may also be used to gather file and directory information and interact with the [Native API](https://attack.mitre.org/techniques/T1106). Adversaries may also leverage a [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) on network devices to gather file and directory information (e.g. <code>dir</code>, <code>show flash</code>, and/or <code>nvram</code>).(Citation: US-CERT-TA18-106A)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "Network"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1083",
+            "external_id": "T1083"
+        },
+        {
+            "source_name": "Windows Commands JPCERT",
+            "description": "Tomonaga, S. (2016, January 26). Windows Commands Abused by Attackers. Retrieved February 2, 2016.",
+            "url": "https://blogs.jpcert.or.jp/en/2016/01/windows-commands-abused-by-attackers.html"
+        },
+        {
+            "source_name": "US-CERT-TA18-106A",
+            "description": "US-CERT. (2018, April 20). Alert (TA18-106A) Russian State-Sponsored Cyber Actors Targeting Network Infrastructure Devices. Retrieved October 19, 2020.",
+            "url": "https://www.us-cert.gov/ncas/alerts/TA18-106A"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/127.html",
+            "external_id": "CAPEC-127"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/497.html",
+            "external_id": "CAPEC-497"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "discovery"
+        }
+    ],
+    "tactic": [
+        "discovery"
+    ],
+    "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Collection and Exfiltration, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001). Further, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands may also be used to gather file and directory information with built-in features native to the network device platform.  Monitor CLI activity for unexpected or unauthorized use of commands being run by non-standard users from non-standard locations.  ",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "Some folders may require Administrator, SYSTEM or specific user depending on permission levels and access controls"
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "File and Directory Discovery Mitigation",
+                "description": "File system activity is a common part of an operating system, so it is unlikely that mitigation would be appropriate for this technique. It may still be beneficial to identify and block unnecessary system utilities or potentially malicious software by using whitelisting (Citation: Beechey 2010) tools, like AppLocker, (Citation: Windows Commands JPCERT) (Citation: NSA MS AppLocker) or Software Restriction Policies (Citation: Corio 2008) where appropriate. (Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1083"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for suspicious activities",
+                "acid": "98582129"
+            },
+            {
+                "description": "Ensure that monitoring solutions are configured to monitor interactions to Windows API from remote access tools",
+                "acid": "98582130"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106020"
+    ],
+    "technologycontrolIds": [
+        "11060003",
+        "11100003",
+        "18380047"
+    ],
+    "cveIds": [
+        "CVE-2009-2265",
+        "CVE-2013-0629",
+        "CVE-2013-1904",
+        "CVE-2013-6225",
+        "CVE-2015-0096",
+        "CVE-2016-0709",
+        "CVE-2016-3298",
+        "CVE-2017-12637",
+        "CVE-2017-6922",
+        "CVE-2018-10590",
+        "CVE-2018-7300",
+        "CVE-2019-11510",
+        "CVE-2019-16278",
+        "CVE-2019-19781",
+        "CVE-2019-2107",
+        "CVE-2019-3396",
+        "CVE-2019-3398",
+        "CVE-2019-7751",
+        "CVE-2019-8385",
+        "CVE-2020-3153",
+        "CVE-2020-5902",
+        "CVE-2021-22911",
+        "CVE-2021-27928",
+        "CVE-2021-41773",
+        "CVE-2021-42013",
+        "CVE-2021-46398"
+    ],
+    "subTechniques": []
+}

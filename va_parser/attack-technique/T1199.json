@@ -1,0 +1,160 @@
+﻿{
+    "id": "T1199",
+    "name": "Trusted Relationship",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may breach or otherwise leverage organizations who have access to intended victims. Access through trusted third party relationship abuses an existing connection that may not be protected or receives less scrutiny than standard mechanisms of gaining access to a network.\n\nOrganizations often grant elevated access to second or third-party external providers in order to allow them to manage internal systems as well as cloud-based environments. Some examples of these relationships include IT services contractors, managed security providers, infrastructure contractors (e.g. HVAC, elevators, physical security). The third-party provider's access may be intended to be limited to the infrastructure being maintained, but may exist on the same network as the rest of the enterprise. As such, [Valid Accounts](https://attack.mitre.org/techniques/T1078) used by the other party for access to internal network systems may be compromised and used.(Citation: CISA IT Service Providers)\n\nIn Office 365 environments, organizations may grant Microsoft partners or resellers delegated administrator permissions. By compromising a partner or reseller account, an adversary may be able to leverage existing delegated administrator relationships or send new delegated administrator offers to clients in order to gain administrative control over the victim tenant.(Citation: Office 365 Delegated Administration)",
+    "x_mitre_platforms": [
+        "Windows",
+        "SaaS",
+        "IaaS",
+        "Linux",
+        "macOS",
+        "Office 365"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1199",
+            "external_id": "T1199"
+        },
+        {
+            "source_name": "CISA IT Service Providers",
+            "description": "CISA. (n.d.). APTs Targeting IT Service Provider Customers. Retrieved November 16, 2020.",
+            "url": "https://us-cert.cisa.gov/APTs-Targeting-IT-Service-Provider-Customers"
+        },
+        {
+            "source_name": "Office 365 Delegated Administration",
+            "description": "Microsoft. (n.d.). Partners: Offer delegated administration. Retrieved May 27, 2022.",
+            "url": "https://support.microsoft.com/en-us/topic/partners-offer-delegated-administration-26530dc0-ebba-415b-86b1-b55bc06b073e?ui=en-us&rs=en-us&ad=us"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "initial-access"
+        }
+    ],
+    "tactic": [
+        "initial-access"
+    ],
+    "x_mitre_detection": "Establish monitoring for activity conducted by second and third party providers and other trusted entities that may be leveraged as a means to gain access to the network. Depending on the type of relationship, an adversary may have access to significant amounts of information about the target before conducting an operation, especially if the trusted relationship is based on IT services. Adversaries may be able to act quickly towards an objective, so proper monitoring for behavior related to Credential Access, Lateral Movement, and Collection will be important to detect the intrusion.",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content",
+        "Logon Session: Logon Session Metadata",
+        "Application Log: Application Log Content",
+        "Logon Session: Logon Session Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Multi-factor Authentication",
+                "description": "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+                "type": "course-of-action",
+                "id": "M1032"
+            },
+            {
+                "name": "Trusted Relationship Mitigation",
+                "description": "Network segmentation can be used to isolate infrastructure components that do not require broad network access. Properly manage accounts and permissions used by parties in trusted relationships to minimize potential abuse by the party and if the party is compromised by an adversary. Vet the security policies and procedures of organizations that are contracted for work that require privileged access to network resources.",
+                "type": "course-of-action",
+                "id": "T1199"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+                "type": "course-of-action",
+                "id": "M1030"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that infrastructure components that do not require broad network access are isolated.",
+                "acid": "98580095"
+            },
+            {
+                "description": "Ensure that accounts and permissions used by parties in trusted relationships are managed properly",
+                "acid": "98580096"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that activities conducted by second and third party providers and other trusted entities should be monitored",
+                "acid": "98580093"
+            },
+            {
+                "description": "Ensure that activity related to Credential Access, Lateral Movement, and Collection should be properly monitored",
+                "acid": "98580094"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000191",
+        "40000490",
+        "40000510",
+        "40000511",
+        "40000512",
+        "40000513",
+        "40000514",
+        "40000523"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106017",
+        "50106021",
+        "50106111",
+        "50106115"
+    ],
+    "technologycontrolIds": [
+        "14050012",
+        "14110012",
+        "14120011",
+        "14130011",
+        "14170012",
+        "15030169",
+        "16100178",
+        "16360181",
+        "16460180",
+        "16460382",
+        "16460383",
+        "16460384",
+        "16460385",
+        "16460386",
+        "16460387",
+        "16460391",
+        "18380046",
+        "18380051",
+        "19920397",
+        "19920417",
+        "19920418",
+        "19920424",
+        "19920427",
+        "19920435",
+        "19920447",
+        "19920449",
+        "19920472",
+        "21809001"
+    ],
+    "cveIds": [],
+    "subTechniques": []
+}

@@ -1,0 +1,100 @@
+﻿{
+    "id": "T1098.005",
+    "name": "Device Registration",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may register a device to an adversary-controlled account. Devices may be registered in a multifactor authentication (MFA) system, which handles authentication to the network, or in a device management system, which handles device access and compliance.\n\nMFA systems, such as Duo or Okta, allow users to associate devices with their accounts in order to complete MFA requirements. An adversary that compromises a user's credentials may enroll a new device in order to bypass initial MFA requirements and gain persistent access to a network.(Citation: CISA MFA PrintNightmare)(Citation: DarkReading FireEye SolarWinds)\n\nSimilarly, an adversary with existing access to a network may register a device to Azure AD and/or its device management system, Microsoft Intune, in order to access sensitive data or resources while bypassing conditional access policies.(Citation: AADInternals - Device Registration)(Citation: AADInternals - Conditional Access Bypass)(Citation: Microsoft DEV-0537) \n\nDevices registered in Azure AD may be able to conduct [Internal Spearphishing](https://attack.mitre.org/techniques/T1534) campaigns via intra-organizational emails, which are less likely to be treated as suspicious by the email client.(Citation: Microsoft - Device Registration) Additionally, an adversary may be able to perform a [Service Exhaustion Flood](https://attack.mitre.org/techniques/T1499/002) on an Azure AD tenant by registering a large number of devices.(Citation: AADInternals - BPRT)",
+    "x_mitre_platforms": [
+        "Azure AD",
+        "Windows",
+        "SaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1098/005",
+            "external_id": "T1098.005"
+        },
+        {
+            "source_name": "CISA MFA PrintNightmare",
+            "description": "Cybersecurity and Infrastructure Security Agency. (2022, March 15). Russian State-Sponsored Cyber Actors Gain Network Access by Exploiting Default Multifactor Authentication Protocols and \u201cPrintNightmare\u201d Vulnerability. Retrieved March 16, 2022.",
+            "url": "https://www.cisa.gov/uscert/ncas/alerts/aa22-074a"
+        },
+        {
+            "source_name": "AADInternals - Conditional Access Bypass",
+            "description": "Dr. Nestori Syynimaa. (2020, September 6). Bypassing conditional access by faking device compliance. Retrieved March 4, 2022.",
+            "url": "https://o365blog.com/post/mdm"
+        },
+        {
+            "source_name": "AADInternals - BPRT",
+            "description": "Dr. Nestori Syynimaa. (2021, January 31). BPRT unleashed: Joining multiple devices to Azure AD and Intune. Retrieved March 4, 2022.",
+            "url": "https://o365blog.com/post/bprt/"
+        },
+        {
+            "source_name": "AADInternals - Device Registration",
+            "description": "Dr. Nestori Syynimaa. (2021, March 3). Deep-dive to Azure AD device join. Retrieved March 9, 2022.",
+            "url": "https://o365blog.com/post/devices/"
+        },
+        {
+            "source_name": "DarkReading FireEye SolarWinds",
+            "description": "Kelly Jackson Higgins. (2021, January 7). FireEye's Mandia: 'Severity-Zero Alert' Led to Discovery of SolarWinds Attack. Retrieved April 18, 2022.",
+            "url": "https://www.darkreading.com/threat-intelligence/fireeye-s-mandia-severity-zero-alert-led-to-discovery-of-solarwinds-attack"
+        },
+        {
+            "source_name": "Microsoft - Device Registration",
+            "description": "Microsoft 365 Defender Threat Intelligence Team. (2022, January 26). Evolved phishing: Device registration trick adds to phishers\u2019 toolbox for victims without MFA. Retrieved March 4, 2022.",
+            "url": "https://www.microsoft.com/security/blog/2022/01/26/evolved-phishing-device-registration-trick-adds-to-phishers-toolbox-for-victims-without-mfa"
+        },
+        {
+            "source_name": "Microsoft DEV-0537",
+            "description": "Microsoft. (2022, March 22). DEV-0537 criminal actor targeting organizations for data exfiltration and destruction. Retrieved March 23, 2022.",
+            "url": "https://www.microsoft.com/security/blog/2022/03/22/dev-0537-criminal-actor-targeting-organizations-for-data-exfiltration-and-destruction/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "",
+    "x_mitre_data_sources": [
+        "Application Log: Application Log Content",
+        "User Account: User Account Modification",
+        "Active Directory: Active Directory Object Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Multi-factor Authentication",
+                "description": "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+                "type": "course-of-action",
+                "id": "M1032"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

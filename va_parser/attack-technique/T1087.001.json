@@ -1,0 +1,179 @@
+{
+    "id": "T1087.001",
+    "name": "Local Account",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to get a listing of local system accounts. This information can help adversaries determine which local accounts exist on a system to aid in follow-on behavior.\n\nCommands such as <code>net user</code> and <code>net localgroup</code> of the [Net](https://attack.mitre.org/software/S0039) utility and <code>id</code> and <code>groups</code>on macOS and Linux can list local users and groups. On Linux, local users can also be enumerated through the use of the <code>/etc/passwd</code> file. On macOS the <code>dscl . list /Users</code> command can be used to enumerate local accounts.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1087/001",
+            "external_id": "T1087.001"
+        },
+        {
+            "source_name": "Elastic - Koadiac Detection with EQL",
+            "description": "Stepanic, D.. (2020, January 13). Embracing offensive tooling: Building detections against Koadic using EQL. Retrieved November 30, 2020.",
+            "url": "https://www.elastic.co/blog/embracing-offensive-tooling-building-detections-against-koadic-using-eql"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "discovery"
+        }
+    ],
+    "tactic": [
+        "discovery"
+    ],
+    "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nMonitor for processes that can be used to enumerate user accounts, such as <code>net.exe</code> and <code>net1.exe</code>, especially when executed in quick succession.(Citation: Elastic - Koadiac Detection with EQL)",
+    "x_mitre_data_sources": [
+        "Group: Group Enumeration",
+        "Command: Command Execution",
+        "File: File Access",
+        "Group: Group Enumeration",
+        "Process: OS API Execution",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that local administrator accounts have complex, unique passwords across all systems on the network",
+                "acid": "98580133"
+            },
+            {
+                "description": "Ensure that local account permission levels are audited regularly to identify suspicious behavior",
+                "acid": "98580134"
+            },
+            {
+                "description": "Ensure that audits are performed regularly to check for new local accounts created that do not require authorization",
+                "acid": "98580135"
+            },
+            {
+                "description": "Ensure that Local Administrator Password Solution (LAPS) is implemented to prevent reuse of local administrator credentials across a domain",
+                "acid": "98580136"
+            },
+            {
+                "description": "Ensure that multi-factor authentication is implemented for the user and privileged accounts",
+                "acid": "98580578"
+            },
+            {
+                "description": "Ensure that local administrator accounts are not used for day-to-day operations",
+                "acid": "98580579"
+            },
+            {
+                "description": "Ensure that system is configured properly to prevent administrator accounts from being enumerated when an application is elevating through UAC.",
+                "acid": "98582102"
+            },
+            {
+                "description": "Ensure that administrator accounts are disabled from being enumerated through GPO: Computer Configuration > [Policies] > Administrative Templates > Windows Components > Credential User Interface: Enumerate administrator accounts on elevation.",
+                "acid": "98582103"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that regular audits are performed for local system accounts to detect accounts created by adversaries",
+                "acid": "98580131"
+            },
+            {
+                "description": "Ensure that accounts should be monitored if logged in at odd times or outside of business hours",
+                "acid": "98580132"
+            },
+            {
+                "description": "Ensure that processes and command-line parameters such as net user or useradd associated with account creation are monitored",
+                "acid": "98580574"
+            },
+            {
+                "description": "Ensure that data on account creation within a network was collected",
+                "acid": "98580575"
+            },
+            {
+                "description": "Ensure that Event ID 4720 for user account creation on the Windows system and domain controller are monitored",
+                "acid": "98580576"
+            },
+            {
+                "description": "Ensure that local system accounts are audited regularly to detect suspicious accounts",
+                "acid": "98580577"
+            },
+            {
+                "description": "Ensure that process and command-line arguments are monitored for actions taken to gather system and network information.",
+                "acid": "98582099"
+            },
+            {
+                "description": "Ensure that remote access tools (with built-in features) is implemented to interact directly with the Windows API to gather information.",
+                "acid": "98582100"
+            },
+            {
+                "description": "Ensure that Windows system management tools such as Windows Management Instrumentation and PowerShell are in place to gather information.",
+                "acid": "98582101"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000207"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100333",
+        "50101185",
+        "50102528",
+        "50104298"
+    ],
+    "technologycontrolIds": [
+        "10960007",
+        "15010064",
+        "15010163",
+        "15020065",
+        "15020158",
+        "15030065",
+        "15030171",
+        "15040130",
+        "15180060",
+        "15200064",
+        "15200163",
+        "16010068",
+        "16010172",
+        "16020068",
+        "16020174",
+        "16100069",
+        "16100180",
+        "16110068",
+        "16110170",
+        "16120069",
+        "16120175",
+        "16140060",
+        "16360070",
+        "16360184",
+        "16460068",
+        "16460183",
+        "19920159",
+        "19920415"
+    ],
+    "cveIds": []
+}

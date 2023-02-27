@@ -1,0 +1,107 @@
+﻿{
+    "id": "T1037.002",
+    "name": "Login Hook",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use a Login Hook to establish persistence executed upon user logon. A login hook is a plist file that points to a specific script to execute with root privileges upon user logon. The plist file is located in the <code>/Library/Preferences/com.apple.loginwindow.plist</code> file and can be modified using the <code>defaults</code> command-line utility. This behavior is the same for logout hooks where a script can be executed upon user logout. All hooks require administrator permissions to modify or create hooks.(Citation: Login Scripts Apple Dev)(Citation: LoginWindowScripts Apple Dev) \n\nAdversaries can add or insert a path to a malicious script in the <code>com.apple.loginwindow.plist</code> file, using the <code>LoginHook</code> or <code>LogoutHook</code> key-value pair. The malicious script is executed upon the next user login. If a login hook already exists, adversaries can add additional commands to an existing login hook. There can be only one login and logout hook on a system at a time.(Citation: S1 macOs Persistence)(Citation: Wardle Persistence Chapter)\n\n**Note:** Login hooks were deprecated in 10.11 version of macOS in favor of [Launch Daemon](https://attack.mitre.org/techniques/T1543/004) and [Launch Agent](https://attack.mitre.org/techniques/T1543/001) ",
+    "x_mitre_platforms": [
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1037/002",
+            "external_id": "T1037.002"
+        },
+        {
+            "source_name": "Login Scripts Apple Dev",
+            "description": "Apple. (2016, September 13). Customizing Login and Logout. Retrieved April 1, 2022.",
+            "url": "https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CustomLogin.html"
+        },
+        {
+            "source_name": "LoginWindowScripts Apple Dev",
+            "description": "Apple. (n.d.). LoginWindowScripts. Retrieved April 1, 2022.",
+            "url": "https://developer.apple.com/documentation/devicemanagement/loginwindowscripts"
+        },
+        {
+            "source_name": "Wardle Persistence Chapter",
+            "description": "Patrick Wardle. (n.d.). Chapter 0x2: Persistence. Retrieved April 13, 2022.",
+            "url": "https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf"
+        },
+        {
+            "source_name": "S1 macOs Persistence",
+            "description": "Stokes, P. (2019, July 17). How Malware Persists on macOS. Retrieved March 27, 2020.",
+            "url": "https://www.sentinelone.com/blog/how-malware-persists-on-macos/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "persistence",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "Monitor logon scripts for unusual access by abnormal users or at abnormal times. Look for files added or modified by unusual accounts outside of normal administration duties. Monitor running process for actions that could be indicative of abnormal programs or executables running upon logon.",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "File: File Creation",
+        "File: File Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that write access to logon scripts is restricted to specific administrators",
+                "acid": "98580535"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that logon scripts are monitored for unusual access by abnormal users or at abnormal times",
+                "acid": "98580532"
+            },
+            {
+                "description": "Ensure that files added or modified by unusual accounts apart from admin accounts are monitored",
+                "acid": "98580533"
+            },
+            {
+                "description": "Ensure that the running process is monitored for malicious actions that are indicative of abnormal programs or executables running upon logon",
+                "acid": "98580534"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

@@ -1,0 +1,93 @@
+{
+    "id": "T1056.003",
+    "name": "Web Portal Capture",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may install code on externally facing portals, such as a VPN login page, to capture and transmit credentials of users who attempt to log into the service. For example, a compromised login page may log provided user credentials before logging the user in to the service.\n\nThis variation on input capture may be conducted post-compromise using legitimate administrative access as a backup measure to maintain network access through [External Remote Services](https://attack.mitre.org/techniques/T1133) and [Valid Accounts](https://attack.mitre.org/techniques/T1078) or as part of the initial compromise by exploitation of the externally facing web service.(Citation: Volexity Virtual Private Keylogging)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1056/003",
+            "external_id": "T1056.003"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/569.html",
+            "external_id": "CAPEC-569"
+        },
+        {
+            "source_name": "Volexity Virtual Private Keylogging",
+            "description": "Adair, S. (2015, October 7). Virtual Private Keylogging: Cisco Web VPNs Leveraged for Access and Persistence. Retrieved March 20, 2017.",
+            "url": "https://www.volexity.com/blog/2015/10/07/virtual-private-keylogging-cisco-web-vpns-leveraged-for-access-and-persistence/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "collection",
+        "credential-access"
+    ],
+    "x_mitre_detection": "File monitoring may be used to detect changes to files in the Web directory for organization login pages that do not match with authorized updates to the Web server's content.",
+    "x_mitre_data_sources": [
+        "File: File Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "An externally facing login portal is configured."
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Privilege access management solutions are configured to restrict admin accounts from modifying the web content of the login portals",
+                "acid": "98581879"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that File monitoring solutions are configured to detect changes to files in the web directory of the organization",
+                "acid": "98581878"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

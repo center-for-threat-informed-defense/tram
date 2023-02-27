@@ -1,0 +1,101 @@
+{
+    "id": "T1055.005",
+    "name": "Thread Local Storage",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may inject malicious code into processes via thread local storage (TLS) callbacks in order to evade process-based defenses as well as possibly elevate privileges. TLS callback injection is a method of executing arbitrary code in the address space of a separate live process. \n\nTLS callback injection involves manipulating pointers inside a portable executable (PE) to redirect a process to malicious code before reaching the code's legitimate entry point. TLS callbacks are normally used by the OS to setup and/or cleanup data used by threads. Manipulating TLS callbacks may be performed by allocating and writing to specific offsets within a process' memory space using other [Process Injection](https://attack.mitre.org/techniques/T1055) techniques such as [Process Hollowing](https://attack.mitre.org/techniques/T1055/012).(Citation: FireEye TLS Nov 2017)\n\nRunning code in the context of another process may allow access to the process's memory, system/network resources, and possibly elevated privileges. Execution via TLS callback injection may also evade detection from security products since the execution is masked under a legitimate process. ",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Anti-virus",
+        "Application control"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1055/005",
+            "external_id": "T1055.005"
+        },
+        {
+            "source_name": "FireEye TLS Nov 2017",
+            "description": "Vaish, A. & Nemes, S. (2017, November 28). Newly Observed Ursnif Variant Employs Malicious TLS Callback Technique to Achieve Process Injection. Retrieved December 18, 2017.",
+            "url": "https://www.fireeye.com/blog/threat-research/2017/11/ursnif-variant-malicious-tls-callback-technique.html"
+        },
+        {
+            "source_name": "Elastic Process Injection July 2017",
+            "description": "Hosseini, A. (2017, July 18). Ten Process Injection Techniques: A Technical Survey Of Common And Trending Process Injection Techniques. Retrieved December 7, 2017.",
+            "url": "https://www.endgame.com/blog/technical-blog/ten-process-injection-techniques-technical-survey-common-and-trending-process"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "Monitoring Windows API calls indicative of the various types of code injection may generate a significant amount of data and may not be directly useful for defense unless collected under specific circumstances for known bad sequences of calls, since benign use of API functions may be common and difficult to distinguish from malicious behavior. Windows API calls such as <code>CreateRemoteThread</code>, <code>SuspendThread</code>/<code>SetThreadContext</code>/<code>ResumeThread</code>, and those that can be used to modify memory within another process, such as <code>VirtualAllocEx</code>/<code>WriteProcessMemory</code>, may be used for this technique.(Citation: Elastic Process Injection July 2017)\n\nAnalyze process behavior to determine if a process is performing actions it usually does not, such as opening network connections, reading files, or other suspicious actions that could relate to post-compromise behavior. ",
+    "x_mitre_data_sources": [
+        "Process: Process Modification",
+        "Process: OS API Execution",
+        "Process: Process Access"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that endpoint security solutions are configured to block process injection based on common sequences of behavior that occur during the injection process.",
+                "acid": "98581134"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Windows API calls are monitored for malicious behaviors.",
+                "acid": "98581131"
+            },
+            {
+                "description": "Ensure that process behavior is analyzed to identify process performing suspicious actions such as opening network connections that could relate to post-compromise behavior.",
+                "acid": "98581132"
+            },
+            {
+                "description": "Ensure that process behavior is analyzed to identify process performing suspicious actions such as reading files that could relate to post-compromise behavior.",
+                "acid": "98581133"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "18410007"
+    ],
+    "cveIds": []
+}

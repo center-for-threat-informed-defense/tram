@@ -1,0 +1,74 @@
+﻿{
+    "id": "T1147",
+    "name": "Hidden Users",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "Every user account in macOS has a userID associated with it. When creating a user, you can specify the userID for that account. There is a property value in <code>/Library/Preferences/com.apple.loginwindow</code> called <code>Hide500Users</code> that prevents users with userIDs 500 and lower from appearing at the login screen. By using the [Create Account](https://attack.mitre.org/techniques/T1136) technique with a userID under 500 and enabling this property (setting it to Yes), an adversary can hide their user accounts much more easily: <code>sudo dscl . -create /Users/username UniqueID 401</code> (Citation: Cybereason OSX Pirrit).",
+    "x_mitre_platforms": [
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1147",
+            "external_id": "T1147"
+        },
+        {
+            "source_name": "Cybereason OSX Pirrit",
+            "description": "Amit Serper. (2016). Cybereason Lab Analysis OSX.Pirrit. Retrieved December 10, 2021.",
+            "url": "https://cdn2.hubspot.net/hubfs/3354902/Content%20PDFs/Cybereason-Lab-Analysis-OSX-Pirrit-4-6-16.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "This technique prevents the new user from showing up at the log in screen, but all of the other signs of a new user still exist. The user still gets a home directory and will appear in the authentication logs.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "root"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Hidden Users Mitigation",
+                "description": "If the computer is domain joined, then group policy can help restrict the ability to create or hide users. Similarly, preventing the modification of the <code>/Library/Preferences/com.apple.loginwindow</code> <code>Hide500Users</code> value will force all users to be visible.",
+                "type": "course-of-action",
+                "id": "T1147"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

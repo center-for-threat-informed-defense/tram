@@ -1,0 +1,203 @@
+{
+    "id": "T1087.004",
+    "name": "Cloud Account",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to get a listing of cloud accounts. Cloud accounts are those created and configured by an organization for use by users, remote support, services, or for administration of resources within a cloud service provider or SaaS application.\n\nWith authenticated access there are several tools that can be used to find accounts. The <code>Get-MsolRoleMember</code> PowerShell cmdlet can be used to obtain account names given a role or permissions group in Office 365.(Citation: Microsoft msolrolemember)(Citation: GitHub Raindance) The Azure CLI (AZ CLI) also provides an interface to obtain user accounts with authenticated access to a domain. The command <code>az ad user list</code> will list all users within a domain.(Citation: Microsoft AZ CLI)(Citation: Black Hills Red Teaming MS AD Azure, 2018) \n\nThe AWS command <code>aws iam list-users</code> may be used to obtain a list of users in the current account while <code>aws iam list-roles</code> can obtain IAM roles that have a specified path prefix.(Citation: AWS List Roles)(Citation: AWS List Users) In GCP, <code>gcloud iam service-accounts list</code> and <code>gcloud projects get-iam-policy</code> may be used to obtain a listing of service accounts and users in a project.(Citation: Google Cloud - IAM Servie Accounts List API)",
+    "x_mitre_platforms": [
+        "Azure AD",
+        "Office 365",
+        "SaaS",
+        "IaaS",
+        "Google Workspace"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1087/004",
+            "external_id": "T1087.004"
+        },
+        {
+            "source_name": "Microsoft msolrolemember",
+            "description": "Microsoft. (n.d.). Get-MsolRoleMember. Retrieved October 6, 2019.",
+            "url": "https://docs.microsoft.com/en-us/powershell/module/msonline/get-msolrolemember?view=azureadps-1.0"
+        },
+        {
+            "source_name": "GitHub Raindance",
+            "description": "Stringer, M.. (2018, November 21). RainDance. Retrieved October 6, 2019.",
+            "url": "https://github.com/True-Demon/raindance"
+        },
+        {
+            "source_name": "Microsoft AZ CLI",
+            "description": "Microsoft. (n.d.). az ad user. Retrieved October 6, 2019.",
+            "url": "https://docs.microsoft.com/en-us/cli/azure/ad/user?view=azure-cli-latest"
+        },
+        {
+            "source_name": "Black Hills Red Teaming MS AD Azure, 2018",
+            "description": "Felch, M.. (2018, August 31). Red Teaming Microsoft Part 1 Active Directory Leaks via Azure. Retrieved October 6, 2019.",
+            "url": "https://www.blackhillsinfosec.com/red-teaming-microsoft-part-1-active-directory-leaks-via-azure/"
+        },
+        {
+            "source_name": "AWS List Roles",
+            "description": "Amazon. (n.d.). List Roles. Retrieved August 11, 2020.",
+            "url": "https://docs.aws.amazon.com/cli/latest/reference/iam/list-roles.html"
+        },
+        {
+            "source_name": "AWS List Users",
+            "description": "Amazon. (n.d.). List Users. Retrieved August 11, 2020.",
+            "url": "https://docs.aws.amazon.com/cli/latest/reference/iam/list-users.html"
+        },
+        {
+            "source_name": "Google Cloud - IAM Servie Accounts List API",
+            "description": "Google. (2020, June 23). gcloud iam service-accounts list. Retrieved August 4, 2020.",
+            "url": "https://cloud.google.com/sdk/gcloud/reference/iam/service-accounts/list"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "discovery"
+        }
+    ],
+    "tactic": [
+        "discovery"
+    ],
+    "x_mitre_detection": "Monitor processes, command-line arguments, and logs for actions that could be taken to gather information about cloud accounts, including the use of calls to cloud APIs that perform account discovery.\n\nSystem and network discovery techniques normally occur throughout an operation as an adversary learns the environment, and also to an extent in normal network operations. Therefore discovery data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.",
+    "x_mitre_data_sources": [
+        "User Account: User Account Metadata",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that privileged cloud accounts have complex, unique passwords across all systems on the network",
+                "acid": "98580139"
+            },
+            {
+                "description": "Ensure that cloud account permission levels are audited regularly to identify suspicious behavior",
+                "acid": "98580140"
+            },
+            {
+                "description": "Ensure that audits are performed regularly to check for new cloud accounts created that do not require authorization",
+                "acid": "98580141"
+            },
+            {
+                "description": "Ensure that multi-factor authentication is implemented for the user and privileged accounts",
+                "acid": "98580590"
+            },
+            {
+                "description": "Ensure that access controls are configured to limit access to critical systems and domain controllers",
+                "acid": "98580591"
+            },
+            {
+                "description": "Ensure that firewalls are configured to limit access to critical systems and domain controllers",
+                "acid": "98580592"
+            },
+            {
+                "description": "Ensure that cloud environments support separate virtual private cloud (VPC) instances to enable further segmentation of cloud systems",
+                "acid": "98580593"
+            },
+            {
+                "description": "Ensure that privileged accounts are not used for day-to-day operations",
+                "acid": "98580594"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that regular audits are performed for cloud accounts to detect malicious activity",
+                "acid": "98580137"
+            },
+            {
+                "description": "Ensure that accounts should be monitored if logged in at odd times or outside of business hours",
+                "acid": "98580138"
+            },
+            {
+                "description": "Ensure that usage logs from cloud administrator accounts are collected to identify unusual activity",
+                "acid": "98580589"
+            },
+            {
+                "description": "Ensure that process and command-line arguments are monitored for actions taken to gather system and network information.",
+                "acid": "98582112"
+            },
+            {
+                "description": "Ensure that remote access tools (with built-in features) is implemented to interact directly with the Windows API to gather information.",
+                "acid": "98582113"
+            },
+            {
+                "description": "Ensure that Windows system management tools such as Windows Management Instrumentation and PowerShell are in place to gather information.",
+                "acid": "98582114"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000490"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100333",
+        "50101185",
+        "50102528",
+        "50104298"
+    ],
+    "technologycontrolIds": [
+        "11220004",
+        "11220005",
+        "15010064",
+        "15020065",
+        "15030065",
+        "15040130",
+        "15180060",
+        "15200064",
+        "16010068",
+        "16020068",
+        "16100069",
+        "16110068",
+        "16120069",
+        "16140060",
+        "16360070",
+        "16460068",
+        "18330001",
+        "18330002",
+        "18330003",
+        "18340002",
+        "18360002",
+        "18550006",
+        "18560002",
+        "18620001",
+        "18630001",
+        "18640002",
+        "19920415"
+    ],
+    "cveIds": []
+}

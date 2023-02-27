@@ -1,0 +1,129 @@
+{
+    "id": "T1222.002",
+    "name": "Linux and Mac File and Directory Permissions Modification",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may modify file or directory permissions/attributes to evade access control lists (ACLs) and access protected files.(Citation: Hybrid Analysis Icacls1 June 2018)(Citation: Hybrid Analysis Icacls2 May 2018) File and directory permissions are commonly managed by ACLs configured by the file or directory owner, or users with the appropriate permissions. File and directory ACL implementations vary by platform, but generally explicitly designate which users or groups can perform which actions (read, write, execute, etc.).\n\nMost Linux and Linux-based platforms provide a standard set of permission groups (user, group, and other) and a standard set of permissions (read, write, and execute) that are applied to each group. While nuances of each platform's permissions implementation may vary, most of the platforms provide two primary commands used to manipulate file and directory ACLs: <code>chown</code> (short for change owner), and <code>chmod</code> (short for change mode).\n\nAdversarial may use these commands to make themselves the owner of files and directories or change the mode if current permissions allow it. They could subsequently lock others out of the file. Specific file and directory modifications may be a required step for many techniques, such as establishing Persistence via [Unix Shell Configuration Modification](https://attack.mitre.org/techniques/T1546/004) or tainting/hijacking other instrumental binary/configuration files via [Hijack Execution Flow](https://attack.mitre.org/techniques/T1574).(Citation: 20 macOS Common Tools and Techniques) ",
+    "x_mitre_platforms": [
+        "macOS",
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1222/002",
+            "external_id": "T1222.002"
+        },
+        {
+            "source_name": "Hybrid Analysis Icacls1 June 2018",
+            "description": "Hybrid Analysis. (2018, June 12). c9b65b764985dfd7a11d3faf599c56b8.exe. Retrieved August 19, 2018.",
+            "url": "https://www.hybrid-analysis.com/sample/ef0d2628823e8e0a0de3b08b8eacaf41cf284c086a948bdfd67f4e4373c14e4d?environmentId=100"
+        },
+        {
+            "source_name": "Hybrid Analysis Icacls2 May 2018",
+            "description": "Hybrid Analysis. (2018, May 30). 2a8efbfadd798f6111340f7c1c956bee.dll. Retrieved August 19, 2018.",
+            "url": "https://www.hybrid-analysis.com/sample/22dab012c3e20e3d9291bce14a2bfc448036d3b966c6e78167f4626f5f9e38d6?environmentId=110"
+        },
+        {
+            "source_name": "20 macOS Common Tools and Techniques",
+            "description": "Phil Stokes. (2021, February 16). 20 Common Tools & Techniques Used by macOS Threat Actors & Malware. Retrieved August 23, 2021.",
+            "url": "https://labs.sentinelone.com/20-common-tools-techniques-used-by-macos-threat-actors-malware/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor and investigate attempts to modify ACLs and file/directory ownership. Many of the commands used to modify ACLs and file/directory ownership are built-in system utilities and may generate a high false positive alert rate, so compare against baseline knowledge for how systems are typically used and correlate modification events with other indications of malicious activity where possible. Commonly abused command arguments include <code>chmod +x</code>, <code>chmod -R 755</code>, and <code>chmod 777</code>.(Citation: 20 macOS Common Tools and Techniques) \n\nConsider enabling file/directory permission change auditing on folders containing key binary/configuration files.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "File: File Metadata",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "root"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that restrictive permissions are applied for critical system files.",
+                "acid": "98581208"
+            },
+            {
+                "description": "Ensure that only a privileged user account has access to the critical system files.",
+                "acid": "98581209"
+            },
+            {
+                "description": "Ensure that access permissions to the critical system files are removed for other users (who are not required).",
+                "acid": "98581210"
+            },
+            {
+                "description": "Ensure that restrictive permissions are applied for files and directories to prevent modifying the access control lists.",
+                "acid": "98581211"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that ACLs are monitored for any modification",
+                "acid": "98581203"
+            },
+            {
+                "description": "Ensure that file/directory ownership permissions are monitored for modifications",
+                "acid": "98581204"
+            },
+            {
+                "description": "Ensure that Built-in system utilities are compared against baseline knowledge to check typical system use (to reduce false-positive alerts).",
+                "acid": "98581205"
+            },
+            {
+                "description": "Ensure that modification events are correlated with other indications of malicious activity to reduce false-positive alerts.",
+                "acid": "98581206"
+            },
+            {
+                "description": "Ensure that in file/directory permission on folders containing key binary/configuration files are audited for changes.",
+                "acid": "98581207"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

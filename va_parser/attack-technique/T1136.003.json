@@ -1,0 +1,105 @@
+{
+    "id": "T1136.003",
+    "name": "Cloud Account",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may create a cloud account to maintain access to victim systems. With a sufficient level of access, such accounts may be used to establish secondary credentialed access that does not require persistent remote access tools to be deployed on the system.(Citation: Microsoft O365 Admin Roles)(Citation: Microsoft Support O365 Add Another Admin, October 2019)(Citation: AWS Create IAM User)(Citation: GCP Create Cloud Identity Users)(Citation: Microsoft Azure AD Users)\n\nAdversaries may create accounts that only have access to specific cloud services, which can reduce the chance of detection.",
+    "x_mitre_platforms": [
+        "Azure AD",
+        "Office 365",
+        "IaaS",
+        "Google Workspace",
+        "SaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1136/003",
+            "external_id": "T1136.003"
+        },
+        {
+            "source_name": "Microsoft O365 Admin Roles",
+            "description": "Ako-Adjei, K., Dickhaus, M., Baumgartner, P., Faigel, D., et. al.. (2019, October 8). About admin roles. Retrieved October 18, 2019.",
+            "url": "https://docs.microsoft.com/en-us/office365/admin/add-users/about-admin-roles?view=o365-worldwide"
+        },
+        {
+            "source_name": "AWS Create IAM User",
+            "description": "AWS. (n.d.). Creating an IAM User in Your AWS Account. Retrieved January 29, 2020.",
+            "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html"
+        },
+        {
+            "source_name": "GCP Create Cloud Identity Users",
+            "description": "Google. (n.d.). Create Cloud Identity user accounts. Retrieved January 29, 2020.",
+            "url": "https://support.google.com/cloudidentity/answer/7332836?hl=en&ref_topic=7558554"
+        },
+        {
+            "source_name": "Microsoft Azure AD Users",
+            "description": "Microsoft. (2019, November 11). Add or delete users using Azure Active Directory. Retrieved January 30, 2020.",
+            "url": "https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/add-users-azure-active-directory"
+        },
+        {
+            "source_name": "Microsoft Support O365 Add Another Admin, October 2019",
+            "description": "Microsoft. (n.d.). Add Another Admin. Retrieved October 18, 2019.",
+            "url": "https://support.office.com/en-us/article/add-another-admin-f693489f-9f55-4bd0-a637-a81ce93de22d"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Collect usage logs from cloud user and administrator accounts to identify unusual activity in the creation of new accounts and assignment of roles to those accounts. Monitor for accounts assigned to admin roles that go over a certain threshold of known admins.",
+    "x_mitre_data_sources": [
+        "User Account: User Account Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+                "type": "course-of-action",
+                "id": "M1030"
+            },
+            {
+                "name": "Multi-factor Authentication",
+                "description": "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+                "type": "course-of-action",
+                "id": "M1032"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

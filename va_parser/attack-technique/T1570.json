@@ -1,0 +1,164 @@
+﻿{
+    "id": "T1570",
+    "name": "Lateral Tool Transfer",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may transfer tools or other files between systems in a compromised environment. Once brought into the victim environment (i.e. [Ingress Tool Transfer](https://attack.mitre.org/techniques/T1105)) files may then be copied from one system to another to stage adversary tools or other files over the course of an operation. Adversaries may copy files between internal victim systems to support lateral movement using inherent file sharing protocols such as file sharing over [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002) to connected network shares or with authenticated connections via [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1021/001).(Citation: Unit42 LockerGoga 2019)\n\nFiles can also be transferred using native or otherwise present tools on the victim system, such as scp, rsync, curl, sftp, and [ftp](https://attack.mitre.org/software/S0095).",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1570",
+            "external_id": "T1570"
+        },
+        {
+            "source_name": "Unit42 LockerGoga 2019",
+            "description": "Harbison, M. (2019, March 26). Born This Way? Origins of LockerGoga. Retrieved April 16, 2019.",
+            "url": "https://unit42.paloaltonetworks.com/born-this-way-origins-of-lockergoga/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "lateral-movement"
+        }
+    ],
+    "tactic": [
+        "lateral-movement"
+    ],
+    "x_mitre_detection": "Monitor for file creation and files transferred within a network using protocols such as SMB or FTP. Unusual processes with internal network connections creating files on-system may be suspicious. Consider monitoring for abnormal usage of utilities and command-line arguments that may be used in support of remote transfer of files. Considering monitoring for alike file hashes or characteristics (ex: filename) that are created on multiple hosts.",
+    "x_mitre_data_sources": [
+        "Network Share: Network Share Access",
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "Network Traffic: Network Traffic Flow",
+        "Network Traffic: Network Traffic Content",
+        "Named Pipe: Named Pipe Metadata",
+        "File: File Metadata",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            },
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that host firewall is configured to restrict file sharing communications e.g. SMB.",
+                "acid": "98582202"
+            },
+            {
+                "description": "Ensure that Network intrusion detection and prevention system(s) is configured to identify malicious network traffic (by using network signatures).",
+                "acid": "98582203"
+            },
+            {
+                "description": "Ensure that Network intrusion detection and prevention system(s) is configured to identify unusual data transfer over known tools and protocols like FTP to mitigate activity at the network level.",
+                "acid": "98582204"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that file creation and files transferred within a network using SBM protocols should be monitored.",
+                "acid": "98582198"
+            },
+            {
+                "description": "Ensure that system is monitored for any unusual processes with internal network connections creating files on-system.",
+                "acid": "98582199"
+            },
+            {
+                "description": "Ensure that system is monitored for abnormal usage of utilities and command-line argument used to transfer files remotely.",
+                "acid": "98582200"
+            },
+            {
+                "description": "Ensure that systems are monitored for file hashes or characteristics (ex: filename) that are created on multiple hosts.",
+                "acid": "98582201"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000020",
+        "40000182",
+        "40000513",
+        "40000523"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106016",
+        "50106022"
+    ],
+    "technologycontrolIds": [
+        "11060040",
+        "11060041",
+        "11100039",
+        "11100040",
+        "15010181",
+        "15010182",
+        "15010184",
+        "15020163",
+        "15020164",
+        "15020166",
+        "15030190",
+        "15030191",
+        "15030193",
+        "15180129",
+        "15200182",
+        "15200183",
+        "15200185",
+        "16010190",
+        "16010191",
+        "16010193",
+        "16020192",
+        "16020193",
+        "16020195",
+        "16100202",
+        "16100203",
+        "16100205",
+        "16110188",
+        "16110189",
+        "16110191",
+        "16120193",
+        "16120194",
+        "16140129",
+        "16360211",
+        "16360212",
+        "16360214",
+        "16460209",
+        "16460210",
+        "16460212",
+        "18380046",
+        "18380051",
+        "19920178",
+        "19920179",
+        "19920181"
+    ],
+    "cveIds": [],
+    "subTechniques": []
+}

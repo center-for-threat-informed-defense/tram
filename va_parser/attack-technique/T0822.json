@@ -1,0 +1,111 @@
+﻿{
+    "id": "T0822",
+    "name": "External Remote Services",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may leverage external remote services as a point of initial access into your network. These services allow users to connect to internal network resources from external locations. Examples are VPNs, Citrix, and other access mechanisms. Remote service gateways often manage connections and credential authentication for these services. (Citation: Daniel Oakley, Travis Smith, Tripwire)  External remote services allow administration of a control system from outside the system. Often, vendors and internal engineering groups have access to external remote services to control system networks via the corporate network. In some cases, this access is enabled directly from the internet. While remote access enables ease of maintenance when a control system is in a remote area, compromise of remote access solutions is a liability. The adversary may use these services to gain access to and execute attacks against a control system network. Access to valid accounts is often a requirement.   As they look for an entry point into the control system network, adversaries may begin searching for existing pointtopoint VPN implementations at trusted third party networks or through remote support employee connections where split tunneling is enabled. (Citation: Electricity Information Sharing and Analysis Center; SANS Industrial Control Systems March 2016)  In the Maroochy Attack, the adversary was able to gain remote computer access to the system over radio.",
+    "x_mitre_platforms": [
+        "Control Server",
+        "Input/Output Server"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0822",
+            "external_id": "T0822"
+        },
+        {
+            "source_name": "Daniel Oakley, Travis Smith, Tripwire",
+            "description": "Daniel Oakley, Travis Smith, Tripwire   Retrieved. 2018/05/30 ",
+            "url": "https://attack.mitre.org/wiki/Technique/T1133"
+        },
+        {
+            "source_name": "Electricity Information Sharing and Analysis Center; SANS Industrial Control Systems March 2016",
+            "description": "Electricity Information Sharing and Analysis Center; SANS Industrial Control Systems 2016, March 18 Analysis of the Cyber Attack on the Ukranian Power Grid: Defense Use Case Retrieved. 2018/03/27 ",
+            "url": "https://assets.contentstack.io/v3/assets/blt36c2e63521272fdc/blt6a77276749b76a40/607f235992f0063e5c070fff/E-ISAC_SANS_Ukraine_DUC_5%5b73%5d.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "initial-access-ics"
+        }
+    ],
+    "tactic": [
+        "initial-access-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Application Log: Application Log Content",
+        "Logon Session: Logon Session Metadata",
+        "Network Traffic: Network Traffic Flow"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network.  Restrict network access to only required systems and services. In addition, prevent systems from other networks or business functions (e.g., enterprise) from accessing critical process control systems. For example, in IEC 62443, systems within the same secure level should be grouped into a zone, and access to that zone is restricted by a conduit, or mechanism to restrict data flows between zones by segmenting the network. (Citation: IEC February 2019) (Citation: IEC August 2013)",
+                "type": "course-of-action",
+                "id": "M0930"
+            },
+            {
+                "name": "Account Use Policies",
+                "description": "Configure features related to account use like login attempt lockouts, specific login times, etc.",
+                "type": "course-of-action",
+                "id": "M0936"
+            },
+            {
+                "name": "Limit Access to Resource Over Network",
+                "description": "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+                "type": "course-of-action",
+                "id": "M0935"
+            },
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M0927"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M0918"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M0942"
+            },
+            {
+                "name": "Multi-factor Authentication",
+                "description": "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.  Within industrial control environments assets such as low-level controllers, workstations, and HMIs have real-time operational control and safety requirements which may restrict the use of multi-factor.",
+                "type": "course-of-action",
+                "id": "M0932"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

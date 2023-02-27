@@ -1,0 +1,88 @@
+﻿{
+    "id": "T1218.013",
+    "name": "Mavinject",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse mavinject.exe to proxy execution of malicious code. Mavinject.exe is the Microsoft Application Virtualization Injector, a Windows utility that can inject code into external processes as part of Microsoft Application Virtualization (App-V).(Citation: LOLBAS Mavinject)\n\nAdversaries may abuse mavinject.exe to inject malicious DLLs into running processes (i.e. [Dynamic-link Library Injection](https://attack.mitre.org/techniques/T1055/001)), allowing for arbitrary code execution (ex. <code>C:\\Windows\\system32\\mavinject.exe PID /INJECTRUNNING PATH_DLL</code>).(Citation: ATT Lazarus TTP Evolution)(Citation: Reaqta Mavinject) Since mavinject.exe may be digitally signed by Microsoft, proxying execution via this method may evade detection by security products because the execution is masked under a legitimate process. \n\nIn addition to [Dynamic-link Library Injection](https://attack.mitre.org/techniques/T1055/001), Mavinject.exe can also be abused to perform import descriptor injection via its  <code>/HMODULE</code> command-line parameter (ex. <code>mavinject.exe PID /HMODULE=BASE_ADDRESS PATH_DLL ORDINAL_NUMBER</code>). This command would inject an import table entry consisting of the specified DLL into the module at the given base address.(Citation: Mavinject Functionality Deconstructed)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1218/013",
+            "external_id": "T1218.013"
+        },
+        {
+            "source_name": "ATT Lazarus TTP Evolution",
+            "description": "Fernando Martinez. (2021, July 6). Lazarus campaign TTPs and evolution. Retrieved September 22, 2021.",
+            "url": "https://cybersecurity.att.com/blogs/labs-research/lazarus-campaign-ttps-and-evolution"
+        },
+        {
+            "source_name": "LOLBAS Mavinject",
+            "description": "LOLBAS. (n.d.). Mavinject.exe. Retrieved September 22, 2021.",
+            "url": "https://lolbas-project.github.io/lolbas/Binaries/Mavinject/"
+        },
+        {
+            "source_name": "Mavinject Functionality Deconstructed",
+            "description": "Matt Graeber. (2018, May 29). mavinject.exe Functionality Deconstructed. Retrieved September 22, 2021.",
+            "url": "https://posts.specterops.io/mavinject-exe-functionality-deconstructed-c29ab2cf5c0e"
+        },
+        {
+            "source_name": "Reaqta Mavinject",
+            "description": "Reaqta. (2017, December 16). From False Positive to True Positive: the story of Mavinject.exe, the Microsoft Injector. Retrieved September 22, 2021.",
+            "url": "https://reaqta.com/2017/12/mavinject-microsoft-injector/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor the execution and arguments of mavinject.exe. Compare recent invocations of mavinject.exe with prior history of known good arguments and injected DLLs to determine anomalous and potentially adversarial activity.\n\nAdversaries may rename abusable binaries to evade detections, but the argument <code>INJECTRUNNING</code> is required for mavinject.exe to perform [Dynamic-link Library Injection](https://attack.mitre.org/techniques/T1055/001) and may therefore be monitored to alert malicious activity.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

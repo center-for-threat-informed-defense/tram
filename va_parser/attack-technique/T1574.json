@@ -1,0 +1,483 @@
+﻿{
+    "id": "T1574",
+    "name": "Hijack Execution Flow",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may execute their own malicious payloads by hijacking the way operating systems run programs. Hijacking execution flow can be for the purposes of persistence, since this hijacked execution may reoccur over time. Adversaries may also use these mechanisms to elevate privileges or evade defenses, such as application control or other restrictions on execution.\n\nThere are many ways an adversary may hijack the flow of execution, including by manipulating how the operating system locates programs to be executed. How the operating system locates libraries to be used by a program can also be intercepted. Locations where the operating system looks for programs/resources, such as file directories and in the case of Windows the Registry, could also be poisoned to include malicious payloads.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Anti-virus",
+        "Application Control"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1574",
+            "external_id": "T1574"
+        },
+        {
+            "source_name": "Autoruns for Windows",
+            "description": "Mark Russinovich. (2019, June 28). Autoruns for Windows v13.96. Retrieved March 13, 2020.",
+            "url": "https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "persistence",
+        "privilege-escalation",
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor file systems for moving, renaming, replacing, or modifying DLLs. Changes in the set of DLLs that are loaded by a process (compared with past behavior) that do not correlate with known software, patches, etc., are suspicious. Monitor DLLs loaded into a process and detect DLLs that have the same file name but abnormal paths. Modifications to or creation of .manifest and .local redirection files that do not correlate with software updates are suspicious.\n\nLook for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nMonitor for changes to environment variables, as well as the commands to implement these changes.\n\nMonitor processes for unusual activity (e.g., a process that does not use the network begins to do so, abnormal process call trees). Track library metadata, such as a hash, and compare libraries that are loaded at process execution time against previous executions to detect differences that do not correlate with patching or updates.\n\nService changes are reflected in the Registry. Modification to existing services should not occur frequently. If a service binary path or failure parameters are changed to values that are not typical for that service and does not correlate with software updates, then it may be due to malicious activity. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.\n\nTools such as Sysinternals Autoruns may also be used to detect system changes that could be attempts at persistence, including listing current service information. (Citation: Autoruns for Windows) Suspicious program execution through services may show up as outlier processes that have not been seen before when compared against historical data.",
+    "x_mitre_data_sources": [
+        "File: File Creation",
+        "Command: Command Execution",
+        "File: File Modification",
+        "Service: Service Metadata",
+        "Process: Process Creation",
+        "Windows Registry: Windows Registry Key Modification",
+        "Module: Module Load"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Control",
+                "description": "Configure Windows User Account Control to mitigate risk of adversaries obtaining elevated process access.",
+                "type": "course-of-action",
+                "id": "M1052"
+            },
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            },
+            {
+                "name": "Restrict Library Loading",
+                "description": "Prevent abuse of library loading mechanisms in the operating system and software to load untrusted code by configuring appropriate library loading mechanisms and investigating potential vulnerable software.",
+                "type": "course-of-action",
+                "id": "M1044"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Application Developer Guidance",
+                "description": "This mitigation describes any guidance or training given to developers of applications to avoid introducing security weaknesses that an adversary may be able to take advantage of.",
+                "type": "course-of-action",
+                "id": "M1013"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk.",
+                "type": "course-of-action",
+                "id": "M1051"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Restrict Registry Permissions",
+                "description": "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+                "type": "course-of-action",
+                "id": "M1024"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that auditing tools are deployed to detect hijacking opportunities on systems within an enterprise",
+                "acid": "98580752"
+            },
+            {
+                "description": "Ensure that the PowerSploit framework containing PowerUp modules is used to explore systems for hijacking weaknesses",
+                "acid": "98580753"
+            },
+            {
+                "description": "Ensure that the program sxstrace.exe along with manual inspection is used to check manifest files for side-loading vulnerabilities in software",
+                "acid": "98580754"
+            },
+            {
+                "description": "Ensure that program configuration files, scripts, the PATH environment variable are investigated for path interception weaknesses",
+                "acid": "98580755"
+            },
+            {
+                "description": "Ensure that old Windows Registry keys are cleaned up when the software is uninstalled to avoid keys with no associated legitimate binaries",
+                "acid": "98580756"
+            },
+            {
+                "description": "Ensure that system should be periodically searched for and report path interception weaknesses",
+                "acid": "98580757"
+            },
+            {
+                "description": "Ensure that application control solutions are implemented to identify and block potentially malicious software executed through hijacking",
+                "acid": "98580758"
+            },
+            {
+                "description": "Ensure that softwares are installed in write-protected locations",
+                "acid": "98580759"
+            },
+            {
+                "description": "Ensure that directory access controls are set to prevent file writes to the search paths for applications",
+                "acid": "98580760"
+            },
+            {
+                "description": "Ensure that the loading of remote DLLs should be disallowed",
+                "acid": "98580761"
+            },
+            {
+                "description": "Ensure that Safe DLL Search Mode is enabled to force search for system DLLs in directories with greater restrictions",
+                "acid": "98580762"
+            },
+            {
+                "description": "Ensure that proper permissions are set for Registry hives to prevent users from modifying keys for system components",
+                "acid": "98580763"
+            },
+            {
+                "description": "Ensure that software is regularly updated to include patches that fix DLL side-loading vulnerabilities",
+                "acid": "98580764"
+            },
+            {
+                "description": "Ensure that UAC's privilege elevation is turned off for standard users to automatically deny elevation requests",
+                "acid": "98580765"
+            },
+            {
+                "description": "Ensure that installer detection for all users is enabled by adding: \"EnableInstallerDetection\"=dword:00000001",
+                "acid": "98580766"
+            },
+            {
+                "description": "Ensure that user accounts and group privileges are limited and only authorized administrators are allowed to interact with service changes and service binary target path locations",
+                "acid": "98580767"
+            },
+            {
+                "description": "Ensure that execution from user directories such as file download directories and temp directories should be denied",
+                "acid": "98580768"
+            },
+            {
+                "description": "Ensure that proper permissions and directory access control are set to deny users to write files to the top-level directory C:",
+                "acid": "98580769"
+            },
+            {
+                "description": "Ensure that proper permissions and directory access control are set to deny users the ability to write files to system directories, such as C:\\Windows\\",
+                "acid": "98580770"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the file system is monitored for moving, renaming, replacing, or modifying DLLs",
+                "acid": "98580738"
+            },
+            {
+                "description": "Ensure that changes in the set of DLLs loaded by a process that does not correlate with known software, patches, etc., are monitored",
+                "acid": "98580739"
+            },
+            {
+                "description": "Ensure that DLLs loaded into a process are monitored for DLLs having the same file name with abnormal paths",
+                "acid": "98580740"
+            },
+            {
+                "description": "Ensure that modifications to or creation of .manifest and .local redirection files that do not correlate with software updates are monitored",
+                "acid": "98580741"
+            },
+            {
+                "description": "Ensure that changes to binaries and service executables that occurred during software updates should be monitored",
+                "acid": "98580742"
+            },
+            {
+                "description": "Ensure that an executable written, renamed, and/or moved to match an existing service executable should be monitored and correlated with other suspicious behavior",
+                "acid": "98580743"
+            },
+            {
+                "description": "Ensure that hashing of binaries and service executables are used to detect replacement against historical data",
+                "acid": "98580744"
+            },
+            {
+                "description": "Ensure that changes to environment variables, as well as the commands to implement these changes are monitored",
+                "acid": "98580745"
+            },
+            {
+                "description": "Ensure that processes are monitored for unusual activity such as abnormal process call trees",
+                "acid": "98580746"
+            },
+            {
+                "description": "Ensure that library metadata, such as a hash, are tracked and analyzed",
+                "acid": "98580747"
+            },
+            {
+                "description": "Ensure that libraries loaded at process execution time are compared against previous executions",
+                "acid": "98580748"
+            },
+            {
+                "description": "Ensure that registries are monitored for service changes",
+                "acid": "98580749"
+            },
+            {
+                "description": "Ensure that Sysinternals Autoruns is deployed to detect system changes that could be attempted at persistence",
+                "acid": "98580750"
+            },
+            {
+                "description": "Ensure that program execution through services is monitored to identify the unfamiliar process",
+                "acid": "98580751"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000117",
+        "40000140",
+        "40000490",
+        "40000497",
+        "40000507",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106000",
+        "50106008",
+        "50106010",
+        "50106015",
+        "50106032",
+        "50106110"
+    ],
+    "technologycontrolIds": [
+        "101540006",
+        "101550006",
+        "101560006",
+        "101570006",
+        "101600006",
+        "103900006",
+        "10460006",
+        "10960017",
+        "10960043",
+        "11010006",
+        "16100271",
+        "16130208"
+    ],
+    "cveIds": [
+        "CVE-1999-0005",
+        "CVE-1999-0021",
+        "CVE-1999-0267",
+        "CVE-1999-0404",
+        "CVE-2009-0238",
+        "CVE-2009-3023",
+        "CVE-2010-0168",
+        "CVE-2010-1592",
+        "CVE-2011-1996",
+        "CVE-2011-1999",
+        "CVE-2012-0003",
+        "CVE-2012-1854",
+        "CVE-2012-1875",
+        "CVE-2012-1876",
+        "CVE-2014-6332",
+        "CVE-2014-6352",
+        "CVE-2015-0064",
+        "CVE-2015-0065",
+        "CVE-2015-2431",
+        "CVE-2015-5119",
+        "CVE-2015-6103",
+        "CVE-2015-6104",
+        "CVE-2016-0170",
+        "CVE-2016-10174",
+        "CVE-2016-7189",
+        "CVE-2016-8377",
+        "CVE-2017-0070",
+        "CVE-2017-0072",
+        "CVE-2017-0083",
+        "CVE-2017-0084",
+        "CVE-2017-0086",
+        "CVE-2017-0087",
+        "CVE-2017-0088",
+        "CVE-2017-0089",
+        "CVE-2017-0090",
+        "CVE-2017-0202",
+        "CVE-2017-0262",
+        "CVE-2017-0283",
+        "CVE-2017-0561",
+        "CVE-2017-0781",
+        "CVE-2017-1000251",
+        "CVE-2017-12718",
+        "CVE-2017-5177",
+        "CVE-2017-6465",
+        "CVE-2017-6506",
+        "CVE-2017-7269",
+        "CVE-2017-8682",
+        "CVE-2017-8895",
+        "CVE-2018-0834",
+        "CVE-2018-0835",
+        "CVE-2018-0837",
+        "CVE-2018-0838",
+        "CVE-2018-0840",
+        "CVE-2018-0860",
+        "CVE-2018-0866",
+        "CVE-2018-0933",
+        "CVE-2018-0934",
+        "CVE-2018-0935",
+        "CVE-2018-0946",
+        "CVE-2018-0953",
+        "CVE-2018-0980",
+        "CVE-2018-0986",
+        "CVE-2018-10594",
+        "CVE-2018-10610",
+        "CVE-2018-10620",
+        "CVE-2018-10636",
+        "CVE-2018-10657",
+        "CVE-2018-11049",
+        "CVE-2018-14009",
+        "CVE-2018-14809",
+        "CVE-2018-14819",
+        "CVE-2018-15376",
+        "CVE-2018-17910",
+        "CVE-2018-18987",
+        "CVE-2018-19524",
+        "CVE-2018-7494",
+        "CVE-2018-7499",
+        "CVE-2018-8110",
+        "CVE-2018-8111",
+        "CVE-2018-8133",
+        "CVE-2018-8139",
+        "CVE-2018-8174",
+        "CVE-2018-8229",
+        "CVE-2018-8248",
+        "CVE-2018-8279",
+        "CVE-2018-8288",
+        "CVE-2018-8291",
+        "CVE-2018-8298",
+        "CVE-2018-8353",
+        "CVE-2018-8355",
+        "CVE-2018-8384",
+        "CVE-2018-8466",
+        "CVE-2018-8467",
+        "CVE-2018-8544",
+        "CVE-2018-8617",
+        "CVE-2018-8619",
+        "CVE-2018-8625",
+        "CVE-2018-8631",
+        "CVE-2018-8835",
+        "CVE-2019-0539",
+        "CVE-2019-0567",
+        "CVE-2019-0568",
+        "CVE-2019-0576",
+        "CVE-2019-0609",
+        "CVE-2019-0667",
+        "CVE-2019-0708",
+        "CVE-2019-0752",
+        "CVE-2019-0911",
+        "CVE-2019-0926",
+        "CVE-2019-1035",
+        "CVE-2019-1052",
+        "CVE-2019-10971",
+        "CVE-2019-10980",
+        "CVE-2019-11043",
+        "CVE-2019-1106",
+        "CVE-2019-1117",
+        "CVE-2019-1118",
+        "CVE-2019-1119",
+        "CVE-2019-1120",
+        "CVE-2019-1121",
+        "CVE-2019-1122",
+        "CVE-2019-1123",
+        "CVE-2019-1124",
+        "CVE-2019-1127",
+        "CVE-2019-1128",
+        "CVE-2019-1144",
+        "CVE-2019-1145",
+        "CVE-2019-1149",
+        "CVE-2019-1150",
+        "CVE-2019-1151",
+        "CVE-2019-1152",
+        "CVE-2019-12660",
+        "CVE-2019-1284",
+        "CVE-2019-13522",
+        "CVE-2019-1429",
+        "CVE-2019-15846",
+        "CVE-2019-1794",
+        "CVE-2019-19383",
+        "CVE-2019-3723",
+        "CVE-2019-6538",
+        "CVE-2019-9760",
+        "CVE-2020-0671",
+        "CVE-2020-0674",
+        "CVE-2020-0688",
+        "CVE-2020-0898",
+        "CVE-2020-11039",
+        "CVE-2020-11068",
+        "CVE-2020-1109",
+        "CVE-2020-1425",
+        "CVE-2020-1495",
+        "CVE-2020-15100",
+        "CVE-2020-15199",
+        "CVE-2020-15208",
+        "CVE-2020-15211",
+        "CVE-2020-1569",
+        "CVE-2020-16874",
+        "CVE-2020-3153",
+        "CVE-2020-3198",
+        "CVE-2020-3309",
+        "CVE-2020-4068",
+        "CVE-2020-4100",
+        "CVE-2020-5210",
+        "CVE-2020-5253",
+        "CVE-2020-5254"
+    ],
+    "subTechniques": [
+        "T1574.001",
+        "T1574.002",
+        "T1574.004",
+        "T1574.005",
+        "T1574.006",
+        "T1574.007",
+        "T1574.008",
+        "T1574.009",
+        "T1574.010",
+        "T1574.011",
+        "T1574.012",
+        "T1574.013"
+    ]
+}

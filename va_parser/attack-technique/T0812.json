@@ -1,0 +1,78 @@
+﻿{
+    "id": "T0812",
+    "name": "Default Credentials",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may leverage manufacturer or supplier set default credentials on control system devices. These default credentials may have administrative permissions and may be necessary for initial configuration of the device. It is general best practice to change the passwords for these accounts as soon as possible, but some manufacturers may have devices that have passwords or usernames that cannot be changed. (Citation: Keith Stouffer May 2015)  Default credentials are normally documented in an instruction manual that is either packaged with the device, published online through official means, or published online through unofficial means. Adversaries may leverage default credentials that have not been properly modified or disabled.",
+    "x_mitre_platforms": [
+        "Human-Machine Interface",
+        "Field Controller/RTU/PLC/IED",
+        "Safety Instrumented System/Protection Relay",
+        "Control Server",
+        "Engineering Workstation"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0812",
+            "external_id": "T0812"
+        },
+        {
+            "source_name": "Keith Stouffer May 2015",
+            "description": "Keith Stouffer 2015, May Guide to Industrial Control Systems (ICS) Security Retrieved. 2018/03/28 ",
+            "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-82r2.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "lateral-movement-ics"
+        }
+    ],
+    "tactic": [
+        "lateral-movement-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content",
+        "Logon Session: Logon Session Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M0927"
+            },
+            {
+                "name": "Access Management",
+                "description": "Access Management technologies can be used to enforce authorization polices and decisions, especially when existing field devices do not provided sufficient capabilities to support user identification and authentication. (Citation: McCarthy, J et al. July 2018) These technologies typically utilize an in-line network device or gateway system to prevent access to unauthenticated users, while also integrating with an authentication service to first verify user credentials. (Citation: Centre for the Protection of National Infrastructure November 2010)",
+                "type": "course-of-action",
+                "id": "M0801"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

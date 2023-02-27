@@ -1,0 +1,192 @@
+{
+    "id": "T1543.002",
+    "name": "Systemd Service",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may create or modify systemd services to repeatedly execute malicious payloads as part of persistence. The systemd service manager is commonly used for managing background daemon processes (also known as services) and other system resources.(Citation: Linux man-pages: systemd January 2014)(Citation: Freedesktop.org Linux systemd 29SEP2018) Systemd is the default initialization (init) system on many Linux distributions starting with Debian 8, Ubuntu 15.04, CentOS 7, RHEL 7, Fedora 15, and replaces legacy init systems including SysVinit and Upstart while remaining backwards compatible with the aforementioned init systems.\n\nSystemd utilizes configuration files known as service units to control how services boot and under what conditions. By default, these unit files are stored in the <code>/etc/systemd/system</code> and <code>/usr/lib/systemd/system</code> directories and have the file extension <code>.service</code>. Each service unit file may contain numerous directives that can execute system commands:\n\n* ExecStart, ExecStartPre, and ExecStartPost directives cover execution of commands when a services is started manually by 'systemctl' or on system start if the service is set to automatically start. \n* ExecReload directive covers when a service restarts. \n* ExecStop and ExecStopPost directives cover when a service is stopped or manually by 'systemctl'.\n\nAdversaries have used systemd functionality to establish persistent access to victim systems by creating and/or modifying service unit files that cause systemd to execute malicious commands at system boot.(Citation: Anomali Rocke March 2019)\n\nWhile adversaries typically require root privileges to create/modify service unit files in the <code>/etc/systemd/system</code> and <code>/usr/lib/systemd/system</code> directories, low privilege users can create/modify service unit files in directories such as <code>~/.config/systemd/user/</code> to achieve user-level persistence.(Citation: Rapid7 Service Persistence 22JUNE2016)",
+    "x_mitre_platforms": [
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1543/002",
+            "external_id": "T1543.002"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/550.html",
+            "external_id": "CAPEC-550"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/551.html",
+            "external_id": "CAPEC-551"
+        },
+        {
+            "source_name": "Linux man-pages: systemd January 2014",
+            "description": "Linux man-pages. (2014, January). systemd(1) - Linux manual page. Retrieved April 23, 2019.",
+            "url": "http://man7.org/linux/man-pages/man1/systemd.1.html"
+        },
+        {
+            "source_name": "Freedesktop.org Linux systemd 29SEP2018",
+            "description": "Freedesktop.org. (2018, September 29). systemd System and Service Manager. Retrieved April 23, 2019.",
+            "url": "https://www.freedesktop.org/wiki/Software/systemd/"
+        },
+        {
+            "source_name": "Anomali Rocke March 2019",
+            "description": "Anomali Labs. (2019, March 15). Rocke Evolves Its Arsenal With a New Malware Family Written in Golang. Retrieved April 24, 2019.",
+            "url": "https://www.anomali.com/blog/rocke-evolves-its-arsenal-with-a-new-malware-family-written-in-golang"
+        },
+        {
+            "source_name": "Rapid7 Service Persistence 22JUNE2016",
+            "description": "Rapid7. (2016, June 22). Service Persistence. Retrieved April 23, 2019.",
+            "url": "https://www.rapid7.com/db/modules/exploit/linux/local/service_persistence"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "persistence",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "Systemd service unit files may be detected by auditing file creation and modification events within the <code>/etc/systemd/system</code>, <code>/usr/lib/systemd/system/</code>, and <code>/home/<username>/.config/systemd/user/</code> directories, as well as associated symbolic links. Suspicious processes or scripts spawned in this manner will have a parent process of \u2018systemd', a parent process ID of 1, and will usually execute as the \u2018root' user.\n\nSuspicious systemd services can also be identified by comparing results against a trusted system baseline. Malicious systemd services may be detected by using the systemctl utility to examine system wide services: <code>systemctl list-units -\u2013type=service \u2013all</code>. Analyze the contents of <code>.service</code> files present on the file system and ensure that they refer to legitimate, expected executables.\n\nAuditing the execution and command-line arguments of the 'systemctl' utility, as well related utilities such as <code>/usr/sbin/service</code> may reveal malicious systemd service execution.",
+    "x_mitre_data_sources": [
+        "File: File Modification",
+        "Service: Service Modification",
+        "Command: Command Execution",
+        "Process: Process Creation",
+        "File: File Creation",
+        "Service: Service Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "root"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Limit Software Installation",
+                "description": "Block users or groups from installing unapproved software.",
+                "type": "course-of-action",
+                "id": "M1033"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that software installation is restricted to trusted repositories only",
+                "acid": "98580615"
+            },
+            {
+                "description": "Ensure that the creation and modification of systemd service unit files are limited to admin accounts",
+                "acid": "98580616"
+            },
+            {
+                "description": "Ensure that read/write access to systemd unit files is restricted to only selected privileged users",
+                "acid": "98580617"
+            },
+            {
+                "description": "Ensure that user access to system utilities such as 'systemctl' is limited to legitimate users",
+                "acid": "98580618"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that file creation and modification events within the /etc/systemd/system directory are audited to detect Systemd service unit files",
+                "acid": "98580606"
+            },
+            {
+                "description": "Ensure that file creation and modification events within the /usr/lib/systemd/system/ directory are audited to detect Systemd service unit files",
+                "acid": "98580607"
+            },
+            {
+                "description": "Ensure that file creation and modification events within the /home//.config/systemd/user/ directory are audited to detect Systemd service unit files",
+                "acid": "98580608"
+            },
+            {
+                "description": "Ensure that Suspicious systemd services are compared against a trusted system baseline",
+                "acid": "98580609"
+            },
+            {
+                "description": "Ensure that the systemctl utility is used to examine system-wide services",
+                "acid": "98580610"
+            },
+            {
+                "description": "Ensure that the contents of .service files present on the file system are analyzed",
+                "acid": "98580611"
+            },
+            {
+                "description": "Ensure that the contents of .service files refer to legitimate, expected executables",
+                "acid": "98580612"
+            },
+            {
+                "description": "Ensure that the execution and command-line arguments of the 'systemctl' utility are audited for the malicious systemd service execution",
+                "acid": "98580613"
+            },
+            {
+                "description": "Ensure that the execution and command-line arguments of /usr/bin/service utility are audited for the malicious systemd service execution",
+                "acid": "98580614"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000205",
+        "40000490",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [
+        "50110012",
+        "50110013",
+        "50110014",
+        "50110015",
+        "50110026"
+    ],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "16460378",
+        "19920400",
+        "19920409",
+        "19920411"
+    ],
+    "cveIds": []
+}

@@ -1,0 +1,100 @@
+﻿{
+    "id": "T0878",
+    "name": "Alarm Suppression",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may target protection function alarms to prevent them from notifying operators of critical conditions. Alarm messages may be a part of an overall reporting system and of particular interest for adversaries. Disruption of the alarm system does not imply the disruption of the reporting system as a whole.   In the Maroochy Attack, the adversary suppressed alarm reporting to the central computer. (Citation: Marshall Abrams July 2008)  A Secura presentation on targeting OT notes a dual fold goal for adversaries attempting alarm suppression: prevent outgoing alarms from being raised and prevent incoming alarms from being responded to. (Citation: Jos Wetzels, Marina Krotofil 2019)  The method of suppression may greatly depend on the type of alarm in question:  * An alarm raised by a protocol message * An alarm signaled with I/O * An alarm bit set in a flag (and read)  In ICS environments, the adversary may have to suppress or contend with multiple alarms and/or alarm propagation to achieve a specific goal to evade detection or prevent intended responses from occurring. (Citation: Jos Wetzels, Marina Krotofil 2019)  Methods of suppression may involve tampering or altering device displays and logs, modifying in memory code to fixed values, or even tampering with assembly level instruction code.",
+    "x_mitre_platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Safety Instrumented System/Protection Relay",
+        "Device Configuration/Parameters"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0878",
+            "external_id": "T0878"
+        },
+        {
+            "source_name": "Marshall Abrams July 2008",
+            "description": "Marshall Abrams 2008, July 23 Malicious Control System Cyber Security Attack Case Study Maroochy Water Services, Australia Retrieved. 2018/03/27 ",
+            "url": "https://www.mitre.org/sites/default/files/pdf/08_1145.pdf"
+        },
+        {
+            "source_name": "Jos Wetzels, Marina Krotofil 2019",
+            "description": "Jos Wetzels, Marina Krotofil 2019 A Diet of Poisoned Fruit: Designing Implants & OT Payloads for ICS Embedded Devices Retrieved. 2019/11/01 ",
+            "url": "https://troopers.de/downloads/troopers19/TROOPERS19_NGI_IoT_diet_poisoned_fruit.pdf"
+        },
+        {
+            "source_name": "Jos Wetzels, Marina Krotofil 2019",
+            "description": "Jos Wetzels, Marina Krotofil 2019 A Diet of Poisoned Fruit: Designing Implants & OT Payloads for ICS Embedded Devices Retrieved. 2019/11/01 ",
+            "url": "https://troopers.de/downloads/troopers19/TROOPERS19_NGI_IoT_diet_poisoned_fruit.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "inhibit-response-function"
+        }
+    ],
+    "tactic": [
+        "inhibit-response-function"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content",
+        "Application Log: Application Log Content",
+        "Operational Databases: Process History/Live Data",
+        "Operational Databases: Process/Event Alarm"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Static Network Configuration",
+                "description": "Configure hosts and devices to use static network configurations when possible, protocols that require dynamic discovery/addressing (e.g., ARP, DHCP, DNS) can be used to manipulate network message forwarding and enable various MitM attacks. This mitigation may not always be usable due to limited device features or challenges introduced with different network configurations.",
+                "type": "course-of-action",
+                "id": "M0814"
+            },
+            {
+                "name": "Network Allowlists",
+                "description": "Network allowlists can be implemented through either host-based files or system hosts files to specify what connections (e.g., IP address, MAC address, port, protocol) can be made from a device. Allowlist techniques that operate at the  application layer (e.g., DNP3, Modbus, HTTP) are addressed in [Filter Network Traffic](https://attack.mitre.org/mitigations/M0937) mitigation.",
+                "type": "course-of-action",
+                "id": "M0807"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network.  Restrict network access to only required systems and services. In addition, prevent systems from other networks or business functions (e.g., enterprise) from accessing critical process control systems. For example, in IEC 62443, systems within the same secure level should be grouped into a zone, and access to that zone is restricted by a conduit, or mechanism to restrict data flows between zones by segmenting the network. (Citation: IEC February 2019) (Citation: IEC August 2013)",
+                "type": "course-of-action",
+                "id": "M0930"
+            },
+            {
+                "name": "Out-of-Band Communications Channel",
+                "description": "Have alternative methods to support communication requirements during communication failures and data integrity attacks. (Citation: National Institute of Standards and Technology April 2013) (Citation: Defense Advanced Research Projects Agency)",
+                "type": "course-of-action",
+                "id": "M0810"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

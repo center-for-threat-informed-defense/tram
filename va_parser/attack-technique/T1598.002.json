@@ -1,0 +1,92 @@
+{
+    "id": "T1598.002",
+    "name": "Spearphishing Attachment",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may send spearphishing messages with a malicious attachment to elicit sensitive information that can be used during targeting. Spearphishing for information is an attempt to trick targets into divulging information, frequently credentials or other actionable information. Spearphishing for information frequently involves social engineering techniques, such as posing as a source with a reason to collect information (ex: [Establish Accounts](https://attack.mitre.org/techniques/T1585) or [Compromise Accounts](https://attack.mitre.org/techniques/T1586)) and/or sending multiple, seemingly urgent messages.\n\nAll forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries attach a file to the spearphishing email and usually rely upon the recipient populating information then returning the file.(Citation: Sophos Attachment)(Citation: GitHub Phishery) The text of the spearphishing email usually tries to give a plausible reason why the file should be filled-in, such as a request for information from a business associate. Adversaries may also use information from previous reconnaissance efforts (ex: [Search Open Websites/Domains](https://attack.mitre.org/techniques/T1593) or [Search Victim-Owned Websites](https://attack.mitre.org/techniques/T1594)) to craft persuasive and believable lures.",
+    "x_mitre_platforms": [
+        "PRE"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1598/002",
+            "external_id": "T1598.002"
+        },
+        {
+            "source_name": "Sophos Attachment",
+            "description": "Ducklin, P. (2020, October 2). Serious Security: Phishing without links \u2013 when phishers bring along their own web pages. Retrieved October 20, 2020.",
+            "url": "https://nakedsecurity.sophos.com/2020/10/02/serious-security-phishing-without-links-when-phishers-bring-along-their-own-web-pages/"
+        },
+        {
+            "source_name": "GitHub Phishery",
+            "description": "Ryan Hanson. (2016, September 24). phishery. Retrieved October 23, 2020.",
+            "url": "https://github.com/ryhanson/phishery"
+        },
+        {
+            "source_name": "Microsoft Anti Spoofing",
+            "description": "Microsoft. (2020, October 13). Anti-spoofing protection in EOP. Retrieved October 19, 2020.",
+            "url": "https://docs.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-spoofing-protection?view=o365-worldwide"
+        },
+        {
+            "source_name": "ACSC Email Spoofing",
+            "description": "Australian Cyber Security Centre. (2012, December). Mitigating Spoofed Emails Using Sender Policy Framework. Retrieved October 19, 2020.",
+            "url": "https://www.cyber.gov.au/sites/default/files/2019-03/spoof_email_sender_policy_framework.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "reconnaissance"
+        }
+    ],
+    "tactic": [
+        "reconnaissance"
+    ],
+    "x_mitre_detection": "Monitor for suspicious email activity, such as numerous accounts receiving messages from a single unusual/unknown sender. Filtering based on DKIM+SPF or header analysis can help detect when the email sender is spoofed.(Citation: Microsoft Anti Spoofing)(Citation: ACSC Email Spoofing)",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Flow",
+        "Network Traffic: Network Traffic Content",
+        "Application Log: Application Log Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            },
+            {
+                "name": "Software Configuration",
+                "description": "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+                "type": "course-of-action",
+                "id": "M1054"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [
+        "PACR00004",
+        "PACR00008"
+    ],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

@@ -1,0 +1,66 @@
+﻿{
+    "id": "T0880",
+    "name": "Loss of Safety",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may compromise safety system functions designed to maintain safe operation of a process when unacceptable or dangerous conditions occur. Safety systems are often composed of the same elements as control systems but have the sole purpose of ensuring the process fails in a predetermined safe manner.  Many unsafe conditions in process control happen too quickly for a human operator to react to. Speed is critical in correcting these conditions to limit serious impacts such as Loss of Control and Property Damage.  Adversaries may target and disable safety system functions as a prerequisite to subsequent attack execution or to allow for future unsafe conditionals to go unchecked. Detection of a Loss of Safety by operators can result in the shutdown of a process due to strict policies regarding safety systems. This can cause a Loss of Productivity and Revenue and may meet the technical goals of adversaries seeking to cause process disruptions.",
+    "x_mitre_platforms": [
+        "None"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0880",
+            "external_id": "T0880"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "impact-ics"
+        }
+    ],
+    "tactic": [
+        "impact-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Safety Instrumented Systems",
+                "description": "Utilize Safety Instrumented Systems (SIS) to provide an additional layer of protection to hazard scenarios that may cause property damage. A SIS will typically include sensors, logic solvers, and a final control element that can be used to automatically respond to an hazardous condition  (Citation: A G Foord, W G Gulland, C R Howard, T Kellacher, W H Smith 2004) . Ensure that all SISs are segmented from operational networks to prevent them from being targeted by additional adversarial behavior.",
+                "type": "course-of-action",
+                "id": "M0812"
+            },
+            {
+                "name": "Mechanical Protection Layers",
+                "description": "Utilize a layered protection design based on physical or mechanical protection systems to prevent damage to property, equipment, human safety, or the environment. Examples include interlocks, rupture disk, release values, etc. (Citation: A G Foord, W G Gulland, C R Howard, T Kellacher, W H Smith 2004) ",
+                "type": "course-of-action",
+                "id": "M0805"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

@@ -1,0 +1,77 @@
+{
+    "id": "T1598.001",
+    "name": "Spearphishing Service",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may send spearphishing messages via third-party services to elicit sensitive information that can be used during targeting. Spearphishing for information is an attempt to trick targets into divulging information, frequently credentials or other actionable information. Spearphishing for information frequently involves social engineering techniques, such as posing as a source with a reason to collect information (ex: [Establish Accounts](https://attack.mitre.org/techniques/T1585) or [Compromise Accounts](https://attack.mitre.org/techniques/T1586)) and/or sending multiple, seemingly urgent messages.\n\nAll forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries send messages through various social media services, personal webmail, and other non-enterprise controlled services.(Citation: ThreatPost Social Media Phishing) These services are more likely to have a less-strict security policy than an enterprise. As with most kinds of spearphishing, the goal is to generate rapport with the target or get the target's interest in some way. Adversaries may create fake social media accounts and message employees for potential job opportunities. Doing so allows a plausible reason for asking about services, policies, and information about their environment. Adversaries may also use information from previous reconnaissance efforts (ex: [Social Media](https://attack.mitre.org/techniques/T1593/001) or [Search Victim-Owned Websites](https://attack.mitre.org/techniques/T1594)) to craft persuasive and believable lures.",
+    "x_mitre_platforms": [
+        "PRE"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1598/001",
+            "external_id": "T1598.001"
+        },
+        {
+            "source_name": "ThreatPost Social Media Phishing",
+            "description": "O'Donnell, L. (2020, October 20). Facebook: A Top Launching Pad For Phishing Attacks. Retrieved October 20, 2020.",
+            "url": "https://threatpost.com/facebook-launching-pad-phishing-attacks/160351/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "reconnaissance"
+        }
+    ],
+    "tactic": [
+        "reconnaissance"
+    ],
+    "x_mitre_detection": "Monitor social media traffic for suspicious activity, including messages requesting information as well as abnormal file or data transfers (especially those involving unknown, or otherwise suspicious accounts).\n\nMuch of this activity may have a very high occurrence and associated false positive rate, as well as potentially taking place outside the visibility of the target organization, making detection difficult for defenders.\n\nDetection efforts may be focused on related stages of the adversary lifecycle, such as during Initial Access.",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Flow",
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [
+        "C2342027",
+        "C2452001"
+    ],
+    "peoplecontrolIds": [
+        "PACR00004",
+        "PACR00006",
+        "PACR00007",
+        "PACR00008",
+        "PACR00009"
+    ],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

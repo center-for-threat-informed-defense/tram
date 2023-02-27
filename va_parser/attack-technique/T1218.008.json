@@ -1,0 +1,120 @@
+﻿{
+    "id": "T1218.008",
+    "name": "Odbcconf",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse odbcconf.exe to proxy execution of malicious payloads. Odbcconf.exe is a Windows utility that allows you to configure Open Database Connectivity (ODBC) drivers and data source names.(Citation: Microsoft odbcconf.exe) The Odbcconf.exe binary may be digitally signed by Microsoft.\n\nAdversaries may abuse odbcconf.exe to bypass application control solutions that do not account for its potential abuse. Similar to [Regsvr32](https://attack.mitre.org/techniques/T1218/010), odbcconf.exe has a <code>REGSVR</code> flag that can be misused to execute DLLs (ex: <code>odbcconf.exe /S /A &lbrace;REGSVR \"C:\\Users\\Public\\file.dll\"&rbrace;</code>). (Citation: LOLBAS Odbcconf)(Citation: TrendMicro Squiblydoo Aug 2017)(Citation: TrendMicro Cobalt Group Nov 2017) \n",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Digital Certificate Validation",
+        "Application control"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1218/008",
+            "external_id": "T1218.008"
+        },
+        {
+            "source_name": "Microsoft odbcconf.exe",
+            "description": "Microsoft. (2017, January 18). ODBCCONF.EXE. Retrieved March 7, 2019.",
+            "url": "https://docs.microsoft.com/en-us/sql/odbc/odbcconf-exe?view=sql-server-2017"
+        },
+        {
+            "source_name": "LOLBAS Odbcconf",
+            "description": "LOLBAS. (n.d.). Odbcconf.exe. Retrieved March 7, 2019.",
+            "url": "https://lolbas-project.github.io/lolbas/Binaries/Odbcconf/"
+        },
+        {
+            "source_name": "TrendMicro Squiblydoo Aug 2017",
+            "description": "Bermejo, L., Giagone, R., Wu, R., and Yarochkin, F. (2017, August 7). Backdoor-carrying Emails Set Sights on Russian-speaking Businesses. Retrieved March 7, 2019.",
+            "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/backdoor-carrying-emails-set-sights-on-russian-speaking-businesses/"
+        },
+        {
+            "source_name": "TrendMicro Cobalt Group Nov 2017",
+            "description": "Giagone, R., Bermejo, L., and Yarochkin, F. (2017, November 20). Cobalt Strikes Again: Spam Runs Use Macros and CVE-2017-8759 Exploit Against Russian Banks. Retrieved March 7, 2019.",
+            "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/cobalt-spam-runs-use-macros-cve-2017-8759-exploit/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Use process monitoring to monitor the execution and arguments of odbcconf.exe. Compare recent invocations of odbcconf.exe with prior history of known good arguments and loaded DLLs to determine anomalous and potentially adversarial activity. Command arguments used before and after the invocation of odbcconf.exe may also be useful in determining the origin and purpose of the DLL being loaded.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Module: Module Load",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Odbcconf.exe is disabled or removed if not necessary within a given environment.",
+                "acid": "98581665"
+            },
+            {
+                "description": "Ensure that application whitelisting is configured to block execution of Odbcconf.exe (if not required for a given system or network).",
+                "acid": "98581666"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process monitoring is used to monitor the execution and arguments of Odbcconf.exe .",
+                "acid": "98581661"
+            },
+            {
+                "description": "Ensure that recent invocations of Odbcconf.exe are compared with the history of known good arguments to determine anomalous activity.",
+                "acid": "98581662"
+            },
+            {
+                "description": "Ensure that recent invocations of Odbcconf.exe are compared with the history of loaded DLLs to determine anomalous activity.",
+                "acid": "98581663"
+            },
+            {
+                "description": "Ensure that Command arguments used before and after the Odbcconf.exe invocation are inspected to determine the (origin and purpose) loaded DLLs.",
+                "acid": "98581664"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

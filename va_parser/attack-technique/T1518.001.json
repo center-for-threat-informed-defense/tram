@@ -1,0 +1,97 @@
+{
+    "id": "T1518.001",
+    "name": "Security Software Discovery",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to get a listing of security software, configurations, defensive tools, and sensors that are installed on a system or in a cloud environment. This may include things such as firewall rules and anti-virus. Adversaries may use the information from [Security Software Discovery](https://attack.mitre.org/techniques/T1518/001) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nExample commands that can be used to obtain security software information are [netsh](https://attack.mitre.org/software/S0108), <code>reg query</code> with [Reg](https://attack.mitre.org/software/S0075), <code>dir</code> with [cmd](https://attack.mitre.org/software/S0106), and [Tasklist](https://attack.mitre.org/software/S0057), but other indicators of discovery behavior may be more specific to the type of software or security system the adversary is looking for. It is becoming more common to see macOS malware perform checks for LittleSnitch and KnockKnock software.\n\nAdversaries may also utilize cloud APIs to discover the configurations of firewall rules within an environment.(Citation: Expel IO Evil in AWS) For example, the permitted IP ranges, ports or user accounts for the inbound/outbound rules of security groups, virtual firewalls established within AWS for EC2 and/or VPC instances, can be revealed by the <code>DescribeSecurityGroups</code> action with various request parameters. (Citation: DescribeSecurityGroups - Amazon Elastic Compute Cloud)",
+    "x_mitre_platforms": [
+        "Windows",
+        "Azure AD",
+        "Office 365",
+        "SaaS",
+        "IaaS",
+        "Linux",
+        "macOS",
+        "Google Workspace"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1518/001",
+            "external_id": "T1518.001"
+        },
+        {
+            "source_name": "Expel IO Evil in AWS",
+            "description": "A. Randazzo, B. Manahan and S. Lipton. (2020, April 28). Finding Evil in AWS. Retrieved June 25, 2020.",
+            "url": "https://expel.io/blog/finding-evil-in-aws/"
+        },
+        {
+            "source_name": "DescribeSecurityGroups - Amazon Elastic Compute Cloud",
+            "description": "Amazon Web Services, Inc. . (2022). DescribeSecurityGroups. Retrieved January 28, 2022.",
+            "url": "https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/581.html",
+            "external_id": "CAPEC-581"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "discovery"
+        }
+    ],
+    "tactic": [
+        "discovery"
+    ],
+    "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as lateral movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nIn cloud environments, additionally monitor logs for the usage of APIs that may be used to gather information about security software configurations within the environment.",
+    "x_mitre_data_sources": [
+        "Firewall: Firewall Metadata",
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Firewall: Firewall Enumeration"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for suspicious activities",
+                "acid": "98582163"
+            },
+            {
+                "description": "Ensure that monitoring solutions are configured to monitor interactions to Windows API from remote access tools",
+                "acid": "98582164"
+            },
+            {
+                "description": "Ensure that logging and monitoring solutions are configured to monitor the logs for API usage in cloud environments.",
+                "acid": "98582165"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "11480015"
+    ],
+    "cveIds": [
+        "CVE-2017-0022"
+    ]
+}

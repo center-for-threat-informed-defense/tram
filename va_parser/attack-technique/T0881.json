@@ -1,0 +1,99 @@
+﻿{
+    "id": "T0881",
+    "name": "Service Stop",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may stop or disable services on a system to render those services unavailable to legitimate users. Stopping critical services can inhibit or stop response to an incident or aid in the adversary's overall objectives to cause damage to the environment. (Citation: Enterprise ATT&CK)  Services may not allow for modification of their data stores while running. Adversaries may stop services in order to conduct Data Destruction. (Citation: Enterprise ATT&CK)",
+    "x_mitre_platforms": [
+        "Human-Machine Interface",
+        "Control Server",
+        "Data Historian",
+        "Engineering Workstation"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0881",
+            "external_id": "T0881"
+        },
+        {
+            "source_name": "Enterprise ATT&CK",
+            "description": "Enterprise ATT&CK   Service Stop Retrieved. 2019/10/29 ",
+            "url": "https://attack.mitre.org/techniques/T1489/"
+        },
+        {
+            "source_name": "Enterprise ATT&CK",
+            "description": "Enterprise ATT&CK Enterprise ATT&CK   Service Stop Retrieved. 2019/10/29  Service Stop Retrieved. 2019/10/29 ",
+            "url": "https://attack.mitre.org/techniques/T1489/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "inhibit-response-function"
+        }
+    ],
+    "tactic": [
+        "inhibit-response-function"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "File: File Modification",
+        "Process: OS API Execution",
+        "Process: Process Creation",
+        "Process: Process Termination",
+        "Service: Service Metadata",
+        "Windows Registry: Windows Registry Key Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M0918"
+            },
+            {
+                "name": "Restrict Registry Permissions",
+                "description": "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+                "type": "course-of-action",
+                "id": "M0924"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M0922"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network.  Restrict network access to only required systems and services. In addition, prevent systems from other networks or business functions (e.g., enterprise) from accessing critical process control systems. For example, in IEC 62443, systems within the same secure level should be grouped into a zone, and access to that zone is restricted by a conduit, or mechanism to restrict data flows between zones by segmenting the network. (Citation: IEC February 2019) (Citation: IEC August 2013)",
+                "type": "course-of-action",
+                "id": "M0930"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

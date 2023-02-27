@@ -1,0 +1,166 @@
+﻿{
+    "id": "T1574.007",
+    "name": "Path Interception by PATH Environment Variable",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may execute their own malicious payloads by hijacking environment variables used to load libraries. Adversaries may place a program in an earlier entry in the list of directories stored in the PATH environment variable, which Windows will then execute when it searches sequentially through that PATH listing in search of the binary that was called from a script or the command line.\n\nThe PATH environment variable contains a list of directories. Certain methods of executing a program (namely using cmd.exe or the command-line) rely solely on the PATH environment variable to determine the locations that are searched for a program when the path for the program is not given. If any directories are listed in the PATH environment variable before the Windows directory, <code>%SystemRoot%\\system32</code> (e.g., <code>C:\\Windows\\system32</code>), a program may be placed in the preceding directory that is named the same as a Windows program (such as cmd, PowerShell, or Python), which will be executed when that command is executed from a script or command-line.\n\nFor example, if <code>C:\\example path</code> precedes </code>C:\\Windows\\system32</code> is in the PATH environment variable, a program that is named net.exe and placed in <code>C:\\example path</code> will be called instead of the Windows system \"net\" when \"net\" is executed from the command-line.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Application Control"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1574/007",
+            "external_id": "T1574.007"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/13.html",
+            "external_id": "CAPEC-13"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/38.html",
+            "external_id": "CAPEC-38"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "persistence",
+        "privilege-escalation",
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor file creation for files named after partial directories and in locations that may be searched for common processes through the environment variable, or otherwise should not be user writable. Monitor the executing process for process executable paths that are named for partial directories. Monitor file creation for programs that are named after Windows system programs or programs commonly executed without a path (such as \"findstr,\" \"net,\" and \"python\"). If this activity occurs outside of known administration activity, upgrades, installations, or patches, then it may be suspicious.\n\nData and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.",
+    "x_mitre_data_sources": [
+        "Windows Registry: Windows Registry Key Modification",
+        "File: File Modification",
+        "Process: Process Creation",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that program configuration files, scripts, the PATH environment variable, services are audited for path interception weaknesses",
+                "acid": "98580822"
+            },
+            {
+                "description": "Ensure that old Windows Registry keys are cleaned up when the software is uninstalled",
+                "acid": "98580823"
+            },
+            {
+                "description": "Ensure that systems are periodically searched for and corrected or reported path interception weaknesses",
+                "acid": "98580824"
+            },
+            {
+                "description": "Ensure that application whitelisting tools are deployed to identify and block potentially malicious software executed path interception",
+                "acid": "98580825"
+            },
+            {
+                "description": "Ensure that the Windows Defender Application Control tool is configured to identify and block potentially malicious software executed path interception",
+                "acid": "98580826"
+            },
+            {
+                "description": "Ensure that AppLocker is configured to identify and block potentially malicious software executed path interception",
+                "acid": "98580827"
+            },
+            {
+                "description": "Ensure that Software Restriction Policies are implemented to identify and block potentially malicious software executed path interception",
+                "acid": "98580828"
+            },
+            {
+                "description": "Ensure that all executables are placed in write-protected directories",
+                "acid": "98580829"
+            },
+            {
+                "description": "Ensure that proper permissions and directory access control are set to deny users the ability to write files to the top-level directory C:",
+                "acid": "98580830"
+            },
+            {
+                "description": "Ensure that proper permissions and directory access control are set to deny users the ability to write files to system directories, such as C:\\Windows\\",
+                "acid": "98580831"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that file creation is monitored for files named after partial directories",
+                "acid": "98580816"
+            },
+            {
+                "description": "Ensure that file creation is monitored for files in locations that may be searched for common processes through the environment variable",
+                "acid": "98580817"
+            },
+            {
+                "description": "Ensure that file creation is monitored for files that are not user-writable",
+                "acid": "98580818"
+            },
+            {
+                "description": "Ensure that executing processes are monitored for process executable paths that are named for partial directories",
+                "acid": "98580819"
+            },
+            {
+                "description": "Ensure that the file creation process is monitored for programs that are named after Windows system programs",
+                "acid": "98580820"
+            },
+            {
+                "description": "Ensure that the file creation process is monitored for programs commonly executed without a path (such as \"findstr,\" \"net,\" and \"python\")",
+                "acid": "98580821"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "16130208"
+    ],
+    "cveIds": []
+}

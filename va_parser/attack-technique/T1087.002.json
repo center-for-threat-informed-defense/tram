@@ -1,0 +1,149 @@
+{
+    "id": "T1087.002",
+    "name": "Domain Account",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to get a listing of domain accounts. This information can help adversaries determine which domain accounts exist to aid in follow-on behavior.\n\nCommands such as <code>net user /domain</code> and <code>net group /domain</code> of the [Net](https://attack.mitre.org/software/S0039) utility, <code>dscacheutil -q group</code>on macOS, and <code>ldapsearch</code> on Linux can list domain users and groups.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1087/002",
+            "external_id": "T1087.002"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/575.html",
+            "external_id": "CAPEC-575"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "discovery"
+        }
+    ],
+    "tactic": [
+        "discovery"
+    ],
+    "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n",
+    "x_mitre_data_sources": [
+        "Group: Group Enumeration",
+        "Command: Command Execution",
+        "Group: Group Enumeration",
+        "Process: OS API Execution",
+        "Network Traffic: Network Traffic Content",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that multi-factor authentication is implemented for the user and privileged accounts",
+                "acid": "98580584"
+            },
+            {
+                "description": "Ensure that firewalls are configured to limit access to domain controllers and systems used for creating and managing accounts",
+                "acid": "98580585"
+            },
+            {
+                "description": "Ensure that access controls are configured to limit access to domain controllers and systems used for creating and managing accounts",
+                "acid": "98580586"
+            },
+            {
+                "description": "Ensure that proper security configuration is implemented for critical servers to protect domain controllers",
+                "acid": "98580587"
+            },
+            {
+                "description": "Ensure that domain administrator accounts are not used for day-to-day operations",
+                "acid": "98580588"
+            },
+            {
+                "description": "Ensure that system is configured properly to prevent administrator accounts from being enumerated when an application is elevating through UAC.",
+                "acid": "98582107"
+            },
+            {
+                "description": "Ensure that administrator accounts are disabled from being enumerated through GPO: Computer Configuration > [Policies] > Administrative Templates > Windows Components > Credential User Interface: Enumerate administrator accounts on elevation.",
+                "acid": "98582108"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes and command-line parameters such as net user or useradd associated with account creation are monitored",
+                "acid": "98580580"
+            },
+            {
+                "description": "Ensure that data on account creation within a network was collected",
+                "acid": "98580581"
+            },
+            {
+                "description": "Ensure that Event ID 4720 for user account creation on the Windows system and domain controller are monitored",
+                "acid": "98580582"
+            },
+            {
+                "description": "Ensure that domain system accounts are audited regularly to detect suspicious accounts",
+                "acid": "98580583"
+            },
+            {
+                "description": "Ensure that process and command-line arguments are monitored for actions taken to gather system and network information.",
+                "acid": "98582104"
+            },
+            {
+                "description": "Ensure that remote access tools (with built-in features) is implemented to interact directly with the Windows API to gather information.",
+                "acid": "98582105"
+            },
+            {
+                "description": "Ensure that Windows system management tools such as Windows Management Instrumentation and PowerShell are in place to gather information.",
+                "acid": "98582106"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000207"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "15010064",
+        "15020065",
+        "15030065",
+        "15040130",
+        "15180060",
+        "15200064",
+        "16010068",
+        "16020068",
+        "16100069",
+        "16110068",
+        "16120069",
+        "16140060",
+        "16360070",
+        "16460068",
+        "19920415"
+    ],
+    "cveIds": []
+}

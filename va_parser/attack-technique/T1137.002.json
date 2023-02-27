@@ -1,0 +1,111 @@
+﻿{
+    "id": "T1137.002",
+    "name": "Office Test",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse the Microsoft Office \"Office Test\" Registry key to obtain persistence on a compromised system. An Office Test Registry location exists that allows a user to specify an arbitrary DLL that will be executed every time an Office application is started. This Registry key is thought to be used by Microsoft to load DLLs for testing and debugging purposes while developing Office applications. This Registry key is not created by default during an Office installation.(Citation: Hexacorn Office Test)(Citation: Palo Alto Office Test Sofacy)\n\nThere exist user and global Registry keys for the Office Test feature:\n\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Office test\\Special\\Perf</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Office test\\Special\\Perf</code>\n\nAdversaries may add this Registry key and specify a malicious DLL that will be executed whenever an Office application, such as Word or Excel, is started.",
+    "x_mitre_platforms": [
+        "Windows",
+        "Office 365"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1137/002",
+            "external_id": "T1137.002"
+        },
+        {
+            "source_name": "Hexacorn Office Test",
+            "description": "Hexacorn. (2014, April 16). Beyond good ol\u2019 Run key, Part 10. Retrieved July 3, 2017.",
+            "url": "http://www.hexacorn.com/blog/2014/04/16/beyond-good-ol-run-key-part-10/"
+        },
+        {
+            "source_name": "Palo Alto Office Test Sofacy",
+            "description": "Falcone, R. (2016, July 20). Technical Walkthrough: Office Test Persistence Method Used In Recent Sofacy Attacks. Retrieved July 3, 2017.",
+            "url": "https://researchcenter.paloaltonetworks.com/2016/07/unit42-technical-walkthrough-office-test-persistence-method-used-in-recent-sofacy-attacks/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Monitor for the creation of the Office Test Registry key. Many Office-related persistence mechanisms require changes to the Registry and for binaries, files, or scripts to be written to disk or existing files modified to include malicious scripts. Collect events related to Registry key creation and modification for keys that could be used for Office-based persistence. Since v13.52, Autoruns can detect tasks set up using the Office Test Registry key.(Citation: Palo Alto Office Test Sofacy)\n\nConsider monitoring Office processes for anomalous DLL loads.",
+    "x_mitre_data_sources": [
+        "File: File Modification",
+        "Windows Registry: Windows Registry Key Modification",
+        "Module: Module Load",
+        "Process: Process Creation",
+        "File: File Creation",
+        "Command: Command Execution",
+        "Windows Registry: Windows Registry Key Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "Office 2007, 2010, 2013, and 2016"
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Software Configuration",
+                "description": "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+                "type": "course-of-action",
+                "id": "M1054"
+            },
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the permissions are set to \"Read Control\" to prevent easy access to the key without administrator permissions",
+                "acid": "98580933"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the creation of the Office Test Registry key is monitored",
+                "acid": "98580929"
+            },
+            {
+                "description": "Ensure that events related to Registry key creation and modification for keys that could be used for Office-based persistence are collected and analyzed",
+                "acid": "98580930"
+            },
+            {
+                "description": "Ensure that Autoruns is used to identify tasks set up using the Office Test Registry key",
+                "acid": "98580931"
+            },
+            {
+                "description": "Ensure that Office processes are monitored for anomalous DLL loads",
+                "acid": "98580932"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

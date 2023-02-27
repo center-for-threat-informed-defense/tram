@@ -1,0 +1,92 @@
+{
+    "id": "T1588.004",
+    "name": "Digital Certificates",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may buy and/or steal SSL/TLS certificates that can be used during targeting. SSL/TLS certificates are designed to instill trust. They include information about the key, information about its owner's identity, and the digital signature of an entity that has verified the certificate's contents are correct. If the signature is valid, and the person examining the certificate trusts the signer, then they know they can use that key to communicate with its owner.\n\nAdversaries may purchase or steal SSL/TLS certificates to further their operations, such as encrypting C2 traffic (ex: [Asymmetric Cryptography](https://attack.mitre.org/techniques/T1573/002) with [Web Protocols](https://attack.mitre.org/techniques/T1071/001)) or even enabling [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557) if the certificate is trusted or otherwise added to the root of trust (i.e. [Install Root Certificate](https://attack.mitre.org/techniques/T1553/004)). The purchase of digital certificates may be done using a front organization or using information stolen from a previously compromised entity that allows the adversary to validate to a certificate provider as that entity. Adversaries may also steal certificate materials directly from a compromised third-party, including from certificate authorities.(Citation: DiginotarCompromise) Adversaries may register or hijack domains that they will later purchase an SSL/TLS certificate for.\n\nCertificate authorities exist that allow adversaries to acquire SSL/TLS certificates, such as domain validation certificates, for free.(Citation: Let's Encrypt FAQ)\n\nAfter obtaining a digital certificate, an adversary may then install that certificate (see [Install Digital Certificate](https://attack.mitre.org/techniques/T1608/003)) on infrastructure under their control.",
+    "x_mitre_platforms": [
+        "PRE"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1588/004",
+            "external_id": "T1588.004"
+        },
+        {
+            "source_name": "DiginotarCompromise",
+            "description": "Fisher, D. (2012, October 31). Final Report on DigiNotar Hack Shows Total Compromise of CA Servers. Retrieved March 6, 2017.",
+            "url": "https://threatpost.com/final-report-diginotar-hack-shows-total-compromise-ca-servers-103112/77170/"
+        },
+        {
+            "source_name": "Let's Encrypt FAQ",
+            "description": "Let's Encrypt. (2020, April 23). Let's Encrypt FAQ. Retrieved October 15, 2020.",
+            "url": "https://letsencrypt.org/docs/faq/"
+        },
+        {
+            "source_name": "Splunk Kovar Certificates 2017",
+            "description": "Kovar, R. (2017, December 11). Tall Tales of Hunting with TLS/SSL Certificates. Retrieved October 16, 2020.",
+            "url": "https://www.splunk.com/en_us/blog/security/tall-tales-of-hunting-with-tls-ssl-certificates.html"
+        },
+        {
+            "source_name": "Recorded Future Beacon Certificates",
+            "description": "Insikt Group. (2019, June 18). A Multi-Method Approach to Identifying Rogue Cobalt Strike Servers. Retrieved October 16, 2020.",
+            "url": "https://www.recordedfuture.com/cobalt-strike-servers/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "resource-development"
+        }
+    ],
+    "tactic": [
+        "resource-development"
+    ],
+    "x_mitre_detection": "Consider use of services that may aid in the tracking of newly issued certificates and/or certificates in use on sites across the Internet. In some cases it may be possible to pivot on known pieces of certificate information to uncover other adversary infrastructure.(Citation: Splunk Kovar Certificates 2017) Some server-side components of adversary tools may have default values set for SSL/TLS certificates.(Citation: Recorded Future Beacon Certificates)\n\nDetection efforts may be focused on related behaviors, such as [Web Protocols](https://attack.mitre.org/techniques/T1071/001), [Asymmetric Cryptography](https://attack.mitre.org/techniques/T1573/002), and/or [Install Root Certificate](https://attack.mitre.org/techniques/T1553/004).",
+    "x_mitre_data_sources": [
+        "Certificate: Certificate Registration",
+        "Internet Scan: Response Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Pre-compromise",
+                "description": "This category is used for any applicable mitigation activities that apply to techniques occurring before an adversary gains Initial Access, such as Reconnaissance and Resource Development techniques.",
+                "type": "course-of-action",
+                "id": "M1056"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "11490032",
+        "11490033",
+        "11490034",
+        "18070006",
+        "19510001",
+        "19520001"
+    ],
+    "cveIds": [
+        "CVE-2017-2800",
+        "CVE-2019-3762"
+    ]
+}

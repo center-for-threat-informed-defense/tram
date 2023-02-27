@@ -1,0 +1,94 @@
+﻿{
+    "id": "T1552.003",
+    "name": "Bash History",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may search the bash command history on compromised systems for insecurely stored credentials. Bash keeps track of the commands users type on the command-line with the \"history\" utility. Once a user logs out, the history is flushed to the user's <code>.bash_history</code> file. For each user, this file resides at the same location: <code>~/.bash_history</code>. Typically, this file keeps track of the user's last 500 commands. Users often type usernames and passwords on the command-line as parameters to programs, which then get saved to this file when they log out. Adversaries can abuse this by looking through the file for potential credentials. (Citation: External to DA, the OS X Way)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1552/003",
+            "external_id": "T1552.003"
+        },
+        {
+            "source_name": "External to DA, the OS X Way",
+            "description": "Alex Rymdeko-Harvey, Steve Borosh. (2016, May 14). External to DA, the OS X Way. Retrieved July 3, 2017.",
+            "url": "http://www.slideshare.net/StephanBorosh/external-to-da-the-os-x-way"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "Monitoring when the user's <code>.bash_history</code> is read can help alert to suspicious activity. While users do typically rely on their history of commands, they often access this history through other utilities like \"history\" instead of commands like <code>cat ~/.bash_history</code>.",
+    "x_mitre_data_sources": [
+        "File: File Access",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Bash History Mitigation",
+                "description": "There are multiple methods of preventing a user's command history from being flushed to their .bash_history file, including use of the following commands:\n<code>set +o history</code> and <code>set -o history</code> to start logging again;\n<code>unset HISTFILE</code> being added to a user's .bash_rc file; and\n<code>ln -s /dev/null ~/.bash_history</code> to write commands to <code>/dev/null</code>instead.",
+                "type": "course-of-action",
+                "id": "T1139"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that OS are configured properly to prevent user's command history from being flushed to their .bash_history file",
+                "acid": "98582077"
+            },
+            {
+                "description": "Ensure that set +o history and set -o history command are used to start logging again.",
+                "acid": "98582078"
+            },
+            {
+                "description": "Ensure that unset HISTFILE being added to a user's .bash_rc file; andln -s /dev/null ~/.bash_history to write commands to /dev/null.",
+                "acid": "98582079"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that user's .bash_history activity is monitored for suspicious activity.",
+                "acid": "98582076"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

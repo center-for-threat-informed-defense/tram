@@ -1,0 +1,210 @@
+﻿{
+    "id": "T1053",
+    "name": "Scheduled Task/Job",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse task scheduling functionality to facilitate initial or recurring execution of malicious code. Utilities exist within all major operating systems to schedule programs or scripts to be executed at a specified date and time. A task can also be scheduled on a remote system, provided the proper authentication is met (ex: RPC and file and printer sharing in Windows environments). Scheduling a task on a remote system typically may require being a member of an admin or otherwise privileged group on the remote system.(Citation: TechNet Task Scheduler Security)\n\nAdversaries may use task scheduling to execute programs at system startup or on a scheduled basis for persistence. These mechanisms can also be abused to run a process under the context of a specified account (such as one with elevated permissions/privileges). Similar to [System Binary Proxy Execution](https://attack.mitre.org/techniques/T1218), adversaries have also abused task scheduling to potentially mask one-time execution under a trusted system process.(Citation: ProofPoint Serpent)",
+    "x_mitre_platforms": [
+        "Windows",
+        "Linux",
+        "macOS",
+        "Containers"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1053",
+            "external_id": "T1053"
+        },
+        {
+            "source_name": "ProofPoint Serpent",
+            "description": "Campbell, B. et al. (2022, March 21). Serpent, No Swiping! New Backdoor Targets French Entities with Unique Attack Chain. Retrieved April 11, 2022.",
+            "url": "https://www.proofpoint.com/us/blog/threat-insight/serpent-no-swiping-new-backdoor-targets-french-entities-unique-attack-chain"
+        },
+        {
+            "source_name": "TechNet Task Scheduler Security",
+            "description": "Microsoft. (2005, January 21). Task Scheduler and security. Retrieved June 8, 2016.",
+            "url": "https://technet.microsoft.com/en-us/library/cc785125.aspx"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/557.html",
+            "external_id": "CAPEC-557"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "execution",
+        "persistence",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "Monitor scheduled task creation from common utilities using command-line invocation. Legitimate scheduled tasks may be created during installation of new software or through system administration functions. Look for changes to tasks that do not correlate with known software, patch cycles, etc. \n\nSuspicious program execution through scheduled tasks may show up as outlier processes that have not been seen before when compared against historical data. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "File: File Creation",
+        "File: File Modification",
+        "Process: Process Creation",
+        "Container: Container Creation",
+        "Scheduled Job: Scheduled Job Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM",
+        "User"
+    ],
+    "x_mitre_effective_permissions": [
+        "SYSTEM",
+        "Administrator",
+        "User"
+    ],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": true,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Scheduled Task Mitigation",
+                "description": "Limit privileges of user accounts and remediate Privilege Escalation vectors so only authorized administrators can create scheduled tasks on remote systems. Toolkits like the PowerSploit framework contain PowerUp modules that can be used to explore systems for permission weaknesses in scheduled tasks that could be used to escalate privileges. (Citation: Powersploit)\n\nConfigure settings for scheduled tasks to force tasks to run under the context of the authenticated account instead of allowing them to run as SYSTEM. The associated Registry key is located at <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\SubmitControl</code>. The setting can be configured through GPO: Computer Configuration > [Policies] > Windows Settings > Security Settings > Local Policies > Security Options: Domain Controller: Allow server operators to schedule tasks, set to disabled. (Citation: TechNet Server Operator Scheduled Task)\n\nConfigure the Increase Scheduling Priority option to only allow the Administrators group the rights to schedule a priority process. This can be can be configured through GPO: Computer Configuration > [Policies] > Windows Settings > Security Settings > Local Policies > User Rights Assignment: Increase scheduling priority. (Citation: TechNet Scheduling Priority)\n\nIdentify and block unnecessary system utilities or potentially malicious software that may be used to schedule tasks using whitelisting (Citation: Beechey 2010) tools, like AppLocker, (Citation: Windows Commands JPCERT) (Citation: NSA MS AppLocker) or Software Restriction Policies (Citation: Corio 2008) where appropriate. (Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1053"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the PowerSploit framework toolkit containing PowerUp modules is used to explore systems for permission weaknesses in scheduled tasks",
+                "acid": "98580267"
+            },
+            {
+                "description": "Ensure that scheduled tasks are not allowed to run as SYSTEM",
+                "acid": "98580268"
+            },
+            {
+                "description": "Ensure that scheduled tasks are forced to run under the context of the authenticated account only",
+                "acid": "98580269"
+            },
+            {
+                "description": "Ensure that the Increase Scheduling Priority option is configured to only allow the Administrators group to schedule a priority process",
+                "acid": "98580270"
+            },
+            {
+                "description": "Ensure that user accounts privileges are restricted to allow only authorized administrators to create scheduled tasks on remote systems",
+                "acid": "98580271"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that scheduled task creation from common utilities using a command-line invocation is monitored",
+                "acid": "98580264"
+            },
+            {
+                "description": "Ensure that changes to tasks that do not correlate with known software, patch cycles, etc. are monitored",
+                "acid": "98580265"
+            },
+            {
+                "description": "Ensure that program execution through scheduled tasks is monitored and compared with historical data to identify unfamiliar processes",
+                "acid": "98580266"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000205",
+        "40000215",
+        "40000490",
+        "40000499",
+        "40000500"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106000",
+        "50106001",
+        "50106020"
+    ],
+    "technologycontrolIds": [
+        "14030041",
+        "14030046",
+        "14040041",
+        "14040046",
+        "15010026",
+        "15020026",
+        "15030026",
+        "15040162",
+        "15180023",
+        "15200026",
+        "16010027",
+        "16020027",
+        "16100027",
+        "16110027",
+        "16120027",
+        "16130111",
+        "16130112",
+        "16130120",
+        "16130121",
+        "16130122",
+        "16140023",
+        "16360027",
+        "16460025",
+        "19350025",
+        "19920024"
+    ],
+    "cveIds": [
+        "CVE-2010-3338",
+        "CVE-2017-14094",
+        "CVE-2022-27226"
+    ],
+    "subTechniques": [
+        "T1053.001",
+        "T1053.002",
+        "T1053.003",
+        "T1053.004",
+        "T1053.005",
+        "T1053.006",
+        "T1053.007"
+    ]
+}

@@ -1,0 +1,101 @@
+{
+    "id": "T1003.008",
+    "name": "/etc/passwd and /etc/shadow",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to dump the contents of <code>/etc/passwd</code> and <code>/etc/shadow</code> to enable offline password cracking. Most modern Linux operating systems use a combination of <code>/etc/passwd</code> and <code>/etc/shadow</code> to store user account information including password hashes in <code>/etc/shadow</code>. By default, <code>/etc/shadow</code> is only readable by the root user.(Citation: Linux Password and Shadow File Formats)\n\nThe Linux utility, unshadow, can be used to combine the two files in a format suited for password cracking utilities such as John the Ripper:(Citation: nixCraft - John the Ripper) <code># /usr/bin/unshadow /etc/passwd /etc/shadow > /tmp/crack.password.db</code>\n",
+    "x_mitre_platforms": [
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1003/008",
+            "external_id": "T1003.008"
+        },
+        {
+            "source_name": "Linux Password and Shadow File Formats",
+            "description": "The Linux Documentation Project. (n.d.). Linux Password and Shadow File Formats. Retrieved February 19, 2020.",
+            "url": "https://www.tldp.org/LDP/lame/LAME/linux-admin-made-easy/shadow-file-formats.html"
+        },
+        {
+            "source_name": "nixCraft - John the Ripper",
+            "description": "Vivek Gite. (2014, September 17). Linux Password Cracking: Explain unshadow and john Commands (John the Ripper Tool). Retrieved February 19, 2020.",
+            "url": "https://www.cyberciti.biz/faq/unix-linux-password-cracking-john-the-ripper/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "The AuditD monitoring tool, which ships stock in many Linux distributions, can be used to watch for hostile processes attempting to access <code>/etc/passwd</code> and <code>/etc/shadow</code>, alerting on the pid, process name, and arguments of such programs.",
+    "x_mitre_data_sources": [
+        "File: File Access",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "root"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that root accounts are configured with complex and unique passwords",
+                "acid": "98581963"
+            },
+            {
+                "description": "Ensure that root privileges are assigned to users who require permission to prevent password scraping in Linux",
+                "acid": "98581964"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that auditD monitoring tools are configured to identify hostile processes accessing /etc/passwd and /etc/shadow",
+                "acid": "98581962"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100333"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [
+        "CVE-2020-3240"
+    ]
+}

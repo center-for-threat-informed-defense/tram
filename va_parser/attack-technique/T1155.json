@@ -1,0 +1,73 @@
+﻿{
+    "id": "T1155",
+    "name": "AppleScript",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "macOS and OS X applications send AppleEvent messages to each other for interprocess communications (IPC). These messages can be easily scripted with AppleScript for local or remote IPC. Osascript executes AppleScript and any other Open Scripting Architecture (OSA) language scripts. A list of OSA languages installed on a system can be found by using the <code>osalang</code> program.\nAppleEvent messages can be sent independently or as part of a script. These events can locate open windows, send keystrokes, and interact with almost any open application locally or remotely. \n\nAdversaries can use this to interact with open SSH connection, move to remote machines, and even present users with fake dialog boxes. These events cannot start applications remotely (they can start them locally though), but can interact with applications if they're already running remotely. Since this is a scripting language, it can be used to launch more common techniques as well such as a reverse shell via python  (Citation: Macro Malware Targets Macs). Scripts can be run from the command-line via <code>osascript /path/to/script</code> or <code>osascript -e \"script here\"</code>.",
+    "x_mitre_platforms": [
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1155",
+            "external_id": "T1155"
+        },
+        {
+            "source_name": "Macro Malware Targets Macs",
+            "description": "Yerko Grbic. (2017, February 14). Macro Malware Targets Macs. Retrieved July 8, 2017.",
+            "url": "https://www.mcafee.com/blogs/other-blogs/mcafee-labs/macro-malware-targets-macs/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        }
+    ],
+    "tactic": [
+        "execution"
+    ],
+    "x_mitre_detection": "Monitor for execution of AppleScript through osascript that may be related to other suspicious behavior occurring on the system.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "AppleScript Mitigation",
+                "description": "Require that all AppleScript be signed by a trusted developer ID before being executed - this will prevent random AppleScript code from executing  (Citation: applescript signing). This subjects AppleScript code to the same scrutiny as other .app files passing through Gatekeeper.",
+                "type": "course-of-action",
+                "id": "T1155"
+            },
+            {
+                "name": "Code Signing",
+                "description": "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+                "type": "course-of-action",
+                "id": "M1045"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

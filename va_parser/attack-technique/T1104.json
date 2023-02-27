@@ -1,0 +1,85 @@
+﻿{
+    "id": "T1104",
+    "name": "Multi-Stage Channels",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may create multiple stages for command and control that are employed under different conditions or for certain functions. Use of multiple stages may obfuscate the command and control channel to make detection more difficult.\n\nRemote access tools will call back to the first-stage command and control server for instructions. The first stage may have automated capabilities to collect basic host information, update tools, and upload additional files. A second remote access tool (RAT) could be uploaded at that point to redirect the host to the second-stage command and control server. The second stage will likely be more fully featured and allow the adversary to interact with the system through a reverse shell and additional RAT features.\n\nThe different stages will likely be hosted separately with no overlapping infrastructure. The loader may also have backup first-stage callbacks or [Fallback Channels](https://attack.mitre.org/techniques/T1008) in case the original first-stage communication path is discovered and blocked.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1104",
+            "external_id": "T1104"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "command-and-control"
+        }
+    ],
+    "tactic": [
+        "command-and-control"
+    ],
+    "x_mitre_detection": "Host data that can relate unknown or suspicious process activity using a network connection is important to supplement any existing indicators of compromise based on malware command and control signatures and infrastructure. Relating subsequent actions that may result from Discovery of the system and network information or Lateral Movement to the originating process may also yield useful data.",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Flow",
+        "Network Traffic: Network Connection Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Multi-Stage Channels Mitigation",
+                "description": "Command and control infrastructure used in a multi-stage channel may be blocked if known ahead of time. If unique signatures are present in the C2 traffic, they could also be used as the basis of identifying and blocking the channel. (Citation: University of Birmingham C2)",
+                "type": "course-of-action",
+                "id": "T1104"
+            },
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Network intrusion detection and prevention system(s) is implemented to identify malicious network traffic (by using network signatures).",
+                "acid": "98582568"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that system is configured to monitor for host data to detect suspicious process activity.",
+                "acid": "98582567"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000182"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106016"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

@@ -1,0 +1,78 @@
+﻿{
+    "id": "T1415",
+    "name": "URL Scheme Hijacking",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "An iOS application may be able to maliciously claim a URL scheme, allowing it to intercept calls that are meant for a different application(Citation: FireEye-Masque2)(Citation: Dhanjani-URLScheme). This technique, for example, could be used to capture OAuth authorization codes(Citation: IETF-PKCE) or to phish user credentials(Citation: MobileIron-XARA).",
+    "x_mitre_platforms": [
+        "iOS"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-mobile-attack",
+            "url": "https://attack.mitre.org/techniques/T1415",
+            "external_id": "T1415"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/authentication-threats/AUT-10.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "AUT-10"
+        },
+        {
+            "source_name": "FireEye-Masque2",
+            "description": "Hui Xue, Tao Wei, Yulong Zhang, Song Jin, Zhaofeng Chen. (2015, February 19). IOS MASQUE ATTACK REVIVED: BYPASSING PROMPT FOR TRUST AND APP URL SCHEME HIJACKING. Retrieved December 21, 2016.",
+            "url": "https://www.fireeye.com/blog/threat-research/2015/02/ios_masque_attackre.html"
+        },
+        {
+            "source_name": "Dhanjani-URLScheme",
+            "description": "Nitesh Dhanjani. (2010, November 8). Insecure Handling of URL Schemes in Apple\u2019s iOS. Retrieved December 21, 2016.",
+            "url": "http://www.dhanjani.com/blog/2010/11/insecure-handling-of-url-schemes-in-apples-ios.html"
+        },
+        {
+            "source_name": "IETF-PKCE",
+            "description": "N. Sakimura, J. Bradley, and N. Agarwal. (2015, September). IETF RFC 7636: Proof Key for Code Exchange by OAuth Public Clients. Retrieved December 21, 2016.",
+            "url": "https://tools.ietf.org/html/rfc7636"
+        },
+        {
+            "source_name": "MobileIron-XARA",
+            "description": "Michael T. Raggo. (2015, October 1). iOS URL Scheme Hijacking (XARA) Attack Analysis and Countermeasures. Retrieved December 21, 2016.",
+            "url": "https://www.mobileiron.com/en/smartwork-blog/ios-url-scheme-hijacking-xara-attack-analysis-and-countermeasures"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-mobile-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

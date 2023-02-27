@@ -1,0 +1,69 @@
+﻿{
+    "id": "T1469",
+    "name": "Remotely Wipe Data Without Authorization",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": true,
+    "description": "An adversary who is able to obtain unauthorized access to or misuse authorized access to cloud services (e.g. Google's Android Device Manager or Apple iCloud's Find my iPhone) or to an EMM console could use that access to wipe enrolled devices (Citation: Honan-Hacking).",
+    "x_mitre_platforms": [
+        "Android",
+        "iOS"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T1469",
+            "url": "https://attack.mitre.org/techniques/T1469"
+        },
+        {
+            "source_name": "Honan-Hacking",
+            "url": "https://www.wired.com/2012/08/apple-amazon-mat-honan-hacking/",
+            "description": "Mat Honan. (2012, August 6). How Apple and Amazon Security Flaws Led to My Epic Hacking. Retrieved December 29, 2016."
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/ecosystem-threats/ECO-5.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "ECO-5"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/emm-threats/EMM-7.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "EMM-7"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-mobile-attack",
+            "phase_name": "remote-service-effects"
+        }
+    ],
+    "tactic": [
+        "remote-service-effects"
+    ],
+    "x_mitre_detection": "Google provides the ability for users to view their general account activity. Apple iCloud also provides notifications to users of account activity.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

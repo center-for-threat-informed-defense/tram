@@ -1,0 +1,334 @@
+﻿{
+    "id": "T1557",
+    "name": "Adversary-in-the-Middle",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to position themselves between two or more networked devices using an adversary-in-the-middle (AiTM) technique to support follow-on behaviors such as [Network Sniffing](https://attack.mitre.org/techniques/T1040) or [Transmitted Data Manipulation](https://attack.mitre.org/techniques/T1565/002). By abusing features of common networking protocols that can determine the flow of network traffic (e.g. ARP, DNS, LLMNR, etc.), adversaries may force a device to communicate through an adversary controlled system so they can collect information or perform additional actions.(Citation: Rapid7 MiTM Basics)\n\nFor example, adversaries may manipulate victim DNS settings to enable other malicious activities such as preventing/redirecting users from accessing legitimate sites and/or pushing additional malware.(Citation: ttint_rat)(Citation: dns_changer_trojans)(Citation: ad_blocker_with_miner) Adversaries may also manipulate DNS and leverage their position in order to intercept user credentials and session cookies.(Citation: volexity_0day_sophos_FW) [Downgrade Attack](https://attack.mitre.org/techniques/T1562/010)s can also be used to establish an AiTM position, such as by negotiating a less secure, deprecated, or weaker version of communication protocol (SSL/TLS) or encryption algorithm.(Citation: mitm_tls_downgrade_att)(Citation: taxonomy_downgrade_att_tls)(Citation: tlseminar_downgrade_att)\n\nAdversaries may also leverage the AiTM position to attempt to monitor and/or modify traffic, such as in [Transmitted Data Manipulation](https://attack.mitre.org/techniques/T1565/002). Adversaries can setup a position similar to AiTM to prevent traffic from flowing to the appropriate destination, potentially to [Impair Defenses](https://attack.mitre.org/techniques/T1562) and/or in support of a [Network Denial of Service](https://attack.mitre.org/techniques/T1498).",
+    "x_mitre_platforms": [
+        "Windows",
+        "macOS",
+        "Linux",
+        "Network"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1557",
+            "external_id": "T1557"
+        },
+        {
+            "source_name": "dns_changer_trojans",
+            "description": "Abendan, O. (2012, June 14). How DNS Changer Trojans Direct Users to Threats. Retrieved October 28, 2021.",
+            "url": "https://www.trendmicro.com/vinfo/us/threat-encyclopedia/web-attack/125/how-dns-changer-trojans-direct-users-to-threats"
+        },
+        {
+            "source_name": "volexity_0day_sophos_FW",
+            "description": "Adair, S., Lancaster, T., Volexity Threat Research. (2022, June 15). DriftingCloud: Zero-Day Sophos Firewall Exploitation and an Insidious Breach. Retrieved July 1, 2022.",
+            "url": "https://www.volexity.com/blog/2022/06/15/driftingcloud-zero-day-sophos-firewall-exploitation-and-an-insidious-breach/"
+        },
+        {
+            "source_name": "taxonomy_downgrade_att_tls",
+            "description": "Alashwali, E. S., Rasmussen, K. (2019, January 26). What's in a Downgrade? A Taxonomy of Downgrade Attacks in the TLS Protocol and Application Protocols Using TLS. Retrieved December 7, 2021.",
+            "url": "https://arxiv.org/abs/1809.05681"
+        },
+        {
+            "source_name": "ad_blocker_with_miner",
+            "description": "Kuzmenko, A.. (2021, March 10). Ad blocker with miner included. Retrieved October 28, 2021.",
+            "url": "https://securelist.com/ad-blocker-with-miner-included/101105/"
+        },
+        {
+            "source_name": "mitm_tls_downgrade_att",
+            "description": "praetorian Editorial Team. (2014, August 19). Man-in-the-Middle TLS Protocol Downgrade Attack. Retrieved December 8, 2021.",
+            "url": "https://www.praetorian.com/blog/man-in-the-middle-tls-ssl-protocol-downgrade-attack/"
+        },
+        {
+            "source_name": "Rapid7 MiTM Basics",
+            "description": "Rapid7. (n.d.). Man-in-the-Middle (MITM) Attacks. Retrieved March 2, 2020.",
+            "url": "https://www.rapid7.com/fundamentals/man-in-the-middle-attacks/"
+        },
+        {
+            "source_name": "tlseminar_downgrade_att",
+            "description": "Team Cinnamon. (2017, February 3). Downgrade Attacks. Retrieved December 9, 2021.",
+            "url": "https://tlseminar.github.io/downgrade-attacks/"
+        },
+        {
+            "source_name": "ttint_rat",
+            "description": "Tu, L. Ma, Y. Ye, G. (2020, October 1). Ttint: An IoT Remote Access Trojan spread through 2 0-day vulnerabilities. Retrieved October 28, 2021.",
+            "url": "https://blog.netlab.360.com/ttint-an-iot-remote-control-trojan-spread-through-2-0-day-vulnerabilities/"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/94.html",
+            "external_id": "CAPEC-94"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+        }
+    ],
+    "tactic": [
+        "credential-access",
+        "collection"
+    ],
+    "x_mitre_detection": "Monitor network traffic for anomalies associated with known AiTM behavior. Consider monitoring for modifications to system configuration files involved in shaping network traffic flow.",
+    "x_mitre_data_sources": [
+        "Windows Registry: Windows Registry Key Modification",
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Flow",
+        "Service: Service Creation",
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            },
+            {
+                "name": "Encrypt Sensitive Information",
+                "description": "Protect sensitive information with strong encryption.",
+                "type": "course-of-action",
+                "id": "M1041"
+            },
+            {
+                "name": "Limit Access to Resource Over Network",
+                "description": "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+                "type": "course-of-action",
+                "id": "M1035"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            },
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+                "type": "course-of-action",
+                "id": "M1030"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that legacy network protocols are disabled to prevent MiTM attacks",
+                "acid": "98581885"
+            },
+            {
+                "description": "Ensure that Network and host-based firewalls are configured to limit/ block the legacy traffic and unnecessary network traffic",
+                "acid": "98581886"
+            },
+            {
+                "description": "Ensure that Network Access control is configured to limit access to the network infrastructure and resources",
+                "acid": "98581887"
+            },
+            {
+                "description": "Ensure that Network Intrusion Detection and Prevention systems are configured to identify MiTM activity patterns on the network",
+                "acid": "98581888"
+            },
+            {
+                "description": "Ensure that Network segmentation is implemented to isolate the network components that do not require access to the external network",
+                "acid": "98581889"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the Network Intrusion Detection System is configured to monitor anomalies in the network traffic with known MiTM behavior",
+                "acid": "98581883"
+            },
+            {
+                "description": "Ensure that modifications to system configuration files involved in network traffic flow are monitored",
+                "acid": "98581884"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000020",
+        "40000178",
+        "40000182",
+        "40000211",
+        "40000510",
+        "40000511",
+        "40000513",
+        "40000515",
+        "40000516",
+        "40000523"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100613",
+        "50100619",
+        "50100621",
+        "50100674",
+        "50100675",
+        "50100677",
+        "50101933",
+        "50104118",
+        "50106012",
+        "50106014",
+        "50106021"
+    ],
+    "technologycontrolIds": [
+        "101020013",
+        "101020020",
+        "101040052",
+        "101040055",
+        "101040072",
+        "10110013",
+        "10110020",
+        "101540001",
+        "101540002",
+        "101540033",
+        "101550001",
+        "101550002",
+        "101550033",
+        "101560001",
+        "101560002",
+        "101560034",
+        "101570001",
+        "101570002",
+        "101570034",
+        "101600001",
+        "101600002",
+        "101600034",
+        "10240018",
+        "10240025",
+        "10240035",
+        "103900001",
+        "103900002",
+        "103900034",
+        "10460001",
+        "10460002",
+        "10460034",
+        "10860005",
+        "10860033",
+        "10960020",
+        "10960049",
+        "10960071",
+        "11010001",
+        "11010002",
+        "11010034",
+        "11470008",
+        "11470014",
+        "15010098",
+        "15020102",
+        "15030102",
+        "15040095",
+        "15180090",
+        "15200098",
+        "16010104",
+        "16010462",
+        "16020104",
+        "16020472",
+        "16100106",
+        "16100199",
+        "16100514",
+        "16110102",
+        "16110449",
+        "16120106",
+        "16120467",
+        "16130151",
+        "16130153",
+        "16130157",
+        "16140090",
+        "16360107",
+        "16360208",
+        "16460105",
+        "16460206",
+        "16460374",
+        "17920001",
+        "18380014",
+        "18380015",
+        "18410024",
+        "18440002",
+        "18880001",
+        "19260001",
+        "19310001",
+        "19500001",
+        "19920098",
+        "19920439",
+        "19920450",
+        "19920460",
+        "19920470",
+        "19920476",
+        "19920478"
+    ],
+    "cveIds": [
+        "CVE-2012-3015",
+        "CVE-2014-3566",
+        "CVE-2014-4077",
+        "CVE-2015-7931",
+        "CVE-2018-0622",
+        "CVE-2018-10610",
+        "CVE-2018-11087",
+        "CVE-2018-14809",
+        "CVE-2018-15393",
+        "CVE-2018-15784",
+        "CVE-2018-16179",
+        "CVE-2019-15280",
+        "CVE-2019-15994",
+        "CVE-2019-1665",
+        "CVE-2019-1715",
+        "CVE-2019-1838",
+        "CVE-2019-1860",
+        "CVE-2019-1941",
+        "CVE-2019-1943",
+        "CVE-2019-3754",
+        "CVE-2019-6538",
+        "CVE-2020-11023",
+        "CVE-2020-11030",
+        "CVE-2020-11035",
+        "CVE-2020-11082",
+        "CVE-2020-15093",
+        "CVE-2020-3121",
+        "CVE-2020-3137",
+        "CVE-2020-3233",
+        "CVE-2020-3349",
+        "CVE-2020-3356",
+        "CVE-2020-5264",
+        "CVE-2020-5266",
+        "CVE-2020-5269",
+        "CVE-2020-5270",
+        "CVE-2020-5271",
+        "CVE-2020-5336"
+    ],
+    "subTechniques": [
+        "T1557.001",
+        "T1557.002",
+        "T1557.003"
+    ]
+}

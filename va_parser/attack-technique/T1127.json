@@ -1,0 +1,141 @@
+﻿{
+    "id": "T1127",
+    "name": "Trusted Developer Utilities Proxy Execution",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may take advantage of trusted developer utilities to proxy execution of malicious payloads. There are many utilities used for software development related tasks that can be used to execute code in various forms to assist in development, debugging, and reverse engineering.(Citation: engima0x3 DNX Bypass)(Citation: engima0x3 RCSI Bypass)(Citation: Exploit Monday WinDbg)(Citation: LOLBAS Tracker) These utilities may often be signed with legitimate certificates that allow them to execute on a system and proxy execution of malicious code through a trusted process that effectively bypasses application control solutions.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Application Control"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1127",
+            "external_id": "T1127"
+        },
+        {
+            "source_name": "Exploit Monday WinDbg",
+            "description": "Graeber, M. (2016, August 15). Bypassing Application Whitelisting by using WinDbg/CDB as a Shellcode Runner. Retrieved May 26, 2017.",
+            "url": "http://www.exploit-monday.com/2016/08/windbg-cdb-shellcode-runner.html"
+        },
+        {
+            "source_name": "LOLBAS Tracker",
+            "description": "LOLBAS. (n.d.). Tracker.exe. Retrieved July 31, 2019.",
+            "url": "https://lolbas-project.github.io/lolbas/OtherMSBinaries/Tracker/"
+        },
+        {
+            "source_name": "engima0x3 RCSI Bypass",
+            "description": "Nelson, M. (2016, November 21). Bypassing Application Whitelisting By Using rcsi.exe. Retrieved May 26, 2017.",
+            "url": "https://enigma0x3.net/2016/11/21/bypassing-application-whitelisting-by-using-rcsi-exe/"
+        },
+        {
+            "source_name": "engima0x3 DNX Bypass",
+            "description": "Nelson, M. (2017, November 17). Bypassing Application Whitelisting By Using dnx.exe. Retrieved May 25, 2017.",
+            "url": "https://enigma0x3.net/2016/11/17/bypassing-application-whitelisting-by-using-dnx-exe/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor for abnormal presence of these or other utilities that enable proxy execution that are typically used for development, debugging, and reverse engineering on a system that is not used for these purposes may be suspicious.\n\nUse process monitoring to monitor the execution and arguments of from developer utilities that may be abused. Compare recent invocations of those binaries with prior history of known good arguments and executed binaries to determine anomalous and potentially adversarial activity. It is likely that these utilities will be used by software developers or for other software development related tasks, so if it exists and is used outside of that context, then the event may be suspicious. Command arguments used before and after invocation of the utilities may also be useful in determining the origin and purpose of the binary being executed.",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Specific developer utilities, within a given environment, are removed if not used.",
+                "acid": "98581756"
+            },
+            {
+                "description": "Ensure that certain developer utilities are blocked or restricted if not required.",
+                "acid": "98581757"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that presence of trusted developer utilities (e.g. development utilities) on a system that enables proxy execution are monitored.",
+                "acid": "98581747"
+            },
+            {
+                "description": "Ensure that presence of trusted developer utilities e.g. debugging utilities on a system that enables proxy execution is monitored.",
+                "acid": "98581748"
+            },
+            {
+                "description": "Ensure that presence of trusted developer utilities e.g. reverse engineering utilities on a system that enables proxy execution are monitored.",
+                "acid": "98581749"
+            },
+            {
+                "description": "Ensure that process monitoring is employed to monitor the execution of developer utilities.",
+                "acid": "98581750"
+            },
+            {
+                "description": "Ensure that process monitoring is employed to monitor the arguments of developer utilities.",
+                "acid": "98581751"
+            },
+            {
+                "description": "Ensure that recent invocations of binaries are compared with prior history of known good arguments to determine anomalous activity.",
+                "acid": "98581752"
+            },
+            {
+                "description": "Ensure that recent invocations of binaries are compared with prior history of known executed binaries to determine anomalous activity.",
+                "acid": "98581753"
+            },
+            {
+                "description": "Ensure that Command arguments used before the invocation of the utilities can be used to determine the origin and purpose of the binary being executed.",
+                "acid": "98581754"
+            },
+            {
+                "description": "Ensure that Command arguments used after the invocation of the utilities can be used to determine the origin and purpose of the binary being executed.",
+                "acid": "98581755"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106008"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": [
+        "T1127.001"
+    ]
+}

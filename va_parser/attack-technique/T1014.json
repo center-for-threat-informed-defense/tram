@@ -1,0 +1,116 @@
+﻿{
+    "id": "T1014",
+    "name": "Rootkit",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use rootkits to hide the presence of programs, files, network connections, services, drivers, and other system components. Rootkits are programs that hide the existence of malware by intercepting/hooking and modifying operating system API calls that supply system information. (Citation: Symantec Windows Rootkits) \n\nRootkits or rootkit enabling functionality may reside at the user or kernel level in the operating system or lower, to include a hypervisor, Master Boot Record, or [System Firmware](https://attack.mitre.org/techniques/T1542/001). (Citation: Wikipedia Rootkit) Rootkits have been seen for Windows, Linux, and Mac OS X systems. (Citation: CrowdStrike Linux Rootkit) (Citation: BlackHat Mac OSX Rootkit)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Anti-virus",
+        "File Monitoring",
+        "Host Intrusion Prevention Systems",
+        "Application Control",
+        "Signature-based Detection",
+        "System Access Controls"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1014",
+            "external_id": "T1014"
+        },
+        {
+            "source_name": "CrowdStrike Linux Rootkit",
+            "description": "Kurtz, G. (2012, November 19). HTTP iframe Injecting Linux Rootkit. Retrieved December 21, 2017.",
+            "url": "https://www.crowdstrike.com/blog/http-iframe-injecting-linux-rootkit/"
+        },
+        {
+            "source_name": "BlackHat Mac OSX Rootkit",
+            "description": "Pan, M., Tsai, S. (2014). You can\u2019t see me: A Mac OS X Rootkit uses the tricks you haven't known yet. Retrieved December 21, 2017.",
+            "url": "http://www.blackhat.com/docs/asia-14/materials/Tsai/WP-Asia-14-Tsai-You-Cant-See-Me-A-Mac-OS-X-Rootkit-Uses-The-Tricks-You-Havent-Known-Yet.pdf"
+        },
+        {
+            "source_name": "Symantec Windows Rootkits",
+            "description": "Symantec. (n.d.). Windows Rootkit Overview. Retrieved December 21, 2017.",
+            "url": "https://www.symantec.com/avcenter/reference/windows.rootkit.overview.pdf"
+        },
+        {
+            "source_name": "Wikipedia Rootkit",
+            "description": "Wikipedia. (2016, June 1). Rootkit. Retrieved June 2, 2016.",
+            "url": "https://en.wikipedia.org/wiki/Rootkit"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/552.html",
+            "external_id": "CAPEC-552"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Some rootkit protections may be built into anti-virus or operating system software. There are dedicated rootkit detection tools that look for specific types of rootkit behavior. Monitor for the existence of unrecognized DLLs, devices, services, and changes to the MBR. (Citation: Wikipedia Rootkit)",
+    "x_mitre_data_sources": [
+        "File: File Modification",
+        "Drive: Drive Modification",
+        "Firmware: Firmware Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Rootkit Mitigation",
+                "description": "Identify potentially malicious software that may contain rootkit functionality, and audit and/or block it by using whitelisting (Citation: Beechey 2010) tools, like AppLocker, (Citation: Windows Commands JPCERT) (Citation: NSA MS AppLocker) or Software Restriction Policies (Citation: Corio 2008) where appropriate. (Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1014"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that anti-virus is implemented in the organization to provide rootkit protections.",
+                "acid": "98581568"
+            },
+            {
+                "description": "Ensure that operating system software is configured to detect rootkit.",
+                "acid": "98581569"
+            },
+            {
+                "description": "Ensure monitoring solution is configured to inspect the existence of unrecognized DLLs, devices, services, and changes to the MBR.",
+                "acid": "98581570"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000004"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100521",
+        "50102561"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

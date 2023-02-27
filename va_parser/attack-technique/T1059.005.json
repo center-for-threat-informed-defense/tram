@@ -1,0 +1,198 @@
+{
+    "id": "T1059.005",
+    "name": "Visual Basic",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse Visual Basic (VB) for execution. VB is a programming language created by Microsoft with interoperability with many Windows technologies such as [Component Object Model](https://attack.mitre.org/techniques/T1559/001) and the [Native API](https://attack.mitre.org/techniques/T1106) through the Windows API. Although tagged as legacy with no planned future evolutions, VB is integrated and supported in the .NET Framework and cross-platform .NET Core.(Citation: VB .NET Mar 2020)(Citation: VB Microsoft)\n\nDerivative languages based on VB have also been created, such as Visual Basic for Applications (VBA) and VBScript. VBA is an event-driven programming language built into Microsoft Office, as well as several third-party applications.(Citation: Microsoft VBA)(Citation: Wikipedia VBA) VBA enables documents to contain macros used to automate the execution of tasks and other functionality on the host. VBScript is a default scripting language on Windows hosts and can also be used in place of [JavaScript](https://attack.mitre.org/techniques/T1059/007) on HTML Application (HTA) webpages served to Internet Explorer (though most modern browsers do not come with VBScript support).(Citation: Microsoft VBScript)\n\nAdversaries may use VB payloads to execute malicious commands. Common malicious usage includes automating execution of behaviors with VBScript or embedding VBA content into [Spearphishing Attachment](https://attack.mitre.org/techniques/T1566/001) payloads (which may also involve [Mark-of-the-Web Bypass](https://attack.mitre.org/techniques/T1553/005) to enable execution).(Citation: Default VBS macros Blocking )",
+    "x_mitre_platforms": [
+        "Windows",
+        "macOS",
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1059/005",
+            "external_id": "T1059.005"
+        },
+        {
+            "source_name": "VB .NET Mar 2020",
+            "description": ".NET Team. (2020, March 11). Visual Basic support planned for .NET 5.0. Retrieved June 23, 2020.",
+            "url": "https://devblogs.microsoft.com/vbteam/visual-basic-support-planned-for-net-5-0/"
+        },
+        {
+            "source_name": "VB Microsoft",
+            "description": "Microsoft. (n.d.). Visual Basic documentation. Retrieved June 23, 2020.",
+            "url": "https://docs.microsoft.com/dotnet/visual-basic/"
+        },
+        {
+            "source_name": "Microsoft VBA",
+            "description": "Microsoft. (2019, June 11). Office VBA Reference. Retrieved June 23, 2020.",
+            "url": "https://docs.microsoft.com/office/vba/api/overview/"
+        },
+        {
+            "source_name": "Wikipedia VBA",
+            "description": "Wikipedia. (n.d.). Visual Basic for Applications. Retrieved August 13, 2020.",
+            "url": "https://en.wikipedia.org/wiki/Visual_Basic_for_Applications"
+        },
+        {
+            "source_name": "Microsoft VBScript",
+            "description": "Microsoft. (2011, April 19). What Is VBScript?. Retrieved March 28, 2020.",
+            "url": "https://docs.microsoft.com/previous-versions//1kw29xwf(v=vs.85)"
+        },
+        {
+            "source_name": "Default VBS macros Blocking ",
+            "description": "Kellie Eickmeyer. (2022, February 7). Helping users stay safe: Blocking internet macros by default in Office. Retrieved February 7, 2022.",
+            "url": "https://techcommunity.microsoft.com/t5/microsoft-365-blog/helping-users-stay-safe-blocking-internet-macros-by-default-in/ba-p/3071805"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        }
+    ],
+    "tactic": [
+        "execution"
+    ],
+    "x_mitre_detection": "Monitor for events associated with VB execution, such as Office applications spawning processes, usage of the Windows Script Host (typically cscript.exe or wscript.exe), file activity involving VB payloads or scripts, or loading of modules associated with VB languages (ex: vbscript.dll). VB execution is likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for execution and subsequent behavior. Actions may be related to network and system information [Discovery](https://attack.mitre.org/tactics/TA0007), [Collection](https://attack.mitre.org/tactics/TA0009), or other programable post-compromise behaviors and could be used as indicators of detection leading back to the source.\n\nUnderstanding standard usage patterns is important to avoid a high number of false positives. If VB execution is restricted for normal users, then any attempts to enable related components running on a system would be considered suspicious. If VB execution is not commonly used on a system, but enabled, execution running out of cycle from patching or other administrator functions is suspicious. Payloads and scripts should be captured from the file system when possible to determine their actions and intent.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Process: Process Creation",
+        "Module: Module Load",
+        "Script: Script Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Antivirus/Antimalware",
+                "description": "Use signatures or heuristics to detect malicious software.",
+                "type": "course-of-action",
+                "id": "M1049"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            },
+            {
+                "name": "Restrict Web-Based Content",
+                "description": "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+                "type": "course-of-action",
+                "id": "M1021"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Anti-virus solutions are configured to automatically quarantine suspicious files",
+                "acid": "98580194"
+            },
+            {
+                "description": "Ensure that access to unnecessary VB components is restricted or turned off",
+                "acid": "98580195"
+            },
+            {
+                "description": "Ensure that application-level controls are implemented to prevent the execution of scripts",
+                "acid": "98580196"
+            },
+            {
+                "description": "Ensure that Script blocking extensions are enabled to block the execution of scripts and HTA files",
+                "acid": "98580197"
+            },
+            {
+                "description": "Ensure that adblockers are configured to prevent malicious code (served through ads) from executing in the first place",
+                "acid": "98580198"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that events associated with VB execution such as Office applications spawning processes are monitored",
+                "acid": "98580184"
+            },
+            {
+                "description": "Ensure that events associated with VB execution such as usage of the Windows Script Host (typically cscript.exe or wscript.exe) are monitored",
+                "acid": "98580185"
+            },
+            {
+                "description": "Ensure that events associated with VB execution such as file activity involving VB payloads or scripts are monitored",
+                "acid": "98580186"
+            },
+            {
+                "description": "Ensure that events associated with VB execution such as loading of modules associated with VB languages (ex: vbscript.dll) are monitored",
+                "acid": "98580187"
+            },
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for script execution indicating suspicious behavior",
+                "acid": "98580188"
+            },
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for network and system information discovery actions indicating suspicious behavior",
+                "acid": "98580189"
+            },
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for scriptable post-compromise behaviors",
+                "acid": "98580190"
+            },
+            {
+                "description": "Ensure that any attempt to enable VB execution-related components by restricted user accounts should be monitored",
+                "acid": "98580191"
+            },
+            {
+                "description": "Ensure that uncommon VB execution-related components running out of cycle from patching or other administrator function should be monitored",
+                "acid": "98580192"
+            },
+            {
+                "description": "Ensure that scripts are captured from the file system(when possible) to monitor their actions and intent",
+                "acid": "98580193"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000208"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100523",
+        "50101358"
+    ],
+    "technologycontrolIds": [
+        "16460389",
+        "16460390",
+        "16460391",
+        "19920418",
+        "19920419",
+        "19920451"
+    ],
+    "cveIds": []
+}

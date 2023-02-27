@@ -1,0 +1,147 @@
+﻿{
+    "id": "T1034",
+    "name": "Path Interception",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": true,
+    "description": "**This technique has been deprecated. Please use [Path Interception by PATH Environment Variable](https://attack.mitre.org/techniques/T1574/007), [Path Interception by Search Order Hijacking](https://attack.mitre.org/techniques/T1574/008), and/or [Path Interception by Unquoted Path](https://attack.mitre.org/techniques/T1574/009).**\n\nPath interception occurs when an executable is placed in a specific path so that it is executed by an application instead of the intended target. One example of this was the use of a copy of [cmd](https://attack.mitre.org/software/S0106) in the current working directory of a vulnerable application that loads a CMD or BAT file with the CreateProcess function. (Citation: TechNet MS14-019)\n\nThere are multiple distinct weaknesses or misconfigurations that adversaries may take advantage of when performing path interception: unquoted paths, path environment variable misconfigurations, and search order hijacking. The first vulnerability deals with full program paths, while the second and third occur when program paths are not specified. These techniques can be used for persistence if executables are called on a regular basis, as well as privilege escalation if intercepted executables are started by a higher privileged process.\n\n### Unquoted Paths\nService paths (stored in Windows Registry keys) (Citation: Microsoft Subkey) and shortcut paths are vulnerable to path interception if the path has one or more spaces and is not surrounded by quotation marks (e.g., <code>C:\\unsafe path with space\\program.exe</code> vs. <code>\"C:\\safe path with space\\program.exe\"</code>). (Citation: Baggett 2012) An adversary can place an executable in a higher level directory of the path, and Windows will resolve that executable instead of the intended executable. For example, if the path in a shortcut is <code>C:\\program files\\myapp.exe</code>, an adversary may create a program at <code>C:\\program.exe</code> that will be run instead of the intended program. (Citation: SecurityBoulevard Unquoted Services APR 2018) (Citation: SploitSpren Windows Priv Jan 2018)\n\n### PATH Environment Variable Misconfiguration\nThe PATH environment variable contains a list of directories. Certain methods of executing a program (namely using cmd.exe or the command-line) rely solely on the PATH environment variable to determine the locations that are searched for a program when the path for the program is not given. If any directories are listed in the PATH environment variable before the Windows directory, <code>%SystemRoot%\\system32</code> (e.g., <code>C:\\Windows\\system32</code>), a program may be placed in the preceding directory that is named the same as a Windows program (such as cmd, PowerShell, or Python), which will be executed when that command is executed from a script or command-line.\n\nFor example, if <code>C:\\example path</code> precedes <code>C:\\Windows\\system32</code> is in the PATH environment variable, a program that is named net.exe and placed in <code>C:\\example path</code> will be called instead of the Windows system \"net\" when \"net\" is executed from the command-line.\n\n### Search Order Hijacking\nSearch order hijacking occurs when an adversary abuses the order in which Windows searches for programs that are not given a path. The search order differs depending on the method that is used to execute the program. (Citation: Microsoft CreateProcess) (Citation: Hill NT Shell) (Citation: Microsoft WinExec) However, it is common for Windows to search in the directory of the initiating program before searching through the Windows system directory. An adversary who finds a program vulnerable to search order hijacking (i.e., a program that does not specify the path to an executable) may take advantage of this vulnerability by creating a program named after the improperly specified program and placing it within the initiating program's directory.\n\nFor example, \"example.exe\" runs \"cmd.exe\" with the command-line argument <code>net user</code>. An adversary may place a program called \"net.exe\" within the same directory as example.exe, \"net.exe\" will be run instead of the Windows system utility net. In addition, if an adversary places a program called \"net.com\" in the same directory as \"net.exe\", then <code>cmd.exe /C net user</code> will execute \"net.com\" instead of \"net.exe\" due to the order of executable extensions defined under PATHEXT. (Citation: MSDN Environment Property)\n\nSearch order hijacking is also a common practice for hijacking DLL loads and is covered in [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1038).",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1034",
+            "external_id": "T1034"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/159.html",
+            "external_id": "CAPEC-159"
+        },
+        {
+            "source_name": "TechNet MS14-019",
+            "description": "Nagaraju, S. (2014, April 8). MS14-019 \u2013 Fixing a binary hijacking via .cmd or .bat file. Retrieved July 25, 2016.",
+            "url": "https://blogs.technet.microsoft.com/srd/2014/04/08/ms14-019-fixing-a-binary-hijacking-via-cmd-or-bat-file/"
+        },
+        {
+            "source_name": "Microsoft Subkey",
+            "description": "Microsoft. (n.d.). CurrentControlSet\\Services Subkey Entries. Retrieved November 30, 2014.",
+            "url": "http://support.microsoft.com/KB/103000"
+        },
+        {
+            "source_name": "Baggett 2012",
+            "description": "Baggett, M. (2012, November 8). Help eliminate unquoted path vulnerabilities. Retrieved December 4, 2014.",
+            "url": "https://isc.sans.edu/diary/Help+eliminate+unquoted+path+vulnerabilities/14464"
+        },
+        {
+            "source_name": "SecurityBoulevard Unquoted Services APR 2018",
+            "description": "HackHappy. (2018, April 23). Windows Privilege Escalation \u2013 Unquoted Services. Retrieved August 10, 2018.",
+            "url": "https://securityboulevard.com/2018/04/windows-privilege-escalation-unquoted-services/"
+        },
+        {
+            "source_name": "SploitSpren Windows Priv Jan 2018",
+            "description": "McFarland, R. (2018, January 26). Windows Privilege Escalation Guide. Retrieved August 10, 2018.",
+            "url": "https://www.sploitspren.com/2018-01-26-Windows-Privilege-Escalation-Guide/"
+        },
+        {
+            "source_name": "Microsoft CreateProcess",
+            "description": "Microsoft. (n.d.). CreateProcess function. Retrieved December 5, 2014.",
+            "url": "http://msdn.microsoft.com/en-us/library/ms682425"
+        },
+        {
+            "source_name": "Hill NT Shell",
+            "description": "Hill, T. (n.d.). Windows NT Command Shell. Retrieved December 5, 2014.",
+            "url": "http://technet.microsoft.com/en-us/library/cc723564.aspx#XSLTsection127121120120"
+        },
+        {
+            "source_name": "Microsoft WinExec",
+            "description": "Microsoft. (n.d.). WinExec function. Retrieved December 5, 2014.",
+            "url": "http://msdn.microsoft.com/en-us/library/ms687393"
+        },
+        {
+            "source_name": "MSDN Environment Property",
+            "description": "Microsoft. (n.d.). Environment Property. Retrieved July 27, 2016.",
+            "url": "https://msdn.microsoft.com/en-us/library/fd7hxfdd.aspx"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "persistence",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "Monitor file creation for files named after partial directories and in locations that may be searched for common processes through the environment variable, or otherwise should not be user writable. Monitor the executing process for process executable paths that are named for partial directories. Monitor file creation for programs that are named after Windows system programs or programs commonly executed without a path (such as \"findstr,\" \"net,\" and \"python\"). If this activity occurs outside of known administration activity, upgrades, installations, or patches, then it may be suspicious. \n\nData and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [
+        "User",
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Path Interception Mitigation",
+                "description": "Eliminate path interception weaknesses in program configuration files, scripts, the PATH environment variable, services, and in shortcuts by surrounding PATH variables with quotation marks when functions allow for them (Citation: Microsoft CreateProcess). Be aware of the search order Windows uses for executing or loading binaries and use fully qualified paths wherever appropriate (Citation: MSDN DLL Security). Clean up old Windows Registry keys when software is uninstalled to avoid keys with no associated legitimate binaries.\n\nPeriodically search for and correct or report path interception weaknesses on systems that may have been introduced using custom or available tools that report software using insecure path configurations (Citation: Kanthak Sentinel). \n\nRequire that all executables be placed in write-protected directories. Ensure that proper permissions and directory access control are set to deny users the ability to write files to the top-level directory <code>C:</code> and system directories, such as <code>C:\\Windows\\</code>, to reduce places where malicious files could be placed for execution.\n\nIdentify and block potentially malicious software that may be executed through the path interception by using whitelisting (Citation: Beechey 2010) tools, like AppLocker (Citation: Windows Commands JPCERT) (Citation: NSA MS AppLocker) or Software Restriction Policies, (Citation: Corio 2008) that are capable of auditing and/or blocking unknown executables.",
+                "type": "course-of-action",
+                "id": "T1034"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

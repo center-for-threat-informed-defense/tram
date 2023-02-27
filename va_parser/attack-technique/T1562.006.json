@@ -1,0 +1,184 @@
+{
+    "id": "T1562.006",
+    "name": "Indicator Blocking",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "An adversary may attempt to block indicators or events typically captured by sensors from being gathered and analyzed. This could include maliciously redirecting (Citation: Microsoft Lamin Sept 2017) or even disabling host-based sensors, such as Event Tracing for Windows (ETW),(Citation: Microsoft About Event Tracing 2018) by tampering settings that control the collection and flow of event telemetry. (Citation: Medium Event Tracing Tampering 2018) These settings may be stored on the system in configuration files and/or in the Registry as well as being accessible via administrative utilities such as [PowerShell](https://attack.mitre.org/techniques/T1059/001) or [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047).\n\nETW interruption can be achieved multiple ways, however most directly by defining conditions using the [PowerShell](https://attack.mitre.org/techniques/T1059/001) <code>Set-EtwTraceProvider</code> cmdlet or by interfacing directly with the Registry to make alterations.\n\nIn the case of network-based reporting of indicators, an adversary may block traffic associated with reporting to prevent central analysis. This may be accomplished by many means, such as stopping a local process responsible for forwarding telemetry and/or creating a host-based firewall rule to block traffic to specific hosts responsible for aggregating events, such as security information and event management (SIEM) products.\n\nIn Linux environments, adversaries may disable or reconfigure log processing tools such as syslog or nxlog to inhibit detection and monitoring capabilities to facilitate follow on behaviors (Citation: LemonDuck).",
+    "x_mitre_platforms": [
+        "Windows",
+        "macOS",
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Anti-virus",
+        "Host intrusion prevention systems"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1562/006",
+            "external_id": "T1562.006"
+        },
+        {
+            "source_name": "LemonDuck",
+            "description": "Manoj Ahuje. (2022, April 21). LemonDuck Targets Docker for Cryptomining Operations. Retrieved June 30, 2022.",
+            "url": "https://www.crowdstrike.com/blog/lemonduck-botnet-targets-docker-for-cryptomining-operations/"
+        },
+        {
+            "source_name": "Microsoft Lamin Sept 2017",
+            "description": "Microsoft. (2009, May 17). Backdoor:Win32/Lamin.A. Retrieved September 6, 2018.",
+            "url": "https://www.microsoft.com/en-us/wdsi/threats/malware-encyclopedia-description?name=Backdoor:Win32/Lamin.A"
+        },
+        {
+            "source_name": "Microsoft About Event Tracing 2018",
+            "description": "Microsoft. (2018, May 30). About Event Tracing. Retrieved June 7, 2019.",
+            "url": "https://docs.microsoft.com/en-us/windows/desktop/etw/consuming-events"
+        },
+        {
+            "source_name": "Medium Event Tracing Tampering 2018",
+            "description": "Palantir. (2018, December 24). Tampering with Windows Event Tracing: Background, Offense, and Defense. Retrieved June 7, 2019.",
+            "url": "https://medium.com/palantir/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/571.html",
+            "external_id": "CAPEC-571"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Detect lack of reported activity from a host sensor. Different methods of blocking may cause different disruptions in reporting. Systems may suddenly stop reporting all data or only certain kinds of data.\n\nDepending on the types of host information collected, an analyst may be able to detect the event that triggered a process to stop or connection to be blocked. For example, Sysmon will log when its configuration state has changed (Event ID 16) and Windows Management Instrumentation (WMI) may be used to subscribe ETW providers that log any provider removal from a specific trace session. (Citation: Medium Event Tracing Tampering 2018) To detect changes in ETW you can also monitor the registry key which contains configurations for all ETW event providers: <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\WMI\\Autologger\\AUTOLOGGER_NAME\\{PROVIDER_GUID}</code>",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Sensor Health: Host Status",
+        "Windows Registry: Windows Registry Key Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Software Configuration",
+                "description": "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+                "type": "course-of-action",
+                "id": "M1054"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that permissions and access controls are properly implemented to secure event tracers/forwarders.",
+                "acid": "98581304"
+            },
+            {
+                "description": "Ensure that permissions and access controls are properly implemented to secure firewall policies.",
+                "acid": "98581305"
+            },
+            {
+                "description": "Ensure that permissions and access controls are properly implemented to secure other associated mechanisms.",
+                "acid": "98581306"
+            },
+            {
+                "description": "Ensure that forwarding mechanisms are configured to relaunch automatically at recurring intervals (ex: temporal, on-logon, etc.).",
+                "acid": "98581307"
+            },
+            {
+                "description": "Ensure that firewall change management processes are appropriately implemented to firewall rules",
+                "acid": "98581308"
+            },
+            {
+                "description": "Ensure that change management processes are appropriately implemented for system configurations.",
+                "acid": "98581309"
+            },
+            {
+                "description": "Ensure that permissions and access controls are properly implemented for event tracers/forwarders to prevent manipulation by user accounts.",
+                "acid": "98581310"
+            },
+            {
+                "description": "Ensure that permissions and access controls are properly implemented for firewall policies to prevent manipulation by user accounts.",
+                "acid": "98581311"
+            },
+            {
+                "description": "Ensure that permissions and access controls are properly implemented for other associated mechanisms to prevent manipulation by user accounts.",
+                "acid": "98581312"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the host-based sensor (e.g. Event Tracing for Windows (ETW)) is monitored for less no. of the activity report.",
+                "acid": "98581301"
+            },
+            {
+                "description": "Ensure that host information is collected to detect the event that triggered a process to stop or connection to be blocked.",
+                "acid": "98581302"
+            },
+            {
+                "description": "Ensure that the registry key that contains configurations for all ETW event providers: HKLM\\SYSTEM\\CurrentControlSet\\Control\\WMI\\Autologger\\AUTOLOGGER_NAME{{PROVIDER_GUID}} is monitored to detect changes in ETW.",
+                "acid": "98581303"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000490"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "10240035",
+        "15010116",
+        "15010117",
+        "15020119",
+        "15020120",
+        "15030119",
+        "15030120",
+        "15040185",
+        "15040186",
+        "15200116",
+        "15200117",
+        "16010122",
+        "16010123",
+        "16020121",
+        "16020122",
+        "16100123",
+        "16100124",
+        "16110120",
+        "16110121",
+        "16120124",
+        "16120125",
+        "18380025",
+        "19920412",
+        "19920430",
+        "19920442"
+    ],
+    "cveIds": []
+}

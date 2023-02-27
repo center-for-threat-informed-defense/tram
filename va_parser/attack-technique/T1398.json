@@ -1,0 +1,94 @@
+﻿{
+    "id": "T1398",
+    "name": "Boot or Logon Initialization Scripts",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use scripts automatically executed at boot or logon initialization to establish persistence. Initialization scripts are part of the underlying operating system and are not accessible to the user unless the device has been rooted or jailbroken. ",
+    "x_mitre_platforms": [
+        "Android",
+        "iOS"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T1398",
+            "url": "https://attack.mitre.org/techniques/T1398"
+        },
+        {
+            "source_name": "Android-VerifiedBoot",
+            "url": "https://source.android.com/security/verifiedboot/",
+            "description": "Android. (n.d.). Verified Boot. Retrieved December 21, 2016."
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/application-threats/APP-26.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "APP-26"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/application-threats/APP-27.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "APP-27"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "phase_name": "persistence",
+            "kill_chain_name": "mitre-mobile-attack"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "On Android, Verified Boot can detect unauthorized modifications to the system partition.(Citation: Android-VerifiedBoot) Android's SafetyNet API provides remote attestation capabilities, which could potentially be used to identify and respond to compromise devices. Samsung Knox provides a similar remote attestation capability on supported Samsung devices. ",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Security Updates",
+                "description": "Install security updates in response to discovered vulnerabilities.\n\nPurchase devices with a vendor and/or mobile carrier commitment to provide security updates in a prompt manner for a set period of time.\n\nDecommission devices that will no longer receive security updates.\n\nLimit or block access to enterprise resources from devices that have not installed recent security updates.\n\nOn Android devices, access can be controlled based on each device's security patch level. On iOS devices, access can be controlled based on the iOS version.",
+                "type": "course-of-action",
+                "id": "M1001"
+            },
+            {
+                "name": "System Partition Integrity",
+                "description": "Ensure that Android devices being used include and enable the Verified Boot capability, which cryptographically ensures the integrity of the system partition.",
+                "type": "course-of-action",
+                "id": "M1004"
+            },
+            {
+                "name": "Attestation",
+                "description": "Enable remote attestation capabilities when available (such as Android SafetyNet or Samsung Knox TIMA Attestation) and prohibit devices that fail the attestation from accessing enterprise resources.",
+                "type": "course-of-action",
+                "id": "M1002"
+            },
+            {
+                "name": "Lock Bootloader",
+                "description": "On devices that provide the capability to unlock the bootloader (hence allowing any operating system code to be flashed onto the device), perform periodic checks to ensure that the bootloader is locked.",
+                "type": "course-of-action",
+                "id": "M1003"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

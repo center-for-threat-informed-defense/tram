@@ -1,0 +1,89 @@
+﻿{
+    "id": "T1546.007",
+    "name": "Netsh Helper DLL",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may establish persistence by executing malicious content triggered by Netsh Helper DLLs. Netsh.exe (also referred to as Netshell) is a command-line scripting utility used to interact with the network configuration of a system. It contains functionality to add helper DLLs for extending functionality of the utility.(Citation: TechNet Netsh) The paths to registered netsh.exe helper DLLs are entered into the Windows Registry at <code>HKLM\\SOFTWARE\\Microsoft\\Netsh</code>.\n\nAdversaries can use netsh.exe helper DLLs to trigger execution of arbitrary code in a persistent manner. This execution would take place anytime netsh.exe is executed, which could happen automatically, with another persistence technique, or if other software (ex: VPN) is present on the system that executes netsh.exe as part of its normal functionality.(Citation: Github Netsh Helper CS Beacon)(Citation: Demaske Netsh Persistence)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1546/007",
+            "external_id": "T1546.007"
+        },
+        {
+            "source_name": "Demaske Netsh Persistence",
+            "description": "Demaske, M. (2016, September 23). USING NETSHELL TO EXECUTE EVIL DLLS AND PERSIST ON A HOST. Retrieved April 8, 2017.",
+            "url": "https://htmlpreview.github.io/?https://github.com/MatthewDemaske/blogbackup/blob/master/netshell.html"
+        },
+        {
+            "source_name": "TechNet Netsh",
+            "description": "Microsoft. (n.d.). Using Netsh. Retrieved February 13, 2017.",
+            "url": "https://technet.microsoft.com/library/bb490939.aspx"
+        },
+        {
+            "source_name": "Github Netsh Helper CS Beacon",
+            "description": "Smeets, M. (2016, September 26). NetshHelperBeacon. Retrieved February 13, 2017.",
+            "url": "https://github.com/outflankbv/NetshHelperBeacon"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "privilege-escalation",
+        "persistence"
+    ],
+    "x_mitre_detection": "It is likely unusual for netsh.exe to have any child processes in most environments. Monitor process executions and investigate any child processes spawned by netsh.exe for malicious behavior. Monitor the <code>HKLM\\SOFTWARE\\Microsoft\\Netsh</code> registry key for any new or suspicious entries that do not correlate with known system files or benign software.(Citation: Demaske Netsh Persistence)",
+    "x_mitre_data_sources": [
+        "Module: Module Load",
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "Windows Registry: Windows Registry Key Modification"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process executions are monitored and investigated for child processes spawned by netsh.exe",
+                "acid": "98580673"
+            },
+            {
+                "description": "Ensure that the HKLM\\SOFTWARE\\Microsoft\\Netsh registry key is monitored for any new or suspicious entries",
+                "acid": "98580674"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

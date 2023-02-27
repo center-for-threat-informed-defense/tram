@@ -1,0 +1,109 @@
+﻿{
+    "id": "T1201",
+    "name": "Password Policy Discovery",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to access detailed information about the password policy used within an enterprise network or cloud environment. Password policies are a way to enforce complex passwords that are difficult to guess or crack through [Brute Force](https://attack.mitre.org/techniques/T1110). This information may help the adversary to create a list of common passwords and launch dictionary and/or brute force attacks which adheres to the policy (e.g. if the minimum password length should be 8, then not trying passwords such as 'pass123'; not checking for more than 3-4 passwords per account if the lockout is set to 6 as to not lock out accounts).\n\nPassword policies can be set and discovered on Windows, Linux, and macOS systems via various command shell utilities such as <code>net accounts (/domain)</code>, <code>Get-ADDefaultDomainPasswordPolicy</code>, <code>chage -l <username></code>, <code>cat /etc/pam.d/common-password</code>, and <code>pwpolicy getaccountpolicies</code> (Citation: Superuser Linux Password Policies) (Citation: Jamf User Password Policies). Adversaries may also leverage a [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) on network devices to discover password policy information (e.g. <code>show aaa</code>, <code>show aaa common-criteria policy all</code>).(Citation: US-CERT-TA18-106A)\n\nPassword policies can be discovered in cloud environments using available APIs such as <code>GetAccountPasswordPolicy</code> in AWS (Citation: AWS GetPasswordPolicy).",
+    "x_mitre_platforms": [
+        "Windows",
+        "Linux",
+        "macOS",
+        "IaaS",
+        "Network"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1201",
+            "external_id": "T1201"
+        },
+        {
+            "source_name": "AWS GetPasswordPolicy",
+            "description": "Amazon Web Services. (n.d.). AWS API GetAccountPasswordPolicy. Retrieved June 8, 2021.",
+            "url": "https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountPasswordPolicy.html"
+        },
+        {
+            "source_name": "Jamf User Password Policies",
+            "description": "Holland, J. (2016, January 25). User password policies on non AD machines. Retrieved April 5, 2018.",
+            "url": "https://www.jamf.com/jamf-nation/discussions/18574/user-password-policies-on-non-ad-machines"
+        },
+        {
+            "source_name": "Superuser Linux Password Policies",
+            "description": "Matutiae, M. (2014, August 6). How to display password policy information for a user (Ubuntu)?. Retrieved April 5, 2018.",
+            "url": "https://superuser.com/questions/150675/how-to-display-password-policy-information-for-a-user-ubuntu"
+        },
+        {
+            "source_name": "US-CERT-TA18-106A",
+            "description": "US-CERT. (2018, April 20). Alert (TA18-106A) Russian State-Sponsored Cyber Actors Targeting Network Infrastructure Devices. Retrieved October 19, 2020.",
+            "url": "https://www.us-cert.gov/ncas/alerts/TA18-106A"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "discovery"
+        }
+    ],
+    "tactic": [
+        "discovery"
+    ],
+    "x_mitre_detection": "Monitor logs and processes for tools and command line arguments that may indicate they're being used for password policy discovery. Correlate that activity with other suspicious activity from the originating system to reduce potential false positives from valid user or administrator activity. Adversaries will likely attempt to find the password policy early in an operation and the activity is likely to happen with other Discovery activity.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Process: Process Creation",
+        "User Account: User Account Metadata"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            },
+            {
+                "name": "Password Policy Discovery Mitigation",
+                "description": "Mitigating discovery of password policies is not advised since the information is required to be known by systems and users of a network. Ensure password policies are such that they mitigate brute force attacks yet will not give an adversary an information advantage because the policies are too light. Active Directory is a common way to set and enforce password policies throughout an enterprise network. (Citation: Microsoft Password Complexity)",
+                "type": "course-of-action",
+                "id": "T1201"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that valid password filters are registered which must be present in the Windows Installation directory.(HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\Notification Packages)",
+                "acid": "98582142"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for suspicious activities.",
+                "acid": "98582141"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000178"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106020",
+        "50106026"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

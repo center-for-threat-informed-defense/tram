@@ -1,0 +1,159 @@
+{
+    "id": "T1098.004",
+    "name": "SSH Authorized Keys",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may modify the SSH <code>authorized_keys</code> file to maintain persistence on a victim host. Linux distributions and macOS commonly use key-based authentication to secure the authentication process of SSH sessions for remote management. The <code>authorized_keys</code> file in SSH specifies the SSH keys that can be used for logging into the user account for which the file is configured. This file is usually found in the user's home directory under <code>&lt;user-home&gt;/.ssh/authorized_keys</code>.(Citation: SSH Authorized Keys) Users may edit the system's SSH config file to modify the directives PubkeyAuthentication and RSAAuthentication to the value \u201cyes\u201d to ensure public key and RSA authentication are enabled. The SSH config file is usually located under <code>/etc/ssh/sshd_config</code>.\n\nAdversaries may modify SSH <code>authorized_keys</code> files directly with scripts or shell commands to add their own adversary-supplied public keys. In cloud environments, adversaries may be able to modify the SSH authorized_keys file of a particular virtual machine via the command line interface or rest API. For example, by using the Google Cloud CLI's \u201cadd-metadata\u201d command an adversary may add SSH keys to a user account.(Citation: Google Cloud Add Metadata)(Citation: Google Cloud Privilege Escalation) Similarly, in Azure, an adversary may update the authorized_keys file of a virtual machine via a PATCH request to the API.(Citation: Azure Update Virtual Machines) This ensures that an adversary possessing the corresponding private key may log in as an existing user via SSH.(Citation: Venafi SSH Key Abuse)(Citation: Cybereason Linux Exim Worm)\n\nWhere authorized_keys files are modified via cloud APIs or command line interfaces, an adversary may achieve privilege escalation on the target virtual machine if they add a key to a higher-privileged user. ",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "IaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1098/004",
+            "external_id": "T1098.004"
+        },
+        {
+            "source_name": "Venafi SSH Key Abuse",
+            "description": "Blachman, Y. (2020, April 22). Growing Abuse of SSH Keys: Commodity Malware Campaigns Now Equipped with SSH Capabilities. Retrieved June 24, 2020.",
+            "url": "https://www.venafi.com/blog/growing-abuse-ssh-keys-commodity-malware-campaigns-now-equipped-ssh-capabilities"
+        },
+        {
+            "source_name": "Google Cloud Privilege Escalation",
+            "description": "Chris Moberly. (2020, February 12). Tutorial on privilege escalation and post exploitation tactics in Google Cloud Platform environments. Retrieved April 1, 2022.",
+            "url": "https://about.gitlab.com/blog/2020/02/12/plundering-gcp-escalating-privileges-in-google-cloud-platform/"
+        },
+        {
+            "source_name": "Cybereason Linux Exim Worm",
+            "description": "Cybereason Nocturnus. (2019, June 13). New Pervasive Worm Exploiting Linux Exim Server Vulnerability. Retrieved June 24, 2020.",
+            "url": "https://www.cybereason.com/blog/new-pervasive-worm-exploiting-linux-exim-server-vulnerability"
+        },
+        {
+            "source_name": "Google Cloud Add Metadata",
+            "description": "Google Cloud. (2022, March 31). gcloud compute instances add-metadata. Retrieved April 1, 2022.",
+            "url": "https://cloud.google.com/sdk/gcloud/reference/compute/instances/add-metadata"
+        },
+        {
+            "source_name": "Azure Update Virtual Machines",
+            "description": "Microsoft. (n.d.). Virtual Machines - Update. Retrieved April 1, 2022.",
+            "url": "https://docs.microsoft.com/en-us/rest/api/compute/virtual-machines/update"
+        },
+        {
+            "source_name": "SSH Authorized Keys",
+            "description": "ssh.com. (n.d.). Authorized_keys File in SSH. Retrieved June 24, 2020.",
+            "url": "https://www.ssh.com/ssh/authorized_keys/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Use file integrity monitoring to detect changes made to the <code>authorized_keys</code> file for each user on a system. Monitor for suspicious processes modifying the <code>authorized_keys</code> file. In cloud environments, monitor instances for modification of metadata and configurations.\n\nMonitor for changes to and suspicious processes modifiying <code>/etc/ssh/sshd_config</code>.",
+    "x_mitre_data_sources": [
+        "File: File Modification",
+        "Process: Process Creation",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that SSH is disabled if it is not required on a host",
+                "acid": "98580427"
+            },
+            {
+                "description": "Ensure that SSH access for specific users/groups is restricted using /etc/ssh/sshd_config",
+                "acid": "98580428"
+            },
+            {
+                "description": "Ensure that access to the authorized_keys file is restricted",
+                "acid": "98580429"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that file integrity monitoring is performed to detect changes made to the authorized_keys file for each user on a system",
+                "acid": "98580423"
+            },
+            {
+                "description": "Ensure that processes modifying the authorized_keys file are monitored",
+                "acid": "98580424"
+            },
+            {
+                "description": "Ensure that changes to /etc/ssh/sshd_config file are monitored",
+                "acid": "98580425"
+            },
+            {
+                "description": "Ensure that processes modifying /etc/ssh/sshd_config are monitored",
+                "acid": "98580426"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000490"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "10190068",
+        "16130124",
+        "16130125",
+        "16130126",
+        "16130127",
+        "16130128",
+        "16130129",
+        "16130130",
+        "16130131",
+        "16130132",
+        "16130133",
+        "16130215",
+        "16130216",
+        "16130217",
+        "16130218",
+        "16130219",
+        "16130220",
+        "18340001"
+    ],
+    "cveIds": []
+}

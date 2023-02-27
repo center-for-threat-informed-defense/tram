@@ -1,0 +1,112 @@
+﻿{
+    "id": "T1055.009",
+    "name": "Proc Memory",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may inject malicious code into processes via the /proc filesystem in order to evade process-based defenses as well as possibly elevate privileges. Proc memory injection is a method of executing arbitrary code in the address space of a separate live process. \n\nProc memory injection involves enumerating the memory of a process via the /proc filesystem (<code>/proc/[pid]</code>) then crafting a return-oriented programming (ROP) payload with available gadgets/instructions. Each running process has its own directory, which includes memory mappings. Proc memory injection is commonly performed by overwriting the target processes' stack using memory mappings provided by the /proc filesystem. This information can be used to enumerate offsets (including the stack) and gadgets (or instructions within the program that can be used to build a malicious payload) otherwise hidden by process memory protections such as address space layout randomization (ASLR). Once enumerated, the target processes' memory map within <code>/proc/[pid]/maps</code> can be overwritten using dd.(Citation: Uninformed Needle)(Citation: GDS Linux Injection)(Citation: DD Man) \n\nOther techniques such as [Dynamic Linker Hijacking](https://attack.mitre.org/techniques/T1574/006) may be used to populate a target process with more available gadgets. Similar to [Process Hollowing](https://attack.mitre.org/techniques/T1055/012), proc memory injection may target child processes (such as a backgrounded copy of sleep).(Citation: GDS Linux Injection) \n\nRunning code in the context of another process may allow access to the process's memory, system/network resources, and possibly elevated privileges. Execution via proc memory injection may also evade detection from security products since the execution is masked under a legitimate process. ",
+    "x_mitre_platforms": [
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Application control",
+        "Anti-virus"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1055/009",
+            "external_id": "T1055.009"
+        },
+        {
+            "source_name": "Uninformed Needle",
+            "description": "skape. (2003, January 19). Linux x86 run-time process manipulation. Retrieved December 20, 2017.",
+            "url": "http://hick.org/code/skape/papers/needle.txt"
+        },
+        {
+            "source_name": "GDS Linux Injection",
+            "description": "McNamara, R. (2017, September 5). Linux Based Inter-Process Code Injection Without Ptrace(2). Retrieved February 21, 2020.",
+            "url": "https://blog.gdssecurity.com/labs/2017/9/5/linux-based-inter-process-code-injection-without-ptrace2.html"
+        },
+        {
+            "source_name": "DD Man",
+            "description": "Kerrisk, M. (2020, February 2). DD(1) User Commands. Retrieved February 21, 2020.",
+            "url": "http://man7.org/linux/man-pages/man1/dd.1.html"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "File system monitoring can determine if /proc files are being modified. Users should not have permission to modify these in most cases. \n\nAnalyze process behavior to determine if a process is performing actions it usually does not, such as opening network connections, reading files, or other suspicious actions that could relate to post-compromise behavior. ",
+    "x_mitre_data_sources": [
+        "File: File Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that endpoint security solutions are configured to block process injection based on common sequences of behavior that occur during the injection process.",
+                "acid": "98581143"
+            },
+            {
+                "description": "Ensure that the permissions on sensitive files such as /proc/[pid]/maps or /proc/[pid]/mem is restricted.",
+                "acid": "98581144"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that File system monitoring is performed to check if /proc files are being modified by normal user.",
+                "acid": "98581140"
+            },
+            {
+                "description": "Ensure that process behavior is analyzed to identify process performing suspicious actions such as opening network connections that could relate to post-compromise behavior.",
+                "acid": "98581141"
+            },
+            {
+                "description": "Ensure that process behavior is analyzed to identify process performing suspicious actions such as reading files that could relate to post-compromise behavior.",
+                "acid": "98581142"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

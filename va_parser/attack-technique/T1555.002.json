@@ -1,0 +1,78 @@
+﻿{
+    "id": "T1555.002",
+    "name": "Securityd Memory",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "An adversary may obtain root access (allowing them to read securityd's memory), then they can scan through memory to find the correct sequence of keys in relatively few tries to decrypt the user's logon keychain. This provides the adversary with all the plaintext passwords for users, WiFi, mail, browsers, certificates, secure notes, etc.(Citation: OS X Keychain)(Citation: OSX Keydnap malware)\n\nIn OS X prior to El Capitan, users with root access can read plaintext keychain passwords of logged-in users because Apple's keychain implementation allows these credentials to be cached so that users are not repeatedly prompted for passwords.(Citation: OS X Keychain)(Citation: External to DA, the OS X Way) Apple's securityd utility takes the user's logon password, encrypts it with PBKDF2, and stores this master key in memory. Apple also uses a set of keys and algorithms to encrypt the user's password, but once the master key is found, an adversary need only iterate over the other values to unlock the final password.(Citation: OS X Keychain)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1555/002",
+            "external_id": "T1555.002"
+        },
+        {
+            "source_name": "OS X Keychain",
+            "description": "Juuso Salonen. (2012, September 5). Breaking into the OS X keychain. Retrieved July 15, 2017.",
+            "url": "http://juusosalonen.com/post/30923743427/breaking-into-the-os-x-keychain"
+        },
+        {
+            "source_name": "OSX Keydnap malware",
+            "description": "Marc-Etienne M.Leveille. (2016, July 6). New OSX/Keydnap malware is hungry for credentials. Retrieved July 3, 2017.",
+            "url": "https://www.welivesecurity.com/2016/07/06/new-osxkeydnap-malware-hungry-credentials/"
+        },
+        {
+            "source_name": "External to DA, the OS X Way",
+            "description": "Alex Rymdeko-Harvey, Steve Borosh. (2016, May 14). External to DA, the OS X Way. Retrieved July 3, 2017.",
+            "url": "http://www.slideshare.net/StephanBorosh/external-to-da-the-os-x-way"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "Monitor processes and command-line arguments for activity surrounded users searching for credentials or using automated tools to scan memory for passwords.",
+    "x_mitre_data_sources": [
+        "Process: Process Access",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "root"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for credential searches/ scanning memory for passwords",
+                "acid": "98581851"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

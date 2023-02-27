@@ -1,0 +1,60 @@
+﻿{
+    "id": "T0810",
+    "name": "Data Historian Compromise",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": true,
+    "description": "Adversaries may compromise and gain control of a data historian to gain a foothold into the control system environment. Access to a data historian may be used to learn stored database archival and analysis information on the control system. A dual-homed data historian may provide adversaries an interface from the IT environment to the OT environment. \n\nDragos has released an updated analysis on CrashOverride that outlines the attack from the ICS network breach to payload delivery and execution.  (Citation: Industroyer - Dragos - 201810) The report summarized that CrashOverride represents a new application of malware, but relied on standard intrusion techniques. In particular, new artifacts include references to a Microsoft Windows Server 2003 host, with a SQL Server. Within the ICS environment, such a database server can act as a data historian. Dragos noted a device with this role should be \"expected to have extensive connections\" within the ICS environment. Adversary activity leveraged database capabilities to perform reconnaissance, including directory queries and network connectivity checks.\n\nPermissions Required: Administrator\n\nContributors: Joe Slowik - Dragos",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0810",
+            "external_id": "T0810"
+        },
+        {
+            "source_name": "Industroyer - Dragos - 201810",
+            "description": "Dragos. (2018, October 12). Anatomy of an Attack: Detecting and Defeating CRASHOVERRIDE. Retrieved October 14, 2019.",
+            "url": "https://dragos.com/wp-content/uploads/CRASHOVERRIDE2018.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "initial-access-ics"
+        }
+    ],
+    "tactic": [
+        "initial-access-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

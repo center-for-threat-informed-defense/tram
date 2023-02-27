@@ -1,0 +1,214 @@
+﻿{
+    "id": "T1036",
+    "name": "Masquerading",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to manipulate features of their artifacts to make them appear legitimate or benign to users and/or security tools. Masquerading occurs when the name or location of an object, legitimate or malicious, is manipulated or abused for the sake of evading defenses and observation. This may include manipulating file metadata, tricking users into misidentifying the file type, and giving legitimate task or service names.\n\nRenaming abusable system utilities to evade security monitoring is also a form of [Masquerading](https://attack.mitre.org/techniques/T1036).(Citation: LOLBAS Main Site)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "Containers"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Application Control"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1036",
+            "external_id": "T1036"
+        },
+        {
+            "source_name": "Twitter ItsReallyNick Masquerading Update",
+            "description": "Carr, N.. (2018, October 25). Nick Carr Status Update Masquerading. Retrieved April 22, 2019.",
+            "url": "https://twitter.com/ItsReallyNick/status/1055321652777619457"
+        },
+        {
+            "source_name": "Elastic Masquerade Ball",
+            "description": "Ewing, P. (2016, October 31). How to Hunt: The Masquerade Ball. Retrieved October 31, 2016.",
+            "url": "http://pages.endgame.com/rs/627-YBU-612/images/EndgameJournal_The%20Masquerade%20Ball_Pages_R2.pdf"
+        },
+        {
+            "source_name": "LOLBAS Main Site",
+            "description": "LOLBAS. (n.d.). Living Off The Land Binaries and Scripts (and also Libraries). Retrieved February 10, 2020.",
+            "url": "https://lolbas-project.github.io/"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/177.html",
+            "external_id": "CAPEC-177"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Collect file hashes; file names that do not match their expected hash are suspect. Perform file monitoring; files with known names but in unusual locations are suspect. Likewise, files that are modified outside of an update or patch are suspect.\n\nIf file names are mismatched between the file name on disk and that of the binary's PE metadata, this is a likely indicator that a binary was renamed after it was compiled. Collecting and comparing disk and resource filenames for binaries by looking to see if the InternalName, OriginalFilename, and/or ProductName match what is expected could provide useful leads, but may not always be indicative of malicious activity. (Citation: Elastic Masquerade Ball) Do not focus on the possible names a file could have, but instead on the command-line arguments that are known to be used and are distinct because it will have a better rate of detection.(Citation: Twitter ItsReallyNick Masquerading Update)\n\nLook for indications of common characters that may indicate an attempt to trick users into misidentifying the file type, such as a space as the last character of a file name or the right-to-left override characters\"\\u202E\", \"[U+202E]\", and \"%E2%80%AE\u201d.",
+    "x_mitre_data_sources": [
+        "Process: Process Metadata",
+        "Image: Image Metadata",
+        "Command: Command Execution",
+        "File: File Modification",
+        "Service: Service Metadata",
+        "Scheduled Job: Scheduled Job Modification",
+        "Scheduled Job: Scheduled Job Metadata",
+        "Service: Service Creation",
+        "File: File Metadata"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Code Signing",
+                "description": "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+                "type": "course-of-action",
+                "id": "M1045"
+            },
+            {
+                "name": "Masquerading Mitigation",
+                "description": "When creating security rules, avoid exclusions based on file name or file path. Require signed binaries. Use file system access controls to protect folders such as C:\\Windows\\System32. Use tools that restrict program execution via whitelisting by attributes other than file name.\n\nIdentify potentially malicious software that may look like a legitimate program based on name and location, and audit and/or block it by using whitelisting (Citation: Beechey 2010) tools like AppLocker (Citation: Windows Commands JPCERT) (Citation: NSA MS AppLocker) or Software Restriction Policies (Citation: Corio 2008) where appropriate. (Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1036"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that signed binaries are implemented in code.",
+                "acid": "98581381"
+            },
+            {
+                "description": "Ensure that whitelisting tools are employed to restrict program execution by attributes other than file names for common operating system utilities.",
+                "acid": "98581382"
+            },
+            {
+                "description": "Ensure that file system access controls are employed to protect folders e.g. C:\\Windows\\System32.",
+                "acid": "98581383"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that file hashes are collected.",
+                "acid": "98581368"
+            },
+            {
+                "description": "Ensure that file names match their expected hash (if not then they are suspect).",
+                "acid": "98581369"
+            },
+            {
+                "description": "Ensure that file monitoring is performed.",
+                "acid": "98581370"
+            },
+            {
+                "description": "Ensure that files with known names but in unusual locations are suspect.",
+                "acid": "98581371"
+            },
+            {
+                "description": "Ensure that files that are modified outside of an update or patch are suspect.",
+                "acid": "98581372"
+            },
+            {
+                "description": "Ensure that file names on disk and binary's PE metadata are matched (if not then the binary might be renamed after it was compiled).",
+                "acid": "98581373"
+            },
+            {
+                "description": "Ensure that disk and resource filenames for binaries are collected and compared to check if the InternalName match.",
+                "acid": "98581374"
+            },
+            {
+                "description": "Ensure that disk and resource filenames for binaries are collected and compared to check if the OriginalFilename match.",
+                "acid": "98581375"
+            },
+            {
+                "description": "Ensure that disk and resource filenames for binaries are collected and compared to check if the ProductName match.",
+                "acid": "98581376"
+            },
+            {
+                "description": "Ensure that command-line arguments are checked for file name rather than checking for the possible name of the file could be.",
+                "acid": "98581377"
+            },
+            {
+                "description": "Ensure that for RTLO, check for common formats of RTLO characters within filenames such as \"\\u202E\".",
+                "acid": "98581378"
+            },
+            {
+                "description": "Ensure that for RTLO, check for common formats of RTLO characters within filenames such as \"[U+202E]\".",
+                "acid": "98581379"
+            },
+            {
+                "description": "Ensure that for RTLO, check for common formats of RTLO characters within filenames such as \"%E2%80%AE\".",
+                "acid": "98581380"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000211",
+        "40000516"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106008",
+        "50106014"
+    ],
+    "technologycontrolIds": [
+        "11060032",
+        "11100031",
+        "19350022"
+    ],
+    "cveIds": [
+        "CVE-2018-0560",
+        "CVE-2018-11067",
+        "CVE-2018-15869",
+        "CVE-2018-17934",
+        "CVE-2018-5451",
+        "CVE-2018-8607",
+        "CVE-2019-1031",
+        "CVE-2019-1831",
+        "CVE-2019-3778",
+        "CVE-2019-3788",
+        "CVE-2020-1456",
+        "CVE-2020-15233",
+        "CVE-2020-16198",
+        "CVE-2020-5250",
+        "CVE-2020-5270",
+        "CVE-2020-6808"
+    ],
+    "subTechniques": [
+        "T1036.001",
+        "T1036.002",
+        "T1036.003",
+        "T1036.004",
+        "T1036.005",
+        "T1036.006",
+        "T1036.007"
+    ]
+}

@@ -1,0 +1,155 @@
+﻿{
+    "id": "T1119",
+    "name": "Automated Collection",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Once established within a system or network, an adversary may use automated techniques for collecting internal data. Methods for performing this technique could include use of a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059) to search for and copy information fitting set criteria such as file type, location, or name at specific time intervals. In cloud-based environments, adversaries may also use cloud APIs, command line interfaces, or extract, transform, and load (ETL) services to automatically collect data. This functionality could also be built into remote access tools. \n\nThis technique may incorporate use of other techniques such as [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) and [Lateral Tool Transfer](https://attack.mitre.org/techniques/T1570) to identify and move files, as well as [Cloud Service Dashboard](https://attack.mitre.org/techniques/T1538) and [Cloud Storage Object Discovery](https://attack.mitre.org/techniques/T1619) to identify resources in cloud environments.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "IaaS",
+        "SaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1119",
+            "external_id": "T1119"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+        }
+    ],
+    "tactic": [
+        "collection"
+    ],
+    "x_mitre_detection": "Depending on the method used, actions could include common file system commands and parameters on the command-line interface within batch files or scripts. A sequence of actions like this may be unusual, depending on the system and network environment. Automated collection may occur along with other techniques such as [Data Staged](https://attack.mitre.org/techniques/T1074). As such, file access monitoring that shows an unusual process performing sequential file opens and potentially copy actions to another location on the file system for many files at once may indicate automated collection behavior. Remote access tools with built-in features may interact directly with the Windows API to gather data. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001), as well as through cloud APIs and command line interfaces.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Script: Script Execution",
+        "File: File Access"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "Permissions to access directories, files, and API endpoints that store information of interest."
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Remote Data Storage",
+                "description": "Use remote security log and sensitive file storage where access can be controlled better to prevent exposure of intrusion detection log data or sensitive information.",
+                "type": "course-of-action",
+                "id": "M1029"
+            },
+            {
+                "name": "Encrypt Sensitive Information",
+                "description": "Protect sensitive information with strong encryption.",
+                "type": "course-of-action",
+                "id": "M1041"
+            },
+            {
+                "name": "Automated Collection Mitigation",
+                "description": "Encryption and off-system storage of sensitive information may be one way to mitigate collection of files, but may not stop an adversary from acquiring the information if an intrusion persists over a long period of time and the adversary is able to discover and access the data through other means. A keylogger installed on a system may be able to intercept passwords through [Input Capture](https://attack.mitre.org/techniques/T1056) and be used to decrypt protected documents that an adversary may have collected. Strong passwords should be used to prevent offline cracking of encrypted documents through [Brute Force](https://attack.mitre.org/techniques/T1110) techniques.\n\nIdentify unnecessary system utilities, third-party tools, or potentially malicious software that may be used to collect files and audit and/or block them by using whitelisting (Citation: Beechey 2010) tools, like AppLocker, (Citation: Windows Commands JPCERT) (Citation: NSA MS AppLocker) or Software Restriction Policies (Citation: Corio 2008) where appropriate. (Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1119"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that encryption is implemented for sensitive information to mitigate collection of files",
+                "acid": "98582326"
+            },
+            {
+                "description": "Ensure that off-system storage of sensitive information is done to mitigate collection of files",
+                "acid": "98582327"
+            },
+            {
+                "description": "Ensure that strong passwords are used on encrypted documents to prevent offline cracking through Brute Force techniques.",
+                "acid": "98582328"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that file access monitoring should be performed to monitor for unusual process performing sequential file opens.",
+                "acid": "98582324"
+            },
+            {
+                "description": "Ensure that file access monitoring should be performed to monitor for unusual process performing copy actions to another location on the file system for many files at once.",
+                "acid": "98582325"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000509"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106013"
+    ],
+    "technologycontrolIds": [
+        "101540015",
+        "101550015",
+        "101560014",
+        "101570014",
+        "101600014",
+        "103900014",
+        "10460014",
+        "11010014",
+        "11060040",
+        "11100039",
+        "11480015",
+        "11500012",
+        "11500013",
+        "11500014",
+        "11500019",
+        "11500020",
+        "11500021",
+        "17800004",
+        "17800009",
+        "17800010",
+        "17800011",
+        "17800012",
+        "17800013",
+        "17800014",
+        "17800015",
+        "17800016",
+        "17800018",
+        "18070002",
+        "18100001",
+        "18260003",
+        "18270005",
+        "18280004",
+        "18380009",
+        "18450001",
+        "18530001",
+        "18560001",
+        "18650004",
+        "18690001",
+        "18710002",
+        "18780001",
+        "18830002",
+        "18840003",
+        "18870002",
+        "18970001",
+        "18970002",
+        "19200002"
+    ],
+    "cveIds": [],
+    "subTechniques": []
+}

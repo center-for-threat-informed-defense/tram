@@ -1,0 +1,79 @@
+﻿{
+    "id": "T0867",
+    "name": "Lateral Tool Transfer",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may transfer tools or other files from one system to another to stage adversary tools or other files over the course of an operation. (Citation: Enterprise ATT&CK) Copying of files may also be performed laterally between internal victim systems to support Lateral Movement with remote Execution using inherent file sharing protocols such as file sharing over SMB to connected network shares. (Citation: Enterprise ATT&CK)  In control systems environments, malware may use SMB and other file sharing protocols to move laterally through industrial networks.",
+    "x_mitre_platforms": [
+        "Human-Machine Interface",
+        "Control Server",
+        "Data Historian"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0867",
+            "external_id": "T0867"
+        },
+        {
+            "source_name": "Enterprise ATT&CK",
+            "description": "Enterprise ATT&CK   Lateral Tool Transfer Retrieved. 2019/10/27 ",
+            "url": "https://attack.mitre.org/techniques/T1570/"
+        },
+        {
+            "source_name": "Enterprise ATT&CK",
+            "description": "Enterprise ATT&CK Enterprise ATT&CK   Lateral Tool Transfer Retrieved. 2019/10/27  Lateral Tool Transfer Retrieved. 2019/10/27 ",
+            "url": "https://attack.mitre.org/techniques/T1570/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "lateral-movement-ics"
+        }
+    ],
+    "tactic": [
+        "lateral-movement-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "File: File Creation",
+        "File: File Metadata",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.  In industrial control environments, network intrusion prevention should be configured so it will not disrupt protocols and communications responsible for real-time functions related to control or safety.",
+                "type": "course-of-action",
+                "id": "M0931"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

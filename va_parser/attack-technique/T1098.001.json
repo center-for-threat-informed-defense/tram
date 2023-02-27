@@ -1,0 +1,174 @@
+{
+    "id": "T1098.001",
+    "name": "Additional Cloud Credentials",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may add adversary-controlled credentials to a cloud account to maintain persistent access to victim accounts and instances within the environment.\n\nFor example, adversaries may add credentials for Service Principals and Applications in addition to existing legitimate credentials in Azure AD.(Citation: Microsoft SolarWinds Customer Guidance)(Citation: Blue Cloud of Death)(Citation: Blue Cloud of Death Video) These credentials include both x509 keys and passwords.(Citation: Microsoft SolarWinds Customer Guidance) With sufficient permissions, there are a variety of ways to add credentials including the Azure Portal, Azure command line interface, and Azure or Az PowerShell modules.(Citation: Demystifying Azure AD Service Principals)\n\nIn infrastructure-as-a-service (IaaS) environments, after gaining access through [Cloud Accounts](https://attack.mitre.org/techniques/T1078/004), adversaries may generate or import their own SSH keys using either the <code>CreateKeyPair</code> or <code>ImportKeyPair</code> API in AWS or the <code>gcloud compute os-login ssh-keys add</code> command in GCP.(Citation: GCP SSH Key Add) This allows persistent access to instances within the cloud environment without further usage of the compromised cloud accounts.(Citation: Expel IO Evil in AWS)(Citation: Expel Behind the Scenes)\n\nAdversaries may also use the <code>CreateAccessKey</code> API in AWS or the <code>gcloud iam service-accounts keys create</code> command in GCP to add access keys to an account. If the target account has different permissions from the requesting account, the adversary may also be able to escalate their privileges in the environment (i.e. [Cloud Accounts](https://attack.mitre.org/techniques/T1078/004)).(Citation: Rhino Security Labs AWS Privilege Escalation)",
+    "x_mitre_platforms": [
+        "IaaS",
+        "Azure AD",
+        "SaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1098/001",
+            "external_id": "T1098.001"
+        },
+        {
+            "source_name": "Expel IO Evil in AWS",
+            "description": "A. Randazzo, B. Manahan and S. Lipton. (2020, April 28). Finding Evil in AWS. Retrieved June 25, 2020.",
+            "url": "https://expel.io/blog/finding-evil-in-aws/"
+        },
+        {
+            "source_name": "Demystifying Azure AD Service Principals",
+            "description": "Bellavance, Ned. (2019, July 16). Demystifying Azure AD Service Principals. Retrieved January 19, 2020.",
+            "url": "https://nedinthecloud.com/2019/07/16/demystifying-azure-ad-service-principals/"
+        },
+        {
+            "source_name": "GCP SSH Key Add",
+            "description": "Google. (n.d.). gcloud compute os-login ssh-keys add. Retrieved October 1, 2020.",
+            "url": "https://cloud.google.com/sdk/gcloud/reference/compute/os-login/ssh-keys/add"
+        },
+        {
+            "source_name": "Blue Cloud of Death Video",
+            "description": "Kunz, Bruce. (2018, October 14). Blue Cloud of Death: Red Teaming Azure. Retrieved November 21, 2019.",
+            "url": "https://www.youtube.com/watch?v=wQ1CuAPnrLM&feature=youtu.be&t=2815"
+        },
+        {
+            "source_name": "Blue Cloud of Death",
+            "description": "Kunz, Bryce. (2018, May 11). Blue Cloud of Death: Red Teaming Azure. Retrieved October 23, 2019.",
+            "url": "https://speakerdeck.com/tweekfawkes/blue-cloud-of-death-red-teaming-azure-1"
+        },
+        {
+            "source_name": "Microsoft SolarWinds Customer Guidance",
+            "description": "MSRC. (2020, December 13). Customer Guidance on Recent Nation-State Cyber Attacks. Retrieved December 17, 2020.",
+            "url": "https://msrc-blog.microsoft.com/2020/12/13/customer-guidance-on-recent-nation-state-cyber-attacks/"
+        },
+        {
+            "source_name": "Expel Behind the Scenes",
+            "description": "S. Lipton, L. Easterly, A. Randazzo and J. Hencinski. (2020, July 28). Behind the scenes in the Expel SOC: Alert-to-fix in AWS. Retrieved October 1, 2020.",
+            "url": "https://expel.io/blog/behind-the-scenes-expel-soc-alert-aws/"
+        },
+        {
+            "source_name": "Rhino Security Labs AWS Privilege Escalation",
+            "description": "Spencer Gietzen. (n.d.). AWS IAM Privilege Escalation \u2013 Methods and Mitigation. Retrieved May 27, 2022.",
+            "url": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Monitor Azure Activity Logs for Service Principal and Application modifications. Monitor for the usage of APIs that create or import SSH keys, particularly by unexpected users or accounts such as the root account.\n\nMonitor for use of credentials at unusual times or to unusual systems or services. This may also correlate with other suspicious activity.",
+    "x_mitre_data_sources": [
+        "User Account: User Account Modification",
+        "Active Directory: Active Directory Object Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Multi-factor Authentication",
+                "description": "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+                "type": "course-of-action",
+                "id": "M1032"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+                "type": "course-of-action",
+                "id": "M1030"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that multifactor authentication is implemented for all user accounts",
+                "acid": "98580407"
+            },
+            {
+                "description": "Ensure that multifactor authentication is implemented for all privileged accounts",
+                "acid": "98580408"
+            },
+            {
+                "description": "Ensure that access controls are configured to limit access to critical systems and domain controllers",
+                "acid": "98580409"
+            },
+            {
+                "description": "Ensure that firewall is configured to limit access to critical systems and domain controllers",
+                "acid": "98580410"
+            },
+            {
+                "description": "Ensure that cloud environments support separate virtual private cloud (VPC) instances to enable further segmentation of cloud systems",
+                "acid": "98580411"
+            },
+            {
+                "description": "Ensure that domain administrator accounts are not used for day-to-day operations",
+                "acid": "98580412"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Azure Activity Logs are monitored for service principal modifications",
+                "acid": "98580405"
+            },
+            {
+                "description": "Ensure that the credential usage is monitored for the time of usage on the system or domain",
+                "acid": "98580406"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "18340002",
+        "18360002",
+        "18560002",
+        "18620001",
+        "18630001",
+        "19360008",
+        "19360012",
+        "19360013",
+        "19360014",
+        "19360015",
+        "19430005",
+        "19430009",
+        "19450004",
+        "19450008"
+    ],
+    "cveIds": []
+}

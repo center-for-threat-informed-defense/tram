@@ -76,6 +76,7 @@ class MappingSerializer(serializers.ModelSerializer):
         internal_value = super().to_internal_value(data)  # Keeps model fields
 
         # Add necessary fields
+        print(data["attack_id"])
         attack_object = db_models.AttackObject.objects.get(attack_id=data["attack_id"])
         sentence = db_models.Sentence.objects.get(id=data["sentence"])
         report = db_models.Report.objects.get(id=data["report"])

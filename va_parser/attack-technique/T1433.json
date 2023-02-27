@@ -1,0 +1,59 @@
+﻿{
+    "id": "T1433",
+    "name": "Access Call Log",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "On Android, an adversary could call standard operating system APIs from a malicious application to gather call log data, or with escalated privileges could directly access files containing call log data.\n\nOn iOS, applications do not have access to the call log, so privilege escalation would be required in order to access the data.",
+    "x_mitre_platforms": [
+        "Android",
+        "iOS"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T1433",
+            "url": "https://attack.mitre.org/techniques/T1433"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/application-threats/APP-13.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "APP-13"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-mobile-attack",
+            "phase_name": "collection"
+        }
+    ],
+    "tactic": [
+        "collection"
+    ],
+    "x_mitre_detection": "On Android 6.0 and up, the user can view which applications have permission to access call log information through the device settings screen, and the user can choose to revoke the permissions.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

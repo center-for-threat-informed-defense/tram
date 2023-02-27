@@ -1,0 +1,279 @@
+﻿{
+    "id": "T1046",
+    "name": "Network Service Discovery",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation. Common methods to acquire this information include port and/or vulnerability scans using tools that are brought onto a system.(Citation: CISA AR21-126A FIVEHANDS May 2021)   \n\nWithin cloud environments, adversaries may attempt to discover services running on other cloud hosts. Additionally, if the cloud environment is connected to a on-premises environment, adversaries may be able to identify services running on non-cloud systems as well.\n\nWithin macOS environments, adversaries may use the native Bonjour application to discover services running on other macOS hosts within a network. The Bonjour mDNSResponder daemon automatically registers and advertises a host's registered services on the network. For example, adversaries can use a mDNS query (such as <code>dns-sd -B _ssh._tcp .</code>) to find other systems broadcasting the ssh service.(Citation: apple doco bonjour description)(Citation: macOS APT Activity Bradley)",
+    "x_mitre_platforms": [
+        "Windows",
+        "IaaS",
+        "Linux",
+        "macOS",
+        "Containers",
+        "Network"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1046",
+            "external_id": "T1046"
+        },
+        {
+            "source_name": "apple doco bonjour description",
+            "description": "Apple Inc. (2013, April 23). Bonjour Overview. Retrieved October 11, 2021.",
+            "url": "https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/NetServices/Introduction.html"
+        },
+        {
+            "source_name": "CISA AR21-126A FIVEHANDS May 2021",
+            "description": "CISA. (2021, May 6). Analysis Report (AR21-126A) FiveHands Ransomware. Retrieved June 7, 2021.",
+            "url": "https://us-cert.cisa.gov/ncas/analysis-reports/ar21-126a"
+        },
+        {
+            "source_name": "macOS APT Activity Bradley",
+            "description": "Jaron Bradley. (2021, November 14). What does APT Activity Look Like on macOS?. Retrieved January 19, 2022.",
+            "url": "https://themittenmac.com/what-does-apt-activity-look-like-on-macos/"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/300.html",
+            "external_id": "CAPEC-300"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "discovery"
+        }
+    ],
+    "tactic": [
+        "discovery"
+    ],
+    "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events from legitimate remote service scanning may be uncommon, depending on the environment and how they are used. Legitimate open port and vulnerability scanning may be conducted within the environment and will need to be deconflicted with any detection capabilities developed. Network intrusion detection systems can also be used to identify scanning activity. Monitor for process use of the networks and inspect intra-network flows to detect port scans.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Network Traffic: Network Traffic Flow",
+        "Cloud Service: Cloud Service Enumeration"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Network Service Scanning Mitigation",
+                "description": "Use network intrusion detection/prevention systems to detect and prevent remote service scans. Ensure that unnecessary ports and services are closed and proper network segmentation is followed to protect critical servers and devices.\n\nIdentify unnecessary system utilities or potentially malicious software that may be used to acquire information about services running on remote systems, and audit and/or block them by using whitelisting (Citation: Beechey 2010) tools, like AppLocker, (Citation: Windows Commands JPCERT) (Citation: NSA MS AppLocker) or Software Restriction Policies (Citation: Corio 2008) where appropriate. (Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1046"
+            },
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+                "type": "course-of-action",
+                "id": "M1030"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that unnecessary ports and services are closed to prevent exploitation",
+                "acid": "98582134"
+            },
+            {
+                "description": "Ensure that Network Intrusion detection/ prevention systems are configured to detect and prevent remote service scans",
+                "acid": "98582135"
+            },
+            {
+                "description": "Ensure that network isolation (network segmentation) is configured to isolate the sensitive network servers and devices",
+                "acid": "98582136"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that vulnerability scanning solutions are configured to identify vulnerabilities in the network which improves detection",
+                "acid": "98582131"
+            },
+            {
+                "description": "Ensure that Network intrusion detection systems are configured to monitor and scan for malicious activities in the network systems",
+                "acid": "98582132"
+            },
+            {
+                "description": "Ensure that process use of networks and intra-network flows are monitored to detect port scans",
+                "acid": "98582133"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000178",
+        "40000182",
+        "40000510",
+        "40000511",
+        "40000513",
+        "40000523"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106004",
+        "50106016",
+        "50106020",
+        "50106021",
+        "50106023",
+        "50106025",
+        "50106028",
+        "50106031"
+    ],
+    "technologycontrolIds": [
+        "101020025",
+        "101020026",
+        "101020029",
+        "101020030",
+        "101020031",
+        "101020032",
+        "101020033",
+        "101040047",
+        "10110025",
+        "10110026",
+        "10110029",
+        "10110030",
+        "10110031",
+        "10110032",
+        "10110033",
+        "10190005",
+        "10190027",
+        "10190028",
+        "10190029",
+        "10190030",
+        "10190031",
+        "10190032",
+        "10190033",
+        "10190034",
+        "10190035",
+        "10190036",
+        "10190037",
+        "10190038",
+        "10190039",
+        "10190040",
+        "10190041",
+        "10190042",
+        "10190043",
+        "10190044",
+        "10190050",
+        "10190053",
+        "10190061",
+        "10190075",
+        "10190097",
+        "10190098",
+        "10460023",
+        "10960038",
+        "11010023",
+        "14050035",
+        "14110032",
+        "14120037",
+        "14130046",
+        "14170039",
+        "16010481",
+        "16020491",
+        "16100533",
+        "16110468",
+        "16120486",
+        "16390005",
+        "16390006",
+        "16390050",
+        "18350006",
+        "18350013",
+        "18350015",
+        "18370007",
+        "18380001",
+        "18380002",
+        "18380003",
+        "18380004",
+        "18380006",
+        "18380007",
+        "18380017",
+        "18380046",
+        "18380051",
+        "18410001",
+        "18430002",
+        "18650006",
+        "18730001",
+        "18910001",
+        "19010005",
+        "19010027",
+        "19010028",
+        "19010029",
+        "19010030",
+        "19010031",
+        "19010032",
+        "19010033",
+        "19010034",
+        "19010035",
+        "19010036",
+        "19010037",
+        "19010038",
+        "19010039",
+        "19010040",
+        "19010041",
+        "19010042",
+        "19010043",
+        "19010044",
+        "19010050",
+        "19010053",
+        "19010061",
+        "19010075",
+        "19340001",
+        "19340002",
+        "19340003",
+        "19340004",
+        "19340005",
+        "19340006",
+        "19340008",
+        "19340009",
+        "19340010",
+        "19340011",
+        "19340012",
+        "19340013",
+        "19340014",
+        "19340015",
+        "19340016",
+        "19340017",
+        "19340018",
+        "19340019",
+        "19340020",
+        "19340021",
+        "19340022",
+        "19340023",
+        "19360018",
+        "19370001",
+        "19370002",
+        "19440004",
+        "19920426",
+        "19920482",
+        "21809001"
+    ],
+    "cveIds": [
+        "CVE-2012-6685",
+        "CVE-2017-14323"
+    ],
+    "subTechniques": []
+}

@@ -1,0 +1,388 @@
+﻿{
+    "id": "T1552",
+    "name": "Unsecured Credentials",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may search compromised systems to find and obtain insecurely stored credentials. These credentials can be stored and/or misplaced in many locations on a system, including plaintext files (e.g. [Bash History](https://attack.mitre.org/techniques/T1552/003)), operating system or application-specific repositories (e.g. [Credentials in Registry](https://attack.mitre.org/techniques/T1552/002)), or other specialized files/artifacts (e.g. [Private Keys](https://attack.mitre.org/techniques/T1552/004)).",
+    "x_mitre_platforms": [
+        "Windows",
+        "Azure AD",
+        "Office 365",
+        "SaaS",
+        "IaaS",
+        "Linux",
+        "macOS",
+        "Google Workspace",
+        "Containers"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1552",
+            "external_id": "T1552"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "While detecting adversaries accessing credentials may be difficult without knowing they exist in the environment, it may be possible to detect adversary use of credentials they have obtained. Monitor the command-line arguments of executing processes for suspicious words or regular expressions that may indicate searching for a password (for example: password, pwd, login, secure, or credentials). See [Valid Accounts](https://attack.mitre.org/techniques/T1078) for more information.\n\nMonitor for suspicious file access activity, specifically indications that a process is reading multiple files in a short amount of time and/or using command-line arguments  indicative of searching for credential material (ex: regex patterns). These may be indicators of automated/scripted credential access behavior.\n\nMonitoring when the user's <code>.bash_history</code> is read can help alert to suspicious activity. While users do typically rely on their history of commands, they often access this history through other utilities like \"history\" instead of commands like <code>cat ~/.bash_history</code>.\n\nAdditionally, monitor processes for applications that can be used to query the Registry, such as [Reg](https://attack.mitre.org/software/S0075), and collect command parameters that may indicate credentials are being searched. Correlate activity with related suspicious behavior that may indicate an active intrusion to reduce false positives.",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "File: File Access",
+        "Windows Registry: Windows Registry Key Access",
+        "User Account: User Account Authentication",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Encrypt Sensitive Information",
+                "description": "Protect sensitive information with strong encryption.",
+                "type": "course-of-action",
+                "id": "M1041"
+            },
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk.",
+                "type": "course-of-action",
+                "id": "M1051"
+            },
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            },
+            {
+                "name": "Active Directory Configuration",
+                "description": "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc.",
+                "type": "course-of-action",
+                "id": "M1015"
+            },
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            },
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that vulnerable Group Policy Preferences are removed.",
+                "acid": "98582052"
+            },
+            {
+                "description": "Ensure that audits are performed to search for files containing passwords or other credentials and actions are taken to reduce the exposure risk when found.",
+                "acid": "98582053"
+            },
+            {
+                "description": "Ensure that keys are stored on separate cryptographic hardware instead of on the local system.",
+                "acid": "98582054"
+            },
+            {
+                "description": "Ensure that host-based firewall are configured to limit access to the Instance Metadata API(using iptables)",
+                "acid": "98582055"
+            },
+            {
+                "description": "Ensure that WAF is configured properly to prevent external adversaries from exploiting Server-side Request Forgery (SSRF) attacks that allow access to the Cloud Instance Metadata API.",
+                "acid": "98582056"
+            },
+            {
+                "description": "Ensure that OS are configured properly to prevent user's command history from being flushed to their .bash_history file",
+                "acid": "98582057"
+            },
+            {
+                "description": "Ensure that set +o history and set -o history command are used to start logging again.",
+                "acid": "98582058"
+            },
+            {
+                "description": "Ensure that unset HISTFILE being added to a user's .bash_rc file; andln -s /dev/null ~/.bash_history to write commands to /dev/null.",
+                "acid": "98582059"
+            },
+            {
+                "description": "Ensure that strong passphrases are used for private keys to make cracking difficult.",
+                "acid": "98582060"
+            },
+            {
+                "description": "Ensure that credentials are not stored within the Registry.",
+                "acid": "98582061"
+            },
+            {
+                "description": "Ensure that an organizational policy is in place to prohibit password storage in files.",
+                "acid": "98582062"
+            },
+            {
+                "description": "Ensure that the associated accounts have limited permissions, if software needs to store credentials in the Registry.",
+                "acid": "98582063"
+            },
+            {
+                "description": "Ensure that file shares are restricted to specific directories with access only to necessary users.",
+                "acid": "98582064"
+            },
+            {
+                "description": "Ensure that patch KB2962486 is applied to prevent credentials from being stored in GPPs.",
+                "acid": "98582065"
+            },
+            {
+                "description": "Ensure that training are provided to make developers and system administrators aware of the risk associated with having plaintext passwords in software configuration files that may be left on endpoint systems or servers.",
+                "acid": "98582066"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the command-line arguments of executing processes should be monitored for suspicious words or regular expressions.",
+                "acid": "98582047"
+            },
+            {
+                "description": "Ensure that file access activity is monitored for suspicious behavior such as a process reading multiple files in a short amount of time.",
+                "acid": "98582048"
+            },
+            {
+                "description": "Ensure that file access activity is monitored for use of command-line arguments indicating automated/scripted credential access behavior.",
+                "acid": "98582049"
+            },
+            {
+                "description": "Ensure that user's .bash_history activity is monitored for suspicious activity.",
+                "acid": "98582050"
+            },
+            {
+                "description": "Ensure that processes are monitored for applications used to query the Registry, such as Reg, to identify suspicious activity.",
+                "acid": "98582051"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000117",
+        "40000201",
+        "40000205",
+        "40000211",
+        "40000490",
+        "40000498",
+        "40000499",
+        "40000516",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [
+        "50110001",
+        "50110003"
+    ],
+    "policycontrolIds": [
+        "50100280",
+        "50100301",
+        "50100302",
+        "50100313",
+        "50100556",
+        "50101814",
+        "50106010",
+        "50106015",
+        "50106020",
+        "50106022",
+        "50106032",
+        "50106110",
+        "50106114"
+    ],
+    "technologycontrolIds": [
+        "101020041",
+        "10110041",
+        "10960036",
+        "11060013",
+        "11100013",
+        "11170008",
+        "11480006",
+        "11480009",
+        "11480012",
+        "11480013",
+        "11480015",
+        "15010010",
+        "15010081",
+        "15010082",
+        "15020010",
+        "15020085",
+        "15020086",
+        "15030010",
+        "15030085",
+        "15030086",
+        "15040078",
+        "15040080",
+        "15040154",
+        "15180078",
+        "15180079",
+        "15200010",
+        "15200081",
+        "15200082",
+        "16010010",
+        "16010087",
+        "16010088",
+        "16020010",
+        "16020087",
+        "16020088",
+        "16100010",
+        "16100089",
+        "16100090",
+        "16110010",
+        "16110087",
+        "16110088",
+        "16120010",
+        "16120089",
+        "16120090",
+        "16140078",
+        "16140079",
+        "16360010",
+        "16360089",
+        "16360090",
+        "16460008",
+        "16460087",
+        "16460088",
+        "16460380",
+        "17810001",
+        "17880002",
+        "17880003",
+        "18240001",
+        "18240002",
+        "18330005",
+        "18330006",
+        "18330007",
+        "18330008",
+        "18330009",
+        "18330010",
+        "18400001",
+        "18410009",
+        "18420001",
+        "18420002",
+        "18420003",
+        "18420004",
+        "18420005",
+        "18420006",
+        "18710001",
+        "18770001",
+        "18770002",
+        "18890001",
+        "18900001",
+        "18910004",
+        "18990002",
+        "19310008",
+        "19310013",
+        "19310016",
+        "19310017",
+        "19310018",
+        "19350019",
+        "19350021",
+        "19360003",
+        "19360004",
+        "19360005",
+        "19360006",
+        "19390001",
+        "19390002",
+        "19400001",
+        "19480001",
+        "19540001",
+        "19540002",
+        "19920008",
+        "19920081",
+        "19920082",
+        "19920464",
+        "19920495",
+        "21800001",
+        "21808002",
+        "21810001"
+    ],
+    "cveIds": [
+        "CVE-1999-0519",
+        "CVE-2010-5290",
+        "CVE-2012-0874",
+        "CVE-2014-0751",
+        "CVE-2014-1812",
+        "CVE-2015-0984",
+        "CVE-2015-8562",
+        "CVE-2017-14487",
+        "CVE-2018-11088",
+        "CVE-2018-11749",
+        "CVE-2018-15797",
+        "CVE-2018-17900",
+        "CVE-2018-18641",
+        "CVE-2018-7259",
+        "CVE-2018-7506",
+        "CVE-2018-7520",
+        "CVE-2019-13922",
+        "CVE-2019-3763",
+        "CVE-2019-3780",
+        "CVE-2019-3782",
+        "CVE-2019-3787",
+        "CVE-2019-6549",
+        "CVE-2019-7265",
+        "CVE-2019-9670",
+        "CVE-2020-12008",
+        "CVE-2020-14011",
+        "CVE-2020-15095",
+        "CVE-2020-15105",
+        "CVE-2020-17456",
+        "CVE-2020-3165",
+        "CVE-2020-3240",
+        "CVE-2020-4408"
+    ],
+    "subTechniques": [
+        "T1552.001",
+        "T1552.002",
+        "T1552.003",
+        "T1552.004",
+        "T1552.005",
+        "T1552.006",
+        "T1552.007"
+    ]
+}

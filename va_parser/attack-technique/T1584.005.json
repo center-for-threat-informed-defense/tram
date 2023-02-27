@@ -1,0 +1,76 @@
+{
+    "id": "T1584.005",
+    "name": "Botnet",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may compromise numerous third-party systems to form a botnet\u00a0that can be used during targeting. A botnet is a network of compromised systems that can be instructed to perform coordinated tasks.(Citation: Norton Botnet) Instead of purchasing/renting a botnet from a booter/stresser service, adversaries may build their own botnet by compromising numerous third-party systems.(Citation: Imperva DDoS for Hire) Adversaries may also conduct a takeover of an existing botnet, such as redirecting bots to adversary-controlled C2 servers.(Citation: Dell Dridex Oct 2015) With a botnet at their disposal, adversaries may perform follow-on activity such as large-scale [Phishing](https://attack.mitre.org/techniques/T1566) or Distributed Denial of Service (DDoS).",
+    "x_mitre_platforms": [
+        "PRE"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1584/005",
+            "external_id": "T1584.005"
+        },
+        {
+            "source_name": "Dell Dridex Oct 2015",
+            "description": "Dell SecureWorks Counter Threat Unit Threat Intelligence. (2015, October 13). Dridex (Bugat v5) Botnet Takeover Operation. Retrieved May 31, 2019.",
+            "url": "https://www.secureworks.com/research/dridex-bugat-v5-botnet-takeover-operation"
+        },
+        {
+            "source_name": "Imperva DDoS for Hire",
+            "description": "Imperva. (n.d.). Booters, Stressers and DDoSers. Retrieved October 4, 2020.",
+            "url": "https://www.imperva.com/learn/ddos/booters-stressers-ddosers/"
+        },
+        {
+            "source_name": "Norton Botnet",
+            "description": "Norton. (n.d.). What is a botnet?. Retrieved October 4, 2020.",
+            "url": "https://us.norton.com/internetsecurity-malware-what-is-a-botnet.html"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "resource-development"
+        }
+    ],
+    "tactic": [
+        "resource-development"
+    ],
+    "x_mitre_detection": "Much of this activity will take place outside the visibility of the target organization, making detection of this behavior difficult. Detection efforts may be focused on related stages of the adversary lifecycle, such as during [Phishing](https://attack.mitre.org/techniques/T1566), [Endpoint Denial of Service](https://attack.mitre.org/techniques/T1499), or [Network Denial of Service](https://attack.mitre.org/techniques/T1498).",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Pre-compromise",
+                "description": "This category is used for any applicable mitigation activities that apply to techniques occurring before an adversary gains Initial Access, such as Reconnaissance and Resource Development techniques.",
+                "type": "course-of-action",
+                "id": "M1056"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "19330003"
+    ],
+    "cveIds": []
+}

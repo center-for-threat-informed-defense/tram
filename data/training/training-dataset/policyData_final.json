@@ -1,0 +1,816 @@
+﻿[
+    {
+        "unique_identifier": "50106000",
+        "description": [
+            {
+                "field_data": "Privileged access rights allow organisations to control the privileged access to their system and applications that help in maintaining the integrity of all stored data.\n\nThe allocation of privileged access rights to be controlled and restricted through a formal authorization process in accordance with the relevant access control policy.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Privileged access rights to system and application are not restricted which may lead to the risk of unauthorised changes/modification of configuration in the system/application leading to open vulnerable services in the information systems/applications",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1078",
+            "T1053",
+            "T1547",
+            "T1037",
+            "T1543",
+            "T1546",
+            "T1574",
+            "T1548",
+            "T1134",
+            "T1484",
+            "T1611",
+            "T1068",
+            "T1055"
+        ]
+    },
+    {
+        "unique_identifier": "50106001",
+        "description": [
+            {
+                "field_data": "User access reviews are a periodic audit of existing access rights in your organization meant to remove unnecessary or outdated permissions, which are a risk to both cybersecurity and compliance, and further help in implementing the principle of least privilege.\n\nThe user access rights are to be reviewed at planned intervals or if significant changes occur to ensure the suitability, adequacy and effectiveness of the accesses provided to the users.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Access rights are not reviewed on a regular basis, which might lead to unauthorised users having access to organization information, further leading to disclosure of confidential information by the unauthorized users.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1078",
+            "T1053",
+            "T1543",
+            "T1546",
+            "T1484",
+            "T1222",
+            "T1647"
+        ]
+    },
+    {
+        "unique_identifier": "50106002",
+        "description": [
+            {
+                "field_data": "Data backup helps in preserving the business-critical data at a regular time frame, which can be used in case of any failure or a disaster. \n\nIdentify that the business-critical data backups are stored at a secondary offsite location, that can help the organization retrieve the data in case of any failure or a disaster at the primary site\n\n*Note: This control contributes to Estimated Financial Impact",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "The backup of business-critical data is not stored in a secondary offsite location, which might cause issues in data recovery/restoration when the data is breached, deleted or when the business imposed the disaster recovery plan.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1490",
+            "T1485",
+            "T1561",
+            "T1578",
+            "T1543",
+            "T1565",
+            "T1495",
+            "T1489"
+        ]
+    },
+    {
+        "unique_identifier": "50106003",
+        "description": [
+            {
+                "field_data": "Business continuity planning (BCP) is the process involved in creating a system of prevention and recovery from potential threats to a company. The plan ensures that personnel and assets are protected and are able to function quickly in the event of a disaster.\n\nThe BCP states the essential functions of the business, identifies which systems and processes must be sustained, and details how to maintain them. It should consider any possible business disruption.\n\nA BCP covers risks including cyber attacks, pandemics, natural disasters and human error. The array of possible risks makes it vital for an organization to have a business continuity plan to preserve its health and reputation. A proper BCP decreases the chance of a costly power outage or IT outage.\n\nAll the continuity Plans should be periodically tested to identify the implementation gaps that might occur during actual calamities\n\n*Note: This control contributes to Estimated Financial Impact",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "A Business Continuity Plan (BCP) is not developed and maintained, which might lead to the risk of effective operations during an emergency situation. The organisation might also suffer multiple Impacts i.e. financial, revenue, reputation, legal etc. if the business is not recovered within the stipulated RTO.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1485",
+            "T1486",
+            "T1491",
+            "T1561",
+            "T1490",
+            "T1495"
+        ]
+    },
+    {
+        "unique_identifier": "50106004",
+        "description": [
+            {
+                "field_data": "Cloud security policy ensures the confidentiality, integrity and availability of data stored, accessed and manipulated using cloud computing services. It establishes a framework of responsibility and actions required to meet regulatory requirements and security guidelines for cloud computing.\n\nThe organization should implement and monitor the Cloud security policy, these should include but are not limited to:\n- The cloud services to be used\n- Restriction of cloud usage\n- Data storage requirement on a cloud system\n- Security Parameters\n- Shared responsibilities of CSPs and CSCs\n- Complete Network architecture requirements etc.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "If the Cloud security policy is not implemented, then there is a risk of misconfiguration of the cloud assets by any users, without organization-provided authentication guidance.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1562",
+            "T1526",
+            "T1046",
+            "T1538",
+            "T1580"
+        ]
+    },
+    {
+        "unique_identifier": "50106005",
+        "description": [
+            {
+                "field_data": "Data residency refers to various measures that restrict data flows by limiting the physical storage and processing of data within a given jurisdiction\u2019s boundaries. \n\nThe organisation should ensure that storing and sharing the business-sensitive, critical and PII information outside the organization-specified geographical location is restricted which helps the organization comply with the below requirements. This storing / sharing should be identified based on the country-specific applicable legal and regulatory requirements.\n\n- Protecting Personal Data\n- Law Enforcement Issues\n- National Security investigation",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It has been observed that cloud security policy does not adhere to the PII data residency requirement, as a result this might lead to the risk of non-adherence to legal and regulatory compliance requirements and further disrupt the law enforcement security investigation after the attack.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1526",
+            "T1580",
+            "T1619",
+            "T1538",
+            "T1614"
+        ]
+    },
+    {
+        "unique_identifier": "50106006",
+        "description": [
+            {
+                "field_data": "Incident response (IR) is a set of information security policies and procedures that you can use to identify, contain, and eliminate cyberattacks. The goal of incident response is to enable an organization to quickly detect and halt attacks, minimizing damage and preventing future attacks of the same type.\n\nPhases of the Incident Response Lifecycle. There are six steps to incident response. These six steps occur in a cycle each time an incident occurs. The steps are:\n\n- Preparation of systems and procedures\n- Identification of incidents\n- Containment of attackers and incident activity\n- Eradication of attackers and re-entry options\n- Recovery from incidents, including restoration of systems\n- Lessons learned and application of feedback to the next round of preparation\n\nPeriodic Testing of updated Incident response plans to be conducted for the effective communication \n\n*Note: This control contributes to Estimated Financial Impact",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Incident response mechanisms are not implemented, then there is a risk that the security incidents that happen within the organization are not communicated to the relevant stakeholders, leading to the major legal and regulatory compliance impact.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1114",
+            "T1564",
+            "T1566",
+            "T1598"
+        ]
+    },
+    {
+        "unique_identifier": "50106007",
+        "description": [
+            {
+                "field_data": "Detonation chambers, also known as dynamic execution environments, allow organizations to open email attachments, execute untrusted or suspicious applications, and execute Universal Resource Locator (URL) requests in the safety of an isolated environment or virtualized sandbox. These protected and isolated execution environments provide a means of determining whether the associated attachments/applications contain malicious code. While related to the concept of deception nets, the control is not intended to maintain a long-term environment in which adversaries can operate, and their actions can be observed. Rather, it is intended to quickly identify malicious code and reduce the likelihood that the code is propagated to user environments of operation (or prevent such propagation completely).",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Detonation chamber capability was not employed in an information system, system components or locations, this could lead to an improper evaluation of the attachment/software and further leads to security incidents and malicious program enter in the organization",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1189",
+            "T1203",
+            "T1212",
+            "T1211",
+            "T1068",
+            "T1210"
+        ]
+    },
+    {
+        "unique_identifier": "50106008",
+        "description": [
+            {
+                "field_data": "Malicious code is files or programs that can cause harm to a computer or compromise data stored on a computer. Various classifications of malicious code include viruses, worms, and Trojan horses.\n\nA protection mechanism as defined below from malicious codes to be implemented, that will help in detecting and preventing any malicious code to execute and harm the organisation's asset or network. Also, these codes should be quarantined, blocked and sent to the denotation chamber for further investigation that can help the organization to detect the nature of the code and further enhance their traffic filtering for similar codes\n\nProtection Mechanisms:\n\n- Install and maintain antivirus software\n- Use caution with links and attachments. \n- Block pop-up advertisements.\n- Use an account with limited permissions. \n- Disable external media AutoRun and AutoPlay features.\n- Keep software updated. \n- Install or enable a firewall. \n- Use anti-spyware tools. \n- Avoid using public Wi-Fi etc.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Malicious code protection mechanisms are not configured to block malicious code and/or quarantine malicious code, then there is a risk that the attacker may install malicious softwares in the system due to the absence of anti-virus protection, which leads to broken access to the system and network, and further leads to sensitive information disclosure.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1548",
+            "T1547",
+            "T1176",
+            "T1059",
+            "T1609",
+            "T1611",
+            "T1546",
+            "T1068",
+            "T1564",
+            "T1574",
+            "T1036",
+            "T1106",
+            "T1219",
+            "T1505",
+            "T1129",
+            "T1553",
+            "T1218",
+            "T1216",
+            "T1080",
+            "T1127",
+            "T1204",
+            "T1047"
+        ]
+    },
+    {
+        "unique_identifier": "50106009",
+        "description": [
+            {
+                "field_data": "Asset inventory is the way an organization lists and provides details of the assets it owns. This can cover a range of different types of assets, from tangible fixed assets such as property and equipment to intangible assets such as intellectual property.\n\nThe organisation must prepare and regularly maintain a proper asset inventory for all the hardware and software being used in the company. The asset inventory should log every detail of the assets, including the model number, version, year, asset owner, model number etc.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Asset inventory is not developed and maintained, then there is a risk of asset mismanagement, tracking and which may further lead to systems that are not managed as per organisational security standards. Such systems become the entry points into the organisation and are commonly referred to as shadow IT.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1072",
+            "T1210",
+            "T1564",
+            "T1098",
+            "T1136",
+            "T1543",
+            "T1068",
+            "T1222",
+            "T1202",
+            "T1040",
+            "T1518",
+            "T1082",
+            "T1033",
+            "T1057"
+        ]
+    },
+    {
+        "unique_identifier": "50106010",
+        "description": [
+            {
+                "field_data": "Patching is the process that helps acquire, test and install multiple patches and enables systems to stay updated. Patch management fixes vulnerabilities in the software and applications that are susceptible to cyber-attacks and helps organizations reduce their security risk.\n\nThe organization should prepare the Patch Management Process and deploy patches to mitigate the vulnerabilities that exists on the user systems\n\nPatching SLA: \n\nCritical - 7 days\nHigh - 15 days\nMedium - 30 days\nLow - 60 days",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Regular patching and updates are not conducted, which may lead to open critical, high or medium-level vulnerabilities, letting the system prone to an attack.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1548",
+            "T1176",
+            "T1110",
+            "T1555",
+            "T1602",
+            "T1189",
+            "T1546",
+            "T1190",
+            "T1212",
+            "T1211",
+            "T1068",
+            "T1210",
+            "T1495",
+            "T1574",
+            "T1137",
+            "T1542",
+            "T1072",
+            "T1195",
+            "T1552",
+            "T1550"
+        ]
+    },
+    {
+        "unique_identifier": "50106011",
+        "description": [
+            {
+                "field_data": "Measures to check and verify the email attachment types to be implemented within the organisation. Any malicious attachment types or malware files must be detected and the download of such files must be blocked. \n\nVerify if controls are in place to limit the sorts of attachments that may be sent through email.\n- Block unnecessary and unwanted attachment types\n- Use Antivirus engines to scan attachments\n- Content check email attachment\n- Detect File type Spoofing\n- Spam protection mechanism",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Measures to block malicious attachment types in the email system are not implemented, then there is a risk that the intruder can eventually send malicious files and malwares looking like legit attachments, and further cause the intruder to enter into the organization",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1114",
+            "T1564",
+            "T1566",
+            "T1598"
+        ]
+    },
+    {
+        "unique_identifier": "50106012",
+        "description": [
+            {
+                "field_data": "Event logging provides a standard, centralized way for applications (and the operating system) to record important software and hardware events. The event logging service records events from various sources and stores them in a single collection called an event log. \n\nThe organisation should collect the logs of any security incident that occurred in the company, which may include critical security failures, security system events, and unauthorised login attempts. \n\nThe logs generated to be stored at secure drives enabled with encryption algorithms, these logs must be reviewed at regular intervals.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Critical system event logs are not collected and reviewed by the organisation as a result some malicious activity might get unnoticed, also it may lead to difficulty in forensic reconstruction after an incident.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1557",
+            "T1110",
+            "T1213",
+            "T1622",
+            "T1491",
+            "T1499",
+            "T1564",
+            "T1621",
+            "T1137",
+            "T1069",
+            "T1566",
+            "T1505",
+            "T1072",
+            "T1550",
+            "T1204"
+        ]
+    },
+    {
+        "unique_identifier": "50106013",
+        "description": [
+            {
+                "field_data": "Personally Identifiable Information (PII) is information that, when used alone or with other relevant data, can identify an individual. PII may contain direct identifiers (e.g., passport information) that can identify a person uniquely, or quasi-identifiers (e.g., race) that can be combined with other quasi-identifiers (e.g., date of birth) to successfully recognize an individual.\n\nTechniques to be implemented for encrypting all the Personally Identifiable Information (PII) with the organisation using strong encryption algorithms like AES (Advanced Encryption Algorithms). Once the data is encrypted, the risk of a data breach can be mitigated to a large extent, and the impact of the breach can be contained.\n\n*Note: This control contributes to Estimated Financial Impact",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Personally Identifiable Information (PII) data is not encrypted at rest, this may lead to a breach/disclosure of PII during a cyber attack. If the data is not encrypted then it will be directly accessible to the attacker in plain text format, giving the attacker complete access to confidential information.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1560",
+            "T1119",
+            "T1115",
+            "T1530",
+            "T1005",
+            "T1039",
+            "T1025",
+            "T1074",
+            "T1113",
+            "T1125",
+            "T1020",
+            "T1030",
+            "T1048",
+            "T1041",
+            "T1011",
+            "T1052",
+            "T1567",
+            "T1029",
+            "T1537"
+        ]
+    },
+    {
+        "unique_identifier": "50106014",
+        "description": [
+            {
+                "field_data": "Information security awareness training is the essential method to educate the employees about the possible risks while handling the information they manage. A good information security awareness training must cover Vishing, Phishing, Access Control Security, Data Security, System Security, Network Security, and Wireless Security. Advanced topics may be tailored to specific audience.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "The organisation doesn't provide proper security awareness training to their employees at periodic intervals, as a result, employees will not have the capability to handle and respond to the new/ emerging threats and vulnerabilities",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1557",
+            "T1056",
+            "T1036",
+            "T1621",
+            "T1003",
+            "T1566",
+            "T1598",
+            "T1528",
+            "T1539",
+            "T1221",
+            "T1204",
+            "T1078"
+        ]
+    },
+    {
+        "unique_identifier": "50106015",
+        "description": [
+            {
+                "field_data": "Third-party risk assessment, is a process that helps companies choose and monitor the security requirements of their business partners.\n\nA periodic risk assessment and monitoring of the third parties is to be conducted by the organisation. These assessments show the prevailing risks at the third party's end, and help in preparing the immediate remediation and action plans",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Risk assessments of third parties are not conducted, this may lead to the risk of onboarding the vulnerable third parties and their application in the organization that further increases the threat of confidential customer data leakage",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1612",
+            "T1543",
+            "T1484",
+            "T1114",
+            "T1606",
+            "T1564",
+            "T1574",
+            "T1566",
+            "T1563",
+            "T1021",
+            "T1528",
+            "T1552",
+            "T1550",
+            "T1204"
+        ]
+    },
+    {
+        "unique_identifier": "50106016",
+        "description": [
+            {
+                "field_data": "Risk assessment is the identification of hazards that could negatively impact an organization's ability to conduct business.\n\nA regular periodic risk assessment is to be implemented and conducted by the organisation at regular intervals. These assessments identify the prevailing risks in the organisations and help in preparing immediate remediation and action plan for all the prevailing risks to reduce the impact.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "It is recommended that the organisation must perform risk management at periodic intervals. Once the risk assessments are done it's easy for them to mitigate the risks by adopting an appropriate action/remediation plan.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1566",
+            "T1212",
+            "T1211",
+            "T1068",
+            "T1210",
+            "T1071",
+            "T1132",
+            "T1602",
+            "T1008",
+            "T1105",
+            "T1570",
+            "T1104",
+            "T1046",
+            "T1572",
+            "T1090",
+            "T1219",
+            "T1029",
+            "T1204",
+            "T1102",
+            "T1531",
+            "T1485",
+            "T1486",
+            "T1565",
+            "T1491",
+            "T1561",
+            "T1499",
+            "T1495",
+            "T1490",
+            "T1498",
+            "T1496",
+            "T1489",
+            "T1529",
+            "T1195"
+        ]
+    },
+    {
+        "unique_identifier": "50106017",
+        "description": [
+            {
+                "field_data": "Secondary confirmation/authorization is a control established to protect businesses. Secondary authorization requires that a second business owner approve or decline the digital wire transfer request.\n\nThe organisation must implement a Dual Authorization system to confirm any finance-related requests and transactions. To help the business increase functionality, security, and fight against fraud.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "In a scenario where secondary confirmation process to verify the authenticity of finance-related requests is not implemented, there can be increased chances of approval of unauthorised and unauthenticated transactions by the management. Business Email Compromise cyber risk likelihood increases in case this control is not present.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1566",
+            "T1598",
+            "T1195",
+            "T1199"
+        ]
+    },
+    {
+        "unique_identifier": "50106020",
+        "description": [
+            {
+                "field_data": "System hardening is a process to secure a computer system or server by eliminating the risks of cyber attacks. The process involves removing or disabling system applications, user accounts and other features that cyber attackers can infiltrate to gain access to your network.\n\nThe configuration standards/policy is to be applied to all systems inside the organization and reduce the att&ck surface by minimum hardening the below configurations\n\n- Default and hardcoded passwords\n- Passwords and other credentials are stored in plain text files\n- Unpatched software and firmware vulnerabilities\n- Poorly configured BIOS, firewalls, ports, servers, switches, routers, or other parts of the infrastructure\n- Unencrypted network traffic or data at rest\n- Lack, or deficiency, of privileged access controls",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Systems are not configured per configuration standards, this might lead to the risk that the default passwords are not changed, and unnecessary services are not enabled which can help attackers to access the resources/services by obtaining the default credentials through information gathering.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1592",
+            "T1590",
+            "T1586",
+            "T1189",
+            "T1190",
+            "T1133",
+            "T1210",
+            "T1566",
+            "T1078",
+            "T1053",
+            "T1569",
+            "T1204",
+            "T1098",
+            "T1543",
+            "T1546",
+            "T1068",
+            "T1110",
+            "T1212",
+            "T1556",
+            "T1003",
+            "T1552",
+            "T1087",
+            "T1083",
+            "T1046",
+            "T1201",
+            "T1563",
+            "T1021",
+            "T1567",
+            "T1011",
+            "T1485",
+            "T1486",
+            "T1489"
+        ]
+    },
+    {
+        "unique_identifier": "50106021",
+        "description": [
+            {
+                "field_data": "Network segmentation can boost your overall security policy by limiting access privileges to those who need them, protecting the network from widespread cyberattacks and enabling better network performance by reducing the number of users in specific zones.\n\nCheck that physical/logical network segmentation is in place to isolate the critical system, function or resources.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "The network is not segmented, as a result, unauthorized users have access to critical systems and functional resources leading to complete damage from a cybersecurity attack.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1098",
+            "T1557",
+            "T1602",
+            "T1565",
+            "T1482",
+            "T1190",
+            "T1210",
+            "T1046",
+            "T1571",
+            "T1563",
+            "T1489",
+            "T1072",
+            "T1199"
+        ]
+    },
+    {
+        "unique_identifier": "50106022",
+        "description": [
+            {
+                "field_data": "A whitelist (allowlist) is a security strategy that approves a list of IP addresses, domain names or applications while denying all others.\n\nThe organisation should implement AllowListing of internet websites and systems, which would help in the detection and prevention of access to any unauthorized and malicious website or system over the internet, other than that trusted one.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "URL Allowlisting and content filtering is not configured on the Organization network, then there will be no restriction over the use and access to the internet in the organisation. The malicious websites will be accessible to the employees, which can increase the risk of malware downloads.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1071",
+            "T1530",
+            "T1602",
+            "T1570",
+            "T1095",
+            "T1572",
+            "T1219",
+            "T1537",
+            "T1552",
+            "T1566",
+            "T1598",
+            "T1534"
+        ]
+    },
+    {
+        "unique_identifier": "50106023",
+        "description": [
+            {
+                "field_data": "The organization should define and enforce strict policies on which types of software users may install. The principle of least privilege should be applied before granting privileges.\n\nThe organization should identify what types of software installations are permitted (e.g. updates and security patches to existing software) and what types of installations are prohibited. These privileges should be granted having regard to the roles of the users concerned.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Software installation rights are not restricted, then there is the risk that the organisation will have no control over the software installation due to this unauthorized third-party softwares can be downloaded into the systems and these third-party softwares could either compromise or leak out sensitive information",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1595",
+            "T1592",
+            "T1590",
+            "T1040",
+            "T1046",
+            "T1135",
+            "T1212",
+            "T1203",
+            "T1068",
+            "T1547",
+            "T1037",
+            "T1189",
+            "T1485",
+            "T1561",
+            "T1486",
+            "T1489",
+            "T1529"
+        ]
+    },
+    {
+        "unique_identifier": "50106025",
+        "description": [
+            {
+                "field_data": "Removable media is any type of storage device that can be removed from a computer while the system is in process examples of removable media include CDs, DVDs, diskettes and USB drives.\n\nThe uncontrolled use of removable media can increase the risk of malware being transferred to the critical business system. An external and removable media device policy is to be implemented which restricts users to connect and use unauthorised devices and other portable storage devices to the endpoints.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Removable media devices are not restricted from connecting to endpoints, this might lead to the issue that uncontrolled use of removable media within the organization further increases the risk of malware being transferred to the critical business system.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1595",
+            "T1592",
+            "T1589",
+            "T1590",
+            "T1594",
+            "T1040",
+            "T1046",
+            "T1135",
+            "T1212",
+            "T1203",
+            "T1068"
+        ]
+    },
+    {
+        "unique_identifier": "50106026",
+        "description": [
+            {
+                "field_data": "Password policy refers to the entire lifecycle of passwords - the way they are created, the complexity requirements, secure storage, safe transmission, periodic randomization, prompt deprovisioning, continuous monitoring, and more. A password policy sets the rules that passwords for service must meet, such as length and type of characters allowed and disallowed.\n\nA strict password policy must be implemented in the organisation following the below requirements but not limited to:\n- The password is at least six characters long. \n- The password contains characters from at least three of the following four categories:\n- English uppercase characters (A - Z)\n- English lowercase characters (a - z)\n- Base 10 digits (0 - 9)\n- Non-alphanumeric (For example: !, $, #, or %)",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Password policies are not implemented for the authentication of all systems and applications, then the risk of compromise of user accounts will increase and it would become very easy for an attacker to crack these password and gain user account access.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1586",
+            "T1098",
+            "T1550",
+            "T1110",
+            "T1555",
+            "T1606",
+            "T1111",
+            "T1003",
+            "T1201",
+            "T1531",
+            "T1078"
+        ]
+    },
+    {
+        "unique_identifier": "50106027",
+        "description": [
+            {
+                "field_data": "Multi Factor authentication (MFA) is a security technology that requires multiple methods of authentication from independent categories of credentials to verify a user's identity for a login or other transaction. Multifactor authentication combines two or more independent credentials: \n\nCredentials\na) Something you know (e.g., password, personal identification number [PIN])\nb) Something you have (e.g., cryptographic identification device, token); or \nc) Something you are (e.g., biometric).",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Multi-factor authentication to privileged and Non Privileged accounts is not implemented then in case of password compromise attacker can simply access the account using the dictionary attack with the compromised passwords.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1098",
+            "T1110",
+            "T1136",
+            "T1530",
+            "T1213",
+            "T1114",
+            "T1133",
+            "T1556",
+            "T1601",
+            "T1621",
+            "T1599",
+            "T1040",
+            "T1021",
+            "T1072",
+            "T1539",
+            "T1078"
+        ]
+    },
+    {
+        "unique_identifier": "50106028",
+        "description": [
+            {
+                "field_data": "A vulnerable communication service/protocol is a weakness, flaw, or error found within a security system that has the potential to be leveraged by a threat agent in order to compromise a secure network.\n\nThe organization should check for vulnerable communication protocols, services, and ports which are used for remote access (like SSH, telnet, FTP, HTTP etc.) and block /disable them to reduce the likelihood and impact of the attack",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Vulnerable communication services and protocols for remote access are not disabled, this can lead to the risk of attackers gaining remote access to the environment using these vulnerable protocols and further leading to ransomware / other attacks",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1190",
+            "T1554",
+            "T1046",
+            "T1563",
+            "T1021",
+            "T1205"
+        ]
+    },
+    {
+        "unique_identifier": "50106029",
+        "description": [
+            {
+                "field_data": "Perimeter security is the first line of defence of an alarm system. It is designed to monitor the limit of the property to be protected, avoiding any type of unauthorized access in addition to serving as a deterrent to those who should not enter our Network.\n\nThe organization should check for the publicly accessible critical infrastructure, and should restrict user access to the perimeter security devices. The organisation must create DMZ (Demilitarized Zones) for network Segregation that helps protect the organization from Malicious attackers.\n\nThe perimeter security devices help in filtering out malicious requests and allow access only to authenticated users.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "The critical infrastructure which is publicly accessible is not protected and controlled by the organisation, this can lead to attackers gaining access to the infrastructure without any authentication/ authorization, further leading to multiple attacks.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1133"
+        ]
+    },
+    {
+        "unique_identifier": "50106030",
+        "description": [
+            {
+                "field_data": "A remote access policy is a document containing the guidelines for connecting to an organization\u2019s network from outside the office. It is one way to help secure corporate data and networks when accessed from outside the network.\n\nA policy must be enforced by which the remote access to the organisation's internal systems and servers, is restricted to the authorised users, and the remote access is provided only after proper authorization and Business requirements. The access authorization should follow the principle of least privilege and the users should only be provided the access to the Limited resources (based on Need-to-know principle)",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Remote access is not restricted to authorized users by the organisation, then this may lead to any unauthenticated and unauthorized user connecting to these systems and accessing all the sensitive data stored and even changing the configuration settings.",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1203",
+            "T1210",
+            "T1563",
+            "T1133",
+            "T1021",
+            "T1499",
+            "T1498"
+        ]
+    },
+    {
+        "unique_identifier": "50106031",
+        "description": [
+            {
+                "field_data": "It allows employees in an organization to use their personally owned devices for work-related activities. Those activities include tasks such as accessing emails, connecting to the corporate network, and accessing corporate apps and data.\n\nA policy to be implemented that restricts the employees to connect their personal devices (BYOD devices) to the organisational network without authentication/hardening. There's a potential threat that any harmful software or malware persisting on the user machine will be injected into the network and can eventually harm the network.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Personal device connection to the organizational network is not restricted, this may lead to addiction or ejection of any malicious software or malware into the network, which might already be present in the employee's machine. The addition of any such malicious code and malware can harm the network and help an attacker to exploit the network",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1595",
+            "T1592",
+            "T1589",
+            "T1590",
+            "T1594",
+            "T1040",
+            "T1046",
+            "T1135"
+        ]
+    },
+    {
+        "unique_identifier": "50106032",
+        "description": [
+            {
+                "field_data": "A vulnerability or configuration flaw is a security weakness that can be exploited by cybercriminals to gain unauthorized access to a computer system.\n\nThe company should check for the vulnerabilities and configuration flaws within the systems, Infrastructure, and application. VAPT should be at performed at the defined frequency and according to the criticality of the Information Asset.",
+                "field_type": "businessDescription"
+            },
+            {
+                "field_data": "Vulnerabilities and configuration flaws are not identified, this could result in the exposure of the systems to vulnerabilities and further lead to information disclosure if these vulnerabilities are exposed in public",
+                "field_type": "riskDescription"
+            }
+        ],
+        "techniqueMapping": [
+            "T1190",
+            "T1210",
+            "T1195",
+            "T1548",
+            "T1176",
+            "T1555",
+            "T1602",
+            "T1189",
+            "T1546",
+            "T1212",
+            "T1211",
+            "T1068",
+            "T1495",
+            "T1574",
+            "T1137",
+            "T1542",
+            "T1072",
+            "T1195",
+            "T1552"
+        ]
+    }
+]

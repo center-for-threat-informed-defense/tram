@@ -1,0 +1,167 @@
+﻿{
+    "id": "T1219",
+    "name": "Remote Access Software",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "An adversary may use legitimate desktop support and remote access software, such as Team Viewer, AnyDesk, Go2Assist, LogMein, AmmyyAdmin, etc, to establish an interactive command and control channel to target systems within networks. These services are commonly used as legitimate technical support software, and may be allowed by application control within a target environment. Remote access tools like VNC, Ammyy, and Teamviewer are used frequently when compared with other legitimate software commonly used by adversaries.(Citation: Symantec Living off the Land)\n\nRemote access tools may be installed and used post-compromise as alternate communications channel for redundant access or as a way to establish an interactive remote desktop session with the target system. They may also be used as a component of malware to establish a reverse connection or back-connect to a service or adversary controlled system. Installation of many remote access tools may also include persistence (ex: the tool's installation routine creates a [Windows Service](https://attack.mitre.org/techniques/T1543/003)).\n\nAdmin tools such as TeamViewer have been used by several groups targeting institutions in countries of interest to the Russian state and criminal campaigns.(Citation: CrowdStrike 2015 Global Threat Report)(Citation: CrySyS Blog TeamSpy)",
+    "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1219",
+            "external_id": "T1219"
+        },
+        {
+            "source_name": "CrowdStrike 2015 Global Threat Report",
+            "description": "CrowdStrike Intelligence. (2016). 2015 Global Threat Report. Retrieved April 11, 2018.",
+            "url": "https://go.crowdstrike.com/rs/281-OBQ-266/images/15GlobalThreatReport.pdf"
+        },
+        {
+            "source_name": "CrySyS Blog TeamSpy",
+            "description": "CrySyS Lab. (2013, March 20). TeamSpy \u2013 Obshie manevri. Ispolzovat\u2019 tolko s razreshenija S-a. Retrieved April 11, 2018.",
+            "url": "https://blog.crysys.hu/2013/03/teamspy/"
+        },
+        {
+            "source_name": "Symantec Living off the Land",
+            "description": "Wueest, C., Anand, H. (2017, July). Living off the land and fileless attack techniques. Retrieved April 10, 2018.",
+            "url": "https://www.symantec.com/content/dam/symantec/docs/security-center/white-papers/istr-living-off-the-land-and-fileless-attack-techniques-en.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "command-and-control"
+        }
+    ],
+    "tactic": [
+        "command-and-control"
+    ],
+    "x_mitre_detection": "Monitor for applications and processes related to remote admin tools. Correlate activity with other suspicious behavior that may reduce false positives if these tools are used by legitimate users and administrators.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol for the port that is being used.\n\n[Domain Fronting](https://attack.mitre.org/techniques/T1090/004) may be used in conjunction to avoid defenses. Adversaries will likely need to deploy and/or install these remote tools to compromised systems. It may be possible to detect or prevent the installation of these tools with host-based solutions.",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content",
+        "Process: Process Creation",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Flow"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Remote Access Tools Mitigation",
+                "description": "Properly configure firewalls, application firewalls, and proxies to limit outgoing traffic to sites and services used by remote access tools.\n\nNetwork intrusion detection and prevention systems that use network signatures may be able to prevent traffic to these services as well.\n\nUse application whitelisting to mitigate use of and installation of unapproved software.",
+                "type": "course-of-action",
+                "id": "T1219"
+            },
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            },
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Application management tools are configured to prevent installation and use of unapproved softwares.",
+                "acid": "98582619"
+            },
+            {
+                "description": "Ensure that Firewalls (application and proxies) are configured to limit outgoing traffic to sites and services used by remote access tools.",
+                "acid": "98582620"
+            },
+            {
+                "description": "Ensure that Network intrusion detection and prevention systems that use network signatures are configured to identify and block traffic to remote access services.",
+                "acid": "98582621"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that security monitoring tools are configured to monitor applications and processes related to remote admin tools.",
+                "acid": "98582614"
+            },
+            {
+                "description": "Ensure that Network monitoring solutions are configured to monitor and analyze network data for uncommon data flows.",
+                "acid": "98582615"
+            },
+            {
+                "description": "Ensure that processes utilized on the network are monitored for anomalies to detect suspicious network communications.",
+                "acid": "98582616"
+            },
+            {
+                "description": "Ensure that Network monitoring solutions are configured to monitor and analyze packet contents to detect communications that do not follow expected protocol behavior.",
+                "acid": "98582617"
+            },
+            {
+                "description": "Ensure that host-based security solutions are configured to detect or prevent any installation of tools on the system.",
+                "acid": "98582618"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000020",
+        "40000182",
+        "40000513",
+        "40000523"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106008",
+        "50106016",
+        "50106022"
+    ],
+    "technologycontrolIds": [
+        "15010193",
+        "15010194",
+        "15010195",
+        "15020172",
+        "15020173",
+        "15020174",
+        "15020175",
+        "15030205",
+        "15030206",
+        "15030207",
+        "15040209",
+        "15040210",
+        "15040211",
+        "15200194",
+        "15200195",
+        "15200196",
+        "18380046",
+        "18380051",
+        "19920191",
+        "19920192",
+        "19920193",
+        "19920286",
+        "21809001"
+    ],
+    "cveIds": [],
+    "subTechniques": []
+}

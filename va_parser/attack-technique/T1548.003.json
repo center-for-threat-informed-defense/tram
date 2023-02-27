@@ -1,0 +1,123 @@
+{
+    "id": "T1548.003",
+    "name": "Sudo and Sudo Caching",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may perform sudo caching and/or use the sudoers file to elevate privileges. Adversaries may do this to execute commands as other users or spawn processes with higher privileges.\n\nWithin Linux and MacOS systems, sudo (sometimes referred to as \"superuser do\") allows users to perform commands from terminals with elevated privileges and to control who can perform these commands on the system. The <code>sudo</code> command \"allows a system administrator to delegate authority to give certain users (or groups of users) the ability to run some (or all) commands as root or another user while providing an audit trail of the commands and their arguments.\"(Citation: sudo man page 2018) Since sudo was made for the system administrator, it has some useful configuration features such as a <code>timestamp_timeout</code>, which is the amount of time in minutes between instances of <code>sudo</code> before it will re-prompt for a password. This is because <code>sudo</code> has the ability to cache credentials for a period of time. Sudo creates (or touches) a file at <code>/var/db/sudo</code> with a timestamp of when sudo was last run to determine this timeout. Additionally, there is a <code>tty_tickets</code> variable that treats each new tty (terminal session) in isolation. This means that, for example, the sudo timeout of one tty will not affect another tty (you will have to type the password again).\n\nThe sudoers file, <code>/etc/sudoers</code>, describes which users can run which commands and from which terminals. This also describes which commands users can run as other users or groups. This provides the principle of least privilege such that users are running in their lowest possible permissions for most of the time and only elevate to other users or permissions as needed, typically by prompting for a password. However, the sudoers file can also specify when to not prompt users for passwords with a line like <code>user1 ALL=(ALL) NOPASSWD: ALL</code>.(Citation: OSX.Dok Malware) Elevated privileges are required to edit this file though.\n\nAdversaries can also abuse poor configurations of these mechanisms to escalate privileges without needing the user's password. For example, <code>/var/db/sudo</code>'s timestamp can be monitored to see if it falls within the <code>timestamp_timeout</code> range. If it does, then malware can execute sudo commands without needing to supply the user's password. Additional, if <code>tty_tickets</code> is disabled, adversaries can do this from any tty for that user.\n\nIn the wild, malware has disabled <code>tty_tickets</code> to potentially make scripting easier by issuing <code>echo \\'Defaults !tty_tickets\\' >> /etc/sudoers</code>.(Citation: cybereason osx proton) In order for this change to be reflected, the malware also issued <code>killall Terminal</code>. As of macOS Sierra, the sudoers file has <code>tty_tickets</code> enabled by default.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1548/003",
+            "external_id": "T1548.003"
+        },
+        {
+            "source_name": "sudo man page 2018",
+            "description": "Todd C. Miller. (2018). Sudo Man Page. Retrieved March 19, 2018.",
+            "url": "https://www.sudo.ws/"
+        },
+        {
+            "source_name": "OSX.Dok Malware",
+            "description": "Thomas Reed. (2017, July 7). New OSX.Dok malware intercepts web traffic. Retrieved July 10, 2017.",
+            "url": "https://blog.malwarebytes.com/threat-analysis/2017/04/new-osx-dok-malware-intercepts-web-traffic/"
+        },
+        {
+            "source_name": "cybereason osx proton",
+            "description": "Amit Serper. (2018, May 10). ProtonB What this Mac Malware Actually Does. Retrieved March 19, 2018.",
+            "url": "https://www.cybereason.com/blog/labs-proton-b-what-this-mac-malware-actually-does"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "privilege-escalation",
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "On Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo). This technique is abusing normal functionality in macOS and Linux systems, but sudo has the ability to log all input and output based on the <code>LOG_INPUT</code> and <code>LOG_OUTPUT</code> directives in the <code>/etc/sudoers</code> file.",
+    "x_mitre_data_sources": [
+        "File: File Modification",
+        "Command: Command Execution",
+        "Process: Process Metadata",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [
+        "root"
+    ],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that the sudo tty_tickets setting is enabled to prevent risk across tty sessions",
+                "acid": "98581018"
+            },
+            {
+                "description": "Ensure that the timestamp_timeout is to 0 so that the user has to input their password every time sudo is executed, which will reduce potential risks",
+                "acid": "98581019"
+            },
+            {
+                "description": "Ensure that the sudoers file is not allowed to edit without entering passwords to reduce potential risks",
+                "acid": "98581020"
+            },
+            {
+                "description": "Ensure that edit access to sudoers files are restricted so that users can't spawn risky processes as users with higher privilege",
+                "acid": "98581021"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [
+        "CVE-2018-15767"
+    ]
+}

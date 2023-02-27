@@ -1,0 +1,117 @@
+﻿{
+    "id": "T1070.002",
+    "name": "Clear Linux or Mac System Logs",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may clear system logs to hide evidence of an intrusion. macOS and Linux both keep track of system or user-initiated actions via system logs. The majority of native system logging is stored under the <code>/var/log/</code> directory. Subfolders in this directory categorize logs by their related functions, such as:(Citation: Linux Logs)\n\n* <code>/var/log/messages:</code>: General and system-related messages\n* <code>/var/log/secure</code> or <code>/var/log/auth.log</code>: Authentication logs\n* <code>/var/log/utmp</code> or <code>/var/log/wtmp</code>: Login records\n* <code>/var/log/kern.log</code>: Kernel logs\n* <code>/var/log/cron.log</code>: Crond logs\n* <code>/var/log/maillog</code>: Mail server logs\n* <code>/var/log/httpd/</code>: Web server access and error logs\n",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1070/002",
+            "external_id": "T1070.002"
+        },
+        {
+            "source_name": "Linux Logs",
+            "description": "Marcel. (2018, April 19). 12 Critical Linux Log Files You Must be Monitoring. Retrieved March 29, 2020.",
+            "url": "https://www.eurovps.com/blog/important-linux-log-files-you-must-be-monitoring/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "File system monitoring may be used to detect improper deletion or modification of indicator files. Also monitor for suspicious processes interacting with log files.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "File: File Modification",
+        "File: File Deletion"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Remote Data Storage",
+                "description": "Use remote security log and sensitive file storage where access can be controlled better to prevent exposure of intrusion detection log data or sensitive information.",
+                "type": "course-of-action",
+                "id": "M1029"
+            },
+            {
+                "name": "Indicator Removal on Host Mitigation",
+                "description": "Automatically forward events to a log server or data repository to prevent conditions in which the adversary can locate and manipulate data on the local system. When possible, minimize time delay on event reporting to avoid prolonged storage on the local system. Protect generated event files that are stored locally with proper permissions and authentication and limit opportunities for adversaries to increase privileges by preventing Privilege Escalation opportunities. Obfuscate/encrypt event files locally and in transit to avoid giving feedback to an adversary.",
+                "type": "course-of-action",
+                "id": "T1070"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Encrypt Sensitive Information",
+                "description": "Protect sensitive information with strong encryption.",
+                "type": "course-of-action",
+                "id": "M1041"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that event files are encrypted locally to avoid sharing information (to an adversary).",
+                "acid": "98581338"
+            },
+            {
+                "description": "Ensure that event files are encrypted while in transit to avoid sharing information (to an adversary).",
+                "acid": "98581339"
+            },
+            {
+                "description": "Ensure that events are forwarded automatically to a log server to prevent manipulation of data on the local system.",
+                "acid": "98581340"
+            },
+            {
+                "description": "Ensure that system is configured to automatically forward events to data repository to prevent manipulation data on the local system.",
+                "acid": "98581341"
+            },
+            {
+                "description": "Ensure that time delay on event reporting is minimized to avoid prolonged storage on the local system.",
+                "acid": "98581342"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that File system monitoring is employed to detect improper deletion or modification of indicator files.",
+                "acid": "98581336"
+            },
+            {
+                "description": "Ensure that monitoring is configured to monitor suspicious processes that interact with log files.",
+                "acid": "98581337"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

@@ -1,0 +1,109 @@
+{
+    "id": "T1132.001",
+    "name": "Standard Encoding",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may encode data with a standard data encoding system to make the content of command and control traffic more difficult to detect. Command and control (C2) information can be encoded using a standard data encoding system that adheres to existing protocol specifications. Common data encoding schemes include ASCII, Unicode, hexadecimal, Base64, and MIME.(Citation: Wikipedia Binary-to-text Encoding) (Citation: Wikipedia Character Encoding) Some data encoding systems may also result in data compression, such as gzip.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1132/001",
+            "external_id": "T1132.001"
+        },
+        {
+            "source_name": "Wikipedia Binary-to-text Encoding",
+            "description": "Wikipedia. (2016, December 26). Binary-to-text encoding. Retrieved March 1, 2017.",
+            "url": "https://en.wikipedia.org/wiki/Binary-to-text_encoding"
+        },
+        {
+            "source_name": "Wikipedia Character Encoding",
+            "description": "Wikipedia. (2017, February 19). Character Encoding. Retrieved March 1, 2017.",
+            "url": "https://en.wikipedia.org/wiki/Character_encoding"
+        },
+        {
+            "source_name": "University of Birmingham C2",
+            "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016.",
+            "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "command-and-control"
+        }
+    ],
+    "tactic": [
+        "command-and-control"
+    ],
+    "x_mitre_detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Network intrusion detection and prevention system(s) is configured to identify malicious network traffic (by using network signatures).",
+                "acid": "98582487"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that network monitoring solutions are configured to analyze network data for uncommon data flows.",
+                "acid": "98582482"
+            },
+            {
+                "description": "Ensure that monitoring solutions are configured to monitor for processes that sends fixed sized data at regular interval of time, opens unnecessary connections.",
+                "acid": "98582483"
+            },
+            {
+                "description": "Ensure that system is monitored for suspicious processes (do not normally have network communication) that utilizes the network.",
+                "acid": "98582484"
+            },
+            {
+                "description": "Ensure that monitoring tool is configured to analyze packet contents to detect suspicious communication following unexpected protocol behavior.",
+                "acid": "98582485"
+            },
+            {
+                "description": "Ensure that monitoring tool is configured to analyze packet contents to detect suspicious communication (application layer protocols that do not follow the protocol used for the port).",
+                "acid": "98582486"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000182",
+        "40000515"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

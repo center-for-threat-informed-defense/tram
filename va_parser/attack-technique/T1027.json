@@ -1,0 +1,248 @@
+﻿{
+    "id": "T1027",
+    "name": "Obfuscated Files or Information",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system or in transit. This is common behavior that can be used across different platforms and the network to evade defenses. \n\nPayloads may be compressed, archived, or encrypted in order to avoid detection. These payloads may be used during Initial Access or later to mitigate detection. Sometimes a user's action may be required to open and [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) for [User Execution](https://attack.mitre.org/techniques/T1204). The user may also be required to input a password to open a password protected compressed/encrypted file that was provided by the adversary. (Citation: Volexity PowerDuke November 2016) Adversaries may also use compressed or archived scripts, such as JavaScript. \n\nPortions of files can also be encoded to hide the plain-text strings that would otherwise help defenders with discovery. (Citation: Linux/Cdorked.A We Live Security Analysis) Payloads may also be split into separate, seemingly benign files that only reveal malicious functionality when reassembled. (Citation: Carbon Black Obfuscation Sept 2016)\n\nAdversaries may also obfuscate commands executed from payloads or directly via a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059). Environment variables, aliases, characters, and other platform/language specific semantics can be used to evade signature based detections and application control mechanisms. (Citation: FireEye Obfuscation June 2017) (Citation: FireEye Revoke-Obfuscation July 2017)(Citation: PaloAlto EncodedCommand March 2017) ",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Host Forensic Analysis",
+        "Signature-based Detection",
+        "Host Intrusion Prevention Systems",
+        "Application Control",
+        "Log Analysis"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1027",
+            "external_id": "T1027"
+        },
+        {
+            "source_name": "Volexity PowerDuke November 2016",
+            "description": "Adair, S.. (2016, November 9). PowerDuke: Widespread Post-Election Spear Phishing Campaigns Targeting Think Tanks and NGOs. Retrieved January 11, 2017.",
+            "url": "https://www.volexity.com/blog/2016/11/09/powerduke-post-election-spear-phishing-campaigns-targeting-think-tanks-and-ngos/"
+        },
+        {
+            "source_name": "GitHub Revoke-Obfuscation",
+            "description": "Bohannon, D. (2017, July 27). Revoke-Obfuscation. Retrieved February 12, 2018.",
+            "url": "https://github.com/danielbohannon/Revoke-Obfuscation"
+        },
+        {
+            "source_name": "FireEye Obfuscation June 2017",
+            "description": "Bohannon, D. & Carr N. (2017, June 30). Obfuscation in the Wild: Targeted Attackers Lead the Way in Evasion Techniques. Retrieved February 12, 2018.",
+            "url": "https://www.fireeye.com/blog/threat-research/2017/06/obfuscation-in-the-wild.html"
+        },
+        {
+            "source_name": "FireEye Revoke-Obfuscation July 2017",
+            "description": "Bohannon, D. & Holmes, L. (2017, July 27). Revoke-Obfuscation: PowerShell Obfuscation Detection Using Science. Retrieved February 12, 2018.",
+            "url": "https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/revoke-obfuscation-report.pdf"
+        },
+        {
+            "source_name": "GitHub Office-Crackros Aug 2016",
+            "description": "Carr, N. (2016, August 14). OfficeCrackros. Retrieved February 12, 2018.",
+            "url": "https://github.com/itsreallynick/office-crackros"
+        },
+        {
+            "source_name": "Linux/Cdorked.A We Live Security Analysis",
+            "description": "Pierre-Marc Bureau. (2013, April 26). Linux/Cdorked.A: New Apache backdoor being used in the wild to serve Blackhole. Retrieved September 10, 2017.",
+            "url": "https://www.welivesecurity.com/2013/04/26/linuxcdorked-new-apache-backdoor-in-the-wild-serves-blackhole/"
+        },
+        {
+            "source_name": "Carbon Black Obfuscation Sept 2016",
+            "description": "Tedesco, B. (2016, September 23). Security Alert Summary. Retrieved February 12, 2018.",
+            "url": "https://www.carbonblack.com/2016/09/23/security-advisory-variants-well-known-adware-families-discovered-include-sophisticated-obfuscation-techniques-previously-associated-nation-state-attacks/"
+        },
+        {
+            "source_name": "PaloAlto EncodedCommand March 2017",
+            "description": "White, J. (2017, March 10). Pulling Back the Curtains on EncodedCommand PowerShell Attacks. Retrieved February 12, 2018.",
+            "url": "https://researchcenter.paloaltonetworks.com/2017/03/unit42-pulling-back-the-curtains-on-encodedcommand-powershell-attacks/"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/267.html",
+            "external_id": "CAPEC-267"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Detection of file obfuscation is difficult unless artifacts are left behind by the obfuscation process that are uniquely detectable with a signature. If detection of the obfuscation itself is not possible, it may be possible to detect the malicious activity that caused the obfuscated file (for example, the method that was used to write, read, or modify the file on the file system). \n\nFlag and analyze commands containing indicators of obfuscation and known suspicious syntax such as uninterpreted escape characters like '''^''' and '''\"'''. Windows' Sysmon and Event ID 4688 displays command-line arguments for processes. Deobfuscation tools can be used to detect these indicators in files/payloads. (Citation: GitHub Revoke-Obfuscation) (Citation: FireEye Revoke-Obfuscation July 2017) (Citation: GitHub Office-Crackros Aug 2016) \n\nObfuscation used in payloads for Initial Access can be detected at the network. Use network intrusion detection systems and email gateway filtering to identify compressed and encrypted attachments and scripts. Some email attachment detonation systems can open compressed and encrypted attachments. Payloads delivered over an encrypted connection from a website require encrypted network traffic inspection. \n\nThe first detection of a malicious tool may trigger an anti-virus or other security tool alert. Similar events may also occur at the boundary through network IDS, email scanning appliance, etc. The initial detection should be treated as an indication of a potentially more invasive intrusion. The alerting system should be thoroughly investigated beyond that initial alert for activity that was not detected. Adversaries may continue with an operation, assuming that individual events like an anti-virus detect will not be investigated or that an analyst will not be able to conclusively link that event to other activity occurring on the network. ",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "File: File Metadata",
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "File: File Creation",
+        "Module: Module Load"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            },
+            {
+                "name": "Antivirus/Antimalware",
+                "description": "Use signatures or heuristics to detect malicious software.",
+                "type": "course-of-action",
+                "id": "M1049"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Antimalware Scan Interface (AMSI) is implemented on Windows 10 to analyze commands after being processed/interpreted.",
+                "acid": "98581539"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that system is inspected for any artifacts if left behind due to the obfuscation process.",
+                "acid": "98581521"
+            },
+            {
+                "description": "Ensure that signature-based detection is implemented to detect artifacts.",
+                "acid": "98581522"
+            },
+            {
+                "description": "Ensure that the System is monitored for malicious activity that caused the obfuscated file.",
+                "acid": "98581523"
+            },
+            {
+                "description": "Ensure that commands containing indicators of obfuscation are flagged and analyzed.",
+                "acid": "98581524"
+            },
+            {
+                "description": "Ensure that commands containing indicators of known suspicious syntax such as uninterpreted escape characters like '''^''' and '''\"''' are flagged and analyzed.",
+                "acid": "98581525"
+            },
+            {
+                "description": "Ensure that Windows' Sysmon that displays command-line arguments for processes is monitored.",
+                "acid": "98581526"
+            },
+            {
+                "description": "Ensure that Event ID 4688 that displays command-line arguments for processes is monitored.",
+                "acid": "98581527"
+            },
+            {
+                "description": "Ensure that Deobfuscation tools are implemented to detect indicators like '''^''' and '''\"''' in files/payloads.",
+                "acid": "98581528"
+            },
+            {
+                "description": "Ensure that Network monitoring is enabled to detect Obfuscation used in payloads for Initial Access.",
+                "acid": "98581529"
+            },
+            {
+                "description": "Ensure that Network intrusion detection systems are implemented to identify compressed and encrypted attachments and scripts.",
+                "acid": "98581530"
+            },
+            {
+                "description": "Ensure that email gateway filtering is implemented to identify compressed and encrypted attachments and scripts.",
+                "acid": "98581531"
+            },
+            {
+                "description": "Ensure that email attachment detonation systems (i.e. Sandboxing) are implemented to open compressed attachments.",
+                "acid": "98581532"
+            },
+            {
+                "description": "Ensure that email attachment detonation systems (i.e. Sandboxing) are implemented to open encrypted attachments.",
+                "acid": "98581533"
+            },
+            {
+                "description": "Ensure that encrypted network traffic inspection is implemented if Payloads delivered over an encrypted connection from a website.",
+                "acid": "98581534"
+            },
+            {
+                "description": "Ensure that anti-virus is implemented in the organization to detect malicious tools.",
+                "acid": "98581535"
+            },
+            {
+                "description": "Ensure that network IDS is implemented in an organization to detect malicious tools.",
+                "acid": "98581536"
+            },
+            {
+                "description": "Ensure that the email scanning appliance is implemented in the organization to detect a malicious file.",
+                "acid": "98581537"
+            },
+            {
+                "description": "Ensure that the alerting system is thoroughly investigated beyond the initial alert for the activity that was not detected.",
+                "acid": "98581538"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000004",
+        "40000077",
+        "40000140",
+        "40000497",
+        "40000507"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100521",
+        "50102561"
+    ],
+    "technologycontrolIds": [
+        "101040068",
+        "15010345",
+        "15010349",
+        "15020372",
+        "15020376",
+        "15030320",
+        "15030324",
+        "15030347",
+        "15040324",
+        "15040328",
+        "15200336",
+        "15200340",
+        "16010305",
+        "16010309",
+        "16020314",
+        "16020318",
+        "16100359",
+        "16100363",
+        "16110292",
+        "16110296",
+        "16120309",
+        "16120313",
+        "18380050",
+        "19920499"
+    ],
+    "cveIds": [],
+    "subTechniques": [
+        "T1027.001",
+        "T1027.002",
+        "T1027.003",
+        "T1027.004",
+        "T1027.005",
+        "T1027.006",
+        "T1027.007",
+        "T1027.008",
+        "T1027.009"
+    ]
+}

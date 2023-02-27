@@ -1,0 +1,127 @@
+﻿{
+    "id": "T1018",
+    "name": "Remote System Discovery",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to get a listing of other systems by IP address, hostname, or other logical identifier on a network that may be used for Lateral Movement from the current system. Functionality could exist within remote access tools to enable this, but utilities available on the operating system could also be used such as  [Ping](https://attack.mitre.org/software/S0097) or <code>net view</code> using [Net](https://attack.mitre.org/software/S0039).\n\nAdversaries may also analyze data from local host files (ex: <code>C:\\Windows\\System32\\Drivers\\etc\\hosts</code> or <code>/etc/hosts</code>) or other passive means (such as local [Arp](https://attack.mitre.org/software/S0099) cache entries) in order to discover the presence of remote systems in an environment.\n\nAdversaries may also target discovery of network infrastructure as well as leverage [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands on network devices to gather detailed information about systems within a network (e.g. <code>show cdp neighbors</code>, <code>show arp</code>).(Citation: US-CERT-TA18-106A)(Citation: CISA AR21-126A FIVEHANDS May 2021)  \n",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "Network"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1018",
+            "external_id": "T1018"
+        },
+        {
+            "source_name": "CISA AR21-126A FIVEHANDS May 2021",
+            "description": "CISA. (2021, May 6). Analysis Report (AR21-126A) FiveHands Ransomware. Retrieved June 7, 2021.",
+            "url": "https://us-cert.cisa.gov/ncas/analysis-reports/ar21-126a"
+        },
+        {
+            "source_name": "Elastic - Koadiac Detection with EQL",
+            "description": "Stepanic, D.. (2020, January 13). Embracing offensive tooling: Building detections against Koadic using EQL. Retrieved November 30, 2020.",
+            "url": "https://www.elastic.co/blog/embracing-offensive-tooling-building-detections-against-koadic-using-eql"
+        },
+        {
+            "source_name": "US-CERT-TA18-106A",
+            "description": "US-CERT. (2018, April 20). Alert (TA18-106A) Russian State-Sponsored Cyber Actors Targeting Network Infrastructure Devices. Retrieved October 19, 2020.",
+            "url": "https://www.us-cert.gov/ncas/alerts/TA18-106A"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/292.html",
+            "external_id": "CAPEC-292"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "discovery"
+        }
+    ],
+    "tactic": [
+        "discovery"
+    ],
+    "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events related to legitimate remote system discovery may be uncommon, depending on the environment and how they are used. Monitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nMonitor for processes that can be used to discover remote systems, such as <code>ping.exe</code> and <code>tracert.exe</code>, especially when executed in quick succession.(Citation: Elastic - Koadiac Detection with EQL)",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Connection Creation",
+        "Process: Process Creation",
+        "Command: Command Execution",
+        "File: File Access"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Remote System Discovery Mitigation",
+                "description": "Identify unnecessary system utilities or potentially malicious software that may be used to acquire information on remotely available systems, and audit and/or block them by using whitelisting (Citation: Beechey 2010) tools, like AppLocker, (Citation: Windows Commands JPCERT) (Citation: NSA MS AppLocker) or Software Restriction Policies (Citation: Corio 2008) where appropriate. (Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1018"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for suspicious activities",
+                "acid": "98582158"
+            },
+            {
+                "description": "Ensure that monitoring solutions are configured to monitor interactions to Windows API from remote access tools",
+                "acid": "98582159"
+            },
+            {
+                "description": "Ensure that logging and monitoring solutions are configured to capture the history of CLI commands executed or for API usage in cloud environments.",
+                "acid": "98582160"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "10101007",
+        "101040046",
+        "101040049",
+        "101040051",
+        "101040071",
+        "101050046",
+        "101060046",
+        "10190007",
+        "10190008",
+        "10190009",
+        "10960026",
+        "10960027",
+        "10960055",
+        "10960056",
+        "10960057",
+        "10960058",
+        "16010409",
+        "16020419",
+        "16100461",
+        "16110396",
+        "16120414",
+        "19010007",
+        "19010008",
+        "19920468",
+        "19920485"
+    ],
+    "cveIds": [],
+    "subTechniques": []
+}

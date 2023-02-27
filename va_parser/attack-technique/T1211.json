@@ -1,0 +1,183 @@
+﻿{
+    "id": "T1211",
+    "name": "Exploitation for Defense Evasion",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may exploit a system or application vulnerability to bypass security features. Exploitation of a software vulnerability occurs when an adversary takes advantage of a programming error in a program, service, or within the operating system software or kernel itself to execute adversary-controlled code.\u00a0Vulnerabilities may exist in defensive security software that can be used to disable or circumvent them.\n\nAdversaries may have prior knowledge through reconnaissance that security software exists within an environment or they may perform checks during or shortly after the system is compromised for [Security Software Discovery](https://attack.mitre.org/techniques/T1518/001). The security software will likely be targeted directly for exploitation. There are examples of antivirus software being targeted by persistent threat groups to avoid detection.",
+    "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Anti-virus",
+        "System access controls"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1211",
+            "external_id": "T1211"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Exploitation for defense evasion may happen shortly after the system has been compromised to prevent detection during later actions for for additional tools that may be brought in and used. Detecting software exploitation may be difficult depending on the tools available. Software exploits may not always succeed or may cause the exploited process to become unstable or crash. Also look for behavior on the system that might indicate successful compromise, such as abnormal behavior of processes. This could include suspicious files written to disk, evidence of [Process Injection](https://attack.mitre.org/techniques/T1055) for attempts to hide execution or evidence of Discovery.",
+    "x_mitre_data_sources": [
+        "Application Log: Application Log Content",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Exploit Protection",
+                "description": "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring.",
+                "type": "course-of-action",
+                "id": "M1050"
+            },
+            {
+                "name": "Exploitation for Defense Evasion Mitigation",
+                "description": "Update software regularly by employing patch management for internal enterprise endpoints and servers. Develop a robust cyber threat intelligence capability to determine what types and levels of threat may use software exploits and 0-days against a particular organization. Make it difficult for adversaries to advance their operation through exploitation of undiscovered or unpatched vulnerabilities by using sandboxing, if available. Other types of virtualization and application microsegmentation may also mitigate the impact of some types of exploitation. The risks of additional exploits and weaknesses in implementation may still exist. (Citation: Ars Technica Pwn2Own 2017 VM Escape)\n\nSecurity applications that look for behavior used during exploitation such as Windows Defender Exploit Guard (WDEG) and the Enhanced Mitigation Experience Toolkit (EMET) can be used to mitigate some exploitation behavior. (Citation: TechNet Moving Beyond EMET) Control flow integrity checking is another way to potentially identify and stop a software exploit from occurring. (Citation: Wikipedia Control Flow Integrity) Many of these protections depend on the architecture and target application binary for compatibility and may not work for software targeted for defense evasion.",
+                "type": "course-of-action",
+                "id": "T1211"
+            },
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk.",
+                "type": "course-of-action",
+                "id": "M1051"
+            },
+            {
+                "name": "Threat Intelligence Program",
+                "description": "A threat intelligence program helps an organization generate their own threat intelligence information and track trends to inform defensive priorities to mitigate risk.",
+                "type": "course-of-action",
+                "id": "M1019"
+            },
+            {
+                "name": "Application Isolation and Sandboxing",
+                "description": "Restrict execution of code to a virtual environment on or in transit to an endpoint system.",
+                "type": "course-of-action",
+                "id": "M1048"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that sandboxing environment is implemented to prevent exploitation of undiscovered or unpatched vulnerabilities",
+                "acid": "98581173"
+            },
+            {
+                "description": "Ensure that virtualization is implemented to mitigate the impact of exploitation",
+                "acid": "98581174"
+            },
+            {
+                "description": "Ensure that application micro-segmentation is implemented to mitigate the impact of exploitation",
+                "acid": "98581175"
+            },
+            {
+                "description": "Ensure that Windows Defender Exploit Guard (WDEG) is employed to mitigate exploitation behavior",
+                "acid": "98581176"
+            },
+            {
+                "description": "Ensure that the Enhanced Mitigation Experience Toolkit (EMET) is employed to mitigate exploitation behavior",
+                "acid": "98581177"
+            },
+            {
+                "description": "Ensure that Control flow integrity checking is implemented to potentially identify and prevent software exploitation",
+                "acid": "98581178"
+            },
+            {
+                "description": "Ensure that cyber threat intelligence capability is developed in the organization to determine threat types and levels used to exploit softwares",
+                "acid": "98581179"
+            },
+            {
+                "description": "Ensure that cyber threat intelligence capability is developed in the organization to determine threat types and levels used to exploit softwares for 0-days.",
+                "acid": "98581180"
+            },
+            {
+                "description": "Ensure that the patch management solution is implemented to update software regularly for internal enterprise endpoints.",
+                "acid": "98581181"
+            },
+            {
+                "description": "Ensure that the patch management solution is implemented to update software regularly for internal enterprise servers.",
+                "acid": "98581182"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that System is monitored for abnormal behavior of processes",
+                "acid": "98581170"
+            },
+            {
+                "description": "Ensure that System is monitored to check if any suspicious files are written on disk",
+                "acid": "98581171"
+            },
+            {
+                "description": "Ensure that System is monitored for Process Injection (for attempts to hide execution or evidence of Discovery)",
+                "acid": "98581172"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000117",
+        "40000187",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106007",
+        "50106010",
+        "50106016",
+        "50106032",
+        "50106110"
+    ],
+    "technologycontrolIds": [
+        "18380054",
+        "18380055",
+        "19920454"
+    ],
+    "cveIds": [
+        "CVE-2013-7246",
+        "CVE-2014-0751",
+        "CVE-2014-4114",
+        "CVE-2015-1494",
+        "CVE-2015-7755",
+        "CVE-2017-0213",
+        "CVE-2017-6922",
+        "CVE-2018-0560",
+        "CVE-2018-16179",
+        "CVE-2018-6112",
+        "CVE-2018-7496",
+        "CVE-2018-8337",
+        "CVE-2019-11708",
+        "CVE-2019-5786",
+        "CVE-2020-10817",
+        "CVE-2020-11019",
+        "CVE-2020-11087",
+        "CVE-2020-1141",
+        "CVE-2020-3244",
+        "CVE-2020-8468",
+        "CVE-2022-24112"
+    ],
+    "subTechniques": []
+}

@@ -1,0 +1,102 @@
+﻿{
+    "id": "T1218.012",
+    "name": "Verclsid",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse verclsid.exe to proxy execution of malicious code. Verclsid.exe is known as the Extension CLSID Verification Host and is responsible for verifying each shell extension before they are used by Windows Explorer or the Windows Shell.(Citation: WinOSBite verclsid.exe)\n\nAdversaries may abuse verclsid.exe to execute malicious payloads. This may be achieved by running <code>verclsid.exe /S /C {CLSID}</code>, where the file is referenced by a Class ID (CLSID), a unique identification number used to identify COM objects. COM payloads executed by verclsid.exe may be able to perform various malicious actions, such as loading and executing COM scriptlets (SCT) from remote servers (similar to [Regsvr32](https://attack.mitre.org/techniques/T1218/010)). Since the binary may be signed and/or native on Windows systems, proxying execution via verclsid.exe may bypass application control solutions that do not account for its potential abuse.(Citation: LOLBAS Verclsid)(Citation: Red Canary Verclsid.exe)(Citation: BOHOPS Abusing the COM Registry)(Citation: Nick Tyrer GitHub) ",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Application control",
+        "Digital Certificate Validation"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1218/012",
+            "external_id": "T1218.012"
+        },
+        {
+            "source_name": "BOHOPS Abusing the COM Registry",
+            "description": "BOHOPS. (2018, August 18). Abusing the COM Registry Structure (Part 2): Hijacking & Loading Techniques. Retrieved August 10, 2020.",
+            "url": "https://bohops.com/2018/08/18/abusing-the-com-registry-structure-part-2-loading-techniques-for-evasion-and-persistence/"
+        },
+        {
+            "source_name": "Red Canary Verclsid.exe",
+            "description": "Haag, M., Levan, K. (2017, April 6). Old Phishing Attacks Deploy a New Methodology: Verclsid.exe. Retrieved August 10, 2020.",
+            "url": "https://redcanary.com/blog/verclsid-exe-threat-detection/"
+        },
+        {
+            "source_name": "LOLBAS Verclsid",
+            "description": "LOLBAS. (n.d.). Verclsid.exe. Retrieved August 10, 2020.",
+            "url": "https://lolbas-project.github.io/lolbas/Binaries/Verclsid/"
+        },
+        {
+            "source_name": "Nick Tyrer GitHub",
+            "description": "Tyrer, N. (n.d.). Instructions. Retrieved August 10, 2020.",
+            "url": "https://gist.github.com/NickTyrer/0598b60112eaafe6d07789f7964290d5"
+        },
+        {
+            "source_name": "WinOSBite verclsid.exe",
+            "description": "verclsid-exe. (2019, December 17). verclsid.exe File Information - What is it & How to Block\u00a0. Retrieved August 10, 2020.",
+            "url": "https://www.winosbite.com/verclsid-exe/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Use process monitoring to monitor the execution and arguments of verclsid.exe. Compare recent invocations of verclsid.exe with prior history of known good arguments and loaded files to determine anomalous and potentially adversarial activity. Command arguments used before and after the invocation of verclsid.exe may also be useful in determining the origin and purpose of the payload being executed. Depending on the environment, it may be unusual for verclsid.exe to have a parent process of a Microsoft Office product. It may also be unusual for verclsid.exe to have any child processes or to make network connections or file modifications.",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+                "type": "course-of-action",
+                "id": "M1037"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

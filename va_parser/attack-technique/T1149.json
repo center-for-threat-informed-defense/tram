@@ -1,0 +1,85 @@
+﻿{
+    "id": "T1149",
+    "name": "LC_MAIN Hijacking",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": true,
+    "description": "**This technique has been deprecated and should no longer be used.**\n\nAs of OS X 10.8, mach-O binaries introduced a new header called LC_MAIN that points to the binary's entry point for execution. Previously, there were two headers to achieve this same effect: LC_THREAD and LC_UNIXTHREAD  (Citation: Prolific OSX Malware History). The entry point for a binary can be hijacked so that initial execution flows to a malicious addition (either another section or a code cave) and then goes back to the initial entry point so that the victim doesn't know anything was different  (Citation: Methods of Mac Malware Persistence). By modifying a binary in this way, application whitelisting can be bypassed because the file name or application path is still the same.",
+    "x_mitre_platforms": [
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Application whitelisting",
+        "Process whitelisting",
+        "Whitelisting by file name or path"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1149",
+            "external_id": "T1149"
+        },
+        {
+            "source_name": "Prolific OSX Malware History",
+            "description": "Bit9 + Carbon Black Threat Research Team. (2015). 2015: The Most Prolific Year in History for OS X Malware. Retrieved July 8, 2017.",
+            "url": "https://assets.documentcloud.org/documents/2459197/bit9-carbon-black-threat-research-report-2015.pdf"
+        },
+        {
+            "source_name": "Methods of Mac Malware Persistence",
+            "description": "Patrick Wardle. (2014, September). Methods of Malware Persistence on Mac OS X. Retrieved July 5, 2017.",
+            "url": "https://www.virusbulletin.com/uploads/pdf/conference/vb2014/VB2014-Wardle.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Determining the original entry point for a binary is difficult, but checksum and signature verification is very possible. Modifying the LC_MAIN entry point or adding in an additional LC_MAIN entry point invalidates the signature for the file and can be detected. Collect running process information and compare against known applications to look for suspicious behavior.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Code Signing",
+                "description": "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+                "type": "course-of-action",
+                "id": "M1045"
+            },
+            {
+                "name": "LC_MAIN Hijacking Mitigation",
+                "description": "Enforce valid digital signatures for signed code on all applications and only trust applications with signatures from trusted parties.",
+                "type": "course-of-action",
+                "id": "T1149"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [
+        "CVE-2019-15821"
+    ],
+    "subTechniques": []
+}

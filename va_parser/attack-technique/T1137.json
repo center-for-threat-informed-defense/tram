@@ -1,0 +1,179 @@
+﻿{
+    "id": "T1137",
+    "name": "Office Application Startup",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may leverage Microsoft Office-based applications for persistence between startups. Microsoft Office is a fairly common application suite on Windows-based operating systems within an enterprise network. There are multiple mechanisms that can be used with Office for persistence when an Office-based application is started; this can include the use of Office Template Macros and add-ins.\n\nA variety of features have been discovered in Outlook that can be abused to obtain persistence, such as Outlook rules, forms, and Home Page.(Citation: SensePost Ruler GitHub) These persistence mechanisms can work within Outlook or be used through Office 365.(Citation: TechNet O365 Outlook Rules)",
+    "x_mitre_platforms": [
+        "Windows",
+        "Office 365"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1137",
+            "external_id": "T1137"
+        },
+        {
+            "source_name": "SensePost Ruler GitHub",
+            "description": "SensePost. (2016, August 18). Ruler: A tool to abuse Exchange services. Retrieved February 4, 2019.",
+            "url": "https://github.com/sensepost/ruler"
+        },
+        {
+            "source_name": "TechNet O365 Outlook Rules",
+            "description": "Koeller, B.. (2018, February 21). Defending Against Rules and Forms Injection. Retrieved November 5, 2019.",
+            "url": "https://blogs.technet.microsoft.com/office365security/defending-against-rules-and-forms-injection/"
+        },
+        {
+            "source_name": "CrowdStrike Outlook Forms",
+            "description": "Parisi, T., et al. (2017, July). Using Outlook Forms for Lateral Movement and Persistence. Retrieved February 5, 2019.",
+            "url": "https://malware.news/t/using-outlook-forms-for-lateral-movement-and-persistence/13746"
+        },
+        {
+            "source_name": "Outlook Today Home Page",
+            "description": "Soutcast. (2018, September 14). Outlook Today Homepage Persistence. Retrieved February 5, 2019.",
+            "url": "https://medium.com/@bwtech789/outlook-today-homepage-persistence-33ea9b505943"
+        },
+        {
+            "source_name": "Microsoft Detect Outlook Forms",
+            "description": "Fox, C., Vangel, D. (2018, April 22). Detect and Remediate Outlook Rules and Custom Forms Injections Attacks in Office 365. Retrieved February 4, 2019.",
+            "url": "https://docs.microsoft.com/en-us/office365/securitycompliance/detect-and-remediate-outlook-rules-forms-attack"
+        },
+        {
+            "source_name": "SensePost NotRuler",
+            "description": "SensePost. (2017, September 21). NotRuler - The opposite of Ruler, provides blue teams with the ability to detect Ruler usage against Exchange. Retrieved February 4, 2019.",
+            "url": "https://github.com/sensepost/notruler"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Collect process execution information including process IDs (PID) and parent process IDs (PPID) and look for abnormal chains of activity resulting from Office processes. Non-standard process execution trees may also indicate suspicious or malicious behavior. If winword.exe is the parent process for suspicious processes and activity relating to other adversarial techniques, then it could indicate that the application was used maliciously.\n\nMany Office-related persistence mechanisms require changes to the Registry and for binaries, files, or scripts to be written to disk or existing files modified to include malicious scripts. Collect events related to Registry key creation and modification for keys that could be used for Office-based persistence.(Citation: CrowdStrike Outlook Forms)(Citation: Outlook Today Home Page)\n\nMicrosoft has released a PowerShell script to safely gather mail forwarding rules and custom forms in your mail environment as well as steps to interpret the output.(Citation: Microsoft Detect Outlook Forms) SensePost, whose tool [Ruler](https://attack.mitre.org/software/S0358) can be used to carry out malicious rules, forms, and Home Page attacks, has released a tool to detect Ruler usage.(Citation: SensePost NotRuler)",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Windows Registry: Windows Registry Key Modification",
+        "Command: Command Execution",
+        "Application Log: Application Log Content",
+        "Windows Registry: Windows Registry Key Creation",
+        "File: File Modification",
+        "File: File Creation",
+        "Module: Module Load"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            },
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk.",
+                "type": "course-of-action",
+                "id": "M1051"
+            },
+            {
+                "name": "Software Configuration",
+                "description": "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+                "type": "course-of-action",
+                "id": "M1054"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Office macro security best practices are followed compatible with your environment",
+                "acid": "98580892"
+            },
+            {
+                "description": "Ensure that Office VBA macros are disabled from executing",
+                "acid": "98580893"
+            },
+            {
+                "description": "Ensure that Office add-ins are disabled if not required",
+                "acid": "98580894"
+            },
+            {
+                "description": "Ensure that best practices are followed for securing Office add-ins'",
+                "acid": "98580895"
+            },
+            {
+                "description": "Ensure that office add-in should be signed",
+                "acid": "98580896"
+            },
+            {
+                "description": "Ensure that user notification for allowing add-ins should be disabled",
+                "acid": "98580897"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process execution information including process IDs (PID) and parent process IDs (PPID) are collected to identify for malicious activity resulting from Office processes",
+                "acid": "98580888"
+            },
+            {
+                "description": "Ensure that non-standard process execution trees should be monitored to identify malicious behavior",
+                "acid": "98580889"
+            },
+            {
+                "description": "Ensure that events related to Registry key creation and modification for keys that could be used for Office-based persistence are collected and analyzed",
+                "acid": "98580890"
+            },
+            {
+                "description": "Ensure that the SensePost tool Ruler is used to carry out malicious rules, forms, and Home Page attacks",
+                "acid": "98580891"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000117",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106010",
+        "50106012",
+        "50106032",
+        "50106110"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": [
+        "T1137.001",
+        "T1137.002",
+        "T1137.003",
+        "T1137.004",
+        "T1137.005",
+        "T1137.006"
+    ]
+}

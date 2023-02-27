@@ -1,0 +1,134 @@
+﻿{
+    "id": "T1535",
+    "name": "Unused/Unsupported Cloud Regions",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may create cloud instances in unused geographic service regions in order to evade detection. Access is usually obtained through compromising accounts used to manage cloud infrastructure.\n\nCloud service providers often provide infrastructure throughout the world in order to improve performance, provide redundancy, and allow customers to meet compliance requirements. Oftentimes, a customer will only use a subset of the available regions and may not actively monitor other regions. If an adversary creates resources in an unused region, they may be able to operate undetected.\n\nA variation on this behavior takes advantage of differences in functionality across cloud regions. An adversary could utilize regions which do not support advanced detection services in order to avoid detection of their activity.\n\nAn example of adversary use of unused AWS regions is to mine cryptocurrency through [Resource Hijacking](https://attack.mitre.org/techniques/T1496), which can cost organizations substantial amounts of money over time depending on the processing power used.(Citation: CloudSploit - Unused AWS Regions)",
+    "x_mitre_platforms": [
+        "IaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1535",
+            "external_id": "T1535"
+        },
+        {
+            "source_name": "CloudSploit - Unused AWS Regions",
+            "description": "CloudSploit. (2019, June 8). The Danger of Unused AWS Regions. Retrieved October 8, 2019.",
+            "url": "https://blog.cloudsploit.com/the-danger-of-unused-aws-regions-af0bf1b878fc"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor system logs to review activities occurring across all cloud environments and regions. Configure alerting to notify of activity in normally unused regions or if the number of instances active in a region goes above a certain threshold.(Citation: CloudSploit - Unused AWS Regions)",
+    "x_mitre_data_sources": [
+        "Instance: Instance Metadata",
+        "Instance: Instance Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Software Configuration",
+                "description": "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+                "type": "course-of-action",
+                "id": "M1054"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that unused regions are deactivated (if allowed by cloud service providers).",
+                "acid": "98581765"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that system logs are monitored to check activities related to all cloud environments and regions.",
+                "acid": "98581763"
+            },
+            {
+                "description": "Ensure that alerting system is configured to trigger an alert if the number of active instances in a region crosses certain threshold.",
+                "acid": "98581764"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "18420011",
+        "19310034",
+        "19320009",
+        "19330010",
+        "19350027",
+        "19410003",
+        "19420002",
+        "19460002",
+        "19470002",
+        "19490003",
+        "19500002",
+        "19510002",
+        "19550001",
+        "19560001",
+        "19570001",
+        "19580001",
+        "19590001",
+        "19600001",
+        "19610001",
+        "19620001",
+        "19630001",
+        "19640001",
+        "19650001",
+        "19660001",
+        "19670001",
+        "19680001",
+        "19690001",
+        "19700001",
+        "19710001",
+        "19720001",
+        "19730001",
+        "19740001",
+        "19750001",
+        "19760001",
+        "19770001",
+        "19780001",
+        "19790001",
+        "19800001",
+        "19810001",
+        "19820001",
+        "19830001",
+        "19840001",
+        "19850001",
+        "19860001",
+        "19870001",
+        "19880001",
+        "19890001",
+        "19900001",
+        "19910001"
+    ],
+    "cveIds": [],
+    "subTechniques": []
+}

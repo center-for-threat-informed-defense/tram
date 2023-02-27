@@ -1,0 +1,239 @@
+{
+    "id": "T1070.001",
+    "name": "Clear Windows Event Logs",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may clear Windows Event Logs to hide the activity of an intrusion. Windows Event Logs are a record of a computer's alerts and notifications. There are three system-defined sources of events: System, Application, and Security, with five event types: Error, Warning, Information, Success Audit, and Failure Audit.\n\nThe event logs can be cleared with the following utility commands:\n\n* <code>wevtutil cl system</code>\n* <code>wevtutil cl application</code>\n* <code>wevtutil cl security</code>\n\nThese logs may also be cleared through other mechanisms, such as the event viewer GUI or [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Anti Virus",
+        "Host Intrusion Prevention Systems",
+        "Log Analysis"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1070/001",
+            "external_id": "T1070.001"
+        },
+        {
+            "source_name": "Microsoft Clear-EventLog",
+            "description": "Microsoft. (n.d.). Clear-EventLog. Retrieved July 2, 2018.",
+            "url": "https://docs.microsoft.com/powershell/module/microsoft.powershell.management/clear-eventlog"
+        },
+        {
+            "source_name": "Microsoft EventLog.Clear",
+            "description": "Microsoft. (n.d.). EventLog.Clear Method (). Retrieved July 2, 2018.",
+            "url": "https://msdn.microsoft.com/library/system.diagnostics.eventlog.clear.aspx"
+        },
+        {
+            "source_name": "Microsoft wevtutil Oct 2017",
+            "description": "Plett, C. et al.. (2017, October 16). wevtutil. Retrieved July 2, 2018.",
+            "url": "https://docs.microsoft.com/windows-server/administration/windows-commands/wevtutil"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Deleting Windows event logs (via native binaries (Citation: Microsoft wevtutil Oct 2017), API functions (Citation: Microsoft EventLog.Clear), or [PowerShell](https://attack.mitre.org/techniques/T1059/001) (Citation: Microsoft Clear-EventLog)) may also generate an alterable event (Event ID 1102: \"The audit log was cleared\").",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "File: File Deletion",
+        "Process: OS API Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "Clearing the Windows event logs requires Administrator permissions"
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Remote Data Storage",
+                "description": "Use remote security log and sensitive file storage where access can be controlled better to prevent exposure of intrusion detection log data or sensitive information.",
+                "type": "course-of-action",
+                "id": "M1029"
+            },
+            {
+                "name": "Encrypt Sensitive Information",
+                "description": "Protect sensitive information with strong encryption.",
+                "type": "course-of-action",
+                "id": "M1041"
+            },
+            {
+                "name": "Indicator Removal on Host Mitigation",
+                "description": "Automatically forward events to a log server or data repository to prevent conditions in which the adversary can locate and manipulate data on the local system. When possible, minimize time delay on event reporting to avoid prolonged storage on the local system. Protect generated event files that are stored locally with proper permissions and authentication and limit opportunities for adversaries to increase privileges by preventing Privilege Escalation opportunities. Obfuscate/encrypt event files locally and in transit to avoid giving feedback to an adversary.",
+                "type": "course-of-action",
+                "id": "T1070"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that event files are encrypted locally to avoid sharing information",
+                "acid": "98581331"
+            },
+            {
+                "description": "Ensure that event files are encrypted while in transit to avoid sharing information to an adversary.",
+                "acid": "98581332"
+            },
+            {
+                "description": "Ensure that events are forwarded automatically to a log server to prevent manipulation of data on the local system.",
+                "acid": "98581333"
+            },
+            {
+                "description": "Ensure that events are forwarded automatically to a data repository to prevent manipulation of data on the local system.",
+                "acid": "98581334"
+            },
+            {
+                "description": "Ensure that time delay on event reporting is minimized to avoid prolonged storage on the local system.",
+                "acid": "98581335"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that an alterable event: Event ID 1102: \"The audit log was cleared\" is generated when Windows event logs (via native binaries) are deleted.",
+                "acid": "98581328"
+            },
+            {
+                "description": "Ensure that an alterable event: Event ID 1102: \"The audit log was cleared\" is generated when Windows event logs (via API functions) are deleted",
+                "acid": "98581329"
+            },
+            {
+                "description": "Ensure that an alterable event: Event ID 1102: \"The audit log was cleared\" is generated when Windows event logs (via PowerShell) are deleted.",
+                "acid": "98581330"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "15010285",
+        "15010286",
+        "15010287",
+        "15010288",
+        "15010289",
+        "15010290",
+        "15010291",
+        "15010292",
+        "15020282",
+        "15020283",
+        "15020284",
+        "15020285",
+        "15020286",
+        "15020287",
+        "15020288",
+        "15020289",
+        "15030259",
+        "15030260",
+        "15030261",
+        "15030262",
+        "15030263",
+        "15030264",
+        "15030265",
+        "15030266",
+        "15040291",
+        "15040292",
+        "15040293",
+        "15040294",
+        "15040295",
+        "15040296",
+        "15200277",
+        "15200278",
+        "15200279",
+        "15200280",
+        "15200281",
+        "15200282",
+        "15200283",
+        "15200284",
+        "16010245",
+        "16010246",
+        "16010247",
+        "16010248",
+        "16010249",
+        "16010250",
+        "16010251",
+        "16010252",
+        "16020249",
+        "16020250",
+        "16020251",
+        "16020252",
+        "16020253",
+        "16020254",
+        "16020255",
+        "16020256",
+        "16100274",
+        "16100275",
+        "16100276",
+        "16100277",
+        "16100278",
+        "16100279",
+        "16100280",
+        "16100281",
+        "16110236",
+        "16110237",
+        "16110238",
+        "16110239",
+        "16110240",
+        "16110241",
+        "16110242",
+        "16110243",
+        "16120247",
+        "16120248",
+        "16120249",
+        "16120250",
+        "16120251",
+        "16120252",
+        "16120253",
+        "16120254",
+        "16360292",
+        "16360293",
+        "16360294",
+        "16360295",
+        "16360296",
+        "16360297",
+        "16360298",
+        "16360299",
+        "16460288",
+        "16460289",
+        "16460290",
+        "16460291",
+        "16460292",
+        "16460293",
+        "16460294",
+        "16460295",
+        "19920232",
+        "19920233",
+        "19920234",
+        "19920235",
+        "19920236",
+        "19920237",
+        "19920238",
+        "19920239"
+    ],
+    "cveIds": []
+}

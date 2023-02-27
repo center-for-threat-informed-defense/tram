@@ -1,0 +1,176 @@
+﻿{
+    "id": "T1574.009",
+    "name": "Path Interception by Unquoted Path",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may execute their own malicious payloads by hijacking vulnerable file path references. Adversaries can take advantage of paths that lack surrounding quotations by placing an executable in a higher level directory within the path, so that Windows will choose the adversary's executable to launch.\n\nService paths (Citation: Microsoft CurrentControlSet Services) and shortcut paths may also be vulnerable to path interception if the path has one or more spaces and is not surrounded by quotation marks (e.g., <code>C:\\unsafe path with space\\program.exe</code> vs. <code>\"C:\\safe path with space\\program.exe\"</code>). (Citation: Help eliminate unquoted path) (stored in Windows Registry keys) An adversary can place an executable in a higher level directory of the path, and Windows will resolve that executable instead of the intended executable. For example, if the path in a shortcut is <code>C:\\program files\\myapp.exe</code>, an adversary may create a program at <code>C:\\program.exe</code> that will be run instead of the intended program. (Citation: Windows Unquoted Services) (Citation: Windows Privilege Escalation Guide)\n\nThis technique can be used for persistence if executables are called on a regular basis, as well as privilege escalation if intercepted executables are started by a higher privileged process.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1574/009",
+            "external_id": "T1574.009"
+        },
+        {
+            "source_name": "Windows Privilege Escalation Guide",
+            "description": "absolomb. (2018, January 26). Windows Privilege Escalation Guide. Retrieved August 10, 2018.",
+            "url": "https://www.absolomb.com/2018-01-26-Windows-Privilege-Escalation-Guide/"
+        },
+        {
+            "source_name": "Windows Unquoted Services",
+            "description": "HackHappy. (2018, April 23). Windows Privilege Escalation \u2013 Unquoted Services. Retrieved August 10, 2018.",
+            "url": "https://securityboulevard.com/2018/04/windows-privilege-escalation-unquoted-services/"
+        },
+        {
+            "source_name": "Help eliminate unquoted path",
+            "description": "Mark Baggett. (2012, November 8). Help eliminate unquoted path vulnerabilities. Retrieved November 8, 2012.",
+            "url": "https://isc.sans.edu/diary/Help+eliminate+unquoted+path+vulnerabilities/14464"
+        },
+        {
+            "source_name": "Microsoft CurrentControlSet Services",
+            "description": "Microsoft. (2017, April 20). HKLM\\SYSTEM\\CurrentControlSet\\Services Registry Tree. Retrieved March 16, 2020.",
+            "url": "https://docs.microsoft.com/en-us/windows-hardware/drivers/install/hklm-system-currentcontrolset-services-registry-tree"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/38.html",
+            "external_id": "CAPEC-38"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "persistence",
+        "privilege-escalation",
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "Monitor file creation for files named after partial directories and in locations that may be searched for common processes through the environment variable, or otherwise should not be user writable. Monitor the executing process for process executable paths that are named for partial directories. Monitor file creation for programs that are named after Windows system programs or programs commonly executed without a path (such as \"findstr,\" \"net,\" and \"python\"). If this activity occurs outside of known administration activity, upgrades, installations, or patches, then it may be suspicious.\n\nData and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.",
+    "x_mitre_data_sources": [
+        "File: File Modification",
+        "Process: Process Creation",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that program configuration files, scripts, the PATH environment variable, services are audited for path interception weaknesses",
+                "acid": "98580806"
+            },
+            {
+                "description": "Ensure that old Windows Registry keys are cleaned up when the software is uninstalled",
+                "acid": "98580807"
+            },
+            {
+                "description": "Ensure that systems are periodically searched for and corrected or reported path interception weaknesses",
+                "acid": "98580808"
+            },
+            {
+                "description": "Ensure that application whitelisting tools are deployed to identify and block potentially malicious software executed path interception",
+                "acid": "98580809"
+            },
+            {
+                "description": "Ensure that the Windows Defender Application Control tool is configured to identify and block potentially malicious software executed path interception",
+                "acid": "98580810"
+            },
+            {
+                "description": "Ensure that AppLocker is configured to identify and block potentially malicious software executed path interception",
+                "acid": "98580811"
+            },
+            {
+                "description": "Ensure that Software Restriction Policies are implemented to identify and block potentially malicious software executed path interception",
+                "acid": "98580812"
+            },
+            {
+                "description": "Ensure that all executables are placed in write-protected directories",
+                "acid": "98580813"
+            },
+            {
+                "description": "Ensure that proper permissions and directory access control are set to deny users the ability to write files to the top-level directory C:",
+                "acid": "98580814"
+            },
+            {
+                "description": "Ensure that proper permissions and directory access control are set to deny users the ability to write files to system directories, such as C:\\Windows\\",
+                "acid": "98580815"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that file creation is monitored for files named after partial directories",
+                "acid": "98580800"
+            },
+            {
+                "description": "Ensure that file creation is monitored for files in locations that may be searched for common processes through the environment variable",
+                "acid": "98580801"
+            },
+            {
+                "description": "Ensure that file creation is monitored for files that are not user-writable",
+                "acid": "98580802"
+            },
+            {
+                "description": "Ensure that executing processes are monitored for process executable paths that are named for partial directories",
+                "acid": "98580803"
+            },
+            {
+                "description": "Ensure that the file creation process is monitored for programs that are named after Windows system programs",
+                "acid": "98580804"
+            },
+            {
+                "description": "Ensure that the file creation process is monitored for programs commonly executed without a path (such as \"findstr,\" \"net,\" and \"python\")",
+                "acid": "98580805"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

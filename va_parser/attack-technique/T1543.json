@@ -1,0 +1,396 @@
+﻿{
+    "id": "T1543",
+    "name": "Create or Modify System Process",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may create or modify system-level processes to repeatedly execute malicious payloads as part of persistence. When operating systems boot up, they can start processes that perform background system functions. On Windows and Linux, these system processes are referred to as services.(Citation: TechNet Services) On macOS, launchd processes known as [Launch Daemon](https://attack.mitre.org/techniques/T1543/004) and [Launch Agent](https://attack.mitre.org/techniques/T1543/001) are run to finish system initialization and load user specific parameters.(Citation: AppleDocs Launch Agent Daemons) \n\nAdversaries may install new services, daemons, or agents that can be configured to execute at startup or a repeatable interval in order to establish persistence. Similarly, adversaries may modify existing services, daemons, or agents to achieve the same effect.  \n\nServices, daemons, or agents may be created with administrator privileges but executed under root/SYSTEM privileges. Adversaries may leverage this functionality to create or modify system processes in order to escalate privileges.(Citation: OSX Malware Detection)  ",
+    "x_mitre_platforms": [
+        "Windows",
+        "macOS",
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1543",
+            "external_id": "T1543"
+        },
+        {
+            "source_name": "AppleDocs Launch Agent Daemons",
+            "description": "Apple. (n.d.). Creating Launch Daemons and Agents. Retrieved July 10, 2017.",
+            "url": "https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html"
+        },
+        {
+            "source_name": "TechNet Services",
+            "description": "Microsoft. (n.d.). Services. Retrieved June 7, 2016.",
+            "url": "https://technet.microsoft.com/en-us/library/cc772408.aspx"
+        },
+        {
+            "source_name": "OSX Malware Detection",
+            "description": "Patrick Wardle. (2016, February 29). Let's Play Doctor: Practical OS X Malware Detection & Analysis. Retrieved July 10, 2017.",
+            "url": "https://www.synack.com/wp-content/uploads/2016/03/RSA_OSX_Malware.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "persistence",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "Monitor for changes to system processes that do not correlate with known software, patch cycles, etc., including by comparing results against a trusted system baseline. New, benign system processes may be created during installation of new software. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.  \n\nCommand-line invocation of tools capable of modifying services may be unusual, depending on how systems are typically used in a particular environment. Look for abnormal process call trees from known services and for execution of other commands that could relate to Discovery or other adversary techniques. \n\nMonitor for changes to files associated with system-level processes.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Service: Service Modification",
+        "Process: OS API Execution",
+        "File: File Creation",
+        "Service: Service Creation",
+        "Windows Registry: Windows Registry Key Modification",
+        "File: File Modification",
+        "Windows Registry: Windows Registry Key Creation",
+        "Process: Process Creation",
+        "Driver: Driver Load"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            },
+            {
+                "name": "Limit Software Installation",
+                "description": "Block users or groups from installing unapproved software.",
+                "type": "course-of-action",
+                "id": "M1033"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Code Signing",
+                "description": "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+                "type": "course-of-action",
+                "id": "M1045"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that auditing tools are deployed to detect privilege and service abuse opportunities on systems within an enterprise",
+                "acid": "98580599"
+            },
+            {
+                "description": "Ensure that software installation is restricted to trusted repositories only",
+                "acid": "98580600"
+            },
+            {
+                "description": "Ensure that read/write access is restricted to system-level process files to only selected privileged users",
+                "acid": "98580601"
+            },
+            {
+                "description": "Ensure that user accounts and group privileges are limited and only authorized administrators are allowed to interact with system-level process changes and service configurations",
+                "acid": "98580602"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that changes to system processes that do not correlate with known software, patch cycles, etc. are monitored",
+                "acid": "98580595"
+            },
+            {
+                "description": "Ensure that process call trees from known services are monitored",
+                "acid": "98580596"
+            },
+            {
+                "description": "Ensure that execution of commands that could relate to Discovery or other adversary techniques are monitored",
+                "acid": "98580597"
+            },
+            {
+                "description": "Ensure that changes to files associated with system-level processes are monitored",
+                "acid": "98580598"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000140",
+        "40000205",
+        "40000215",
+        "40000490",
+        "40000497",
+        "40000499",
+        "40000500",
+        "40000507"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [
+        "50110012",
+        "50110013",
+        "50110014",
+        "50110015",
+        "50110026"
+    ],
+    "policycontrolIds": [
+        "50106000",
+        "50106001",
+        "50106002",
+        "50106009",
+        "50106015",
+        "50106020"
+    ],
+    "technologycontrolIds": [
+        "101020001",
+        "10110001",
+        "101540055",
+        "101550055",
+        "101560056",
+        "101570056",
+        "101600060",
+        "103900056",
+        "10460058",
+        "11010058",
+        "14030039",
+        "14030040",
+        "14040039",
+        "14040040",
+        "15010146",
+        "15010148",
+        "15010150",
+        "15010152",
+        "15010153",
+        "15010154",
+        "15010155",
+        "15010159",
+        "15010160",
+        "15010180",
+        "15010188",
+        "15010352",
+        "15020139",
+        "15020141",
+        "15020143",
+        "15020145",
+        "15020146",
+        "15020148",
+        "15020149",
+        "15020152",
+        "15020153",
+        "15020168",
+        "15020359",
+        "15020379",
+        "15030149",
+        "15030151",
+        "15030152",
+        "15030154",
+        "15030155",
+        "15030157",
+        "15030159",
+        "15030160",
+        "15030164",
+        "15030165",
+        "15030188",
+        "15030197",
+        "15030327",
+        "15040021",
+        "15040022",
+        "15040026",
+        "15040035",
+        "15040042",
+        "15040046",
+        "15040054",
+        "15040061",
+        "15040065",
+        "15040073",
+        "15040331",
+        "15200146",
+        "15200148",
+        "15200150",
+        "15200152",
+        "15200153",
+        "15200154",
+        "15200155",
+        "15200159",
+        "15200160",
+        "15200181",
+        "15200189",
+        "15200343",
+        "16010153",
+        "16010155",
+        "16010159",
+        "16010161",
+        "16010162",
+        "16010163",
+        "16010164",
+        "16010168",
+        "16010169",
+        "16010189",
+        "16010197",
+        "16010312",
+        "16020152",
+        "16020154",
+        "16020158",
+        "16020160",
+        "16020161",
+        "16020163",
+        "16020164",
+        "16020168",
+        "16020169",
+        "16020191",
+        "16020199",
+        "16020321",
+        "16100154",
+        "16100158",
+        "16100159",
+        "16100161",
+        "16100162",
+        "16100164",
+        "16100165",
+        "16100167",
+        "16100168",
+        "16100172",
+        "16100173",
+        "16100197",
+        "16100210",
+        "16100366",
+        "16110151",
+        "16110153",
+        "16110157",
+        "16110159",
+        "16110160",
+        "16110161",
+        "16110162",
+        "16110166",
+        "16110167",
+        "16110187",
+        "16110194",
+        "16110299",
+        "16120155",
+        "16120157",
+        "16120161",
+        "16120163",
+        "16120164",
+        "16120166",
+        "16120167",
+        "16120171",
+        "16120172",
+        "16120192",
+        "16120199",
+        "16120316",
+        "16130165",
+        "16130167",
+        "16360152",
+        "16360154",
+        "16360155",
+        "16360159",
+        "16360160",
+        "16360162",
+        "16360163",
+        "16360168",
+        "16360169",
+        "16360176",
+        "16360177",
+        "16360207",
+        "16360219",
+        "16360377",
+        "16460151",
+        "16460153",
+        "16460154",
+        "16460158",
+        "16460159",
+        "16460161",
+        "16460162",
+        "16460167",
+        "16460168",
+        "16460175",
+        "16460176",
+        "16460205",
+        "16460217",
+        "16460373",
+        "16460378",
+        "18350004",
+        "19920138",
+        "19920140",
+        "19920141",
+        "19920143",
+        "19920144",
+        "19920146",
+        "19920148",
+        "19920149",
+        "19920153",
+        "19920154",
+        "19920176",
+        "19920185",
+        "19920285",
+        "19920400",
+        "19920409",
+        "19920411",
+        "19920492"
+    ],
+    "cveIds": [
+        "CVE-1999-0005",
+        "CVE-1999-0021",
+        "CVE-1999-0267",
+        "CVE-1999-0404",
+        "CVE-2009-3023",
+        "CVE-2010-1225",
+        "CVE-2012-1876",
+        "CVE-2016-10174",
+        "CVE-2016-8377",
+        "CVE-2017-0199",
+        "CVE-2017-12718",
+        "CVE-2017-5177",
+        "CVE-2017-6465",
+        "CVE-2017-6506",
+        "CVE-2017-7269",
+        "CVE-2018-10594",
+        "CVE-2019-11043",
+        "CVE-2019-19383"
+    ],
+    "subTechniques": [
+        "T1543.001",
+        "T1543.002",
+        "T1543.003",
+        "T1543.004"
+    ]
+}

@@ -1,0 +1,102 @@
+﻿{
+    "id": "T0856",
+    "name": "Spoof Reporting Message",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may spoof reporting messages in control system environments for evasion and to impair process control. In control systems, reporting messages contain telemetry data (e.g., I/O values) pertaining to the current state of equipment and the industrial process. Reporting messages are important for monitoring the normal operation of a system or identifying important events such as deviations from expected values.  If an adversary has the ability to Spoof Reporting Messages, they can impact the control system in many ways. The adversary can Spoof Reporting Messages that state that the process is operating normally, as a form of evasion. The adversary could also Spoof Reporting Messages to make the defenders and operators think that other errors are occurring in order to distract them from the actual source of a problem. (Citation: Bonnie Zhu, Anthony Joseph, Shankar Sastry 2011)   In the Maroochy Attack, the adversary used a dedicated analog two-way radio system to send false data and instructions to pumping stations and the central computer. (Citation: Marshall Abrams July 2008)",
+    "x_mitre_platforms": [
+        "Control Server"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0856",
+            "external_id": "T0856"
+        },
+        {
+            "source_name": "Bonnie Zhu, Anthony Joseph, Shankar Sastry 2011",
+            "description": "Bonnie Zhu, Anthony Joseph, Shankar Sastry 2011 A Taxonomy of Cyber Attacks on SCADA Systems Retrieved. 2018/01/12 ",
+            "url": "http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6142258"
+        },
+        {
+            "source_name": "Marshall Abrams July 2008",
+            "description": "Marshall Abrams 2008, July 23 Malicious Control System Cyber Security Attack Case Study Maroochy Water Services, Australia Retrieved. 2018/03/27 ",
+            "url": "https://www.mitre.org/sites/default/files/pdf/08_1145.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "evasion-ics"
+        },
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "impair-process-control"
+        }
+    ],
+    "tactic": [
+        "evasion-ics",
+        "impair-process-control"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content",
+        "Application Log: Application Log Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Software Process and Device Authentication",
+                "description": "Require the authentication of devices and software processes where appropriate. Devices that connect remotely to other systems should require strong authentication to prevent spoofing of communications. Furthermore, software processes should also require authentication when accessing APIs.",
+                "type": "course-of-action",
+                "id": "M0813"
+            },
+            {
+                "name": "Communication Authenticity",
+                "description": "When communicating over an untrusted network, utilize secure network protocols that both authenticate the message sender and can verify its integrity. This can be done either through message authentication codes (MACs) or digital signatures, to detect spoofed network messages and unauthorized connections.",
+                "type": "course-of-action",
+                "id": "M0802"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network.  Restrict network access to only required systems and services. In addition, prevent systems from other networks or business functions (e.g., enterprise) from accessing critical process control systems. For example, in IEC 62443, systems within the same secure level should be grouped into a zone, and access to that zone is restricted by a conduit, or mechanism to restrict data flows between zones by segmenting the network. (Citation: IEC February 2019) (Citation: IEC August 2013)",
+                "type": "course-of-action",
+                "id": "M0930"
+            },
+            {
+                "name": "Network Allowlists",
+                "description": "Network allowlists can be implemented through either host-based files or system hosts files to specify what connections (e.g., IP address, MAC address, port, protocol) can be made from a device. Allowlist techniques that operate at the  application layer (e.g., DNP3, Modbus, HTTP) are addressed in [Filter Network Traffic](https://attack.mitre.org/mitigations/M0937) mitigation.",
+                "type": "course-of-action",
+                "id": "M0807"
+            },
+            {
+                "name": "Filter Network Traffic",
+                "description": "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.   Perform inline allow/denylisting of network messages based on the application layer (OSI Layer 7) protocol, especially for automation protocols. Application allowlists are beneficial when there are well-defined communication sequences, types, rates, or patterns needed during expected system operations. Application denylists may be needed if all acceptable communication sequences cannot be defined, but instead a set of known malicious uses can be denied (e.g., excessive communication  attempts, shutdown messages, invalid commands).  Devices performing these functions are often referred to as deep-packet inspection (DPI) firewalls, context-aware firewalls, or firewalls blocking specific automation/SCADA protocol aware firewalls. (Citation: Centre for the Protection of National Infrastructure February 2005)",
+                "type": "course-of-action",
+                "id": "M0937"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

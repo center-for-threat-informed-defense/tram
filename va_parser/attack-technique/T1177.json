@@ -1,0 +1,106 @@
+﻿{
+    "id": "T1177",
+    "name": "LSASS Driver",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "The Windows security subsystem is a set of components that manage and enforce the security policy for a computer or domain. The Local Security Authority (LSA) is the main component responsible for local security policy and user authentication. The LSA includes multiple dynamic link libraries (DLLs) associated with various other security functions, all of which run in the context of the LSA Subsystem Service (LSASS) lsass.exe process. (Citation: Microsoft Security Subsystem)\n\nAdversaries may target lsass.exe drivers to obtain execution and/or persistence. By either replacing or adding illegitimate drivers (e.g., [DLL Side-Loading](https://attack.mitre.org/techniques/T1073) or [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1038)), an adversary can achieve arbitrary code execution triggered by continuous LSA operations.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1177",
+            "external_id": "T1177"
+        },
+        {
+            "source_name": "Microsoft Security Subsystem",
+            "description": "Microsoft. (n.d.). Security Subsystem Architecture. Retrieved November 27, 2017.",
+            "url": "https://technet.microsoft.com/library/cc961760.aspx"
+        },
+        {
+            "source_name": "Microsoft LSA Protection Mar 2014",
+            "description": "Microsoft. (2014, March 12). Configuring Additional LSA Protection. Retrieved November 27, 2017.",
+            "url": "https://technet.microsoft.com/library/dn408187.aspx"
+        },
+        {
+            "source_name": "TechNet Autoruns",
+            "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016.",
+            "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902"
+        },
+        {
+            "source_name": "Microsoft DLL Security",
+            "description": "Microsoft. (n.d.). Dynamic-Link Library Security. Retrieved November 27, 2017.",
+            "url": "https://msdn.microsoft.com/library/windows/desktop/ff919712.aspx"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "execution",
+        "persistence"
+    ],
+    "x_mitre_detection": "With LSA Protection enabled, monitor the event logs (Events 3033 and 3063) for failed attempts to load LSA plug-ins and drivers. (Citation: Microsoft LSA Protection Mar 2014)\n\nUtilize the Sysinternals Autoruns/Autorunsc utility (Citation: TechNet Autoruns) to examine loaded drivers associated with the LSA.\n\nUtilize the Sysinternals Process Monitor utility to monitor DLL load operations in lsass.exe. (Citation: Microsoft DLL Security)",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Restrict Library Loading",
+                "description": "Prevent abuse of library loading mechanisms in the operating system and software to load untrusted code by configuring appropriate library loading mechanisms and investigating potential vulnerable software.",
+                "type": "course-of-action",
+                "id": "M1044"
+            },
+            {
+                "name": "Credential Access Protection",
+                "description": "Use capabilities to prevent successful credential access by adversaries; including blocking forms of credential dumping.",
+                "type": "course-of-action",
+                "id": "M1043"
+            },
+            {
+                "name": "LSASS Driver Mitigation",
+                "description": "On Windows 8.1 and Server 2012 R2, enable LSA Protection by setting the Registry key <code>HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\RunAsPPL</code> to <code>dword:00000001</code>. (Citation: Microsoft LSA Protection Mar 2014) LSA Protection ensures that LSA plug-ins and drivers are only loaded if they are digitally signed with a Microsoft signature and adhere to the Microsoft Security Development Lifecycle (SDL) process guidance.\n\nOn Windows 10 and Server 2016, enable Windows Defender Credential Guard (Citation: Microsoft Enable Cred Guard April 2017) to run lsass.exe in an isolated virtualized environment without any device drivers. (Citation: Microsoft Credential Guard April 2017)\n\nEnsure safe DLL search mode is enabled <code>HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Session Manager\\SafeDllSearchMode</code> to mitigate risk that lsass.exe loads a malicious code library. (Citation: Microsoft DLL Security)",
+                "type": "course-of-action",
+                "id": "T1177"
+            },
+            {
+                "name": "Code Signing",
+                "description": "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+                "type": "course-of-action",
+                "id": "M1045"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

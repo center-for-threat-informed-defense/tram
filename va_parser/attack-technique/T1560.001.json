@@ -1,0 +1,120 @@
+﻿{
+    "id": "T1560.001",
+    "name": "Archive via Utility",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use utilities to compress and/or encrypt collected data prior to exfiltration. Many utilities include functionalities to compress, encrypt, or otherwise package data into a format that is easier/more secure to transport.\n\nAdversaries may abuse various utilities to compress or encrypt data before exfiltration. Some third party utilities may be preinstalled, such as <code>tar</code> on Linux and macOS or <code>zip</code> on Windows systems. On Windows, <code>diantz</code> or <code> makecab</code> may be used to package collected files into a cabinet (.cab) file. <code>diantz</code> may also be used to download and compress files from remote locations (i.e. [Remote Data Staging](https://attack.mitre.org/techniques/T1074/002)).(Citation: diantz.exe_lolbas) Additionally, <code>xcopy</code> on Windows can copy files and directories with a variety of options.\n\nAdversaries may use also third party utilities, such as 7-Zip, WinRAR, and WinZip, to perform similar activities.(Citation: 7zip Homepage)(Citation: WinRAR Homepage)(Citation: WinZip Homepage)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1560/001",
+            "external_id": "T1560.001"
+        },
+        {
+            "source_name": "WinRAR Homepage",
+            "description": "A. Roshal. (2020). RARLAB. Retrieved February 20, 2020.",
+            "url": "https://www.rarlab.com/"
+        },
+        {
+            "source_name": "WinZip Homepage",
+            "description": "Corel Corporation. (2020). WinZip. Retrieved February 20, 2020.",
+            "url": "https://www.winzip.com/win/en/"
+        },
+        {
+            "source_name": "7zip Homepage",
+            "description": "I. Pavlov. (2019). 7-Zip. Retrieved February 20, 2020.",
+            "url": "https://www.7-zip.org/"
+        },
+        {
+            "source_name": "diantz.exe_lolbas",
+            "description": "Living Off The Land Binaries, Scripts and Libraries (LOLBAS). (n.d.). Diantz.exe. Retrieved October 25, 2021.",
+            "url": "https://lolbas-project.github.io/lolbas/Binaries/Diantz/"
+        },
+        {
+            "source_name": "Wikipedia File Header Signatures",
+            "description": "Wikipedia. (2016, March 31). List of file signatures. Retrieved April 22, 2016.",
+            "url": "https://en.wikipedia.org/wiki/List_of_file_signatures"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+        }
+    ],
+    "tactic": [
+        "collection"
+    ],
+    "x_mitre_detection": "Common utilities that may be present on the system or brought in by an adversary may be detectable through process monitoring and monitoring for command-line arguments for known archival utilities. This may yield a significant number of benign events, depending on how systems in the environment are typically used.\n\nConsider detecting writing of files with extensions and/or headers associated with compressed or encrypted file types. Detection efforts may focus on follow-on exfiltration activity, where compressed or encrypted files can be detected in transit with a network intrusion detection or data loss prevention system analyzing file headers.(Citation: Wikipedia File Header Signatures)",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "File: File Creation",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that system scans are performed regularly to identify unauthorized archival utilities.",
+                "acid": "98582315"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that process monitoring is performed to detect common utilities on the system, which could be suspicious.",
+                "acid": "98582309"
+            },
+            {
+                "description": "Ensure that command-line arguments are monitored for known archival utilities.",
+                "acid": "98582310"
+            },
+            {
+                "description": "Ensure that process that loads the Windows DLL crypt32.dll is used to perform encryption, decryption, or verification of file signatures.",
+                "acid": "98582311"
+            },
+            {
+                "description": "Ensure that the writing of files is detected with extensions and/or headers associated with compressed or encrypted file types.",
+                "acid": "98582312"
+            },
+            {
+                "description": "Ensure that the Network Intrusion Detection System is configured to detect compressed or encrypted files in transit by analyzing file headers.",
+                "acid": "98582313"
+            },
+            {
+                "description": "Ensure that the Data Loss Prevention System is configured to detect compressed or encrypted files in transit by analyzing file headers.",
+                "acid": "98582314"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

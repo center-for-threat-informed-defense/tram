@@ -1,0 +1,89 @@
+﻿{
+    "id": "T1461",
+    "name": "Lockscreen Bypass",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "An adversary with physical access to a mobile device may seek to bypass the device's lockscreen. Several methods exist to accomplish this, including:\n\n* Biometric spoofing: If biometric authentication is used, an adversary could attempt to spoof a mobile device's biometric authentication mechanism. Both iOS and Android partly mitigate this attack by requiring the device's passcode rather than biometrics to unlock the device after every device restart, and after a set or random amount of time.(Citation: SRLabs-Fingerprint)(Citation: TheSun-FaceID)\n* Unlock code bypass: An adversaries could attempt to brute-force or otherwise guess the lockscreen passcode (typically a PIN or password), including physically observing (\u201cshoulder surfing\u201d) the device owner's use of the lockscreen passcode. Mobile OS vendors partly mitigate this by implementing incremental backoff timers after a set number of failed unlock attempts, as well as a configurable full device wipe after several failed unlock attempts.\n* Vulnerability exploit: Techniques have been periodically demonstrated that exploit mobile devices to bypass the lockscreen. The vulnerabilities are generally patched by the device or OS vendor once disclosed.(Citation: Wired-AndroidBypass)(Citation: Kaspersky-iOSBypass)\n",
+    "x_mitre_platforms": [
+        "Android",
+        "iOS"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T1461",
+            "url": "https://attack.mitre.org/techniques/T1461"
+        },
+        {
+            "source_name": "Wired-AndroidBypass",
+            "url": "https://www.wired.com/2015/09/hack-brief-new-emergency-number-hack-easily-bypasses-android-lock-screens/",
+            "description": "Andy Greenberg. (2015, September 15). Hack Brief: Emergency Number Hack Bypasses Android Lock Screens. Retrieved December 23, 2016."
+        },
+        {
+            "source_name": "Kaspersky-iOSBypass",
+            "url": "https://threatpost.com/ios-10-passcode-bypass-can-access-photos-contacts/122033/",
+            "description": "Chris Brook. (2016, November 17). iOS 10 Passcode Bypass Can Access Photos, Contacts. Retrieved December 23, 2016."
+        },
+        {
+            "source_name": "TheSun-FaceID",
+            "url": "https://www.thesun.co.uk/tech/5584082/iphone-x-face-unlock-tricked-broken/",
+            "description": "Sean Keach. (2018, February 15). Brit mates BREAK Apple\u2019s face unlock and vow to never buy iPhone again. Retrieved September 18, 2018."
+        },
+        {
+            "source_name": "SRLabs-Fingerprint",
+            "url": "https://srlabs.de/bites/spoofing-fingerprints/",
+            "description": "SRLabs. (n.d.). Fingerprints are not fit for secure device unlocking. Retrieved December 23, 2016."
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "phase_name": "initial-access",
+            "kill_chain_name": "mitre-mobile-attack"
+        }
+    ],
+    "tactic": [
+        "initial-access"
+    ],
+    "x_mitre_detection": "Users can see if someone is watching them type in their device passcode.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Enterprise Policy",
+                "description": "An enterprise mobility management (EMM), also known as mobile device management (MDM), system can be used to provision policies to mobile devices to control aspects of their allowed behavior.",
+                "type": "course-of-action",
+                "id": "M1012"
+            },
+            {
+                "name": "Security Updates",
+                "description": "Install security updates in response to discovered vulnerabilities.\n\nPurchase devices with a vendor and/or mobile carrier commitment to provide security updates in a prompt manner for a set period of time.\n\nDecommission devices that will no longer receive security updates.\n\nLimit or block access to enterprise resources from devices that have not installed recent security updates.\n\nOn Android devices, access can be controlled based on each device's security patch level. On iOS devices, access can be controlled based on the iOS version.",
+                "type": "course-of-action",
+                "id": "M1001"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [
+        "CVE-2017-0493"
+    ],
+    "subTechniques": []
+}

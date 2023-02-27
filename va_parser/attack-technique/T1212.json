@@ -1,0 +1,170 @@
+﻿{
+    "id": "T1212",
+    "name": "Exploitation for Credential Access",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may exploit software vulnerabilities in an attempt to collect credentials. Exploitation of a software vulnerability occurs when an adversary takes advantage of a programming error in a program, service, or within the operating system software or kernel itself to execute adversary-controlled code.\u00a0Credentialing and authentication mechanisms may be targeted for exploitation by adversaries as a means to gain access to useful credentials or circumvent the process to gain access to systems. One example of this is MS14-068, which targets Kerberos and can be used to forge Kerberos tickets using domain user permissions.(Citation: Technet MS14-068)(Citation: ADSecurity Detecting Forged Tickets) Exploitation for credential access may also result in Privilege Escalation depending on the process targeted or credentials obtained.",
+    "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1212",
+            "external_id": "T1212"
+        },
+        {
+            "source_name": "ADSecurity Detecting Forged Tickets",
+            "description": "Metcalf, S. (2015, May 03). Detecting Forged Kerberos Ticket (Golden Ticket & Silver Ticket) Use in Active Directory. Retrieved December 23, 2015.",
+            "url": "https://adsecurity.org/?p=1515"
+        },
+        {
+            "source_name": "Technet MS14-068",
+            "description": "Microsoft. (2014, November 18). Vulnerability in Kerberos Could Allow Elevation of Privilege (3011780). Retrieved December 23, 2015.",
+            "url": "https://technet.microsoft.com/en-us/library/security/ms14-068.aspx"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "Detecting software exploitation may be difficult depending on the tools available. Software exploits may not always succeed or may cause the exploited process to become unstable or crash. Also look for behavior on the system that might indicate successful compromise, such as abnormal behavior of processes. Credential resources obtained through exploitation may be detectable in use if they are not normally used or seen.",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "Application Log: Application Log Content",
+        "User Account: User Account Authentication"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Exploit Protection",
+                "description": "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring.",
+                "type": "course-of-action",
+                "id": "M1050"
+            },
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk.",
+                "type": "course-of-action",
+                "id": "M1051"
+            },
+            {
+                "name": "Exploitation for Credential Access Mitigation",
+                "description": "Update software regularly by employing patch management for internal enterprise endpoints and servers. Develop a robust cyber threat intelligence capability to determine what types and levels of threat may use software exploits and 0-days against a particular organization. Make it difficult for adversaries to advance their operation through exploitation of undiscovered or unpatched vulnerabilities by using sandboxing, if available. Other types of virtualization and application microsegmentation may also mitigate the impact of some types of exploitation. The risks of additional exploits and weaknesses in implementation may still exist. (Citation: Ars Technica Pwn2Own 2017 VM Escape)\n\nSecurity applications that look for behavior used during exploitation such as Windows Defender Exploit Guard (WDEG) and the Enhanced Mitigation Experience Toolkit (EMET) can be used to mitigate some exploitation behavior. (Citation: TechNet Moving Beyond EMET) Control flow integrity checking is another way to potentially identify and stop a software exploit from occurring. (Citation: Wikipedia Control Flow Integrity) Many of these protections depend on the architecture and target application binary for compatibility and may not work for software targeted for defense evasion.",
+                "type": "course-of-action",
+                "id": "T1212"
+            },
+            {
+                "name": "Threat Intelligence Program",
+                "description": "A threat intelligence program helps an organization generate their own threat intelligence information and track trends to inform defensive priorities to mitigate risk.",
+                "type": "course-of-action",
+                "id": "M1019"
+            },
+            {
+                "name": "Application Isolation and Sandboxing",
+                "description": "Restrict execution of code to a virtual environment on or in transit to an endpoint system.",
+                "type": "course-of-action",
+                "id": "M1048"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Virtualization (sandboxing) is implemented in the organization to mitigate the risk of client-side exploitation",
+                "acid": "98581858"
+            },
+            {
+                "description": "Ensure that application micro-segmentation is implemented as a security mechanism to mitigate the impact of client-side exploitation",
+                "acid": "98581859"
+            },
+            {
+                "description": "Ensure that security applications (Eg. WDEG, EMET) are configured to identify and mitigate exploitation events",
+                "acid": "98581860"
+            },
+            {
+                "description": "Ensure that Control flow integrity checking is implemented to identify and prevent software exploitation",
+                "acid": "98581861"
+            },
+            {
+                "description": "Ensure that Cyber Threat Intelligence capability is defined and implemented which helps to identify zero-days and software exploits",
+                "acid": "98581862"
+            },
+            {
+                "description": "Ensure that Patch management solutions are configured to keep the softwares up-to-date",
+                "acid": "98581863"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes related to credential access are monitored for abnormal behavior",
+                "acid": "98581857"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000102",
+        "40000117",
+        "40000166",
+        "40000187",
+        "40000491",
+        "40000503",
+        "40000506",
+        "40000510",
+        "40000511",
+        "40000512",
+        "40000514",
+        "40000517",
+        "40000519",
+        "40000520",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106007",
+        "50106010",
+        "50106016",
+        "50106020",
+        "50106023",
+        "50106025",
+        "50106032",
+        "50106110"
+    ],
+    "technologycontrolIds": [
+        "14030091",
+        "14040091",
+        "18380054",
+        "18380055",
+        "19920454"
+    ],
+    "cveIds": [
+        "CVE-2013-5054",
+        "CVE-2014-0751",
+        "CVE-2016-6415",
+        "CVE-2017-11368",
+        "CVE-2018-13379",
+        "CVE-2018-20753",
+        "CVE-2019-11510"
+    ],
+    "subTechniques": []
+}

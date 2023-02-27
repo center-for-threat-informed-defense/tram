@@ -1,0 +1,244 @@
+﻿{
+    "id": "T1556",
+    "name": "Modify Authentication Process",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may modify authentication mechanisms and processes to access user credentials or enable otherwise unwarranted access to accounts. The authentication process is handled by mechanisms, such as the Local Security Authentication Server (LSASS) process and the Security Accounts Manager (SAM) on Windows, pluggable authentication modules (PAM) on Unix-based systems, and authorization plugins on MacOS systems, responsible for gathering, storing, and validating credentials. By modifying an authentication process, an adversary may be able to authenticate to a service or system without using [Valid Accounts](https://attack.mitre.org/techniques/T1078).\n\nAdversaries may maliciously modify a part of this process to either reveal credentials or bypass authentication mechanisms. Compromised credentials or access may be used to bypass access controls placed on various resources on systems within the network and may even be used for persistent access to remote systems and externally available services, such as VPNs, Outlook Web Access and remote desktop.",
+    "x_mitre_platforms": [
+        "Windows",
+        "Linux",
+        "macOS",
+        "Network",
+        "Azure AD",
+        "Google Workspace",
+        "IaaS",
+        "Office 365",
+        "SaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1556",
+            "external_id": "T1556"
+        },
+        {
+            "source_name": "Clymb3r Function Hook Passwords Sept 2013",
+            "description": "Bialek, J. (2013, September 15). Intercepting Password Changes With Function Hooking. Retrieved November 21, 2017.",
+            "url": "https://clymb3r.wordpress.com/2013/09/15/intercepting-password-changes-with-function-hooking/"
+        },
+        {
+            "source_name": "Xorrior Authorization Plugins",
+            "description": "Chris Ross. (2018, October 17). Persistent Credential Theft with Authorization Plugins. Retrieved April 22, 2021.",
+            "url": "https://xorrior.com/persistent-credential-theft/"
+        },
+        {
+            "source_name": "Dell Skeleton",
+            "description": "Dell SecureWorks. (2015, January 12). Skeleton Key Malware Analysis. Retrieved April 8, 2019.",
+            "url": "https://www.secureworks.com/research/skeleton-key-malware-analysis"
+        },
+        {
+            "source_name": "dump_pwd_dcsync",
+            "description": "Metcalf, S. (2015, November 22). Dump Clear-Text Passwords for All Admins in the Domain Using Mimikatz DCSync. Retrieved November 15, 2021.",
+            "url": "https://adsecurity.org/?p=2053"
+        },
+        {
+            "source_name": "TechNet Audit Policy",
+            "description": "Microsoft. (2016, April 15). Audit Policy Recommendations. Retrieved June 3, 2016.",
+            "url": "https://technet.microsoft.com/en-us/library/dn487457.aspx"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "credential-access",
+        "defense-evasion",
+        "persistence"
+    ],
+    "x_mitre_detection": "Monitor for new, unfamiliar DLL files written to a domain controller and/or local computer. Monitor for changes to Registry entries for password filters (ex: <code>HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\Notification Packages</code>) and correlate then investigate the DLL files these files reference. \n\nPassword filters will also show up as an autorun and loaded DLL in lsass.exe.(Citation: Clymb3r Function Hook Passwords Sept 2013)\n\nMonitor for calls to <code>OpenProcess</code> that can be used to manipulate lsass.exe running on a domain controller as well as for malicious modifications to functions exported from authentication-related system DLLs (such as cryptdll.dll and samsrv.dll).(Citation: Dell Skeleton) \n\nMonitor PAM configuration and module paths (ex: <code>/etc/pam.d/</code>) for changes. Use system-integrity tools such as AIDE and monitoring tools such as auditd to monitor PAM files.\n\nMonitor for suspicious additions to the /Library/Security/SecurityAgentPlugins directory.(Citation: Xorrior Authorization Plugins)\n\nConfigure robust, consistent account activity audit policies across the enterprise and with externally accessible services. (Citation: TechNet Audit Policy) Look for suspicious account behavior across systems that share accounts, either user, admin, or service accounts. Examples: one account logged into multiple systems simultaneously; multiple accounts logged into the same machine simultaneously; accounts logged in at odd times or outside of business hours. Activity may be from interactive login sessions or process ownership from accounts being used to execute binaries on a remote system as a particular account. Correlate other security systems with login information (e.g., a user has an active login session but has not entered the building or does not have VPN access).\n\nMonitor property changes in Group Policy that manage authentication mechanisms (i.e. [Group Policy Modification](https://attack.mitre.org/techniques/T1484/001)). The <code>Store passwords using reversible encryption</code> configuration should be set to Disabled. Additionally, monitor and/or block suspicious command/script execution of <code>-AllowReversiblePasswordEncryption $true</code>, <code>Set-ADUser</code> and <code>Set-ADAccountControl</code>. Finally, monitor Fine-Grained Password Policies and regularly audit user accounts and group settings.(Citation: dump_pwd_dcsync)\n",
+    "x_mitre_data_sources": [
+        "File: File Creation",
+        "Logon Session: Logon Session Creation",
+        "Module: Module Load",
+        "Active Directory: Active Directory Object Modification",
+        "Process: Process Access",
+        "Process: OS API Execution",
+        "File: File Modification",
+        "Application Log: Application Log Content",
+        "User Account: User Account Authentication",
+        "User Account: User Account Modification",
+        "Windows Registry: Windows Registry Key Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Multi-factor Authentication",
+                "description": "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+                "type": "course-of-action",
+                "id": "M1032"
+            },
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Privileged Process Integrity",
+                "description": "Protect processes with high privileges that can be used to interact with critical system components through use of protected process light, anti-process injection defenses, or other process integrity enforcement measures.",
+                "type": "course-of-action",
+                "id": "M1025"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that multi-factor authentication (MFA) is configured in the organization to secure user accounts",
+                "acid": "98581427"
+            },
+            {
+                "description": "Ensure that multi-factor authentication (MFA) is configured to restrict access to cloud resources and APIs",
+                "acid": "98581428"
+            },
+            {
+                "description": "Ensure that all filter DLLs are present in the windows installation directory of the domain controller and only valid password filters are registered",
+                "acid": "98581429"
+            },
+            {
+                "description": "Ensure that Privileges access (account) management (PAM) solution is configured to audit domain and local accounts",
+                "acid": "98581430"
+            },
+            {
+                "description": "Ensure that normal users are blocked from modifying protected components such as SELinux, grsecurity, etc",
+                "acid": "98581431"
+            },
+            {
+                "description": "Ensure that only the root account user can modify protected components such as SELinux, grsecurity, etc",
+                "acid": "98581432"
+            },
+            {
+                "description": "Ensure that LSA protection is configured to be enabled by Protected Process Light (PPL) feature",
+                "acid": "98581433"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that domain controlled is monitored for new/ unfamiliar DLL files written",
+                "acid": "98581421"
+            },
+            {
+                "description": "Ensure that Registry entries for password filters such as HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\Notification Packages are monitored for changes",
+                "acid": "98581422"
+            },
+            {
+                "description": "Ensure that the lsass.exe process running on the domain controller is monitored for calls to OpenProcess. (cryptdll.dll &samsrv.dll)",
+                "acid": "98581423"
+            },
+            {
+                "description": "Ensure that PAM configuration and module paths (/etc/pam.cd/) are monitored for changes",
+                "acid": "98581424"
+            },
+            {
+                "description": "Ensure that system integrity tools (AIDE) and monitoring tools (auditd) are configured to monitor PAM files",
+                "acid": "98581425"
+            },
+            {
+                "description": "Ensure that User account management (policy and tools) are defined as monitoring simultaneous multiple logins of the same user accounts",
+                "acid": "98581426"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000205",
+        "40000490",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50100281",
+        "50100285",
+        "50106020",
+        "50106027",
+        "50106115"
+    ],
+    "technologycontrolIds": [
+        "11470013",
+        "11470016",
+        "11480001",
+        "11480003",
+        "11480005",
+        "18380052",
+        "18410015",
+        "18410016",
+        "18410017"
+    ],
+    "cveIds": [
+        "CVE-2017-5174",
+        "CVE-2018-10933",
+        "CVE-2020-7115"
+    ],
+    "subTechniques": [
+        "T1556.001",
+        "T1556.002",
+        "T1556.003",
+        "T1556.004",
+        "T1556.005",
+        "T1556.006",
+        "T1556.007"
+    ]
+}

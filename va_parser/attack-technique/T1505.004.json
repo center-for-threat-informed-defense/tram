@@ -1,0 +1,137 @@
+{
+    "id": "T1505.004",
+    "name": "IIS Components",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may install malicious components that run on Internet Information Services (IIS) web servers to establish persistence. IIS provides several mechanisms to extend the functionality of the web servers. For example, Internet Server Application Programming Interface (ISAPI) extensions and filters can be installed to examine and/or modify incoming and outgoing IIS web requests. Extensions and filters are deployed as DLL files that export three functions: <code>Get{Extension/Filter}Version</code>, <code>Http{Extension/Filter}Proc</code>, and (optionally) <code>Terminate{Extension/Filter}</code>. IIS modules may also be installed to extend IIS web servers.(Citation: Microsoft ISAPI Extension Overview 2017)(Citation: Microsoft ISAPI Filter Overview 2017)(Citation: IIS Backdoor 2011)(Citation: Trustwave IIS Module 2013)\n\nAdversaries may install malicious ISAPI extensions and filters to observe and/or modify traffic, execute commands on compromised machines, or proxy command and control traffic. ISAPI extensions and filters may have access to all IIS web requests and responses. For example, an adversary may abuse these mechanisms to modify HTTP responses in order to distribute malicious commands/content to previously comprised hosts.(Citation: Microsoft ISAPI Filter Overview 2017)(Citation: Microsoft ISAPI Extension Overview 2017)(Citation: Microsoft ISAPI Extension All Incoming 2017)(Citation: Dell TG-3390)(Citation: Trustwave IIS Module 2013)(Citation: MMPC ISAPI Filter 2012)\n\nAdversaries may also install malicious IIS modules to observe and/or modify traffic. IIS 7.0 introduced modules that provide the same unrestricted access to HTTP requests and responses as ISAPI extensions and filters. IIS modules can be written as a DLL that exports <code>RegisterModule</code>, or as a .NET application that interfaces with ASP.NET APIs to access IIS HTTP requests.(Citation: Microsoft IIS Modules Overview 2007)(Citation: Trustwave IIS Module 2013)(Citation: ESET IIS Malware 2021)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1505/004",
+            "external_id": "T1505.004"
+        },
+        {
+            "source_name": "Microsoft ISAPI Extension Overview 2017",
+            "description": "Microsoft. (2017, June 16). ISAPI Extension Overview. Retrieved June 3, 2021.",
+            "url": "https://docs.microsoft.com/en-us/previous-versions/iis/6.0-sdk/ms525172(v=vs.90)"
+        },
+        {
+            "source_name": "Microsoft ISAPI Filter Overview 2017",
+            "description": "Microsoft. (2017, June 16). ISAPI Filter Overview. Retrieved June 3, 2021.",
+            "url": "https://docs.microsoft.com/en-us/previous-versions/iis/6.0-sdk/ms524610(v=vs.90)"
+        },
+        {
+            "source_name": "IIS Backdoor 2011",
+            "description": "Julien. (2011, February 2). IIS Backdoor. Retrieved June 3, 2021.",
+            "url": "https://web.archive.org/web/20170106175935/http:/esec-lab.sogeti.com/posts/2011/02/02/iis-backdoor.html"
+        },
+        {
+            "source_name": "Trustwave IIS Module 2013",
+            "description": "Grunzweig, J. (2013, December 9). The Curious Case of the Malicious IIS Module. Retrieved June 3, 2021.",
+            "url": "https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/the-curious-case-of-the-malicious-iis-module/"
+        },
+        {
+            "source_name": "Microsoft ISAPI Extension All Incoming 2017",
+            "description": "Microsoft. (2017, June 16). Intercepting All Incoming IIS Requests. Retrieved June 3, 2021.",
+            "url": "https://docs.microsoft.com/en-us/previous-versions/iis/6.0-sdk/ms525696(v=vs.90)"
+        },
+        {
+            "source_name": "Dell TG-3390",
+            "description": "Dell SecureWorks Counter Threat Unit Threat Intelligence. (2015, August 5). Threat Group-3390 Targets Organizations for Cyberespionage. Retrieved August 18, 2018.",
+            "url": "https://www.secureworks.com/research/threat-group-3390-targets-organizations-for-cyberespionage"
+        },
+        {
+            "source_name": "MMPC ISAPI Filter 2012",
+            "description": "MMPC. (2012, October 3). Malware signed with the Adobe code signing certificate. Retrieved June 3, 2021.",
+            "url": "https://web.archive.org/web/20140804175025/http:/blogs.technet.com/b/mmpc/archive/2012/10/03/malware-signed-with-the-adobe-code-signing-certificate.aspx"
+        },
+        {
+            "source_name": "Microsoft IIS Modules Overview 2007",
+            "description": "Microsoft. (2007, November 24). IIS Modules Overview. Retrieved June 17, 2021.",
+            "url": "https://docs.microsoft.com/en-us/iis/get-started/introduction-to-iis/iis-modules-overview"
+        },
+        {
+            "source_name": "ESET IIS Malware 2021",
+            "description": "Hromcov\u00e1, Z., Cherepanov, A. (2021). Anatomy of Native IIS Malware. Retrieved September 9, 2021.",
+            "url": "https://i.blackhat.com/USA21/Wednesday-Handouts/us-21-Anatomy-Of-Native-Iis-Malware-wp.pdf"
+        },
+        {
+            "source_name": "Unit 42 RGDoor Jan 2018",
+            "description": "Falcone, R. (2018, January 25). OilRig uses RGDoor IIS Backdoor on Targets in the Middle East. Retrieved July 6, 2018.",
+            "url": "https://researchcenter.paloaltonetworks.com/2018/01/unit42-oilrig-uses-rgdoor-iis-backdoor-targets-middle-east/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Monitor for creation and/or modification of files (especially DLLs on webservers) that could be abused as malicious ISAPI extensions/filters or IIS modules. Changes to <code>%windir%\\system32\\inetsrv\\config\\applicationhost.config</code> could indicate an IIS module installation.(Citation: Microsoft IIS Modules Overview 2007)(Citation: ESET IIS Malware 2021)\n\nMonitor execution and command-line arguments of <code>AppCmd.exe</code>, which may be abused to install malicious IIS modules.(Citation: Microsoft IIS Modules Overview 2007)(Citation: Unit 42 RGDoor Jan 2018)(Citation: ESET IIS Malware 2021)",
+    "x_mitre_data_sources": [
+        "File: File Creation",
+        "File: File Modification",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Code Signing",
+                "description": "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+                "type": "course-of-action",
+                "id": "M1045"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

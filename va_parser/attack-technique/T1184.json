@@ -1,0 +1,116 @@
+﻿{
+    "id": "T1184",
+    "name": "SSH Hijacking",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "Secure Shell (SSH) is a standard means of remote access on Linux and macOS systems. It allows a user to connect to another system via an encrypted tunnel, commonly authenticating through a password, certificate or the use of an asymmetric encryption key pair.\n\nIn order to move laterally from a compromised host, adversaries may take advantage of trust relationships established with other systems via public key authentication in active SSH sessions by hijacking an existing connection to another system. This may occur through compromising the SSH agent itself or by having access to the agent's socket. If an adversary is able to obtain root access, then hijacking SSH sessions is likely trivial. (Citation: Slideshare Abusing SSH) (Citation: SSHjack Blackhat) (Citation: Clockwork SSH Agent Hijacking) Compromising the SSH agent also provides access to intercept SSH credentials. (Citation: Welivesecurity Ebury SSH)\n\n[SSH Hijacking](https://attack.mitre.org/techniques/T1184) differs from use of [Remote Services](https://attack.mitre.org/techniques/T1021) because it injects into an existing SSH session rather than creating a new session using [Valid Accounts](https://attack.mitre.org/techniques/T1078).",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1184",
+            "external_id": "T1184"
+        },
+        {
+            "source_name": "Slideshare Abusing SSH",
+            "description": "Duarte, H., Morrison, B. (2012). (Mis)trusting and (ab)using ssh. Retrieved January 8, 2018.",
+            "url": "https://www.slideshare.net/morisson/mistrusting-and-abusing-ssh-13526219"
+        },
+        {
+            "source_name": "SSHjack Blackhat",
+            "description": "Adam Boileau. (2005, August 5). Trust Transience:  Post Intrusion SSH Hijacking. Retrieved December 19, 2017.",
+            "url": "https://www.blackhat.com/presentations/bh-usa-05/bh-us-05-boileau.pdf"
+        },
+        {
+            "source_name": "Clockwork SSH Agent Hijacking",
+            "description": "Beuchler, B. (2012, September 28). SSH Agent Hijacking. Retrieved December 20, 2017.",
+            "url": "https://www.clockwork.com/news/2012/09/28/602/ssh_agent_hijacking"
+        },
+        {
+            "source_name": "Welivesecurity Ebury SSH",
+            "description": "M.L\u00e9veill\u00e9, M. (2014, February 21). An In-depth Analysis of Linux/Ebury. Retrieved January 8, 2018.",
+            "url": "https://www.welivesecurity.com/2014/02/21/an-in-depth-analysis-of-linuxebury/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "lateral-movement"
+        }
+    ],
+    "tactic": [
+        "lateral-movement"
+    ],
+    "x_mitre_detection": "Use of SSH may be legitimate, depending upon the network environment and how it is used. Other factors, such as access patterns and activity that occurs after a remote login, may indicate suspicious or malicious behavior with SSH. Monitor for user accounts logged into systems they would not normally access or access patterns to multiple systems over a relatively short period of time. Also monitor user SSH-agent socket files being used by different users.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "User",
+        "root"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "SSH service enabled, trust relationships configured, established connections"
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "User Account Control",
+                "description": "Configure Windows User Account Control to mitigate risk of adversaries obtaining elevated process access.",
+                "type": "course-of-action",
+                "id": "M1052"
+            },
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "SSH Hijacking Mitigation",
+                "description": "Ensure SSH key pairs have strong passwords and refrain from using key-store technologies such as ssh-agent unless they are properly protected. Ensure that all private keys are stored securely in locations where only the legitimate owner has access to with strong passwords and are rotated frequently. Ensure proper file permissions are set and harden system to prevent root privilege escalation opportunities. Do not allow remote access via SSH as root or other privileged accounts. Ensure that agent forwarding is disabled on systems that do not explicitly require this feature to prevent misuse. (Citation: Symantec SSH and ssh-agent)",
+                "type": "course-of-action",
+                "id": "T1184"
+            },
+            {
+                "name": "Restrict File and Directory Permissions",
+                "description": "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+                "type": "course-of-action",
+                "id": "M1022"
+            },
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

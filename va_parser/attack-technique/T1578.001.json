@@ -1,0 +1,156 @@
+{
+    "id": "T1578.001",
+    "name": "Create Snapshot",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "An adversary may create a snapshot or data backup within a cloud account to evade defenses. A snapshot is a point-in-time copy of an existing cloud compute component such as a virtual machine (VM), virtual hard drive, or volume. An adversary may leverage permissions to create a snapshot in order to bypass restrictions that prevent access to existing compute service infrastructure, unlike in [Revert Cloud Instance](https://attack.mitre.org/techniques/T1578/004) where an adversary may revert to a snapshot to evade detection and remove evidence of their presence.\n\nAn adversary may [Create Cloud Instance](https://attack.mitre.org/techniques/T1578/002), mount one or more created snapshots to that instance, and then apply a policy that allows the adversary access to the created instance, such as a firewall policy that allows them inbound and outbound SSH access.(Citation: Mandiant M-Trends 2020)",
+    "x_mitre_platforms": [
+        "IaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1578/001",
+            "external_id": "T1578.001"
+        },
+        {
+            "source_name": "Mandiant M-Trends 2020",
+            "description": "Mandiant. (2020, February). M-Trends 2020. Retrieved April 24, 2020.",
+            "url": "https://content.fireeye.com/m-trends/rpt-m-trends-2020"
+        },
+        {
+            "source_name": "AWS Cloud Trail Backup API",
+            "description": "Amazon. (2020). Logging AWS Backup API Calls with AWS CloudTrail. Retrieved April 27, 2020.",
+            "url": "https://docs.aws.amazon.com/aws-backup/latest/devguide/logging-using-cloudtrail.html"
+        },
+        {
+            "source_name": "Azure - Monitor Logs",
+            "description": "Microsoft. (2019, June 4). Monitor at scale by using Azure Monitor. Retrieved May 1, 2020.",
+            "url": "https://docs.microsoft.com/en-us/azure/backup/backup-azure-monitoring-use-azuremonitor"
+        },
+        {
+            "source_name": "Cloud Audit Logs",
+            "description": "Google. (n.d.). Audit Logs. Retrieved June 1, 2020.",
+            "url": "https://cloud.google.com/logging/docs/audit#admin-activity"
+        },
+        {
+            "source_name": "GCP - Creating and Starting a VM",
+            "description": "Google. (2020, April 23). Creating and Starting a VM instance. Retrieved May 1, 2020.",
+            "url": "https://cloud.google.com/compute/docs/instances/create-start-instance#api_2"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        }
+    ],
+    "tactic": [
+        "defense-evasion"
+    ],
+    "x_mitre_detection": "The creation of a snapshot is a common part of operations within many cloud environments. Events should then not be viewed in isolation, but as part of a chain of behavior that could lead to other activities such as the creation of one or more snapshots and the restoration of these snapshots by a new user account.\n\nIn AWS, CloudTrail logs capture the creation of snapshots and all API calls for AWS Backup as events. Using the information collected by CloudTrail, you can determine the request that was made, the IP address from which the request was made, which user made the request, when it was made, and additional details.(Citation: AWS Cloud Trail Backup API).\n\nIn Azure, the creation of a snapshot may be captured in Azure activity logs. Backup restoration events can also be detected through Azure Monitor Log Data by creating a custom alert for completed restore jobs.(Citation: Azure - Monitor Logs)\n\nGoogle's Admin Activity audit logs within their Cloud Audit logs can be used to detect the usage of the <code>gcloud compute instances create</code> command to create a new VM disk from a snapshot.(Citation: Cloud Audit Logs) It is also possible to detect the usage of the GCP API with the <code>\"sourceSnapshot\":</code> parameter pointed to <code>\"global/snapshots/[BOOT_SNAPSHOT_NAME]</code>.(Citation: GCP - Creating and Starting a VM)",
+    "x_mitre_data_sources": [
+        "Snapshot: Snapshot Creation",
+        "Snapshot: Snapshot Metadata"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that auditing is employed for the user to monitor their permissions regularly.",
+                "acid": "98581469"
+            },
+            {
+                "description": "Ensure that user permissions are regularly audited.",
+                "acid": "98581470"
+            },
+            {
+                "description": "Ensure that permissions are implemented properly so that only expected users can create snapshots and backups.",
+                "acid": "98581471"
+            },
+            {
+                "description": "Ensure that the least privileges are implemented by limiting permissions for creating snapshots or backups.",
+                "acid": "98581472"
+            },
+            {
+                "description": "Ensure that the IAM role is implemented to limit the number of users in the organization.",
+                "acid": "98581473"
+            },
+            {
+                "description": "Ensure that the IAM role is implemented to reduce all permanent privileged role assignments.",
+                "acid": "98581474"
+            },
+            {
+                "description": "Ensure that periodic entitlement reviews are conducted on IAM users, roles, and policies.",
+                "acid": "98581475"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that events are viewed as part of the chain of behavior rather than isolation.",
+                "acid": "98581462"
+            },
+            {
+                "description": "Ensure that CloudTrail logs are monitored to check the creation of snapshots.",
+                "acid": "98581463"
+            },
+            {
+                "description": "Ensure that CloudTrail logs are monitored to determine the IP address from which the request was made, time, and additional details.",
+                "acid": "98581464"
+            },
+            {
+                "description": "Ensure that for Azure, Azure activity logs are monitored to check the creation of snapshots.",
+                "acid": "98581465"
+            },
+            {
+                "description": "Ensure that an Azure Log Data is monitored to detect backup restoration events (by creating a custom alert for completed restore jobs).",
+                "acid": "98581466"
+            },
+            {
+                "description": "Ensure that Google's Admin Activity audit logs (within their Cloud Audit logs) are monitored to detect the creation of a new VM disk from a snapshot.",
+                "acid": "98581467"
+            },
+            {
+                "description": "Ensure that parameter \"sourceSnapshot\": \"global/snapshots/[BOOT_SNAPSHOT_NAME] is monitored to detect usage of the GCP API.",
+                "acid": "98581468"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000490"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

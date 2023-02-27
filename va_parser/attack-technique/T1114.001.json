@@ -1,0 +1,96 @@
+{
+    "id": "T1114.001",
+    "name": "Local Email Collection",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may target user email on local systems to collect sensitive information. Files containing email data can be acquired from a user's local system, such as Outlook storage or cache files.\n\nOutlook stores data locally in offline data files with an extension of .ost. Outlook 2010 and later supports .ost file sizes up to 50GB, while earlier versions of Outlook support up to 20GB.(Citation: Outlook File Sizes) IMAP accounts in Outlook 2013 (and earlier) and POP accounts use Outlook Data Files (.pst) as opposed to .ost, whereas IMAP accounts in Outlook 2016 (and later) use .ost files. Both types of Outlook data files are typically stored in `C:\\Users\\<username>\\Documents\\Outlook Files` or `C:\\Users\\<username>\\AppData\\Local\\Microsoft\\Outlook`.(Citation: Microsoft Outlook Files)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1114/001",
+            "external_id": "T1114.001"
+        },
+        {
+            "source_name": "Outlook File Sizes",
+            "description": "N. O'Bryan. (2018, May 30). Managing Outlook Cached Mode and OST File Sizes. Retrieved February 19, 2020.",
+            "url": "https://practical365.com/clients/office-365-proplus/outlook-cached-mode-ost-file-sizes/"
+        },
+        {
+            "source_name": "Microsoft Outlook Files",
+            "description": "Microsoft. (n.d.). Introduction to Outlook Data Files (.pst and .ost). Retrieved February 19, 2020.",
+            "url": "https://support.office.com/en-us/article/introduction-to-outlook-data-files-pst-and-ost-222eaf92-a995-45d9-bde2-f331f60e2790"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+        }
+    ],
+    "tactic": [
+        "collection"
+    ],
+    "x_mitre_detection": "Monitor processes and command-line arguments for actions that could be taken to gather local email files. Monitor for unusual processes accessing local email files. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "File: File Access"
+    ],
+    "x_mitre_permissions_required": [
+        "User"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Encrypt Sensitive Information",
+                "description": "Protect sensitive information with strong encryption.",
+                "type": "course-of-action",
+                "id": "M1041"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that encryption is implemented to provides an added layer of security to sensitive information sent over the email.",
+                "acid": "98582419"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for actions taken to collect files from a system.",
+                "acid": "98582416"
+            },
+            {
+                "description": "Ensure that system is monitored for remote access tools interacting directly with the Windows API to gather data.",
+                "acid": "98582417"
+            },
+            {
+                "description": "Ensure that system is monitored if data is acquired through Windows system management tools such as Windows Management Instrumentation and PowerShell.",
+                "acid": "98582418"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "19120015"
+    ],
+    "cveIds": [
+        "CVE-2020-9819"
+    ]
+}

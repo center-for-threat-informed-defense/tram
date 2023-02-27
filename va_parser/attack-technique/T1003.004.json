@@ -1,0 +1,141 @@
+{
+    "id": "T1003.004",
+    "name": "LSA Secrets",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries with SYSTEM access to a host may attempt to access Local Security Authority (LSA) secrets, which can contain a variety of different credential materials, such as credentials for service accounts.(Citation: Passcape LSA Secrets)(Citation: Microsoft AD Admin Tier Model)(Citation: Tilbury Windows Credentials) LSA secrets are stored in the registry at <code>HKEY_LOCAL_MACHINE\\SECURITY\\Policy\\Secrets</code>. LSA secrets can also be dumped from memory.(Citation: ired Dumping LSA Secrets)\n\n[Reg](https://attack.mitre.org/software/S0075) can be used to extract from the Registry. [Mimikatz](https://attack.mitre.org/software/S0002) can be used to extract secrets from memory.(Citation: ired Dumping LSA Secrets)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1003/004",
+            "external_id": "T1003.004"
+        },
+        {
+            "source_name": "Passcape LSA Secrets",
+            "description": "Passcape. (n.d.). Windows LSA secrets. Retrieved February 21, 2020.",
+            "url": "https://www.passcape.com/index.php?section=docsys&cmd=details&id=23"
+        },
+        {
+            "source_name": "Microsoft AD Admin Tier Model",
+            "description": "Microsoft. (2019, February 14). Active Directory administrative tier model. Retrieved February 21, 2020.",
+            "url": "https://docs.microsoft.com/en-us/windows-server/identity/securing-privileged-access/securing-privileged-access-reference-material?redirectedfrom=MSDN"
+        },
+        {
+            "source_name": "Tilbury Windows Credentials",
+            "description": "Chad Tilbury. (2017, August 8). 1Windows Credentials: Attack, Mitigation, Defense. Retrieved February 21, 2020.",
+            "url": "https://www.first.org/resources/papers/conf2017/Windows-Credentials-Attacks-and-Mitigation-Techniques.pdf"
+        },
+        {
+            "source_name": "ired Dumping LSA Secrets",
+            "description": "Mantvydas Baranauskas. (2019, November 16). Dumping LSA Secrets. Retrieved February 21, 2020.",
+            "url": "https://ired.team/offensive-security/credential-access-and-credential-dumping/dumping-lsa-secrets"
+        },
+        {
+            "source_name": "Powersploit",
+            "description": "PowerSploit. (n.d.). Retrieved December 4, 2014.",
+            "url": "https://github.com/mattifestation/PowerSploit"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "Monitor processes and command-line arguments for program execution that may be indicative of credential dumping. Remote access tools may contain built-in features or incorporate existing tools like Mimikatz. PowerShell scripts also exist that contain credential dumping functionality, such as PowerSploit's Invoke-Mimikatz module,(Citation: Powersploit) which may require additional logging features to be configured in the operating system to collect necessary information for analysis.",
+    "x_mitre_data_sources": [
+        "Windows Registry: Windows Registry Key Access",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Password Policies",
+                "description": "Set and enforce secure password policies for accounts.",
+                "type": "course-of-action",
+                "id": "M1027"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that password policy is defined in the organization which defines complexity and best practices",
+                "acid": "98581975"
+            },
+            {
+                "description": "Ensure that local administrator accounts are configured with complex and unique passwords",
+                "acid": "98581976"
+            },
+            {
+                "description": "Ensure that Privilege Access Management solutions are configured with appropriate privileges to different levels of administrative tiers",
+                "acid": "98581977"
+            },
+            {
+                "description": "Ensure that user training is provided for users which provides awareness on password usage",
+                "acid": "98581978"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes and command-line arguments for program execution are monitored",
+                "acid": "98581974"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [
+        "50110001",
+        "50110003"
+    ],
+    "policycontrolIds": [
+        "50100281",
+        "50100282",
+        "50100329",
+        "50100333",
+        "50100335",
+        "50100337"
+    ],
+    "technologycontrolIds": [
+        "16460393",
+        "16460394",
+        "19920402",
+        "19920420"
+    ],
+    "cveIds": []
+}

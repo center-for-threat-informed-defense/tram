@@ -1,0 +1,204 @@
+{
+    "id": "T1204.002",
+    "name": "Malicious File",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "An adversary may rely upon a user opening a malicious file in order to gain execution. Users may be subjected to social engineering to get them to open a file that will lead to code execution. This user action will typically be observed as follow-on behavior from [Spearphishing Attachment](https://attack.mitre.org/techniques/T1566/001). Adversaries may use several types of files that require a user to execute them, including .doc, .pdf, .xls, .rtf, .scr, .exe, .lnk, .pif, and .cpl.\n\nAdversaries may employ various forms of [Masquerading](https://attack.mitre.org/techniques/T1036) and [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027) to increase the likelihood that a user will open and successfully execute a malicious file. These methods may include using a familiar naming convention and/or password protecting the file and supplying instructions to a user on how to open it.(Citation: Password Protected Word Docs) \n\nWhile [Malicious File](https://attack.mitre.org/techniques/T1204/002) frequently occurs shortly after Initial Access it may occur at other phases of an intrusion, such as when an adversary places a file in a shared directory or on a user's desktop hoping that a user will click on it. This activity may also be seen shortly after [Internal Spearphishing](https://attack.mitre.org/techniques/T1534).",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1204/002",
+            "external_id": "T1204.002"
+        },
+        {
+            "source_name": "Password Protected Word Docs",
+            "description": "Lawrence Abrams. (2017, July 12). PSA: Don't Open SPAM Containing Password Protected Word Docs. Retrieved January 5, 2022.",
+            "url": "https://www.bleepingcomputer.com/news/security/psa-dont-open-spam-containing-password-protected-word-docs/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        }
+    ],
+    "tactic": [
+        "execution"
+    ],
+    "x_mitre_detection": "Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain initial access that require user interaction. This includes compression applications, such as those for zip files, that can be used to [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) in payloads.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded and executed on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning powershell.exe).",
+    "x_mitre_data_sources": [
+        "File: File Creation",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            },
+            {
+                "name": "Behavior Prevention on Endpoint",
+                "description": "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+                "type": "course-of-action",
+                "id": "M1040"
+            },
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Application control solutions are configured to prevent masquerading malicious files from execution",
+                "acid": "98580385"
+            },
+            {
+                "description": "Ensure that users are trained to identify social engineering techniques and spearphishing emails",
+                "acid": "98580386"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that command-line arguments and execution of applications are monitored that require user interaction",
+                "acid": "98580381"
+            },
+            {
+                "description": "Ensure that compressed applications (zip files) are monitored for suspicious payloads which can hide malicious artifacts",
+                "acid": "98580382"
+            },
+            {
+                "description": "Ensure that the Anti-malware solution is configured to detect malicious documents and files downloaded/ executed on the user's system",
+                "acid": "98580383"
+            },
+            {
+                "description": "Ensure that endpoint/ network security solution(s) is configured to detect potentially malicious events once the attachment (i.e. PDF) is opened/ accessed",
+                "acid": "98580384"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000140",
+        "40000497",
+        "40000506",
+        "40000507",
+        "40000517",
+        "40000519",
+        "40000520"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [
+        "PACR00004",
+        "PACR00008"
+    ],
+    "policycontrolIds": [
+        "50100523",
+        "50104353"
+    ],
+    "technologycontrolIds": [
+        "11490022",
+        "11490035",
+        "11500007",
+        "11500008",
+        "11500009",
+        "11500010",
+        "16460389",
+        "16460390",
+        "16460391",
+        "19920418",
+        "19920419",
+        "19920451",
+        "19920477"
+    ],
+    "cveIds": [
+        "CVE-2009-0556",
+        "CVE-2009-0927",
+        "CVE-2009-3129",
+        "CVE-2009-3459",
+        "CVE-2009-4324",
+        "CVE-2010-0028",
+        "CVE-2010-0840",
+        "CVE-2010-1424",
+        "CVE-2010-1885",
+        "CVE-2010-2862",
+        "CVE-2010-3333",
+        "CVE-2010-3915",
+        "CVE-2013-1331",
+        "CVE-2013-3644",
+        "CVE-2014-0266",
+        "CVE-2014-0810",
+        "CVE-2014-4123",
+        "CVE-2014-6352",
+        "CVE-2014-7187",
+        "CVE-2014-7247",
+        "CVE-2015-0096",
+        "CVE-2015-1642",
+        "CVE-2015-2509",
+        "CVE-2015-6585",
+        "CVE-2016-7193",
+        "CVE-2017-0261",
+        "CVE-2017-0262",
+        "CVE-2017-11826",
+        "CVE-2017-11882",
+        "CVE-2017-8464",
+        "CVE-2017-8570",
+        "CVE-2018-11075",
+        "CVE-2018-15376",
+        "CVE-2018-15782",
+        "CVE-2018-20250",
+        "CVE-2018-8110",
+        "CVE-2018-8111",
+        "CVE-2018-8248",
+        "CVE-2018-8353",
+        "CVE-2018-8355",
+        "CVE-2018-8575",
+        "CVE-2018-8835",
+        "CVE-2019-0576",
+        "CVE-2019-0609",
+        "CVE-2019-0911",
+        "CVE-2019-1013",
+        "CVE-2019-1035",
+        "CVE-2019-1118",
+        "CVE-2019-12696",
+        "CVE-2019-13522",
+        "CVE-2019-13527",
+        "CVE-2019-13541",
+        "CVE-2019-15287",
+        "CVE-2019-1772",
+        "CVE-2019-18571",
+        "CVE-2019-1915",
+        "CVE-2019-3719",
+        "CVE-2020-11073",
+        "CVE-2020-13125",
+        "CVE-2020-1495",
+        "CVE-2020-1569",
+        "CVE-2020-16211",
+        "CVE-2020-16874",
+        "CVE-2020-3126",
+        "CVE-2020-3198",
+        "CVE-2020-3322",
+        "CVE-2020-3440",
+        "CVE-2020-4068"
+    ]
+}

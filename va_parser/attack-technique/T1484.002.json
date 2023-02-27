@@ -1,0 +1,104 @@
+{
+    "id": "T1484.002",
+    "name": "Domain Trust Modification",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may add new domain trusts or modify the properties of existing domain trusts to evade defenses and/or elevate privileges. Domain trust details, such as whether or not a domain is federated, allow authentication and authorization properties to apply between domains for the purpose of accessing shared resources.(Citation: Microsoft - Azure AD Federation) These trust objects may include accounts, credentials, and other authentication material applied to servers, tokens, and domains.\n\nManipulating the domain trusts may allow an adversary to escalate privileges and/or evade defenses by modifying settings to add objects which they control. For example, this may be used to forge [SAML Tokens](https://attack.mitre.org/techniques/T1606/002), without the need to compromise the signing certificate to forge new credentials. Instead, an adversary can manipulate domain trusts to add their own signing certificate. An adversary may also convert a domain to a federated domain, which may enable malicious trust modifications such as altering the claim issuance rules to log in any valid set of credentials as a specified user.(Citation: AADInternals zure AD Federated Domain) ",
+    "x_mitre_platforms": [
+        "Windows",
+        "Azure AD"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1484/002",
+            "external_id": "T1484.002"
+        },
+        {
+            "source_name": "CISA SolarWinds Cloud Detection",
+            "description": "CISA. (2021, January 8). Detecting Post-Compromise Threat Activity in Microsoft Cloud Environments. Retrieved January 8, 2021.",
+            "url": "https://us-cert.cisa.gov/ncas/alerts/aa21-008a"
+        },
+        {
+            "source_name": "AADInternals zure AD Federated Domain",
+            "description": "Dr. Nestori Syynimaa. (2017, November 16). Security vulnerability in Azure AD & Office 365 identity federation. Retrieved September 28, 2022.",
+            "url": "https://o365blog.com/post/federation-vulnerability/"
+        },
+        {
+            "source_name": "Microsoft - Azure AD Federation",
+            "description": "Microsoft. (2018, November 28). What is federation with Azure AD?. Retrieved December 30, 2020.",
+            "url": "https://docs.microsoft.com/en-us/azure/active-directory/hybrid/whatis-fed"
+        },
+        {
+            "source_name": "Microsoft - Azure Sentinel ADFSDomainTrustMods",
+            "description": "Microsoft. (2020, December). Azure Sentinel Detections. Retrieved December 30, 2020.",
+            "url": "https://github.com/Azure/Azure-Sentinel/blob/master/Detections/AuditLogs/ADFSDomainTrustMods.yaml"
+        },
+        {
+            "source_name": "Microsoft - Update or Repair Federated domain",
+            "description": "Microsoft. (2020, September 14). Update or repair the settings of a federated domain in Office 365, Azure, or Intune. Retrieved December 30, 2020.",
+            "url": "https://docs.microsoft.com/en-us/office365/troubleshoot/active-directory/update-federated-domain-office-365"
+        },
+        {
+            "source_name": "Sygnia Golden SAML",
+            "description": "Sygnia. (2020, December). Detection and Hunting of Golden SAML Attack. Retrieved January 6, 2021.",
+            "url": "https://www.sygnia.co/golden-saml-advisory"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "Monitor for modifications to domain trust settings, such as when a user or application modifies the federation settings on the domain or updates domain authentication from Managed to Federated via ActionTypes <code>Set federation settings on domain</code> and <code>Set domain authentication</code>.(Citation: Microsoft - Azure Sentinel ADFSDomainTrustMods) This may also include monitoring for Event ID 307 which can be correlated to relevant Event ID 510 with the same Instance ID for change details.(Citation: Sygnia Golden SAML)(Citation: CISA SolarWinds Cloud Detection)\n\nMonitor for PowerShell commands such as: <code>Update-MSOLFederatedDomain \u2013DomainName: \"Federated Domain Name\"</code>, or <code>Update-MSOLFederatedDomain \u2013DomainName: \"Federated Domain Name\" \u2013supportmultipledomain</code>.(Citation: Microsoft - Update or Repair Federated domain)",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Active Directory: Active Directory Object Creation",
+        "Active Directory: Active Directory Object Modification"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

@@ -1,0 +1,276 @@
+﻿{
+    "id": "T1566",
+    "name": "Phishing",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may send phishing messages to gain access to victim systems. All forms of phishing are electronically delivered social engineering. Phishing can be targeted, known as spearphishing. In spearphishing, a specific individual, company, or industry will be targeted by the adversary. More generally, adversaries can conduct non-targeted phishing, such as in mass malware spam campaigns.\n\nAdversaries may send victims emails containing malicious attachments or links, typically to execute malicious code on victim systems. Phishing may also be conducted via third-party services, like social media platforms. Phishing may also involve social engineering techniques, such as posing as a trusted source.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "SaaS",
+        "Office 365",
+        "Google Workspace"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1566",
+            "external_id": "T1566"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/98.html",
+            "external_id": "CAPEC-98"
+        },
+        {
+            "source_name": "Microsoft Anti Spoofing",
+            "description": "Microsoft. (2020, October 13). Anti-spoofing protection in EOP. Retrieved October 19, 2020.",
+            "url": "https://docs.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-spoofing-protection?view=o365-worldwide"
+        },
+        {
+            "source_name": "ACSC Email Spoofing",
+            "description": "Australian Cyber Security Centre. (2012, December). Mitigating Spoofed Emails Using Sender Policy Framework. Retrieved October 19, 2020.",
+            "url": "https://www.cyber.gov.au/sites/default/files/2019-03/spoof_email_sender_policy_framework.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "initial-access"
+        }
+    ],
+    "tactic": [
+        "initial-access"
+    ],
+    "x_mitre_detection": "Network intrusion detection systems and email gateways can be used to detect phishing with malicious attachments in transit. Detonation chambers may also be used to identify malicious attachments. Solutions can be signature and behavior based, but adversaries may construct attachments in a way to avoid these systems.\n\nFiltering based on DKIM+SPF or header analysis can help detect when the email sender is spoofed.(Citation: Microsoft Anti Spoofing)(Citation: ACSC Email Spoofing)\n\nURL inspection within email (including expanding shortened links) can help detect links leading to known malicious sites. Detonation chambers can be used to detect these links and either automatically go to these sites to determine if they're potentially malicious, or wait and capture the content if a user visits the link.\n\nBecause most common third-party services used for phishing via service leverage TLS encryption, SSL/TLS inspection is generally required to detect the initial communication/delivery. With SSL/TLS inspection intrusion detection signatures or other security gateway appliances may be able to detect malware.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded on the user's computer. Many possible detections of follow-on behavior may take place once [User Execution](https://attack.mitre.org/techniques/T1204) occurs.",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow",
+        "Application Log: Application Log Content",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            },
+            {
+                "name": "Software Configuration",
+                "description": "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+                "type": "course-of-action",
+                "id": "M1054"
+            },
+            {
+                "name": "Restrict Web-Based Content",
+                "description": "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+                "type": "course-of-action",
+                "id": "M1021"
+            },
+            {
+                "name": "Antivirus/Antimalware",
+                "description": "Use signatures or heuristics to detect malicious software.",
+                "type": "course-of-action",
+                "id": "M1049"
+            },
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that anti-malware solutions are configured to automatically quarantine malicious files",
+                "acid": "98580044"
+            },
+            {
+                "description": "Ensure that network intrusion prevention systems are configured to block malicious email attachments",
+                "acid": "98580045"
+            },
+            {
+                "description": "Ensure that email gateway security solutions (systems) are configured to block malicious email attachments",
+                "acid": "98580046"
+            },
+            {
+                "description": "Ensure that email attachments containing extensions such as .exe, .scr, .pif, .cpl, etc. are blocked for delivery",
+                "acid": "98580047"
+            },
+            {
+                "description": "Ensure that users are trained to identify social engineering techniques and spearphishing emails & links",
+                "acid": "98580048"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that network intrusion system is configured to detect spearphishing emails with malicious attachment in transit",
+                "acid": "98580036"
+            },
+            {
+                "description": "Ensure that email gateway security solution is configured scan and analyze email attachments to identify malicious emails or email attachments",
+                "acid": "98580037"
+            },
+            {
+                "description": "Ensure that sandboxing environment (detonation chambers) is configured (to identify malicious email attachment)",
+                "acid": "98580038"
+            },
+            {
+                "description": "Ensure that the URL inspection tool is deployed within an email to detect links to known malicious sites",
+                "acid": "98580039"
+            },
+            {
+                "description": "Ensure that the sandboxing environment (detonation chambers) is configured to identify links that redirect to known malicious sites",
+                "acid": "98580040"
+            },
+            {
+                "description": "Ensure that SSL/TLS inspection is configured to detect the initial communication/delivery to identify whether it is malicious",
+                "acid": "98580041"
+            },
+            {
+                "description": "Ensure that email gateway solutions (with SSL/TLS ID Signatures) are configured to detect malware present in the emails",
+                "acid": "98580042"
+            },
+            {
+                "description": "Ensure that Anti-malware solutions are configured to detect malicious documents and files downloaded on the user's computer",
+                "acid": "98580043"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000136",
+        "40000182",
+        "40000201",
+        "40000208",
+        "40000211",
+        "40000219",
+        "40000498",
+        "40000501",
+        "40000516"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [
+        "PACR00004",
+        "PACR00006",
+        "PACR00007",
+        "PACR00008",
+        "PACR00009"
+    ],
+    "policycontrolIds": [
+        "50100521",
+        "50100523",
+        "50100527",
+        "50100613",
+        "50101358",
+        "50101933",
+        "50102405",
+        "50104151",
+        "50104301",
+        "50104319",
+        "50104353",
+        "50106006",
+        "50106011",
+        "50106012",
+        "50106014",
+        "50106015",
+        "50106016",
+        "50106017",
+        "50106020",
+        "50106022"
+    ],
+    "technologycontrolIds": [
+        "101040009",
+        "101040074",
+        "101040075",
+        "101040076",
+        "101040077",
+        "101040078",
+        "101040079",
+        "101050009",
+        "101060009",
+        "10240033",
+        "10860026",
+        "11060009",
+        "11100009",
+        "11170005",
+        "11490022",
+        "16360331",
+        "16460310",
+        "16460388",
+        "18380050",
+        "19120016",
+        "19120017",
+        "19120018",
+        "19120019",
+        "19120020",
+        "19120023",
+        "19120024",
+        "19120025",
+        "19120030",
+        "19120031",
+        "19120032",
+        "19120033",
+        "19120034",
+        "19120035",
+        "19120036",
+        "19120037",
+        "19120038",
+        "19920438"
+    ],
+    "cveIds": [
+        "CVE-2012-6467",
+        "CVE-2013-3906",
+        "CVE-2017-11847",
+        "CVE-2017-14487",
+        "CVE-2017-15211",
+        "CVE-2017-8759",
+        "CVE-2018-11067",
+        "CVE-2018-15376",
+        "CVE-2018-15782",
+        "CVE-2018-8110",
+        "CVE-2018-8111",
+        "CVE-2018-8160",
+        "CVE-2018-8353",
+        "CVE-2018-8575",
+        "CVE-2019-0609",
+        "CVE-2019-1013",
+        "CVE-2019-15276",
+        "CVE-2019-1772",
+        "CVE-2019-1831",
+        "CVE-2019-1915",
+        "CVE-2019-3778",
+        "CVE-2019-3788",
+        "CVE-2019-6340",
+        "CVE-2020-1020",
+        "CVE-2020-1495",
+        "CVE-2020-15233",
+        "CVE-2020-1569",
+        "CVE-2020-3133",
+        "CVE-2020-3198",
+        "CVE-2020-3322",
+        "CVE-2020-3440",
+        "CVE-2020-4068",
+        "CVE-2020-5270"
+    ],
+    "subTechniques": [
+        "T1566.001",
+        "T1566.002",
+        "T1566.003"
+    ]
+}

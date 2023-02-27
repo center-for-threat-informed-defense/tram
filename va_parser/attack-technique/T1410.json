@@ -1,0 +1,64 @@
+﻿{
+    "id": "T1410",
+    "name": "Network Traffic Capture or Redirection",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "An adversary may capture network traffic to and from the device to obtain credentials or other sensitive data, or redirect network traffic to flow through an adversary-controlled gateway to do the same.\n\nA malicious app could register itself as a VPN client on Android or iOS to gain access to network packets. However, on both platforms, the user must grant consent to the app to act as a VPN client, and on iOS the app requires a special entitlement that must be granted by Apple.\n\nAlternatively, if a malicious app is able to escalate operating system privileges, it may be able to use those privileges to gain access to network traffic.\n\nAn adversary could redirect network traffic to an adversary-controlled gateway by establishing a VPN connection or by manipulating the device's proxy settings. For example, Skycure (Citation: Skycure-Profiles) describes the ability to redirect network traffic by installing a malicious iOS Configuration Profile.\n\nIf applications encrypt their network traffic, sensitive data may not be accessible to an adversary, depending on the point of capture.",
+    "x_mitre_platforms": [
+        "Android",
+        "iOS"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T1410",
+            "url": "https://attack.mitre.org/techniques/T1410"
+        },
+        {
+            "source_name": "Skycure-Profiles",
+            "url": "https://www.skycure.com/blog/malicious-profiles-the-sleeping-giant-of-ios-security/",
+            "description": "Yair Amit. (2013, March 12). Malicious Profiles - The Sleeping Giant of iOS Security. Retrieved December 22, 2016."
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-mobile-attack",
+            "phase_name": "collection"
+        },
+        {
+            "kill_chain_name": "mitre-mobile-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "collection",
+        "credential-access"
+    ],
+    "x_mitre_detection": "On both Android and iOS the user must grant consent to an app to act as a VPN. Both platforms also provide visual context to the user in the top status bar when a VPN connection is in place.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

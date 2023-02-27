@@ -1,0 +1,108 @@
+﻿{
+    "id": "T1028",
+    "name": "Windows Remote Management",
+    "x_mitre_is_subtechnique": false,
+    "revoked": true,
+    "x_mitre_deprecated": false,
+    "description": "Windows Remote Management (WinRM) is the name of both a Windows service and a protocol that allows a user to interact with a remote system (e.g., run an executable, modify the Registry, modify services). (Citation: Microsoft WinRM) It may be called with the <code>winrm</code> command or by any number of programs such as PowerShell. (Citation: Jacobsen 2014)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1028",
+            "external_id": "T1028"
+        },
+        {
+            "source_name": "capec",
+            "url": "https://capec.mitre.org/data/definitions/555.html",
+            "external_id": "CAPEC-555"
+        },
+        {
+            "source_name": "Microsoft WinRM",
+            "description": "Microsoft. (n.d.). Windows Remote Management. Retrieved November 12, 2014.",
+            "url": "http://msdn.microsoft.com/en-us/library/aa384426"
+        },
+        {
+            "source_name": "Jacobsen 2014",
+            "description": "Jacobsen, K. (2014, May 16). Lateral Movement with PowerShell&#91;slides&#93;. Retrieved November 12, 2014.",
+            "url": "https://www.slideshare.net/kieranjacobsen/lateral-movement-with-power-shell-2"
+        },
+        {
+            "source_name": "Medium Detecting Lateral Movement",
+            "description": "French, D. (2018, September 30). Detecting Lateral Movement Using Sysmon and Splunk. Retrieved October 11, 2019.",
+            "url": "https://medium.com/threatpunter/detecting-lateral-movement-using-sysmon-and-splunk-318d3be141bc"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "execution"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "lateral-movement"
+        }
+    ],
+    "tactic": [
+        "execution",
+        "lateral-movement"
+    ],
+    "x_mitre_detection": "Monitor use of WinRM within an environment by tracking service execution. If it is not normally used or is disabled, then this may be an indicator of suspicious behavior. Monitor processes created and actions taken by the WinRM process or a WinRM invoked script to correlate it with other related events. (Citation: Medium Detecting Lateral Movement)",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "WinRM listener turned on and configured on remote system"
+    ],
+    "x_mitre_remote_support": true,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Disable or Remove Feature or Program",
+                "description": "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+                "type": "course-of-action",
+                "id": "M1042"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+                "type": "course-of-action",
+                "id": "M1030"
+            },
+            {
+                "name": "Windows Remote Management Mitigation",
+                "description": "Disable the WinRM service. If the service is necessary, lock down critical enclaves with separate WinRM infrastructure, accounts, and permissions. Follow WinRM best practices on configuration of authentication methods and use of host firewalls to restrict WinRM access to allow communication only to/from specific devices. (Citation: NSA Spotting)",
+                "type": "course-of-action",
+                "id": "T1028"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

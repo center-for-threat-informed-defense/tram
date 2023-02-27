@@ -1,0 +1,168 @@
+﻿{
+    "id": "T1185",
+    "name": "Browser Session Hijacking",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may take advantage of security vulnerabilities and inherent functionality in browser software to change content, modify user-behaviors, and intercept information as part of various browser session hijacking techniques.(Citation: Wikipedia Man in the Browser)\n\nA specific example is when an adversary injects software into a browser that allows them to inherit cookies, HTTP sessions, and SSL client certificates of a user then use the browser as a way to pivot into an authenticated intranet.(Citation: Cobalt Strike Browser Pivot)(Citation: ICEBRG Chrome Extensions) Executing browser-based behaviors such as pivoting may require specific process permissions, such as <code>SeDebugPrivilege</code> and/or high-integrity/administrator rights.\n\nAnother example involves pivoting browser traffic from the adversary's browser through the user's browser by setting up a proxy which will redirect web traffic. This does not alter the user's traffic in any way, and the proxy connection can be severed as soon as the browser is closed. The adversary assumes the security context of whichever browser process the proxy is injected into. Browsers typically create a new process for each tab that is opened and permissions and certificates are separated accordingly. With these permissions, an adversary could potentially browse to any resource on an intranet, such as [Sharepoint](https://attack.mitre.org/techniques/T1213/002) or webmail, that is accessible through the browser and which the browser has sufficient permissions. Browser pivoting may also bypass security provided by 2-factor authentication.(Citation: cobaltstrike manual)",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1185",
+            "external_id": "T1185"
+        },
+        {
+            "source_name": "Wikipedia Man in the Browser",
+            "description": "Wikipedia. (2017, October 28). Man-in-the-browser. Retrieved January 10, 2018.",
+            "url": "https://en.wikipedia.org/wiki/Man-in-the-browser"
+        },
+        {
+            "source_name": "Cobalt Strike Browser Pivot",
+            "description": "Mudge, R. (n.d.). Browser Pivoting. Retrieved January 10, 2018.",
+            "url": "https://www.cobaltstrike.com/help-browser-pivoting"
+        },
+        {
+            "source_name": "ICEBRG Chrome Extensions",
+            "description": "De Tore, M., Warner, J. (2018, January 15). MALICIOUS CHROME EXTENSIONS ENABLE CRIMINALS TO IMPACT OVER HALF A MILLION USERS AND GLOBAL BUSINESSES. Retrieved January 17, 2018.",
+            "url": "https://www.icebrg.io/blog/malicious-chrome-extensions-enable-criminals-to-impact-over-half-a-million-users-and-global-businesses"
+        },
+        {
+            "source_name": "cobaltstrike manual",
+            "description": "Strategic Cyber LLC. (2017, March 14). Cobalt Strike Manual. Retrieved May 24, 2017.",
+            "url": "https://web.archive.org/web/20210825130434/https://cobaltstrike.com/downloads/csmanual38.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+        }
+    ],
+    "tactic": [
+        "collection"
+    ],
+    "x_mitre_detection": "This may be a difficult technique to detect because adversary traffic may be masked by normal user traffic. New processes may not be created and no additional software dropped to disk. Authentication logs can be used to audit logins to specific web applications, but determining malicious logins versus benign logins may be difficult if activity matches typical user behavior. Monitor for [Process Injection](https://attack.mitre.org/techniques/T1055) against browser applications.",
+    "x_mitre_data_sources": [
+        "Process: Process Access",
+        "Process: Process Modification",
+        "Logon Session: Logon Session Creation"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Man in the Browser Mitigation",
+                "description": "Since browser pivoting requires a high integrity process to launch from, restricting user permissions and addressing Privilege Escalation and [Bypass User Account Control](https://attack.mitre.org/techniques/T1088) opportunities can limit the exposure to this technique. \n\nClose all browser sessions regularly and when they are no longer needed.",
+                "type": "course-of-action",
+                "id": "T1185"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that user permissions are restricted to reduce attack surfaces.",
+                "acid": "98582430"
+            },
+            {
+                "description": "Ensure that Privilege Escalation and bypass User Account Control opportunities should be addressed regularly to limit the exposure to attack.",
+                "acid": "98582431"
+            },
+            {
+                "description": "Ensure that all browser sessions are closed regularly if not needed.",
+                "acid": "98582432"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that authentication logs are configured to audit logins to specific web applications to identify unusual activity.",
+                "acid": "98582428"
+            },
+            {
+                "description": "Ensure that system is monitored for process injection against browser applications.",
+                "acid": "98582429"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000211",
+        "40000490",
+        "40000516"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "11490003",
+        "15010102",
+        "15200102",
+        "16010108",
+        "16110106",
+        "16120110",
+        "16140094",
+        "18330005",
+        "18330006",
+        "18330007",
+        "18330008",
+        "18330009",
+        "18330010",
+        "18400001",
+        "18640004",
+        "18890001",
+        "18900001"
+    ],
+    "cveIds": [
+        "CVE-2011-3056",
+        "CVE-2015-6475",
+        "CVE-2018-11059",
+        "CVE-2018-11073",
+        "CVE-2018-11075",
+        "CVE-2019-13538",
+        "CVE-2019-18571",
+        "CVE-2019-18578",
+        "CVE-2019-3708",
+        "CVE-2020-11036",
+        "CVE-2020-11055",
+        "CVE-2020-11083",
+        "CVE-2020-15118",
+        "CVE-2020-15162",
+        "CVE-2020-15179",
+        "CVE-2020-15183",
+        "CVE-2020-3460",
+        "CVE-2020-5217",
+        "CVE-2020-5241",
+        "CVE-2020-5267",
+        "CVE-2020-5283",
+        "CVE-2020-5339",
+        "CVE-2020-5340"
+    ],
+    "subTechniques": []
+}

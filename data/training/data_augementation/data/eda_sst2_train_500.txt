@@ -1,0 +1,10 @@
+1	cipher mantisbt before and allows post authentication command injection leading to remote code execution
+1	mantisbt before and allows post authentication command injectant leading to remote code execution
+1	mantisbt before and post authentication command injection leading to remote code execution
+1	mantisbt before and remote post authentication command injection leading to allows code execution
+1	mantisbt before and allows post authentication command injection leading to remote execution
+1	mantisbt before and allows post certification command injection leading to remote code execution
+1	mantisbt before and allows post authentication command slaying injection leading to remote code execution
+1	mantisbt before and allows post authentication command leading injection to remote code execution
+1	mantisbt before and contribute allows post authentication command injection leading to remote code execution
+1	mantisbt before and allows post authentication command injection leading to remote code execution

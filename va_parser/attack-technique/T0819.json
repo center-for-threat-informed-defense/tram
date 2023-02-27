@@ -1,0 +1,98 @@
+﻿{
+    "id": "T0819",
+    "name": "Exploit Public-Facing Application",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may leverage weaknesses to exploit internet-facing software for initial access into an industrial network. Internet-facing software may be user applications, underlying networking implementations, an assets operating system, weak defenses, etc. Targets of this technique may be intentionally exposed for the purpose of remote management and visibility.   An adversary may seek to target public-facing applications as they may provide direct access into an ICS environment or the ability to move into the ICS network. Publicly exposed applications may be found through online tools that scan the internet for open ports and services. Version numbers for the exposed application may provide adversaries an ability to target specific known vulnerabilities. Exposed control protocol or remote access ports found in Commonly Used Port may be of interest by adversaries.",
+    "x_mitre_platforms": [
+        "Human-Machine Interface"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-ics-attack",
+            "url": "https://attack.mitre.org/techniques/T0819",
+            "external_id": "T0819"
+        },
+        {
+            "source_name": "ICS CERT 14-281",
+            "description": "ICS-CERT. (2014, December 10). ICS Alert (ICS-ALERT-14-281-01E) Ongoing Sophisticated Malware Campaign Compromising ICS (Update E). Retrieved October 11, 2019.",
+            "url": "https://www.us-cert.gov/ics/alerts/ICS-ALERT-14-281-01B"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "initial-access-ics"
+        }
+    ],
+    "tactic": [
+        "initial-access-ics"
+    ],
+    "x_mitre_detection": [],
+    "x_mitre_data_sources": [
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk. Software updates may need to be scheduled around operational down times.",
+                "type": "course-of-action",
+                "id": "M0951"
+            },
+            {
+                "name": "Vulnerability Scanning",
+                "description": "Vulnerability scanning is used to find potentially exploitable software vulnerabilities to remediate them.",
+                "type": "course-of-action",
+                "id": "M0916"
+            },
+            {
+                "name": "Exploit Protection",
+                "description": "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring.",
+                "type": "course-of-action",
+                "id": "M0950"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M0926"
+            },
+            {
+                "name": "Application Isolation and Sandboxing",
+                "description": "Restrict the execution of code to a virtual environment on or in-transit to an endpoint system.",
+                "type": "course-of-action",
+                "id": "M0948"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network.  Restrict network access to only required systems and services. In addition, prevent systems from other networks or business functions (e.g., enterprise) from accessing critical process control systems. For example, in IEC 62443, systems within the same secure level should be grouped into a zone, and access to that zone is restricted by a conduit, or mechanism to restrict data flows between zones by segmenting the network. (Citation: IEC February 2019) (Citation: IEC August 2013)",
+                "type": "course-of-action",
+                "id": "M0930"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

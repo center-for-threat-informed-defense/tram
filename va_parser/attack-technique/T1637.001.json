@@ -1,0 +1,63 @@
+﻿{
+    "id": "T1637.001",
+    "name": "Domain Generation Algorithms",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use [Domain Generation Algorithms](https://attack.mitre.org/techniques/T1637/001) (DGAs) to procedurally generate domain names for uses such as command and control communication   or malicious application distribution.(Citation: securelist rotexy 2018)\n\nDGAs increase the difficulty for defenders to block, track, or take over the command and control channel, as there could potentially be thousands of domains that malware can check for instructions.",
+    "x_mitre_platforms": [
+        "Android",
+        "iOS"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T1637.001",
+            "url": "https://attack.mitre.org/techniques/T1637/001"
+        },
+        {
+            "source_name": "Data Driven Security DGA",
+            "url": "https://datadrivensecurity.info/blog/posts/2014/Oct/dga-part2/",
+            "description": "Jacobs, J. (2014, October 2). Building a DGA Classifier: Part 2, Feature Engineering. Retrieved February 18, 2019."
+        },
+        {
+            "source_name": "securelist rotexy 2018",
+            "url": "https://securelist.com/the-rotexy-mobile-trojan-banker-and-ransomware/88893/",
+            "description": "T. Shishkova, L. Pikman. (2018, November 22).  The Rotexy mobile Trojan \u2013 banker and ransomware. Retrieved September 23, 2019."
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "phase_name": "command-and-control",
+            "kill_chain_name": "mitre-mobile-attack"
+        }
+    ],
+    "tactic": [
+        "command-and-control"
+    ],
+    "x_mitre_detection": "Detecting dynamically generated domains can be challenging due to the number of different DGA algorithms, constantly evolving malware families, and the increasing complexity of the algorithms. There are a myriad of approaches for detecting a pseudo-randomly generated domain name, including using frequency analysis, Markov chains, entropy, proportion of dictionary words, ratio of vowels to other characters, and more.(Citation: Data Driven Security DGA) CDN domains may trigger these detections due to the format of their domain names. In addition to detecting a DGA domain based on the name, a more general approach for detecting a suspicious domain is to check for recently registered names ",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

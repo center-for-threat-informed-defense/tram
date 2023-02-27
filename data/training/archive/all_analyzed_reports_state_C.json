@@ -1,0 +1,2050 @@
+{
+    "drive-by compromise": [
+        "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring.",
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Restrict execution of code to a virtual environment on or in transit to an endpoint system.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc."
+    ],
+    "command and scripting interpreter": [
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Use signatures or heuristics to detect malicious software.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "obfuscated files or information": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Use signatures or heuristics to detect malicious software."
+    ],
+    "encrypted channel": [
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Break and inspect SSL/TLS sessions to look at encrypted web traffic for adversary activity."
+    ],
+    "system network configuration discovery": [],
+    "server software component: web shell": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "application window discovery": [],
+    "indicator removal on host: file deletion": [],
+    "system information discovery": [],
+    "abuse elevation control mechanism: bypass user account control": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Configure Windows User Account Control to mitigate risk of adversaries obtaining elevated process access.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "system time discovery": [],
+    "deobfuscate/decode files or information": [],
+    "create or modify system process": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Block users or groups from installing unapproved software.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing."
+    ],
+    "ingress tool transfer": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "hijack execution flow: dll search order hijacking": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Prevent abuse of library loading mechanisms in the operating system and software to load untrusted code by configuring appropriate library loading mechanisms and investigating potential vulnerable software.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "application layer protocol": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "boot or logon autostart execution: registry run keys / startup folder": [],
+    "boot or logon autostart execution: shortcut modification": [
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "data encoding": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "phishing: spearphishing attachment": [
+        "Use signatures or heuristics to detect malicious software.",
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc."
+    ],
+    "user execution": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "subvert trust controls: code signing": [],
+    "web service": [
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc."
+    ],
+    "remote system discovery": [],
+    "os credential dumping": [
+        "Protect sensitive information with strong encryption.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Set and enforce secure password policies for accounts.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Protect processes with high privileges that can be used to interact with critical system components through use of protected process light, anti-process injection defenses, or other process integrity enforcement measures.",
+        "Use capabilities to prevent successful credential access by adversaries; including blocking forms of credential dumping.",
+        "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "fallback channels": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "file and directory discovery": [],
+    "exploitation for client execution": [
+        "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring.",
+        "Restrict execution of code to a virtual environment on or in transit to an endpoint system."
+    ],
+    "exploitation for privilege escalation": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring.",
+        "Restrict execution of code to a virtual environment on or in transit to an endpoint system.",
+        "A threat intelligence program helps an organization generate their own threat intelligence information and track trends to inform defensive priorities to mitigate risk.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "software discovery: security software discovery": [],
+    "data from local system": [
+        "Use a data loss prevention (DLP) strategy to categorize sensitive data, identify data formats indicative of personal identifiable information (PII), and restrict exfiltration of sensitive data.(Citation: PurpleSec Data Loss Prevention)"
+    ],
+    "proxy": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Break and inspect SSL/TLS sessions to look at encrypted web traffic for adversary activity."
+    ],
+    "remote services: remote desktop protocol": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "archive collected data": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "remote services": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator."
+    ],
+    "brute force": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Configure features related to account use like login attempt lockouts, specific login times, etc.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Set and enforce secure password policies for accounts."
+    ],
+    "non-standard port": [
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "process injection": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "windows management instrumentation": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "exfiltration over c2 channel": [
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Use a data loss prevention (DLP) strategy to categorize sensitive data, identify data formats indicative of personal identifiable information (PII), and restrict exfiltration of sensitive data.(Citation: PurpleSec Data Loss Prevention)"
+    ],
+    "data staged": [],
+    "system binary proxy execution: rundll32": [
+        "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring."
+    ],
+    "system binary proxy execution: regsvr32": [
+        "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring."
+    ],
+    "obfuscated files or information: software packing": [
+        "Use signatures or heuristics to detect malicious software."
+    ],
+    "clipboard data": [],
+    "network service discovery": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems."
+    ],
+    "masquerading": [
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "remote services: smb/windows admin shares": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Set and enforce secure password policies for accounts."
+    ],
+    "create or modify system process: launch agent": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "system owner/user discovery": [],
+    "screen capture": [],
+    "indicator removal on host": [
+        "Protect sensitive information with strong encryption.",
+        "Use remote security log and sensitive file storage where access can be controlled better to prevent exposure of intrusion detection log data or sensitive information.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "input capture": [],
+    "hijack execution flow: dll side-loading": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "This mitigation describes any guidance or training given to developers of applications to avoid introducing security weaknesses that an adversary may be able to take advantage of."
+    ],
+    "scheduled task/job": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "phishing: spearphishing link": [
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "obfuscated files or information: binary padding": [],
+    "system service discovery": [],
+    "hide artifacts: hidden files and directories": [],
+    "process discovery": [],
+    "indicator removal on host: timestomp": [],
+    "access token manipulation": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "impair defenses: disable or modify tools": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "account discovery": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "event triggered execution: powershell profile": [
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates."
+    ],
+    "use alternate authentication material: pass the hash": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Configure Windows User Account Control to mitigate risk of adversaries obtaining elevated process access.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "native api": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "process injection: process hollowing": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "exfiltration over alternative protocol": [
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Use a data loss prevention (DLP) strategy to categorize sensitive data, identify data formats indicative of personal identifiable information (PII), and restrict exfiltration of sensitive data.(Citation: PurpleSec Data Loss Prevention)",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "query registry": [],
+    "system services: service execution": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "modify registry": [
+        "Restrict the ability to modify certain hives or keys in the Windows Registry."
+    ],
+    "virtualization/sandbox evasion: system checks": [],
+    "audio capture": [],
+    "unsecured credentials: credentials in files": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Set and enforce secure password policies for accounts."
+    ],
+    "phishing: spearphishing via service": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Use signatures or heuristics to detect malicious software.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc."
+    ],
+    "data encrypted for impact": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise."
+    ],
+    "data destruction": [
+        "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise."
+    ],
+    "template injection": [
+        "Use signatures or heuristics to detect malicious software.",
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "inhibit system recovery": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise."
+    ],
+    "create account": [
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "exploitation of remote services": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Vulnerability scanning is used to find potentially exploitable software vulnerabilities to remediate them.",
+        "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "A threat intelligence program helps an organization generate their own threat intelligence information and track trends to inform defensive priorities to mitigate risk.",
+        "Restrict execution of code to a virtual environment on or in transit to an endpoint system.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Perform regular software updates to mitigate exploitation risk."
+    ],
+    "valid accounts": [
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "This mitigation describes any guidance or training given to developers of applications to avoid introducing security weaknesses that an adversary may be able to take advantage of.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "permission groups discovery": [],
+    "inter-process communication: dynamic data exchange": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Restrict execution of code to a virtual environment on or in transit to an endpoint system.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "office application startup": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates."
+    ],
+    "data obfuscation": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "domain trust discovery": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems."
+    ],
+    "email collection": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Protect sensitive information with strong encryption.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "browser session hijacking": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "data from removable media": [
+        "Use a data loss prevention (DLP) strategy to categorize sensitive data, identify data formats indicative of personal identifiable information (PII), and restrict exfiltration of sensitive data.(Citation: PurpleSec Data Loss Prevention)"
+    ],
+    "pre-os boot: bootkit": [
+        "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "boot or logon initialization scripts": [
+        "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "shared modules": [
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "adversary-in-the-middle: llmnr/nbt-ns poisoning and smb relay": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "external remote services": [
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator."
+    ],
+    "proxy: domain fronting": [
+        "Break and inspect SSL/TLS sessions to look at encrypted web traffic for adversary activity."
+    ],
+    "access token manipulation: sid-history injection": [
+        "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc."
+    ],
+    "service stop": [
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "disk wipe: disk structure wipe": [
+        "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise."
+    ],
+    "unsecured credentials: credentials in registry": [
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "event triggered execution: appinit dlls": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Perform regular software updates to mitigate exploitation risk."
+    ],
+    "exploit public-facing application": [
+        "Restrict execution of code to a virtual environment on or in transit to an endpoint system.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Vulnerability scanning is used to find potentially exploitable software vulnerabilities to remediate them.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring.",
+        "Perform regular software updates to mitigate exploitation risk."
+    ],
+    "remote access software": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "system binary proxy execution": [
+        "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "event triggered execution: appcert dlls": [
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "boot or logon autostart execution: winlogon helper dll": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "file and directory permissions modification": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "input capture: credential api hooking": [],
+    "pre-os boot: system firmware": [
+        "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms.",
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "boot or logon autostart execution: lsass driver": [
+        "Protect processes with high privileges that can be used to interact with critical system components through use of protected process light, anti-process injection defenses, or other process integrity enforcement measures.",
+        "Use capabilities to prevent successful credential access by adversaries; including blocking forms of credential dumping.",
+        "Prevent abuse of library loading mechanisms in the operating system and software to load untrusted code by configuring appropriate library loading mechanisms and investigating potential vulnerable software."
+    ],
+    "remote services: distributed component object model": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Restrict execution of code to a virtual environment on or in transit to an endpoint system.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "system binary proxy execution: cmstp": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "execution guardrails": [
+        "This category is to associate techniques that mitigation might increase risk of compromise and therefore mitigation is not recommended."
+    ],
+    "event triggered execution: component object model hijacking": [],
+    "event triggered execution: accessibility features": [
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "credentials from password stores: keychain": [
+        "Set and enforce secure password policies for accounts."
+    ],
+    "system binary proxy execution: mshta": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "use alternate authentication material: pass the ticket": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc."
+    ],
+    "steal or forge kerberos tickets: kerberoasting": [
+        "Set and enforce secure password policies for accounts.",
+        "Protect sensitive information with strong encryption.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "password policy discovery": [
+        "Set and enforce secure password policies for accounts."
+    ],
+    "remote services: windows remote management": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems."
+    ],
+    "bits jobs": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "data from information repositories": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "event triggered execution: lc_load_dylib addition": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing."
+    ],
+    "impair defenses: impair command history logging": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Prevent modification of environment variables by unauthorized users and groups."
+    ],
+    "direct volume access": [],
+    "system binary proxy execution: regsvcs/regasm": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "exploitation for credential access": [
+        "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring.",
+        "Perform regular software updates to mitigate exploitation risk.",
+        "A threat intelligence program helps an organization generate their own threat intelligence information and track trends to inform defensive priorities to mitigate risk.",
+        "Restrict execution of code to a virtual environment on or in transit to an endpoint system."
+    ],
+    "abuse elevation control mechanism: sudo and sudo caching": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "system binary proxy execution: installutil": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "network share discovery": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "system network connections discovery": [],
+    "video capture": [],
+    "system services: launchctl": [
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "event triggered execution: unix shell configuration modification": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "command and scripting interpreter: applescript": [
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "event triggered execution: emond": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "system binary proxy execution: control panel": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "event triggered execution: application shimming": [
+        "Configure Windows User Account Control to mitigate risk of adversaries obtaining elevated process access.",
+        "Perform regular software updates to mitigate exploitation risk."
+    ],
+    "command and scripting interpreter: windows command shell": [
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "user execution: malicious file": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "application layer protocol: web protocols": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "command and scripting interpreter: powershell": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Use signatures or heuristics to detect malicious software.",
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "command and scripting interpreter: visual basic": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Use signatures or heuristics to detect malicious software.",
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc."
+    ],
+    "masquerading: match legitimate name or location": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing."
+    ],
+    "scheduled task/job: scheduled task": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "create or modify system process: windows service": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "user execution: malicious link": [
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc."
+    ],
+    "input capture: keylogging": [],
+    "credentials from password stores: credentials from web browsers": [
+        "Set and enforce secure password policies for accounts."
+    ],
+    "system shutdown/reboot": [],
+    "process injection: dynamic-link library injection": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "os credential dumping: lsass memory": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Use capabilities to prevent successful credential access by adversaries; including blocking forms of credential dumping.",
+        "Protect processes with high privileges that can be used to interact with critical system components through use of protected process light, anti-process injection defenses, or other process integrity enforcement measures.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Set and enforce secure password policies for accounts."
+    ],
+    "command and scripting interpreter: javascript": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc."
+    ],
+    "masquerading: masquerade task or service": [],
+    "indicator removal on host: clear windows event logs": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Use remote security log and sensitive file storage where access can be controlled better to prevent exposure of intrusion detection log data or sensitive information.",
+        "Protect sensitive information with strong encryption."
+    ],
+    "obtain capabilities: tool": [],
+    "system location discovery: system language discovery": [],
+    "encrypted channel: symmetric cryptography": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "lateral tool transfer": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "data encoding: standard encoding": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "automated collection": [
+        "Use remote security log and sensitive file storage where access can be controlled better to prevent exposure of intrusion detection log data or sensitive information.",
+        "Protect sensitive information with strong encryption."
+    ],
+    "web service: bidirectional communication": [
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "system binary proxy execution: msiexec": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "virtualization/sandbox evasion: time based evasion": [],
+    "acquire infrastructure: domains": [],
+    "data staged: local data staging": [],
+    "hide artifacts: hidden window": [
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "obfuscated files or information: steganography": [],
+    "peripheral device discovery": [],
+    "encrypted channel: asymmetric cryptography": [
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Break and inspect SSL/TLS sessions to look at encrypted web traffic for adversary activity."
+    ],
+    "valid accounts: domain accounts": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "disk wipe: disk content wipe": [
+        "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise."
+    ],
+    "command and scripting interpreter: python": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Use signatures or heuristics to detect malicious software.",
+        "Block users or groups from installing unapproved software.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "virtualization/sandbox evasion": [],
+    "access token manipulation: token impersonation/theft": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "supply chain compromise: compromise software supply chain": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Vulnerability scanning is used to find potentially exploitable software vulnerabilities to remediate them."
+    ],
+    "account discovery: local account": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "web service: dead drop resolver": [
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "data manipulation: transmitted data manipulation": [
+        "Protect sensitive information with strong encryption."
+    ],
+    "archive collected data: archive via utility": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "software discovery": [],
+    "non-application layer protocol": [
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems."
+    ],
+    "account discovery: domain account": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "access token manipulation: create process with token": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "defacement: internal defacement": [
+        "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise."
+    ],
+    "brute force: password spraying": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Set and enforce secure password policies for accounts.",
+        "Configure features related to account use like login attempt lockouts, specific login times, etc."
+    ],
+    "proxy: external proxy": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "exfiltration over web service: exfiltration to cloud storage": [
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc."
+    ],
+    "account manipulation": [
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "file and directory permissions modification: windows file and directory permissions modification": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "remote services: vnc": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Block users or groups from installing unapproved software."
+    ],
+    "domain policy modification: group policy modification": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "develop capabilities: malware": [],
+    "impair defenses: disable or modify system firewall": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "gather victim identity information: email addresses": [],
+    "scheduled task/job: cron": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "hide artifacts: ntfs file attributes": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "phishing for information: spearphishing link": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates."
+    ],
+    "phishing": [
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+        "Use signatures or heuristics to detect malicious software.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "permission groups discovery: domain groups": [],
+    "system binary proxy execution: compiled html file": [
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "account discovery: email account": [],
+    "proxy: internal proxy": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "establish accounts: email accounts": [],
+    "acquire infrastructure: web services": [],
+    "data from network shared drive": [],
+    "trusted relationship": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems."
+    ],
+    "dynamic resolution": [
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc."
+    ],
+    "stage capabilities: upload malware": [],
+    "account access removal": [],
+    "establish accounts: social media accounts": [],
+    "taint shared content": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring."
+    ],
+    "obtain capabilities: code signing certificates": [],
+    "remote services: ssh": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "exfiltration over alternative protocol: exfiltration over unencrypted non-c2 protocol": [
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Use a data loss prevention (DLP) strategy to categorize sensitive data, identify data formats indicative of personal identifiable information (PII), and restrict exfiltration of sensitive data.(Citation: PurpleSec Data Loss Prevention)",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems."
+    ],
+    "credentials from password stores": [
+        "Set and enforce secure password policies for accounts."
+    ],
+    "system services": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "replication through removable media": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Block users or groups from installing or using unapproved hardware on systems, including USB devices.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "application layer protocol: dns": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "application layer protocol: file transfer protocols": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "brute force: password guessing": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Set and enforce secure password policies for accounts.",
+        "Configure features related to account use like login attempt lockouts, specific login times, etc."
+    ],
+    "multi-stage channels": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "inter-process communication: component object model": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Restrict execution of code to a virtual environment on or in transit to an endpoint system."
+    ],
+    "data manipulation: stored data manipulation": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Use remote security log and sensitive file storage where access can be controlled better to prevent exposure of intrusion detection log data or sensitive information.",
+        "Protect sensitive information with strong encryption."
+    ],
+    "valid accounts: local accounts": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Set and enforce secure password policies for accounts."
+    ],
+    "automated exfiltration": [],
+    "firmware corruption": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms."
+    ],
+    "reflective code loading": [],
+    "internal spearphishing": [],
+    "network sniffing": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Protect sensitive information with strong encryption."
+    ],
+    "proxy: multi-hop proxy": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "impair defenses: safe mode boot": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates."
+    ],
+    "acquire infrastructure: server": [],
+    "xsl script processing": [
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "email collection: remote email collection": [
+        "Protect sensitive information with strong encryption.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator."
+    ],
+    "compromise client software binary": [
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing."
+    ],
+    "scheduled transfer": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "os credential dumping: lsa secrets": [
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "permission groups discovery: local groups": [],
+    "archive collected data: archive via custom method": [],
+    "compromise infrastructure: domains": [],
+    "dynamic resolution: domain generation algorithms": [
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc."
+    ],
+    "impair defenses": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Restrict the ability to modify certain hives or keys in the Windows Registry."
+    ],
+    "masquerading: invalid code signature": [
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing."
+    ],
+    "masquerading: rename system utilities": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "command and scripting interpreter: unix shell": [
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "indicator removal on host: clear command history": [
+        "Use remote security log and sensitive file storage where access can be controlled better to prevent exposure of intrusion detection log data or sensitive information.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Prevent modification of environment variables by unauthorized users and groups."
+    ],
+    "abuse elevation control mechanism": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Configure Windows User Account Control to mitigate risk of adversaries obtaining elevated process access.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "impair defenses: disable windows event logging": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "compromise infrastructure: server": [],
+    "create account: local account": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "application layer protocol: mail protocols": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "data obfuscation: protocol impersonation": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "input capture: gui input capture": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "browser bookmark discovery": [],
+    "protocol tunneling": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "active scanning: vulnerability scanning": [],
+    "event triggered execution: windows management instrumentation event subscription": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "data staged: remote data staging": [],
+    "os credential dumping: security account manager": [
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "steal web session cookie": [
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "system network configuration discovery: internet connection discovery": [],
+    "server software component: sql stored procedures": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "data manipulation: runtime data manipulation": [
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "adversary-in-the-middle": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Protect sensitive information with strong encryption.",
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems."
+    ],
+    "impair defenses: indicator blocking": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "valid accounts: default accounts": [
+        "Set and enforce secure password policies for accounts."
+    ],
+    "create or modify system process: launch daemon": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "hijack execution flow: dynamic linker hijacking": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "archive collected data: archive via library": [],
+    "brute force: password cracking": [
+        "Set and enforce secure password policies for accounts.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator."
+    ],
+    "obfuscated files or information: compile after delivery": [],
+    "obtain capabilities: digital certificates": [],
+    "gather victim identity information: employee names": [],
+    "search victim-owned websites": [],
+    "boot or logon autostart execution": [],
+    "remote service session hijacking: rdp hijacking": [
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "supply chain compromise: compromise software dependencies and development tools": [
+        "Vulnerability scanning is used to find potentially exploitable software vulnerabilities to remediate them.",
+        "Perform regular software updates to mitigate exploitation risk."
+    ],
+    "hide artifacts: run virtual instance": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "os credential dumping: ntds": [
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Protect sensitive information with strong encryption."
+    ],
+    "compromise accounts: email accounts": [],
+    "phishing for information: spearphishing attachment": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates."
+    ],
+    "valid accounts: cloud accounts": [
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "os credential dumping: cached domain credentials": [
+        "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Set and enforce secure password policies for accounts.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "web service: one-way communication": [
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "search open websites/domains: social media": [],
+    "subvert trust controls: code signing policy modification": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms.",
+        "Restrict the ability to modify certain hives or keys in the Windows Registry."
+    ],
+    "credentials from password stores: password managers": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Set and enforce secure password policies for accounts."
+    ],
+    "gather victim network information: domain properties": [],
+    "gather victim org information": [],
+    "gather victim org information: business relationships": [],
+    "gather victim host information: software": [],
+    "stage capabilities: upload tool": [],
+    "virtualization/sandbox evasion: user activity based checks": [],
+    "dynamic resolution: fast flux dns": [],
+    "execution guardrails: environmental keying": [
+        "This category is to associate techniques that mitigation might increase risk of compromise and therefore mitigation is not recommended."
+    ],
+    "obfuscated files or information: indicator removal from tools": [],
+    "boot or logon initialization scripts: logon script (windows)": [
+        "Restrict the ability to modify certain hives or keys in the Windows Registry."
+    ],
+    "software deployment tools": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc.",
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Set and enforce secure password policies for accounts.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Use remote security log and sensitive file storage where access can be controlled better to prevent exposure of intrusion detection log data or sensitive information."
+    ],
+    "email collection: email forwarding rule": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Protect sensitive information with strong encryption.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "subvert trust controls: mark-of-the-web bypass": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "unsecured credentials: private keys": [
+        "Set and enforce secure password policies for accounts.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Protect sensitive information with strong encryption."
+    ],
+    "exfiltration over web service": [
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+        "Use a data loss prevention (DLP) strategy to categorize sensitive data, identify data formats indicative of personal identifiable information (PII), and restrict exfiltration of sensitive data.(Citation: PurpleSec Data Loss Prevention)"
+    ],
+    "phishing for information": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates."
+    ],
+    "obtain capabilities: vulnerabilities": [],
+    "search open websites/domains": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "This mitigation describes any guidance or training given to developers of applications to avoid introducing security weaknesses that an adversary may be able to take advantage of."
+    ],
+    "data obfuscation: steganography": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "brute force: credential stuffing": [
+        "Configure features related to account use like login attempt lockouts, specific login times, etc.",
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator."
+    ],
+    "create account: domain account": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "indirect command execution": [],
+    "defacement: external defacement": [
+        "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise."
+    ],
+    "compromise infrastructure: botnet": [],
+    "endpoint denial of service": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "hijack execution flow: kernelcallbacktable": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "gather victim org information: identify roles": [],
+    "server software component: transport agent": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing."
+    ],
+    "endpoint denial of service: application or system exploitation": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "hijack execution flow: services file permissions weakness": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Configure Windows User Account Control to mitigate risk of adversaries obtaining elevated process access."
+    ],
+    "obtain capabilities: malware": [],
+    "unsecured credentials": [
+        "Protect sensitive information with strong encryption.",
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc.",
+        "Set and enforce secure password policies for accounts.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "resource hijacking": [],
+    "gather victim identity information: credentials": [],
+    "domain policy modification: domain trust modification": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "system location discovery": [],
+    "use alternate authentication material": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "rootkit": [],
+    "email collection: local email collection": [
+        "Protect sensitive information with strong encryption."
+    ],
+    "data obfuscation: junk data": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "os credential dumping: dcsync": [
+        "Set and enforce secure password policies for accounts.",
+        "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "process injection: process doppelg\u00e4nging": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "indicator removal on host: network share connection removal": [],
+    "trusted developer utilities proxy execution: msbuild": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "office application startup: office template macros": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "office application startup: outlook home page": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "exploitation for defense evasion": [
+        "Use capabilities to detect and block conditions that may lead to or be indicative of a software exploit occurring.",
+        "Perform regular software updates to mitigate exploitation risk.",
+        "A threat intelligence program helps an organization generate their own threat intelligence information and track trends to inform defensive priorities to mitigate risk.",
+        "Restrict execution of code to a virtual environment on or in transit to an endpoint system."
+    ],
+    "system binary proxy execution: odbcconf": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "file and directory permissions modification: linux and mac file and directory permissions modification": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "use alternate authentication material: web session cookie": [
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates."
+    ],
+    "domain policy modification": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "network denial of service": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "debugger evasion": [],
+    "credentials from password stores: windows credential manager": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "stage capabilities: drive-by target": [],
+    "abuse elevation control mechanism: setuid and setgid": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "hijack execution flow": [
+        "Configure Windows User Account Control to mitigate risk of adversaries obtaining elevated process access.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Prevent abuse of library loading mechanisms in the operating system and software to load untrusted code by configuring appropriate library loading mechanisms and investigating potential vulnerable software.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "This mitigation describes any guidance or training given to developers of applications to avoid introducing security weaknesses that an adversary may be able to take advantage of.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Restrict the ability to modify certain hives or keys in the Windows Registry."
+    ],
+    "obtain capabilities": [],
+    "phishing for information: spearphishing service": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "unsecured credentials: bash history": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "boot or logon autostart execution: print processors": [
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "abuse elevation control mechanism: elevated execution with prompt": [
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "supply chain compromise": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Vulnerability scanning is used to find potentially exploitable software vulnerabilities to remediate them."
+    ],
+    "exfiltration over other network medium": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "boot or logon initialization scripts: login hook": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "process injection: thread local storage": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "process injection: proc memory": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "process injection: extra window memory injection": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "account manipulation: ssh authorized keys": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "trusted developer utilities proxy execution": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "access token manipulation: make and impersonate token": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "traffic signaling": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "data from information repositories: confluence": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "boot or logon autostart execution: kernel modules and extensions": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Use signatures or heuristics to detect malicious software.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "subvert trust controls": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates."
+    ],
+    "modify authentication process: network device authentication": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator."
+    ],
+    "adversary-in-the-middle: arp cache poisoning": [
+        "Protect sensitive information with strong encryption.",
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "steal or forge kerberos tickets": [
+        "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc.",
+        "Protect sensitive information with strong encryption.",
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "remote service session hijacking": [
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "plist file modification": [
+        "This mitigation describes any guidance or training given to developers of applications to avoid introducing security weaknesses that an adversary may be able to take advantage of."
+    ],
+    "hide artifacts: hidden users": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "data transfer size limits": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "masquerading: right-to-left override": [],
+    "account manipulation: additional email delegate permissions": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "forced authentication": [
+        "Set and enforce secure password policies for accounts.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "use alternate authentication material: application access token": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+        "Protect sensitive information with strong encryption."
+    ],
+    "gather victim identity information": [],
+    "steal application access token": [
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "obfuscated files or information: html smuggling": [],
+    "masquerading: double file extension": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "exfiltration over alternative protocol: exfiltration over asymmetric encrypted non-c2 protocol": [
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Use a data loss prevention (DLP) strategy to categorize sensitive data, identify data formats indicative of personal identifiable information (PII), and restrict exfiltration of sensitive data.(Citation: PurpleSec Data Loss Prevention)"
+    ],
+    "exfiltration over physical medium: exfiltration over usb": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Block users or groups from installing or using unapproved hardware on systems, including USB devices.",
+        "Use a data loss prevention (DLP) strategy to categorize sensitive data, identify data formats indicative of personal identifiable information (PII), and restrict exfiltration of sensitive data.(Citation: PurpleSec Data Loss Prevention)"
+    ],
+    "scheduled task/job: at": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "process injection: asynchronous procedure call": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "account discovery: cloud account": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "account manipulation: device registration": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator."
+    ],
+    "create account: cloud account": [
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "office application startup: add-ins": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "browser extensions": [
+        "Block users or groups from installing unapproved software.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "forge web credentials: saml tokens": [
+        "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "credentials from password stores: securityd memory": [],
+    "subvert trust controls: gatekeeper bypass": [
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "acquire infrastructure": [],
+    "create or modify system process: systemd service": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Block users or groups from installing unapproved software."
+    ],
+    "inter-process communication: xpc services": [
+        "This mitigation describes any guidance or training given to developers of applications to avoid introducing security weaknesses that an adversary may be able to take advantage of."
+    ],
+    "hide artifacts": [],
+    "server software component: terminal services dll": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Restrict the ability to modify certain hives or keys in the Windows Registry."
+    ],
+    "acquire infrastructure: botnet": [],
+    "exfiltration over web service: exfiltration to code repository": [
+        "Restrict use of certain websites, block downloads/attachments, block Javascript, restrict browser extensions, etc."
+    ],
+    "system binary proxy execution: mmc": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "develop capabilities": [],
+    "stage capabilities": [],
+    "event triggered execution: screensaver": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "compromise infrastructure": [],
+    "establish accounts": [],
+    "compromise accounts: social media accounts": [],
+    "cloud service dashboard": [
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "active scanning: scanning ip blocks": [],
+    "pre-os boot: component firmware": [
+        "Perform regular software updates to mitigate exploitation risk."
+    ],
+    "boot or logon autostart execution: time providers": [
+        "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "inter-process communication": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Restrict execution of code to a virtual environment on or in transit to an endpoint system.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "This mitigation describes any guidance or training given to developers of applications to avoid introducing security weaknesses that an adversary may be able to take advantage of."
+    ],
+    "stage capabilities: install digital certificate": [],
+    "event triggered execution: netsh helper dll": [],
+    "steal or forge kerberos tickets: silver ticket": [
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Protect sensitive information with strong encryption."
+    ],
+    "acquire infrastructure: virtual private server": [],
+    "compromise infrastructure: virtual private server": [],
+    "search open websites/domains: search engines": [],
+    "defacement": [
+        "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise."
+    ],
+    "cloud service discovery": [],
+    "subvert trust controls: install root certificate": [
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "gather victim network information": [],
+    "gather victim network information: network security appliances": [],
+    "gather victim org information: determine physical locations": [],
+    "gather victim host information: hardware": [],
+    "search closed sources: purchase technical data": [],
+    "forge web credentials: web cookies": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates."
+    ],
+    "cloud storage object discovery": [
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "process injection: portable executable injection": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "permission groups discovery: cloud groups": [],
+    "communication through removable media": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "account manipulation: additional cloud credentials": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "account manipulation: additional cloud roles": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "multi-factor authentication interception": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "data encoding: non-standard encoding": [
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "access token manipulation: parent pid spoofing": [],
+    "office application startup: office test": [
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "data from information repositories: sharepoint": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "data from information repositories: code repositories": [
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator."
+    ],
+    "system script proxy execution: pubprn": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "network denial of service: reflection amplification": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "server software component": [
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "implant internal image": [
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "event triggered execution": [],
+    "event triggered execution: image file execution options injection": [],
+    "boot or logon autostart execution: active setup": [],
+    "unsecured credentials: cloud instance metadata api": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "subvert trust controls: sip and trust provider hijacking": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "modify authentication process: reversible encryption": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Set and enforce secure password policies for accounts."
+    ],
+    "steal or forge kerberos tickets: golden ticket": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc."
+    ],
+    "disk wipe": [
+        "Take and store data backups from end user systems and critical servers. Ensure backup and storage systems are hardened and kept separate from the corporate network to prevent compromise."
+    ],
+    "impair defenses: disable cloud logs": [
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "hide artifacts: vba stomping": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "data manipulation": [
+        "Protect sensitive information with strong encryption.",
+        "Use remote security log and sensitive file storage where access can be controlled better to prevent exposure of intrusion detection log data or sensitive information.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "hijack execution flow: executable installer file permissions weakness": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Configure Windows User Account Control to mitigate risk of adversaries obtaining elevated process access.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "hijack execution flow: cor_profiler": [
+        "Restrict the ability to modify certain hives or keys in the Windows Registry.",
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "acquire infrastructure: dns server": [],
+    "compromise infrastructure: dns server": [],
+    "compromise accounts": [],
+    "develop capabilities: code signing certificates": [],
+    "obtain capabilities: exploits": [],
+    "gather victim network information: network topology": [],
+    "gather victim org information: identify business tempo": [],
+    "gather victim host information: client configurations": [],
+    "forge web credentials": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "container and resource discovery": [
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "multi-factor authentication request generation": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Configure features related to account use like login attempt lockouts, specific login times, etc.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "os credential dumping: proc filesystem": [
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "os credential dumping: /etc/passwd and /etc/shadow": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Set and enforce secure password policies for accounts."
+    ],
+    "exfiltration over other network medium: exfiltration over bluetooth": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "automated exfiltration: traffic duplication": [
+        "Protect sensitive information with strong encryption."
+    ],
+    "masquerading: space after filename": [],
+    "boot or logon initialization scripts: network logon script": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "boot or logon initialization scripts: rc scripts": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "boot or logon initialization scripts: startup items": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "exfiltration over alternative protocol: exfiltration over symmetric encrypted non-c2 protocol": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems."
+    ],
+    "exfiltration over physical medium": [
+        "Use a data loss prevention (DLP) strategy to categorize sensitive data, identify data formats indicative of personal identifiable information (PII), and restrict exfiltration of sensitive data.(Citation: PurpleSec Data Loss Prevention)",
+        "Block users or groups from installing or using unapproved hardware on systems, including USB devices.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "scheduled task/job: systemd timers": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "scheduled task/job: container orchestration job": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "process injection: thread execution hijacking": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "process injection: ptrace system calls": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "process injection: vdso hijacking": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "process injection: listplanting": [
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "input capture: web portal capture": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "command and scripting interpreter: network device cli": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "indicator removal on host: clear linux or mac system logs": [
+        "Use remote security log and sensitive file storage where access can be controlled better to prevent exposure of intrusion detection log data or sensitive information.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Protect sensitive information with strong encryption."
+    ],
+    "office application startup: outlook forms": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "office application startup: outlook rules": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Use capabilities to prevent suspicious behavior patterns from occurring on endpoint systems. This could include suspicious process, file, API call, etc. behavior."
+    ],
+    "supply chain compromise: compromise hardware supply chain": [
+        "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms."
+    ],
+    "hardware additions": [
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+        "Block users or groups from installing or using unapproved hardware on systems, including USB devices."
+    ],
+    "user execution: malicious image": [
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "traffic signaling: port knocking": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "rogue domain controller": [],
+    "system script proxy execution": [
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "system binary proxy execution: verclsid": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "system binary proxy execution: mavinject": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "network denial of service: direct network flood": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "endpoint denial of service: os exhaustion flood": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "endpoint denial of service: service exhaustion flood": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "endpoint denial of service: application exhaustion flood": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "server software component: iis components": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing."
+    ],
+    "data from cloud storage object": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Protect sensitive information with strong encryption.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator."
+    ],
+    "unused/unsupported cloud regions": [
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates."
+    ],
+    "transfer data to cloud account": [
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "pre-os boot": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms."
+    ],
+    "pre-os boot: rommonkit": [
+        "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "pre-os boot: tftp boot": [
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms."
+    ],
+    "event triggered execution: change default file association": [],
+    "event triggered execution: trap": [],
+    "boot or logon autostart execution: authentication package": [
+        "Protect processes with high privileges that can be used to interact with critical system components through use of protected process light, anti-process injection defenses, or other process integrity enforcement measures."
+    ],
+    "boot or logon autostart execution: security support provider": [
+        "Protect processes with high privileges that can be used to interact with critical system components through use of protected process light, anti-process injection defenses, or other process integrity enforcement measures."
+    ],
+    "boot or logon autostart execution: re-opened applications": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction."
+    ],
+    "boot or logon autostart execution: port monitors": [],
+    "boot or logon autostart execution: xdg autostart entries": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Block users or groups from installing unapproved software."
+    ],
+    "boot or logon autostart execution: login items": [],
+    "unsecured credentials: group policy preferences": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Configure Active Directory to prevent use of certain techniques; use SID Filtering, etc."
+    ],
+    "unsecured credentials: container api": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "modify authentication process": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Set and enforce secure password policies for accounts.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Protect processes with high privileges that can be used to interact with critical system components through use of protected process light, anti-process injection defenses, or other process integrity enforcement measures.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "modify authentication process: domain controller authentication": [
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Protect processes with high privileges that can be used to interact with critical system components through use of protected process light, anti-process injection defenses, or other process integrity enforcement measures.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator."
+    ],
+    "modify authentication process: password filter dll": [
+        "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques."
+    ],
+    "modify authentication process: pluggable authentication modules": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "adversary-in-the-middle: dhcp spoofing": [
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Use intrusion detection signatures to block traffic at network boundaries."
+    ],
+    "steal or forge kerberos tickets: as-rep roasting": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Set and enforce secure password policies for accounts.",
+        "Protect sensitive information with strong encryption."
+    ],
+    "impair defenses: disable or modify cloud firewall": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "impair defenses: downgrade attack": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "remote service session hijacking: ssh hijacking": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries.",
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "hide artifacts: hidden file system": [],
+    "hide artifacts: email hiding rules": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "hide artifacts: resource forking": [
+        "This mitigation describes any guidance or training given to developers of applications to avoid introducing security weaknesses that an adversary may be able to take advantage of."
+    ],
+    "hide artifacts: process argument spoofing": [],
+    "dynamic resolution: dns calculation": [],
+    "hijack execution flow: dylib hijacking": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "hijack execution flow: path interception by path environment variable": [
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "hijack execution flow: path interception by search order hijacking": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "hijack execution flow: path interception by unquoted path": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Restrict access by setting directory and file permissions that are not specific to users or privileged accounts."
+    ],
+    "hijack execution flow: services registry permissions weakness": [
+        "Restrict the ability to modify certain hives or keys in the Windows Registry."
+    ],
+    "modify cloud compute infrastructure": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "modify cloud compute infrastructure: create snapshot": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "modify cloud compute infrastructure: create cloud instance": [
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "modify cloud compute infrastructure: delete cloud instance": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "modify cloud compute infrastructure: revert cloud instance": [],
+    "cloud infrastructure discovery": [
+        "Manage the creation, modification, use, and permissions associated to user accounts."
+    ],
+    "compromise infrastructure: web services": [],
+    "develop capabilities: digital certificates": [],
+    "develop capabilities: exploits": [],
+    "gather victim network information: dns": [],
+    "gather victim network information: network trust dependencies": [],
+    "gather victim network information: ip addresses": [],
+    "gather victim host information": [],
+    "gather victim host information: firmware": [],
+    "active scanning": [],
+    "active scanning: wordlist scanning": [
+        "Remove or deny access to unnecessary and potentially vulnerable software to prevent abuse by adversaries."
+    ],
+    "search open technical databases": [],
+    "search open technical databases: dns/passive dns": [],
+    "search open technical databases: whois": [],
+    "search open technical databases: digital certificates": [],
+    "search open technical databases: cdns": [],
+    "search open technical databases: scan databases": [],
+    "search closed sources": [],
+    "search closed sources: threat intel vendors": [],
+    "network boundary bridging": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Set and enforce secure password policies for accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Use capabilities to prevent successful credential access by adversaries; including blocking forms of credential dumping."
+    ],
+    "network boundary bridging: network address translation traversal": [
+        "Set and enforce secure password policies for accounts.",
+        "Use capabilities to prevent successful credential access by adversaries; including blocking forms of credential dumping.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "weaken encryption": [],
+    "weaken encryption: reduce key space": [],
+    "weaken encryption: disable crypto hardware": [],
+    "modify system image": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Set and enforce secure password policies for accounts.",
+        "Use capabilities to prevent successful credential access by adversaries; including blocking forms of credential dumping.",
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+        "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "modify system image: patch system image": [
+        "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms.",
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+        "Use capabilities to prevent successful credential access by adversaries; including blocking forms of credential dumping.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Set and enforce secure password policies for accounts."
+    ],
+    "modify system image: downgrade system image": [
+        "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+        "Enforce binary and application integrity with digital signature verification to prevent untrusted code from executing.",
+        "Use capabilities to prevent successful credential access by adversaries; including blocking forms of credential dumping.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Set and enforce secure password policies for accounts.",
+        "Use secure methods to boot a system and verify the integrity of the operating system and loading mechanisms."
+    ],
+    "data from configuration repository": [
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Protect sensitive information with strong encryption."
+    ],
+    "data from configuration repository: snmp (mib dump)": [
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Perform regular software updates to mitigate exploitation risk.",
+        "Protect sensitive information with strong encryption.",
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic."
+    ],
+    "data from configuration repository: network device configuration dump": [
+        "Protect sensitive information with strong encryption.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Use intrusion detection signatures to block traffic at network boundaries.",
+        "Implement configuration changes to software (other than the operating system) to mitigate security risks associated to how the software operates.",
+        "Use network appliances to filter ingress or egress traffic and perform protocol-based filtering. Configure software on endpoints to filter network traffic.",
+        "Perform regular software updates to mitigate exploitation risk."
+    ],
+    "stage capabilities: link target": [],
+    "container administration command": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+        "Block execution of code on a system through application control, and/or script blocking."
+    ],
+    "deploy container": [
+        "Manage the creation, modification, use, and permissions associated to user accounts.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc."
+    ],
+    "escape to host": [
+        "Block execution of code on a system through application control, and/or script blocking.",
+        "Restrict execution of code to a virtual environment on or in transit to an endpoint system.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root."
+    ],
+    "build image on host": [
+        "Prevent access to file shares, remote access to systems, unnecessary services. Mechanisms to limit access may include use of network concentrators, RDP gateways, etc.",
+        "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+        "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+        "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses."
+    ],
+    "group policy discovery": []
+}

@@ -1,0 +1,114 @@
+﻿{
+    "id": "T1621",
+    "name": "Multi-Factor Authentication Request Generation",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may attempt to bypass multi-factor authentication (MFA) mechanisms and gain access to accounts by generating MFA requests sent to users.\n\nAdversaries in possession credentials to [Valid Accounts](https://attack.mitre.org/techniques/T1078) may be unable to complete the login process if they lack access to the 2FA or MFA mechanisms required as an additional credential and security control. To circumvent this, adversaries may abuse the automatic generation of push notifications to MFA services such as Duo Push, Microsoft Authenticator, Okta, or similar services to have the user grant access to their account.\n\nIn some cases, adversaries may continuously repeat login attempts in order to bombard users with MFA push notifications, SMS messages, and phone calls, potentially resulting in the user finally accepting the authentication request in response to \u201cMFA fatigue.\u201d(Citation: Russian 2FA Push Annoyance - Cimpanu)(Citation: MFA Fatigue Attacks - PortSwigger)(Citation: Suspected Russian Activity Targeting Government and Business Entities Around the Globe)",
+    "x_mitre_platforms": [
+        "Windows",
+        "Office 365",
+        "Linux",
+        "macOS",
+        "IaaS",
+        "SaaS",
+        "Azure AD",
+        "Google Workspace"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1621",
+            "external_id": "T1621"
+        },
+        {
+            "source_name": "Russian 2FA Push Annoyance - Cimpanu",
+            "description": "Catalin Cimpanu. (2021, December 9). Russian hackers bypass 2FA by annoying victims with repeated push notifications. Retrieved March 31, 2022.",
+            "url": "https://therecord.media/russian-hackers-bypass-2fa-by-annoying-victims-with-repeated-push-notifications/"
+        },
+        {
+            "source_name": "MFA Fatigue Attacks - PortSwigger",
+            "description": "Jessica Haworth. (2022, February 16). MFA fatigue attacks: Users tricked into allowing device access due to overload of push notifications. Retrieved March 31, 2022.",
+            "url": "https://portswigger.net/daily-swig/mfa-fatigue-attacks-users-tricked-into-allowing-device-access-due-to-overload-of-push-notifications"
+        },
+        {
+            "source_name": "Suspected Russian Activity Targeting Government and Business Entities Around the Globe",
+            "description": "Luke Jenkins, Sarah Hawley, Parnian Najafi, Doug Bienstock. (2021, December 6). Suspected Russian Activity Targeting Government and Business Entities Around the Globe. Retrieved April 15, 2022.",
+            "url": "https://www.mandiant.com/resources/russian-targeting-gov-business"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+        }
+    ],
+    "tactic": [
+        "credential-access"
+    ],
+    "x_mitre_detection": "Monitor user account logs as well as 2FA/MFA application logs for suspicious events: unusual login attempt source location, mismatch in location of login attempt and smart device receiving 2FA/MFA request prompts, and high volume of repeated login attempts, all of which may indicate user's primary credentials have been compromised minus 2FA/MFA mechanism. ",
+    "x_mitre_data_sources": [
+        "Application Log: Application Log Content",
+        "Logon Session: Logon Session Creation",
+        "User Account: User Account Authentication",
+        "Logon Session: Logon Session Metadata"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Multi-factor Authentication",
+                "description": "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+                "type": "course-of-action",
+                "id": "M1032"
+            },
+            {
+                "name": "Account Use Policies",
+                "description": "Configure features related to account use like login attempt lockouts, specific login times, etc.",
+                "type": "course-of-action",
+                "id": "M1036"
+            },
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [
+        "40000158",
+        "40000211",
+        "40000516"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106012",
+        "50106014",
+        "50106027",
+        "50106115"
+    ],
+    "technologycontrolIds": [
+        "17800005",
+        "17880001",
+        "18770003",
+        "19120041",
+        "19120042"
+    ],
+    "cveIds": [],
+    "subTechniques": []
+}

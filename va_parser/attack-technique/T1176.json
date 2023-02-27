@@ -1,0 +1,205 @@
+﻿{
+    "id": "T1176",
+    "name": "Browser Extensions",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may abuse Internet browser extensions to establish persistent access to victim systems. Browser extensions or plugins are small programs that can add functionality and customize aspects of Internet browsers. They can be installed directly or through a browser's app store and generally have access and permissions to everything that the browser can access.(Citation: Wikipedia Browser Extension)(Citation: Chrome Extensions Definition)\n\nMalicious extensions can be installed into a browser through malicious app store downloads masquerading as legitimate extensions, through social engineering, or by an adversary that has already compromised a system. Security can be limited on browser app stores so it may not be difficult for malicious extensions to defeat automated scanners.(Citation: Malicious Chrome Extension Numbers) Depending on the browser, adversaries may also manipulate an extension's update url to install updates from an adversary controlled server or manipulate the mobile configuration file to silently install additional extensions.\n\nPrevious to macOS 11, adversaries could silently install browser extensions via the command line using the <code>profiles</code> tool to install malicious <code>.mobileconfig</code> files. In macOS 11+, the use of the <code>profiles</code> tool can no longer install configuration profiles, however <code>.mobileconfig</code> files can be planted and installed with user interaction.(Citation: xorrior chrome extensions macOS)\n\nOnce the extension is installed, it can browse to websites in the background, steal all information that a user enters into a browser (including credentials), and be used as an installer for a RAT for persistence.(Citation: Chrome Extension Crypto Miner)(Citation: ICEBRG Chrome Extensions)(Citation: Banker Google Chrome Extension Steals Creds)(Citation: Catch All Chrome Extension)\n\nThere have also been instances of botnets using a persistent backdoor through malicious Chrome extensions.(Citation: Stantinko Botnet) There have also been similar examples of extensions being used for command & control.(Citation: Chrome Extension C2 Malware)",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1176",
+            "external_id": "T1176"
+        },
+        {
+            "source_name": "Chrome Extension Crypto Miner",
+            "description": "Brinkmann, M. (2017, September 19). First Chrome extension with JavaScript Crypto Miner detected. Retrieved November 16, 2017.",
+            "url": "https://www.ghacks.net/2017/09/19/first-chrome-extension-with-javascript-crypto-miner-detected/"
+        },
+        {
+            "source_name": "xorrior chrome extensions macOS",
+            "description": "Chris Ross. (2019, February 8). No Place Like Chrome. Retrieved April 27, 2021.",
+            "url": "https://www.xorrior.com/No-Place-Like-Chrome/"
+        },
+        {
+            "source_name": "Chrome Extensions Definition",
+            "description": "Chrome. (n.d.). What are Extensions?. Retrieved November 16, 2017.",
+            "url": "https://developer.chrome.com/extensions"
+        },
+        {
+            "source_name": "ICEBRG Chrome Extensions",
+            "description": "De Tore, M., Warner, J. (2018, January 15). MALICIOUS CHROME EXTENSIONS ENABLE CRIMINALS TO IMPACT OVER HALF A MILLION USERS AND GLOBAL BUSINESSES. Retrieved January 17, 2018.",
+            "url": "https://www.icebrg.io/blog/malicious-chrome-extensions-enable-criminals-to-impact-over-half-a-million-users-and-global-businesses"
+        },
+        {
+            "source_name": "Malicious Chrome Extension Numbers",
+            "description": "Jagpal, N., et al. (2015, August). Trends and Lessons from Three Years Fighting Malicious Extensions. Retrieved November 17, 2017.",
+            "url": "https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43824.pdf"
+        },
+        {
+            "source_name": "Chrome Extension C2 Malware",
+            "description": "Kjaer, M. (2016, July 18). Malware in the browser: how you might get hacked by a Chrome extension. Retrieved November 22, 2017.",
+            "url": "https://kjaer.io/extension-malware/"
+        },
+        {
+            "source_name": "Catch All Chrome Extension",
+            "description": "Marinho, R. (n.d.). \"Catch-All\" Google Chrome Malicious Extension Steals All Posted Data. Retrieved November 16, 2017.",
+            "url": "https://isc.sans.edu/forums/diary/CatchAll+Google+Chrome+Malicious+Extension+Steals+All+Posted+Data/22976/https:/threatpost.com/malicious-chrome-extension-steals-data-posted-to-any-website/128680/)"
+        },
+        {
+            "source_name": "Banker Google Chrome Extension Steals Creds",
+            "description": "Marinho, R. (n.d.). (Banker(GoogleChromeExtension)).targeting. Retrieved November 18, 2017.",
+            "url": "https://isc.sans.edu/forums/diary/BankerGoogleChromeExtensiontargetingBrazil/22722/"
+        },
+        {
+            "source_name": "Stantinko Botnet",
+            "description": "Vachon, F., Faou, M. (2017, July 20). Stantinko: A massive adware campaign operating covertly since 2012. Retrieved November 16, 2017.",
+            "url": "https://www.welivesecurity.com/2017/07/20/stantinko-massive-adware-campaign-operating-covertly-since-2012/"
+        },
+        {
+            "source_name": "Wikipedia Browser Extension",
+            "description": "Wikipedia. (2017, October 8). Browser Extension. Retrieved January 11, 2018.",
+            "url": "https://en.wikipedia.org/wiki/Browser_extension"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Inventory and monitor browser extension installations that deviate from normal, expected, and benign extensions. Process and network monitoring can be used to detect browsers communicating with a C2 server. However, this may prove to be a difficult way of initially detecting a malicious extension depending on the nature and volume of the traffic it generates.\n\nMonitor for any new items written to the Registry or PE files written to disk. That may correlate with browser extension installation.\n\nOn macOS, monitor the command line for usage of the profiles tool, such as <code>profiles install -type=configuration</code>. Additionally, all installed extensions maintain a <code>plist</code> file in the <code>/Library/Managed Preferences/username/</code> directory. Ensure all listed files are in alignment with approved extensions.(Citation: xorrior chrome extensions macOS)",
+    "x_mitre_data_sources": [
+        "File: File Creation",
+        "Network Traffic: Network Connection Creation",
+        "Command: Command Execution",
+        "Windows Registry: Windows Registry Key Creation",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Limit Software Installation",
+                "description": "Block users or groups from installing unapproved software.",
+                "type": "course-of-action",
+                "id": "M1033"
+            },
+            {
+                "name": "Audit",
+                "description": "Perform audits or scans of systems, permissions, insecure software, insecure configurations, etc. to identify potential weaknesses.",
+                "type": "course-of-action",
+                "id": "M1047"
+            },
+            {
+                "name": "Update Software",
+                "description": "Perform regular software updates to mitigate exploitation risk.",
+                "type": "course-of-action",
+                "id": "M1051"
+            },
+            {
+                "name": "User Training",
+                "description": "Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.",
+                "type": "course-of-action",
+                "id": "M1017"
+            },
+            {
+                "name": "Browser Extensions Mitigation",
+                "description": "Only install browser extensions from trusted sources that can be verified. Ensure extensions that are installed are the intended ones as many malicious extensions will masquerade as legitimate ones.\n\nBrowser extensions for some browsers can be controlled through Group Policy. Set a browser extension white or black list as appropriate for your security policy. (Citation: Technospot Chrome Extensions GP)\n\nChange settings to prevent the browser from installing extensions without sufficient permissions.\n\nClose out all browser sessions when finished using them.",
+                "type": "course-of-action",
+                "id": "T1176"
+            },
+            {
+                "name": "Execution Prevention",
+                "description": "Block execution of code on a system through application control, and/or script blocking.",
+                "type": "course-of-action",
+                "id": "M1038"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that extensions installed are the legitimate ones",
+                "acid": "98580552"
+            },
+            {
+                "description": "Ensure that security policy should include whitelisting approach for browser extensions",
+                "acid": "98580553"
+            },
+            {
+                "description": "Ensure that security policy should include a blacklisting approach for browser extensions",
+                "acid": "98580554"
+            },
+            {
+                "description": "Ensure that browser extension is installed from trusted sources only that can be verified",
+                "acid": "98580555"
+            },
+            {
+                "description": "Ensure that Browser extensions for some browsers are controlled through Group Policy",
+                "acid": "98580556"
+            },
+            {
+                "description": "Ensure that settings are configured to prevent the browser from installing extensions without sufficient permissions",
+                "acid": "98580557"
+            },
+            {
+                "description": "Ensure that all browser sessions are closed when finished using them",
+                "acid": "98580558"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that browser extension installations are inventoried and monitored that deviate from normal, expected, and benign extensions",
+                "acid": "98580548"
+            },
+            {
+                "description": "Ensure that network and process are monitored to detect browsers communicating with a C2 server",
+                "acid": "98580549"
+            },
+            {
+                "description": "Ensure that new items written to the Registry in correlation with browser extension installation are monitored",
+                "acid": "98580550"
+            },
+            {
+                "description": "Ensure that PE files written to disk in correlation with browser extension installation are monitored",
+                "acid": "98580551"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000117",
+        "40000211",
+        "40000516",
+        "40000521",
+        "40000522"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106008",
+        "50106010",
+        "50106032",
+        "50106110"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

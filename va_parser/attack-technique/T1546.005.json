@@ -1,0 +1,85 @@
+﻿{
+    "id": "T1546.005",
+    "name": "Trap",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may establish persistence by executing malicious content triggered by an interrupt signal. The <code>trap</code> command allows programs and shells to specify commands that will be executed upon receiving interrupt signals. A common situation is a script allowing for graceful termination and handling of common keyboard interrupts like <code>ctrl+c</code> and <code>ctrl+d</code>.\n\nAdversaries can use this to register code to be executed when the shell encounters specific interrupts as a persistence mechanism. Trap commands are of the following format <code>trap 'command list' signals</code> where \"command list\" will be executed when \"signals\" are received.(Citation: Trap Manual)(Citation: Cyberciti Trap Statements)",
+    "x_mitre_platforms": [
+        "macOS",
+        "Linux"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1546/005",
+            "external_id": "T1546.005"
+        },
+        {
+            "source_name": "Trap Manual",
+            "description": "ss64. (n.d.). trap. Retrieved May 21, 2019.",
+            "url": "https://ss64.com/bash/trap.html"
+        },
+        {
+            "source_name": "Cyberciti Trap Statements",
+            "description": "Cyberciti. (2016, March 29). Trap statement. Retrieved May 21, 2019.",
+            "url": "https://bash.cyberciti.biz/guide/Trap_statement"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "privilege-escalation",
+        "persistence"
+    ],
+    "x_mitre_detection": "Trap commands must be registered for the shell or programs, so they appear in files. Monitoring files for suspicious or overly broad trap commands can narrow down suspicious behavior during an investigation. Monitor for suspicious processes executed through trap interrupts.",
+    "x_mitre_data_sources": [
+        "Process: Process Creation",
+        "File: File Creation",
+        "File: File Modification",
+        "Command: Command Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "User",
+        "Administrator"
+    ],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": []
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that files are monitored for suspicious or overly broad trap commands",
+                "acid": "98580664"
+            },
+            {
+                "description": "Ensure that suspicious processes executed through trap interrupts are monitored",
+                "acid": "98580665"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

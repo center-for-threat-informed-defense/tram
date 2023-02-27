@@ -1,0 +1,197 @@
+﻿{
+    "id": "T1005",
+    "name": "Data from Local System",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may search local system sources, such as file systems and configuration files or local databases, to find files of interest and sensitive data prior to Exfiltration.\n\nAdversaries may do this using a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059), such as [cmd](https://attack.mitre.org/software/S0106) as well as a [Network Device CLI](https://attack.mitre.org/techniques/T1059/008), which have functionality to interact with the file system to gather information. Adversaries may also use [Automated Collection](https://attack.mitre.org/techniques/T1119) on the local system.\n",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "Network"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1005",
+            "external_id": "T1005"
+        },
+        {
+            "source_name": "Mandiant APT41 Global Intrusion ",
+            "description": "Gyler, C.,Perez D.,Jones, S.,Miller, S.. (2021, February 25). This is Not a Test: APT41 Initiates Global Intrusion Campaign Using Multiple Exploits. Retrieved February 17, 2022.",
+            "url": "https://www.mandiant.com/resources/apt41-initiates-global-intrusion-campaign-using-multiple-exploits"
+        },
+        {
+            "source_name": "US-CERT-TA18-106A",
+            "description": "US-CERT. (2018, April 20). Alert (TA18-106A) Russian State-Sponsored Cyber Actors Targeting Network Infrastructure Devices. Retrieved October 19, 2020.",
+            "url": "https://www.us-cert.gov/ncas/alerts/TA18-106A"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+        }
+    ],
+    "tactic": [
+        "collection"
+    ],
+    "x_mitre_detection": "Monitor processes and command-line arguments for actions that could be taken to collect files from a system. Remote access tools with built-in features may interact directly with the Windows API to gather data. Further, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands may also be used to collect files such as configuration files with built-in features native to the network device platform.(Citation: Mandiant APT41 Global Intrusion )(Citation: US-CERT-TA18-106A) Monitor CLI activity for unexpected or unauthorized use commands being run by non-standard users from non-standard locations. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
+    "x_mitre_data_sources": [
+        "File: File Access",
+        "Script: Script Execution",
+        "Command: Command Execution",
+        "Process: Process Creation",
+        "Process: OS API Execution"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [
+        "Privileges to access certain files and directories"
+    ],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Data from Local System Mitigation",
+                "description": "Identify unnecessary system utilities or potentially malicious software that may be used to collect data from the local system, and audit and/or block them by using whitelisting (Citation: Beechey 2010) tools, like AppLocker, (Citation: Windows Commands JPCERT) (Citation: NSA MS AppLocker) or Software Restriction Policies (Citation: Corio 2008) where appropriate. (Citation: TechNet Applocker vs SRP)",
+                "type": "course-of-action",
+                "id": "T1005"
+            },
+            {
+                "name": "Data Loss Prevention",
+                "description": "Use a data loss prevention (DLP) strategy to categorize sensitive data, identify data formats indicative of personal identifiable information (PII), and restrict exfiltration of sensitive data.(Citation: PurpleSec Data Loss Prevention)",
+                "type": "course-of-action",
+                "id": "M1057"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for actions taken to collect files from a system",
+                "acid": "98582372"
+            },
+            {
+                "description": "Ensure that system is monitored for remote access tools interacting directly with the Windows API to gather data.",
+                "acid": "98582373"
+            },
+            {
+                "description": "Ensure that system is monitored if data is acquired through Windows system management tools such as Windows Management Instrumentation and PowerShell.",
+                "acid": "98582374"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000125",
+        "40000152",
+        "40000162",
+        "40000494",
+        "40000495",
+        "40000496",
+        "40000508",
+        "40000509",
+        "40000518"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106013"
+    ],
+    "technologycontrolIds": [
+        "18380047"
+    ],
+    "cveIds": [
+        "CVE-2013-4335",
+        "CVE-2014-0751",
+        "CVE-2015-0984",
+        "CVE-2015-7935",
+        "CVE-2017-16651",
+        "CVE-2018-10610",
+        "CVE-2018-11048",
+        "CVE-2018-11051",
+        "CVE-2018-14809",
+        "CVE-2018-15444",
+        "CVE-2018-15466",
+        "CVE-2018-15771",
+        "CVE-2018-15780",
+        "CVE-2018-17934",
+        "CVE-2018-18990",
+        "CVE-2018-5445",
+        "CVE-2018-5459",
+        "CVE-2018-7526",
+        "CVE-2018-8110",
+        "CVE-2018-8111",
+        "CVE-2018-8160",
+        "CVE-2018-8248",
+        "CVE-2018-8353",
+        "CVE-2018-8355",
+        "CVE-2018-8575",
+        "CVE-2018-8607",
+        "CVE-2019-0609",
+        "CVE-2019-1013",
+        "CVE-2019-1031",
+        "CVE-2019-1118",
+        "CVE-2019-13511",
+        "CVE-2019-15963",
+        "CVE-2019-15972",
+        "CVE-2019-16768",
+        "CVE-2019-18234",
+        "CVE-2019-1860",
+        "CVE-2019-1942",
+        "CVE-2019-3731",
+        "CVE-2019-3732",
+        "CVE-2019-3767",
+        "CVE-2019-3786",
+        "CVE-2019-3799",
+        "CVE-2019-5910",
+        "CVE-2019-6522",
+        "CVE-2019-6538",
+        "CVE-2019-9670",
+        "CVE-2020-0671",
+        "CVE-2020-0955",
+        "CVE-2020-11010",
+        "CVE-2020-11019",
+        "CVE-2020-11021",
+        "CVE-2020-11039",
+        "CVE-2020-11045",
+        "CVE-2020-11059",
+        "CVE-2020-11087",
+        "CVE-2020-1109",
+        "CVE-2020-1111",
+        "CVE-2020-1141",
+        "CVE-2020-11652",
+        "CVE-2020-1456",
+        "CVE-2020-1495",
+        "CVE-2020-15137",
+        "CVE-2020-1569",
+        "CVE-2020-16211",
+        "CVE-2020-16874",
+        "CVE-2020-3177",
+        "CVE-2020-3240",
+        "CVE-2020-3312",
+        "CVE-2020-3477",
+        "CVE-2020-5220",
+        "CVE-2020-5270",
+        "CVE-2020-5284",
+        "CVE-2020-5295",
+        "CVE-2020-5331",
+        "CVE-2020-5364",
+        "CVE-2020-5366",
+        "CVE-2020-5371",
+        "CVE-2020-5373",
+        "CVE-2020-5386",
+        "CVE-2020-5539",
+        "CVE-2020-6974",
+        "CVE-2020-6993"
+    ],
+    "subTechniques": []
+}

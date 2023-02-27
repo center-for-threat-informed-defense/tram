@@ -57,8 +57,9 @@ else:
 
 if os.environ.get("ALLOWED_HOSTS") is not None:
     ALLOWED_HOSTS = loads(os.environ.get("ALLOWED_HOSTS"))
+    ALLOWED_HOSTS = ["*"]
 else:
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ["*"]
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 
@@ -115,12 +116,12 @@ CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 
 CONSTANCE_CONFIG = {
     "ML_ACCEPT_THRESHOLD": (
-        4,
+        0,
         "Exclude Attack Techniques with fewer than ML_ACCEPT_THRESHOLD accepted sentences",
         int,
     ),
     "ML_CONFIDENCE_THRESHOLD": (
-        25,
+        2,
         "Exclude proposed mappings below this confidence threshold",
         int,
     ),
@@ -130,7 +131,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -220,8 +221,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=10000),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=10000),
 }
 
 ML_MODEL_DIR = os.path.join(DATA_DIRECTORY, "ml-models")

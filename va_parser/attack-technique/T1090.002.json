@@ -1,0 +1,95 @@
+{
+    "id": "T1090.002",
+    "name": "External Proxy",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may use an external proxy to act as an intermediary for network communications to a command and control server to avoid direct connections to their infrastructure. Many tools exist that enable traffic redirection through proxies or port redirection, including [HTRAN](https://attack.mitre.org/software/S0040), ZXProxy, and ZXPortMap. (Citation: Trend Micro APT Attack Tools) Adversaries use these types of proxies to manage command and control communications, to provide resiliency in the face of connection loss, or to ride over existing trusted communications paths to avoid suspicion.\n\nExternal connection proxies are used to mask the destination of C2 traffic and are typically implemented with port redirectors. Compromised systems outside of the victim environment may be used for these purposes, as well as purchased infrastructure such as cloud-based resources or virtual private servers. Proxies may be chosen based on the low likelihood that a connection to them from a compromised system would be investigated. Victim systems would communicate directly with the external proxy on the Internet and then the proxy would forward communications to the C2 server.",
+    "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1090/002",
+            "external_id": "T1090.002"
+        },
+        {
+            "source_name": "Trend Micro APT Attack Tools",
+            "description": "Wilhoit, K. (2013, March 4). In-Depth Look: APT Attack Tools of the Trade. Retrieved December 2, 2015.",
+            "url": "http://blog.trendmicro.com/trendlabs-security-intelligence/in-depth-look-apt-attack-tools-of-the-trade/"
+        },
+        {
+            "source_name": "University of Birmingham C2",
+            "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016.",
+            "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "command-and-control"
+        }
+    ],
+    "tactic": [
+        "command-and-control"
+    ],
+    "x_mitre_detection": "Analyze network data for uncommon data flows, such as a client sending significantly more data than it receives from an external server. Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Flow"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Intrusion Prevention",
+                "description": "Use intrusion detection signatures to block traffic at network boundaries.",
+                "type": "course-of-action",
+                "id": "M1031"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Network intrusion detection and prevention systems that use network signatures are configured to identify and block traffic for malwares.",
+                "acid": "98582608"
+            },
+            {
+                "description": "Ensure that Network intrusion detection and prevention systems are configured to identify changes in C2 protocol signatures and block the network traffic.",
+                "acid": "98582609"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that Network monitoring solutions are configured to monitor and analyze packet contents to detect communication anomalies.",
+                "acid": "98582606"
+            },
+            {
+                "description": "Ensure that traffic monitoring to known anonymity networks (tor) is configured.",
+                "acid": "98582607"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000182"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

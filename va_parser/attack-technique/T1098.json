@@ -1,0 +1,327 @@
+﻿{
+    "id": "T1098",
+    "name": "Account Manipulation",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may manipulate accounts to maintain access to victim systems. Account manipulation may consist of any action that preserves adversary access to a compromised account, such as modifying credentials or permission groups. These actions could also include account activity designed to subvert security policies, such as performing iterative password updates to bypass password duration policies and preserve the life of compromised credentials. \n\nIn order to create or manipulate accounts, the adversary must already have sufficient permissions on systems or the domain. However, account manipulation may also lead to privilege escalation where modifications grant access to additional roles, permissions, or higher-privileged [Valid Accounts](https://attack.mitre.org/techniques/T1078).",
+    "x_mitre_platforms": [
+        "Windows",
+        "Azure AD",
+        "Office 365",
+        "IaaS",
+        "Linux",
+        "macOS",
+        "Google Workspace",
+        "SaaS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1098",
+            "external_id": "T1098"
+        },
+        {
+            "source_name": "Microsoft Security Event 4670",
+            "description": "Franklin Smith, R. (n.d.). Windows Security Log Event ID 4670. Retrieved November 4, 2019.",
+            "url": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4670"
+        },
+        {
+            "source_name": "Microsoft User Modified Event",
+            "description": "Lich, B., Miroshnikov, A. (2017, April 5). 4738(S): A user account was changed. Retrieved June 30, 2017.",
+            "url": "https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4738"
+        },
+        {
+            "source_name": "InsiderThreat ChangeNTLM July 2017",
+            "description": "Warren, J. (2017, July 11). Manipulating User Passwords with Mimikatz. Retrieved December 4, 2017.",
+            "url": "https://blog.stealthbits.com/manipulating-user-passwords-with-mimikatz-SetNTLM-ChangeNTLM"
+        },
+        {
+            "source_name": "GitHub Mimikatz Issue 92 June 2017",
+            "description": "Warren, J. (2017, June 22). lsadump::changentlm and lsadump::setntlm work, but generate Windows events #92. Retrieved December 4, 2017.",
+            "url": "https://github.com/gentilkiwi/mimikatz/issues/92"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Collect events that correlate with changes to account objects and/or permissions on systems and the domain, such as event IDs 4738, 4728 and 4670.(Citation: Microsoft User Modified Event)(Citation: Microsoft Security Event 4670)(Citation: Microsoft Security Event 4670) Monitor for modification of accounts in correlation with other suspicious activity. Changes may occur at unusual times or from unusual systems. Especially flag events where the subject and target accounts differ(Citation: InsiderThreat ChangeNTLM July 2017) or that include additional flags such as changing a password without knowledge of the old password.(Citation: GitHub Mimikatz Issue 92 June 2017)\n\nMonitor for use of credentials at unusual times or to unusual systems or services. This may also correlate with other suspicious activity.\n\nMonitor for unusual permissions changes that may indicate excessively broad permissions being granted to compromised accounts. However, account manipulation may also lead to privilege escalation where modifications grant access to additional roles, permissions, or higher-privileged [Valid Accounts](https://attack.mitre.org/techniques/T1078)",
+    "x_mitre_data_sources": [
+        "File: File Modification",
+        "Command: Command Execution",
+        "Active Directory: Active Directory Object Modification",
+        "Group: Group Modification",
+        "User Account: User Account Modification",
+        "Process: Process Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network. Configure separate virtual private cloud (VPC) instances to isolate critical cloud systems.",
+                "type": "course-of-action",
+                "id": "M1030"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            },
+            {
+                "name": "Multi-factor Authentication",
+                "description": "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+                "type": "course-of-action",
+                "id": "M1032"
+            },
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Operating System Configuration",
+                "description": "Make configuration changes related to the operating system or a common feature of the operating system that result in system hardening against techniques.",
+                "type": "course-of-action",
+                "id": "M1028"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that multifactor authentication is implemented for all user accounts",
+                "acid": "98580398"
+            },
+            {
+                "description": "Ensure that multifactor authentication is implemented for all privileged accounts",
+                "acid": "98580399"
+            },
+            {
+                "description": "Ensure that access controls are configured to limit access to critical systems and domain controllers",
+                "acid": "98580400"
+            },
+            {
+                "description": "Ensure that firewall is configured to limit access to critical systems and domain controllers",
+                "acid": "98580401"
+            },
+            {
+                "description": "Ensure that cloud environments support separate virtual private cloud (VPC) instances to enable further segmentation of cloud systems",
+                "acid": "98580402"
+            },
+            {
+                "description": "Ensure that proper security configuration is implemented for critical servers to protect domain controllers",
+                "acid": "98580403"
+            },
+            {
+                "description": "Ensure that domain administrator accounts are not used for day-to-day operations",
+                "acid": "98580404"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that events in correlation with changes to account objects and/or permissions on systems and the domain are collected",
+                "acid": "98580392"
+            },
+            {
+                "description": "Ensure that modifications to accounts are monitored to identify suspicious activity",
+                "acid": "98580393"
+            },
+            {
+                "description": "Ensure that changes occurring at unusual times or from unusual systems are monitored",
+                "acid": "98580394"
+            },
+            {
+                "description": "Ensure that the flag events where subject and target accounts differ are monitored",
+                "acid": "98580395"
+            },
+            {
+                "description": "Ensure that the credential usage is monitored for the time of usage on the system or domain",
+                "acid": "98580396"
+            },
+            {
+                "description": "Ensure that unusual account permission changes are monitored and tracked",
+                "acid": "98580397"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000121",
+        "40000132",
+        "40000148",
+        "40000158",
+        "40000205",
+        "40000490",
+        "40000499",
+        "40000504",
+        "40000514"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106009",
+        "50106020",
+        "50106021",
+        "50106026",
+        "50106027",
+        "50106114",
+        "50106115"
+    ],
+    "technologycontrolIds": [
+        "101040037",
+        "101050037",
+        "101060037",
+        "10190068",
+        "10960016",
+        "10960051",
+        "10960081",
+        "11220001",
+        "11220002",
+        "11220003",
+        "14030059",
+        "14030156",
+        "14040059",
+        "14040156",
+        "15010112",
+        "15010122",
+        "15020115",
+        "15020125",
+        "15030115",
+        "15030125",
+        "15040182",
+        "15040191",
+        "15200112",
+        "15200122",
+        "16010118",
+        "16010128",
+        "16020117",
+        "16020127",
+        "16100119",
+        "16100129",
+        "16110116",
+        "16110126",
+        "16120120",
+        "16120130",
+        "16130124",
+        "16130125",
+        "16130126",
+        "16130127",
+        "16130128",
+        "16130129",
+        "16130130",
+        "16130131",
+        "16130132",
+        "16130133",
+        "16130215",
+        "16130216",
+        "16130217",
+        "16130218",
+        "16130219",
+        "16130220",
+        "16360119",
+        "16360127",
+        "16410105",
+        "16420106",
+        "16460118",
+        "16460126",
+        "17800001",
+        "17800005",
+        "17800007",
+        "17800008",
+        "17800009",
+        "17800010",
+        "17800011",
+        "17800012",
+        "17800013",
+        "17800014",
+        "17800015",
+        "17800018",
+        "17880002",
+        "17880003",
+        "17880007",
+        "17880009",
+        "17890003",
+        "17890005",
+        "17900001",
+        "17900005",
+        "17900007",
+        "17910001",
+        "17910003",
+        "18140001",
+        "18140002",
+        "18140003",
+        "18140004",
+        "18140005",
+        "18140006",
+        "18160002",
+        "18240001",
+        "18240002",
+        "18340001",
+        "18340002",
+        "18360002",
+        "18420002",
+        "18420003",
+        "18420007",
+        "18560002",
+        "18620001",
+        "18630001",
+        "18710001",
+        "18710002",
+        "18770001",
+        "18770002",
+        "18780001",
+        "19120021",
+        "19120022",
+        "19120032",
+        "19120033",
+        "19120034",
+        "19120041",
+        "19120042",
+        "19360008",
+        "19360012",
+        "19360013",
+        "19360014",
+        "19360015",
+        "19430005",
+        "19430009",
+        "19450004",
+        "19450008",
+        "19920110",
+        "19920118"
+    ],
+    "cveIds": [
+        "CVE-2019-15956",
+        "CVE-2019-1915",
+        "CVE-2019-3775",
+        "CVE-2019-3782",
+        "CVE-2019-3787",
+        "CVE-2020-0758",
+        "CVE-2020-5350",
+        "CVE-2020-5362"
+    ],
+    "subTechniques": [
+        "T1098.001",
+        "T1098.002",
+        "T1098.003",
+        "T1098.004",
+        "T1098.005"
+    ]
+}

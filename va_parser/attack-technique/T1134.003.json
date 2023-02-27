@@ -1,0 +1,134 @@
+{
+    "id": "T1134.003",
+    "name": "Make and Impersonate Token",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may make and impersonate tokens to escalate privileges and bypass access controls. If an adversary has a username and password but the user is not logged onto the system, the adversary can then create a logon session for the user using the <code>LogonUser</code> function. The function will return a copy of the new session's access token and the adversary can use <code>SetThreadToken</code> to assign the token to a thread.",
+    "x_mitre_platforms": [
+        "Windows"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [
+        "Windows User Account Control",
+        "System access controls",
+        "File system access controls"
+    ],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1134/003",
+            "external_id": "T1134.003"
+        },
+        {
+            "source_name": "Microsoft Command-line Logging",
+            "description": "Mathers, B. (2017, March 7). Command line process auditing. Retrieved April 21, 2017.",
+            "url": "https://technet.microsoft.com/en-us/windows-server-docs/identity/ad-ds/manage/component-updates/command-line-process-auditing"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "defense-evasion"
+        },
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+        }
+    ],
+    "tactic": [
+        "defense-evasion",
+        "privilege-escalation"
+    ],
+    "x_mitre_detection": "If an adversary is using a standard command-line shell, analysts can detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the <code>runas</code> command. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nIf an adversary is using a payload that calls the Windows token APIs directly, analysts can detect token manipulation only through careful analysis of user network activity, examination of running processes, and correlation with other endpoint and network behavior.\n\nAnalysts can also monitor for use of Windows APIs such as <code>LogonUser</code> and <code> SetThreadToken</code> and correlate activity with other suspicious behavior to reduce false positives that may be due to normal benign use by users and administrators.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Process: OS API Execution"
+    ],
+    "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+    ],
+    "x_mitre_effective_permissions": [
+        "SYSTEM"
+    ],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that permission for creating tokens are blocked for users and user groups",
+                "acid": "98581061"
+            },
+            {
+                "description": "Ensure that restrictions on the creation of tokens are implemented for the local system account only",
+                "acid": "98581062"
+            },
+            {
+                "description": "Ensure that the creation of process level token is restricted only to local service accounts and network service accounts",
+                "acid": "98581063"
+            },
+            {
+                "description": "Ensure that Administrators are educated to log in as a standard user but run their tools with administrator privileges using the runas command",
+                "acid": "98581064"
+            },
+            {
+                "description": "Ensure that users and accounts are restricted to the least privileges (minimum privileges) which they require by default",
+                "acid": "98581065"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that command-line activity is audited to detect token manipulation",
+                "acid": "98581056"
+            },
+            {
+                "description": "Ensure that command-line activity is audited specifically for runas command",
+                "acid": "98581057"
+            },
+            {
+                "description": "Ensure that user network activity is analyzed to detect token manipulation",
+                "acid": "98581058"
+            },
+            {
+                "description": "Ensure that running processes are examined to detect token manipulation",
+                "acid": "98581059"
+            },
+            {
+                "description": "Ensure that Windows APIs (such as LogonUser and SetThreadToken) are monitored for suspicious behaviors which could help detect Token Impersonation",
+                "acid": "98581060"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000097",
+        "40000205",
+        "40000490",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}

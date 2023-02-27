@@ -1,0 +1,126 @@
+﻿{
+    "id": "T0858",
+    "name": "Change Operating Mode",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may change the operating mode of a controller to gain additional access to engineering functions such as Program Download.   Programmable controllers typically have several modes of operation that control the state of the user program and control access to the controllers API. Operating modes can be physically selected using a key switch on the face of the controller but may also be selected with calls to the controllers API. Operating modes and the mechanisms by which they are selected often vary by vendor and product line. Some commonly implemented operating modes are described below:  \n\n* Program - This mode must be enabled before changes can be made to a devices program. This allows program uploads and downloads between the device and an engineering workstation. Often the PLCs logic Is halted, and all outputs may be forced off. (Citation: N.A. October 2017)  \n* Run - Execution of the devices program occurs in this mode. Input and output (values, points, tags, elements, etc.) are monitored and used according to the programs logic. [Program Upload](https://attack.mitre.org/techniques/T0845) and [Program Download](https://attack.mitre.org/techniques/T0843) are disabled while in this mode. (Citation: Omron) (Citation: Machine Information Systems 2007)  (Citation: N.A. October 2017) (Citation: PLCgurus 2021)   \n* Remote - Allows for remote changes to a PLCs operation mode. (Citation: PLCgurus 2021)    \n* Stop - The PLC and program is stopped, while in this mode, outputs are forced off. (Citation: Machine Information Systems 2007)   \n* Reset - Conditions on the PLC are reset to their original states. Warm resets may retain some memory while cold resets will reset all I/O and data registers. (Citation: Machine Information Systems 2007)   \n* Test / Monitor mode - Similar to run mode, I/O is processed, although this mode allows for monitoring, force set, resets, and more generally tuning or debugging of the system. Often monitor mode may be used as a trial for initialization. (Citation: Omron)",
+    "x_mitre_platforms": [
+        "Safety Instrumented System/Protection Relay",
+        "Field Controller/RTU/PLC/IED"
+    ],
+    "x_mitre_domains": [
+        "ics-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T0858",
+            "url": "https://attack.mitre.org/techniques/T0858"
+        },
+        {
+            "source_name": "Machine Information Systems 2007",
+            "url": "http://www.machine-information-systems.com/How_PLCs_Work.html",
+            "description": "Machine Information Systems 2007 How PLCs Work Retrieved. 2021/01/28 "
+        },
+        {
+            "source_name": "N.A. October 2017",
+            "url": "https://forumautomation.com/t/what-are-the-different-operating-modes-in-plc/2489",
+            "description": "N.A. 2017, October What are the different operating modes in PLC? Retrieved. 2021/01/28 "
+        },
+        {
+            "source_name": "Omron",
+            "url": "https://www.omron-ap.com/service_support/FAQ/FAQ00002/index.asp#:~:text=In%20PROGRAM%20mode%2C%20the%20CPU,can%20be%20created%20or%20modified.",
+            "description": "Omron Machine Information Systems 2007 How PLCs Work Retrieved. 2021/01/28  PLC Different Operating Modes Retrieved. 2021/01/28 "
+        },
+        {
+            "source_name": "PLCgurus 2021",
+            "url": "https://www.plcgurus.net/plc-basics/",
+            "description": "PLCgurus 2021 PLC Basics  Modes Of Operation Retrieved. 2021/01/28 "
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "execution-ics"
+        },
+        {
+            "kill_chain_name": "mitre-ics-attack",
+            "phase_name": "evasion-ics"
+        }
+    ],
+    "tactic": [
+        "execution-ics",
+        "evasion-ics"
+    ],
+    "x_mitre_detection": "",
+    "x_mitre_data_sources": [
+        "Network Traffic: Network Traffic Content",
+        "Application Log: Application Log Content",
+        "Operational Databases: Device Alarm"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Communication Authenticity",
+                "description": "When communicating over an untrusted network, utilize secure network protocols that both authenticate the message sender and can verify its integrity. This can be done either through message authentication codes (MACs) or digital signatures, to detect spoofed network messages and unauthorized connections.",
+                "type": "course-of-action",
+                "id": "M0802"
+            },
+            {
+                "name": "Human User Authentication",
+                "description": "Require user authentication before allowing access to data or accepting commands to a device. While strong multi-factor authentication is preferable, it is not always feasible within ICS environments. Performing strong user authentication also requires additional security controls and processes which are often the target of related adversarial techniques (e.g., Valid Accounts, Default Credentials). Therefore, associated ATT&CK mitigations should be considered in addition to this, including [Multi-factor Authentication](https://attack.mitre.org/mitigations/M0932), [Account Use Policies](https://attack.mitre.org/mitigations/M0936), [Password Policies](https://attack.mitre.org/mitigations/M0927), [User Account Management](https://attack.mitre.org/mitigations/M0918), [Privileged Account Management](https://attack.mitre.org/mitigations/M0926), and [https://attack.mitre.org/mitigations/M1052/ User Account Control].",
+                "type": "course-of-action",
+                "id": "M0804"
+            },
+            {
+                "name": "Software Process and Device Authentication",
+                "description": "Require the authentication of devices and software processes where appropriate. Devices that connect remotely to other systems should require strong authentication to prevent spoofing of communications. Furthermore, software processes should also require authentication when accessing APIs.",
+                "type": "course-of-action",
+                "id": "M0813"
+            },
+            {
+                "name": "Access Management",
+                "description": "Access Management technologies can be used to enforce authorization polices and decisions, especially when existing field devices do not provided sufficient capabilities to support user identification and authentication. (Citation: McCarthy, J et al. July 2018) These technologies typically utilize an in-line network device or gateway system to prevent access to unauthenticated users, while also integrating with an authentication service to first verify user credentials. (Citation: Centre for the Protection of National Infrastructure November 2010)",
+                "type": "course-of-action",
+                "id": "M0801"
+            },
+            {
+                "name": "Network Allowlists",
+                "description": "Network allowlists can be implemented through either host-based files or system hosts files to specify what connections (e.g., IP address, MAC address, port, protocol) can be made from a device. Allowlist techniques that operate at the  application layer (e.g., DNP3, Modbus, HTTP) are addressed in [Filter Network Traffic](https://attack.mitre.org/mitigations/M0937) mitigation.",
+                "type": "course-of-action",
+                "id": "M0807"
+            },
+            {
+                "name": "Network Segmentation",
+                "description": "Architect sections of the network to isolate critical systems, functions, or resources. Use physical and logical segmentation to prevent access to potentially sensitive systems and information. Use a DMZ to contain any internet-facing services that should not be exposed from the internal network.  Restrict network access to only required systems and services. In addition, prevent systems from other networks or business functions (e.g., enterprise) from accessing critical process control systems. For example, in IEC 62443, systems within the same secure level should be grouped into a zone, and access to that zone is restricted by a conduit, or mechanism to restrict data flows between zones by segmenting the network. (Citation: IEC February 2019) (Citation: IEC August 2013)",
+                "type": "course-of-action",
+                "id": "M0930"
+            },
+            {
+                "name": "Authorization Enforcement",
+                "description": "The device or system should restrict read, manipulate, or execute privileges to only authenticated users who require access based on approved security policies.  Role-based Access Control (RBAC) schemes can help reduce the overhead of assigning permissions to the large number of devices within an ICS. For example, IEC 62351 provides examples of roles used to support common system operations within the electric power sector  (Citation: International Electrotechnical Commission July 2020), while IEEE 1686 defines standard permissions for users of IEDs. (Citation: Institute of Electrical and Electronics Engineers January 2014)",
+                "type": "course-of-action",
+                "id": "M0800"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": []
+}

@@ -1,0 +1,145 @@
+{
+    "id": "T1098.003",
+    "name": "Additional Cloud Roles",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "An adversary may add additional roles or permissions to an adversary-controlled cloud account to maintain persistent access to a tenant. For example, adversaries may update IAM policies in cloud-based environments or add a new global administrator in Office 365 environments.(Citation: AWS IAM Policies and Permissions)(Citation: Google Cloud IAM Policies)(Citation: Microsoft Support O365 Add Another Admin, October 2019)(Citation: Microsoft O365 Admin Roles) With sufficient permissions, a compromised account can gain almost unlimited access to data and settings (including the ability to reset the passwords of other admins).(Citation: Expel AWS Attacker)\n(Citation: Microsoft O365 Admin Roles) \n\nThis account modification may immediately follow [Create Account](https://attack.mitre.org/techniques/T1136) or other malicious account activity. Adversaries may also modify existing [Valid Accounts](https://attack.mitre.org/techniques/T1078) that they have compromised. This could lead to privilege escalation, particularly if the roles added allow for lateral movement to additional accounts.\n\nFor example, in Azure AD environments, an adversary with the Application Administrator role can add [Additional Cloud Credentials](https://attack.mitre.org/techniques/T1098/001) to their application's service principal. In doing so the adversary would be able to gain the service principal's roles and permissions, which may be different from those of the Application Administrator.(Citation: SpecterOps Azure Privilege Escalation) Similarly, in AWS environments, an adversary with appropriate permissions may be able to use the <code>CreatePolicyVersion</code> API to define a new version of an IAM policy or the <code>AttachUserPolicy</code> API to attach an IAM policy with additional or distinct permissions to a compromised user account.(Citation: Rhino Security Labs AWS Privilege Escalation)\n\nSimilarly, an adversary with the Azure AD Global Administrator role can toggle the \u201cAccess management for Azure resources\u201d option to gain the ability to assign privileged access to Azure subscriptions and virtual machines to Azure AD users, including themselves.(Citation: Azure AD to AD) ",
+    "x_mitre_platforms": [
+        "Office 365",
+        "IaaS",
+        "SaaS",
+        "Google Workspace",
+        "Azure AD"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1098/003",
+            "external_id": "T1098.003"
+        },
+        {
+            "source_name": "Expel AWS Attacker",
+            "description": " Brian Bahtiarian, David Blanton, Britton Manahan and Kyle Pellett. (2022, April 5). Incident report: From CLI to console, chasing an attacker in AWS. Retrieved April 7, 2022.",
+            "url": "https://expel.com/blog/incident-report-from-cli-to-console-chasing-an-attacker-in-aws/"
+        },
+        {
+            "source_name": "Microsoft O365 Admin Roles",
+            "description": "Ako-Adjei, K., Dickhaus, M., Baumgartner, P., Faigel, D., et. al.. (2019, October 8). About admin roles. Retrieved October 18, 2019.",
+            "url": "https://docs.microsoft.com/en-us/office365/admin/add-users/about-admin-roles?view=o365-worldwide"
+        },
+        {
+            "source_name": "SpecterOps Azure Privilege Escalation",
+            "description": "Andy Robbins. (2021, October 12). Azure Privilege Escalation via Service Principal Abuse. Retrieved April 1, 2022.",
+            "url": "https://posts.specterops.io/azure-privilege-escalation-via-service-principal-abuse-210ae2be2a5"
+        },
+        {
+            "source_name": "AWS IAM Policies and Permissions",
+            "description": "AWS. (n.d.). Policies and permissions in IAM. Retrieved April 1, 2022.",
+            "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html"
+        },
+        {
+            "source_name": "Google Cloud IAM Policies",
+            "description": "Google Cloud. (2022, March 31). Understanding policies. Retrieved April 1, 2022.",
+            "url": "https://cloud.google.com/iam/docs/policies"
+        },
+        {
+            "source_name": "Microsoft Support O365 Add Another Admin, October 2019",
+            "description": "Microsoft. (n.d.). Add Another Admin. Retrieved October 18, 2019.",
+            "url": "https://support.office.com/en-us/article/add-another-admin-f693489f-9f55-4bd0-a637-a81ce93de22d"
+        },
+        {
+            "source_name": "Azure AD to AD",
+            "description": "Sean Metcalf. (2020, May 27). From Azure AD to Active Directory (via Azure) \u2013 An Unanticipated Attack Path. Retrieved September 28, 2022.",
+            "url": "https://adsecurity.org/?p=4277"
+        },
+        {
+            "source_name": "Rhino Security Labs AWS Privilege Escalation",
+            "description": "Spencer Gietzen. (n.d.). AWS IAM Privilege Escalation \u2013 Methods and Mitigation. Retrieved May 27, 2022.",
+            "url": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+        }
+    ],
+    "tactic": [
+        "persistence"
+    ],
+    "x_mitre_detection": "Collect activity logs from IAM services and cloud administrator accounts to identify unusual activity in the assignment of roles to those accounts. Monitor for accounts assigned to admin roles that go over a certain threshold of known admins. ",
+    "x_mitre_data_sources": [
+        "User Account: User Account Modification"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Privileged Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to privileged accounts, including SYSTEM and root.",
+                "type": "course-of-action",
+                "id": "M1026"
+            },
+            {
+                "name": "Multi-factor Authentication",
+                "description": "Use two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.",
+                "type": "course-of-action",
+                "id": "M1032"
+            },
+            {
+                "name": "User Account Management",
+                "description": "Manage the creation, modification, use, and permissions associated to user accounts.",
+                "type": "course-of-action",
+                "id": "M1018"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that multi-factor authentication is implemented for user accounts on Office 365",
+                "acid": "98580420"
+            },
+            {
+                "description": "Ensure that multi-factor authentication is implemented for privileged accounts on Office 365",
+                "acid": "98580421"
+            },
+            {
+                "description": "Ensure that domain administrator accounts are not used for day-to-day operations on Office 365",
+                "acid": "98580422"
+            }
+        ]
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that usage logs from cloud administrator accounts are collected on Office 365",
+                "acid": "98580418"
+            },
+            {
+                "description": "Ensure that usage logs from cloud administrator accounts are audited to identify any unusual activities on Office 365",
+                "acid": "98580419"
+            }
+        ]
+    },
+    "cspcontrolIds": [
+        "40000205",
+        "40000499"
+    ],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [
+        "19120041",
+        "19120042"
+    ],
+    "cveIds": []
+}

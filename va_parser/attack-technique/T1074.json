@@ -1,0 +1,116 @@
+﻿{
+    "id": "T1074",
+    "name": "Data Staged",
+    "x_mitre_is_subtechnique": false,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may stage collected data in a central location or directory prior to Exfiltration. Data may be kept in separate files or combined into one file through techniques such as [Archive Collected Data](https://attack.mitre.org/techniques/T1560). Interactive command shells may be used, and common functionality within [cmd](https://attack.mitre.org/software/S0106) and bash may be used to copy data into a staging location.(Citation: PWC Cloud Hopper April 2017)\n\nIn cloud environments, adversaries may stage data within a particular instance or virtual machine before exfiltration. An adversary may [Create Cloud Instance](https://attack.mitre.org/techniques/T1578/002) and stage data in that instance.(Citation: Mandiant M-Trends 2020)\n\nAdversaries may choose to stage data from a victim network in a centralized location prior to Exfiltration to minimize the number of connections made to their C2 server and better evade detection.",
+    "x_mitre_platforms": [
+        "Windows",
+        "IaaS",
+        "Linux",
+        "macOS"
+    ],
+    "x_mitre_domains": [
+        "enterprise-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1074",
+            "external_id": "T1074"
+        },
+        {
+            "source_name": "Mandiant M-Trends 2020",
+            "description": "Mandiant. (2020, February). M-Trends 2020. Retrieved April 24, 2020.",
+            "url": "https://content.fireeye.com/m-trends/rpt-m-trends-2020"
+        },
+        {
+            "source_name": "PWC Cloud Hopper April 2017",
+            "description": "PwC and BAE Systems. (2017, April). Operation Cloud Hopper. Retrieved April 5, 2017.",
+            "url": "https://web.archive.org/web/20220224041316/https:/www.pwc.co.uk/cyber-security/pdf/cloud-hopper-report-final-v4.pdf"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+        }
+    ],
+    "tactic": [
+        "collection"
+    ],
+    "x_mitre_detection": "Processes that appear to be reading files from disparate locations and writing them to the same directory or file may be an indication of data being staged, especially if they are suspected of performing encryption or compression on the files, such as 7zip, RAR, ZIP, or zlib. Monitor publicly writeable directories, central locations, and commonly used staging directories (recycle bin, temp folders, etc.) to regularly check for compressed or encrypted data that may be indicative of staging.\n\nMonitor processes and command-line arguments for actions that could be taken to collect and combine files. Remote access tools with built-in features may interact directly with the Windows API to gather and copy to a location. Data may also be acquired and staged through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nConsider monitoring accesses and modifications to storage repositories (such as the Windows Registry), especially from suspicious processes that could be related to malicious data collection.",
+    "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Windows Registry: Windows Registry Key Modification",
+        "File: File Access",
+        "File: File Creation"
+    ],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Data Staged Mitigation",
+                "description": "Identify system utilities, remote access or third-party tools, users or potentially malicious software that may be used to store compressed or encrypted data in a publicly writeable directory, central location, or commonly used staging directories (e.g. recycle bin) that is indicative of non-standard behavior, and audit and/or block them by using file integrity monitoring tools where appropriate. Consider applying data size limits or blocking file writes of common compression and encryption utilities such as 7zip, RAR, ZIP, or zlib on frequently used staging directories or central locations and monitor attempted violations of those restrictions.",
+                "type": "course-of-action",
+                "id": "T1074"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": [
+            {
+                "description": "Ensure that processes reading files from disparate locations and writing them to the same directory or file should be monitored.",
+                "acid": "98582381"
+            },
+            {
+                "description": "Ensure that process should be monitored if they are performing encryption or compression on the files, such as 7zip, RAR, ZIP, or zlib.",
+                "acid": "98582382"
+            },
+            {
+                "description": "Ensure that publicly writable directories are monitored regularly for compressed or encrypted data indicating staging.",
+                "acid": "98582383"
+            },
+            {
+                "description": "Ensure that central locations are monitored regularly for compressed or encrypted data indicating staging.",
+                "acid": "98582384"
+            },
+            {
+                "description": "Ensure that commonly used staging directories (recycle bin, temp folders, etc.) are monitored regularly for compressed or encrypted data indicating staging.",
+                "acid": "98582385"
+            },
+            {
+                "description": "Ensure that processes and command-line arguments are monitored for actions taken to collect files from a system.",
+                "acid": "98582386"
+            },
+            {
+                "description": "Ensure that system is monitored for remote access tools interacting directly with the Windows API to gather data.",
+                "acid": "98582387"
+            },
+            {
+                "description": "Ensure that system is monitored if data is acquired through Windows system management tools such as Windows Management Instrumentation and PowerShell.",
+                "acid": "98582388"
+            }
+        ]
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [
+        "50106013"
+    ],
+    "technologycontrolIds": [],
+    "cveIds": [],
+    "subTechniques": [
+        "T1074.001",
+        "T1074.002"
+    ]
+}

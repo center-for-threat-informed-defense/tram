@@ -1,0 +1,115 @@
+﻿{
+    "id": "T1474.002",
+    "name": "Compromise Hardware Supply Chain",
+    "x_mitre_is_subtechnique": true,
+    "revoked": false,
+    "x_mitre_deprecated": false,
+    "description": "Adversaries may manipulate hardware components in products prior to receipt by a final consumer for the purpose of data or system compromise. By modifying hardware or firmware in the supply chain, adversaries can insert a backdoor into consumer networks that may be difficult to detect and give the adversary a high degree of control over the system. ",
+    "x_mitre_platforms": [
+        "Android",
+        "iOS"
+    ],
+    "x_mitre_domains": [
+        "mobile-attack"
+    ],
+    "x_mitre_defense_bypassed": [],
+    "external_references": [
+        {
+            "source_name": "mitre-attack",
+            "external_id": "T1474.002",
+            "url": "https://attack.mitre.org/techniques/T1474/002"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/supply-chain-threats/SPC-1.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "SPC-1"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/supply-chain-threats/SPC-2.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "SPC-2"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/supply-chain-threats/SPC-4.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "SPC-4"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/supply-chain-threats/SPC-5.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "SPC-5"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/supply-chain-threats/SPC-6.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "SPC-6"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/supply-chain-threats/SPC-7.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "SPC-7"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/supply-chain-threats/SPC-8.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "SPC-8"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/supply-chain-threats/SPC-13.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "SPC-13"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/supply-chain-threats/SPC-16.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "SPC-16"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/supply-chain-threats/SPC-17.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "SPC-17"
+        },
+        {
+            "url": "https://pages.nist.gov/mobile-threat-catalogue/supply-chain-threats/SPC-21.html",
+            "source_name": "NIST Mobile Threat Catalogue",
+            "external_id": "SPC-21"
+        }
+    ],
+    "kill_chain_phases": [
+        {
+            "phase_name": "initial-access",
+            "kill_chain_name": "mitre-mobile-attack"
+        }
+    ],
+    "tactic": [
+        "initial-access"
+    ],
+    "x_mitre_detection": "Integrity checking mechanisms can potentially detect unauthorized hardware modifications.",
+    "x_mitre_data_sources": [],
+    "x_mitre_permissions_required": [],
+    "x_mitre_effective_permissions": [],
+    "x_mitre_system_requirements": [],
+    "x_mitre_remote_support": false,
+    "relation": {
+        "mitigates": [
+            {
+                "name": "Security Updates",
+                "description": "Install security updates in response to discovered vulnerabilities.\n\nPurchase devices with a vendor and/or mobile carrier commitment to provide security updates in a prompt manner for a set period of time.\n\nDecommission devices that will no longer receive security updates.\n\nLimit or block access to enterprise resources from devices that have not installed recent security updates.\n\nOn Android devices, access can be controlled based on each device's security patch level. On iOS devices, access can be controlled based on the iOS version.",
+                "type": "course-of-action",
+                "id": "M1001"
+            }
+        ]
+    },
+    "mitigationRequirements": {
+        "requirements": []
+    },
+    "detectionRequirements": {
+        "requirements": []
+    },
+    "cspcontrolIds": [],
+    "externalcontrolIds": [],
+    "peoplecontrolIds": [],
+    "policycontrolIds": [],
+    "technologycontrolIds": [],
+    "cveIds": []
+}
