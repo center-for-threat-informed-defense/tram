@@ -76,6 +76,7 @@ to integrate ATT&CK more easily and consistently into their products.
         tram_1   | [2022-03-30 16:18:44 +0000] [29] [INFO] Listening at: http://0.0.0.0:8000 (29)
         ```
     * _Note: the log shows the IP address 0.0.0.0, but TRAM requires connections to use one of the hostnames defined in the `ALLOWED_HOSTS` environment variable._
+    * If you are using virtual machine add your private ip to the `ALLOWED_HOSTS` in docker-compose.yaml file.
 
 5. Navigate to <http://localhost:8000/> and login using the username and
    password specified in `docker-compose.yml`.
