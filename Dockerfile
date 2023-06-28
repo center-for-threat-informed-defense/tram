@@ -21,6 +21,20 @@ LABEL "org.opencontainers.image.license"="Apache-2.0"
 ARG TRAM_CA_URL
 ARG TRAM_CA_THUMBPRINT
 
+# directory to install nltk data
+ARG nltk_data_dir="/tram/.venv/nltk_data"
+
+# Default URLs to datasets used by nltk
+# NOTE: No spaces allowed around equal sign
+ARG punkt_url="https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/tokenizers/punkt.zip"
+ARG wordnet_url="https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/wordnet.zip"
+ARG omw_url="https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/omw-1.4.zip"
+
+# local filenames to make dockerfile easier
+ARG punkt_localfile="punkt.zip"
+ARG wordnet_localfile="wordnet.zip"
+ARG omw_localfile="omw.zip"
+
 # Change default shell to bash so that we can use pipes (|) safely. See:
 # https://github.com/hadolint/hadolint/wiki/DL4006
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -36,18 +50,9 @@ RUN apt-get update && \
     python3-pip \
     python3-setuptools \
     python3-venv \
-    python3-wheel && \
+    python3-wheel \
+    unzip && \
     rm -fr /var/lib/apt/lists/*
-
-# Add proxy settings. Uncomment and update these lines as needed.
-#ENV proxy_host=${proxy_host:-proxy-server.my-organization.local} \
-#    proxy_port=${proxy_port:-80}
-#ENV http_proxy=http://${proxy_host}:${proxy_port} \
-#    https_proxy=http://${proxy_host}:${proxy_port} \
-#    no_proxy=localhost,127.0.0.1
-#ENV HTTP_PROXY=${http_proxy} \
-#    HTTPS_PROXY=${https_proxy} \
-#    NO_PROXY=${no_proxy}
 
 # Handle custom CA certificate, if specified.
 RUN if test -n "${TRAM_CA_URL}" -a -n "${TRAM_CA_THUMBPRINT}" ; then \
@@ -82,16 +87,17 @@ RUN python3 -m pip install -r ./requirements/requirements.txt && \
     python3 -m pip install --editable . && \
     cp -f ./docker/entrypoint.sh entrypoint.sh && \
     # Download NLTK data
-    python3 -m nltk.downloader punkt && \
-    python3 -m nltk.downloader wordnet && \
-    python3 -m nltk.downloader omw-1.4
+    mkdir -p ${nltk_data_dir}/{corpora,tokenizers} && \
+    curl -kJL -o ${nltk_data_dir}/tokenizers/${punkt_localfile} $punkt_url && \
+    curl -kJL -o ${nltk_data_dir}/corpora/${omw_localfile} $omw_url && \
+    curl -kJL -o ${nltk_data_dir}/corpora/${wordnet_localfile} $wordnet_url
 
 # Generate and Run Django migrations scripts, collectstatic app files
 RUN tram makemigrations tram && \
     tram migrate && \
     tram collectstatic
 
-# run ml training
+## run ml training
 RUN tram attackdata load && \
     tram pipeline load-training-data && \
     tram pipeline train --model nb && \
