@@ -92,8 +92,10 @@ RUN --mount=type=cache,target=/root/.cache \
     mkdir -p ${nltk_data_dir}/{corpora,tokenizers} && \
     curl -skJL -o ${nltk_data_dir}/tokenizers/${punkt_localfile} $punkt_url && \
     curl -skJL -o ${nltk_data_dir}/corpora/${omw_localfile} $omw_url && \
-    curl -skJL -o ${nltk_data_dir}/corpora/${wordnet_localfile} $wordnet_url && \
-    python3 -c "import transformers; transformers.AutoTokenizer.from_pretrained('allenai/scibert_scivocab_uncased')"
+    curl -skJL -o ${nltk_data_dir}/corpora/${wordnet_localfile} $wordnet_url
+
+# run this command without cache volume mounted, so model is stored on image
+RUN python3 -c "import transformers; transformers.AutoTokenizer.from_pretrained('allenai/scibert_scivocab_uncased')"
 
 # Generate and Run Django migrations scripts, collectstatic app files
 RUN tram makemigrations tram && \
