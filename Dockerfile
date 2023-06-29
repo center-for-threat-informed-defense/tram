@@ -41,7 +41,9 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install and update apt dependencies
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && \
+RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt \
+    apt-get update && \
     apt-get -y upgrade && \
     apt-get -y install --no-install-recommends \
     ca-certificates \
@@ -51,8 +53,7 @@ RUN apt-get update && \
     python3-setuptools \
     python3-venv \
     python3-wheel \
-    unzip && \
-    rm -fr /var/lib/apt/lists/*
+    unzip
 
 # Handle custom CA certificate, if specified.
 RUN if test -n "${TRAM_CA_URL}" -a -n "${TRAM_CA_THUMBPRINT}" ; then \
@@ -83,14 +84,15 @@ WORKDIR /tram
 COPY ./ .
 
 # install app dependencies
-RUN python3 -m pip install -r ./requirements/requirements.txt && \
+RUN --mount=type=cache,target=/root/.cache \
+    python3 -m pip install -r ./requirements/requirements.txt && \
     python3 -m pip install --editable . && \
     cp -f ./docker/entrypoint.sh entrypoint.sh && \
     # Download NLTK data
     mkdir -p ${nltk_data_dir}/{corpora,tokenizers} && \
-    curl -kJL -o ${nltk_data_dir}/tokenizers/${punkt_localfile} $punkt_url && \
-    curl -kJL -o ${nltk_data_dir}/corpora/${omw_localfile} $omw_url && \
-    curl -kJL -o ${nltk_data_dir}/corpora/${wordnet_localfile} $wordnet_url
+    curl -skJL -o ${nltk_data_dir}/tokenizers/${punkt_localfile} $punkt_url && \
+    curl -skJL -o ${nltk_data_dir}/corpora/${omw_localfile} $omw_url && \
+    curl -skJL -o ${nltk_data_dir}/corpora/${wordnet_localfile} $wordnet_url
 
 # Generate and Run Django migrations scripts, collectstatic app files
 RUN tram makemigrations tram && \
