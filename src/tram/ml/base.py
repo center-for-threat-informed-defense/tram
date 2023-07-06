@@ -11,10 +11,12 @@ from os import path
 import docx
 import nltk
 import pdfplumber
+import torch
 from bs4 import BeautifulSoup
 from constance import config
 from django.conf import settings
 from django.db import transaction
+from pandas import DataFrame
 from sklearn.dummy import DummyClassifier
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -23,6 +25,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
+from transformers import AutoTokenizer, BertForSequenceClassification
 
 # The word model is overloaded in this scope, so a prefix is necessary
 from tram import models as db_models
@@ -332,12 +335,107 @@ class MLPClassifierModel(SKLearnModel):
         )
 
 
+class BERTClassifierModel(SKLearnModel):
+    def __init__(self):
+        """
+        Initialized pre-trained BERT Model
+        """
+        self.last_trained = None
+        self.average_f1_score = None
+        self.detailed_f1_score = None
+
+    def get_model(self):
+        """Returns a torch.nn.Module that has ?? and ?? methods"""
+
+    def train(self):
+        """This model is pre-trained, skip training step"""
+        pass
+
+    def test(self):
+        """This model is pre-trained, skip testing step"""
+        pass
+
+    def get_training_data(self):
+        """This model is pre-trained, skip training step"""
+        pass
+
+    @torch.no_grad()
+    def predict_samples(self, samples: list[str]):
+        """
+        Given a list of text samples, returns a DataFrame where the rows are each sample (the index is the string given
+        in the list), the columns are the ATT&CK techniques, and the values are the probability that that sample belongs
+        to that technique. The sum of each row will always be 1.
+        """
+        tokenizer = AutoTokenizer.from_pretrained("allenai/scibert_scivocab_uncased")
+        bert = BertForSequenceClassification.from_pretrained(
+            settings.ML_MODEL_DIR + "/bert_model"
+        ).eval()
+
+        with open(settings.ML_MODEL_DIR + "/bert_model/classes.txt") as f:
+            CLASSES = tuple(f.read().split())
+
+        x = tokenizer(
+            samples,
+            return_tensors="pt",
+            padding="max_length",
+            truncation=True,
+            max_length=512,
+        ).input_ids
+        out = bert(x, attention_mask=x.ne(tokenizer.pad_token_id).to(int))
+        probabilities = out.logits.softmax(-1)
+        df = DataFrame(probabilities, columns=CLASSES, index=samples)
+        return df
+
+    def _sentence_tokenize(self, text: str) -> list[str]:
+        """Split text into segments"""
+        stride = 5
+        n = 13
+        words = text.split()
+        subsequences = [
+            " ".join(words[i : i + n]) for i in range(0, len(words), stride)
+        ]
+        return subsequences
+
+    def process_job(self, job):
+        """Organize segments into sample list for prediction and run report"""
+        name = self._get_report_name(job)
+        text = self._extract_text(job.document)
+        samples = self._sentence_tokenize(text)
+
+        df = self.predict_samples(samples)
+        df = df.multiply(100).fillna(0)
+
+        order = 0
+        report_samples = []
+        for sample, row in df.iterrows():
+            mappings = []
+            for technique in row.index:
+                if row[technique] >= config.ML_CONFIDENCE_THRESHOLD:
+                    mappings.append(Mapping(row[technique], technique))
+            s = Sentence(text=sample, order=order, mappings=mappings)
+            order += 1
+            report_samples.append(s)
+
+        report = Report(name, text, report_samples)
+        return report
+
+    def save_to_file(self, filepath):
+        """This model is generated externally"""
+        pass
+
+    @classmethod
+    def load_from_file(cls, filepath):
+        """This model is loaded when the class is initialized"""
+        pass
+
+
 class ModelManager(object):
     model_registry = {  # TODO: Add a hook to register user-created models
         "dummy": DummyModel,
         "nb": NaiveBayesModel,
         "logreg": LogisticRegressionModel,
         "nn_cls": MLPClassifierModel,
+        "bert": BERTClassifierModel,
     }
 
     def __init__(self, model):
