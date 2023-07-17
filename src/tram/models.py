@@ -26,9 +26,9 @@ class AttackObject(models.Model):
     """Attack Techniques"""
 
     name = models.CharField(max_length=200)
-    stix_id = models.CharField(max_length=128, unique=True)
+    stix_id = models.CharField(max_length=128)
     stix_type = models.CharField(max_length=128)
-    attack_id = models.CharField(max_length=128, unique=True)
+    attack_id = models.CharField(max_length=128)
     attack_type = models.CharField(max_length=128)
     attack_url = models.CharField(max_length=512)
     matrix = models.CharField(max_length=200)

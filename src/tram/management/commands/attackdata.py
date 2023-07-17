@@ -67,14 +67,14 @@ class Command(BaseCommand):
 
         return obj, created
 
-    def load_attack_data(self, filepath):
+    def load_attack_data(self, filepath, spec_version):
         created_stats = {}
         skipped_stats = {}
 
         with open(filepath, "r") as f:
             attack_json = json.load(f)
 
-        assert attack_json["spec_version"] == "2.0"
+        assert attack_json["spec_version"] == spec_version
         assert attack_json["type"] == "bundle"
 
         for obj in attack_json["objects"]:
@@ -85,12 +85,17 @@ class Command(BaseCommand):
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
                 continue
 
+            if "external_references" not in obj:
+                continue
+
             if obj_type in (
                 "relationship",
                 "course-of-action",
                 "identity",
                 "x-mitre-matrix",
                 "marking-definition",
+                "campaign",
+                "x-mitre-data-source",
             ):
                 skipped_stats[obj_type] = skipped_stats.get(obj_type, 0) + 1
                 continue
@@ -118,9 +123,13 @@ class Command(BaseCommand):
             #   Techniques are unique among files, but
             #   Groups are not unique among files
             self.load_attack_data(
-                settings.DATA_DIRECTORY / "attack/enterprise-attack.json"
+                settings.DATA_DIRECTORY / "attack/enterprise-attack.json", "2.1"
             )
-            self.load_attack_data(settings.DATA_DIRECTORY / "attack/mobile-attack.json")
-            self.load_attack_data(settings.DATA_DIRECTORY / "attack/pre-attack.json")
+            self.load_attack_data(
+                settings.DATA_DIRECTORY / "attack/mobile-attack.json", "2.0"
+            )
+            self.load_attack_data(
+                settings.DATA_DIRECTORY / "attack/pre-attack.json", "2.0"
+            )
         elif subcommand == CLEAR:
             self.clear_attack_data()
