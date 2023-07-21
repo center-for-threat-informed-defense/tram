@@ -207,7 +207,9 @@ class ReportExportSerializer(ReportSerializer):
                     sentence.save()
                 else:
                     # TODO: Handle this case better
-                    raise Exception("Sentence validation needs to be handled better")
+                    raise Exception(
+                        f"Sentence validation needs to be handled better; {sentence = !r}"
+                    )
 
         return report
 
