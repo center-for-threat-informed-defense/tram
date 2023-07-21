@@ -368,24 +368,32 @@ class BERTClassifierModel(SKLearnModel):
         in the list), the columns are the ATT&CK techniques, and the values are the probability that that sample belongs
         to that technique. The sum of each row will always be 1.
         """
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         tokenizer = AutoTokenizer.from_pretrained("allenai/scibert_scivocab_uncased")
         bert = BertForSequenceClassification.from_pretrained(
             settings.ML_MODEL_DIR + "/bert_model"
-        ).eval()
+        ).eval().to(device)
 
         with open(settings.ML_MODEL_DIR + "/bert_model/classes.txt") as f:
             CLASSES = tuple(f.read().split())
 
-        x = tokenizer(
+        tokens = tokenizer(
             samples,
             return_tensors="pt",
             padding="max_length",
             truncation=True,
             max_length=512,
         ).input_ids
-        out = bert(x, attention_mask=x.ne(tokenizer.pad_token_id).to(int))
-        probabilities = out.logits.softmax(-1)
-        df = DataFrame(probabilities, columns=CLASSES, index=samples)
+
+        probabilities = []
+
+        from tqdm import tqdm
+        for i in tqdm(range(0, tokens.shape[0], 20), total=tokens.shape[0] // 20):
+            x = tokens[i:i+20].to(device)
+            out = bert(x, attention_mask=x.ne(tokenizer.pad_token_id).to(int)).logits
+            probabilities.append(out.softmax(-1).to('cpu'))
+
+        df = DataFrame(torch.vstack(probabilities), columns=CLASSES, index=samples)
         return df
 
     def _sentence_tokenize(self, text: str) -> list[str]:
