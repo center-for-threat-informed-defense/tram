@@ -68,6 +68,8 @@ RUN if test -n "${TRAM_CA_URL}" -a -n "${TRAM_CA_THUMBPRINT}" ; then \
         fi; \
     fi
 
+ENV REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+
 RUN mkdir /tram && \
     python3 -m venv /tram/.venv && \
     /tram/.venv/bin/python3 -m pip install -U pip wheel setuptools
