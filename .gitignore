@@ -64,3 +64,5 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 TODO*
+
+.ipynb_checkpoints/
