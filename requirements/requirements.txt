@@ -10,6 +10,7 @@ nltk==3.8.1
 pandas==2.0.2
 pdfplumber==0.9.0
 python-docx==0.8.11
+requests==2.27.1
 scikit-learn==1.2.2
 torch==2.0.1
 transformers[torch]==4.30.2
