@@ -24,16 +24,23 @@ ARG TRAM_CA_THUMBPRINT
 # directory to install nltk data
 ARG nltk_data_dir="/tram/.venv/nltk_data"
 
+# directory to put bert trained model
+ARG bert_data_dir="/tram/data/ml-models/bert_model"
+
 # Default URLs to datasets used by nltk
 # NOTE: No spaces allowed around equal sign
 ARG punkt_url="https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/tokenizers/punkt.zip"
 ARG wordnet_url="https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/wordnet.zip"
 ARG omw_url="https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/omw-1.4.zip"
+ARG bert_model_url="https://ctidtram.blob.core.windows.net/tram-models/single-label-202308303/pytorch_model.bin"
+ARG bert_config_url="https://ctidtram.blob.core.windows.net/tram-models/single-label-202308303/config.json"
 
 # local filenames to make dockerfile easier
 ARG punkt_localfile="punkt.zip"
 ARG wordnet_localfile="wordnet.zip"
 ARG omw_localfile="omw.zip"
+ARG bert_model_localfile="pytorch_model.bin"
+ARG bert_config_localfile="config.json"
 
 # Change default shell to bash so that we can use pipes (|) safely. See:
 # https://github.com/hadolint/hadolint/wiki/DL4006
@@ -90,14 +97,20 @@ RUN --mount=type=cache,target=/root/.cache \
     python3 -m pip install -r ./requirements/requirements.txt && \
     python3 -m pip install --editable . && \
     cp -f ./docker/entrypoint.sh entrypoint.sh && \
-    # Download NLTK data
+    # Download NLTK data \
+    # remove local bert model if it exists \
+    rm -f ${bert_data_dir}/${bert_model_localfile} && \
+    rm -f ${bert_data_dir}/${bert_config_localfile} && \
+    # Download NLTK data \
     mkdir -p ${nltk_data_dir}/{corpora,tokenizers} && \
-    curl -skJL -o ${nltk_data_dir}/tokenizers/${punkt_localfile} $punkt_url && \
-    curl -skJL -o ${nltk_data_dir}/corpora/${omw_localfile} $omw_url && \
-    curl -skJL -o ${nltk_data_dir}/corpora/${wordnet_localfile} $wordnet_url
+    curl -kJL -o ${nltk_data_dir}/tokenizers/${punkt_localfile} $punkt_url && \
+    curl -kJL -o ${nltk_data_dir}/corpora/${omw_localfile} $omw_url && \
+    curl -kJL -o ${nltk_data_dir}/corpora/${wordnet_localfile} $wordnet_url && \
+    curl -kJL -o ${bert_data_dir}/${bert_model_localfile} $bert_model_url && \
+    curl -kJL -o ${bert_data_dir}/${bert_config_localfile} $bert_config_url
 
 # run this command without cache volume mounted, so model is stored on image
-RUN python3 -c "import transformers; transformers.AutoTokenizer.from_pretrained('allenai/scibert_scivocab_uncased')"
+RUN python3 -c "import os; import transformers; os.environ['CURL_CA_BUNDLE'] = ''; transformers.AutoTokenizer.from_pretrained('allenai/scibert_scivocab_uncased')"
 
 # Generate and Run Django migrations scripts, collectstatic app files
 RUN tram makemigrations tram && \
