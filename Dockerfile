@@ -110,7 +110,7 @@ RUN --mount=type=cache,target=/root/.cache \
     curl -kJL -o ${bert_data_dir}/${bert_config_localfile} $bert_config_url
 
 # run this command without cache volume mounted, so model is stored on image
-RUN python3 -c "import os; import transformers; os.environ['CURL_CA_BUNDLE'] = ''; transformers.AutoTokenizer.from_pretrained('allenai/scibert_scivocab_uncased')"
+RUN python3 -c "import os; import transformers; os.environ['CURL_CA_BUNDLE'] = ''; mdl = transformers.AutoTokenizer.from_pretrained('allenai/scibert_scivocab_uncased'); mdl.save_pretrained('/tram/data/priv-allenai-scibert-scivocab-uncased')"
 
 # Generate and Run Django migrations scripts, collectstatic app files
 RUN tram makemigrations tram && \
