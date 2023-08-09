@@ -225,5 +225,6 @@ SIMPLE_JWT = {
 }
 
 ML_MODEL_DIR = os.path.join(DATA_DIRECTORY, "ml-models")
+PICKLE_DIR = os.path.join(DATA_DIRECTORY, "pickles")
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

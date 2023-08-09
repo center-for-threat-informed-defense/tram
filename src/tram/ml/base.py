@@ -527,7 +527,7 @@ class ModelManager(object):
             time.sleep(1)
 
     def get_model_filepath(self, model_class):
-        filepath = settings.ML_MODEL_DIR + "/" + model_class.__name__ + ".pkl"
+        filepath = settings.PICKLE_DIR + "/" + model_class.__name__ + ".pkl"
         return filepath
 
     def train_model(self):
