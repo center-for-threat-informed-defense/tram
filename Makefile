@@ -49,8 +49,6 @@ pre-commit-run-all: venv .git/hooks/pre-commit ## Run pre-commit manually on all
 
 .PHONY: build-container
 build-container: venv ## Build container image
-	$(info build: running git lfs pull to download large model prior to build)
-	git lfs pull
 	docker build -t $(APP_NAME):dev -t $(APP_NAME):$(TIMESTAMP)_$(GIT_HASH) \
 		-f Dockerfile . --label "org.opencontainers.image.revision=$(GIT_HASH)" \
 		--build-arg TRAM_CA_URL=$(TRAM_CA_URL) --build-arg TRAM_CA_THUMBPRINT=$(TRAM_CA_THUMBPRINT)
