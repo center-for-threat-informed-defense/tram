@@ -17,6 +17,7 @@ intel providers, threat intel platforms, and analysts should be able to use TRAM
 to integrate ATT&CK more easily and consistently into their products.
 
 ## Getting Started
+
 TRAM has integrated Machine Learning models into a Web UI and as part of Jupyter notebooks.
  
 * Follow the [installation](URL) instructions in the Wiki to pull the container images. If you’ve used TRAM before, you’re familiar with launching into the webUI and uploading a JSON, docx, pdf, or even txt report to for automatic analysis. 
@@ -56,8 +57,8 @@ To contribute training data, please:
 
 ## Notice
 
-Copyright 2021 MITRE Engenuity. Approved for public release. Document number
-CT0035.
+Copyright 2023 MITRE Engenuity. Approved for public release. Document number
+TBD.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the
