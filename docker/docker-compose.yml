@@ -9,7 +9,7 @@
 version: '3.5'
 services:
   tram:
-    image: ghcr.io/center-for-threat-informed-defense/tram-private:swfarnsworth-bert-django-container-buildable
+    image: docker.io/library/tram:dev
     environment:
       - DATA_DIRECTORY=/tram/data
       - ALLOWED_HOSTS=["example_host1", "localhost"]
@@ -20,7 +20,7 @@ services:
       - tram:/tram/data
       - tram_static:/tram/src/tram/staticfiles
   nginx:
-    image: ghcr.io/center-for-threat-informed-defense/tram-private-nginx:swfarnsworth-bert-django-container-buildable
+    image: docker.io/library/tram-nginx:dev
     ports:
       - "8000:80"
     volumes:
