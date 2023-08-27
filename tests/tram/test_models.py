@@ -5,7 +5,7 @@ import pytest
 class TestAttackTechnique:
     def test___str__renders_correctly(self, attack_object):
         # Arrange
-        expected = "(T1059) Command and Scripting Interpreter"
+        expected = "(T1552.005) Cloud Instance Metadata API"
 
         # Assert
         assert str(attack_object) == expected

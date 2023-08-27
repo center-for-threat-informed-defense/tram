@@ -60,17 +60,17 @@ def document():
 @pytest.fixture
 def attack_object(db):
     """
-    $ sqlite3 -line db.sqlite3 "SELECT * FROM tram_attackobject WHERE id=72"
+    $ sqlite3 -line db.sqlite3 "SELECT * FROM tram_attackobject WHERE id=72"                    I
              id = 72
-           name = Command and Scripting Interpreter
-        stix_id = attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830
-      attack_id = T1059
-     attack_url = https://attack.mitre.org/techniques/T1059
+           name = Cloud Instance Metadata API
+      attack_id = T1552.005
+     attack_url = https://attack.mitre.org/techniques/T1552/005
          matrix = mitre-attack
-     created_on = 2022-03-01 20:06:53.717154
-     updated_on = 2022-03-01 20:06:53.717172
+     created_on = 2023-08-27 19:18:23.029597
+     updated_on = 2023-08-27 19:18:23.029613
     attack_type = technique
       stix_type = attack-pattern
+        stix_id = attack-pattern--19bf235b-8620-4997-b5b4-94e0659ed7c3
     """
     yield models.AttackObject.objects.get(id=72)
 
