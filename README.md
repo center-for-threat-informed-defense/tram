@@ -31,12 +31,12 @@ Kubernetes. You should read the installation instructions to make sure that you 
 comfortable with the prerequisites. Alternatively, if you want to focus on Machine
 Learning Engineering, you can run the project notebooks for fine tuning your own models.
 
-| Resource                                                                                          | Description                                                                                          |
-| ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| [Installation]((https://github.com/center-for-threat-informed-defense/tram/wiki/Installation))    | Instructions for downloading and installing TRAM container images                                    |
-| [Documentation](https://github.com/center-for-threat-informed-defense/tram/wiki)                  | Complete documentation for TRAM                                                                      |
-| [Notebooks](https://github.com/center-for-threat-informed-defense/tram/tree/main/user_notebooks)  | Jupyter notebooks for SciBERT-based single-label and multi-label models.                             |
-| [Developer Setup](https://github.com/center-for-threat-informed-defense/tram/wiki#for-developers) | Instructions for contributing code changes to TRAM. Only required for local development and testing. |
+| Resource                                                                                         | Description                                                                                          |
+| ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| [Documentation](https://github.com/center-for-threat-informed-defense/tram/wiki)                 | Complete documentation for TRAM                                                                      |
+| [Installation](https://github.com/center-for-threat-informed-defense/tram/wiki/Installation)     | Instructions for downloading and installing TRAM container images                                    |
+| [Notebooks](https://github.com/center-for-threat-informed-defense/tram/tree/main/user_notebooks) | Jupyter notebooks for SciBERT-based single-label and multi-label models.                             |
+| [Developer Setup](https://github.com/center-for-threat-informed-defense/tram/wiki/Developers)    | Instructions for contributing code changes to TRAM. Only required for local development and testing. |
 
 ## Getting Involved
 
