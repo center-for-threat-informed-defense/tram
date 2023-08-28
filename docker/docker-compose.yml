@@ -9,7 +9,7 @@
 version: '3.5'
 services:
   tram:
-    image: ghcr.io/tram:latest
+    image: ghcr.io/center-for-threat-informed-defense/tram:latest
     environment:
       - DATA_DIRECTORY=/tram/data
       - ALLOWED_HOSTS=["example_host1", "localhost"]
@@ -20,7 +20,7 @@ services:
       - tram:/tram/data
       - tram_static:/tram/src/tram/staticfiles
   nginx:
-    image: ghcr.io/tram-nginx:latest
+    image: ghcr.io/center-for-threat-informed-defense/tram:latest
     ports:
       - "8000:80"
     volumes:
