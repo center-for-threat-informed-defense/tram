@@ -79,8 +79,7 @@ for more general inquiries.
 
 ## Notice
 
-Copyright 2021, 2023 MITRE Engenuity. Approved for public release. Document number
-CT0035.
+©2023 MITRE Engenuity, LLC. Approved for Public Release. Document numbers CT0035, CT0075.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the
