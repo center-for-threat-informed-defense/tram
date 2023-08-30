@@ -20,7 +20,7 @@ services:
       - tram:/tram/data
       - tram_static:/tram/src/tram/staticfiles
   nginx:
-    image: ghcr.io/center-for-threat-informed-defense/tram:latest
+    image: ghcr.io/center-for-threat-informed-defense/tram-nginx:latest
     ports:
       - "8000:80"
     volumes:
