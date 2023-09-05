@@ -70,7 +70,7 @@ We welcome your feedback and contributions to help advance TRAM. Please see the
 guidance for contributors if are you interested in [contributing or simply
 reporting issues.](/CONTRIBUTING.md)
 
-To contribute training data, see [the Data Annotation wiki](https://github.com/center-for-threat-informed-defense/tram-private/wiki/Data-Annotation).
+To contribute training data, see [the Data Annotation wiki](https://github.com/center-for-threat-informed-defense/tram/wiki/Data-Annotation).
 
 Please submit
 [issues](https://github.com/center-for-threat-informed-defense/tram/issues) for
