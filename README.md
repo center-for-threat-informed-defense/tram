@@ -4,7 +4,7 @@
 ![Build](https://img.shields.io/github/actions/workflow/status/center-for-threat-informed-defense/tram/test.yml)
 [![Coverage](https://img.shields.io/codecov/c/github/center-for-threat-informed-defense/tram?token=ejCIZhBRGr)](https://codecov.io/gh/center-for-threat-informed-defense/tram)
 
-Threat Report ATT&CK Mapper (TRAM) is an open-source platform designed to to reduce cost
+Threat Report ATT&CK Mapper (TRAM) is an open-source platform designed to reduce cost
 and increase the effectiveness of integrating ATT&CK  across the CTI community. It does
 this by automating the mapping of cyber threat intelligence (CTI) reports to MITRE
 ATT&CK®. Threat intel providers, threat intel platforms, and analysts can use TRAM to
