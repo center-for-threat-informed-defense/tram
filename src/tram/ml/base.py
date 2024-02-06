@@ -369,7 +369,9 @@ class BERTClassifierModel(SKLearnModel):
         to that technique. The sum of each row will always be 1.
         """
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        tokenizer = AutoTokenizer.from_pretrained("/tram/data/priv-allenai-scibert-scivocab-uncased")
+        tokenizer = AutoTokenizer.from_pretrained(
+            settings.ML_MODEL_DIR + "/priv-allenai-scibert-scivocab-uncased"
+        )
         bert = (
             BertForSequenceClassification.from_pretrained(
                 settings.ML_MODEL_DIR + "/bert_model"

@@ -64,15 +64,15 @@ RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/
 
 # Handle custom CA certificate, if specified.
 RUN if test -n "${TRAM_CA_URL}" -a -n "${TRAM_CA_THUMBPRINT}" ; then \
-        echo "Installing certificate authority from ${TRAM_CA_URL}" && \
-        curl -sk "${TRAM_CA_URL}" -o /usr/local/share/ca-certificates/tram_ca.crt && \
-        DOWNLOAD_CA_THUMBPRINT=$(openssl x509 -in /usr/local/share/ca-certificates/tram_ca.crt -fingerprint -noout | cut -d= -f2) && \
-        if test "${DOWNLOAD_CA_THUMBPRINT}" = "${TRAM_CA_THUMBPRINT}"; then \
-            update-ca-certificates; \
-        else \
-            printf "\n=====\nERROR\nExpected thumbprint: %s\nActual thumbprint:   %s\n=====\n" "${TRAM_CA_THUMBPRINT}" "${DOWNLOAD_CA_THUMBPRINT}"; \
-            exit 1; \
-        fi; \
+    echo "Installing certificate authority from ${TRAM_CA_URL}" && \
+    curl -sk "${TRAM_CA_URL}" -o /usr/local/share/ca-certificates/tram_ca.crt && \
+    DOWNLOAD_CA_THUMBPRINT=$(openssl x509 -in /usr/local/share/ca-certificates/tram_ca.crt -fingerprint -noout | cut -d= -f2) && \
+    if test "${DOWNLOAD_CA_THUMBPRINT}" = "${TRAM_CA_THUMBPRINT}"; then \
+    update-ca-certificates; \
+    else \
+    printf "\n=====\nERROR\nExpected thumbprint: %s\nActual thumbprint:   %s\n=====\n" "${TRAM_CA_THUMBPRINT}" "${DOWNLOAD_CA_THUMBPRINT}"; \
+    exit 1; \
+    fi; \
     fi
 
 ENV REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
@@ -110,7 +110,7 @@ RUN --mount=type=cache,target=/root/.cache \
     curl -kJL -o ${bert_data_dir}/${bert_config_localfile} $bert_config_url
 
 # run this command without cache volume mounted, so model is stored on image
-RUN python3 -c "import os; import transformers; os.environ['CURL_CA_BUNDLE'] = ''; mdl = transformers.AutoTokenizer.from_pretrained('allenai/scibert_scivocab_uncased'); mdl.save_pretrained('/tram/data/priv-allenai-scibert-scivocab-uncased')"
+RUN python3 -c "import os; import transformers; os.environ['CURL_CA_BUNDLE'] = ''; mdl = transformers.AutoTokenizer.from_pretrained('allenai/scibert_scivocab_uncased'); mdl.save_pretrained('/tram/data/ml-models/priv-allenai-scibert-scivocab-uncased')"
 
 # Generate and Run Django migrations scripts, collectstatic app files
 RUN tram makemigrations tram && \
