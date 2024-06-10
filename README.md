@@ -95,3 +95,9 @@ specific language governing permissions and limitations under the License.
 This project makes use of MITRE ATT&CK®
 
 [ATT&CK Terms of Use](https://attack.mitre.org/resources/terms-of-use/)
+
+### Infrastructure model
+![Infrastructure main model](.infragenie/infrastructure_main_model.svg)
+- [tram component model](.infragenie/tram_component_model.svg)
+
+---
