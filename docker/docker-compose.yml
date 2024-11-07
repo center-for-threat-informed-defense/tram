@@ -6,7 +6,6 @@
 #  - ALLOWED_HOSTS is a list of hosts allowed to connect to the Django server (in settings.py)
 #  - SECRET_KEY is generated at startup to a random value. Set SECRET_KEY env variable for tram service below
 #               to use a static value.
-version: '3.5'
 services:
   tram:
     image: ghcr.io/center-for-threat-informed-defense/tram:latest
