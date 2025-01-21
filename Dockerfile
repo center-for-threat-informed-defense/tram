@@ -8,7 +8,7 @@
 #
 #  Simple build command: `docker build -t [repo_name]/tram:[version] .`
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 # OCI labels
 LABEL "org.opencontainers.image.title"="TRAM"
@@ -86,7 +86,7 @@ ENV LC_ALL=C.UTF-8 LANG=C.UTF-8 \
     PATH=/tram/.venv/bin:${PATH}
 
 # flush all output immediately
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /tram
 
