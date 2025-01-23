@@ -60,6 +60,11 @@ if os.environ.get("ALLOWED_HOSTS") is not None:
 else:
     ALLOWED_HOSTS = []
 
+if os.environ.get("CSRF_TRUSTED_ORIGINS") is not None:
+    CSRF_TRUSTED_ORIGINS = loads(os.environ.get("CSRF_TRUSTED_ORIGINS"))
+else:
+    CSRF_TRUSTED_ORIGINS = []
+
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 
 LOGGING = {
