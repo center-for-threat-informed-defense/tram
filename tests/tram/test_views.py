@@ -181,6 +181,29 @@ class TestUpload:
 
 
 @pytest.mark.django_db
+class TestUploadApi:
+    def test_upload_api(self, logged_in_client):
+        # Arrange
+        f = SimpleUploadedFile(
+            "test-report.pdf", b"test file content", content_type="application/pdf"
+        )
+        data = {"file": f}
+
+        # Act
+        response = logged_in_client.post("/api/upload/", data)
+
+        # Assert
+        assert response.status_code == 200  # HTTP 200 Ok
+
+    def test_upload_api_404(self, logged_in_client):
+        # Act
+        response = logged_in_client.post("/api/upload/")
+
+        # Assert
+        assert response.status_code == 400  # HTTP 400 Bad Request
+
+
+@pytest.mark.django_db
 class TestMappingViewSet:
     def test_get_mappings(self, logged_in_client):
         # Act

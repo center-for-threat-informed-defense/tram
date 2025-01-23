@@ -130,6 +130,15 @@ def index(request):
 
 @login_required
 @require_POST
+def upload_web(request):
+    return upload(request)
+
+
+@api_view(["POST"])
+def upload_api(request):
+    return upload(request)
+
+
 def upload(request):
     """Places a file into ml-pipeline for analysis"""
     # Initialize the processing job.
@@ -137,6 +146,9 @@ def upload(request):
 
     # Initialize response.
     response = {"message": "File saved for processing."}
+
+    if request.FILES.get("file") is None:
+        return HttpResponseBadRequest("'file' field is required but was not provided")
 
     file_content_type = request.FILES["file"].content_type
     if file_content_type in (
@@ -164,7 +176,6 @@ def upload(request):
         response["doc-id"] = dpj.document.pk
 
     return JsonResponse(response)
-
 
 @login_required
 def ml_home(request):
