@@ -12,7 +12,7 @@ FROM ubuntu:20.04
 
 # OCI labels
 LABEL "org.opencontainers.image.title"="TRAM"
-LABEL "org.opencontainers.image.url"="https://ctid.mitre-engenuity.org/our-work/tram/"
+LABEL "org.opencontainers.image.url"="https://ctid.mitre.org/our-work/tram/"
 LABEL "org.opencontainers.image.source"="https://github.com/center-for-threat-informed-defense/tram"
 LABEL "org.opencontainers.image.description"="Threat Report ATT&CK Mapper"
 LABEL "org.opencontainers.image.license"="Apache-2.0"

@@ -33,7 +33,7 @@ jobs:
           images: |
             ghcr.io/${{ github.repository }}
           labels: |
-            org.opencontainers.image.url=https://ctid.mitre-engenuity.org/our-work/tram/
+            org.opencontainers.image.url=https://ctid.mitre.org/our-work/tram/
 
       - name: Build and push TRAM application container image
         uses: docker/build-push-action@v4
@@ -50,7 +50,7 @@ jobs:
           images: |
             ghcr.io/${{ github.repository }}-nginx
           labels: |
-            org.opencontainers.image.url=https://ctid.mitre-engenuity.org/our-work/tram/
+            org.opencontainers.image.url=https://ctid.mitre.org/our-work/tram/
 
       - name: Build and push Nginx TRAM container image
         uses: docker/build-push-action@v4

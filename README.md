@@ -59,7 +59,7 @@ threat-informed defense:
 ## Questions and Feedback
 
 Please submit issues for any technical questions/concerns or contact
-ctid@mitre-engenuity.org directly for more general inquiries.
+ctid@mitre.org directly for more general inquiries.
 
 Also see the guidance for contributors if are you interested in contributing or simply
 reporting issues.
@@ -74,12 +74,12 @@ To contribute training data, see [the Data Annotation wiki](https://github.com/c
 
 Please submit
 [issues](https://github.com/center-for-threat-informed-defense/tram/issues) for
-any technical questions/concerns or contact ctid@mitre-engenuity.org directly
+any technical questions/concerns or contact ctid@mitre.org directly
 for more general inquiries.
 
 ## Notice
 
-©2023 MITRE Engenuity, LLC. Approved for Public Release. Document numbers CT0035, CT0075.
+©2023 MITRE. Approved for Public Release. Document numbers CT0035, CT0075.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the

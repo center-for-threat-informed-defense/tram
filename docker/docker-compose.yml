@@ -8,7 +8,7 @@
 #               to use a static value.
 services:
   tram:
-    image: ghcr.io/center-for-threat-informed-defense/tram:latest
+    image: tram:latest
     environment:
       - DATA_DIRECTORY=/tram/data
       - ALLOWED_HOSTS=["example_host1", "localhost"]
@@ -19,7 +19,7 @@ services:
       - tram:/tram/data
       - tram_static:/tram/src/tram/staticfiles
   nginx:
-    image: ghcr.io/center-for-threat-informed-defense/tram-nginx:latest
+    image: tram-nginx
     ports:
       - "8000:80"
     volumes:
