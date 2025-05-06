@@ -58,9 +58,9 @@ def test_docx_build():
         doc.paragraphs[3].text
         == "Total Techniques: 1\nAttack Id: T1001, Name: Data Obfuscation\n"
     )
-    assert doc.paragraphs[4].text == "\n"
+    assert doc.paragraphs[4].text == ""
     assert doc.paragraphs[5].text == "Matched Sentences"
-    assert doc.paragraphs[6].text == "\n"
+    assert doc.paragraphs[6].text == ""
     assert doc.paragraphs[7].text == "Full Document"
     assert (
         doc.paragraphs[8].text

@@ -4,6 +4,7 @@
 #  - Any ML data and DB data is stored at the path stored in the environment variable
 #    `DATA_DIRECTORY`. This is internal to Django.
 #  - ALLOWED_HOSTS is a list of hosts allowed to connect to the Django server (in settings.py)
+#  - CSRF_TRUSTED_ORIGINS is a list of origins allowed to requests to the Django server (in settings.py)
 #  - SECRET_KEY is generated at startup to a random value. Set SECRET_KEY env variable for tram service below
 #               to use a static value.
 services:
@@ -12,6 +13,7 @@ services:
     environment:
       - DATA_DIRECTORY=/tram/data
       - ALLOWED_HOSTS=["example_host1", "localhost"]
+      - CSRF_TRUSTED_ORIGINS=["http://example_host1:8000", "http://localhost:8000"]
       - DJANGO_SUPERUSER_USERNAME=djangoSuperuser
       - DJANGO_SUPERUSER_PASSWORD=LEGITPassword1234 # your password here
       - DJANGO_SUPERUSER_EMAIL=test@example.com # your email address here
