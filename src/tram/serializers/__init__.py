@@ -265,3 +265,7 @@ class SentenceSerializer(serializers.ModelSerializer):
                     raise Exception("Mapping validation needs to be handled better")
 
         return sentence
+
+
+from tram.serializers.pdf_serializer import PDFSerializer  # noqa: E402
+from tram.serializers.image_serializer import ImageSerializer  # noqa: E402
