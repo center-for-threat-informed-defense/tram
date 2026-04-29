@@ -60,7 +60,10 @@ RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/
     python3-setuptools \
     python3-venv \
     python3-wheel \
-    unzip
+    unzip \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    poppler-utils
 
 # Handle custom CA certificate, if specified.
 RUN if test -n "${TRAM_CA_URL}" -a -n "${TRAM_CA_THUMBPRINT}" ; then \

@@ -1,10 +1,12 @@
 import json
 import logging
+import os
 import time
 from urllib.parse import quote
 
 from constance import config
 from django.contrib.auth.decorators import login_required
+from django.core.files.base import ContentFile
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
@@ -23,6 +25,8 @@ from tram.models import (
     Sentence,
 )
 from tram.renderers import DocxReportRenderer
+from tram.serializers.image_serializer import ImageSerializer
+from tram.serializers.pdf_serializer import PDFSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -139,37 +143,76 @@ def upload_api(request):
     return upload(request)
 
 
+_IMAGE_CONTENT_TYPES = {
+    "image/png",
+    "image/jpeg",
+    "image/jpg",
+    "image/tiff",
+}
+
+
+def get_serializer(report_type: str, file_bytes: bytes, filename: str):
+    """Return the appropriate text-extraction serializer for the given type."""
+    if report_type == "pdf":
+        return PDFSerializer(file_bytes, filename)
+    if report_type == "image":
+        return ImageSerializer(file_bytes, filename)
+    raise ValueError(f"No serializer for report_type '{report_type}'")
+
+
 def upload(request):
     """Places a file into ml-pipeline for analysis"""
-    # Initialize the processing job.
     dpj = None
-
-    # Initialize response.
     response = {"message": "File saved for processing."}
 
     if request.FILES.get("file") is None:
         return HttpResponseBadRequest("'file' field is required but was not provided")
 
-    file_content_type = request.FILES["file"].content_type
-    if file_content_type in (
-        "application/pdf",  # .pdf files
+    uploaded_file = request.FILES["file"]
+    file_content_type = uploaded_file.content_type
+    filename = uploaded_file.name
+    ext = os.path.splitext(filename)[1].lower()
+
+    if file_content_type == "application/pdf" or ext == ".pdf":
+        file_bytes = uploaded_file.read()
+        try:
+            report_text = get_serializer("pdf", file_bytes, filename).serialize()
+        except (ValueError, ImportError) as e:
+            return HttpResponseBadRequest(str(e))
+        base_name = os.path.splitext(filename)[0]
+        text_file = ContentFile(report_text.encode("utf-8"), name=f"{base_name}.txt")
+        dpj = DocumentProcessingJob.create_from_file(text_file, request.user)
+
+    elif file_content_type in _IMAGE_CONTENT_TYPES or ext in ImageSerializer.SUPPORTED_EXTENSIONS:
+        file_bytes = uploaded_file.read()
+        try:
+            report_text = get_serializer("image", file_bytes, filename).serialize()
+        except (ValueError, ImportError) as e:
+            return HttpResponseBadRequest(str(e))
+        base_name = os.path.splitext(filename)[0]
+        text_file = ContentFile(report_text.encode("utf-8"), name=f"{base_name}.txt")
+        dpj = DocumentProcessingJob.create_from_file(text_file, request.user)
+
+    elif file_content_type in (
         "text/html",  # .html files
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",  # .docx files
         "text/plain",  # .txt files
     ):
-        dpj = DocumentProcessingJob.create_from_file(
-            request.FILES["file"], request.user
-        )
-    elif file_content_type in ("application/json",):  # .json files
-        json_data = json.loads(request.FILES["file"].read())
-        res = serializers.ReportExportSerializer(data=json_data)
+        dpj = DocumentProcessingJob.create_from_file(uploaded_file, request.user)
 
+    elif file_content_type in ("application/json",):  # .json files
+        json_data = json.loads(uploaded_file.read())
+        res = serializers.ReportExportSerializer(data=json_data)
         if res.is_valid():
             res.save(created_by=request.user)
         else:
             return HttpResponseBadRequest(res.errors)
+
     else:
-        return HttpResponseBadRequest("Unsupported file type")
+        return HttpResponseBadRequest(
+            f"Unsupported file type: {ext}. "
+            "Accepted: .pdf, .png, .jpg, .jpeg, .tiff, .docx, .html, .txt, .json"
+        )
 
     if dpj:
         response["job-id"] = dpj.pk
