@@ -177,6 +177,7 @@ def upload(request):
 
     return JsonResponse(response)
 
+
 @login_required
 def ml_home(request):
     techniques = AttackObject.get_sentence_counts()

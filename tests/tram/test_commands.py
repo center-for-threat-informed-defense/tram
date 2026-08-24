@@ -18,7 +18,7 @@ class TestPipeline:
         call_command("pipeline", pipeline.ADD, file=filepath)
 
         # Assert
-        assert mock_create.called_once()
+        mock_create.assert_called_once()
 
     @pytest.mark.parametrize(
         "subcommand,to_mock",
@@ -35,7 +35,7 @@ class TestPipeline:
         call_command("pipeline", subcommand, model="dummy")
 
         # Assert
-        assert mocked_func.called_once()
+        mocked_func.assert_called_once()
 
     def test_incorrect_subcommand_raises_commanderror(self):
         # Act / Assert

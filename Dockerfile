@@ -8,7 +8,7 @@
 #
 #  Simple build command: `docker build -t [repo_name]/tram:[version] .`
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 # OCI labels
 LABEL "org.opencontainers.image.title"="TRAM"
